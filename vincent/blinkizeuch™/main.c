@@ -14,6 +14,8 @@ static void print_sdl_error(const char message[]) {
 GLuint program, vbo_rectangle;
 GLint attribute_coord2d, uniform_time;
 
+int last = 0;
+
 static int init(const char fragment[]) {
 	const GLuint vertex_shader = shader_load("vertex.glsl", GL_VERTEX_SHADER);
 	const GLuint fragment_shader = shader_load(fragment, GL_FRAGMENT_SHADER);
@@ -65,15 +67,14 @@ static int init(const char fragment[]) {
 	}
 
 	printf("initialized\n");
+	last = SDL_GetTicks();
 	return 1;
 }
 
-float time = 0.0;
 
 static void draw(void) {
 	if(uniform_time != -1) {
 		glUniform1f(uniform_time, SDL_GetTicks());
-		//glUniform1f(uniform_time, time);
 	}
 
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -93,7 +94,8 @@ static void draw(void) {
 	glDisableVertexAttribArray(attribute_coord2d);
 
 	SDL_GL_SwapBuffers();
-	time+= 0.1;
+	printf("%dms\n", SDL_GetTicks() - last);
+	last = SDL_GetTicks();
 }
 
 static void free_resources(void) {
