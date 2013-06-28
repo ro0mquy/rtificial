@@ -72,16 +72,11 @@ float ao(vec3 p, vec3 n, float d, float i) {
 	}
 	return o;
 }
-void main(void) {
-	viewUp = normalize(rZ(viewUp, radians(time/1000.*23.)));
-	viewPosition.z += abs(2. * sin(time/1000. * 2));
-	vec3 right = cross(viewUp, viewDirection);
 
-	//vec3 ray_start = vec3(0.0, 0.0, 1.0 / tan(90.0/2.0 / 180.0 * 3.14));
-	//vec3 ray_dir = normalize(vec3(pos.x, pos.y/aspect, 0.0) - ray_start);
+vec4 rm(vec2 frag_coord, mat3 camera) {
 	vec3 ray_start = viewPosition;
-	vec3 ray_dir = normalize(vec3((gl_FragCoord.xy - .5*res)/res.y, -1));
-	ray_dir *= transpose(mat3(right, viewUp, -viewDirection));
+	vec3 ray_dir = normalize(vec3((frag_coord - .5*res)/res.y, -1));
+	ray_dir *= camera;
 
 	vec3 p = ray_start;
 	int i = 0;
@@ -122,7 +117,25 @@ void main(void) {
 	} else {
 		color = vec3(0.0);
 	}
+	return vec4(color, step(4.0, abs(dFdx(i)) + abs(dFdy(i))));
+}
 
-	gl_FragColor = vec4(color, 1.0);
+void main(void) {
+	viewUp = normalize(rZ(viewUp, radians(time/1000.*23.)));
+	viewPosition.z += abs(2. * sin(time/1000. * 2));
+	vec3 right = cross(viewUp, viewDirection);
+	mat3 camera = transpose(mat3(right, viewUp, -viewDirection));
+
+	vec4 dings = rm(gl_FragCoord.xy, camera);
+
+	if(dings.a > 0.) {
+		float off = .25;
+		dings.rgb = vec3(0.);
+		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2(-off,-off), camera).rgb;
+		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2( off,-off), camera).rgb;
+		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2(-off, off), camera).rgb;
+		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2( off, off), camera).rgb;
+	}
+	gl_FragColor = vec4(dings.rgb, 1.0);
 }
 
