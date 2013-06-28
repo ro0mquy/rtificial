@@ -117,7 +117,7 @@ vec4 rm(vec2 frag_coord, mat3 camera) {
 	} else {
 		color = vec3(0.0);
 	}
-	return vec4(color, step(4.0, abs(dFdx(i)) + abs(dFdy(i))));
+	return vec4(color, i);
 }
 
 void main(void) {
@@ -128,7 +128,7 @@ void main(void) {
 
 	vec4 dings = rm(gl_FragCoord.xy, camera);
 
-	if(dings.a > 0.) {
+	if(step(4.0, fwidth(dings.a)) > 0.) {
 		float off = .25;
 		dings.rgb = vec3(0.);
 		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2(-off,-off), camera).rgb;
