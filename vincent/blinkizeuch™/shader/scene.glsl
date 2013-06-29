@@ -73,6 +73,10 @@ float ao(vec3 p, vec3 n, float d, float i) {
 	return o;
 }
 
+float eq(float arg1, float arg2) {
+	return 1. - abs(sign(arg1 - arg2));
+}
+
 vec4 rm(vec2 frag_coord, mat3 camera) {
 	vec3 ray_start = viewPosition;
 	vec3 ray_dir = normalize(vec3((frag_coord - .5*res)/res.y, -1));
@@ -90,29 +94,24 @@ vec4 rm(vec2 frag_coord, mat3 camera) {
 
 	vec3 color;
 	vec2 foo = g(p);
-	if(foo.y == 1.) {
-		color = vec3(.7, .1, .1);
-	} else if(foo.y == 2.) {
-		color = vec3(0.7);
-	}
 
-	if(length(ray_start - p) < 50.0) {
-		float e = 0.001;
+	if(distance(ray_start, p) < 50.0) {
+		color = vec3(.7, .1, .1) * eq(foo.y, 1.) + vec3(.7) * eq(foo.y, 2.);
+		vec2 e = vec2(0.001, 0.);
 		vec3 normal = normalize(vec3(
-			f(p + vec3(e, 0, 0)) - f(p - vec3(e, 0, 0)),
-			f(p + vec3(0, e, 0)) - f(p - vec3(0, e, 0)),
-			f(p + vec3(0, 0, e)) - f(p - vec3(0, 0, e))
+			f(p + e.xyy) - f(p - e.xyy),
+			f(p + e.yxy) - f(p - e.yxy),
+			f(p + e.yyx) - f(p - e.yyx)
 		));
 		vec3 light_ray = vec3(0.4, 1., 4.) - p;
 		light_ray = normalize(light_ray);
 		float lambert = dot(normal, light_ray);
 		color *= lambert;
 		color *= ao(p, normal, 0.2, 5.);
-		if(foo.y == 1.) {
-			float spec_n = 60.;
-			vec3 phongDir = reflect(light_ray, normal);
-			color += 0.5 * pow(max(dot(phongDir, ray_dir), 0.), spec_n);
-		}
+		float spec_n = 60.;
+		vec3 phongDir = reflect(light_ray, normal);
+		color += eq(1., foo.y) * 0.5 * pow(max(dot(phongDir, ray_dir), 0.), spec_n);
+
 		color += 0.2 * pow(i/120., 0.8);
 	} else {
 		color = vec3(0.0);
@@ -127,8 +126,7 @@ void main(void) {
 	mat3 camera = transpose(mat3(right, viewUp, -viewDirection));
 
 	vec4 dings = rm(gl_FragCoord.xy, camera);
-
-	if(step(4.0, fwidth(dings.a)) > 0.) {
+	if(fwidth(dings.a) > 4.) {
 		float off = .25;
 		dings.rgb = vec3(0.);
 		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2(-off,-off), camera).rgb;
