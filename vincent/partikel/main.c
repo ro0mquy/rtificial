@@ -11,8 +11,58 @@ static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());
 }
 
-GLuint program, vbo_rectangle;
-GLint attribute_coord2d;
+static GLuint program;
+
+static GLint attrib_vertex;
+static GLint attrib_color;
+static GLint attrib_velocity;
+static GLint attrib_start_time;
+
+static GLint uniform_time;
+
+static GLint array_width, array_height;
+static GLfloat *vertices;
+static GLfloat *colors;
+static GLfloat *velocities;
+static GLfloat *start_times;
+
+
+static GLfloat random_glfloat() {
+	return (GLfloat) rand() / RAND_MAX;
+}
+
+static void create_points(GLint w, GLint h) {
+	const size_t size = w * h * sizeof(GLfloat);
+	vertices = malloc(3 * size);
+	colors = malloc(3 * size);
+	velocities = malloc(3 * size);
+	start_times = malloc(size);
+
+	GLfloat *vertices_ptr, *colors_ptr, *velocities_ptr, *start_times_ptr;
+	vertices_ptr = vertices;
+	colors_ptr = colors;
+	velocities_ptr = velocities;
+	start_times_ptr = start_times;
+	for(GLfloat i = 0.5 / w - 0.5; i < 0.5; i += 1.0/w) {
+		for(GLfloat j = 0.5 / h - 0.5; j < 0.5; j += 1.0/h) {
+			*(vertices_ptr++) = i;
+			*(vertices_ptr++) = 0.;
+			*(vertices_ptr++) = j;
+
+			*(colors_ptr++) = random_glfloat() * 0.5;
+			*(colors_ptr++) = random_glfloat() * 0.5;
+			*(colors_ptr++) = random_glfloat() * 0.5 + 0.5;
+
+			*(velocities_ptr++) = random_glfloat() * 2. - 1.;
+			*(velocities_ptr++) = random_glfloat() * 2. - 1.;
+			*(velocities_ptr++) = random_glfloat() * 2. - 1.;
+
+			*(start_times_ptr++) = random_glfloat() * 10;
+		}
+	}
+	array_width = w;
+	array_height = h;
+}
 
 static int init() {
 	const GLuint vertex_shader = shader_load("vertex.glsl", GL_VERTEX_SHADER);
@@ -34,22 +84,14 @@ static int init() {
 		return 0;
 	}
 
-	const GLfloat rectangle_vertices[] = {
-		-1.0, -1.0,
-		-1.0,  1.0,
-		 1.0, -1.0,
-		 1.0,  1.0,
-	};
-	glGenBuffers(1, &vbo_rectangle);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
+	attrib_vertex = glGetAttribLocation(program, "position");
+	attrib_color = glGetAttribLocation(program, "color");
+	attrib_velocity = glGetAttribLocation(program, "velocity");
+	attrib_start_time = glGetAttribLocation(program, "start_time");
 
-	const char attribute_coord2d_name[] = "coord2d";
-	attribute_coord2d = glGetAttribLocation(program, attribute_coord2d_name);
-	if(attribute_coord2d == -1) {
-		fprintf(stderr, "Could not bind attribute %s\n", attribute_coord2d_name);
-		return 0;
-	}
+	uniform_time = shader_get_uniform(program, "time");
+
+	create_points(500, 500);
 
 	return 1;
 }
@@ -57,27 +99,65 @@ static int init() {
 
 static void draw(void) {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glUseProgram(program);
-	glEnableVertexAttribArray(attribute_coord2d);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
+	glUniform1f(uniform_time, (GLfloat) SDL_GetTicks()/1000);
+
+	glEnableVertexAttribArray(attrib_vertex);
+	glEnableVertexAttribArray(attrib_color);
+	glEnableVertexAttribArray(attrib_velocity);
+	glEnableVertexAttribArray(attrib_start_time);
+
 	glVertexAttribPointer(
-		attribute_coord2d,
-		2,
+		attrib_vertex,
+		3,
 		GL_FLOAT,
 		GL_FALSE,
 		0,
-		0
+		vertices
 	);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glDisableVertexAttribArray(attribute_coord2d);
+	glVertexAttribPointer(
+		attrib_color,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		0,
+		colors
+	);
+	glVertexAttribPointer(
+		attrib_velocity,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		0,
+		velocities
+	);
+	glVertexAttribPointer(
+		attrib_start_time,
+		1,
+		GL_FLOAT,
+		GL_FALSE,
+		0,
+		start_times
+	);
+
+	glDrawArrays(GL_POINTS, 0, array_width * array_height);
+
+	glDisableVertexAttribArray(attrib_vertex);
+	glDisableVertexAttribArray(attrib_color);
+	glDisableVertexAttribArray(attrib_velocity);
+	glDisableVertexAttribArray(attrib_start_time);
 
 	SDL_GL_SwapBuffers();
 }
 
 static void free_resources(void) {
 	glDeleteProgram(program);
-	glDeleteBuffers(1, &vbo_rectangle);
+	free(vertices);
+	free(colors);
+	free(velocities);
+	free(start_times);
 }
 
 int main(int argc, char *argv[]) {

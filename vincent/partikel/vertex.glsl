@@ -1,7 +1,26 @@
-attribute vec2 coord2d;
-varying vec2 pos;
+#version 120
 
-void main(void) {
-	pos = coord2d;
-	gl_Position = vec4(coord2d, 0.0, 1.0);
+uniform float time;
+
+attribute vec3 vertex;
+attribute vec3 color;
+attribute vec3 velocity;
+attribute float start_time;
+
+varying vec4 out_color;
+
+void main() {
+	vec4 vert = vec4(1.);
+	float t = time - start_time;
+
+	if(t >= 0.) {
+		vert.xyz = vertex + velocity * t;
+		vert.y -= t * t;
+		out_color = vec4(color, 1.);
+	} else {
+		vert.xyz = vertex;
+		out_color = vec4(0.);
+	}
+
+	gl_Position = vert;
 }

@@ -1,8 +1,8 @@
 #ifndef CONFIG_H
 
-const int width = 800;
-const int height = 600;
+static const int width = 800;
+static const int height = 600;
 
-const char window_caption[] = "partikel";
+static const char window_caption[] = "partikel";
 
 #endif
