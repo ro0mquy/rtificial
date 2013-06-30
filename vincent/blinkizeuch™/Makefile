@@ -2,14 +2,21 @@ CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags)
 LDLIBS=-lGL -lGLEW $(shell sdl-config --libs)
 
 OBJECTS=\
-	main.o\
-	shader.o
+	main.o
+
+HEADER=\
+	config.h
+
+LIBZEUCH=../lib/libzeuch.a
 
 .PHONY: all
 all: blinkizeuch
 
-blinkizeuch: $(OBJECTS)
-	$(CC) $(LDFLAGS) -o blinkizeuch $(OBJECTS) $(LDLIBS)
+blinkizeuch: $(OBJECTS) $(LIBZEUCH)
+	$(CC) $(LDFLAGS) -o blinkizeuch $(OBJECTS) $(LIBZEUCH) $(LDLIBS)
+
+%.o: %.c $(HEADER)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 .PHONY: clean
 clean:
