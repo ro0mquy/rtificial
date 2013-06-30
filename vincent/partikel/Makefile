@@ -1,0 +1,23 @@
+CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags)
+LDLIBS=-lGL -lGLEW $(shell sdl-config --libs)
+
+OBJECTS=\
+	main.o
+
+HEADER=\
+	config.h
+
+LIBZEUCH=../lib/libzeuch.a
+
+.PHONY: all
+all: partikel
+
+partikel: $(OBJECTS) $(LIBZEUCH)
+	$(CC) $(LDFLAGS) -o partikel $(OBJECTS) $(LIBZEUCH) $(LDLIBS)
+
+%.o: %.c $(HEADER)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+.PHONY: clean
+clean:
+	rm -f *.o partikel
