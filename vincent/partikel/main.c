@@ -12,6 +12,7 @@ static void print_sdl_error(const char message[]) {
 }
 
 static GLuint program;
+static GLuint vbo_vertices, vbo_colors, vbo_velocities, vbo_start_times;
 
 static GLint attrib_vertex;
 static GLint attrib_color;
@@ -21,47 +22,65 @@ static GLint attrib_start_time;
 static GLint uniform_time;
 
 static GLint array_width, array_height;
-static GLfloat *vertices;
-static GLfloat *colors;
-static GLfloat *velocities;
-static GLfloat *start_times;
-
 
 static GLfloat random_glfloat() {
 	return (GLfloat) rand() / RAND_MAX;
 }
 
-static void create_points(GLint w, GLint h) {
-	const size_t size = w * h * sizeof(GLfloat);
-	vertices = malloc(3 * size);
-	colors = malloc(3 * size);
-	velocities = malloc(3 * size);
-	start_times = malloc(size);
+static GLfloat* create_vertex(GLfloat* ptr, GLfloat i, GLfloat j) {
+	*(ptr++) = i;
+	*(ptr++) = 0.;
+	*(ptr++) = j;
+	return ptr;
+}
 
-	GLfloat *vertices_ptr, *colors_ptr, *velocities_ptr, *start_times_ptr;
-	vertices_ptr = vertices;
-	colors_ptr = colors;
-	velocities_ptr = velocities;
-	start_times_ptr = start_times;
+static GLfloat* create_color(GLfloat* ptr, GLfloat i, GLfloat j) {
+	*(ptr++) = random_glfloat() * 0.5;
+	*(ptr++) = random_glfloat() * 0.5;
+	*(ptr++) = random_glfloat() * 0.5 + 0.5;
+	return ptr;
+}
+
+static GLfloat* create_velocity(GLfloat* ptr, GLfloat i, GLfloat j) {
+	*(ptr++) = random_glfloat() * 2. - 1.;
+	*(ptr++) = random_glfloat() * 2. - 1.;
+	*(ptr++) = random_glfloat() * 2. - 1.;
+	return ptr;
+}
+
+static GLfloat* create_start_time(GLfloat* ptr, GLfloat i, GLfloat j) {
+	*(ptr++) = random_glfloat() * 10;
+	return ptr;
+}
+
+static void creation_loop(GLfloat* buffer, int w, int h, GLfloat* (*func)(GLfloat*, GLfloat, GLfloat j)) {
 	for(GLfloat i = 0.5 / w - 0.5; i < 0.5; i += 1.0/w) {
 		for(GLfloat j = 0.5 / h - 0.5; j < 0.5; j += 1.0/h) {
-			*(vertices_ptr++) = i;
-			*(vertices_ptr++) = 0.;
-			*(vertices_ptr++) = j;
-
-			*(colors_ptr++) = random_glfloat() * 0.5;
-			*(colors_ptr++) = random_glfloat() * 0.5;
-			*(colors_ptr++) = random_glfloat() * 0.5 + 0.5;
-
-			*(velocities_ptr++) = random_glfloat() * 2. - 1.;
-			*(velocities_ptr++) = random_glfloat() * 2. - 1.;
-			*(velocities_ptr++) = random_glfloat() * 2. - 1.;
-
-			*(start_times_ptr++) = random_glfloat() * 10;
+			buffer = func(buffer, i, j);
 		}
 	}
+}
+
+static void create_points(int w, int h) {
+	const size_t size = w * h * sizeof(GLfloat);
+	GLfloat* buffer = malloc(3 * size);
+
+	creation_loop(buffer, w, h, create_vertex);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+	glBufferData(GL_ARRAY_BUFFER, size * 3, buffer, GL_STATIC_DRAW);
+	creation_loop(buffer, w, h, create_color);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
+	glBufferData(GL_ARRAY_BUFFER, size * 3, buffer, GL_STATIC_DRAW);
+	creation_loop(buffer, w, h, create_velocity);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_velocities);
+	glBufferData(GL_ARRAY_BUFFER, size * 3, buffer, GL_STATIC_DRAW);
+	creation_loop(buffer, w, h, create_start_time);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_start_times);
+	glBufferData(GL_ARRAY_BUFFER, size, buffer, GL_STATIC_DRAW);
+
 	array_width = w;
 	array_height = h;
+	free(buffer);
 }
 
 static int init() {
@@ -91,6 +110,11 @@ static int init() {
 
 	uniform_time = shader_get_uniform(program, "time");
 
+	glGenBuffers(1, &vbo_vertices);
+	glGenBuffers(1, &vbo_colors);
+	glGenBuffers(1, &vbo_velocities);
+	glGenBuffers(1, &vbo_start_times);
+
 	create_points(500, 500);
 
 	return 1;
@@ -102,44 +126,48 @@ static void draw(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glUseProgram(program);
-	glUniform1f(uniform_time, (GLfloat) SDL_GetTicks()/1000);
+	glUniform1f(uniform_time, (GLfloat) (SDL_GetTicks() % 12000)/1000);
 
 	glEnableVertexAttribArray(attrib_vertex);
 	glEnableVertexAttribArray(attrib_color);
 	glEnableVertexAttribArray(attrib_velocity);
 	glEnableVertexAttribArray(attrib_start_time);
 
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
 	glVertexAttribPointer(
 		attrib_vertex,
 		3,
 		GL_FLOAT,
 		GL_FALSE,
 		0,
-		vertices
+		0
 	);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
 	glVertexAttribPointer(
 		attrib_color,
 		3,
 		GL_FLOAT,
 		GL_FALSE,
 		0,
-		colors
+		0
 	);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_velocities);
 	glVertexAttribPointer(
 		attrib_velocity,
 		3,
 		GL_FLOAT,
 		GL_FALSE,
 		0,
-		velocities
+		0
 	);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_start_times);
 	glVertexAttribPointer(
 		attrib_start_time,
 		1,
 		GL_FLOAT,
 		GL_FALSE,
 		0,
-		start_times
+		0
 	);
 
 	glDrawArrays(GL_POINTS, 0, array_width * array_height);
@@ -154,10 +182,10 @@ static void draw(void) {
 
 static void free_resources(void) {
 	glDeleteProgram(program);
-	free(vertices);
-	free(colors);
-	free(velocities);
-	free(start_times);
+	glDeleteBuffers(1, &vbo_vertices);
+	glDeleteBuffers(1, &vbo_colors);
+	glDeleteBuffers(1, &vbo_velocities);
+	glDeleteBuffers(1, &vbo_start_times);
 }
 
 int main(int argc, char *argv[]) {
