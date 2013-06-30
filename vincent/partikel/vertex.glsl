@@ -3,7 +3,7 @@
 uniform float time;
 
 attribute vec3 vertex;
-attribute vec3 color;
+attribute vec4 color;
 attribute vec3 velocity;
 attribute float start_time;
 
@@ -16,7 +16,7 @@ void main() {
 	if(t >= 0.) {
 		vert.xyz = vertex + velocity * t;
 		vert.y -= t * t;
-		out_color = vec4(color, 1.);
+		out_color = color;
 	} else {
 		vert.xyz = vertex;
 		out_color = vec4(0.);

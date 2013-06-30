@@ -38,6 +38,7 @@ static GLfloat* create_color(GLfloat* ptr, GLfloat i, GLfloat j) {
 	*(ptr++) = random_glfloat() * 0.5;
 	*(ptr++) = random_glfloat() * 0.5;
 	*(ptr++) = random_glfloat() * 0.5 + 0.5;
+	*(ptr++) = random_glfloat() * 0.5 + 0.5;
 	return ptr;
 }
 
@@ -63,14 +64,14 @@ static void creation_loop(GLfloat* buffer, int w, int h, GLfloat* (*func)(GLfloa
 
 static void create_points(int w, int h) {
 	const size_t size = w * h * sizeof(GLfloat);
-	GLfloat* buffer = malloc(3 * size);
+	GLfloat* buffer = malloc(4 * size);
 
 	creation_loop(buffer, w, h, create_vertex);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
 	glBufferData(GL_ARRAY_BUFFER, size * 3, buffer, GL_STATIC_DRAW);
 	creation_loop(buffer, w, h, create_color);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
-	glBufferData(GL_ARRAY_BUFFER, size * 3, buffer, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, size * 4, buffer, GL_STATIC_DRAW);
 	creation_loop(buffer, w, h, create_velocity);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_velocities);
 	glBufferData(GL_ARRAY_BUFFER, size * 3, buffer, GL_STATIC_DRAW);
@@ -145,7 +146,7 @@ static void draw(void) {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
 	glVertexAttribPointer(
 		attrib_color,
-		3,
+		4,
 		GL_FLOAT,
 		GL_FALSE,
 		0,
@@ -169,7 +170,7 @@ static void draw(void) {
 		0,
 		0
 	);
-
+	glPointSize(2.0);
 	glDrawArrays(GL_POINTS, 0, array_width * array_height);
 
 	glDisableVertexAttribArray(attrib_vertex);
@@ -211,6 +212,9 @@ int main(int argc, char *argv[]) {
 	if(!init()) {
 		return EXIT_FAILURE;
 	}
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	SDL_WM_SetCaption(window_caption, NULL);
 	int run = 1;
