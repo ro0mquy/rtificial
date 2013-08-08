@@ -1,5 +1,10 @@
 CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags)
 LDLIBS=-lGL -lGLEW $(shell sdl-config --libs)
+# Mac OS alternate cmdline link options
+UNAME := $(shell uname)
+ifeq ($(UNAME), Darwin)
+    LDLIBS=-lGLEW -framework Cocoa -framework OpenGL -framework GLUT $(shell sdl-config --libs)
+endif
 
 OBJECTS=\
 	main.o
