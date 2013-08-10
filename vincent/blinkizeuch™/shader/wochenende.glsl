@@ -7,16 +7,25 @@ vec3 rX(vec3, float);
 vec3 rY(vec3, float);
 vec3 rZ(vec3, float);
 
-varying vec2 pos;
 uniform float aspect;
+uniform vec2 res;
 uniform float time;
+
+vec3 viewPosition = vec3(0., 0., 2.);
+vec3 viewDirection = vec3(0., 0., -1.);
+vec3 viewUp = vec3(0., 1., 0.);
 
 vec3 gray = vec3(0.05, 0.05, 0.05);
 vec3 pink = vec3(1., 0., 0.5);
 
 void main() {
-	vec3 camera = vec3(0., 0., 1. / tan(radians(45.)));
-	vec3 direction = normalize(vec3(pos.x, pos.y / aspect, 0.) - camera);
+	vec3 viewRight = cross(viewDirection, viewUp);
+	mat3 viewCamera = transpose(mat3(viewRight, viewUp, -viewDirection));
+
+	vec3 camera = viewPosition;
+	vec3 direction = normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y, -1.)) * viewCamera;
+	//vec3 camera = vec3(0., 0., 1. / tan(radians(45.)));
+	//vec3 direction = normalize(vec3(pos.x, pos.y / aspect, 0.) - camera);
 	vec3 light = vec3(-1., 1., 1.);
 
 	vec3 p = camera;
@@ -44,8 +53,9 @@ void main() {
 				));
 		vec3 toLight = normalize(light - p);
 		float lambert = dot(normal, toLight);
-		float fog = exp( -2. * pow(distance(p, camera) / 20., 2.));
-		color = pink * lambert * fog + float(i) / 100.;
+		float fog = 2 - exp( -2. * pow(distance(p, camera) / 20., 7.));
+		float itGlow = float(i) / 100.;
+		color = pink * lambert * fog + itGlow;
 	}
 
 	gl_FragColor = vec4(color, 1.);
