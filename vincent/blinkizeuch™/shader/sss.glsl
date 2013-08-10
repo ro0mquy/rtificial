@@ -132,7 +132,7 @@ float f(vec3 p) {
 	p.z += 3.0;
 	//return sdBox(p, vec3(1.));//+ 0.03 * perlin((p.yx + p.zy) * 97.0);
 	p = rX(rY(p, radians(-23.0 * time/1000.0)), radians(time/1000.0 * 37.0));
-	return sdTorus(p, vec2(1., 0.5)) + 0.01 * perlin((p.yx + p.zy) * 97.0);
+	return sdTorus(p, vec2(1., 0.5)) + 0.06 * perlin((p.yx + p.zy) * 97.0);
 	//return sdHexPrism(p, vec2(1., .5));
 }
 
@@ -171,15 +171,15 @@ void main(void) {
 		light_ray = normalize(light_ray);
 		float lambert = dot(normal, light_ray);
 		color *= lambert;
-		color *= ao(p, normal, 0.15, 5);
-		color *= ao(p, ray_dir, -0.3, 10);
+		color *= ao(p, normal, 0.15, 5.);
+		color *= ao(p, ray_dir, -0.3, 10.);
 		float spec_n = 40.;
 		vec3 phongDir = reflect(light_ray, normal);
 		color += 0.5 * pow(max(dot(phongDir, ray_dir), 0.), 10.);
 	} else {
 		color = vec3(0.0);
 	}
-	color += smoothstep(1.0, pow(float(i) / 100.0, 0.5), 0.7);
+	//color += smoothstep(1.0, pow(float(i) / 100.0, 0.5), 0.7);
 
 	gl_FragColor = vec4(color, 1.0);
 }
