@@ -13,6 +13,7 @@ static void print_sdl_error(const char message[]) {
 
 GLuint program, vbo_rectangle;
 GLint attribute_coord2d, uniform_time;
+GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
 
 int last = 0;
 
@@ -57,6 +58,9 @@ static int init(const char fragment[]) {
 	GLint uniform_aspect = shader_get_uniform(program, "aspect");
 	GLint uniform_res = shader_get_uniform(program, "res");
 	uniform_time = shader_get_uniform(program, "time");
+	uniform_viewPosition = shader_get_uniform(program, "viewPosition");
+	uniform_viewDirection = shader_get_uniform(program, "viewDirection");
+	uniform_viewUp = shader_get_uniform(program, "viewUp");
 
 	glUseProgram(program);
 	if(uniform_aspect != -1) {
@@ -65,6 +69,10 @@ static int init(const char fragment[]) {
 	if(uniform_res != -1) {
 		glUniform2f(uniform_res, width, height);
 	}
+	
+	glUniform3f(uniform_viewPosition, 0, 0, 2);
+	glUniform3f(uniform_viewDirection, 0, 0, -1);
+	glUniform3f(uniform_viewUp, 0, 1, 0);
 
 	printf("initialized\n");
 	last = SDL_GetTicks();
