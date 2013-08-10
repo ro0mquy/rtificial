@@ -145,7 +145,13 @@ int main(int argc, char *argv[]) {
 	while(run) {
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
-			run = event.type == SDL_QUIT ? 0 : 1;
+			switch(event.type){
+				case SDL_KEYDOWN:
+					printf("The %s key was pressed!\n", SDL_GetKeyName(event.key.keysym.sym));
+				break;
+				case SDL_QUIT:
+					run = 0;
+			}
 		}
 		draw();
 	}
