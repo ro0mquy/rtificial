@@ -184,10 +184,10 @@ int main(int argc, char *argv[]) {
 
 						// move camera
 						case SDLK_i:
-							position_z -= movement_modifier;
+							position_z += movement_modifier;
 							break;
 						case SDLK_k:
-							position_z += movement_modifier;
+							position_z -= movement_modifier;
 							break;
 						case SDLK_j:
 							position_x -= movement_modifier;
