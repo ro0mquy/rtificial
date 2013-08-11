@@ -89,11 +89,11 @@ static int init(const char fragment[]) {
 static void draw(void) {
 	float direction_x = sin(angle_x);
 	float direction_y = sin(angle_y);
-	float direction_z = cos(angle_x) * cos(angle_y);
+	float direction_z = -cos(angle_x) * cos(angle_y);
 
 	float up_x = sin(angle_x);
 	float up_y = sin(angle_y + TAU/4);
-	float up_z = cos(angle_x) * cos(angle_y + TAU/4);
+	float up_z = -cos(angle_x) * cos(angle_y + TAU/4);
 
 	glUniform3f(uniform_viewPosition, position_x, position_y, position_z);
 	glUniform3f(uniform_viewDirection, direction_x, direction_y, direction_z);
