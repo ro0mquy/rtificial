@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
+#define TAU 6.28318530718
 
 #include "../lib/gl.h"
 #include <SDL/SDL.h>
@@ -14,6 +16,14 @@ static void print_sdl_error(const char message[]) {
 GLuint program, vbo_rectangle;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
+
+float angle_x = 0;
+float angle_y = 0;
+float angle_z = 0;
+
+float position_x = 0;
+float position_y = 0;
+float position_z = 0;
 
 int last = 0;
 
@@ -70,10 +80,6 @@ static int init(const char fragment[]) {
 		glUniform2f(uniform_res, width, height);
 	}
 	
-	glUniform3f(uniform_viewPosition, 0, 0, 2);
-	glUniform3f(uniform_viewDirection, 0, 0, -1);
-	glUniform3f(uniform_viewUp, 0, 1, 0);
-
 	printf("initialized\n");
 	last = SDL_GetTicks();
 	return 1;
@@ -81,6 +87,18 @@ static int init(const char fragment[]) {
 
 
 static void draw(void) {
+	float direction_x = sin(angle_x);
+	float direction_y = sin(angle_y);
+	float direction_z = cos(angle_x) * cos(angle_y);
+
+	float up_x = sin(angle_x);
+	float up_y = sin(angle_y + TAU/4);
+	float up_z = cos(angle_x) * cos(angle_y + TAU/4);
+
+	glUniform3f(uniform_viewPosition, position_x, position_y, position_z);
+	glUniform3f(uniform_viewDirection, direction_x, direction_y, direction_z);
+	glUniform3f(uniform_viewUp, up_x, up_y, up_z);
+
 	if(uniform_time != -1) {
 		glUniform1f(uniform_time, SDL_GetTicks());
 	}
@@ -102,7 +120,7 @@ static void draw(void) {
 	glDisableVertexAttribArray(attribute_coord2d);
 
 	SDL_GL_SwapBuffers();
-	printf("%dms\n", SDL_GetTicks() - last);
+	//printf("%dms\n", SDL_GetTicks() - last);
 	last = SDL_GetTicks();
 }
 
@@ -145,10 +163,48 @@ int main(int argc, char *argv[]) {
 	while(run) {
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
+			const float angle_modifier = 5. / 360. * TAU;
+			const float movement_modifier = 0.5;
 			switch(event.type){
 				case SDL_KEYDOWN:
-					printf("The %s key was pressed!\n", SDL_GetKeyName(event.key.keysym.sym));
-				break;
+					switch(event.key.keysym.sym) {
+						// rotate camera
+						case SDLK_w:
+							angle_y += angle_modifier;
+							break;
+						case SDLK_s:
+							angle_y -= angle_modifier;
+							break;
+						case SDLK_a:
+							angle_x -= angle_modifier;
+							break;
+						case SDLK_d:
+							angle_x += angle_modifier;
+							break;
+
+						// move camera
+						case SDLK_i:
+							position_z -= movement_modifier;
+							break;
+						case SDLK_k:
+							position_z += movement_modifier;
+							break;
+						case SDLK_j:
+							position_x -= movement_modifier;
+							break;
+						case SDLK_l:
+							position_x += movement_modifier;
+							break;
+						case SDLK_u:
+							position_y -= movement_modifier;
+							break;
+						case SDLK_o:
+							position_y += movement_modifier;
+							break;
+						default:
+							break;
+					}
+					break;
 				case SDL_QUIT:
 					run = 0;
 			}
