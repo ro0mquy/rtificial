@@ -39,7 +39,7 @@ vec3 c[19];
 void main() {
 	initValues();
 
-	vec3 viewRight = cross(viewUp, viewDirection);
+	vec3 viewRight = cross(viewDirection, viewUp);
 	mat3 viewCamera = transpose(mat3(viewRight, viewUp, -viewDirection));
 
 	vec3 camera = viewPosition;
