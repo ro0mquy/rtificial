@@ -9,6 +9,7 @@ vec3 rY(vec3 p, float theta);
 vec3 rZ(vec3 p, float theta);
 float ao(vec3 p, vec3 n, float d, float i);
 vec3 lighting(vec3 p, vec3 color, vec3 direction);
+vec3 marching(vec3 p, vec3 direction, out int i);
 
 uniform float aspect;
 uniform vec2 res;
@@ -42,18 +43,8 @@ void main() {
 	vec3 camera = viewPosition;
 	vec3 direction = normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y, -1.)) * viewCamera;
 
-	vec3 p = camera;
-
 	int i = 0;
-	float walked = 0.;
-	for (; i < 100; i++) {
-		float dist = f(p);
-		p += direction * dist;
-		dist = abs(dist);
-		walked += dist;
-
-		if (dist < .001 * walked) break;
-	}
+	vec3 p = marching(camera, direction, i);
 
 	vec3 color;
 	if (i == 100) {
@@ -102,6 +93,7 @@ void initValues() {
 float f(vec3 p) {
 	float sphery = -sphere(p, 20.); // generating outside in sphere
 
+	//p.z -= 6.;
 	p = mod(p, 3.) - .5 * 3.; // repeating spikeball
 
 	p = rX(p, radians(time/1000. * 10)); // rotating around X axis
@@ -190,4 +182,17 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction) {
 	//color *= ao(p, direction, -0.3, 10.); // sub surface scattering
 	
 	return color;
+}
+
+vec3 marching(vec3 p, vec3 direction, out int i) {
+	float walked = 0.;
+	for (; i < 100; i++) {
+		float dist = f(p);
+		p += direction * dist;
+		dist = abs(dist);
+		walked += dist;
+
+		if (dist < .001 * walked) break;
+	}
+	return p;
 }
