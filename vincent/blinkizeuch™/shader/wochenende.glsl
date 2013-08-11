@@ -48,7 +48,7 @@ void main() {
 	vec3 color = vec3(0.);
 	vec3 p = camera;
 
-	for (int reflections = 0; reflections < 1; reflections++) {
+	for (int reflections = 0; reflections < 2; reflections++) {
 		int i;
 		p = marching(p, direction, i);
 		if(i < 100) {
@@ -56,7 +56,7 @@ void main() {
 			vec3 newColor = lighting(p, color_spikeballs, direction, normal);
 			//newColor *= 2. - exp( -2. * pow(distance(p, camera) / 20., 7.)); // fog
 			//newColor += float(i) / 100.; // iteration glow
-			color += newColor * pow(.4, 0.);
+			color += newColor * pow(.4, reflections);
 			direction = reflect(direction, normal);
 		} else {
 			break;
