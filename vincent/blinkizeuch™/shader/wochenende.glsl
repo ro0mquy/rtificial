@@ -46,22 +46,21 @@ void main() {
 	vec3 direction = normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y, -1.)) * viewCamera;
 
 	vec3 color = vec3(0.);
-	vec3 normal;
 	vec3 p = camera;
-	int i = 0;
 
-	for (int reflections = 0; reflections < 2; reflections++) {
+	for (int reflections = 0; reflections < 1; reflections++) {
+		int i;
 		p = marching(p, direction, i);
 		if(i < 100) {
-			normal = calcNormal(p);
+			vec3 normal = calcNormal(p);
 			vec3 newColor = lighting(p, color_spikeballs, direction, normal);
 			//newColor *= 2. - exp( -2. * pow(distance(p, camera) / 20., 7.)); // fog
 			//newColor += float(i) / 100.; // iteration glow
-			color += newColor * pow(.4, reflections);
+			color += newColor * pow(.4, 0.);
+			direction = reflect(direction, normal);
 		} else {
 			break;
 		}
-		direction = reflect(direction, normal);
 	}
 
 	gl_FragColor = vec4(color, 1.);
@@ -182,20 +181,14 @@ float ao(vec3 p, vec3 n, float d, float i) { // ambient occlusion ans sub surfac
 }
 
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal) {
-	vec3 toLights[number_lights];
+	vec3 light_color = vec3(0.);
 	for (int i = 0; i < number_lights; i++) {
-		toLights[i] = normalize(lights[i] - p);
+		vec3 point_to_light = normalize(lights[i] - p);
+		float diffuse = dot(normal, point_to_light); // diffuse light
+		float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
+		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular);
 	}
-
-	vec3 lambert;
-	for (int i = 0; i < number_lights; i++) {
-		lambert += intensity_lights[i] * color_lights[i] * dot(normal, toLights[i]); // diffuse lighting
-	}
-	color *= lambert;
-
-	for (int i = 0; i < number_lights; i++) {
-		color += intensity_lights[i] * pow(max(dot(reflect(toLights[i], normal), direction), 0.), 50.) * color_lights[i]; // specular light
-	}
+	color *= light_color;
 
 	color *= ao(p, normal, 0.15, 5.); // ambient occlusion
 	//color *= ao(p, direction, -0.3, 10.); // sub surface scattering
