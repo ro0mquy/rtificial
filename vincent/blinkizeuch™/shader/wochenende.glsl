@@ -199,13 +199,13 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal) {
 
 	color *= ao(p, normal, 0.15, 5.); // ambient occlusion
 	//color *= ao(p, direction, -0.3, 10.); // sub surface scattering
-	
+
 	return color;
 }
 
 vec3 marching(vec3 p, vec3 direction, out int i) {
 	float walked = 0.;
-	for (; i < 100; i++) {
+	for (i=0; i < 100; i++) {
 		float dist = f(p);
 		p += direction * dist;
 		dist = abs(dist);
