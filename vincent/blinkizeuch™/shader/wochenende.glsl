@@ -4,11 +4,13 @@ void initValues();
 float f(vec3 p);
 float sphere(vec3 p, float r);
 float spikeball(vec3 p);
+float sdBox(vec3 p, vec3 b);
 vec3 rX(vec3 p, float theta);
 vec3 rY(vec3 p, float theta);
 vec3 rZ(vec3 p, float theta);
+vec3 calcNormal(vec3 p);
 float ao(vec3 p, vec3 n, float d, float i);
-vec3 lighting(vec3 p, vec3 color, vec3 direction);
+vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal);
 vec3 marching(vec3 p, vec3 direction, out int i);
 
 uniform float aspect;
@@ -43,17 +45,23 @@ void main() {
 	vec3 camera = viewPosition;
 	vec3 direction = normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y, -1.)) * viewCamera;
 
+	vec3 color = vec3(0.);
+	vec3 normal;
+	vec3 p = camera;
 	int i = 0;
-	vec3 p = marching(camera, direction, i);
 
-	vec3 color;
-	if (i == 100) {
-		color = color_background;
-	} else {
-		color = lighting(p, color_spikeballs, direction);
-
-		color *= 2. - exp( -2. * pow(distance(p, camera) / 20., 7.)); // fog
-		color += float(i) / 100.; // iteration glow
+	for (int reflections = 0; reflections < 2; reflections++) {
+		p = marching(p, direction, i);
+		if(i < 100) {
+			normal = calcNormal(p);
+			vec3 newColor = lighting(p, color_spikeballs, direction, normal);
+			//newColor *= 2. - exp( -2. * pow(distance(p, camera) / 20., 7.)); // fog
+			//newColor += float(i) / 100.; // iteration glow
+			color += newColor * pow(.4, reflections);
+		} else {
+			break;
+		}
+		direction = reflect(direction, normal);
 	}
 
 	gl_FragColor = vec4(color, 1.);
@@ -95,11 +103,13 @@ float f(vec3 p) {
 
 	//p.z -= 6.;
 	p = mod(p, 3.) - .5 * 3.; // repeating spikeball
+	//return min(sphere(p, 1.), sphery);
 
 	p = rX(p, radians(time/1000. * 10)); // rotating around X axis
 	p = rY(p, radians(time/1000. * 8)); // rotating around Y axis
 	p = rZ(p, radians(time/1000. * 15)); // rotating around Z axis
 
+	return min(sdBox(p, vec3(.5)), sphery);
 	float spikey = spikeball(p / .5) * .5; // scaling spikeball
 
 	return min(spikey, sphery); // return spikeball or sphere around scene
@@ -121,6 +131,12 @@ float spikeball(vec3 p){
 	b = 1. - acos(b - .01)/(acos(-1.) * .5);
 	b = smoothstep(.78, 1., b);
 	return l - 2.2 * pow(1.5, b);
+}
+
+float sdBox(vec3 p, vec3 b) {
+	vec3 d = abs(p) - b;
+	return min(max(d.x, max(d.y, d.z)), 0.0) +
+		length(max(d,0.0));
 }
 
 vec3 rX(vec3 p, float theta) {
@@ -147,6 +163,16 @@ vec3 rZ(vec3 p, float theta) {
 	) * p;
 }
 
+vec3 calcNormal(vec3 p) {
+	vec2 epilepsilon = vec2(.001, 0.);
+
+	return normalize(vec3(
+				f(p + epilepsilon.xyy) - f(p - epilepsilon.xyy),
+				f(p + epilepsilon.yxy) - f(p - epilepsilon.yxy),
+				f(p + epilepsilon.yyx) - f(p - epilepsilon.yyx)
+			     ));
+}
+
 float ao(vec3 p, vec3 n, float d, float i) { // ambient occlusion ans sub surface scattering
 	float o, s = sign(d);
 	for (o=s*.5+.5;i>0.;i--) {
@@ -155,14 +181,7 @@ float ao(vec3 p, vec3 n, float d, float i) { // ambient occlusion ans sub surfac
 	return o;
 }
 
-vec3 lighting(vec3 p, vec3 color, vec3 direction) {
-	vec2 epilepsilon = vec2(.001, 0.);
-	vec3 normal = normalize(vec3(
-				f(p + epilepsilon.xyy) - f(p - epilepsilon.xyy),
-				f(p + epilepsilon.yxy) - f(p - epilepsilon.yxy),
-				f(p + epilepsilon.yyx) - f(p - epilepsilon.yyx)
-			));
-
+vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal) {
 	vec3 toLights[number_lights];
 	for (int i = 0; i < number_lights; i++) {
 		toLights[i] = normalize(lights[i] - p);
