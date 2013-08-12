@@ -9,6 +9,8 @@
 #include "config.h"
 #include "../lib/shader.h"
 
+#include "../lib/vector.h"
+
 static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());
 }
@@ -17,17 +19,18 @@ GLuint program, vbo_rectangle;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
 
-float angle_x = 0;
-float angle_y = 0;
-float angle_z = 0;
-
-float position_x = 0;
-float position_y = 0;
-float position_z = 0;
+vec3 direction, up, right;
+vec3 position;
 
 int last = 0;
 
 static int init(const char fragment[]) {
+	direction = vec3_new(0., 0., -1.);
+	up = vec3_new(0., 1., 0.);
+	right = vec3_new(1., 0., 0.);
+
+	position = vec3_new(0., 0., 0.);
+
 	const GLuint vertex_shader = shader_load("vertex.glsl", GL_VERTEX_SHADER);
 	const GLuint fragment_shader = shader_load(fragment, GL_FRAGMENT_SHADER);
 	if(vertex_shader == 0 || fragment_shader == 0) {
@@ -79,7 +82,7 @@ static int init(const char fragment[]) {
 	if(uniform_res != -1) {
 		glUniform2f(uniform_res, width, height);
 	}
-	
+
 	printf("initialized\n");
 	last = SDL_GetTicks();
 	return 1;
@@ -87,17 +90,9 @@ static int init(const char fragment[]) {
 
 
 static void draw(void) {
-	float direction_x = sin(angle_x);
-	float direction_y = sin(angle_y);
-	float direction_z = -cos(angle_x) * cos(angle_y);
-
-	float up_x = sin(angle_x);
-	float up_y = sin(angle_y + TAU/4);
-	float up_z = -cos(angle_x) * cos(angle_y + TAU/4);
-
-	glUniform3f(uniform_viewPosition, position_x, position_y, position_z);
-	glUniform3f(uniform_viewDirection, direction_x, direction_y, direction_z);
-	glUniform3f(uniform_viewUp, up_x, up_y, up_z);
+	glUniform3f(uniform_viewPosition, position.x, position.y, position.z);
+	glUniform3f(uniform_viewDirection, direction.x, direction.y, direction.z);
+	glUniform3f(uniform_viewUp, up.x, up.y, up.z);
 
 	if(uniform_time != -1) {
 		glUniform1f(uniform_time, SDL_GetTicks());
@@ -170,36 +165,48 @@ int main(int argc, char *argv[]) {
 					switch(event.key.keysym.sym) {
 						// rotate camera
 						case SDLK_w:
-							angle_y += angle_modifier;
+							direction = vec3_rotate(direction, right, angle_modifier);
+							up = vec3_rotate(up, right, angle_modifier);
 							break;
 						case SDLK_s:
-							angle_y -= angle_modifier;
+							direction = vec3_rotate(direction, right, -angle_modifier);
+							up = vec3_rotate(up, right, -angle_modifier);
 							break;
 						case SDLK_a:
-							angle_x -= angle_modifier;
+							direction = vec3_rotate(direction, up, angle_modifier);
+							right = vec3_rotate(right, up, angle_modifier);
 							break;
 						case SDLK_d:
-							angle_x += angle_modifier;
+							direction = vec3_rotate(direction, up, -angle_modifier);
+							right = vec3_rotate(right, up, -angle_modifier);
+							break;
+						case SDLK_q:
+							right = vec3_rotate(right, direction, angle_modifier);
+							up = vec3_rotate(up, direction, angle_modifier);
+							break;
+						case SDLK_e:
+							right = vec3_rotate(right, direction, -angle_modifier);
+							up = vec3_rotate(up, direction, -angle_modifier);
 							break;
 
 						// move camera
 						case SDLK_i:
-							position_z -= movement_modifier;
+							position = vec3_add(position, vec3_new(0., 0., -1.));
 							break;
 						case SDLK_k:
-							position_z += movement_modifier;
+							position = vec3_add(position, vec3_new(0., 0., 1.));
 							break;
 						case SDLK_j:
-							position_x -= movement_modifier;
+							position = vec3_add(position, vec3_new(-1., 0., 0.));
 							break;
 						case SDLK_l:
-							position_x += movement_modifier;
+							position = vec3_add(position, vec3_new(1., 0., 0.));
 							break;
 						case SDLK_u:
-							position_y -= movement_modifier;
+							position = vec3_add(position, vec3_new(0., -1., 0.));
 							break;
 						case SDLK_o:
-							position_y += movement_modifier;
+							position = vec3_add(position, vec3_new(0., 1., 0.));
 							break;
 						default:
 							break;
