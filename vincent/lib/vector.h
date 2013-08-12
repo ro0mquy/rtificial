@@ -1,7 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-typedef struct { const float x, y, z; } vec3;
+typedef struct { float x, y, z; } vec3;
 
 vec3 vec3_new(float x, float y, float z);
 
