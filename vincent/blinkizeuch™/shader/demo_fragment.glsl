@@ -1,7 +1,12 @@
-uniform vec3 camera;
-uniform float aspect;
-varying vec2 pos;
+#version 120
+
+uniform vec3 viewPosition;
+uniform vec3 viewDirection;
+uniform vec3 viewUp;
+uniform vec2 res;
 uniform float time;
+
+vec3 calcNormal(vec3 p);
 
 vec3 rX(vec3 p, float a) {
 	float c,s;vec3 q=p;
@@ -58,39 +63,36 @@ float g(vec3 p) {
 }
 
 float f(vec3 p) {
-	p += vec3(0.2, 0.3, 3.0);
-	p = rZ(p, 10.0/180.0*3.14);
-	p = rY(p, 5.0/180.0*3.14);
+	float bounding = 50. - length(p - viewPosition);
 	vec3 c = vec3(3.5);
-	return g(mod(p, c) - 0.5 * c);
+	return min(bounding, g(mod(p, c) - 0.5 * c));
 	//return g(p);
 }
 
 void main(void) {
-	vec3 ray_start = camera;
-	vec3 ray_dir = normalize(vec3(pos.x * aspect, pos.y, 2.0) - ray_start);
-	float max_dist = 500.0;
-	float epsilon = 0.0001;
-	vec3 color = vec3(0.0);
-	float coef = 1.0;
+	vec3 viewRight = cross(viewDirection, viewUp);
+	mat3 viewCamera = transpose(mat3(viewRight, viewUp, -viewDirection));
+
+	vec3 ray_start = viewPosition;
+	vec3 ray_dir = normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y, -1.)) * viewCamera;
 	vec3 p = ray_start;
-	float dist = 0.0;
-	for(int i = 0; i < 1000; i++) {
-		dist = f(p);
-		if(dist < epsilon)
-			break;
-		const float magic_term = 1.0;
-		p += magic_term * dist * ray_dir;
+	float walked = 0.;
+	int i;
+	for (i=0; i < 100; i++) {
+		float dist = f(p);
+		p += ray_dir * dist;
+		dist = abs(dist);
+		walked += dist;
+
+		if (dist < .001 * walked) break;
 	}
-	if(dist < max_dist) {
-		float e = 0.01;
-		vec3 normal = normalize(vec3(
-			f(p + vec3(e, 0, 0)) - f(p - vec3(e, 0, 0)),
-			f(p + vec3(0, e, 0)) - f(p - vec3(0, e, 0)),
-			f(p + vec3(0, 0, e)) - f(p - vec3(0, 0, e))
-		));
+
+	vec3 color = vec3(0.0);
+
+	if(i < 100) {
+		vec3 normal = calcNormal(p);
 		vec3 light_ray = vec3(0.5, 0.5, 10.0) - p;
-		coef = 1.0 - length(light_ray)/100.0;
+		float coef = 1.0 - length(light_ray)/100.0;
 		light_ray = normalize(light_ray);
 		float lambert = dot(normal, light_ray);
 		color += vec3(0.235, 0.576, 0.682) * lambert * coef;
@@ -108,5 +110,16 @@ void main(void) {
 		}
 	}
 	gl_FragColor = vec4(color, 1.0);
+}
+
+
+vec3 calcNormal(vec3 p) {
+	vec2 epilepsilon = vec2(.001, 0.);
+
+	return normalize(vec3(
+				f(p + epilepsilon.xyy) - f(p - epilepsilon.xyy),
+				f(p + epilepsilon.yxy) - f(p - epilepsilon.yxy),
+				f(p + epilepsilon.yyx) - f(p - epilepsilon.yyx)
+			     ));
 }
 
