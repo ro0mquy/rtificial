@@ -5,9 +5,9 @@ float f(vec3 p);
 float sphere(vec3 p, float r);
 float spikeball(vec3 p);
 float sdBox(vec3 p, vec3 b);
-vec3 rX(vec3 p, float theta);
-vec3 rY(vec3 p, float theta);
-vec3 rZ(vec3 p, float theta);
+mat3 rX(float theta);
+mat3 rY(float theta);
+mat3 rZ(float theta);
 vec3 calcNormal(vec3 p);
 float ao(vec3 p, vec3 n, float d, float i);
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color);
@@ -31,6 +31,8 @@ vec3 color_spikeballs = vec3(1., 1., 1.);
 //vec3 color_light1 = vec3(0., 1., 0.);
 //vec3 color_light2 = vec3(1., 0., 1.);
 vec3 color_lights[number_lights];
+
+mat3 rotation_spikeballs;
 
 float intensity_lights[number_lights];
 
@@ -100,6 +102,11 @@ void initValues() {
 	c[16] = vec3(-.526, 0., .851);
 	c[17] = vec3(.851, .526, 0.);
 	c[18] = vec3(-.851, .526, 0.);
+
+	rotation_spikeballs =
+		rZ(radians(time/1000. * 15)) *
+		rY(radians(time/1000. * 8)) *
+		rX(radians(time/1000. * 10));
 }
 
 float f(vec3 p) {
@@ -109,9 +116,7 @@ float f(vec3 p) {
 	p = mod(p, 3.) - .5 * 3.; // repeating spikeball
 	//return min(sphere(p, 1.), sphery);
 
-	p = rX(p, radians(time/1000. * 10)); // rotating around X axis
-	p = rY(p, radians(time/1000. * 8)); // rotating around Y axis
-	p = rZ(p, radians(time/1000. * 15)); // rotating around Z axis
+	p = rotation_spikeballs * p;
 
 	return min(sdBox(p, vec3(.5)), sphery);
 	float spikey = spikeball(p / .5) * .5; // scaling spikeball
@@ -143,28 +148,28 @@ float sdBox(vec3 p, vec3 b) {
 		length(max(d,0.0));
 }
 
-vec3 rX(vec3 p, float theta) {
+mat3 rX(float theta) {
 	return mat3(
 		1., 0., 0.,
 		0., cos(theta), sin(theta),
 		0., -sin(theta), cos(theta)
-	) * p;
+	);
 }
 
-vec3 rY(vec3 p, float theta) {
+mat3 rY(float theta) {
 	return mat3(
 		cos(theta), 0., -sin(theta),
 		0., 1., 0.,
 		sin(theta), 0., cos(theta)
-	) * p;
+	);
 }
 
-vec3 rZ(vec3 p, float theta) {
+mat3 rZ(float theta) {
 	return mat3(
 		cos(theta), sin(theta), 0.,
 		-sin(theta), cos(theta), 0.,
 		0., 0., 1.
-	) * p;
+	);
 }
 
 vec3 calcNormal(vec3 p) {
