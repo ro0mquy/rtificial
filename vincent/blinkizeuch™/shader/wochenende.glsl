@@ -10,7 +10,7 @@ vec3 rY(vec3 p, float theta);
 vec3 rZ(vec3 p, float theta);
 vec3 calcNormal(vec3 p);
 float ao(vec3 p, vec3 n, float d, float i);
-vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal);
+vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color);
 vec3 marching(vec3 p, vec3 direction, out int i);
 
 uniform float aspect;
@@ -47,16 +47,21 @@ void main() {
 
 	vec3 color = vec3(0.);
 	vec3 p = camera;
+	vec3 light_color_factor = vec3(1.);
+	float reflection_factor = 1.;
 
 	for (int reflections = 0; reflections < 2; reflections++) {
 		int i;
 		p = marching(p, direction, i);
 		if(i < 100) {
 			vec3 normal = calcNormal(p);
-			vec3 newColor = lighting(p, color_spikeballs, direction, normal);
+			vec3 light_color;
+			vec3 newColor = lighting(p, color_spikeballs, direction, normal, light_color);
 			//newColor *= 2. - exp( -2. * pow(distance(p, camera) / 20., 7.)); // fog
 			//newColor += float(i) / 100.; // iteration glow
-			color += newColor * pow(.4, reflections);
+			color += newColor * reflection_factor * light_color_factor;
+			light_color_factor *= light_color;
+			reflection_factor *= .4;
 			direction = reflect(direction, normal);
 		} else {
 			break;
@@ -180,20 +185,19 @@ float ao(vec3 p, vec3 n, float d, float i) { // ambient occlusion ans sub surfac
 	return o;
 }
 
-vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal) {
-	vec3 light_color = vec3(0.);
+vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color) {
+	light_color = vec3(0.);
 	for (int i = 0; i < number_lights; i++) {
 		vec3 point_to_light = normalize(lights[i] - p);
 		float diffuse = dot(normal, point_to_light); // diffuse light
 		float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
 		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular);
 	}
-	color *= light_color;
 
-	color *= ao(p, normal, 0.15, 5.); // ambient occlusion
-	//color *= ao(p, direction, -0.3, 10.); // sub surface scattering
+	light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion
+	//light_color *= ao(p, direction, -0.3, 10.); // sub surface scattering
 
-	return color;
+	return color * light_color;
 }
 
 vec3 marching(vec3 p, vec3 direction, out int i) {
