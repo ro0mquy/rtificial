@@ -1,14 +1,14 @@
 #version 120
 
-varying vec2 pos;
+//varying vec2 pos;
 //uniform vec2 aspect;
 uniform vec2 res;
 uniform float time;
 
 
-vec3 viewPosition = vec3(0., 0., 2.);
-vec3 viewDirection = vec3(0., 0., -1.);
-vec3 viewUp = vec3(0., 1., 0.);
+uniform vec3 viewPosition;
+uniform vec3 viewDirection;
+uniform vec3 viewUp;
 
 float cr(float r, float R) {
 	float rR = clamp(r/R, 0., 1.);
@@ -77,7 +77,7 @@ float eq(float arg1, float arg2) {
 	return 1. - abs(sign(arg1 - arg2));
 }
 
-vec4 rm(vec2 frag_coord, mat3 camera) {
+vec3 rm(vec2 frag_coord, mat3 camera) {
 	vec3 ray_start = viewPosition;
 	vec3 ray_dir = normalize(vec3((frag_coord - .5*res)/res.y, -1));
 	ray_dir *= camera;
@@ -116,24 +116,19 @@ vec4 rm(vec2 frag_coord, mat3 camera) {
 	} else {
 		color = vec3(0.0);
 	}
-	return vec4(color, i);
+	return color;
 }
 
 void main(void) {
-	viewUp = normalize(rZ(viewUp, radians(time/1000.*23.)));
-	viewPosition.z += abs(2. * sin(time/1000. * 2));
-	vec3 right = cross(viewUp, viewDirection);
+	vec3 right = cross(viewDirection, viewUp);
 	mat3 camera = transpose(mat3(right, viewUp, -viewDirection));
 
-	vec4 dings = rm(gl_FragCoord.xy, camera);
-	if(fwidth(dings.a) > 4.) {
-		float off = .25;
-		dings.rgb = vec3(0.);
-		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2(-off,-off), camera).rgb;
-		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2( off,-off), camera).rgb;
-		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2(-off, off), camera).rgb;
-		dings.rgb += .25 * rm(gl_FragCoord.xy + vec2( off, off), camera).rgb;
-	}
-	gl_FragColor = vec4(dings.rgb, 1.0);
+	vec2 off = vec2(-.25, .25);
+	vec3 color = vec3(0.);
+	color += .25 * rm(gl_FragCoord.xy + off.xx, camera);
+	color += .25 * rm(gl_FragCoord.xy + off.xy, camera);
+	color += .25 * rm(gl_FragCoord.xy + off.yx, camera);
+	color += .25 * rm(gl_FragCoord.xy + off.yy, camera);
+	gl_FragColor = vec4(color, 1.0);
 }
 
