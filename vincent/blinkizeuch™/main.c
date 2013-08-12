@@ -191,22 +191,22 @@ int main(int argc, char *argv[]) {
 
 						// move camera
 						case SDLK_i:
-							position = vec3_add(position, vec3_new(0., 0., -1.));
+							position = vec3_add(position, vec3_s_mult(movement_modifier, direction));
 							break;
 						case SDLK_k:
-							position = vec3_add(position, vec3_new(0., 0., 1.));
+							position = vec3_add(position, vec3_s_mult(-movement_modifier, direction));
 							break;
 						case SDLK_j:
-							position = vec3_add(position, vec3_new(-1., 0., 0.));
+							position = vec3_add(position, vec3_s_mult(-movement_modifier, right));
 							break;
 						case SDLK_l:
-							position = vec3_add(position, vec3_new(1., 0., 0.));
+							position = vec3_add(position, vec3_s_mult(movement_modifier, right));
 							break;
 						case SDLK_u:
-							position = vec3_add(position, vec3_new(0., -1., 0.));
+							position = vec3_add(position, vec3_s_mult(-movement_modifier, up));
 							break;
 						case SDLK_o:
-							position = vec3_add(position, vec3_new(0., 1., 0.));
+							position = vec3_add(position, vec3_s_mult(movement_modifier, up));
 							break;
 						default:
 							break;
