@@ -110,7 +110,7 @@ void initValues() {
 }
 
 float f(vec3 p) {
-	float sphery = -sphere(p, 20.); // generating outside in sphere
+	float sphery = -sphere(p - viewPosition, 50.); // bounding sphere
 
 	//p.z -= 6.;
 	p = mod(p, 3.) - .5 * 3.; // repeating spikeball
