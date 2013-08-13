@@ -12,7 +12,7 @@ OBJECTS=\
 HEADER=\
 	config.h
 
-LIBZEUCH=../lib/libzeuch.a
+LIBZEUCH=../libzeuch/libzeuch.a
 
 .PHONY: all
 all: blinkizeuch
