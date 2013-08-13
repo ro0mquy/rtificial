@@ -3,7 +3,7 @@ LDLIBS=-lGL -lGLEW $(shell sdl-config --libs)
 # Mac OS alternate cmdline link options
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-    LDLIBS=-lGLEW -framework Cocoa -framework OpenGL -framework GLUT $(shell sdl-config --libs)
+    LDLIBS=-lGLEW -framework Cocoa -framework OpenGL $(shell sdl-config --libs)
 endif
 
 OBJECTS=\
@@ -12,7 +12,7 @@ OBJECTS=\
 HEADER=\
 	config.h
 
-LIBZEUCH=../lib/libzeuch.a
+LIBZEUCH=../../libzeuch/libzeuch.a
 
 .PHONY: all
 all: partikel
