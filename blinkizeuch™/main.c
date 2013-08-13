@@ -181,12 +181,12 @@ int main(int argc, char *argv[]) {
 							right = vec3_rotate(right, up, -angle_modifier);
 							break;
 						case SDLK_q:
-							right = vec3_rotate(right, direction, angle_modifier);
-							up = vec3_rotate(up, direction, angle_modifier);
-							break;
-						case SDLK_e:
 							right = vec3_rotate(right, direction, -angle_modifier);
 							up = vec3_rotate(up, direction, -angle_modifier);
+							break;
+						case SDLK_e:
+							right = vec3_rotate(right, direction, angle_modifier);
+							up = vec3_rotate(up, direction, angle_modifier);
 							break;
 
 						// move camera
