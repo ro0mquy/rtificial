@@ -22,7 +22,11 @@ GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
 vec3 direction, up, right;
 vec3 position;
 
-int last = 0;
+int previousTime = 0;
+int currentTime = 0;
+float deltaT = 0;
+
+Uint8 *keystate;
 
 static int init(const char fragment[]) {
 	direction = vec3_new(0., 0., -1.);
@@ -84,7 +88,7 @@ static int init(const char fragment[]) {
 	}
 
 	printf("initialized\n");
-	last = SDL_GetTicks();
+	currentTime = SDL_GetTicks();
 	return 1;
 }
 
@@ -115,8 +119,6 @@ static void draw(void) {
 	glDisableVertexAttribArray(attribute_coord2d);
 
 	SDL_GL_SwapBuffers();
-	//printf("%dms\n", SDL_GetTicks() - last);
-	last = SDL_GetTicks();
 }
 
 static void free_resources(void) {
@@ -153,65 +155,69 @@ int main(int argc, char *argv[]) {
 		return EXIT_FAILURE;
 	}
 
+	// getting keystate map
+	keystate = SDL_GetKeyState(NULL);
+
 	SDL_WM_SetCaption(window_caption, NULL);
 	int run = 1;
 	while(run) {
+		previousTime = currentTime;
+		currentTime = SDL_GetTicks();
+		deltaT = (currentTime - previousTime) / 1000.; //convert from milliseconds to seconds
+		printf("\b\b\b\b\b\b%.3fs", deltaT);
+
+		const float angle_modifier = 50. / 360. * TAU;
+		const float movement_modifier = 5;
+
+		// rotate camera
+		if (keystate[SDLK_w]) {
+			direction = vec3_rotate(direction, right, angle_modifier * deltaT);
+			up = vec3_rotate(up, right, angle_modifier * deltaT);
+		}
+		if (keystate[SDLK_s]) {
+			direction = vec3_rotate(direction, right, -angle_modifier * deltaT);
+			up = vec3_rotate(up, right, -angle_modifier * deltaT);
+		}
+		if (keystate[SDLK_a]) {
+			direction = vec3_rotate(direction, up, angle_modifier * deltaT);
+			right = vec3_rotate(right, up, angle_modifier * deltaT);
+		}
+		if (keystate[SDLK_d]) {
+			direction = vec3_rotate(direction, up, -angle_modifier * deltaT);
+			right = vec3_rotate(right, up, -angle_modifier * deltaT);
+		}
+		if (keystate[SDLK_q]) {
+			right = vec3_rotate(right, direction, angle_modifier * deltaT);
+			up = vec3_rotate(up, direction, angle_modifier * deltaT);
+		}
+		if (keystate[SDLK_e]) {
+			right = vec3_rotate(right, direction, -angle_modifier * deltaT);
+			up = vec3_rotate(up, direction, -angle_modifier * deltaT);
+		}
+
+		// move camera
+		if (keystate[SDLK_i]) {
+			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, direction));
+		}
+		if (keystate[SDLK_k]) {
+			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, direction));
+		}
+		if (keystate[SDLK_j]) {
+			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, right));
+		}
+		if (keystate[SDLK_l]) {
+			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, right));
+		}
+		if (keystate[SDLK_u]) {
+			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, up));
+		}
+		if (keystate[SDLK_o]) {
+			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, up));
+		}
+
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
-			const float angle_modifier = 5. / 360. * TAU;
-			const float movement_modifier = 0.5;
 			switch(event.type){
-				case SDL_KEYDOWN:
-					switch(event.key.keysym.sym) {
-						// rotate camera
-						case SDLK_w:
-							direction = vec3_rotate(direction, right, angle_modifier);
-							up = vec3_rotate(up, right, angle_modifier);
-							break;
-						case SDLK_s:
-							direction = vec3_rotate(direction, right, -angle_modifier);
-							up = vec3_rotate(up, right, -angle_modifier);
-							break;
-						case SDLK_a:
-							direction = vec3_rotate(direction, up, angle_modifier);
-							right = vec3_rotate(right, up, angle_modifier);
-							break;
-						case SDLK_d:
-							direction = vec3_rotate(direction, up, -angle_modifier);
-							right = vec3_rotate(right, up, -angle_modifier);
-							break;
-						case SDLK_q:
-							right = vec3_rotate(right, direction, angle_modifier);
-							up = vec3_rotate(up, direction, angle_modifier);
-							break;
-						case SDLK_e:
-							right = vec3_rotate(right, direction, -angle_modifier);
-							up = vec3_rotate(up, direction, -angle_modifier);
-							break;
-
-						// move camera
-						case SDLK_i:
-							position = vec3_add(position, vec3_s_mult(movement_modifier, direction));
-							break;
-						case SDLK_k:
-							position = vec3_add(position, vec3_s_mult(-movement_modifier, direction));
-							break;
-						case SDLK_j:
-							position = vec3_add(position, vec3_s_mult(-movement_modifier, right));
-							break;
-						case SDLK_l:
-							position = vec3_add(position, vec3_s_mult(movement_modifier, right));
-							break;
-						case SDLK_u:
-							position = vec3_add(position, vec3_s_mult(-movement_modifier, up));
-							break;
-						case SDLK_o:
-							position = vec3_add(position, vec3_s_mult(movement_modifier, up));
-							break;
-						default:
-							break;
-					}
-					break;
 				case SDL_QUIT:
 					run = 0;
 			}
