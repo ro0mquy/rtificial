@@ -194,7 +194,7 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 	light_color = vec3(0.);
 	for (int i = 0; i < number_lights; i++) {
 		vec3 point_to_light = normalize(lights[i] - p);
-		float diffuse = dot(normal, point_to_light); // diffuse light
+		float diffuse = max(dot(normal, point_to_light), 0.); // diffuse light
 		float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
 		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular);
 	}
