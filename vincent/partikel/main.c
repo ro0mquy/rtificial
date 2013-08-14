@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../lib/gl.h"
+#include "../../libzeuch/gl.h"
 #include <SDL/SDL.h>
 
 #include "config.h"
-#include "../lib/shader.h"
+#include "../../libzeuch/shader.h"
 
 static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());

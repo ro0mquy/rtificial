@@ -39,10 +39,9 @@ float sdBox(vec3 p, vec3 b) {
 }
 
 float sdCross(vec3 p) {
-	float da = sdBox(p.xyz, vec3(100.0, 1.0, 1.0));
-	float db = sdBox(p.yzx, vec3(1.0, 100.0, 1.0));
-	float dc = sdBox(p.zxy, vec3(1.0, 1.0, 100.0));
-	return min(da, min(db, dc));
+	p = abs(p);
+	vec3 d = max(p.xyz, p.yzx);
+	return min(d.x, min(d.y, d.z)) - 1.;
 }
 
 float g(vec3 p) {
@@ -51,7 +50,7 @@ float g(vec3 p) {
 	//p = rY(rX(p, rot), rot);
 	float d = sdBox(p, vec3(1.0));
 	float s = 1.0;
-	for(int m = 0; m < 3; m++) {
+	for(int m = 0; m < 5; m++) {
 		vec3 a = mod(p * s, 2.0) - 1.0;
 		s *= 3.0;
 		vec3 r = 1.0 - 3.0 * abs(a);
