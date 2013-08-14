@@ -170,49 +170,49 @@ int main(int argc, char *argv[]) {
 		const float movement_modifier = 5;
 
 		// rotate camera
-		if (keystate[SDLK_w]) {
+		if (keystate[SDLK_i]) {
 			direction = vec3_rotate(direction, right, angle_modifier * deltaT);
 			up = vec3_rotate(up, right, angle_modifier * deltaT);
 		}
-		if (keystate[SDLK_s]) {
+		if (keystate[SDLK_k]) {
 			direction = vec3_rotate(direction, right, -angle_modifier * deltaT);
 			up = vec3_rotate(up, right, -angle_modifier * deltaT);
 		}
-		if (keystate[SDLK_a]) {
+		if (keystate[SDLK_j]) {
 			direction = vec3_rotate(direction, up, angle_modifier * deltaT);
 			right = vec3_rotate(right, up, angle_modifier * deltaT);
 		}
-		if (keystate[SDLK_d]) {
+		if (keystate[SDLK_l]) {
 			direction = vec3_rotate(direction, up, -angle_modifier * deltaT);
 			right = vec3_rotate(right, up, -angle_modifier * deltaT);
 		}
-		if (keystate[SDLK_q]) {
-			right = vec3_rotate(right, direction, angle_modifier * deltaT);
-			up = vec3_rotate(up, direction, angle_modifier * deltaT);
-		}
-		if (keystate[SDLK_e]) {
+		if (keystate[SDLK_u]) {
 			right = vec3_rotate(right, direction, -angle_modifier * deltaT);
 			up = vec3_rotate(up, direction, -angle_modifier * deltaT);
 		}
+		if (keystate[SDLK_o]) {
+			right = vec3_rotate(right, direction, angle_modifier * deltaT);
+			up = vec3_rotate(up, direction, angle_modifier * deltaT);
+		}
 
 		// move camera
-		if (keystate[SDLK_i]) {
+		if (keystate[SDLK_w]) {
 			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, direction));
 		}
-		if (keystate[SDLK_k]) {
+		if (keystate[SDLK_s]) {
 			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, direction));
 		}
-		if (keystate[SDLK_j]) {
+		if (keystate[SDLK_a]) {
 			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, right));
 		}
-		if (keystate[SDLK_l]) {
+		if (keystate[SDLK_d]) {
 			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, right));
 		}
-		if (keystate[SDLK_u]) {
-			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, up));
-		}
-		if (keystate[SDLK_o]) {
+		if (keystate[SDLK_q]) {
 			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, up));
+		}
+		if (keystate[SDLK_e]) {
+			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, up));
 		}
 
 		SDL_Event event;
