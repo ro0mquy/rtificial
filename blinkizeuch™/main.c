@@ -30,8 +30,15 @@ Uint8 *keystate;
 
 int save_next = 0;
 
+struct Camera_Position {
+	vec3 position;
+	vec3 direction;
+	vec3 up;
+	vec3 right;
+};
+
 // position, direction, up, right * 10
-vec3 saved_positions[40];
+struct Camera_Position saved_positions[10];
 
 static void save_restore_camera(int i);
 
@@ -41,11 +48,11 @@ static int init(const char fragment[]) {
 	right = vec3_new(1., 0., 0.);
 	position = vec3_new(0., 0., 0.);
 
-	for(int i = 0; i < 40;){
-		saved_positions[i++] = position;
-		saved_positions[i++] = direction;
-		saved_positions[i++] = up;
-		saved_positions[i++] = right;
+	for(int i = 0; i < 10; i++){
+		saved_positions[i].position = position;
+		saved_positions[i].direction = direction;
+		saved_positions[i].up = up;
+		saved_positions[i].right = right;
 	}
 
 	const GLuint vertex_shader = shader_load("vertex.glsl", GL_VERTEX_SHADER);
@@ -286,15 +293,15 @@ int main(int argc, char *argv[]) {
 
 static void save_restore_camera(int i) {
 	if(save_next) {
-		saved_positions[i*4] = position;
-		saved_positions[i*4+1] = direction;
-		saved_positions[i*4+2] = up;
-		saved_positions[i*4+3] = right;
+		saved_positions[i].position = position;
+		saved_positions[i].direction = direction;
+		saved_positions[i].up = up;
+		saved_positions[i].right = right;
 		save_next = 0;
 	} else {
-		position  = saved_positions[i*4];
-		direction = saved_positions[i*4+1];
-		up        = saved_positions[i*4+2];
-		right     = saved_positions[i*4+3];
+		position  = saved_positions[i].position;
+		direction = saved_positions[i].direction;
+		up        = saved_positions[i].up;
+		right     = saved_positions[i].right;
 	}
 }
