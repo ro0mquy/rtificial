@@ -3,13 +3,13 @@
 #include <math.h>
 #define TAU 6.28318530718
 
-#include "../lib/gl.h"
+#include "../libzeuch/gl.h"
 #include <SDL/SDL.h>
 
 #include "config.h"
-#include "../lib/shader.h"
+#include "../libzeuch/shader.h"
 
-#include "../lib/vector.h"
+#include "../libzeuch/vector.h"
 
 static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());
