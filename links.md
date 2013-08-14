@@ -23,3 +23,4 @@
 * [Ryan's guide to metaballs](http://www.geisswerks.com/ryan/BLOBS/blobs.html)
 * [Crinkler secrets, 4k intro executable compressor at its best](http://code4k.blogspot.de/2010/12/crinkler-secrets-4k-intro-executable.html)
 * [How to: write a soft synthesizer](http://pouet.net/topic.php?which=9432&page=1&x=20&y=10)
+* [Global Illumination in a Nutshell](http://www.thepolygoners.com/tutorials/GIIntro/GIIntro.htm)
