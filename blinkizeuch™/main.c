@@ -28,12 +28,25 @@ float deltaT = 0;
 
 Uint8 *keystate;
 
+int save_next = 0;
+
+// position, direction, up, right * 10
+vec3 saved_positions[40];
+
+static void save_restore_camera(int i);
+
 static int init(const char fragment[]) {
 	direction = vec3_new(0., 0., -1.);
 	up = vec3_new(0., 1., 0.);
 	right = vec3_new(1., 0., 0.);
-
 	position = vec3_new(0., 0., 0.);
+
+	for(int i = 0; i < 40;){
+		saved_positions[i++] = position;
+		saved_positions[i++] = direction;
+		saved_positions[i++] = up;
+		saved_positions[i++] = right;
+	}
 
 	const GLuint vertex_shader = shader_load("vertex.glsl", GL_VERTEX_SHADER);
 	const GLuint fragment_shader = shader_load(fragment, GL_FRAGMENT_SHADER);
@@ -219,8 +232,49 @@ int main(int argc, char *argv[]) {
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
 			switch(event.type){
+				case SDL_KEYDOWN:
+					switch(event.key.keysym.sym) {
+						case SDLK_t:
+							save_next = 1;
+							break;
+						case SDLK_0:
+							save_restore_camera(0);
+							break;
+						case SDLK_1:
+							save_restore_camera(1);
+							break;
+						case SDLK_2:
+							save_restore_camera(2);
+							break;
+						case SDLK_3:
+							save_restore_camera(3);
+							break;
+						case SDLK_4:
+							save_restore_camera(4);
+							break;
+						case SDLK_5:
+							save_restore_camera(5);
+							break;
+						case SDLK_6:
+							save_restore_camera(6);
+							break;
+						case SDLK_7:
+							save_restore_camera(7);
+							break;
+						case SDLK_8:
+							save_restore_camera(8);
+							break;
+						case SDLK_9:
+							save_restore_camera(9);
+							break;
+						default:
+							save_next = 0;
+							break;
+					}
+					break;
 				case SDL_QUIT:
 					run = 0;
+					break;
 			}
 		}
 		draw();
@@ -228,4 +282,19 @@ int main(int argc, char *argv[]) {
 	free_resources();
 	SDL_Quit();
 	return EXIT_SUCCESS;
+}
+
+static void save_restore_camera(int i) {
+	if(save_next) {
+		saved_positions[i*4] = position;
+		saved_positions[i*4+1] = direction;
+		saved_positions[i*4+2] = up;
+		saved_positions[i*4+3] = right;
+		save_next = 0;
+	} else {
+		position  = saved_positions[i*4];
+		direction = saved_positions[i*4+1];
+		up        = saved_positions[i*4+2];
+		right     = saved_positions[i*4+3];
+	}
 }
