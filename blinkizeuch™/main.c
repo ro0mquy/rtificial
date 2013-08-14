@@ -134,6 +134,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
 	const SDL_Surface* const screen = SDL_SetVideoMode(width, height, 32, SDL_OPENGL);
 	if (!screen) {
 		print_sdl_error("Failed to create SDL window! Error: ");
