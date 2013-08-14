@@ -210,10 +210,10 @@ int main(int argc, char *argv[]) {
 			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, right));
 		}
 		if (keystate[SDLK_q]) {
-			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, up));
+			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, up));
 		}
 		if (keystate[SDLK_e]) {
-			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, up));
+			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, up));
 		}
 
 		SDL_Event event;
