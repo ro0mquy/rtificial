@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
+#include <AntTweakBar.h>
 #include <SDL/SDL.h>
 
 #include "../libzeuch/gl.h"
@@ -19,6 +20,7 @@ static void print_sdl_error(const char message[]) {
 GLuint program, vbo_rectangle;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
+GLint uniform_someColor;
 
 vec3 direction, up, right;
 vec3 position;
@@ -30,6 +32,9 @@ float deltaT = 0;
 Uint8 *keystate;
 
 int save_next = 0;
+
+TwBar* tweakBar;
+float someColor[3] = {0., 0., 0.};
 
 struct Camera_Position {
 	vec3 position;
@@ -99,6 +104,7 @@ static int init(const char fragment[]) {
 	uniform_viewPosition = shader_get_uniform(program, "viewPosition");
 	uniform_viewDirection = shader_get_uniform(program, "viewDirection");
 	uniform_viewUp = shader_get_uniform(program, "viewUp");
+	uniform_someColor = shader_get_uniform(program, "someColor");
 
 	glUseProgram(program);
 	if(uniform_aspect != -1) {
@@ -118,6 +124,7 @@ static void draw(void) {
 	glUniform3f(uniform_viewPosition, position.x, position.y, position.z);
 	glUniform3f(uniform_viewDirection, direction.x, direction.y, direction.z);
 	glUniform3f(uniform_viewUp, up.x, up.y, up.z);
+	glUniform3f(uniform_someColor, someColor[0], someColor[1], someColor[2]);
 
 	if(uniform_time != -1) {
 		glUniform1f(uniform_time, SDL_GetTicks());
@@ -138,6 +145,8 @@ static void draw(void) {
 	);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(attribute_coord2d);
+
+	TwDraw();
 
 	SDL_GL_SwapBuffers();
 }
@@ -176,6 +185,12 @@ int main(int argc, char *argv[]) {
 	if(!init(argv[1])) {
 		return EXIT_FAILURE;
 	}
+
+	// initialize AntTweakBar
+	TwInit(TW_OPENGL, NULL);
+	TwWindowSize(width, height);
+	tweakBar = TwNewBar("Rumfummeldings");
+	TwAddVarRW(tweakBar, "Some color", TW_TYPE_COLOR3F, &someColor, "");
 
 	// getting keystate map
 	keystate = SDL_GetKeyState(NULL);
@@ -239,6 +254,8 @@ int main(int argc, char *argv[]) {
 
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
+			int handled = TwEventSDL(&event, SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
+			if(handled) continue;
 			switch(event.type){
 				case SDL_KEYDOWN:
 					switch(event.key.keysym.sym) {
@@ -287,6 +304,7 @@ int main(int argc, char *argv[]) {
 		}
 		draw();
 	}
+	TwTerminate();
 	free_resources();
 	SDL_Quit();
 	return EXIT_SUCCESS;

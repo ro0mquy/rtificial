@@ -3,6 +3,7 @@
 uniform vec3 viewPosition;
 uniform vec3 viewUp;
 uniform vec3 viewDirection;
+uniform vec3 someColor;
 uniform vec2 res;
 uniform float time;
 
@@ -17,7 +18,7 @@ void main(void) {
 	vec3 direction = camera * normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y , -1.));
 
 	colors[0] = vec3(.8, .2, .1);
-	colors[1] = vec3(.2, .5, .1);
+	colors[1] = someColor;
 	colors[2] = vec3(.3, .2, .3);
 	colors[3] = vec3(.03, .0, .0);
 
