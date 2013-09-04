@@ -1,15 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#define TAU 6.28318530718
 
-#include "../libzeuch/gl.h"
 #include <SDL/SDL.h>
 
-#include "config.h"
+#include "../libzeuch/gl.h"
 #include "../libzeuch/shader.h"
-
 #include "../libzeuch/vector.h"
+
+#include "config.h"
+
+const double TAU = 6.28318530718;
 
 static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());
