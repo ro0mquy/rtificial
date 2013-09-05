@@ -5,25 +5,30 @@
 
 static char* file_read(const char filename[]);
 
-GLuint shader_load(const char filename[], GLenum type) {
+GLuint shader_load_file(const char filename[], GLenum type) {
 	GLchar* const source = file_read(filename);
 	if(source == NULL) {
 		fprintf(stderr, "Error reading %s: ", filename);
 		perror("");
 		return 0;
 	}
+	GLuint res = shader_load_str(filename, source, type);
+	free(source);
+	return res;
+}
+
+GLuint shader_load_str(const char name[], const char source[], GLenum type) {
 	const GLuint res = glCreateShader(type);
 	const GLchar* sources[1] = {
 		source
 	};
 	glShaderSource(res, 1, sources, NULL);
-	free(source);
 
 	glCompileShader(res);
 	GLint compile_ok = GL_FALSE;
 	glGetShaderiv(res, GL_COMPILE_STATUS, &compile_ok);
 	if(compile_ok == GL_FALSE) {
-		fprintf(stderr, "%s: ", filename);
+		fprintf(stderr, "%s: ", name);
 		print_log(res);
 		glDeleteShader(res);
 		return 0;
@@ -118,4 +123,21 @@ void print_log(GLuint object) {
 
 	fprintf(stderr, "%s", log);
 	free(log);
+}
+
+GLuint shader_link_program(GLuint vertex_shader, GLuint fragment_shader) {
+	GLuint program = glCreateProgram();
+	glAttachShader(program, vertex_shader);
+	glAttachShader(program, fragment_shader);
+	glLinkProgram(program);
+
+	GLint link_ok = GL_FALSE;
+	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
+	if(link_ok == GL_FALSE) {
+		fprintf(stderr, "glLinkProgram: ");
+		print_log(program);
+		return 0;
+	}
+	return program;
+
 }
