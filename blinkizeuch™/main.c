@@ -134,26 +134,13 @@ static int init(const char fragment[]) {
 	}
 	camera_init(&camera);
 
-	const GLuint vertex_shader = shader_load("vertex.glsl", GL_VERTEX_SHADER);
-	const GLuint fragment_shader = shader_load(fragment, GL_FRAGMENT_SHADER);
+	const GLuint vertex_shader = shader_load_file("vertex.glsl", GL_VERTEX_SHADER);
+	const GLuint fragment_shader = shader_load_file(fragment, GL_FRAGMENT_SHADER);
 	if(vertex_shader == 0 || fragment_shader == 0) {
 		return 0;
 	}
+	program = shader_link_program(vertex_shader, fragment_shader);
 
-	program = glCreateProgram();
-	glAttachShader(program, vertex_shader);
-	glAttachShader(program, fragment_shader);
-	glLinkProgram(program);
-
-	GLint link_ok = GL_FALSE;
-	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
-	if(link_ok == GL_FALSE) {
-		fprintf(stderr, "glLinkProgram: ");
-		print_log(program);
-		return 0;
-	}
-
-	printf("Program complete\n");
 	const GLfloat rectangle_vertices[] = {
 		-1.0, -1.0,
 		-1.0,  1.0,
@@ -183,7 +170,6 @@ static int init(const char fragment[]) {
 	glUniform1f(uniform_aspect, (float) width/height);
 	glUniform2f(uniform_res, width, height);
 
-	printf("initialized\n");
 	currentTime = SDL_GetTicks();
 	return 1;
 }
