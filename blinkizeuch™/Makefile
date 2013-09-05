@@ -15,7 +15,8 @@ OBJECTS=\
 
 HEADER=\
 	config.h\
-	camera.h
+	camera.h\
+	vertex.h
 
 .PHONY: all
 all: blinkizeuch
