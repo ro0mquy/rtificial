@@ -34,6 +34,7 @@ int previousTime = 0;
 int currentTime = 0;
 float deltaT = 0;
 
+bool run;
 bool save_next = false;
 bool is_fullscreen = false;
 bool ignore_next_resize = false;
@@ -88,7 +89,7 @@ int main(int argc, char *argv[]) {
 	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_FLOAT, &deltaT, "");
 
 	SDL_WM_SetCaption(window_caption, NULL);
-	bool run = true;
+	run = true;
 	while(run) {
 		update_state();
 
@@ -273,6 +274,10 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 			break;
 		case SDLK_f:
 			handle_resize(!is_fullscreen);
+			break;
+		case SDLK_ESCAPE:
+			run = false;
+			break;
 		default:
 			save_next = false;
 			break;
