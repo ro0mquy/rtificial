@@ -1,24 +1,27 @@
-CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags)
-LDLIBS=-lGL -lGLEW -lm $(shell sdl-config --libs) -lAntTweakBar
+LIBZEUCH_ROOT=../
+LIBZEUCH=$(LIBZEUCH_ROOT)libzeuch/libzeuch.a
+
+CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags) -I$(LIBZEUCH_ROOT)
+LDLIBS=-lGL -lGLEW -lm $(shell sdl-config --libs) -lAntTweakBar $(LIBZEUCH)
 # Mac OS alternate cmdline link options
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-    LDLIBS=-lGLEW -framework Cocoa -framework OpenGL $(shell sdl-config --libs)
+    LDLIBS=-lGLEW -framework Cocoa -framework OpenGL $(shell sdl-config --libs) $(LIBZEUCH)
 endif
 
 OBJECTS=\
-	main.o
+	main.o\
+	camera.o
 
 HEADER=\
-	config.h
-
-LIBZEUCH=../libzeuch/libzeuch.a
+	config.h\
+	camera.h
 
 .PHONY: all
 all: blinkizeuch
 
 blinkizeuch: $(OBJECTS) $(LIBZEUCH)
-	$(CXX) $(LDFLAGS) -o blinkizeuch $(OBJECTS) $(LIBZEUCH) $(LDLIBS)
+	$(CXX) $(LDFLAGS) -o blinkizeuch $(OBJECTS) $(LDLIBS)
 
 %.o: %.c $(HEADER)
 	$(CC) -c -o $@ $< $(CFLAGS)
