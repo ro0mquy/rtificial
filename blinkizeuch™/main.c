@@ -22,11 +22,13 @@ static void save_restore_camera(int i);
 static void print_sdl_error(const char message[]);
 static void handle_key_down(SDL_KeyboardEvent event);
 static void update_state(void);
+static SDL_Surface* update_sdl_videomode(void);
 
 GLuint program, vbo_rectangle;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
 GLint uniform_someColor;
+GLint uniform_res;
 
 int previousTime = 0;
 int currentTime = 0;
@@ -49,7 +51,7 @@ int main(int argc, char *argv[]) {
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-	const SDL_Surface* const screen = SDL_SetVideoMode(width, height, 32, SDL_OPENGL);
+	const SDL_Surface* screen = update_sdl_videomode();
 	if (!screen) {
 		print_sdl_error("Failed to create SDL window! Error: ");
 		return EXIT_FAILURE;
@@ -94,6 +96,14 @@ int main(int argc, char *argv[]) {
 					break;
 				case SDL_QUIT:
 					run = false;
+					break;
+				case SDL_VIDEORESIZE:
+					width  = event.resize.w;
+					height = event.resize.h;
+					update_sdl_videomode();
+					glViewport(0, 0, width, height);
+					glUseProgram(program);
+					glUniform2f(uniform_res, width, height);
 					break;
 			}
 		}
@@ -149,7 +159,7 @@ static int init(const char fragment[]) {
 	}
 
 	GLint uniform_aspect = shader_get_uniform(program, "aspect");
-	GLint uniform_res = shader_get_uniform(program, "res");
+	uniform_res = shader_get_uniform(program, "res");
 	uniform_time = shader_get_uniform(program, "time");
 	uniform_viewPosition = shader_get_uniform(program, "viewPosition");
 	uniform_viewDirection = shader_get_uniform(program, "viewDirection");
@@ -308,4 +318,13 @@ static void update_state(void) {
 	if (keystate[SDLK_e]) {
 		camera_move_y(&camera,  distance);
 	}
+}
+
+static SDL_Surface* update_sdl_videomode(void) {
+	return SDL_SetVideoMode(width, height, 32,
+		  SDL_HWSURFACE
+		| SDL_DOUBLEBUF
+		| SDL_OPENGL
+		| SDL_RESIZABLE
+	);
 }

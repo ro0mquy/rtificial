@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 
-const int width = 800;
-const int height = 600;
+int width = 800;
+int height = 600;
 
 const char window_caption[] = "blinkizeuch™";
 
