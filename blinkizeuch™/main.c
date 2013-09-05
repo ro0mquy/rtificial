@@ -5,11 +5,12 @@
 #include <AntTweakBar.h>
 #include <SDL/SDL.h>
 
-#include "../libzeuch/gl.h"
-#include "../libzeuch/shader.h"
-#include "../libzeuch/vector.h"
+#include <libzeuch/gl.h>
+#include <libzeuch/shader.h>
+#include <libzeuch/vector.h>
 
 #include "config.h"
+#include "camera.h"
 
 const double TAU = 6.28318530718;
 
@@ -22,9 +23,6 @@ GLint attribute_coord2d, uniform_time;
 GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
 GLint uniform_someColor;
 
-vec3 direction, up, right;
-vec3 position;
-
 int previousTime = 0;
 int currentTime = 0;
 float deltaT = 0;
@@ -36,30 +34,16 @@ int save_next = 0;
 TwBar* tweakBar;
 float someColor[3] = {0., 0., 0.};
 
-struct Camera_Position {
-	vec3 position;
-	vec3 direction;
-	vec3 up;
-	vec3 right;
-};
-
-// position, direction, up, right * 10
-struct Camera_Position saved_positions[10];
+camera_t saved_positions[10];
+camera_t camera;
 
 static void save_restore_camera(int i);
 
 static int init(const char fragment[]) {
-	direction = vec3_new(0., 0., -1.);
-	up = vec3_new(0., 1., 0.);
-	right = vec3_new(1., 0., 0.);
-	position = vec3_new(0., 0., 0.);
-
 	for(int i = 0; i < 10; i++){
-		saved_positions[i].position = position;
-		saved_positions[i].direction = direction;
-		saved_positions[i].up = up;
-		saved_positions[i].right = right;
+		camera_init(&saved_positions[i]);
 	}
+	camera_init(&camera);
 
 	const GLuint vertex_shader = shader_load("vertex.glsl", GL_VERTEX_SHADER);
 	const GLuint fragment_shader = shader_load(fragment, GL_FRAGMENT_SHADER);
@@ -121,9 +105,7 @@ static int init(const char fragment[]) {
 
 
 static void draw(void) {
-	glUniform3f(uniform_viewPosition, position.x, position.y, position.z);
-	glUniform3f(uniform_viewDirection, direction.x, direction.y, direction.z);
-	glUniform3f(uniform_viewUp, up.x, up.y, up.z);
+	camera_update_uniforms(&camera, uniform_viewPosition, uniform_viewDirection, uniform_viewUp);
 	glUniform3f(uniform_someColor, someColor[0], someColor[1], someColor[2]);
 
 	if(uniform_time != -1) {
@@ -206,50 +188,47 @@ int main(int argc, char *argv[]) {
 		const float angle_modifier = 50. / 360. * TAU;
 		const float movement_modifier = 5;
 
+		const float angle = angle_modifier * deltaT;
+		const float distance = movement_modifier * deltaT;
+
 		// rotate camera
 		if (keystate[SDLK_i]) {
-			direction = vec3_rotate(direction, right, angle_modifier * deltaT);
-			up = vec3_rotate(up, right, angle_modifier * deltaT);
+			camera_rotate_x(&camera,  angle);
 		}
 		if (keystate[SDLK_k]) {
-			direction = vec3_rotate(direction, right, -angle_modifier * deltaT);
-			up = vec3_rotate(up, right, -angle_modifier * deltaT);
+			camera_rotate_x(&camera, -angle);
 		}
 		if (keystate[SDLK_j]) {
-			direction = vec3_rotate(direction, up, angle_modifier * deltaT);
-			right = vec3_rotate(right, up, angle_modifier * deltaT);
+			camera_rotate_y(&camera,  angle);
 		}
 		if (keystate[SDLK_l]) {
-			direction = vec3_rotate(direction, up, -angle_modifier * deltaT);
-			right = vec3_rotate(right, up, -angle_modifier * deltaT);
+			camera_rotate_y(&camera, -angle);
 		}
 		if (keystate[SDLK_u]) {
-			right = vec3_rotate(right, direction, -angle_modifier * deltaT);
-			up = vec3_rotate(up, direction, -angle_modifier * deltaT);
+			camera_rotate_z(&camera, -angle);
 		}
 		if (keystate[SDLK_o]) {
-			right = vec3_rotate(right, direction, angle_modifier * deltaT);
-			up = vec3_rotate(up, direction, angle_modifier * deltaT);
+			camera_rotate_z(&camera,  angle);
 		}
 
 		// move camera
 		if (keystate[SDLK_w]) {
-			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, direction));
+			camera_move_z(&camera, -distance);
 		}
 		if (keystate[SDLK_s]) {
-			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, direction));
+			camera_move_z(&camera,  distance);
 		}
 		if (keystate[SDLK_a]) {
-			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, right));
+			camera_move_x(&camera, -distance);
 		}
 		if (keystate[SDLK_d]) {
-			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, right));
+			camera_move_x(&camera,  distance);
 		}
 		if (keystate[SDLK_q]) {
-			position = vec3_add(position, vec3_s_mult(-movement_modifier * deltaT, up));
+			camera_move_y(&camera, -distance);
 		}
 		if (keystate[SDLK_e]) {
-			position = vec3_add(position, vec3_s_mult(movement_modifier * deltaT, up));
+			camera_move_y(&camera,  distance);
 		}
 
 		SDL_Event event;
@@ -312,15 +291,9 @@ int main(int argc, char *argv[]) {
 
 static void save_restore_camera(int i) {
 	if(save_next) {
-		saved_positions[i].position = position;
-		saved_positions[i].direction = direction;
-		saved_positions[i].up = up;
-		saved_positions[i].right = right;
+		saved_positions[i] = camera;
 		save_next = 0;
 	} else {
-		position  = saved_positions[i].position;
-		direction = saved_positions[i].direction;
-		up        = saved_positions[i].up;
-		right     = saved_positions[i].right;
+		camera = saved_positions[i];
 	}
 }
