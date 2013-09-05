@@ -12,6 +12,7 @@
 
 #include "config.h"
 #include "camera.h"
+#include "vertex.h"
 
 const double TAU = 6.28318530718;
 
@@ -134,7 +135,7 @@ static int init(const char fragment[]) {
 	}
 	camera_init(&camera);
 
-	const GLuint vertex_shader = shader_load_file("vertex.glsl", GL_VERTEX_SHADER);
+	const GLuint vertex_shader = shader_load_str("vertex", vertex_source, GL_VERTEX_SHADER);
 	const GLuint fragment_shader = shader_load_file(fragment, GL_FRAGMENT_SHADER);
 	if(vertex_shader == 0 || fragment_shader == 0) {
 		return 0;
