@@ -13,6 +13,7 @@
 #include "config.h"
 #include "camera.h"
 #include "vertex.h"
+#include "flight.h"
 
 const double TAU = 6.28318530718;
 
@@ -47,6 +48,9 @@ float someColor[3] = {0., 0., 0.};
 
 camera_t saved_positions[10];
 camera_t camera;
+
+flight_t current_flight;
+bool is_flying = false;
 
 int desktop_width, desktop_height;
 
@@ -268,6 +272,9 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 		case SDLK_ESCAPE:
 			run = false;
 			break;
+		case SDLK_g:
+			is_flying = true;
+			current_flight = flight_new(saved_positions[0], saved_positions[1], SDL_GetTicks(), 5000);
 		default:
 			save_next = false;
 			break;
@@ -278,6 +285,14 @@ static void update_state(void) {
 	previousTime = currentTime;
 	currentTime = SDL_GetTicks();
 	deltaT = (currentTime - previousTime) / 1000.; //convert from milliseconds to seconds
+
+	if(is_flying) {
+		if(flight_is_finished(&current_flight, currentTime)) {
+			is_flying = false;
+		} else {
+			camera = flight_get_camera(&current_flight, currentTime);
+		}
+	}
 
 	const float angle_modifier = 50. / 360. * TAU;
 	const float movement_modifier = 5;
