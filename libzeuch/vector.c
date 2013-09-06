@@ -79,32 +79,6 @@ vec3 vec3_cross(vec3 v, vec3 w) {
 	);
 }
 
-vec3 vec3_rotate(vec3 v, vec3 a, float angle) {
-	const float sin_angle = sin(angle);
-	const float cos_angle = cos(angle);
-	const float one_min_cos = 1. - cos_angle;
-	vec3 column_x = vec3_new(
-		a.x * a.x * one_min_cos + cos_angle,
-		a.x * a.y * one_min_cos - a.z * sin_angle,
-		a.x * a.z * one_min_cos + a.y * sin_angle
-	);
-	vec3 column_y = vec3_new(
-		a.y * a.x * one_min_cos + a.z * sin_angle,
-		a.y * a.y * one_min_cos + cos_angle,
-		a.y * a.z * one_min_cos - a.x * sin_angle
-	);
-	vec3 column_z = vec3_new(
-		a.z * a.x * one_min_cos - a.y * sin_angle,
-		a.z * a.y * one_min_cos + a.x * sin_angle,
-		a.z * a.z * one_min_cos + cos_angle
-	);
-	return vec3_new(
-		vec3_dot(v, column_x),
-		vec3_dot(v, column_y),
-		vec3_dot(v, column_z)
-	);
-}
-
 vec3 vec3_lerp(vec3 v, vec3 w, float t) {
 	return vec3_add(vec3_s_mult(1. - t, v), vec3_s_mult(t, w));
 }
