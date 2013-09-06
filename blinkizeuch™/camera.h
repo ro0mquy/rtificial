@@ -50,4 +50,8 @@ void camera_move_z(
 	const float distance
 );
 
+quat camera_get_rotation(camera_t* const camera);
+
+void camera_set_rotation(camera_t* const camera, quat rotation);
+
 #endif // CAMERA_H
