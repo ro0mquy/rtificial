@@ -3,13 +3,12 @@
 
 #include <libzeuch/gl.h>
 #include <libzeuch/vector.h>
+#include <libzeuch/quaternion.h>
 
 
 typedef struct camera_t {
 	vec3 position;
-	vec3 direction;
-	vec3 up;
-	vec3 right;
+	quat rotation;
 } camera_t;
 
 void camera_init(camera_t* const camera);
