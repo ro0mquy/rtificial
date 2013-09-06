@@ -24,6 +24,8 @@ static void print_sdl_error(const char message[]);
 static void handle_key_down(SDL_KeyboardEvent event);
 static void update_state(void);
 static SDL_Surface* handle_resize(bool fullscreen);
+static void TW_CALL cb_set_rotation(const void* value, void* clientData);
+static void TW_CALL cb_get_rotation(void* value, void* clientData);
 
 GLuint program = 0, vbo_rectangle;
 GLint attribute_coord2d, uniform_time;
@@ -88,6 +90,7 @@ int main(int argc, char *argv[]) {
 	tweakBar = TwNewBar("Rumfummeldings");
 	TwAddVarRW(tweakBar, "Some color", TW_TYPE_COLOR3F, &someColor, "");
 	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_FLOAT, &deltaT, "");
+	TwAddVarCB(tweakBar, "Camera rotation", TW_TYPE_QUAT4F, cb_set_rotation, cb_get_rotation, NULL, "");
 
 	SDL_WM_SetCaption(window_caption, NULL);
 	run = true;
@@ -354,4 +357,20 @@ static SDL_Surface* handle_resize(bool fullscreen) {
 		glUniform2f(uniform_res, new_width, new_height);
 	}
 	return screen;
+}
+
+static void TW_CALL cb_set_rotation(const void* value, void* clientData) {
+	(void) clientData; // unused
+	const float* quat = (const float *) value;
+	camera_set_rotation(&camera, quat_new(vec3_new(quat[0], quat[1], quat[2]), quat[3]));
+}
+
+static void TW_CALL cb_get_rotation(void* value, void* clientData) {
+	(void) clientData; // unused
+	quat rotation = camera_get_rotation(&camera);
+	float* quat = (float *) value;
+	quat[0] = rotation.v.x;
+	quat[1] = rotation.v.y;
+	quat[2] = rotation.v.z;
+	quat[3] = rotation.w;
 }

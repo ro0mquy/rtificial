@@ -86,3 +86,11 @@ static void camera_move(
 ) {
 	camera->position = vec3_add(camera->position, quat_rotate_vec3(camera->rotation, v));
 }
+
+quat camera_get_rotation(camera_t* const camera) {
+	return camera->rotation;
+}
+
+void camera_set_rotation(camera_t* const camera, quat rotation) {
+	camera->rotation = rotation;
+}
