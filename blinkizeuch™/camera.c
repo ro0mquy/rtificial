@@ -94,3 +94,11 @@ quat camera_get_rotation(camera_t* const camera) {
 void camera_set_rotation(camera_t* const camera, quat rotation) {
 	camera->rotation = rotation;
 }
+
+camera_t camera_lerp(const camera_t* const start, const camera_t* const end, float t) {
+	camera_t camera = {
+		.position = vec3_lerp(start->position, end->position, t),
+		.rotation = quat_nlerp(start->rotation, end->rotation, t),
+	};
+	return camera;
+}

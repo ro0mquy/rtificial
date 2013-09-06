@@ -11,12 +11,14 @@ endif
 
 OBJECTS=\
 	main.o\
-	camera.o
+	camera.o\
+	flight.o\
 
 HEADER=\
 	config.h\
 	camera.h\
-	vertex.h
+	vertex.h\
+	flight.h\
 
 .PHONY: all
 all: blinkizeuch
