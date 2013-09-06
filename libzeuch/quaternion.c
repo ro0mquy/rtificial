@@ -40,6 +40,5 @@ static quat quat_conjugate(quat q) {
 quat quat_nlerp(quat q, quat r, float t) {
 	q.v = vec3_lerp(q.v, r.v, t);
 	q.w = q.w * (1. - t) + r.w * t;
-	quat_normalize(q);
-	return q;
+	return quat_normalize(q);
 }
