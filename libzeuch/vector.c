@@ -105,3 +105,6 @@ vec3 vec3_rotate(vec3 v, vec3 a, float angle) {
 	);
 }
 
+vec3 vec3_lerp(vec3 v, vec3 w, float t) {
+	return vec3_add(vec3_s_mult(1. - t, v), vec3_s_mult(t, w));
+}

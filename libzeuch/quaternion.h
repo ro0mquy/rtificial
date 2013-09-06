@@ -16,4 +16,6 @@ quat quat_mult(quat q1, quat q2);
 
 vec3 quat_rotate_vec3(quat q, vec3 v);
 
+quat quat_nlerp(quat q, quat r, float t);
+
 #endif

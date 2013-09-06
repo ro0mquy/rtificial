@@ -31,4 +31,6 @@ vec3 vec3_cross(vec3, vec3);
 
 vec3 vec3_rotate(vec3, vec3, float);
 
+vec3 vec3_lerp(vec3, vec3, float);
+
 #endif
