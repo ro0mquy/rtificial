@@ -3,9 +3,13 @@
 uniform vec3 viewPosition;
 uniform vec3 viewUp;
 uniform vec3 viewDirection;
-uniform vec3 someColor;
 uniform vec2 res;
 uniform float time;
+
+uniform vec3 floor_color;
+uniform vec3 sphere1_color;
+uniform vec3 sphere2_color;
+uniform vec3 glow_color;
 
 vec2 f(vec3 p);
 vec3 calcNormal(vec3 p);
@@ -18,9 +22,9 @@ void main(void) {
 	mat3 camera = mat3(viewRight, viewUp, -viewDirection);
 	vec3 direction = camera * normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y , -1.));
 
-	colors[0] = vec3(.8, .2, .1);
-	colors[1] = vec3(.2, .8, .1);
-	colors[2] = vec3(.3, .2, .3);
+	colors[0] = sphere1_color;
+	colors[1] = sphere2_color;
+	colors[2] = floor_color;
 	colors[3] = vec3(.03, .0, .0);
 
 	vec3 p = viewPosition;
@@ -50,7 +54,7 @@ void main(void) {
 		), vec4(0.));
 		color = colors[material] * dot(l, vec4(.7, .8, .9, .5));
 	}
-	color += cubicPulse(.5, .5, fract(3. * time / 1000.)) * a * someColor;
+	color += /*cubicPulse(.5, .5, fract(3. * time / 1000.)) */ a * glow_color;
 
 	gl_FragColor = vec4(color, 1.);
 
