@@ -1,8 +1,18 @@
 #ifndef TWEAK_LOADER_H
 #define TWEAK_LOADER_H
 
-#include <jansson.h>
+typedef enum tweakable_type_t {
+	COLOR
+} tweakable_type_t;
 
-void tweak_loader_load(const char filename[]);
+typedef struct tweakable_t {
+	char* name;
+	char* uniform_name;
+	tweakable_type_t type;
+	void* value;
+
+} tweakable_t;
+
+int tweak_loader_load(const char filename[], tweakable_t** tweakables_out);
 
 #endif

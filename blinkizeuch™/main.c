@@ -14,6 +14,7 @@
 #include "camera.h"
 #include "vertex.h"
 #include "flight.h"
+#include "tweak_loader.h"
 
 const double TAU = 6.28318530718;
 
@@ -48,6 +49,8 @@ float someColor[3] = {0., 0., 0.};
 unsigned int start = 0;
 unsigned int end = 1;
 int duration = 1000;
+tweakable_t* tweakables;
+int num_tweakables;
 
 camera_t saved_positions[10];
 camera_t camera;
@@ -101,6 +104,12 @@ int main(int argc, char *argv[]) {
 	TwAddVarRW(tweakBar, "Start", TW_TYPE_UINT32, &start, " max=9");
 	TwAddVarRW(tweakBar, "End", TW_TYPE_UINT32, &end, " max=9");
 	TwAddVarRW(tweakBar, "Duration", TW_TYPE_UINT32, &duration, "");
+
+	for(int i = 0; i < num_tweakables; i++) {
+		tweakable_t* t = &tweakables[i];
+		t->value = malloc(3 * sizeof(float));
+		TwAddVarRW(tweakBar, t->name, TW_TYPE_COLOR3F, t->value, "");
+	}
 
 	SDL_WM_SetCaption(window_caption, NULL);
 	run = true;
@@ -185,6 +194,14 @@ static int init(const char fragment[]) {
 	glUniform2f(uniform_res, width, height);
 
 	currentTime = SDL_GetTicks();
+
+	const char extension[] = ".json";
+	char tweakable_filename[strlen(fragment) + strlen(extension) + 1];
+	strncpy(tweakable_filename, fragment, strlen(fragment));
+	strncpy(tweakable_filename + strlen(fragment), extension, strlen(extension));
+	tweakable_filename[strlen(fragment) + strlen(extension)] = 0;
+	num_tweakables = tweak_loader_load(tweakable_filename, &tweakables);
+
 	return 1;
 }
 
@@ -194,6 +211,11 @@ static void draw(void) {
 	glUniform3f(uniform_someColor, someColor[0], someColor[1], someColor[2]);
 	glUniform1f(uniform_time, SDL_GetTicks());
 
+	for(int i = 0; i < num_tweakables; i++) {
+		tweakable_t* t = &tweakables[i];
+		float* const value = (float*) t->value;
+		glUniform3f(shader_get_uniform(program, t->uniform_name), value[0], value[1], value[2]);
+	}
 	// actually we overdraw the complete screen
 	// if this causes problems uncomment again
 	// glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -220,6 +242,13 @@ static void draw(void) {
 }
 
 static void free_resources(void) {
+	for(int i = 0; i < num_tweakables; i++) {
+		tweakable_t* t = &tweakables[i];
+		free(t->name);
+		free(t->uniform_name);
+		free(t->value);
+	}
+	free(tweakables);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
 }

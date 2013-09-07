@@ -1,0 +1,26 @@
+{
+	"tweakables": [
+		{
+			"name": "Floor color",
+			"uniform": "floor_color",
+			"type": "color"
+		},
+		{
+			"name": "Sphere 1 color",
+			"uniform": "sphere1_color",
+			"type": "color"
+		},
+		{
+			"name": "Sphere 2 color",
+			"uniform": "sphere2_color",
+			"type": "color"
+		},
+		{
+			"name": "Glow color",
+			"uniform": "glow_color",
+			"type": "color",
+			"default": [0.0, 0.0, 0.0]
+		}
+	]
+}
+
