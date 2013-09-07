@@ -5,7 +5,7 @@ CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags) -I$(LIBZEUCH_ROOT
 LDLIBS=-lGLEW $(shell sdl-config --libs) $(LIBZEUCH) -lAntTweakBar $(shell pkg-config --libs jansson)
 LINUX_LDLIBS=-lGL -lm
 DARWIN_LDLIBS=-framework Cocoa -framework OpenGL
-# Mac OS alternate cmdline link options
+
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
     LDLIBS+=$(LINUX_LDLIBS)
