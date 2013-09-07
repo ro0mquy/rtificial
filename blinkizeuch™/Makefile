@@ -2,11 +2,15 @@ LIBZEUCH_ROOT=../
 LIBZEUCH=$(LIBZEUCH_ROOT)libzeuch/libzeuch.a
 
 CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags) -I$(LIBZEUCH_ROOT) $(shell pkg-config --cflags jansson)
-LDLIBS=-lGL -lGLEW -lm $(shell sdl-config --libs) -lAntTweakBar $(LIBZEUCH) $(shell pkg-config --libs jansson)
+LDLIBS=-lGLEW $(shell sdl-config --libs) $(LIBZEUCH) -lAntTweakBar $(shell pkg-config --libs jansson)
+LINUX_LDLIBS=-lGL -lm
+DARWIN_LDLIBS=-framework Cocoa -framework OpenGL
 # Mac OS alternate cmdline link options
 UNAME := $(shell uname)
-ifeq ($(UNAME), Darwin)
-    LDLIBS=-lGLEW -framework Cocoa -framework OpenGL $(shell sdl-config --libs) $(LIBZEUCH)
+ifeq ($(UNAME), Linux)
+    LDLIBS+=$(LINUX_LDLIBS)
+else ifeq ($(UNAME), Darwin)
+    LDLIBS+=$(DARWIN_LDLIBS)
 endif
 
 OBJECTS=\
