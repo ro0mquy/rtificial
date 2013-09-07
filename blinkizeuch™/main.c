@@ -45,6 +45,9 @@ bool ignore_next_resize = false;
 
 TwBar* tweakBar;
 float someColor[3] = {0., 0., 0.};
+unsigned int start = 0;
+unsigned int end = 1;
+int duration = 1000;
 
 camera_t saved_positions[10];
 camera_t camera;
@@ -95,6 +98,9 @@ int main(int argc, char *argv[]) {
 	TwAddVarRW(tweakBar, "Some color", TW_TYPE_COLOR3F, &someColor, "");
 	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_FLOAT, &deltaT, "");
 	TwAddVarCB(tweakBar, "Camera rotation", TW_TYPE_QUAT4F, cb_set_rotation, cb_get_rotation, NULL, "");
+	TwAddVarRW(tweakBar, "Start", TW_TYPE_UINT32, &start, " max=9");
+	TwAddVarRW(tweakBar, "End", TW_TYPE_UINT32, &end, " max=9");
+	TwAddVarRW(tweakBar, "Duration", TW_TYPE_UINT32, &duration, "");
 
 	SDL_WM_SetCaption(window_caption, NULL);
 	run = true;
@@ -274,7 +280,7 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 			break;
 		case SDLK_g:
 			is_flying = true;
-			current_flight = flight_new(saved_positions[0], saved_positions[1], SDL_GetTicks(), 5000);
+			current_flight = flight_new(saved_positions[start], saved_positions[end], SDL_GetTicks(), duration);
 		default:
 			save_next = false;
 			break;
