@@ -25,6 +25,12 @@ int tweak_loader_load(const char filename[], tweakable_t** tweakables_out) {
 			tweakable->uniform_name = malloc(uniform_name_length + 1);
 			tweakable->uniform_name[uniform_name_length] = 0;
 			strncpy(tweakable->uniform_name, uniform_name_json, uniform_name_length);
+			const char* const type_json = json_string_value(json_object_get(tweakable_json, "type"));
+			if(strcmp("color", type_json)) {
+				tweakable->type = COLOR;
+			} else if(strcmp("float", type_json)) {
+				tweakable->type = FLOAT;
+			}
 		}
 		json_decref(root);
 		*tweakables_out = tweakables;

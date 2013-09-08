@@ -98,7 +98,6 @@ int main(int argc, char *argv[]) {
 	TwInit(TW_OPENGL, NULL);
 	TwWindowSize(width, height);
 	tweakBar = TwNewBar("Rumfummeldings");
-	TwAddVarRW(tweakBar, "Some color", TW_TYPE_COLOR3F, &someColor, "");
 	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_FLOAT, &deltaT, "");
 	TwAddVarCB(tweakBar, "Camera rotation", TW_TYPE_QUAT4F, cb_set_rotation, cb_get_rotation, NULL, "");
 	TwAddVarRW(tweakBar, "Start", TW_TYPE_UINT32, &start, " max=9");
@@ -107,8 +106,19 @@ int main(int argc, char *argv[]) {
 
 	for(int i = 0; i < num_tweakables; i++) {
 		tweakable_t* t = &tweakables[i];
-		t->value = malloc(3 * sizeof(float));
-		TwAddVarRW(tweakBar, t->name, TW_TYPE_COLOR3F, t->value, "");
+		TwType type;
+		switch(t->type) {
+			case COLOR:
+				type = TW_TYPE_COLOR3F;
+				t->value = malloc(3 * sizeof(float));
+				break;
+			case FLOAT:
+			default:
+				type = TW_TYPE_FLOAT;
+				t->value = malloc(1 * sizeof(float));
+				break;
+		}
+		TwAddVarRW(tweakBar, t->name, type, t->value, "");
 	}
 
 	SDL_WM_SetCaption(window_caption, NULL);
