@@ -224,7 +224,15 @@ static void draw(void) {
 	for(int i = 0; i < num_tweakables; i++) {
 		tweakable_t* t = &tweakables[i];
 		float* const value = (float*) t->value;
-		glUniform3f(shader_get_uniform(program, t->uniform_name), value[0], value[1], value[2]);
+		switch(t->type) {
+			case COLOR:
+				glUniform3f(shader_get_uniform(program, t->uniform_name), value[0], value[1], value[2]);
+				break;
+			case FLOAT:
+			default:
+				glUniform1f(shader_get_uniform(program, t->uniform_name), value[0]);
+				break;
+		}
 	}
 	// actually we overdraw the complete screen
 	// if this causes problems uncomment again
