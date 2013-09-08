@@ -23,6 +23,14 @@ uniform vec3 viewPosition;
 uniform vec3 viewDirection;
 uniform vec3 viewUp;
 
+uniform float light1_x;
+uniform float light1_y;
+uniform float light1_z;
+
+uniform float light2_x;
+uniform float light2_y;
+uniform float light2_z;
+
 const int number_lights = 2;
 vec3 lights[number_lights];
 
@@ -72,8 +80,10 @@ void main() {
 }
 
 void initValues() {
-	lights[0] = vec3(-1., 3.5, 1.);
-	lights[1] = vec3(-1., 3.5, 4.);
+	//lights[0] = vec3(-1., 3.5, 1.);
+	//lights[1] = vec3(-1., 3.5, 4.);
+	lights[0] = vec3(light1_x, light1_y, light1_z);
+	lights[1] = vec3(light2_x, light2_y, light2_z);
 
 	color_lights[0] = vec3(.8, .8, 1.);
 	color_lights[1] = vec3(.8, .8, 1.);
