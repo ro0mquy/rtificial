@@ -1,8 +1,13 @@
 {
 	"tweakables": [
 		{
-			"name": "Floor color",
-			"uniform": "floor_color",
+			"name": "Floor color 1",
+			"uniform": "floor_color1",
+			"type": "color"
+		},
+		{
+			"name": "Floor color 2",
+			"uniform": "floor_color2",
 			"type": "color"
 		},
 		{
