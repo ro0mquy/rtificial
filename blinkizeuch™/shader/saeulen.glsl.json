@@ -1,0 +1,35 @@
+{
+	"tweakables": [
+		{
+			"name": "Light1 x",
+			"uniform": "light1_x",
+			"type": "float"
+		},
+		{
+			"name": "Light1 y",
+			"uniform": "light1_y",
+			"type": "float"
+		},
+		{
+			"name": "Light1 z",
+			"uniform": "light1_z",
+			"type": "float"
+		},
+
+		{
+			"name": "Light2 x",
+			"uniform": "light2_x",
+			"type": "float"
+		},
+		{
+			"name": "Light2 y",
+			"uniform": "light2_y",
+			"type": "float"
+		},
+		{
+			"name": "Light2 z",
+			"uniform": "light2_z",
+			"type": "float"
+		}
+	]
+}
