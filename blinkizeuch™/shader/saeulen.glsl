@@ -69,7 +69,8 @@ void main() {
 			vec3 light_color;
 			vec3 newColor = lighting(p, color_saeulen, direction, normal, light_color);
 			//newColor *= 2. - exp( -2. * pow(distance(p, camera) / 20., 7.)); // fog
-			newColor = hsv2rgb(mix(rgb2hsv(newColor), color_fog, smoothstep(2., 7., distance(p, camera)))); // fog
+			vec3 hsv_newColor = rgb2hsv(newColor);
+			newColor = hsv2rgb(mix(hsv_newColor, vec3(hsv_newColor.x, color_fog.yz), smoothstep(2., 7., distance(p, camera)))); // fog
 			//newColor += float(i) / 100.; // iteration glow
 			color += newColor * reflection_factor * light_color_factor;
 			light_color_factor *= light_color;
@@ -80,20 +81,21 @@ void main() {
 			break;
 		}
 	}
-
+	color += vec3(.8, .8, .9) * smoothstep(0., res.y, gl_FragCoord.y);
 	gl_FragColor = vec4(color, 1.);
 }
 
 void initValues() {
 	lights[0] = vec3(light1_x, light1_y, light1_z);
 	lights[1] = vec3(light2_x, light2_y, light2_z);
-	lights[0] = vec3(-1., 3.5, 1.);
-	lights[1] = vec3(-1., 3.5, 4.);
+	lights[0] = vec3(-1.5, 3.5, 1.);
+	lights[1] = vec3(-1.5, 3.5, 4.);
 
-	color_lights[0] = vec3(.8, .8, 1.);
-	color_lights[1] = vec3(.8, .8, 1.);
+	color_lights[0] = vec3(.9, .9, 1.);
+	color_lights[1] = vec3(.9, .9, 1.);
 
-	intensity_lights[0] = .5;
+	intensity_lights[0] = .7;
+	intensity_lights[1] = .7;
 
 	rotation_spikeballs =
 		rZ(radians(time/1000. * 15)) *
@@ -108,7 +110,7 @@ float f(vec3 p) {
 	float ceiling_plane = -p.y+15.;
 	float room = min(floor_plane, ceiling_plane);
 
-	vec3 b = vec3(mod(p.x, 1.)-0.5*1., p.y, mod(p.z, 3.)-0.5*3.);
+	vec3 b = vec3(mod(p.x, 1.)-0.5*1., p.y, mod(p.z, 2.)-0.5*2.);
 	b = rY(radians(22.5)) * b;
 	float saeulen = octoBox(b, 0.1, 3.);
 	float fugen_abstand = .5;
@@ -189,10 +191,9 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 	for (int i = 0; i < number_lights; i++) {
 		vec3 point_to_light = normalize(lights[i] - p);
 		float diffuse = max(dot(normal, point_to_light), 0.); // diffuse light
-		//float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
 		float specular = 0.;
-		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular);
-		light_color *= softshadow(p, point_to_light, .2, distance(lights[i], p) - .2, 16.) * .5 + .5;
+		//float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
+		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular) * (softshadow(p, point_to_light, .2, distance(lights[i], p) - .2, 16.) * .5 + .5);
 	}
 
 	light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion
