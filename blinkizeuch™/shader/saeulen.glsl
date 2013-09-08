@@ -13,6 +13,7 @@ vec3 calcNormal(vec3 p);
 float ao(vec3 p, vec3 n, float d, float i);
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color);
 vec3 marching(vec3 p, vec3 direction, out int i);
+float softshadow(in vec3 ro, in vec3 rd, float mint, float maxt, float k);
 
 uniform float aspect;
 uniform vec2 res;
@@ -22,7 +23,7 @@ uniform vec3 viewPosition;
 uniform vec3 viewDirection;
 uniform vec3 viewUp;
 
-const int number_lights = 1;
+const int number_lights = 2;
 vec3 lights[number_lights];
 
 vec3 color_background = vec3(0.05, 0.05, 0.05);
@@ -49,7 +50,7 @@ void main() {
 	vec3 light_color_factor = vec3(1.);
 	float reflection_factor = 1.;
 
-	for (int reflections = 0; reflections < 2; reflections++) {
+	for (int reflections = 0; reflections < 1; reflections++) {
 		int i;
 		p = marching(p, direction, i);
 		if(i < 100) {
@@ -71,9 +72,11 @@ void main() {
 }
 
 void initValues() {
-	lights[0] = vec3(-1., 1., 1.);
+	lights[0] = vec3(-1., 3.5, 1.);
+	lights[1] = vec3(-1., 3.5, 4.);
 
 	color_lights[0] = vec3(.8, .8, 1.);
+	color_lights[1] = vec3(.8, .8, 1.);
 
 	intensity_lights[0] = .5;
 
@@ -84,10 +87,10 @@ void initValues() {
 }
 
 float f(vec3 p) {
-	float sphery = -sphere(p - viewPosition, 500.); // bounding sphere
+	float sphery = -sphere(p - viewPosition, 50.); // bounding sphere
 
 	float floor_plane = p.y+.5;
-	float ceiling_plane = -p.y+5.;
+	float ceiling_plane = -p.y+15.;
 	float room = min(floor_plane, ceiling_plane);
 
 	vec3 b = vec3(mod(p.x, 1.)-0.5*1., p.y, mod(p.z, 3.)-0.5*3.);
@@ -171,8 +174,10 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 	for (int i = 0; i < number_lights; i++) {
 		vec3 point_to_light = normalize(lights[i] - p);
 		float diffuse = max(dot(normal, point_to_light), 0.); // diffuse light
-		float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
+		//float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
+		float specular = 0.;
 		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular);
+		light_color *= softshadow(p, point_to_light, .2, distance(lights[i], p) - .2, 16.) * .5 + .5;
 	}
 
 	light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion
@@ -192,4 +197,17 @@ vec3 marching(vec3 p, vec3 direction, out int i) {
 		if (dist < .001 * walked) break;
 	}
 	return p;
+}
+
+float softshadow( in vec3 ro, in vec3 rd, float mint, float maxt, float k ) {
+	float res = 1.0;
+	for( float t=mint; t < maxt; )
+	{
+		float h = f(ro + rd*t);
+		if( h<0.001 )
+			return 0.0;
+		res = min( res, k*h/t );
+		t += h;
+	}
+	return res;
 }
