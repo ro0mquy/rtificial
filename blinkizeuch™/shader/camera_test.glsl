@@ -100,8 +100,5 @@ float cubicPulse( float c, float w, float x ) {
 }
 
 vec2 min_material(vec2 a, vec2 b) {
-	vec2 c;
-	c.x = min(a.x, b.x);
-	c.y = dot(vec2(equal(vec2(a.x, b.x), vec2(c.x))), vec2(a.y, b.y));
-	return c;
+	return vec2(min(a.x, b.x), mix(a.y, b.y, float(a.x > b.x)));
 }
