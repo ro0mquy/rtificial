@@ -2,7 +2,7 @@
 #define TWEAK_LOADER_H
 
 typedef enum tweakable_type_t {
-	COLOR
+	COLOR, FLOAT
 } tweakable_type_t;
 
 typedef struct tweakable_t {
