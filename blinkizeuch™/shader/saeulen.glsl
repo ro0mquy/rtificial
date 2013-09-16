@@ -13,7 +13,7 @@ vec3 calcNormal(vec3 p);
 float ao(vec3 p, vec3 n, float d, float i);
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color);
 vec3 marching(vec3 p, vec3 direction, out int i);
-float softshadow(in vec3 ro, in vec3 rd, float mint, float maxt, float k);
+float softshadow(vec3 ro, vec3 rd, float k);
 vec3 hsv2rgb(vec3 c);
 vec3 rgb2hsv(vec3 c);
 
@@ -112,6 +112,7 @@ float f(vec3 p) {
 
 	vec3 b = vec3(mod(p.x, 1.)-0.5*1., p.y, mod(p.z, 2.)-0.5*2.);
 	b = rY(radians(22.5)) * b;
+
 	float saeulen = octoBox(b, 0.1, 3.);
 	float fugen_abstand = .5;
 	float fugen_hoehe = 0.02;
@@ -193,7 +194,7 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 		float diffuse = max(dot(normal, point_to_light), 0.); // diffuse light
 		float specular = 0.;
 		//float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
-		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular) * (softshadow(p, point_to_light, .2, distance(lights[i], p) - .2, 16.) * .5 + .5);
+		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular) * softshadow(p + .01 * normal, point_to_light, 16.);
 	}
 
 	light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion
@@ -215,17 +216,16 @@ vec3 marching(vec3 p, vec3 direction, out int i) {
 	return p;
 }
 
-float softshadow( in vec3 ro, in vec3 rd, float mint, float maxt, float k ) {
+float softshadow(vec3 ro, vec3 rd, float k ) {
 	float res = 1.0;
-	for( float t=mint; t < maxt; )
+	float t = 0.01;
+	for(int i=0; i < 64; i++)
 	{
 		float h = f(ro + rd*t);
-		if( h<0.001 )
-			return 0.0;
-		res = min( res, k*h/t );
-		t += h;
+		res = min( res, max(k*h/t, 0.) );
+		t += clamp(h, 0.02, 0.1);
 	}
-	return res;
+	return clamp(res, 0., 1.);
 }
 
 vec3 rgb2hsv(vec3 c) {
