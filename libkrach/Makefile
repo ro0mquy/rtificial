@@ -3,10 +3,12 @@ CFLAGS=-Os -std=c99 -Wall -Wextra
 OBJECTS=\
 	synth.o\
 	osc.o\
+	envelope.o\
 
 HEADER=\
 	synth.h\
 	osc.h\
+	envelope.h\
 
 .PHONY: all
 all: $(OBJECTS)
