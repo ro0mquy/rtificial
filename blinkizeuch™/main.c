@@ -342,9 +342,8 @@ static void update_state(void) {
 	if(is_flying) {
 		if(flight_is_finished(&current_flight, currentTime)) {
 			is_flying = false;
-		} else {
-			camera = flight_get_camera(&current_flight, currentTime);
 		}
+		camera = flight_get_camera(&current_flight, currentTime);
 	}
 
 	const float angle_modifier = 50. / 360. * TAU;
