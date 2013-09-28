@@ -105,20 +105,7 @@ int main(int argc, char *argv[]) {
 	TwAddVarRW(tweakBar, "Duration", TW_TYPE_UINT32, &duration, "");
 
 	for(int i = 0; i < num_tweakables; i++) {
-		tweakable_t* t = &tweakables[i];
-		TwType type;
-		switch(t->type) {
-			case COLOR:
-				type = TW_TYPE_COLOR3F;
-				t->value = malloc(3 * sizeof(float));
-				break;
-			case FLOAT:
-			default:
-				type = TW_TYPE_FLOAT;
-				t->value = malloc(1 * sizeof(float));
-				break;
-		}
-		TwAddVarRW(tweakBar, t->name, type, t->value, "");
+		tweakable_add_to_bar(&tweakables[i], tweakBar);
 	}
 
 	SDL_WM_SetCaption(window_caption, NULL);
@@ -211,6 +198,9 @@ static int init(const char fragment[]) {
 	strncpy(tweakable_filename + strlen(fragment), extension, strlen(extension));
 	tweakable_filename[strlen(fragment) + strlen(extension)] = 0;
 	num_tweakables = tweak_loader_load(tweakable_filename, &tweakables);
+	for(int i = 0; i < num_tweakables; i++) {
+		tweakable_load_uniform(&tweakables[i], program);
+	}
 
 	return 1;
 }
@@ -222,18 +212,9 @@ static void draw(void) {
 	glUniform1f(uniform_time, SDL_GetTicks());
 
 	for(int i = 0; i < num_tweakables; i++) {
-		tweakable_t* t = &tweakables[i];
-		float* const value = (float*) t->value;
-		switch(t->type) {
-			case COLOR:
-				glUniform3f(shader_get_uniform(program, t->uniform_name), value[0], value[1], value[2]);
-				break;
-			case FLOAT:
-			default:
-				glUniform1f(shader_get_uniform(program, t->uniform_name), value[0]);
-				break;
-		}
+		tweakable_update_uniform(&tweakables[i]);
 	}
+
 	// actually we overdraw the complete screen
 	// if this causes problems uncomment again
 	// glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -261,10 +242,7 @@ static void draw(void) {
 
 static void free_resources(void) {
 	for(int i = 0; i < num_tweakables; i++) {
-		tweakable_t* t = &tweakables[i];
-		free(t->name);
-		free(t->uniform_name);
-		free(t->value);
+		tweakable_destroy(&tweakables[i]);
 	}
 	free(tweakables);
 	glDeleteProgram(program);

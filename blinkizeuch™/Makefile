@@ -18,6 +18,7 @@ OBJECTS=\
 	camera.o\
 	flight.o\
 	tweak_loader.o\
+	tweakable.o\
 
 HEADER=\
 	config.h\
@@ -25,6 +26,7 @@ HEADER=\
 	vertex.h\
 	flight.h\
 	tweak_loader.h\
+	tweakable.h\
 
 .PHONY: all
 all: blinkizeuch

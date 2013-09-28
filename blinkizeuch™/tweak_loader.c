@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 
 #include <jansson.h>
 
@@ -12,32 +13,35 @@ int tweak_loader_load(const char filename[], tweakable_t** tweakables_out) {
 		json_t* const tweakables_json = json_object_get(root, "tweakables");
 		const int size = json_array_size(tweakables_json);
 		tweakable_t* const tweakables = malloc(sizeof(tweakable_t) * size);
+		int real_size = 0;
 		for(int i = 0; i < size; i++) {
-			tweakable_t* const tweakable = &tweakables[i];
 			json_t* const tweakable_json = json_array_get(tweakables_json, i);
 			const char* const name_json = json_string_value(json_object_get(tweakable_json, "name"));
-			const int name_length = strlen(name_json);
-			tweakable->name = malloc(name_length + 1);
-			tweakable->name[name_length] = 0;
-			strncpy(tweakable->name, name_json, name_length);
 			const char* const uniform_name_json = json_string_value(json_object_get(tweakable_json, "uniform"));
-			const int uniform_name_length = strlen(uniform_name_json);
-			tweakable->uniform_name = malloc(uniform_name_length + 1);
-			tweakable->uniform_name[uniform_name_length] = 0;
-			strncpy(tweakable->uniform_name, uniform_name_json, uniform_name_length);
 			const char* const type_json = json_string_value(json_object_get(tweakable_json, "type"));
-			if(0 == strcmp("color", type_json)) {
-				tweakable->type = COLOR;
-			} else if(0 == strcmp("float", type_json)) {
-				tweakable->type = FLOAT;
+			if(name_json == NULL || uniform_name_json == NULL || type_json == NULL) {
+				fprintf(stderr, "name, uniform_name or type missing\n");
+				continue;
 			}
+			tweakable_type_t type;
+			if(!tweakable_get_type(type_json, &type)) {
+				fprintf(stderr, "Invalid type: %s\n", type_json);
+				continue;
+			}
+			tweakable_t* const tweakable = &tweakables[real_size];
+			if(!tweakable_init(tweakable, name_json, uniform_name_json, type)) {
+				fprintf(stderr, "Failed to init tweakable\n");
+				continue;
+			}
+			real_size++;
 		}
 		json_decref(root);
 		*tweakables_out = tweakables;
-		return size;
+		return real_size;
 	} else {
 		fprintf(stderr, "Error parsing json in %s line: %d column: %d!\n", filename, error.line, error.column);
 		fprintf(stderr, error.text, filename);
+		fprintf(stderr, "\n");
 		return 0;
 	}
 }
