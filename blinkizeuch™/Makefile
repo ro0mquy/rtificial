@@ -1,8 +1,8 @@
 LIBZEUCH_ROOT=../
 LIBZEUCH=$(LIBZEUCH_ROOT)libzeuch/libzeuch.a
 
-CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags) -I$(LIBZEUCH_ROOT) $(shell pkg-config --cflags jansson)
-LDLIBS=-lGLEW $(shell sdl-config --libs) $(LIBZEUCH) -lAntTweakBar $(shell pkg-config --libs jansson)
+CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags) -I$(LIBZEUCH_ROOT) $(shell pkg-config --cflags jansson IL)
+LDLIBS=-lGLEW $(shell sdl-config --libs) $(LIBZEUCH) -lAntTweakBar $(shell pkg-config --libs jansson IL)
 LINUX_LDLIBS=-lGL -lm
 DARWIN_LDLIBS=-framework Cocoa -framework OpenGL
 
@@ -19,6 +19,8 @@ OBJECTS=\
 	flight.o\
 	tweak_loader.o\
 	tweakable.o\
+	texture.o\
+	util.o\
 
 HEADER=\
 	config.h\
@@ -27,6 +29,8 @@ HEADER=\
 	flight.h\
 	tweak_loader.h\
 	tweakable.h\
+	texture.h\
+	util.h\
 
 .PHONY: all
 all: blinkizeuch

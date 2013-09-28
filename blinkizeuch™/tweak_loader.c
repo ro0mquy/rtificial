@@ -3,9 +3,11 @@
 
 #include <jansson.h>
 
+#include "texture.h"
+
 #include "tweak_loader.h"
 
-int tweak_loader_load(const char filename[], tweakable_t** tweakables_out) {
+int tweak_loader_load(const char filename[], tweakable_t** tweakables_out, texture_t** textures_out, int* texture_size_out) {
 	// TODO "gut, dass wir hier kein error handling gemacht haben"
 	json_error_t error;
 	json_t* const root = json_load_file(filename, 0, &error);
@@ -20,7 +22,7 @@ int tweak_loader_load(const char filename[], tweakable_t** tweakables_out) {
 			const char* const uniform_name_json = json_string_value(json_object_get(tweakable_json, "uniform"));
 			const char* const type_json = json_string_value(json_object_get(tweakable_json, "type"));
 			if(name_json == NULL || uniform_name_json == NULL || type_json == NULL) {
-				fprintf(stderr, "name, uniform_name or type missing\n");
+				fprintf(stderr, "name, uniform or type missing\n");
 				continue;
 			}
 			tweakable_type_t type;
@@ -35,8 +37,30 @@ int tweak_loader_load(const char filename[], tweakable_t** tweakables_out) {
 			}
 			real_size++;
 		}
+		json_t* const textures_json = json_object_get(root, "textures");
+		const int textures_size = json_array_size(textures_json);
+		texture_t* const textures = malloc(sizeof(texture_t) * textures_size);
+		int real_textures_size = 0;
+		for(int i = 0; i < textures_size; i++) {
+			json_t* const texture_json = json_array_get(textures_json, i);
+			const char* const path_json = json_string_value(json_object_get(texture_json, "path"));
+			const char* const uniform_json = json_string_value(json_object_get(texture_json, "uniform"));
+			if(path_json == NULL || uniform_json == NULL) {
+				fprintf(stderr, "path or uniform missing\n");
+				continue;
+			}
+			texture_t* const texture = &textures[real_textures_size];
+			if(!texture_init(texture, path_json, uniform_json)) {
+				fprintf(stderr, "Failed to load texture\n");
+				continue;
+			}
+			real_textures_size++;
+		}
+
 		json_decref(root);
 		*tweakables_out = tweakables;
+		*textures_out = textures;
+		*texture_size_out = real_textures_size;
 		return real_size;
 	} else {
 		fprintf(stderr, "Error parsing json in %s line: %d column: %d!\n", filename, error.line, error.column);

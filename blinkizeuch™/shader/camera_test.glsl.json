@@ -26,6 +26,16 @@
 			"type": "color",
 			"default": [0.0, 0.0, 0.0]
 		}
+	],
+	"textures": [
+		{
+			"path": "test.png",
+			"uniform": "tex1"
+		},
+		{
+			"path": "test2.png",
+			"uniform": "tex2"
+		}
 	]
 }
 
