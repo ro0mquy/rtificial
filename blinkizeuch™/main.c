@@ -5,6 +5,7 @@
 
 #include <AntTweakBar.h>
 #include <SDL/SDL.h>
+#include <IL/il.h>
 
 #include <libzeuch/gl.h>
 #include <libzeuch/shader.h>
@@ -51,6 +52,8 @@ unsigned int end = 1;
 int duration = 1000;
 tweakable_t* tweakables;
 int num_tweakables;
+texture_t* textures;
+int num_textures;
 
 camera_t saved_positions[10];
 camera_t camera;
@@ -89,6 +92,9 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "Usage: blinkizeuch fragment.glsl");
 		return EXIT_FAILURE;
 	}
+
+	// initialize DevIL
+	ilInit();
 
 	if(!init(argv[1])) {
 		return EXIT_FAILURE;
@@ -197,9 +203,12 @@ static int init(const char fragment[]) {
 	strncpy(tweakable_filename, fragment, strlen(fragment));
 	strncpy(tweakable_filename + strlen(fragment), extension, strlen(extension));
 	tweakable_filename[strlen(fragment) + strlen(extension)] = 0;
-	num_tweakables = tweak_loader_load(tweakable_filename, &tweakables);
+	num_tweakables = tweak_loader_load(tweakable_filename, &tweakables, &textures, &num_textures);
 	for(int i = 0; i < num_tweakables; i++) {
 		tweakable_load_uniform(&tweakables[i], program);
+	}
+	for(int i = 0; i < num_textures; i++) {
+		texture_load_uniform(&textures[i], program);
 	}
 
 	return 1;
@@ -213,6 +222,9 @@ static void draw(void) {
 
 	for(int i = 0; i < num_tweakables; i++) {
 		tweakable_update_uniform(&tweakables[i]);
+	}
+	for(int i = 0; i < num_textures; i++) {
+		texture_bind(&textures[i], i);
 	}
 
 	// actually we overdraw the complete screen
@@ -244,7 +256,11 @@ static void free_resources(void) {
 	for(int i = 0; i < num_tweakables; i++) {
 		tweakable_destroy(&tweakables[i]);
 	}
+	for(int i = 0; i < num_textures; i++) {
+		texture_destroy(&textures[i]);
+	}
 	free(tweakables);
+	free(textures);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
 }

@@ -12,6 +12,9 @@ uniform vec3 sphere1_color;
 uniform vec3 sphere2_color;
 uniform vec3 glow_color;
 
+uniform sampler2D tex1;
+uniform sampler2D tex2;
+
 vec2 f(vec3 p);
 vec3 calcNormal(vec3 p);
 float cubicPulse(float c, float w, float x);
@@ -54,14 +57,17 @@ void main(void) {
 			normalize(vec3(-2.2, .8, -1.7) - p)
 		), vec4(0.));
 		if(material == 2) {
-			float size = 2.;
-			int n = int(floor(p.z / size));
-			int m = int(floor(p.x / size));
-			if(mod(n, 2) == mod(m, 2)) {
-				color = floor_color1;
-			} else {
-				color = floor_color2;
-			}
+			// float size = 2.;
+			// int n = int(floor(p.z / size));
+			// int m = int(floor(p.x / size));
+			// if(mod(n, 2) == mod(m, 2)) {
+			// 	color = floor_color1;
+			// } else {
+			// 	color = floor_color2;
+			// }
+			vec3 color1 = texture2D(tex1, p.xz).rgb;
+			vec3 color2 = texture2D(tex2, p.xz).rgb;
+			color = mix(color1, color2, sin(time/1000.));
 		} else {
 			color = colors[material];
 		}

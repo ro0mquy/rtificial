@@ -1,10 +1,10 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "util.h"
+
 #include "tweakable.h"
 
-static char* duplicate_string(const char string[]);
-static void free_if_not_null(void* pointer);
 static size_t get_value_size(tweakable_type_t type);
 static void init_value(void* const value, tweakable_type_t type);
 
@@ -14,8 +14,8 @@ bool tweakable_init(
 	const char uniform_name[],
 	const tweakable_type_t type
 ) {
-	char* const name_buffer = duplicate_string(name);
-	char* const uniform_name_buffer = duplicate_string(uniform_name);
+	char* const name_buffer = util_dup_string(name);
+	char* const uniform_name_buffer = util_dup_string(uniform_name);
 	void* const value_buffer = malloc(get_value_size(type));
 	*tweakable = (tweakable_t) {
 		.name = name_buffer,
@@ -52,9 +52,9 @@ void tweakable_update_uniform(const tweakable_t* const tweakable) {
 
 void tweakable_destroy(tweakable_t* const tweakable) {
 	if(tweakable == NULL) return;
-	free_if_not_null(tweakable->name);
-	free_if_not_null(tweakable->uniform_name);
-	free_if_not_null(tweakable->value);
+	util_safe_free(tweakable->name);
+	util_safe_free(tweakable->uniform_name);
+	util_safe_free(tweakable->value);
 }
 
 bool tweakable_get_type(const char name[], tweakable_type_t* const out_type) {
@@ -82,18 +82,6 @@ void tweakable_add_to_bar(const tweakable_t* const tweakable, TwBar* const tweak
 	TwAddVarRW(tweak_bar, tweakable->name, type, tweakable->value, "");
 }
 
-static char* duplicate_string(const char string[]) {
-	size_t length = strlen(string) + 1; // length including 0 byte
-	char* const buffer = malloc(sizeof(char) * length);
-	if(buffer == NULL) return NULL;
-	return strncpy(buffer, string, length);
-}
-
-static void free_if_not_null(void* const pointer) {
-	if(pointer != NULL) {
-	   free(pointer);
-	}
-}
 
 static size_t get_value_size(const tweakable_type_t type) {
 	switch(type) {
