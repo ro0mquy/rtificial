@@ -1,3 +1,5 @@
+#version 330
+
 #define DECLARE_MARCH(name) vec3 name(vec3, vec3, out int);
 #define DEFINE_MARCH(name, f) \
 vec3 name(vec3 p, vec3 direction, out int i) {\

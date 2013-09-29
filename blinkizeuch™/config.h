@@ -8,4 +8,6 @@ const char window_caption[] = "blinkizeuch™";
 const char fragment_name[] = "scene.glsl";
 const char config_name[] = "config.json";
 
+const char libblink_path[] = "../libblink/libblink.glsl";
+
 #endif
