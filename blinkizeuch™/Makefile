@@ -17,7 +17,7 @@ OBJECTS=\
 	main.o\
 	camera.o\
 	flight.o\
-	tweak_loader.o\
+	scene.o\
 	tweakable.o\
 	texture.o\
 	util.o\
@@ -27,7 +27,7 @@ HEADER=\
 	camera.h\
 	vertex.h\
 	flight.h\
-	tweak_loader.h\
+	scene.h\
 	tweakable.h\
 	texture.h\
 	util.h\

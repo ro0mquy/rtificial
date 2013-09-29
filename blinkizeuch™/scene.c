@@ -3,12 +3,12 @@
 
 #include <jansson.h>
 
-#include "texture.h"
+#include "util.h"
 
-#include "tweak_loader.h"
+#include "scene.h"
 
-int tweak_loader_load(const char filename[], tweakable_t** tweakables_out, texture_t** textures_out, int* texture_size_out) {
-	// TODO "gut, dass wir hier kein error handling gemacht haben"
+scene_t* scene_load(const char filename[]) {
+	// TODO "gut, dass wir hier <s>kein</s> nicht so viel error handling gemacht haben"
 	json_error_t error;
 	json_t* const root = json_load_file(filename, 0, &error);
 	if(root != NULL) {
@@ -58,14 +58,54 @@ int tweak_loader_load(const char filename[], tweakable_t** tweakables_out, textu
 		}
 
 		json_decref(root);
-		*tweakables_out = tweakables;
-		*textures_out = textures;
-		*texture_size_out = real_textures_size;
-		return real_size;
+
+		scene_t* const scene = malloc(sizeof(scene_t));
+		if(scene == NULL) return NULL;
+		scene->tweakables = tweakables;
+		scene->textures = textures;
+		scene->num_tweakables = real_size;
+		scene->num_textures = real_textures_size;
+		return scene;
 	} else {
 		fprintf(stderr, "Error parsing json in %s line: %d column: %d!\n", filename, error.line, error.column);
 		fprintf(stderr, error.text, filename);
 		fprintf(stderr, "\n");
-		return 0;
+		return NULL;
 	}
+}
+
+void scene_load_uniforms(scene_t* const scene, const GLuint program) {
+	for(int i = 0; i < scene->num_tweakables; i++) {
+		tweakable_load_uniform(&scene->tweakables[i], program);
+	}
+	for(int i = 0; i < scene->num_textures; i++) {
+		texture_load_uniform(&scene->textures[i], program);
+	}
+}
+
+void scene_bind(const scene_t* const scene) {
+	for(int i = 0; i < scene->num_tweakables; i++) {
+		tweakable_update_uniform(&scene->tweakables[i]);
+	}
+	for(int i = 0; i < scene->num_textures; i++) {
+		texture_bind(&scene->textures[i], i);
+	}
+}
+
+void scene_add_to_tweakbar(const scene_t* const scene, TwBar* const tweak_bar) {
+	for(int i = 0; i < scene->num_tweakables; i++) {
+		tweakable_add_to_bar(&scene->tweakables[i], tweak_bar);
+	}
+
+}
+
+void scene_destroy(scene_t* const scene) {
+	for(int i = 0; i < scene->num_tweakables; i++) {
+		tweakable_destroy(&scene->tweakables[i]);
+	}
+	for(int i = 0; i < scene->num_textures; i++) {
+		texture_destroy(&scene->textures[i]);
+	}
+	util_safe_free(scene->tweakables);
+	util_safe_free(scene->textures);
 }

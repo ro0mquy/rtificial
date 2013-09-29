@@ -15,7 +15,7 @@
 #include "camera.h"
 #include "vertex.h"
 #include "flight.h"
-#include "tweak_loader.h"
+#include "scene.h"
 
 const double TAU = 6.28318530718;
 
@@ -50,10 +50,7 @@ float someColor[3] = {0., 0., 0.};
 unsigned int start = 0;
 unsigned int end = 1;
 int duration = 1000;
-tweakable_t* tweakables;
-int num_tweakables;
-texture_t* textures;
-int num_textures;
+scene_t* scene;
 
 camera_t saved_positions[10];
 camera_t camera;
@@ -110,9 +107,7 @@ int main(int argc, char *argv[]) {
 	TwAddVarRW(tweakBar, "End", TW_TYPE_UINT32, &end, " max=9");
 	TwAddVarRW(tweakBar, "Duration", TW_TYPE_UINT32, &duration, "");
 
-	for(int i = 0; i < num_tweakables; i++) {
-		tweakable_add_to_bar(&tweakables[i], tweakBar);
-	}
+	if(scene != NULL) scene_add_to_tweakbar(scene, tweakBar);
 
 	SDL_WM_SetCaption(window_caption, NULL);
 	run = true;
@@ -203,13 +198,8 @@ static int init(const char fragment[]) {
 	strncpy(tweakable_filename, fragment, strlen(fragment));
 	strncpy(tweakable_filename + strlen(fragment), extension, strlen(extension));
 	tweakable_filename[strlen(fragment) + strlen(extension)] = 0;
-	num_tweakables = tweak_loader_load(tweakable_filename, &tweakables, &textures, &num_textures);
-	for(int i = 0; i < num_tweakables; i++) {
-		tweakable_load_uniform(&tweakables[i], program);
-	}
-	for(int i = 0; i < num_textures; i++) {
-		texture_load_uniform(&textures[i], program);
-	}
+	scene = scene_load(tweakable_filename);
+	if(scene != NULL) scene_load_uniforms(scene, program);
 
 	return 1;
 }
@@ -220,12 +210,7 @@ static void draw(void) {
 	glUniform3f(uniform_someColor, someColor[0], someColor[1], someColor[2]);
 	glUniform1f(uniform_time, SDL_GetTicks());
 
-	for(int i = 0; i < num_tweakables; i++) {
-		tweakable_update_uniform(&tweakables[i]);
-	}
-	for(int i = 0; i < num_textures; i++) {
-		texture_bind(&textures[i], i);
-	}
+	if(scene != NULL) scene_bind(scene);
 
 	// actually we overdraw the complete screen
 	// if this causes problems uncomment again
@@ -253,14 +238,10 @@ static void draw(void) {
 }
 
 static void free_resources(void) {
-	for(int i = 0; i < num_tweakables; i++) {
-		tweakable_destroy(&tweakables[i]);
+	if(scene != NULL) {
+		scene_destroy(scene);
+		free(scene);
 	}
-	for(int i = 0; i < num_textures; i++) {
-		texture_destroy(&textures[i]);
-	}
-	free(tweakables);
-	free(textures);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
 }
