@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	if(argc != 2) {
-		fprintf(stderr, "Usage: blinkizeuch fragment.glsl");
+		fprintf(stderr, "Usage: blinkizeuch scenedir/");
 		return EXIT_FAILURE;
 	}
 
@@ -149,14 +149,24 @@ int main(int argc, char *argv[]) {
 	return EXIT_SUCCESS;
 }
 
-static int init(const char fragment[]) {
+static int init(const char scene_path[]) {
 	for(int i = 0; i < 10; i++){
 		camera_init(&saved_positions[i]);
 	}
 	camera_init(&camera);
 
+	const size_t scene_path_length = strlen(scene_path);
+	const size_t fragment_name_length = strlen(fragment_name);
+	const size_t config_name_length = strlen(config_name);
+	char fragment_path[scene_path_length + fragment_name_length + 1];
+	char config_path[scene_path_length + config_name_length + 1];
+	strncpy(fragment_path, scene_path, scene_path_length);
+	strncpy(config_path, scene_path, scene_path_length);
+	strncpy(fragment_path + scene_path_length, fragment_name, fragment_name_length + 1);
+	strncpy(config_path + scene_path_length, config_name, config_name_length + 1);
+
 	const GLuint vertex_shader = shader_load_str("vertex", vertex_source, GL_VERTEX_SHADER);
-	const GLuint fragment_shader = shader_load_file(fragment, GL_FRAGMENT_SHADER);
+	const GLuint fragment_shader = shader_load_file(fragment_path, GL_FRAGMENT_SHADER);
 	if(vertex_shader == 0 || fragment_shader == 0) {
 		return 0;
 	}
@@ -193,12 +203,7 @@ static int init(const char fragment[]) {
 
 	currentTime = SDL_GetTicks();
 
-	const char extension[] = ".json";
-	char tweakable_filename[strlen(fragment) + strlen(extension) + 1];
-	strncpy(tweakable_filename, fragment, strlen(fragment));
-	strncpy(tweakable_filename + strlen(fragment), extension, strlen(extension));
-	tweakable_filename[strlen(fragment) + strlen(extension)] = 0;
-	scene = scene_load(tweakable_filename);
+	scene = scene_load(config_path);
 	if(scene != NULL) scene_load_uniforms(scene, program);
 
 	return 1;
