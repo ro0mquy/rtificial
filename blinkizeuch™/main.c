@@ -169,6 +169,8 @@ static int init(const char scene_path[]) {
 		return 0;
 	}
 	program = shader_link_program(vertex_shader, fragment_shader);
+	glDeleteShader(vertex_shader);
+	glDeleteShader(fragment_shader);
 
 	const GLfloat rectangle_vertices[] = {
 		-1.0, -1.0,
