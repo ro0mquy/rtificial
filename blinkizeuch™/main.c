@@ -33,7 +33,6 @@ static void TW_CALL cb_get_rotation(void* value, void* clientData);
 GLuint program = 0, vbo_rectangle;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
-GLint uniform_someColor;
 GLint uniform_res = -1;
 
 int previousTime = 0;
@@ -46,7 +45,6 @@ bool is_fullscreen = false;
 bool ignore_next_resize = false;
 
 TwBar* tweakBar;
-float someColor[3] = {0., 0., 0.};
 unsigned int start = 0;
 unsigned int end = 1;
 int duration = 1000;
@@ -189,30 +187,27 @@ static int init(const char scene_path[]) {
 		return 0;
 	}
 
-	GLint uniform_aspect = shader_get_uniform(program, "aspect");
 	uniform_res = shader_get_uniform(program, "res");
 	uniform_time = shader_get_uniform(program, "time");
 	uniform_viewPosition = shader_get_uniform(program, "viewPosition");
 	uniform_viewDirection = shader_get_uniform(program, "viewDirection");
 	uniform_viewUp = shader_get_uniform(program, "viewUp");
-	uniform_someColor = shader_get_uniform(program, "someColor");
-
-	glUseProgram(program);
-	glUniform1f(uniform_aspect, (float) width/height);
-	glUniform2f(uniform_res, width, height);
-
-	currentTime = SDL_GetTicks();
 
 	scene = scene_load(config_path);
 	if(scene != NULL) scene_load_uniforms(scene, program);
+
+	glUseProgram(program);
+	glUniform2f(uniform_res, width, height);
+
+	currentTime = SDL_GetTicks();
 
 	return 1;
 }
 
 
 static void draw(void) {
+	glUseProgram(program);
 	camera_update_uniforms(&camera, uniform_viewPosition, uniform_viewDirection, uniform_viewUp);
-	glUniform3f(uniform_someColor, someColor[0], someColor[1], someColor[2]);
 	glUniform1f(uniform_time, SDL_GetTicks());
 
 	if(scene != NULL) scene_bind(scene);
@@ -222,7 +217,6 @@ static void draw(void) {
 	// glClearColor(0.0, 0.0, 0.0, 1.0);
 	// glClear(GL_COLOR_BUFFER_BIT);
 
-	glUseProgram(program);
 	glEnableVertexAttribArray(attribute_coord2d);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
 	glVertexAttribPointer(
