@@ -5,24 +5,29 @@
 
 static char* file_read(const char filename[]);
 
-GLuint shader_load_file(const char filename[], GLenum type) {
-	GLchar* const source = file_read(filename);
-	if(source == NULL) {
-		fprintf(stderr, "Error reading %s: ", filename);
-		perror("");
-		return 0;
+GLuint shader_load_files(int n, const char* filenames[n], GLenum type) {
+	GLchar* sources[n];
+	for(int i = 0; i < n; i++) {
+		sources[i] = file_read(filenames[i]);
+		if(sources[i] == NULL) {
+			fprintf(stderr, "Error reading %s: ", filenames[i]);
+			for(int j = 0; j < i; j++) {
+				free(sources[j]);
+			}
+			perror("");
+			return 0;
+		}
 	}
-	GLuint res = shader_load_str(filename, source, type);
-	free(source);
+	GLuint res = shader_load_strings(n, filenames[n - 1], (const GLchar**) sources, type);
+	for(int i = 0; i < n; i++) {
+		free(sources[i]);
+	}
 	return res;
 }
 
-GLuint shader_load_str(const char name[], const char source[], GLenum type) {
+GLuint shader_load_strings(int n, const char* name, const GLchar* sources[n], GLenum type) {
 	const GLuint res = glCreateShader(type);
-	const GLchar* sources[1] = {
-		source
-	};
-	glShaderSource(res, 1, sources, NULL);
+	glShaderSource(res, n, sources, NULL);
 
 	glCompileShader(res);
 	GLint compile_ok = GL_FALSE;
@@ -44,39 +49,6 @@ GLint shader_get_uniform(GLuint program, const char name[]) {
 	}
 	return uniform;
 }
-/*
-static char* file_read(const char filename[]) {
-	FILE* const input = fopen(filename, "r");
-	if(input == NULL) return NULL;
-
-	size_t size = 4096;
-	size_t content_length = 0;
-	char* content = malloc(size + 1);
-	if(content == NULL) return NULL;
-
-	while(!feof(input) && !ferror(input)) {
-		size_t read = fread(content, 1, size - content_length, input);
-		content_length += read;
-		if(size - content_length == 0) {
-			char* new_content = realloc(content, size * 2);
-			if(new_content == NULL) {
-				fclose(input);
-				return NULL;
-			}
-			content = new_content;
-			size *= 2;
-		}
-	}
-	fclose(input);
-	if(ferror(input)) {
-		fprintf(stderr, "Error reading file");
-		return NULL;
-	} else {
-		content[content_length] = '\0';
-		return content;
-	}
-}
-*/
 
 static char* file_read(const char filename[]) {
 	FILE* const input = fopen(filename, "rb");

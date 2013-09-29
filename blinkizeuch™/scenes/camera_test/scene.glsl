@@ -1,5 +1,3 @@
-#version 120
-
 uniform vec3 viewPosition;
 uniform vec3 viewUp;
 uniform vec3 viewDirection;

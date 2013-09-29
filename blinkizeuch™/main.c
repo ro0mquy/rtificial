@@ -164,7 +164,7 @@ static int init(void) {
 	strncpy(config_path, scene_path, scene_path_length);
 	strncpy(config_path + scene_path_length, config_name, config_name_length + 1);
 
-	vertex_shader = shader_load_str("vertex", vertex_source, GL_VERTEX_SHADER);
+	vertex_shader = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
 
 	const GLfloat rectangle_vertices[] = {
 		-1.0, -1.0,
@@ -192,7 +192,7 @@ static void load_shader(void) {
 	strncpy(fragment_path, scene_path, scene_path_length);
 	strncpy(fragment_path + scene_path_length, fragment_name, fragment_name_length + 1);
 
-	const GLuint fragment_shader = shader_load_file(fragment_path, GL_FRAGMENT_SHADER);
+	const GLuint fragment_shader = shader_load_files(2, (const char* []) { libblink_path, fragment_path }, GL_FRAGMENT_SHADER);
 	if(program != 0) glDeleteProgram(program);
 	program = shader_link_program(vertex_shader, fragment_shader);
 	glDeleteShader(fragment_shader);

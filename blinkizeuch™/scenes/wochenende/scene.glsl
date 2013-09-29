@@ -1,13 +1,8 @@
-#version 120
 
 void initValues();
 float f(vec3 p);
-float sphere(vec3 p, float r);
 float spikeball(vec3 p);
 float sdBox(vec3 p, vec3 b);
-mat3 rX(float theta);
-mat3 rY(float theta);
-mat3 rZ(float theta);
 vec3 calcNormal(vec3 p);
 float ao(vec3 p, vec3 n, float d, float i);
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color);
@@ -124,10 +119,6 @@ float f(vec3 p) {
 	return min(spikey, sphery); // return spikeball or sphere around scene
 }
 
-float sphere(vec3 p, float r) {
-	return length(p) - r;
-}
-
 // This will generate the distance function for some kind of spikeball.
 // It's a bit magic - it's based on the paper "Generalized Distance Functions"
 // - don't ask - play.
@@ -146,30 +137,6 @@ float sdBox(vec3 p, vec3 b) {
 	vec3 d = abs(p) - b;
 	return min(max(d.x, max(d.y, d.z)), 0.0) +
 		length(max(d,0.0));
-}
-
-mat3 rX(float theta) {
-	return mat3(
-		1., 0., 0.,
-		0., cos(theta), sin(theta),
-		0., -sin(theta), cos(theta)
-	);
-}
-
-mat3 rY(float theta) {
-	return mat3(
-		cos(theta), 0., -sin(theta),
-		0., 1., 0.,
-		sin(theta), 0., cos(theta)
-	);
-}
-
-mat3 rZ(float theta) {
-	return mat3(
-		cos(theta), sin(theta), 0.,
-		-sin(theta), cos(theta), 0.,
-		0., 0., 1.
-	);
 }
 
 vec3 calcNormal(vec3 p) {
