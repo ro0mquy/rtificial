@@ -19,7 +19,8 @@
 
 const double TAU = 6.28318530718;
 
-static int init(const char fragment[]);
+static int init(void);
+static void load_shader(void);
 static void draw(void);
 static void free_resources(void);
 static void save_restore_camera(int i);
@@ -31,6 +32,7 @@ static void TW_CALL cb_set_rotation(const void* value, void* clientData);
 static void TW_CALL cb_get_rotation(void* value, void* clientData);
 
 GLuint program = 0, vbo_rectangle;
+GLuint vertex_shader;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
 GLint uniform_res = -1;
@@ -55,6 +57,8 @@ camera_t camera;
 
 flight_t current_flight;
 bool is_flying = false;
+
+char* scene_path;
 
 int desktop_width, desktop_height;
 
@@ -87,11 +91,12 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "Usage: blinkizeuch scenedir/");
 		return EXIT_FAILURE;
 	}
+	scene_path = argv[1];
 
 	// initialize DevIL
 	ilInit();
 
-	if(!init(argv[1])) {
+	if(!init()) {
 		return EXIT_FAILURE;
 	}
 
@@ -147,30 +152,19 @@ int main(int argc, char *argv[]) {
 	return EXIT_SUCCESS;
 }
 
-static int init(const char scene_path[]) {
+static int init(void) {
 	for(int i = 0; i < 10; i++){
 		camera_init(&saved_positions[i]);
 	}
 	camera_init(&camera);
 
 	const size_t scene_path_length = strlen(scene_path);
-	const size_t fragment_name_length = strlen(fragment_name);
 	const size_t config_name_length = strlen(config_name);
-	char fragment_path[scene_path_length + fragment_name_length + 1];
 	char config_path[scene_path_length + config_name_length + 1];
-	strncpy(fragment_path, scene_path, scene_path_length);
 	strncpy(config_path, scene_path, scene_path_length);
-	strncpy(fragment_path + scene_path_length, fragment_name, fragment_name_length + 1);
 	strncpy(config_path + scene_path_length, config_name, config_name_length + 1);
 
-	const GLuint vertex_shader = shader_load_str("vertex", vertex_source, GL_VERTEX_SHADER);
-	const GLuint fragment_shader = shader_load_file(fragment_path, GL_FRAGMENT_SHADER);
-	if(vertex_shader == 0 || fragment_shader == 0) {
-		return 0;
-	}
-	program = shader_link_program(vertex_shader, fragment_shader);
-	glDeleteShader(vertex_shader);
-	glDeleteShader(fragment_shader);
+	vertex_shader = shader_load_str("vertex", vertex_source, GL_VERTEX_SHADER);
 
 	const GLfloat rectangle_vertices[] = {
 		-1.0, -1.0,
@@ -182,11 +176,32 @@ static int init(const char scene_path[]) {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
 
+	scene = scene_load(config_path);
+
+	load_shader();
+
+	currentTime = SDL_GetTicks();
+
+	return 1;
+}
+
+static void load_shader(void) {
+	const size_t scene_path_length = strlen(scene_path);
+	const size_t fragment_name_length = strlen(fragment_name);
+	char fragment_path[scene_path_length + fragment_name_length + 1];
+	strncpy(fragment_path, scene_path, scene_path_length);
+	strncpy(fragment_path + scene_path_length, fragment_name, fragment_name_length + 1);
+
+	const GLuint fragment_shader = shader_load_file(fragment_path, GL_FRAGMENT_SHADER);
+	if(program != 0) glDeleteProgram(program);
+	program = shader_link_program(vertex_shader, fragment_shader);
+	glDeleteShader(fragment_shader);
+
 	const char attribute_coord2d_name[] = "coord2d";
 	attribute_coord2d = glGetAttribLocation(program, attribute_coord2d_name);
 	if(attribute_coord2d == -1) {
 		fprintf(stderr, "Could not bind attribute %s\n", attribute_coord2d_name);
-		return 0;
+		return;
 	}
 
 	uniform_res = shader_get_uniform(program, "res");
@@ -195,15 +210,14 @@ static int init(const char scene_path[]) {
 	uniform_viewDirection = shader_get_uniform(program, "viewDirection");
 	uniform_viewUp = shader_get_uniform(program, "viewUp");
 
-	scene = scene_load(config_path);
 	if(scene != NULL) scene_load_uniforms(scene, program);
 
 	glUseProgram(program);
-	glUniform2f(uniform_res, width, height);
-
-	currentTime = SDL_GetTicks();
-
-	return 1;
+	if(is_fullscreen) {
+		glUniform2f(uniform_res, desktop_width, desktop_height);
+	} else {
+		glUniform2f(uniform_res, width, height);
+	}
 }
 
 
@@ -243,6 +257,7 @@ static void free_resources(void) {
 		scene_destroy(scene);
 		free(scene);
 	}
+	glDeleteShader(vertex_shader);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
 }
@@ -304,6 +319,10 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 		case SDLK_g:
 			is_flying = true;
 			current_flight = flight_new(saved_positions[start], saved_positions[end], SDL_GetTicks(), duration);
+			break;
+		case SDLK_r:
+			load_shader();
+			break;
 		default:
 			save_next = false;
 			break;
