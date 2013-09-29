@@ -34,7 +34,7 @@ static void TW_CALL cb_get_rotation(void* value, void* clientData);
 GLuint program = 0, vbo_rectangle;
 GLuint vertex_shader;
 GLint attribute_coord2d, uniform_time;
-GLint uniform_viewPosition, uniform_viewDirection, uniform_viewUp;
+GLint uniform_view_position, uniform_view_direction, uniform_view_up;
 GLint uniform_res = -1;
 
 int previousTime = 0;
@@ -206,9 +206,9 @@ static void load_shader(void) {
 
 	uniform_res = shader_get_uniform(program, "res");
 	uniform_time = shader_get_uniform(program, "time");
-	uniform_viewPosition = shader_get_uniform(program, "viewPosition");
-	uniform_viewDirection = shader_get_uniform(program, "viewDirection");
-	uniform_viewUp = shader_get_uniform(program, "viewUp");
+	uniform_view_position = shader_get_uniform(program, "view_position");
+	uniform_view_direction = shader_get_uniform(program, "view_direction");
+	uniform_view_up = shader_get_uniform(program, "view_up");
 
 	if(scene != NULL) scene_load_uniforms(scene, program);
 
@@ -223,7 +223,7 @@ static void load_shader(void) {
 
 static void draw(void) {
 	glUseProgram(program);
-	camera_update_uniforms(&camera, uniform_viewPosition, uniform_viewDirection, uniform_viewUp);
+	camera_update_uniforms(&camera, uniform_view_position, uniform_view_direction, uniform_view_up);
 	glUniform1f(uniform_time, SDL_GetTicks());
 
 	if(scene != NULL) scene_bind(scene);
