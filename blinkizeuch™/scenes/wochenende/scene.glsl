@@ -1,20 +1,15 @@
 
 void initValues();
-float f(vec3 p);
+vec2 f(vec3 p);
 float spikeball(vec3 p);
-float sdBox(vec3 p, vec3 b);
-vec3 calcNormal(vec3 p);
 float ao(vec3 p, vec3 n, float d, float i);
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color);
-vec3 marching(vec3 p, vec3 direction, out int i);
 
-uniform float aspect;
-uniform vec2 res;
-uniform float time;
+DECLARE_NORMAL(calc_normal)
+DECLARE_MARCH(march)
 
-uniform vec3 viewPosition;
-uniform vec3 viewDirection;
-uniform vec3 viewUp;
+DEFINE_NORMAL(calc_normal, f)
+DEFINE_MARCH(march, f)
 
 const int number_lights = 2;
 //vec3 light1 = vec3(-1., 1., 1.);
@@ -36,22 +31,17 @@ vec3 c[19];
 void main() {
 	initValues();
 
-	vec3 viewRight = cross(viewDirection, viewUp);
-	mat3 viewCamera = transpose(mat3(viewRight, viewUp, -viewDirection));
-
-	vec3 camera = viewPosition;
-	vec3 direction = normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y, -1.)) * viewCamera;
-
 	vec3 color = vec3(0.);
-	vec3 p = camera;
+	vec3 p = view_position;
+	vec3 direction = get_direction();
 	vec3 light_color_factor = vec3(1.);
 	float reflection_factor = 1.;
 
 	for (int reflections = 0; reflections < 2; reflections++) {
 		int i;
-		p = marching(p, direction, i);
+		p = march(p, direction, i);
 		if(i < 100) {
-			vec3 normal = calcNormal(p);
+			vec3 normal = calc_normal(p);
 			vec3 light_color;
 			vec3 newColor = lighting(p, color_spikeballs, direction, normal, light_color);
 			//newColor *= 2. - exp( -2. * pow(distance(p, camera) / 20., 7.)); // fog
@@ -65,7 +55,7 @@ void main() {
 		}
 	}
 
-	gl_FragColor = vec4(color, 1.);
+	out_color = vec4(color, 1.);
 }
 
 void initValues() {
@@ -104,8 +94,8 @@ void initValues() {
 		rX(radians(time/1000. * 10));
 }
 
-float f(vec3 p) {
-	float sphery = -sphere(p - viewPosition, 50.); // bounding sphere
+vec2 f(vec3 p) {
+	float sphery = -sphere(p - view_position, 50.); // bounding sphere
 
 	//p.z -= 6.;
 	p = mod(p, 3.) - .5 * 3.; // repeating spikeball
@@ -113,10 +103,10 @@ float f(vec3 p) {
 
 	p = rotation_spikeballs * p;
 
-	return min(sdBox(p, vec3(.5)), sphery);
-	float spikey = spikeball(p / .5) * .5; // scaling spikeball
+	return vec2(min(box(p, vec3(.5)), sphery), 0.);
+	float spikey = SCALE(spikeball, p, .5);
 
-	return min(spikey, sphery); // return spikeball or sphere around scene
+	return vec2(min(spikey, sphery), 0.); // return spikeball or sphere around scene
 }
 
 // This will generate the distance function for some kind of spikeball.
@@ -133,26 +123,10 @@ float spikeball(vec3 p){
 	return l - 2.2 * pow(1.5, b);
 }
 
-float sdBox(vec3 p, vec3 b) {
-	vec3 d = abs(p) - b;
-	return min(max(d.x, max(d.y, d.z)), 0.0) +
-		length(max(d,0.0));
-}
-
-vec3 calcNormal(vec3 p) {
-	vec2 epilepsilon = vec2(.001, 0.);
-
-	return normalize(vec3(
-				f(p + epilepsilon.xyy) - f(p - epilepsilon.xyy),
-				f(p + epilepsilon.yxy) - f(p - epilepsilon.yxy),
-				f(p + epilepsilon.yyx) - f(p - epilepsilon.yyx)
-			     ));
-}
-
 float ao(vec3 p, vec3 n, float d, float i) { // ambient occlusion ans sub surface scattering
 	float o, s = sign(d);
 	for (o=s*.5+.5;i>0.;i--) {
-		o-=(i*d-f(p+n*i*d*s))/exp2(i);
+		o-=(i*d-f(p+n*i*d*s)[0])/exp2(i);
 	}
 	return o;
 }
@@ -170,17 +144,4 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 	//light_color *= ao(p, direction, -0.3, 10.); // sub surface scattering
 
 	return color * light_color;
-}
-
-vec3 marching(vec3 p, vec3 direction, out int i) {
-	float walked = 0.;
-	for (i=0; i < 100; i++) {
-		float dist = f(p);
-		p += direction * dist;
-		dist = abs(dist);
-		walked += dist;
-
-		if (dist < .001 * walked) break;
-	}
-	return p;
 }
