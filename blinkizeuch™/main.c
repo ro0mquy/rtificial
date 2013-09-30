@@ -167,10 +167,10 @@ static int init(void) {
 	vertex_shader = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
 
 	const GLfloat rectangle_vertices[] = {
-		-1.0, -1.0,
 		-1.0,  1.0,
-		 1.0, -1.0,
+		-1.0, -1.0,
 		 1.0,  1.0,
+		 1.0, -1.0,
 	};
 	glGenBuffers(1, &vbo_rectangle);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
