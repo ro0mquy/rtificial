@@ -17,6 +17,7 @@
 #include "flight.h"
 #include "scene.h"
 #include "timeline.h"
+#include "window.h"
 
 const double TAU = 6.28318530718;
 
@@ -28,7 +29,6 @@ static void save_restore_camera(int i);
 static void print_sdl_error(const char message[]);
 static void handle_key_down(SDL_KeyboardEvent event);
 static void update_state(void);
-static SDL_Surface* handle_resize(bool fullscreen);
 static void TW_CALL cb_set_rotation(const void* value, void* clientData);
 static void TW_CALL cb_get_rotation(void* value, void* clientData);
 
@@ -44,8 +44,6 @@ float deltaT = 0;
 
 bool run;
 bool save_next = false;
-bool is_fullscreen = false;
-bool ignore_next_resize = false;
 
 TwBar* tweakBar;
 unsigned int start = 0;
@@ -61,8 +59,6 @@ bool is_flying = false;
 
 char* scene_path;
 
-int desktop_width, desktop_height;
-
 timeline_t* timeline;
 
 int main(int argc, char *argv[]) {
@@ -72,13 +68,12 @@ int main(int argc, char *argv[]) {
 		return EXIT_FAILURE;
 	}
 
-	const SDL_VideoInfo* const videoInfo = SDL_GetVideoInfo();
-	desktop_width = videoInfo->current_w;
-	desktop_height = videoInfo->current_h;
+	const SDL_VideoInfo* const video_info = SDL_GetVideoInfo();
+	window_set_desktop_dim(video_info->current_w, video_info->current_h);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-	const SDL_Surface* screen = handle_resize(false);
+	const SDL_Surface* screen = window_handle_resize(false, default_width, default_height);
 	if (!screen) {
 		print_sdl_error("Failed to create SDL window! Error: ");
 		return EXIT_FAILURE;
@@ -105,7 +100,7 @@ int main(int argc, char *argv[]) {
 
 	// initialize AntTweakBar
 	TwInit(TW_OPENGL, NULL);
-	TwWindowSize(width, height);
+	TwWindowSize(default_width, default_height);
 	tweakBar = TwNewBar("Rumfummeldings");
 	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_FLOAT, &deltaT, "");
 	TwAddVarCB(tweakBar, "Camera rotation", TW_TYPE_QUAT4F, cb_set_rotation, cb_get_rotation, NULL, "");
@@ -122,8 +117,8 @@ int main(int argc, char *argv[]) {
 
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
-			if(ignore_next_resize && event.type == SDL_VIDEORESIZE) {
-				ignore_next_resize = false;
+			if(window_should_ignore_next_resize() && event.type == SDL_VIDEORESIZE) {
+				window_dont_ignore_next_resize();
 				continue;
 			}
 
@@ -141,10 +136,8 @@ int main(int argc, char *argv[]) {
 					run = false;
 					break;
 				case SDL_VIDEORESIZE:
-					if(!is_fullscreen) {
-						width  = event.resize.w;
-						height = event.resize.h;
-						handle_resize(false);
+					if(!window_is_fullscreen()) {
+						window_handle_resize(false, event.resize.w, event.resize.h);
 					}
 					break;
 			}
@@ -218,18 +211,12 @@ static void load_shader(void) {
 	uniform_view_up = shader_get_uniform(program, "view_up");
 
 	if(scene != NULL) scene_load_uniforms(scene, program);
-
-	glUseProgram(program);
-	if(is_fullscreen) {
-		glUniform2f(uniform_res, desktop_width, desktop_height);
-	} else {
-		glUniform2f(uniform_res, width, height);
-	}
 }
 
 
 static void draw(void) {
 	glUseProgram(program);
+	glUniform2f(uniform_res, window_get_width(), window_get_height());
 	camera_update_uniforms(&camera, uniform_view_position, uniform_view_direction, uniform_view_up);
 	glUniform1f(uniform_time, SDL_GetTicks());
 
@@ -321,7 +308,7 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 			save_restore_camera(9);
 			break;
 		case SDLK_f:
-			handle_resize(!is_fullscreen);
+			window_handle_resize(!window_is_fullscreen(), 0, 0);
 			break;
 		case SDLK_ESCAPE:
 			run = false;
@@ -399,36 +386,6 @@ static void update_state(void) {
 	if (keystate[SDLK_e]) {
 		camera_move_y(&camera,  distance);
 	}
-}
-
-static SDL_Surface* handle_resize(bool fullscreen) {
-	Uint32 flags =
-		  SDL_HWSURFACE
-		| SDL_DOUBLEBUF
-		| SDL_OPENGL
-		| SDL_RESIZABLE;
-	int new_width;
-	int new_height;
-	if(fullscreen != is_fullscreen) {
-		ignore_next_resize = true;
-	}
-	if(fullscreen) {
-		new_width = desktop_width;
-		new_height = desktop_height;
-		flags |= SDL_FULLSCREEN;
-	} else {
-		new_width = width;
-		new_height = height;
-	}
-	SDL_Surface* const screen = SDL_SetVideoMode(new_width, new_height, 32, flags);
-	TwWindowSize(new_width, new_height);
-	is_fullscreen = fullscreen;
-	glViewport(0, 0, new_width, new_height);
-	if(program != 0) {
-		glUseProgram(program);
-		glUniform2f(uniform_res, new_width, new_height);
-	}
-	return screen;
 }
 
 static void TW_CALL cb_set_rotation(const void* value, void* clientData) {
