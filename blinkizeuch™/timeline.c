@@ -70,6 +70,16 @@ void timeline_destroy(timeline_t* const timeline) {
 }
 
 bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* const event) {
+	const float factor = .9;
+	if(event->type == SDL_MOUSEBUTTONDOWN) {
+		if(event->button.button == SDL_BUTTON_WHEELUP) {
+			timeline->zoom *= factor;
+			return true;
+		} else if( event->button.button == SDL_BUTTON_WHEELDOWN) {
+			timeline->zoom /= factor;
+			return true;
+		}
+	}
 	return false;
 }
 
