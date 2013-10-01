@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h>
 
 #include <libzeuch/shader.h>
 
@@ -54,7 +55,7 @@ void timeline_draw(timeline_t* const timeline) {
 
 	const int segments = 20 * timeline->zoom;
 	const GLfloat segment_width = 1. / segments;
-	for(int i = 0; i < segments / 2; i++) {
+	for(int i = 0; i < ceil((double) segments / 2); i++) {
 		draw_rect(timeline, &(rect_t) {
 			.x = 2 * i * segment_width, .y = 0., .w = segment_width, .h = height,
 			.r = 0., .g = 0., .b = 0., .a = .5,
