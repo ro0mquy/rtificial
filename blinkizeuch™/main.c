@@ -254,6 +254,7 @@ static void free_resources(void) {
 		free(scene);
 	}
 	timeline_destroy(timeline);
+	free(timeline);
 	glDeleteShader(vertex_shader);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
