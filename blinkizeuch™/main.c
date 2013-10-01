@@ -16,6 +16,7 @@
 #include "vertex.h"
 #include "flight.h"
 #include "scene.h"
+#include "timeline.h"
 
 const double TAU = 6.28318530718;
 
@@ -61,6 +62,8 @@ bool is_flying = false;
 char* scene_path;
 
 int desktop_width, desktop_height;
+
+timeline_t* timeline;
 
 int main(int argc, char *argv[]) {
 	const int init_status = SDL_Init(SDL_INIT_EVERYTHING);
@@ -128,6 +131,8 @@ int main(int argc, char *argv[]) {
 			int handled = TwEventSDL(&event, SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
 			if(handled) continue;
 
+			if(timeline_handle_sdl_event(timeline, &event)) continue;
+
 			switch(event.type){
 				case SDL_KEYDOWN:
 					handle_key_down(event.key);
@@ -179,6 +184,8 @@ static int init(void) {
 	scene = scene_load(config_path);
 
 	load_shader();
+
+	timeline = timeline_new();
 
 	currentTime = SDL_GetTicks();
 
@@ -246,6 +253,8 @@ static void draw(void) {
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(attribute_coord2d);
 
+	timeline_draw(timeline);
+
 	// draw AntTweakBar
 	TwDraw();
 
@@ -257,6 +266,7 @@ static void free_resources(void) {
 		scene_destroy(scene);
 		free(scene);
 	}
+	timeline_destroy(timeline);
 	glDeleteShader(vertex_shader);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
