@@ -21,6 +21,7 @@ OBJECTS=\
 	tweakable.o\
 	texture.o\
 	util.o\
+	timeline.o\
 
 HEADER=\
 	config.h\
@@ -31,6 +32,9 @@ HEADER=\
 	tweakable.h\
 	texture.h\
 	util.h\
+	timeline.h\
+	timeline_vertex.h\
+	timeline_fragment.h\
 
 .PHONY: all
 all: blinkizeuch

@@ -1,7 +1,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-const char vertex_source[] = "\
+static const char vertex_source[] = "\
 #version 330\n\
 in vec2 coord2d;\
 \
