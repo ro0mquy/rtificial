@@ -3,6 +3,8 @@
 
 #include <libzeuch/shader.h>
 
+#include "window.h"
+
 #include "timeline.h"
 #include "timeline_vertex.h"
 #include "timeline_fragment.h"
@@ -13,6 +15,8 @@ typedef struct {
 } rect_t;
 
 static void draw_rect(const timeline_t* timeline, const rect_t* rect);
+
+const GLfloat timeline_height = .2;
 
 timeline_t* timeline_new() {
 	const GLuint vertex_shader = shader_load_strings(1, "timeline_vertex", (const GLchar* []) { timeline_vertex_source }, GL_VERTEX_SHADER);
@@ -45,11 +49,9 @@ void timeline_draw(timeline_t* const timeline) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glEnableVertexAttribArray(timeline->attribute_coord2d);
 
-	const GLfloat height = .2;
-
 	// actual drawing begins here
 	draw_rect(timeline, &(rect_t) {
-		.x = 0., .y = 0., .w = 1., .h = height,
+		.x = 0., .y = 0., .w = 1., .h = timeline_height,
 		.r = 1., .g = 1., .b = 1., .a = .5,
 	});
 
@@ -57,7 +59,7 @@ void timeline_draw(timeline_t* const timeline) {
 	const GLfloat segment_width = 1. / segments;
 	for(int i = 0; i < ceil((double) segments / 2); i++) {
 		draw_rect(timeline, &(rect_t) {
-			.x = 2 * i * segment_width, .y = 0., .w = segment_width, .h = height,
+			.x = 2 * i * segment_width, .y = 0., .w = segment_width, .h = timeline_height,
 			.r = 0., .g = 0., .b = 0., .a = .5,
 		});
 	}
@@ -73,6 +75,9 @@ void timeline_destroy(timeline_t* const timeline) {
 bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* const event) {
 	const float factor = .9;
 	if(event->type == SDL_MOUSEBUTTONDOWN) {
+		if(1. - ((float) event->button.y / window_get_height()) > timeline_height) {
+			return false;
+		}
 		if(event->button.button == SDL_BUTTON_WHEELUP) {
 			timeline->zoom *= factor;
 			return true;
