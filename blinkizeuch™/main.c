@@ -344,6 +344,8 @@ static void update_state(void) {
 	currentTime = SDL_GetTicks();
 	deltaT = (currentTime - previousTime) / 1000.; //convert from milliseconds to seconds
 
+	timeline_update(timeline, currentTime - previousTime);
+
 	if(is_flying) {
 		if(flight_is_finished(&current_flight, currentTime)) {
 			is_flying = false;

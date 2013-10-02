@@ -19,6 +19,7 @@ typedef struct {
 	struct keyframe_list_t* list;
 	bool hidden;
 	int cursor_position;
+	bool is_playing;
 } timeline_t;
 
 typedef struct {
@@ -35,5 +36,7 @@ void timeline_destroy(timeline_t* timeline);
 bool timeline_handle_sdl_event(timeline_t* timeline, const SDL_Event* event);
 
 void timeline_add_frame(timeline_t* timeline, camera_t camera);
+
+void timeline_update(timeline_t* timeline, int dtime);
 
 #endif
