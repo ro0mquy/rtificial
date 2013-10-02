@@ -32,6 +32,7 @@ const GLfloat timeline_height = .2;
 const int segment_length = 20000;
 const int num_segments = 20;
 const GLfloat marker_width = .003;
+const GLfloat cursor_width = .003;
 
 timeline_t* timeline_new() {
 	const GLuint vertex_shader = shader_load_strings(1, "timeline_vertex", (const GLchar* []) { timeline_vertex_source }, GL_VERTEX_SHADER);
@@ -74,6 +75,7 @@ timeline_t* timeline_new() {
 		.zoom = 1.,
 		.list = list,
 		.hidden = false,
+		.cursor_position = 0,
 	};
 	return timeline;
 }
@@ -110,6 +112,11 @@ void timeline_draw(timeline_t* const timeline) {
 			.r = 1., .g = 0., .b = 0., .a = 1.,
 		});
 	}
+	const GLfloat x = (float) timeline->cursor_position / ((int) (num_segments * zoom) * segment_length) - cursor_width / zoom / 2;
+	draw_rect(timeline, &(rect_t) {
+		.x = x, .y = 0., .w = cursor_width / zoom, .h = timeline_height,
+		.r = 0., .g = 1., .b = 0., .a = 1.,
+	});
 
 	glDisableVertexAttribArray(timeline->attribute_coord2d);
 	glDisable(GL_BLEND);
@@ -126,12 +133,17 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 		if(1. - ((float) event->button.y / window_get_height()) > timeline_height) {
 			return false;
 		}
-		if(event->button.button == SDL_BUTTON_WHEELUP) {
-			timeline->zoom *= factor;
-			return true;
-		} else if(event->button.button == SDL_BUTTON_WHEELDOWN) {
-			timeline->zoom /= factor;
-			return true;
+		const float horizontal = ((float) event->button.x / window_get_width());
+		switch(event->button.button) {
+			case SDL_BUTTON_WHEELUP:
+				timeline->zoom *= factor;
+				return true;
+			case SDL_BUTTON_WHEELDOWN:
+				timeline->zoom /= factor;
+				return true;
+			case SDL_BUTTON_LEFT:
+				timeline->cursor_position = horizontal * ((int) (num_segments * timeline->zoom) * segment_length);
+				return true;
 		}
 	} else if(event->type == SDL_KEYDOWN) {
 		if(event->key.keysym.sym == SDLK_h) {
