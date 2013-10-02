@@ -330,6 +330,9 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 		case SDLK_r:
 			load_shader();
 			break;
+		case SDLK_SPACE:
+			timeline_add_frame(timeline, camera);
+			break;
 		default:
 			save_next = false;
 			break;
