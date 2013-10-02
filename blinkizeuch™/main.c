@@ -89,8 +89,16 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "Usage: blinkizeuch scenedir/");
 		return EXIT_FAILURE;
 	}
-	scene_path = argv[1];
-
+	size_t scene_path_length = strlen(argv[1]);
+	if(argv[1][scene_path_length - 1] != '/') {
+		scene_path = malloc(scene_path_length + 2);
+		memcpy(scene_path, argv[1], scene_path_length);
+		scene_path[scene_path_length] = '/';
+		scene_path[scene_path_length + 1] = '\0';
+	} else {
+		scene_path = malloc(scene_path_length + 1);
+		memcpy(scene_path, argv[1], scene_path_length + 1);
+	}
 	// initialize DevIL
 	ilInit();
 
@@ -255,6 +263,7 @@ static void free_resources(void) {
 	}
 	timeline_destroy(timeline);
 	free(timeline);
+	free(scene_path);
 	glDeleteShader(vertex_shader);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
