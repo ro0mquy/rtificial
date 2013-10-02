@@ -18,6 +18,7 @@ typedef struct {
 	float zoom;
 	struct keyframe_list_t* list;
 	bool hidden;
+	int cursor_position;
 } timeline_t;
 
 typedef struct {
