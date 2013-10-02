@@ -1,11 +1,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <limits.h>
 
 #include <libzeuch/shader.h>
 
 #include "window.h"
 #include "util.h"
+#include "flight.h"
 
 #include "timeline.h"
 #include "timeline_vertex.h"
@@ -49,7 +51,7 @@ timeline_t* timeline_new() {
 		glDeleteProgram(program);
 		return NULL;
 	}
-	keyframe_list_t* const list = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
+	keyframe_list_t* list = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
 	if(list == NULL) {
 		glDeleteProgram(program);
 		return NULL;
@@ -58,6 +60,17 @@ timeline_t* timeline_new() {
 		.length = 0,
 		.allocated = 1,
 	};
+	camera_t start_cam, end_cam;
+	camera_init(&start_cam);
+	camera_init(&end_cam);
+	list = list_insert(list, (keyframe_t) {
+		.time = 0,
+		.camera = start_cam,
+	}, 0);
+	list = list_insert(list, (keyframe_t) {
+		.time = INT_MAX - 10, // inf oder so aehnlich
+		.camera = end_cam,
+	}, 1);
 
 	*timeline = (timeline_t) {
 		.program = program,
@@ -68,6 +81,7 @@ timeline_t* timeline_new() {
 		.hidden = false,
 		.cursor_position = 0,
 		.is_playing = false,
+		.camera_changed = false,
 	};
 	return timeline;
 }
@@ -135,6 +149,7 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 				return true;
 			case SDL_BUTTON_LEFT:
 				timeline->cursor_position = horizontal * ((int) (num_segments * timeline->zoom) * segment_length);
+				timeline->camera_changed = true;
 				return true;
 		}
 	} else if(event->type == SDL_KEYDOWN) {
@@ -164,7 +179,22 @@ void timeline_add_frame(timeline_t* const timeline, const camera_t camera) {
 void timeline_update(timeline_t* timeline, int dtime) {
 	if(timeline->is_playing) {
 		timeline->cursor_position += dtime;
+		timeline->camera_changed = true;
 	}
+}
+
+bool timeline_camera_changed(const timeline_t* const timeline) {
+	return timeline->camera_changed;
+}
+
+camera_t timeline_get_camera(timeline_t* const timeline) {
+	timeline->camera_changed = false;
+	// interpolate and stuff
+	const size_t i = list_find(timeline->list, timeline->cursor_position);
+	keyframe_t* const start = list_get(timeline->list, i - 1);
+	keyframe_t* const end = list_get(timeline->list, i);
+	flight_t flight = flight_new(start->camera, end->camera, start->time, end->time - start->time);
+	return flight_get_camera(&flight, timeline->cursor_position);
 }
 
 static void draw_rect(const timeline_t* const timeline, const rect_t* const rect) {

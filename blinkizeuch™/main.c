@@ -14,7 +14,6 @@
 #include "config.h"
 #include "camera.h"
 #include "vertex.h"
-#include "flight.h"
 #include "scene.h"
 #include "timeline.h"
 #include "window.h"
@@ -53,9 +52,6 @@ scene_t* scene;
 
 camera_t saved_positions[10];
 camera_t camera;
-
-flight_t current_flight;
-bool is_flying = false;
 
 char* scene_path;
 
@@ -323,10 +319,6 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 		case SDLK_ESCAPE:
 			run = false;
 			break;
-		case SDLK_g:
-			is_flying = true;
-			current_flight = flight_new(saved_positions[start], saved_positions[end], SDL_GetTicks(), duration);
-			break;
 		case SDLK_r:
 			load_shader();
 			break;
@@ -346,11 +338,8 @@ static void update_state(void) {
 
 	timeline_update(timeline, currentTime - previousTime);
 
-	if(is_flying) {
-		if(flight_is_finished(&current_flight, currentTime)) {
-			is_flying = false;
-		}
-		camera = flight_get_camera(&current_flight, currentTime);
+	if(timeline_camera_changed(timeline)) {
+		camera = timeline_get_camera(timeline);
 	}
 
 	const float angle_modifier = 50. / 360. * TAU;
