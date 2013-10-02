@@ -1,9 +1,11 @@
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 #include <libzeuch/shader.h>
 
 #include "window.h"
+#include "util.h"
 
 #include "timeline.h"
 #include "timeline_vertex.h"
@@ -14,7 +16,17 @@ typedef struct {
 	GLfloat r, g, b, a;
 } rect_t;
 
+typedef struct keyframe_list_t {
+	size_t length;
+	size_t allocated;
+	keyframe_t elements[];
+} keyframe_list_t;
+
 static void draw_rect(const timeline_t* timeline, const rect_t* rect);
+static keyframe_list_t* list_insert(keyframe_list_t* list, keyframe_t frame, size_t position);
+static keyframe_list_t* list_remove(keyframe_list_t* list, size_t position);
+static keyframe_t* list_get(keyframe_list_t* list, size_t position);
+static size_t list_find(keyframe_list_t* list, float time);
 
 const GLfloat timeline_height = .2;
 
@@ -33,11 +45,21 @@ timeline_t* timeline_new() {
 		glDeleteProgram(program);
 		return NULL;
 	}
+	keyframe_list_t* const list = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
+	if(list == NULL) {
+		glDeleteProgram(program);
+		return NULL;
+	}
+	*list = (keyframe_list_t) {
+		.length = 0,
+		.allocated = 1,
+	};
 	*timeline = (timeline_t) {
 		.program = program,
 		.attribute_coord2d = attribute_coord2d,
 		.uniform_color = uniform_color,
 		.zoom = 1.,
+		.list = list,
 	};
 	return timeline;
 }
@@ -69,6 +91,7 @@ void timeline_draw(timeline_t* const timeline) {
 }
 
 void timeline_destroy(timeline_t* const timeline) {
+	util_safe_free(timeline->list);
 	glDeleteProgram(timeline->program);
 }
 
@@ -106,4 +129,43 @@ static void draw_rect(const timeline_t* const timeline, const rect_t* const rect
 	);
 	glUniform4f(timeline->uniform_color, rect->r, rect->g, rect->b, rect->a);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+}
+
+
+static keyframe_list_t* list_insert(keyframe_list_t* list, const keyframe_t frame, const size_t position) {
+	if(list->length == list->allocated) {
+		keyframe_list_t* const new_list = realloc(list, sizeof(keyframe_list_t) + 2 * list->length * sizeof(keyframe_t));
+		new_list->allocated *= 2;
+		list = new_list;
+	}
+	memmove(list->elements + position + 1, list->elements + position, list->length - position);
+	list->elements[position] = frame;
+	return list;
+}
+
+static keyframe_list_t* list_remove(keyframe_list_t* const list, const size_t position) {
+	if(position < list->length - 1) {
+		memmove(list->elements + position, list->elements + position + 1, list->length - position - 1);
+	}
+	list->length--;
+	if(list->length * 4 <= list->allocated) {
+		keyframe_list_t* const new_list = realloc(list, sizeof(keyframe_list_t) + 2 * list->length * sizeof(keyframe_t));
+		new_list->allocated = new_list->length * 2;
+		return new_list;
+	} else {
+		return list;
+	}
+}
+
+static keyframe_t* list_get(keyframe_list_t* list, size_t position) {
+	return &list->elements[position];
+}
+
+static size_t list_find(keyframe_list_t* list, float time) {
+	for(size_t i = 0; i < list->length; i++) {
+		if(list_get(list, i)->time >= time) {
+			return i;
+		}
+	}
+	return list->length;
 }

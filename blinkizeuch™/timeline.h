@@ -7,12 +7,22 @@
 
 #include <libzeuch/gl.h>
 
+#include "camera.h"
+
+struct keyframe_list_t;
+
 typedef struct {
 	GLuint program;
 	GLint attribute_coord2d;
 	GLint uniform_color;
 	float zoom;
+	struct keyframe_list_t* list;
 } timeline_t;
+
+typedef struct {
+	float time;
+	camera_t camera;
+} keyframe_t;
 
 timeline_t* timeline_new(void);
 
