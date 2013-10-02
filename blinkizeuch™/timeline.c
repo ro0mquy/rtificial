@@ -49,7 +49,7 @@ timeline_t* timeline_new() {
 		glDeleteProgram(program);
 		return NULL;
 	}
-	keyframe_list_t* list = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
+	keyframe_list_t* const list = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
 	if(list == NULL) {
 		glDeleteProgram(program);
 		return NULL;
@@ -58,15 +58,6 @@ timeline_t* timeline_new() {
 		.length = 0,
 		.allocated = 1,
 	};
-	list = list_insert(list, (keyframe_t) {
-			.time = 10000,
-		}, 0);
-	list = list_insert(list, (keyframe_t) {
-			.time = 33333,
-		}, 1);
-	list = list_insert(list, (keyframe_t) {
-			.time = 100000,
-		}, 2);
 
 	*timeline = (timeline_t) {
 		.program = program,
@@ -154,6 +145,15 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 	return false;
 }
 
+void timeline_add_frame(timeline_t* const timeline, const camera_t camera) {
+	const int time = timeline->cursor_position;
+	const size_t pos = list_find(timeline->list, time);
+	timeline->list = list_insert(timeline->list, (keyframe_t) {
+		.time = time,
+		.camera = camera,
+	}, pos);
+}
+
 static void draw_rect(const timeline_t* const timeline, const rect_t* const rect) {
 	const GLfloat vertices[] = {
 		rect->x, rect->y + rect->h,
@@ -180,7 +180,7 @@ static keyframe_list_t* list_insert(keyframe_list_t* list, const keyframe_t fram
 		new_list->allocated *= 2;
 		list = new_list;
 	}
-	memmove(list->elements + position + 1, list->elements + position, list->length - position);
+	memmove(list->elements + position + 1, list->elements + position, (list->length - position) * sizeof(keyframe_t));
 	list->elements[position] = frame;
 	list->length++;
 	return list;
@@ -188,7 +188,7 @@ static keyframe_list_t* list_insert(keyframe_list_t* list, const keyframe_t fram
 
 static keyframe_list_t* list_remove(keyframe_list_t* const list, const size_t position) {
 	if(position < list->length - 1) {
-		memmove(list->elements + position, list->elements + position + 1, list->length - position - 1);
+		memmove(list->elements + position, list->elements + position + 1, (list->length - position - 1) * sizeof(keyframe_t));
 	}
 	list->length--;
 	if(list->length * 4 <= list->allocated) {

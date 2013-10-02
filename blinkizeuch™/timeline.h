@@ -34,4 +34,6 @@ void timeline_destroy(timeline_t* timeline);
 
 bool timeline_handle_sdl_event(timeline_t* timeline, const SDL_Event* event);
 
+void timeline_add_frame(timeline_t* timeline, camera_t camera);
+
 #endif
