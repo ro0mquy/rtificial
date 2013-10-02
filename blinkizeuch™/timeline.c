@@ -26,9 +26,12 @@ static void draw_rect(const timeline_t* timeline, const rect_t* rect);
 static keyframe_list_t* list_insert(keyframe_list_t* list, keyframe_t frame, size_t position);
 static keyframe_list_t* list_remove(keyframe_list_t* list, size_t position);
 static keyframe_t* list_get(keyframe_list_t* list, size_t position);
-static size_t list_find(keyframe_list_t* list, float time);
+static size_t list_find(keyframe_list_t* list, int time);
 
 const GLfloat timeline_height = .2;
+const int segment_length = 20000;
+const int num_segments = 20;
+const GLfloat marker_width = .003;
 
 timeline_t* timeline_new() {
 	const GLuint vertex_shader = shader_load_strings(1, "timeline_vertex", (const GLchar* []) { timeline_vertex_source }, GL_VERTEX_SHADER);
@@ -45,7 +48,7 @@ timeline_t* timeline_new() {
 		glDeleteProgram(program);
 		return NULL;
 	}
-	keyframe_list_t* const list = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
+	keyframe_list_t* list = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
 	if(list == NULL) {
 		glDeleteProgram(program);
 		return NULL;
@@ -54,6 +57,16 @@ timeline_t* timeline_new() {
 		.length = 0,
 		.allocated = 1,
 	};
+	list = list_insert(list, (keyframe_t) {
+			.time = 10000,
+		}, 0);
+	list = list_insert(list, (keyframe_t) {
+			.time = 33333,
+		}, 1);
+	list = list_insert(list, (keyframe_t) {
+			.time = 100000,
+		}, 2);
+
 	*timeline = (timeline_t) {
 		.program = program,
 		.attribute_coord2d = attribute_coord2d,
@@ -77,12 +90,22 @@ void timeline_draw(timeline_t* const timeline) {
 		.r = 1., .g = 1., .b = 1., .a = .5,
 	});
 
-	const int segments = 20 * timeline->zoom;
+	const float zoom = timeline->zoom;
+	const int segments = num_segments * zoom;
 	const GLfloat segment_width = 1. / segments;
 	for(int i = 0; i < ceil((double) segments / 2); i++) {
 		draw_rect(timeline, &(rect_t) {
 			.x = 2 * i * segment_width, .y = 0., .w = segment_width, .h = timeline_height,
 			.r = 0., .g = 0., .b = 0., .a = .5,
+		});
+	}
+
+	for(size_t i = 0; i < timeline->list->length; i++) {
+		const int time = list_get(timeline->list, i)->time;
+		const GLfloat x = (float) time / ((int) (num_segments * zoom) * segment_length) - marker_width / zoom / 2;
+		draw_rect(timeline, &(rect_t) {
+			.x = x, .y = 0., .w = marker_width / zoom, .h = timeline_height,
+			.r = 1., .g = 0., .b = 0., .a = 1.,
 		});
 	}
 
@@ -140,6 +163,7 @@ static keyframe_list_t* list_insert(keyframe_list_t* list, const keyframe_t fram
 	}
 	memmove(list->elements + position + 1, list->elements + position, list->length - position);
 	list->elements[position] = frame;
+	list->length++;
 	return list;
 }
 
@@ -161,7 +185,7 @@ static keyframe_t* list_get(keyframe_list_t* list, size_t position) {
 	return &list->elements[position];
 }
 
-static size_t list_find(keyframe_list_t* list, float time) {
+static size_t list_find(keyframe_list_t* list, int time) {
 	for(size_t i = 0; i < list->length; i++) {
 		if(list_get(list, i)->time >= time) {
 			return i;
