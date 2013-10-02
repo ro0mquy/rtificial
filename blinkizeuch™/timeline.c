@@ -29,7 +29,7 @@ static keyframe_t* list_get(keyframe_list_t* list, size_t position);
 static size_t list_find(keyframe_list_t* list, int time);
 
 const GLfloat timeline_height = .2;
-const int segment_length = 20000;
+const int segment_length = 10000;
 const int num_segments = 20;
 const GLfloat marker_width = .003;
 const GLfloat cursor_width = .003;
@@ -67,6 +67,7 @@ timeline_t* timeline_new() {
 		.list = list,
 		.hidden = false,
 		.cursor_position = 0,
+		.is_playing = false,
 	};
 	return timeline;
 }
@@ -137,9 +138,15 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 				return true;
 		}
 	} else if(event->type == SDL_KEYDOWN) {
-		if(event->key.keysym.sym == SDLK_h) {
-			timeline->hidden = !timeline->hidden;
-			return true;
+		switch(event->key.keysym.sym) {
+			case SDLK_h:
+				timeline->hidden = !timeline->hidden;
+				return true;
+			case SDLK_p:
+				timeline->is_playing = !timeline->is_playing;
+				return true;
+			default:
+				break;
 		}
 	}
 	return false;
@@ -152,6 +159,12 @@ void timeline_add_frame(timeline_t* const timeline, const camera_t camera) {
 		.time = time,
 		.camera = camera,
 	}, pos);
+}
+
+void timeline_update(timeline_t* timeline, int dtime) {
+	if(timeline->is_playing) {
+		timeline->cursor_position += dtime;
+	}
 }
 
 static void draw_rect(const timeline_t* const timeline, const rect_t* const rect) {
