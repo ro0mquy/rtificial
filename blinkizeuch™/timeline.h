@@ -20,7 +20,7 @@ typedef struct {
 } timeline_t;
 
 typedef struct {
-	float time;
+	int time;
 	camera_t camera;
 } keyframe_t;
 
