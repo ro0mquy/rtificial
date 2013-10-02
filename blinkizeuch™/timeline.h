@@ -17,6 +17,7 @@ typedef struct {
 	GLint uniform_color;
 	float zoom;
 	struct keyframe_list_t* list;
+	bool hidden;
 } timeline_t;
 
 typedef struct {

@@ -73,11 +73,13 @@ timeline_t* timeline_new() {
 		.uniform_color = uniform_color,
 		.zoom = 1.,
 		.list = list,
+		.hidden = false,
 	};
 	return timeline;
 }
 
 void timeline_draw(timeline_t* const timeline) {
+	if(timeline->hidden) return;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glUseProgram(timeline->program);
@@ -127,8 +129,13 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 		if(event->button.button == SDL_BUTTON_WHEELUP) {
 			timeline->zoom *= factor;
 			return true;
-		} else if( event->button.button == SDL_BUTTON_WHEELDOWN) {
+		} else if(event->button.button == SDL_BUTTON_WHEELDOWN) {
 			timeline->zoom /= factor;
+			return true;
+		}
+	} else if(event->type == SDL_KEYDOWN) {
+		if(event->key.keysym.sym == SDLK_h) {
+			timeline->hidden = !timeline->hidden;
 			return true;
 		}
 	}
