@@ -124,3 +124,5 @@ float plane(vec3 p, vec3 n) {
 // p: evaluation point
 // s: scale factor
 #define SCALE(f, p, s) f((p)/(s))*(s)
+
+#line 1
