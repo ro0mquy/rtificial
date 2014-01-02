@@ -42,13 +42,14 @@ void tweakable_load_uniform(tweakable_t* const tweakable, const GLuint program) 
 
 void tweakable_update_uniform(const tweakable_t* const tweakable) {
 	const float* const value = tweakable->value;
+	const unsigned char* const bool_value = tweakable->value;
 	const GLint uniform_location = tweakable->uniform_location;
 	switch(tweakable->type) {
 		case COLOR:
 			glUniform3f(uniform_location, value[0], value[1], value[2]);
 			break;
 		case BOOL:
-			glUniform1i(uniform_location, *(GLint*)(tweakable->value));
+			glUniform1ui(uniform_location, *bool_value);
 			break;
 		case FLOAT:
 		default:
