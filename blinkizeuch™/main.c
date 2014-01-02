@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
+#include <signal.h>
 
 #include <AntTweakBar.h>
 #include <SDL/SDL.h>
@@ -21,6 +22,7 @@
 const double TAU = 6.28318530718;
 
 static int init(void);
+static void handle_sig(int);
 static void load_shader(void);
 static void draw(void);
 static void free_resources(void);
@@ -58,6 +60,9 @@ char* scene_path;
 timeline_t* timeline;
 
 int main(int argc, char *argv[]) {
+	// reload shader when receiving SIGUSR1
+	signal(SIGUSR1, handle_sig);
+
 	const int init_status = SDL_Init(SDL_INIT_EVERYTHING);
 	if(init_status == -1) {
 		print_sdl_error("Failed to initialise SDL! Error: ");
@@ -187,6 +192,11 @@ static int init(void) {
 	currentTime = SDL_GetTicks();
 
 	return 1;
+}
+
+static void handle_sig(int signum) {
+	(void)signum;
+	load_shader();
 }
 
 static void load_shader(void) {
