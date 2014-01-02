@@ -24,7 +24,8 @@
 			"name": "Glow color",
 			"uniform": "glow_color",
 			"type": "color",
-			"default": [1.0, 0.5, 0.0]
+			"default": [1.0, 0.5, 0.0],
+			"varparam": "hexa=true colormode=hls"
 		}
 	],
 	"textures": [

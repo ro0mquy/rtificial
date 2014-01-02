@@ -16,6 +16,7 @@ typedef struct tweakable_t {
 	char* uniform_name;
 	tweakable_type_t type;
 	void* value;
+	char* varparam;
 	GLint uniform_location;
 } tweakable_t;
 
@@ -24,6 +25,7 @@ bool tweakable_init(
 	const char name[],
 	const char uniform_name[],
 	tweakable_type_t type_name,
+	const char varparam[],
 	void* const defaults
 );
 
