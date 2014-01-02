@@ -24,7 +24,7 @@
 			"name": "Glow color",
 			"uniform": "glow_color",
 			"type": "color",
-			"default": [0.0, 0.0, 0.0]
+			"default": [1.0, 0.5, 0.0]
 		}
 	],
 	"textures": [
