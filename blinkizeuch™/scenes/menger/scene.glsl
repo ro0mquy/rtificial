@@ -28,6 +28,7 @@ float g(vec3 p) {
 
 vec2 f(vec3 p) {
 	float bounding = -sphere(p - view_position, 50.);
+	bounding = min(bounding, p.y + 3.);
 	vec3 c = vec3(3.5);
 	return vec2(min(bounding, g(mod(p, c) - 0.5 * c)), 0.);
 }

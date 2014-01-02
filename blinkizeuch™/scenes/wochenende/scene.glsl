@@ -1,3 +1,6 @@
+uniform vec3 light_color1;
+uniform vec3 light_color2;
+uniform float reflectivity;
 
 void initValues();
 vec2 f(vec3 p);
@@ -48,7 +51,7 @@ void main() {
 			//newColor += float(i) / 100.; // iteration glow
 			color += newColor * reflection_factor * light_color_factor;
 			light_color_factor *= light_color;
-			reflection_factor *= .4;
+			reflection_factor *= reflectivity;
 			direction = reflect(direction, normal);
 		} else {
 			break;
@@ -64,6 +67,8 @@ void initValues() {
 
 	color_lights[0] = vec3(0., 1., 0.);
 	color_lights[1] = vec3(1., 0., 1.);
+	color_lights[0] = light_color1;
+	color_lights[1] = light_color2;
 
 	intensity_lights[0] = .5;
 	intensity_lights[1] = .3;
