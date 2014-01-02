@@ -43,6 +43,9 @@ int previousTime = 0;
 int currentTime = 0;
 float deltaT = 0;
 
+float angle_modifier = .9; // 50. / 360. * TAU
+float movement_modifier = 5.;
+
 bool run;
 bool save_next = false;
 
@@ -116,6 +119,8 @@ int main(int argc, char *argv[]) {
 	TwAddVarRW(tweakBar, "Start", TW_TYPE_UINT32, &start, " max=9");
 	TwAddVarRW(tweakBar, "End", TW_TYPE_UINT32, &end, " max=9");
 	TwAddVarRW(tweakBar, "Duration", TW_TYPE_UINT32, &duration, "");
+	TwAddVarRW(tweakBar, "Movement Speed", TW_TYPE_FLOAT, &movement_modifier, "");
+	TwAddVarRW(tweakBar, "Angular Speed", TW_TYPE_FLOAT, &angle_modifier, "");
 
 	if(scene != NULL) scene_add_to_tweakbar(scene, tweakBar);
 
@@ -352,11 +357,8 @@ static void update_state(void) {
 		camera = timeline_get_camera(timeline);
 	}
 
-	const float angle_modifier = 50. / 360. * TAU;
-	const float movement_modifier = 5;
-
-	const float angle = angle_modifier * deltaT;
-	const float distance = movement_modifier * deltaT;
+	float angle = angle_modifier * deltaT;
+	float distance = movement_modifier * deltaT;
 
 	// get keystate map
 	Uint8* keystate= SDL_GetKeyState(NULL);;
