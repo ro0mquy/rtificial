@@ -134,21 +134,31 @@ float plane(vec3 p, vec3 n) {
 // f: distance function to object
 // p: evaluation point
 // s: scale factor
-#define SCALE(f, p, s) f((p)/(s))*(s)
+#define scale(f, p, s) f((p)/(s))*(s)
+
+// trans*late things - using vectors!!
+// p: point
+// v: translation vector
+vec3 transv(vec3 p, vec3 v) {
+	return p - v;
+}
 
 // trans*late things
 // p: point
 // x: x
 // y: y
 // z: z
-#define TRANS(p, x, y, z) ((p)-vec3((x), (y), (z)))
+vec3 trans(vec3 p, float x, float y, float z) {
+	return transv(p, vec3(x, y, z));
+}
 
-// trans*late things - using vectors!!
-// p: point
-// v: translation vector
-#define TRANSv(p, v) ((p)-(v))
+vec3 domrepv(vec3 p, vec3 c) {
+	return mod(p, c) - .5 * c;
+}
 
 // repeat things
-#define DOMREP(p, c) (mod((p), (c)) - .5 * c)
+vec3 domrep(vec3 p, float x, float y, float z) {
+	return domrepv(p, vec3(x, y, z));
+}
 
 #line 1
