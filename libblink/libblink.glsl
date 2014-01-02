@@ -64,10 +64,15 @@ mat3 rZ(float theta) {
 	);
 }
 
+// hier kommt der witz!
 vec2 min_material(vec2 a, vec2 b) {
 	return mix(a, b, a.x > b.x);
 }
 
+// c: x value of maximum
+// w: pulse width / 2
+// x: x
+// see http://www.iquilezles.org/www/articles/functions/functions.htm
 float cubic_pulse(float c, float w, float x) {
     x = abs(x - c);
     x /= w;
@@ -115,4 +120,7 @@ float plane(vec3 p, vec3 n) {
 	return dot(p, n.xyz);
 }
 
+// f: distance function to object
+// p: evaluation point
+// s: scale factor
 #define SCALE(f, p, s) f((p)/(s))*(s)
