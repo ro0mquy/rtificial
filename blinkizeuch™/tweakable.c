@@ -13,7 +13,7 @@ bool tweakable_init(
 	const char name[],
 	const char uniform_name[],
 	const tweakable_type_t type,
-	const void* defaults
+	void* const defaults
 ) {
 	char* const name_buffer = util_dup_string(name);
 	char* const uniform_name_buffer = util_dup_string(uniform_name);
