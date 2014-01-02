@@ -1,0 +1,20 @@
+{
+	"tweakables": [
+		{
+			"name": "Light color 1",
+			"uniform": "light_color1",
+			"type": "color"
+		},
+		{
+			"name": "Light color 2",
+			"uniform": "light_color2",
+			"type": "color"
+		},
+		{
+			"name": "Reflectivity",
+			"uniform": "reflectivity",
+			"type": "float"
+		}
+	]
+}
+
