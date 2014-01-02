@@ -7,6 +7,28 @@
 			"default": [0.1, 0.1, 0.1]
 		},
 		{
+			"name": "Foo Color1",
+			"uniform": "color_foo1",
+			"type": "color"
+		},
+		{
+			"name": "Foo Color2",
+			"uniform": "color_foo2",
+			"type": "color"
+		},
+		{
+			"name": "Foo1",
+			"uniform": "foo1",
+			"type": "float",
+			"varparam": "min=0 max=1 step=0.01"
+		},
+		{
+			"name": "Foo2",
+			"uniform": "foo2",
+			"type": "float",
+			"varparam": "min=0 max=1 step=0.01"
+		},
+		{
 			"name": "Color House1",
 			"uniform": "color_house1",
 			"type": "color",
@@ -29,6 +51,26 @@
 			"uniform": "corner_width",
 			"type": "float",
 			"default": 0.2,
+			"varparam": "min=0 max=1 step=0.01"
+		},
+		{
+			"name": "Ambient intensity",
+			"uniform": "ambient_intensity",
+			"type": "float",
+			"default": 0.2,
+			"varparam": "min=0 max=1 step=0.01"
+		},
+		{
+			"name": "Color windows",
+			"uniform": "color_windows",
+			"type": "color",
+			"default": [0.047, 0.063, 0.14]
+		},
+		{
+			"name": "Window reflectivity",
+			"uniform": "window_reflectivity",
+			"type": "float",
+			"default": 0.7,
 			"varparam": "min=0 max=1 step=0.01"
 		}
 	]
