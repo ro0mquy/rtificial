@@ -109,7 +109,7 @@ vec2 f(vec3 p) {
 	p = rotation_spikeballs * p;
 
 	return vec2(min(box(p, vec3(.5)), sphery), 0.);
-	float spikey = SCALE(spikeball, p, .5);
+	float spikey = scale(spikeball, p, .5);
 
 	return vec2(min(spikey, sphery), 0.); // return spikeball or sphere around scene
 }
