@@ -24,7 +24,7 @@ bool tweakable_init(
 	const char name[],
 	const char uniform_name[],
 	tweakable_type_t type_name,
-	const void* defaults
+	void* const defaults
 );
 
 void tweakable_load_uniform(tweakable_t* tweakable, GLuint program);
