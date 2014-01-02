@@ -32,9 +32,14 @@ void main(void) {
 }
 
 vec2 f(vec3 p) {
-	vec2 aussrenrum = vec2(-sphere(TRANSv(p, view_position), 400), 0);
+	vec2 aussrenrum = vec2(-sphere(transv(p, view_position), 400), 0);
 	// ist die normale, oben wird man dich loben!
-	vec2 untenrum = vec2(plane(TRANS(p, 0, -20, 0), vec3(0, 1, 0)), 1);
+	vec2 untenrum = vec2(plane(trans(p, 0, -20, 0), vec3(0, 1, 0)), 1);
 	vec2 house1 = vec2(box(p, vec3(5, 20, 5)), 2);
-	return min_material(min_material(aussrenrum, untenrum), house1);
+	float houses_height = 8;
+	vec3 q = trans(p, 0, -(20 - houses_height), 0);
+	float houses_dist = box(domrep(q, 10, q.y + .1, 10), vec3(3, houses_height, 3));
+	float no_houses = box(p, vec3(20, 20, 20));
+	vec2 houses = vec2(max(houses_dist, -no_houses), 2);
+	return min_material(min_material(aussrenrum, untenrum), min_material(house1, houses));
 }

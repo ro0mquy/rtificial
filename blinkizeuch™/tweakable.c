@@ -6,13 +6,14 @@
 #include "tweakable.h"
 
 static size_t get_value_size(tweakable_type_t type);
-static void init_value(void* const value, tweakable_type_t type);
+static void init_value(void* const value, tweakable_type_t type, void* defaults);
 
 bool tweakable_init(
 	tweakable_t* const tweakable,
 	const char name[],
 	const char uniform_name[],
-	const tweakable_type_t type
+	const tweakable_type_t type,
+	void* const defaults
 ) {
 	char* const name_buffer = util_dup_string(name);
 	char* const uniform_name_buffer = util_dup_string(uniform_name);
@@ -28,7 +29,7 @@ bool tweakable_init(
 		tweakable_destroy(tweakable);
 		return false;
 	}
-	init_value(value_buffer, type);
+	init_value(value_buffer, type, defaults);
 	return true;
 }
 
@@ -93,16 +94,30 @@ static size_t get_value_size(const tweakable_type_t type) {
 	}
 }
 
-static void init_value(void* const value, const tweakable_type_t type) {
+static void init_value(void* const value, const tweakable_type_t type, void* defaults) {
 	float* const float_value = (float*) value;
-	switch(type) {
+	float* const float_defaults = (float*) defaults;
+		switch(type) {
 		case COLOR:
-			float_value[0] = 0.;
-			float_value[1] = 0.;
-			float_value[2] = 0.;
+			if (defaults == NULL) {
+				float_value[0] = 1.;
+				float_value[1] = 1.;
+				float_value[2] = 1.;
+			} else {
+				float_value[0] = float_defaults[0];
+				float_value[1] = float_defaults[1];
+				float_value[2] = float_defaults[2];
+			}
 			break;
 		case FLOAT:
+			if (defaults == NULL) {
+				float_value[0] = 0.;
+			} else {
+				float_value[0] = float_defaults[0];
+			}
+			break;
 		default:
+			// fallback, should not happen
 			float_value[0] = 0.;
 			break;
 	}
