@@ -148,4 +148,7 @@ float plane(vec3 p, vec3 n) {
 // v: translation vector
 #define TRANSv(p, v) ((p)-(v))
 
+// repeat things
+#define DOMREP(p, c) (mod((p), (c)) - .5 * c)
+
 #line 1
