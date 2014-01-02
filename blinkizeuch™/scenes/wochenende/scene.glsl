@@ -1,6 +1,7 @@
 uniform vec3 light_color1;
 uniform vec3 light_color2;
 uniform float reflectivity;
+uniform int enable_ao;
 
 void initValues();
 vec2 f(vec3 p);
@@ -144,8 +145,8 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 		float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
 		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular);
 	}
-
-	light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion
+	if(enable_ao != 0)
+		light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion
 	//light_color *= ao(p, direction, -0.3, 10.); // sub surface scattering
 
 	return color * light_color;
