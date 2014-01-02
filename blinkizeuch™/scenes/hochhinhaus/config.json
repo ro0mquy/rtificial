@@ -1,0 +1,14 @@
+{
+	"tweakables": [
+		{
+			"name": "Color untenrum",
+			"uniform": "color_untenrum",
+			"type": "color"
+		},
+		{
+			"name": "Color House1",
+			"uniform": "color_house1",
+			"type": "color"
+		}
+	]
+}
