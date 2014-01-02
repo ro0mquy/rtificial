@@ -61,7 +61,7 @@ timeline_t* timeline;
 
 int main(int argc, char *argv[]) {
 	// reload shader when receiving SIGUSR1
-	signal(SIGUSR1, handle_sig);
+	signal(SIGHUP, handle_sig);
 
 	const int init_status = SDL_Init(SDL_INIT_EVERYTHING);
 	if(init_status == -1) {
