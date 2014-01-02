@@ -13,19 +13,22 @@ bool tweakable_init(
 	const char name[],
 	const char uniform_name[],
 	const tweakable_type_t type,
+	const char varparam[],
 	void* const defaults
 ) {
 	char* const name_buffer = util_dup_string(name);
 	char* const uniform_name_buffer = util_dup_string(uniform_name);
 	void* const value_buffer = malloc(get_value_size(type));
+	char* const varparam_buffer = util_dup_string(varparam);
 	*tweakable = (tweakable_t) {
 		.name = name_buffer,
 		.uniform_name = uniform_name_buffer,
 		.type = type,
 		.value = value_buffer,
+		.varparam = varparam_buffer,
 		.uniform_location = -1,
 	};
-	if(name_buffer == NULL || uniform_name == NULL || value_buffer == NULL) {
+	if(name_buffer == NULL || uniform_name_buffer == NULL || value_buffer == NULL || varparam_buffer == NULL) {
 		tweakable_destroy(tweakable);
 		return false;
 	}
@@ -56,6 +59,7 @@ void tweakable_destroy(tweakable_t* const tweakable) {
 	util_safe_free(tweakable->name);
 	util_safe_free(tweakable->uniform_name);
 	util_safe_free(tweakable->value);
+	util_safe_free(tweakable->varparam);
 }
 
 bool tweakable_get_type(const char name[], tweakable_type_t* const out_type) {
@@ -80,7 +84,7 @@ void tweakable_add_to_bar(const tweakable_t* const tweakable, TwBar* const tweak
 			type = TW_TYPE_FLOAT;
 			break;
 	}
-	TwAddVarRW(tweak_bar, tweakable->name, type, tweakable->value, "");
+	TwAddVarRW(tweak_bar, tweakable->name, type, tweakable->value, tweakable->varparam);
 }
 
 

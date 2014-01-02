@@ -28,10 +28,15 @@ scene_t* scene_load(const char filename[]) {
 		const char* const name_json = json_string_value(json_object_get(tweakable_json, "name"));
 		const char* const uniform_name_json = json_string_value(json_object_get(tweakable_json, "uniform"));
 		const char* const type_json = json_string_value(json_object_get(tweakable_json, "type"));
+		// for varparam syntax see: http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:varparamsyntax
+		const char* varparam_json = json_string_value(json_object_get(tweakable_json, "varparam"));
 
 		if(name_json == NULL || uniform_name_json == NULL || type_json == NULL) {
 			fprintf(stderr, "tweakable #%d: name, uniform or type missing\n", i);
 			continue;
+		}
+		if (varparam_json == NULL) {
+			varparam_json = "";
 		}
 
 		tweakable_type_t type;
@@ -70,7 +75,7 @@ scene_t* scene_load(const char filename[]) {
 		}
 
 		tweakable_t* const tweakable = &tweakables[real_tweakables_size];
-		if(!tweakable_init(tweakable, name_json, uniform_name_json, type, defaults)) {
+		if(!tweakable_init(tweakable, name_json, uniform_name_json, type, varparam_json, defaults)) {
 			fprintf(stderr, "Failed to init tweakable #%d\n", i);
 			continue;
 		}
