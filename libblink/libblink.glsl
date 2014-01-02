@@ -125,4 +125,16 @@ float plane(vec3 p, vec3 n) {
 // s: scale factor
 #define SCALE(f, p, s) f((p)/(s))*(s)
 
+// trans*late things
+// p: point
+// x: x
+// y: y
+// z: z
+#define TRANS(p, x, y, z) ((p)-vec3((x), (y), (z)))
+
+// trans*late things - using vectors!!
+// p: point
+// v: translation vector
+#define TRANSv(p, v) ((p)-(v))
+
 #line 1
