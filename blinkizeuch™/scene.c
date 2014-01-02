@@ -60,6 +60,15 @@ scene_t* scene_load(const char filename[]) {
 						defaults_color[i] = json_real_value(json_array_get(defaults_object_json, i));
 					}
 					break;
+				case BOOL:
+					if (!json_is_boolean(defaults_object_json)) {
+						fprintf(stderr, "tweakable #%d: default is no boolean\n", i);
+						break;
+					}
+					defaults = malloc(sizeof(bool));
+					bool* defaults_bool = (bool*) defaults;
+					*defaults_bool = json_real_value(defaults_object_json);
+					break;
 				case FLOAT:
 					if (!json_is_number(defaults_object_json)) {
 						fprintf(stderr, "tweakable #%d: default is no number\n", i);

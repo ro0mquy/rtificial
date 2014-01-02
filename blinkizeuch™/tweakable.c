@@ -47,6 +47,9 @@ void tweakable_update_uniform(const tweakable_t* const tweakable) {
 		case COLOR:
 			glUniform3f(uniform_location, value[0], value[1], value[2]);
 			break;
+		case BOOL:
+			glUniform1i(uniform_location, *(GLint*)(tweakable->value));
+			break;
 		case FLOAT:
 		default:
 			glUniform1f(uniform_location, value[0]);
@@ -67,6 +70,8 @@ bool tweakable_get_type(const char name[], tweakable_type_t* const out_type) {
 		*out_type = COLOR;
 	} else if(strcmp(name, "float") == 0) {
 		*out_type = FLOAT;
+	} else if(strcmp(name, "bool") == 0) {
+		*out_type = BOOL;
 	} else {
 		return false;
 	}
@@ -78,6 +83,9 @@ void tweakable_add_to_bar(const tweakable_t* const tweakable, TwBar* const tweak
 	switch(tweakable->type) {
 		case COLOR:
 			type = TW_TYPE_COLOR3F;
+			break;
+		case BOOL:
+			type = TW_TYPE_BOOL8;
 			break;
 		case FLOAT:
 		default:
@@ -92,6 +100,8 @@ static size_t get_value_size(const tweakable_type_t type) {
 	switch(type) {
 		case COLOR:
 			return 3 * sizeof(float);
+		case BOOL:
+			return sizeof(bool);
 		case FLOAT:
 		default:
 			return 1 * sizeof(float);
@@ -101,6 +111,8 @@ static size_t get_value_size(const tweakable_type_t type) {
 static void init_value(void* const value, const tweakable_type_t type, void* defaults) {
 	float* const float_value = (float*) value;
 	float* const float_defaults = (float*) defaults;
+	bool* const bool_value = (bool*) value;
+	bool* const bool_defaults = (bool*) defaults;
 		switch(type) {
 		case COLOR:
 			if (defaults == NULL) {
@@ -113,16 +125,20 @@ static void init_value(void* const value, const tweakable_type_t type, void* def
 				float_value[2] = float_defaults[2];
 			}
 			break;
+		case BOOL:
+			if (defaults == NULL) {
+				*bool_value = false;
+			} else {
+				*bool_value = *bool_defaults;
+			}
+			break;
 		case FLOAT:
+		default:
 			if (defaults == NULL) {
 				float_value[0] = 0.;
 			} else {
 				float_value[0] = float_defaults[0];
 			}
-			break;
-		default:
-			// fallback, should not happen
-			float_value[0] = 0.;
 			break;
 	}
 }
