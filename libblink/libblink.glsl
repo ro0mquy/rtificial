@@ -160,5 +160,72 @@ vec3 domrepv(vec3 p, vec3 c) {
 vec3 domrep(vec3 p, float x, float y, float z) {
 	return domrepv(p, vec3(x, y, z));
 }
+/* Given a position, this function generates a 3D co-ordinates based,
+ * reconstructible static noise. */
+float noise(vec3 position)
+{
+	position.x += position.y * 57. + position.z * 21.;
+	return sin(cos(position.x) * position.x);
+
+	/* The following is an alternative for the previous line:
+	 * return fract(position.x * position.x * .0013) * 2. - 1.; */
+}
+
+/* Given a position, this function generates a 3D co-ordinates based,
+ * reconstructible linearly interpolated smooth noise.
+ *
+ * This function uses the noise() function above for its underlying
+ * noise texture. */
+float smooth_noise(vec3 position)
+{
+	vec3 integer = floor(position);
+	vec3 fractional = position - integer;
+
+	return mix(mix(mix(noise(integer),
+			   noise(integer + vec3(1, 0, 0)),
+			   fractional.x),
+		       mix(noise(integer + vec3(0, 1, 0)),
+			   noise(integer + vec3(1, 1, 0)),
+			   fractional.x),
+		       fractional.y),
+		   mix(mix(noise(integer + vec3(0, 0, 1)),
+			   noise(integer + vec3(1, 0, 1)),
+			   fractional.x),
+		       mix(noise(integer + vec3(0, 1, 1)),
+			   noise(integer + 1.), fractional.x),
+		       fractional.y),
+		   fractional.z) * .5 + .5;
+}
+float rand(vec2 co){
+	return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+vec2 g(float v) {
+	v *= 2.0 * 3.1415926;
+	return vec2(cos(v), sin(v));
+}
+vec2 fade(vec2 t) {
+	return t*t*t*(t*(t*6.0-15.0)+10.0);
+}
+
+float classic_noise(vec2 co) {
+	vec2 c = fract(co);
+	vec2 C = floor(co);
+	vec2 e = vec2(0.0, 1.0);
+
+	vec4 n = vec4(
+		dot(g(rand(C + e.xx)), c - e.xx),
+		dot(g(rand(C + e.xy)), c - e.xy),
+		dot(g(rand(C + e.yx)), c - e.yx),
+		dot(g(rand(C + e.yy)), c - e.yy)
+	);
+
+	vec2 u = fade(c);
+
+	return mix(
+		mix(n[0], n[2], u.x),
+		mix(n[1], n[3], u.x),
+		u.y);
+}
 
 #line 1

@@ -3,12 +3,19 @@
 		{
 			"name": "Color untenrum",
 			"uniform": "color_untenrum",
-			"type": "color"
+			"type": "color",
+			"default": [0.1, 0.1, 0.1]
 		},
 		{
 			"name": "Color House1",
 			"uniform": "color_house1",
 			"type": "color"
+		},
+		{
+			"name": "Noise",
+			"uniform": "noisiness",
+			"type": "float",
+			"default": 17.0
 		}
 	]
 }
