@@ -43,7 +43,7 @@ int previousTime = 0;
 int currentTime = 0;
 float deltaT = 0;
 
-float angle_modifier = .9; // 50. / 360. * TAU
+float angle_modifier = 1.; // ~ 50. / 360. * TAU
 float movement_modifier = 5.;
 
 bool run;
@@ -119,8 +119,8 @@ int main(int argc, char *argv[]) {
 	TwAddVarRW(tweakBar, "Start", TW_TYPE_UINT32, &start, " max=9");
 	TwAddVarRW(tweakBar, "End", TW_TYPE_UINT32, &end, " max=9");
 	TwAddVarRW(tweakBar, "Duration", TW_TYPE_UINT32, &duration, "");
-	TwAddVarRW(tweakBar, "Movement Speed", TW_TYPE_FLOAT, &movement_modifier, "");
-	TwAddVarRW(tweakBar, "Angular Speed", TW_TYPE_FLOAT, &angle_modifier, "");
+	TwAddVarRW(tweakBar, "Movement Speed", TW_TYPE_FLOAT, &movement_modifier, "min=0.0");
+	TwAddVarRW(tweakBar, "Angular Speed", TW_TYPE_FLOAT, &angle_modifier, "min=0.0 step=0.2");
 
 	if(scene != NULL) scene_add_to_tweakbar(scene, tweakBar);
 
