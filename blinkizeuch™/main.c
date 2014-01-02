@@ -111,7 +111,7 @@ int main(int argc, char *argv[]) {
 	TwInit(TW_OPENGL, NULL);
 	TwWindowSize(default_width, default_height);
 	tweakBar = TwNewBar("Rumfummeldings");
-	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_FLOAT, &deltaT, "");
+	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_FLOAT, &deltaT, "precision=3");
 	TwAddVarCB(tweakBar, "Camera rotation", TW_TYPE_QUAT4F, cb_set_rotation, cb_get_rotation, NULL, "");
 	TwAddVarRW(tweakBar, "Start", TW_TYPE_UINT32, &start, " max=9");
 	TwAddVarRW(tweakBar, "End", TW_TYPE_UINT32, &end, " max=9");
