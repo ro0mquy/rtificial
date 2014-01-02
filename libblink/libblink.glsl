@@ -40,6 +40,17 @@ vec3 name(vec3 p) {\
 	));\
 }
 
+// ambient occlusion and subsurface scattering
+#define DECLARE_AO(name) float name(vec3, vec3, float, float);
+#define DEFINE_AO(name, f) \
+float ao(vec3 p, vec3 n, float d, float i) {\
+	float o, s = sign(d);\
+	for(o = s * .5 + .5; i > 0; i--) {\
+		o -= (i * d - f(p + n * i * d * s)[0]) / exp2(i);\
+	}\
+	return o;\
+}
+
 mat3 rX(float theta) {
 	return mat3(
 		1., 0., 0.,
