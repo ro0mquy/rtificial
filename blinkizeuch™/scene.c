@@ -49,14 +49,20 @@ scene_t* scene_load(const char filename[]) {
 						fprintf(stderr, "tweakable #%d: default of color is no array of length 3\n", i);
 						break;
 					}
-
 					defaults = malloc(3 * sizeof(float));
-					float* defaults_float = (float*) defaults;
+					float* defaults_color = (float*) defaults;
 					for (int i = 0; i < 3; i++) {
-						defaults_float[i] = json_real_value(json_array_get(defaults_object_json, i));
+						defaults_color[i] = json_real_value(json_array_get(defaults_object_json, i));
 					}
 					break;
 				case FLOAT:
+					if (!json_is_number(defaults_object_json)) {
+						fprintf(stderr, "tweakable #%d: default is no number\n", i);
+						break;
+					}
+					defaults = malloc(sizeof(float));
+					float* defaults_float = (float*) defaults;
+					*defaults_float = json_real_value(defaults_object_json);
 					break;
 				default:
 					break;
