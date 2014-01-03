@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <sys/inotify.h>
+#include <sys/fcntl.h>
 
 #include <AntTweakBar.h>
 #include <SDL/SDL.h>
@@ -124,10 +125,12 @@ int main(int argc, char *argv[]) {
 
 	in_fd = inotify_init();
 	if(in_fd < 0)
-		fprintf(stderr, "error: inotfiy: inotify_init()");
+		fprintf(stderr, "error: inotify: inotify_init()");
+	if(fcntl(in_fd, F_SETFL, O_NONBLOCK))
+		fprintf(stderr, "error: inotify: fcntl()");
 
 	in_wd = inotify_add_watch(in_fd, _fragment_path, IN_MODIFY);
-	printf("watching %s\n", _fragment_path);
+	printf("watching \"%s\"\n", _fragment_path);
 
 
 	// initialize DevIL
@@ -156,14 +159,13 @@ int main(int argc, char *argv[]) {
 	while(run) {
 		// inotify event handling
 		in_length = read(in_fd, in_buffer, IN_BUF_LEN);
-		if(in_length < 0)
-			fprintf(stderr, "error: inotify: read()");
 
 		in_event_i = 0;
 		while(in_event_i < in_length){
 			struct inotify_event *in_event = (struct inotify_event*) &in_buffer[in_event_i];
+			printf("i: %i; length: %i; mask: %i; IN_MODIFY: %i, mask & flag: %i\n", in_event_i, in_length, in_event->mask, IN_MODIFY, in_event->mask & IN_MODIFY);
 			if(in_event->mask & IN_MODIFY){
-				puts("config file changed. reloading it for ya :)");
+				puts("shader file changed. reloading it for ya.");
 				load_shader();
 			}
 			in_event_i += IN_EVENT_SIZE + in_event->len;
