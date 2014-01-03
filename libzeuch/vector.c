@@ -82,3 +82,22 @@ vec3 vec3_cross(vec3 v, vec3 w) {
 vec3 vec3_lerp(vec3 v, vec3 w, float t) {
 	return vec3_add(vec3_s_mult(1. - t, v), vec3_s_mult(t, w));
 }
+
+vec3 vec3_cubic_bezier(vec3 p0, vec3 p1, vec3 p2, vec3 p3, float t) {
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        float uuu = uu * u;
+        float ttt = tt * t;
+
+        return vec3_add(
+			vec3_add(
+				vec3_s_mult(uuu, p0),
+				vec3_s_mult(3 * uu * t, p1)
+				),
+			vec3_add(
+				vec3_s_mult(3 * u * tt, p2),
+				vec3_s_mult(ttt, p3)
+				)
+			);
+}

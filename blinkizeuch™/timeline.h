@@ -16,7 +16,8 @@ typedef struct {
 	GLint attribute_coord2d;
 	GLint uniform_color;
 	float zoom;
-	struct keyframe_list_t* list;
+	struct keyframe_list_t* keyframes;
+	struct keyframe_list_t* controlPoints;
 	bool hidden;
 	int cursor_position;
 	bool is_playing;

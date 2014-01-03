@@ -3,18 +3,24 @@
 static float flight_get_t(const flight_t* const flight, const int time);
 static float flight_min(float a, float b);
 
-flight_t flight_new(const camera_t start, const camera_t end, const int start_time, const int duration) {
+flight_t flight_new(const camera_t* p0, const camera_t* p1, const camera_t* p2, const camera_t* p3, const int start_time, const int duration) {
 	flight_t flight = {
-		.start = start,
-		.end = end,
+		// points for bezier curves
+		.p0 = p0, // start
+		.p1 = p1,
+		.p2 = p2,
+		.p3 = p3, // end
 		.start_time = start_time,
 		.duration = duration,
 	};
 	return flight;
 }
 
+//camera_t flight_get_camera(const flight_t* const flight, const int time) {
+//	return camera_lerp(flight->p0, flight->p3, flight_min(flight_get_t(flight, time), 1.));
+//}
 camera_t flight_get_camera(const flight_t* const flight, const int time) {
-	return camera_lerp(&flight->start, &flight->end, flight_min(flight_get_t(flight, time), 1.));
+	return camera_cubic_bezier(flight->p0, flight->p1, flight->p2, flight->p3, flight_min(flight_get_t(flight, time), 1.));
 }
 
 bool flight_is_finished(const flight_t* const flight, const int time) {
