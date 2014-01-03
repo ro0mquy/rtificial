@@ -98,7 +98,7 @@ vec2 haus_mit_ecken(vec3 p, vec3 box_dim, float corner_width, int material) {
 	vec3 q2 = domrep(q, window_size.x * 2. + .1, window_size.y * 2. + .1, 1.);
 	q2.z = q.z;
 	float windows_z = window_zy(q2, window_size);
-	windows_z = max(windows_z, box(q, vec3(box_dim.x - corner_width, box_dim.y, 1.)));
+	windows_z = max(windows_z, box(q, vec3(box_dim.x - corner_width, box_dim.y, .01)));
 
 	p2 = p;
 	p2.x = abs(p.x);
@@ -106,7 +106,7 @@ vec2 haus_mit_ecken(vec3 p, vec3 box_dim, float corner_width, int material) {
 	q2 = domrep(q, 1., window_size.y * 2. + .1, window_size.x * 2. + .1);
 	q2.x = q.x;
 	float windows_x = window_xy(q2, window_size);
-	windows_x = max(windows_x, box(q, vec3(1., box_dim.y, box_dim.z - corner_width)));
+	windows_x = max(windows_x, box(q, vec3(.1, box_dim.y, box_dim.z - corner_width)));
 
 	float all_windows = min(windows_z, windows_x);
 	return min_material(vec2(house, material), vec2(all_windows, MAT_WINDOWS));
