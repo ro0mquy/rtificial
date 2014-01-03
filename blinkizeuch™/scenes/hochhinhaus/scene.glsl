@@ -29,9 +29,10 @@ void main(void) {
 	vec3 final_color = vec3(0);
 	int max_bounces = 2;
 	float factor = 1;
+	vec3 p = view_position;
 	for(int i = 0; i < max_bounces; i++) {
 		int i;
-		vec3 hit = march(view_position, dir, i);
+		vec3 hit = march(p, dir, i);
 		if(i < 100) {
 			vec3 normal = calc_normal(hit);
 			vec3 light = vec3(20, 60, 20);
@@ -55,6 +56,7 @@ void main(void) {
 			} else if(material == MAT_WINDOWS) {
 				color = color_windows;
 				dir = reflect(dir, normal);
+				p = hit + .01 * dir;
 				factor *= window_reflectivity;
 				cont = true;
 			}
