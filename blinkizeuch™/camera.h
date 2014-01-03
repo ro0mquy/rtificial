@@ -56,4 +56,6 @@ void camera_set_rotation(camera_t* const camera, quat rotation);
 
 camera_t camera_lerp(const camera_t* const start, const camera_t* const end, float t);
 
+camera_t camera_cubic_bezier(const camera_t* const p0, const camera_t* const p1, const camera_t* const p2, const camera_t* const p3, float t);
+
 #endif // CAMERA_H
