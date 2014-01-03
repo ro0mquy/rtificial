@@ -43,8 +43,11 @@ void main(void) {
 				 color = vec3(0);
 			} else if(material == MAT_UNTENRUM) {
 				color = color_untenrum;
-				float noise = smooth_noise(noisiness * hit);
-				color += noise * .3;
+				float noise = 0;
+				noise += classic_noise(noisiness * hit.xz * .06125) * .5;
+				noise += classic_noise(noisiness * hit.xz * .125) * .25;
+				noise += classic_noise(noisiness * hit.xz * .25) * .125;
+				color += noise * .1;
 			} else if(material == MAT_HOUSES) {
 				color = color_house1;
 			} else if(material == MAT_HOUSE2) {
