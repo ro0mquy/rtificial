@@ -17,7 +17,7 @@ uniform float noisiness;
 uniform float corner_width;
 uniform float ambient_intensity;
 uniform vec3 color_windows;
-uniform float reflectivity;
+uniform float window_reflectivity;
 
 uniform vec3 color_foo1;
 uniform vec3 color_foo2;
@@ -28,16 +28,17 @@ void main(void) {
 	vec3 dir = get_direction();
 	vec3 final_color = vec3(0);
 	int max_bounces = 2;
+	float factor = 1;
 	for(int i = 0; i < max_bounces; i++) {
 		int i;
 		vec3 hit = march(view_position, dir, i);
 		if(i < 100) {
 			vec3 normal = calc_normal(hit);
-			vec3 light = vec3(20, 20, 20);
+			vec3 light = vec3(20, 60, 20);
 			int material = int(f(hit)[1]);
-			float factor = 1;
 			vec3 color;
 			bool cont = false;
+			float local_factor = factor;
 			if(material == 0) {
 				 color = vec3(0);
 			} else if(material == MAT_UNTENRUM) {
@@ -51,14 +52,13 @@ void main(void) {
 			} else if(material == MAT_WINDOWS) {
 				color = color_windows;
 				dir = reflect(dir, normal);
-				factor *= reflectivity;
+				factor *= window_reflectivity;
 				cont = true;
 			}
-			float local_factor = factor;
 			local_factor *= max(dot(normal, normalize(light - hit)), 0);
 			local_factor += ambient_intensity * ao(hit, normal, .15, 5);
 			color *= local_factor;
-			factor *= local_factor;
+			//factor *= local_factor;
 			final_color += color;
 			if(!cont) break;
 		} else {
@@ -110,10 +110,11 @@ vec2 f(vec3 p) {
 	vec2 house2 = haus_mit_ecken(trans(p, 0, house2_height, 0), vec3(house2_width, house2_height, house2_width),  corner_width * house2_width, MAT_HOUSE2);
 	vec2 house3 = haus_mit_ecken(trans(p, 0, 2 * (house2_height + house1_height) + house3_width, 0), vec3(house3_width, house3_height, house3_width),  corner_width * house3_width, MAT_HOUSE2);
 	vec2 house = min_material(house1, min_material(house2, house3));
-	float houses_height = 6;
+	float foo = length(floor(p.xz / 10) * 10);
+	float houses_height = 6 + sin(foo);
 	vec3 q = trans(p, 0, houses_height, 0);
 	float houses_dist = box(domrep(q, 10, q.y + .1, 10), vec3(3, houses_height, 3));
-	float no_houses = box(p, vec3(20, 20, 20));
+	float no_houses = box(p, vec3(20, 24, 20));
 	vec2 houses = vec2(max(houses_dist, -no_houses), MAT_HOUSES);
 	return min_material(min_material(aussrenrum, untenrum), min_material(house, houses));
 }
