@@ -139,6 +139,9 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 		if(1. - ((float) event->button.y / window_get_height()) > timeline_height) {
 			return false;
 		}
+		if(timeline->hidden) {
+			return false;
+		}
 		const float horizontal = ((float) event->button.x / window_get_width());
 		switch(event->button.button) {
 			case SDL_BUTTON_WHEELUP:
