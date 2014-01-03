@@ -4,6 +4,7 @@ vec2 f(vec3);
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
 DEFINE_AO(ao, f)
+DEFINE_SHADOW_RAY(shadow_ray, f)
 
 const int MAT_UNTENRUM = 1;
 const int MAT_HOUSES = 2;
@@ -33,7 +34,7 @@ void main(void) {
 	for(int j = 0; j < max_bounces; j++) {
 		int i;
 		vec3 hit = march(p, dir, i);
-		if(i < 100) {
+		//if(i < 100) {
 			vec3 normal = calc_normal(hit);
 			vec3 light = vec3(20, 60, 20);
 			int material = int(f(hit)[1]);
@@ -61,14 +62,14 @@ void main(void) {
 				cont = true;
 			}
 			local_factor *= max(dot(normal, normalize(light - hit)), 0);
-			local_factor += ambient_intensity * ao(hit, normal, .15, 5);
-			color *= local_factor;
+			color *= local_factor * shadow_ray(hit, light);
+			color += ambient_intensity * ao(hit, normal, .15, 5);
 			//factor *= local_factor;
 			final_color += color;
 			if(!cont) break;
-		} else {
-			break;
-		}
+		//} else {
+		//	break;
+		//}
 	}
 	out_color = vec4(final_color, 1);
 }
