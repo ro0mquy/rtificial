@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <math.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <sys/inotify.h>
 
 #include <AntTweakBar.h>
 #include <SDL/SDL.h>
@@ -18,6 +20,9 @@
 #include "scene.h"
 #include "timeline.h"
 #include "window.h"
+
+#define IN_EVENT_SIZE ( sizeof(struct inotify_event))
+#define IN_BUF_LEN    ( 1024 * (IN_EVENT_SIZE+16))
 
 const double TAU = 6.28318530718;
 
@@ -66,6 +71,7 @@ int main(int argc, char *argv[]) {
 	// reload shader when receiving SIGUSR1
 	signal(SIGHUP, handle_sig);
 
+
 	const int init_status = SDL_Init(SDL_INIT_EVERYTHING);
 	if(init_status == -1) {
 		print_sdl_error("Failed to initialise SDL! Error: ");
@@ -103,6 +109,27 @@ int main(int argc, char *argv[]) {
 		scene_path = malloc(scene_path_length + 1);
 		memcpy(scene_path, argv[1], scene_path_length + 1);
 	}
+
+	// inotify setup
+	int in_length, in_event_i;
+	int in_fd;
+	int in_wd;
+	char in_buffer[IN_BUF_LEN];
+
+	const size_t _scene_path_length = strlen(scene_path);
+	const size_t _fragment_name_length = strlen(fragment_name);
+	char _fragment_path[_scene_path_length + _fragment_name_length + 1];
+	strncpy(_fragment_path, scene_path, _scene_path_length);
+	strncpy(_fragment_path + _scene_path_length, fragment_name, _fragment_name_length + 1);
+
+	in_fd = inotify_init();
+	if(in_fd < 0)
+		fprintf(stderr, "error: inotfiy: inotify_init()");
+
+	in_wd = inotify_add_watch(in_fd, _fragment_path, IN_MODIFY);
+	printf("watching %s\n", _fragment_path);
+
+
 	// initialize DevIL
 	ilInit();
 
@@ -127,6 +154,22 @@ int main(int argc, char *argv[]) {
 	SDL_WM_SetCaption(window_caption, NULL);
 	run = true;
 	while(run) {
+		// inotify event handling
+		in_length = read(in_fd, in_buffer, IN_BUF_LEN);
+		if(in_length < 0)
+			fprintf(stderr, "error: inotify: read()");
+
+		in_event_i = 0;
+		while(in_event_i < in_length){
+			struct inotify_event *in_event = (struct inotify_event*) &in_buffer[in_event_i];
+			if(in_event->mask & IN_MODIFY){
+				puts("config file changed. reloading it for ya :)");
+				load_shader();
+			}
+			in_event_i += IN_EVENT_SIZE + in_event->len;
+		}
+
+
 		update_state();
 
 		SDL_Event event;
@@ -161,6 +204,8 @@ int main(int argc, char *argv[]) {
 	TwTerminate();
 	free_resources();
 	SDL_Quit();
+	inotify_rm_watch(in_fd, in_wd);
+	close(in_fd);
 	return EXIT_SUCCESS;
 }
 
