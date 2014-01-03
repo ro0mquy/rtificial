@@ -3,6 +3,7 @@ vec2 f(vec3);
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
 DEFINE_AO(ao, f)
+DEFINE_SHADOW_RAY(shadow_ray, f)
 
 uniform vec3 color_foo1;
 uniform vec3 color_foo2;
@@ -14,12 +15,13 @@ uniform float foo2;
 void main(void){
 	vec3 dir = get_direction();
 	vec3 final_color = vec3(0);
-	vec3 light = vec3(0, -7, 0);
+	vec3 light = vec3(0, -20, 0);
 	int i;
 	vec3 hit = march(view_position, dir, i);
 	if(i < 100){
 		vec3 normal = calc_normal(hit);
-		final_color = 0.1 * ao(hit, normal, .15, 5) + vec3(1.0) * max(dot(normalize(light - hit), normal), 0);
+		final_color += 0.1 * ao(hit, normal, .15, 5);
+		final_color += shadow_ray(hit, light) * vec3(1.0) * max(dot(normalize(light - hit), normal), 0);
 	}
 	out_color = vec4(final_color, 1); 
 } 
