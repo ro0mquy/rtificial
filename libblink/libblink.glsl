@@ -29,6 +29,22 @@ vec3 name(vec3 p, vec3 direction, out int i) {\
 	return p;\
 }
 
+#define DECLARE_SHADOW_RAY(name) float name(vec3, vec3);
+#define DEFINE_SHADOW_RAY(name, f) \
+float name(vec3 hit, vec3 light) {\
+	vec3 dir = normalize(hit - light);\
+	vec3 p = light;\
+	float walked = 0.;\
+	for(int i = 0; i < 100; i++) {\
+		float dist = f(p)[0];\
+		p += dir * dist;\
+		dist = abs(dist);\
+		walked += dist;\
+		if(dist < .001 * walked) break;\
+	}\
+	return float((distance(hit, light) - distance(light, p)) < .1);\
+}
+
 #define DECLARE_NORMAL(name) vec3 name(vec3);
 #define DEFINE_NORMAL(name, f) \
 vec3 name(vec3 p) {\
