@@ -44,7 +44,7 @@
 			"name": "Noise",
 			"uniform": "noisiness",
 			"type": "float",
-			"default": 17.0
+			"default": 200.0
 		},
 		{
 			"name": "Corner width",
