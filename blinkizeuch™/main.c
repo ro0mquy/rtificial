@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
 	if(fcntl(in_fd, F_SETFL, O_NONBLOCK))
 		fprintf(stderr, "error: inotify: fcntl()");
 
-	in_wd = inotify_add_watch(in_fd, _fragment_path, IN_MODIFY);
+	in_wd = inotify_add_watch(in_fd, _fragment_path, IN_CLOSE_WRITE);
 	printf("watching \"%s\"\n", _fragment_path);
 
 
@@ -163,8 +163,18 @@ int main(int argc, char *argv[]) {
 		in_event_i = 0;
 		while(in_event_i < in_length){
 			struct inotify_event *in_event = (struct inotify_event*) &in_buffer[in_event_i];
-			printf("i: %i; length: %i; mask: %i; IN_MODIFY: %i, mask & flag: %i\n", in_event_i, in_length, in_event->mask, IN_MODIFY, in_event->mask & IN_MODIFY);
-			if(in_event->mask & IN_MODIFY){
+			if(in_event->mask & IN_CLOSE_WRITE){
+				puts("shader file changed. reloading it for ya.");
+				load_shader();
+			}
+			else if(in_event->mask & IN_IGNORED){
+				/* this is probably really wrong, doing it anyway. for the lulz
+				 * IN_IGNORED is fired when a watch is removed. during debgging
+				 * I noticed, that this gets fired wehn vim wirtes to the scene
+				 * file. in other code a IN_CLOSE_WRITE was fired instead.
+				 * reloading and rewatching it anyway. #yolo
+				 */
+				in_wd = inotify_add_watch(in_fd, _fragment_path, IN_CLOSE_WRITE);
 				puts("shader file changed. reloading it for ya.");
 				load_shader();
 			}
