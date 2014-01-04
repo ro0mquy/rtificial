@@ -4,8 +4,10 @@
 #include <math.h>
 #include <stdbool.h>
 #include <signal.h>
-#include <sys/inotify.h>
-#include <sys/fcntl.h>
+#ifdef __linux__
+# include <sys/inotify.h>
+# include <sys/fcntl.h>
+#endif
 
 #include <AntTweakBar.h>
 #include <SDL/SDL.h>
@@ -111,6 +113,7 @@ int main(int argc, char *argv[]) {
 		memcpy(scene_path, argv[1], scene_path_length + 1);
 	}
 
+#ifdef __linux__
 	// inotify setup
 	int in_length, in_event_i;
 	int in_fd;
@@ -131,6 +134,7 @@ int main(int argc, char *argv[]) {
 
 	in_wd = inotify_add_watch(in_fd, _fragment_path, IN_CLOSE_WRITE);
 	printf("watching \"%s\"\n", _fragment_path);
+#endif
 
 
 	// initialize DevIL
@@ -157,6 +161,7 @@ int main(int argc, char *argv[]) {
 	SDL_WM_SetCaption(window_caption, NULL);
 	run = true;
 	while(run) {
+#ifdef __linux__
 		// inotify event handling
 		in_length = read(in_fd, in_buffer, IN_BUF_LEN);
 
@@ -180,6 +185,7 @@ int main(int argc, char *argv[]) {
 			}
 			in_event_i += IN_EVENT_SIZE + in_event->len;
 		}
+#endif
 
 
 		update_state();
