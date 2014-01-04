@@ -76,6 +76,8 @@ timeline_t* timeline_new() {
 	camera_t start_cam, end_cam;
 	camera_init(&start_cam);
 	camera_init(&end_cam);
+	// TODO dirty fix, to prevent black screen
+	camera_move_y(&end_cam, 0.00001);
 	keyframes = list_insert(keyframes, (keyframe_t) {
 		.time = 0,
 		.camera = start_cam,
