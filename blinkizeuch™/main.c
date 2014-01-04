@@ -224,8 +224,8 @@ int main(int argc, char *argv[]) {
 	SDL_Quit();
 #ifdef __linux__
 	inotify_rm_watch(in_fd, in_wd);
-#endif
 	close(in_fd);
+#endif
 	return EXIT_SUCCESS;
 }
 
