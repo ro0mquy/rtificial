@@ -222,7 +222,9 @@ int main(int argc, char *argv[]) {
 	TwTerminate();
 	free_resources();
 	SDL_Quit();
+#ifdef __linux__
 	inotify_rm_watch(in_fd, in_wd);
+#endif
 	close(in_fd);
 	return EXIT_SUCCESS;
 }
