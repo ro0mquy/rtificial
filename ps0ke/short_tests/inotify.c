@@ -18,7 +18,7 @@ int main( int argc, char **argv ){
 	if(fcntl(fd, F_SETFL, O_NONBLOCK))
 		puts("error: fcntl()");
 
-	wd = inotify_add_watch( fd, "/tmp/foo", IN_MODIFY);
+	wd = inotify_add_watch( fd, "/tmp/foo", IN_MODIFY | IN_CLOSE_WRITE);
 
 	int cont = 23;
 	while(cont){
@@ -30,7 +30,11 @@ int main( int argc, char **argv ){
 			printf("i: %i; length: %i; mask: %i; IN_MODIFY: %i, mask & flag: %i\n", i, length, event->mask, IN_MODIFY, event->mask & IN_MODIFY);
 			if (event->mask & IN_MODIFY){
 				puts("The file was modified.");
-				cont = 0;
+//				cont = 0;
+			}
+			else if (event->mask & IN_CLOSE_WRITE){
+				puts("the file was close-written");
+//				cont = 0;
 			}
 
 			i += EVENT_SIZE + event->len;
