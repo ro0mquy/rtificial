@@ -299,10 +299,7 @@ static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoint
 			vec3 q1 = vec3_add(p1, vec3_s_mult(scale, tangent)); // p1 + scale * tangent
 
 			// add p1
-			controlPoints = list_insert(controlPoints, (keyframe_t) {
-					.time = knots->elements[i].time,
-					.camera = (camera_t) { .position = p1, .rotation = knots->elements[i].camera.rotation }
-					}, controlPoints->length);
+			controlPoints = list_insert(controlPoints, knots->elements[i], controlPoints->length);
 			// add q1
 			controlPoints = list_insert(controlPoints, (keyframe_t) {
 					.time = 0,
@@ -321,10 +318,7 @@ static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoint
 					.camera = (camera_t) { .position = q0 }
 					}, controlPoints->length);
 			// add p1
-			controlPoints = list_insert(controlPoints, (keyframe_t) {
-					.time = knots->elements[i].time,
-					.camera = (camera_t) { .position = p1, .rotation = knots->elements[i].camera.rotation }
-					}, controlPoints->length);
+			controlPoints = list_insert(controlPoints, knots->elements[i], controlPoints->length);
 		} else {
 			vec3 p0 = knots->elements[i-1].camera.position;
 			vec3 p1 = knots->elements[i].camera.position;
@@ -340,10 +334,7 @@ static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoint
 					.camera = (camera_t) { .position = q0 }
 					}, controlPoints->length);
 			// add p1
-			controlPoints = list_insert(controlPoints, (keyframe_t) {
-					.time = knots->elements[i].time,
-					.camera = (camera_t) { .position = p1, .rotation = knots->elements[i].camera.rotation }
-					}, controlPoints->length);
+			controlPoints = list_insert(controlPoints, knots->elements[i], controlPoints->length);
 			// add q1
 			controlPoints = list_insert(controlPoints, (keyframe_t) {
 					.time = 0,
