@@ -106,7 +106,7 @@ camera_t camera_lerp(const camera_t* const start, const camera_t* const end, flo
 camera_t camera_cubic_bezier(const camera_t* const p0, const camera_t* const p1, const camera_t* const p2, const camera_t* const p3, float t) {
 	camera_t camera = {
 		.position = vec3_cubic_bezier(p0->position, p1->position, p2->position, p3->position, t),
-		.rotation = quat_slerp(p0->rotation, p3->rotation, t),
+		.rotation = quat_cubic_bezier(p0->rotation, p1->rotation, p2->rotation, p3->rotation, t),
 	};
 	return camera;
 }

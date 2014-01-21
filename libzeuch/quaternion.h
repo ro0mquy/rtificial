@@ -28,4 +28,6 @@ quat quat_nlerp(quat q, quat r, float t);
 
 quat quat_slerp(quat v0, quat v1, float t);
 
+quat quat_cubic_bezier(quat q00, quat q10, quat q20, quat q30, float t);
+
 #endif
