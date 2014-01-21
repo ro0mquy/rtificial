@@ -13,7 +13,7 @@
 #include "timeline_vertex.h"
 #include "timeline_fragment.h"
 
-#define TIMELINE_DEFAULT_SCALE 1.
+#define TIMELINE_DEFAULT_SCALE .5
 
 typedef struct {
 	GLfloat x, y, w, h;
