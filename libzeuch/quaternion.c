@@ -82,3 +82,14 @@ quat quat_slerp(quat v0, quat v1, float t) {
 
 	return quat_add(quat_s_mult(cos(theta), v0), quat_s_mult(sin(theta), v2)); // v0*cos(theta) + v2*sin(theta)
 }
+
+// quaternion bezier curves
+quat quat_cubic_bezier(quat q00, quat q10, quat q20, quat q30, float t) {
+	quat q01 = quat_slerp(q00, q10, t);
+	quat q11 = quat_slerp(q10, q20, t);
+	quat q21 = quat_slerp(q20, q30, t);
+	quat q02 = quat_slerp(q01, q11, t);
+	quat q12 = quat_slerp(q11, q21, t);
+	quat q03 = quat_slerp(q02, q12, t);
+	return q03;
+}
