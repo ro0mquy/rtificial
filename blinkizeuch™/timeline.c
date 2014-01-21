@@ -287,58 +287,86 @@ static size_t list_find(keyframe_list_t* list, int time) {
 	return list->length;
 }
 
+//helper functions for quaternion bezier curves
+// cut q0 - q1 in two halfs
+static quat bisect(quat q0, quat q1) {
+	return quat_normalize(quat_add(q0, q1));
+}
+
+// mirror q0 at q1
+static quat mirror(quat q0, quat q1) {
+	quat product = quat_mult(quat_mult(q0, q1), q1);
+	return quat_sub(quat_s_mult(2, product), q0);
+}
+
 // taken from http://devmag.org.za/2011/06/23/bzier-path-algorithms/
+// quaternion from http://embots.dfki.de/doc/seminar_ca/Kremer_Quaternions.pdf
+// http://caig.cs.nctu.edu.tw/course/CA/Lecture/slerp.pdf
 static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoints, keyframe_list_t* knots, float scale) {
 	controlPoints = list_clear(controlPoints);
 	for (uint i = 0; i < knots->length; i++) {
 		if (i == 0) { // is first
 			vec3 p1 = knots->elements[i].camera.position;
+			quat v1 = knots->elements[i].camera.rotation;
 			vec3 p2 = knots->elements[i+1].camera.position;
+			quat v2 = knots->elements[i+1].camera.rotation;
 
 			vec3 tangent = vec3_sub(p2, p1); // (p2 - p1)
 			vec3 q1 = vec3_add(p1, vec3_s_mult(scale, tangent)); // p1 + scale * tangent
 
+			quat a1 = bisect(v1, v2);
+
 			// add p1
 			controlPoints = list_insert(controlPoints, knots->elements[i], controlPoints->length);
-			// add q1
+			// add q1 and a1
 			controlPoints = list_insert(controlPoints, (keyframe_t) {
 					.time = 0,
-					.camera = (camera_t) { .position = q1 }
+					.camera = (camera_t) { .position = q1, .rotation = a1 }
 					}, controlPoints->length);
 		} else if (i == knots->length - 1) { // last
 			vec3 p0 = knots->elements[i-1].camera.position;
+			quat v0 = knots->elements[i-1].camera.rotation;
 			vec3 p1 = knots->elements[i].camera.position;
+			quat v1 = knots->elements[i].camera.rotation;
 
 			vec3 tangent = vec3_sub(p1, p0); // (p1 - p0)
 			vec3 q0 = vec3_sub(p1, vec3_s_mult(scale, tangent)); // p1 - scale * tangent
 
-			// add q0
+			quat b1 = bisect(v1, v0);
+
+			// add q0 and b1
 			controlPoints = list_insert(controlPoints, (keyframe_t) {
 					.time = 0,
-					.camera = (camera_t) { .position = q0 }
+					.camera = (camera_t) { .position = q0, .rotation = b1 }
 					}, controlPoints->length);
 			// add p1
 			controlPoints = list_insert(controlPoints, knots->elements[i], controlPoints->length);
 		} else {
 			vec3 p0 = knots->elements[i-1].camera.position;
+			quat v0 = knots->elements[i-1].camera.rotation;
 			vec3 p1 = knots->elements[i].camera.position;
+			quat v1 = knots->elements[i].camera.rotation;
 			vec3 p2 = knots->elements[i+1].camera.position;
+			quat v2 = knots->elements[i+1].camera.rotation;
 
 			vec3 tangent = vec3_normalize(vec3_sub(p2, p0)); // (p2 - p0).normalized
 			vec3 q0 = vec3_sub(p1, vec3_s_mult(scale * vec3_length(vec3_sub(p1, p0)), tangent)); // p1 - scale * tangent * (p1 - p0).length
 			vec3 q1 = vec3_add(p1, vec3_s_mult(scale * vec3_length(vec3_sub(p2, p1)), tangent)); // p1 + scale * tangent * (p2 - p1).length
 
-			// add q0
+			quat a1 = bisect(mirror(v0, v1), v2);
+			quat b1 = mirror(a1, v1);
+
+			// add q0 and b1
 			controlPoints = list_insert(controlPoints, (keyframe_t) {
 					.time = 0,
-					.camera = (camera_t) { .position = q0 }
+					.camera = (camera_t) { .position = q0, .rotation = b1 }
 					}, controlPoints->length);
 			// add p1
 			controlPoints = list_insert(controlPoints, knots->elements[i], controlPoints->length);
-			// add q1
+			// add q1 and a1
 			controlPoints = list_insert(controlPoints, (keyframe_t) {
 					.time = 0,
-					.camera = (camera_t) { .position = q1 }
+					.camera = (camera_t) { .position = q1, .rotation = a1 }
 					}, controlPoints->length);
 		}
 	}
