@@ -72,6 +72,16 @@ quat quat_slerp(quat v0, quat v1, float t) {
 	// Compute the cosine of the angle between the two vectors.
 	float dot = quat_dot(v0, v1);
 
+	const float DOT_THRESHOLD = 0.9995;
+	if (dot > DOT_THRESHOLD) {
+		// If the inputs are too close for comfort, linearly interpolate
+		// and normalize the result.
+
+		quat result = quat_add(v0, quat_s_mult(t, quat_sub(v1, v0))); // v0 + t*(v1 - v0)
+		result = quat_normalize(result);
+		return result;
+	}
+
 	//Clamp(dot, -1, 1);           // Robustness: Stay within domain of acos()
 	dot = dot > 1. ? 1. : dot < 0. ? 0. : dot;
 	float theta_0 = acos(dot);  // theta_0 = angle between input vectors
