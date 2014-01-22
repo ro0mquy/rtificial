@@ -295,8 +295,10 @@ static quat bisect(quat q0, quat q1) {
 
 // mirror q0 at q1
 static quat mirror(quat q0, quat q1) {
-	quat product = quat_mult(quat_mult(q0, q1), q1);
-	return quat_sub(quat_s_mult(2, product), q0);
+	// original version by shoemake does not work somehow
+	//quat product = quat_mult(quat_mult(q0, q1), q1);
+	//return quat_sub(quat_s_mult(2, product), q0));
+	return quat_mult(q1, quat_mult(quat_conjugate(q0), q1));
 }
 
 // taken from http://devmag.org.za/2011/06/23/bzier-path-algorithms/
@@ -355,6 +357,7 @@ static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoint
 
 			quat a1 = bisect(mirror(v0, v1), v2);
 			quat b1 = mirror(a1, v1);
+
 
 			// add q0 and b1
 			controlPoints = list_insert(controlPoints, (keyframe_t) {
