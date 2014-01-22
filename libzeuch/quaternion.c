@@ -2,7 +2,6 @@
 
 #include "quaternion.h"
 
-static quat quat_conjugate(quat q);
 
 quat quat_new(vec3 v, float w) {
 	quat q = { .v = v, .w = w };
@@ -53,7 +52,7 @@ vec3 quat_rotate_vec3(quat q, vec3 v) {
 	return quat_mult(q, quat_mult(quat_new(v, 0.), quat_conjugate(q))).v;
 }
 
-static quat quat_conjugate(quat q) {
+quat quat_conjugate(quat q) {
 	q.v = vec3_s_mult(-1., q.v);
 	return q;
 }
@@ -101,5 +100,5 @@ quat quat_cubic_bezier(quat q00, quat q10, quat q20, quat q30, float t) {
 	quat q02 = quat_slerp(q01, q11, t);
 	quat q12 = quat_slerp(q11, q21, t);
 	quat q03 = quat_slerp(q02, q12, t);
-	return q03;
+	return quat_normalize(q03);
 }
