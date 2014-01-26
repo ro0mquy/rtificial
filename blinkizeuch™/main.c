@@ -34,7 +34,6 @@ static void handle_sig(int);
 static void load_shader(void);
 static void draw(void);
 static void free_resources(void);
-static void save_restore_camera(int i);
 static void print_sdl_error(const char message[]);
 static void handle_key_down(SDL_KeyboardEvent event);
 static void update_state(void);
@@ -55,15 +54,10 @@ float angle_modifier = 1.; // ~ 50. / 360. * TAU
 float movement_modifier = 5.;
 
 bool run;
-bool save_next = false;
 
 TwBar* tweakBar;
-unsigned int start = 0;
-unsigned int end = 1;
-int duration = 1000;
 scene_t* scene;
 
-camera_t saved_positions[10];
 camera_t camera;
 
 char* scene_path;
@@ -150,9 +144,6 @@ int main(int argc, char *argv[]) {
 	tweakBar = TwNewBar("Rumfummeldings");
 	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_FLOAT, &deltaT, "precision=3");
 	TwAddVarCB(tweakBar, "Camera rotation", TW_TYPE_QUAT4F, cb_set_rotation, cb_get_rotation, NULL, "");
-	TwAddVarRW(tweakBar, "Start", TW_TYPE_UINT32, &start, " max=9");
-	TwAddVarRW(tweakBar, "End", TW_TYPE_UINT32, &end, " max=9");
-	TwAddVarRW(tweakBar, "Duration", TW_TYPE_UINT32, &duration, "");
 	TwAddVarRW(tweakBar, "Movement Speed", TW_TYPE_FLOAT, &movement_modifier, "min=0.0");
 	TwAddVarRW(tweakBar, "Angular Speed", TW_TYPE_FLOAT, &angle_modifier, "min=0.0 step=0.2");
 
@@ -230,9 +221,6 @@ int main(int argc, char *argv[]) {
 }
 
 static int init(void) {
-	for(int i = 0; i < 10; i++){
-		camera_init(&saved_positions[i]);
-	}
 	camera_init(&camera);
 
 	const size_t scene_path_length = strlen(scene_path);
@@ -345,54 +333,12 @@ static void free_resources(void) {
 	glDeleteBuffers(1, &vbo_rectangle);
 }
 
-static void save_restore_camera(int i) {
-	if(save_next) {
-		saved_positions[i] = camera;
-		save_next = false;
-	} else {
-		camera = saved_positions[i];
-	}
-}
-
 static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());
 }
 
 static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 	switch(keyEvent.keysym.sym) {
-		case SDLK_t:
-			save_next = true;
-			break;
-		case SDLK_0:
-			save_restore_camera(0);
-			break;
-		case SDLK_1:
-			save_restore_camera(1);
-			break;
-		case SDLK_2:
-			save_restore_camera(2);
-			break;
-		case SDLK_3:
-			save_restore_camera(3);
-			break;
-		case SDLK_4:
-			save_restore_camera(4);
-			break;
-		case SDLK_5:
-			save_restore_camera(5);
-			break;
-		case SDLK_6:
-			save_restore_camera(6);
-			break;
-		case SDLK_7:
-			save_restore_camera(7);
-			break;
-		case SDLK_8:
-			save_restore_camera(8);
-			break;
-		case SDLK_9:
-			save_restore_camera(9);
-			break;
 		case SDLK_f:
 			window_handle_resize(!window_is_fullscreen(), 0, 0);
 			break;
@@ -406,7 +352,6 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 			timeline_add_frame(timeline, camera);
 			break;
 		default:
-			save_next = false;
 			break;
 	}
 }
