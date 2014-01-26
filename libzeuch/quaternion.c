@@ -72,10 +72,9 @@ quat quat_slerp(quat v0, quat v1, float t) {
 	float dot = quat_dot(v0, v1);
 
 	// if dot product ist negative the rotation is the long way
-	quat q1 = v1;
 	if (dot < 0.) {
 		dot = -dot;
-		q1 = quat_s_mult(-1., q1);
+		v1 = quat_s_mult(-1., v1);
 	}
 
 	// check for linear independance
@@ -94,7 +93,7 @@ quat quat_slerp(quat v0, quat v1, float t) {
 	float theta_0 = acos(dot);  // theta_0 = angle between input vectors
 	float theta = theta_0*t;    // theta = angle between v0 and result 
 
-	quat v2 = quat_sub(q1, quat_s_mult(dot, v0)); // v1 - dot * v0
+	quat v2 = quat_sub(v1, quat_s_mult(dot, v0)); // v1 - dot * v0
 	v2 = quat_normalize(v2);              // { v0, v2 } is now an orthonormal basis
 
 	return quat_add(quat_s_mult(cos(theta), v0), quat_s_mult(sin(theta), v2)); // v0*cos(theta) + v2*sin(theta)
