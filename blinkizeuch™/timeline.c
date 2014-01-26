@@ -76,8 +76,6 @@ timeline_t* timeline_new() {
 	camera_t start_cam, end_cam;
 	camera_init(&start_cam);
 	camera_init(&end_cam);
-	// TODO dirty fix, to prevent black screen
-	camera_move_y(&end_cam, 0.00001);
 	keyframes = list_insert(keyframes, (keyframe_t) {
 		.time = 0,
 		.camera = start_cam,
@@ -192,6 +190,12 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 void timeline_add_frame(timeline_t* const timeline, const camera_t camera) {
 	const int time = timeline->cursor_position;
 	const size_t pos = list_find(timeline->keyframes, time);
+
+	// check if there is already a frame for this time point
+	if (list_get(timeline->keyframes, pos)->time == time) {
+		timeline->keyframes = list_remove(timeline->keyframes, pos);
+	}
+
 	timeline->keyframes = list_insert(timeline->keyframes, (keyframe_t) {
 		.time = time,
 		.camera = camera,
