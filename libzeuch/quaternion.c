@@ -71,6 +71,14 @@ quat quat_slerp(quat v0, quat v1, float t) {
 	// Compute the cosine of the angle between the two vectors.
 	float dot = quat_dot(v0, v1);
 
+	// if dot product ist negative the rotation is the long way
+	quat q1 = v1;
+	if (dot < 0.) {
+		dot = -dot;
+		q1 = quat_s_mult(-1., q1);
+	}
+
+	// check for linear independance
 	const float DOT_THRESHOLD = 0.9995;
 	if (dot > DOT_THRESHOLD) {
 		// If the inputs are too close for comfort, linearly interpolate
@@ -82,11 +90,11 @@ quat quat_slerp(quat v0, quat v1, float t) {
 	}
 
 	//Clamp(dot, -1, 1);           // Robustness: Stay within domain of acos()
-	dot = dot > 1. ? 1. : dot < 0. ? 0. : dot;
+	dot = dot > 1. ? 1. : dot < -1. ? -1. : dot;
 	float theta_0 = acos(dot);  // theta_0 = angle between input vectors
 	float theta = theta_0*t;    // theta = angle between v0 and result 
 
-	quat v2 = quat_sub(v1, quat_s_mult(dot, v0)); // v1 - dot * v0
+	quat v2 = quat_sub(q1, quat_s_mult(dot, v0)); // v1 - dot * v0
 	v2 = quat_normalize(v2);              // { v0, v2 } is now an orthonormal basis
 
 	return quat_add(quat_s_mult(cos(theta), v0), quat_s_mult(sin(theta), v2)); // v0*cos(theta) + v2*sin(theta)
