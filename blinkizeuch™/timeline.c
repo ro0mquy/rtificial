@@ -267,8 +267,13 @@ bool timeline_camera_changed(const timeline_t* const timeline) {
 camera_t timeline_get_camera(timeline_t* const timeline) {
 	timeline->camera_changed = false;
 	// interpolate and stuff
-	const size_t nodeIndex = 3 * (list_find(timeline->keyframes, timeline->cursor_position) - 1);
+	const size_t pos = list_find(timeline->keyframes, timeline->cursor_position);
+	if (pos == 0) {
+		// if cursor_position is at the very first keyframe, just return it
+		return list_get(timeline->controlPoints, 0)->camera;
+	}
 
+	const size_t nodeIndex = 3 * (pos - 1);
         keyframe_t* const p0 = list_get(timeline->controlPoints, nodeIndex);
         keyframe_t* const p1 = list_get(timeline->controlPoints, nodeIndex + 1);
         keyframe_t* const p2 = list_get(timeline->controlPoints, nodeIndex + 2);
