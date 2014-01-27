@@ -34,11 +34,12 @@ static keyframe_t* list_get(keyframe_list_t* list, size_t position);
 static size_t list_find(keyframe_list_t* list, int time);
 static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoints, keyframe_list_t* knots, float scale);
 
-const GLfloat timeline_height = .2;
+const GLfloat timeline_height = .15;
 const int segment_length = 10000;
 const int num_segments = 20;
 const GLfloat marker_width = .003;
 const GLfloat cursor_width = .003;
+const float zoom_factor = .9;
 
 timeline_t* timeline_new() {
 	const GLuint vertex_shader = shader_load_strings(1, "timeline_vertex", (const GLchar* []) { timeline_vertex_source }, GL_VERTEX_SHADER);
@@ -94,6 +95,7 @@ timeline_t* timeline_new() {
 		.attribute_coord2d = attribute_coord2d,
 		.uniform_color = uniform_color,
 		.zoom = 1.,
+		.focus_position = num_segments * segment_length / 2,
 		.keyframes = keyframes,
 		.controlPoints = controlPoints,
 		.hidden = false,
@@ -119,24 +121,34 @@ void timeline_draw(timeline_t* const timeline) {
 	});
 
 	const float zoom = timeline->zoom;
-	const int segments = num_segments * zoom;
-	const GLfloat segment_width = 1. / segments;
-	for(int i = 0; i < ceil((double) segments / 2); i++) {
+	const int focus = timeline->focus_position;
+	const int window_width = num_segments * segment_length * zoom;
+	const int left_edge = focus - window_width / 2;
+	const int right_edge = focus + window_width / 2;
+	const int _start_first_rect = left_edge - left_edge % (2*segment_length); // floor left_edge
+	const int start_first_rect = _start_first_rect < 0 ? 0 : _start_first_rect; // -nan
+
+	// draw black boxes
+	for (int i = start_first_rect; i < right_edge; i += 2 * segment_length) {
 		draw_rect(timeline, &(rect_t) {
-			.x = 2 * i * segment_width, .y = 0., .w = segment_width, .h = timeline_height,
+			.x = (GLfloat) (i - left_edge) / window_width, .y = 0.,
+			.w = (GLfloat) segment_length / window_width, .h = timeline_height,
 			.r = 0., .g = 0., .b = 0., .a = .5,
 		});
 	}
 
-	for(size_t i = 0; i < timeline->keyframes->length; i++) {
+	// draw keyframe markers
+	for (size_t i = 0; i < timeline->keyframes->length; i++) {
 		const int time = list_get(timeline->keyframes, i)->time;
-		const GLfloat x = (float) time / ((int) (num_segments * zoom) * segment_length) - marker_width / zoom / 2;
+		const GLfloat x = (GLfloat) (time - left_edge) / window_width - marker_width / 2 / zoom;
 		draw_rect(timeline, &(rect_t) {
 			.x = x, .y = 0., .w = marker_width / zoom, .h = timeline_height,
 			.r = 1., .g = 0., .b = 0., .a = 1.,
 		});
 	}
-	const GLfloat x = (float) timeline->cursor_position / ((int) (num_segments * zoom) * segment_length) - cursor_width / zoom / 2;
+
+	// draw cursor postion
+	const GLfloat x = (GLfloat) (timeline->cursor_position - left_edge) / window_width - marker_width / 2 / zoom;
 	draw_rect(timeline, &(rect_t) {
 		.x = x, .y = 0., .w = cursor_width / zoom, .h = timeline_height,
 		.r = 0., .g = 1., .b = 0., .a = 1.,
@@ -153,7 +165,6 @@ void timeline_destroy(timeline_t* const timeline) {
 }
 
 bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* const event) {
-	const float factor = .9;
 	if(event->type == SDL_MOUSEBUTTONDOWN) {
 		if(1. - ((float) event->button.y / window_get_height()) > timeline_height) {
 			return false;
@@ -161,16 +172,26 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 		if(timeline->hidden) {
 			return false;
 		}
+
+		// calculate the position of the mouse
 		const float horizontal = ((float) event->button.x / window_get_width());
+		const float zoom = timeline->zoom;
+		const int focus = timeline->focus_position;
+		const int window_width = num_segments * segment_length * zoom;
+		const int _mouse_pos = focus + (horizontal - .5) * window_width;
+		const int mouse_pos = _mouse_pos < 0 ? 0 : _mouse_pos;
+
 		switch(event->button.button) {
 			case SDL_BUTTON_WHEELUP:
-				timeline->zoom *= factor;
+				timeline->focus_position = (focus - mouse_pos) * zoom_factor + mouse_pos;
+				timeline->zoom *= zoom_factor;
 				return true;
 			case SDL_BUTTON_WHEELDOWN:
-				timeline->zoom /= factor;
+				//timeline->focus_position = (focus - mouse_pos) / zoom_factor + mouse_pos;
+				timeline->zoom /= zoom_factor;
 				return true;
 			case SDL_BUTTON_LEFT:
-				timeline->cursor_position = horizontal * ((int) (num_segments * timeline->zoom) * segment_length);
+				timeline->cursor_position = mouse_pos;
 				timeline->camera_changed = true;
 				return true;
 		}
