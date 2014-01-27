@@ -345,7 +345,7 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 		case SDLK_ESCAPE:
 			run = false;
 			break;
-		case SDLK_r:
+		case SDLK_F5:
 			load_shader();
 			break;
 		case SDLK_SPACE:

@@ -76,6 +76,8 @@ timeline_t* timeline_new() {
 	camera_t start_cam, end_cam;
 	camera_init(&start_cam);
 	camera_init(&end_cam);
+	// TODO dirty fix, to prevent black screen
+	camera_move_y(&end_cam, 0.00001);
 	keyframes = list_insert(keyframes, (keyframe_t) {
 		.time = 0,
 		.camera = start_cam,
@@ -180,6 +182,10 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 			case SDLK_p:
 				timeline->is_playing = !timeline->is_playing;
 				return true;
+			case SDLK_r:
+				// remove nearest keyframe
+				timeline_remove_frame(timeline);
+				return true;
 			default:
 				break;
 		}
@@ -200,6 +206,29 @@ void timeline_add_frame(timeline_t* const timeline, const camera_t camera) {
 		.time = time,
 		.camera = camera,
 	}, pos);
+	timeline->controlPoints = timeline_get_bezier_spline(timeline->controlPoints, timeline->keyframes, TIMELINE_DEFAULT_SCALE);
+}
+
+void timeline_remove_frame(timeline_t* const timeline) {
+	// remove nearest keyframe
+	const int time = timeline->cursor_position;
+	const size_t pos = list_find(timeline->keyframes, time);
+
+	// don't remove first or last keyframe
+	if (pos == 0 || pos == timeline->keyframes->length) return;
+
+	int dt_before = abs(time - list_get(timeline->keyframes, pos - 1)->time);
+	int dt_after = abs(time - list_get(timeline->keyframes, pos)->time);
+	if (dt_before < dt_after) {
+		// still don't remove first keyframe
+		if (pos == 1) return;
+		timeline->keyframes = list_remove(timeline->keyframes, pos - 1);
+	} else {
+		// don't remove last keyframe
+		if (pos == timeline->keyframes->length) return;
+		timeline->keyframes = list_remove(timeline->keyframes, pos);
+	}
+
 	timeline->controlPoints = timeline_get_bezier_spline(timeline->controlPoints, timeline->keyframes, TIMELINE_DEFAULT_SCALE);
 }
 
