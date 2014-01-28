@@ -127,10 +127,42 @@ scene_t* scene_load(const char filename[]) {
 void scene_save(const scene_t* scene){
 	json_t* tweakables_json_array = json_array();
 	for(int i = 0; i < scene->num_tweakables; i++){
+		tweakable_t tweakable = scene->tweakables[i];
 		json_t* tweakable_json_object = json_object();
 
-		json_object_set(tweakable_json_object, "name", json_string(scene->tweakables[i].name));
-		json_object_set(tweakable_json_object, "uniform", json_string(scene->tweakables[i].uniform_name));
+		json_object_set(tweakable_json_object, "name", json_string(tweakable.name));
+		json_object_set(tweakable_json_object, "uniform", json_string(tweakable.uniform_name));
+		if(strlen(tweakable.varparam) > 0){
+			json_object_set(tweakable_json_object, "varparam", json_string(tweakable.varparam));
+		}
+
+		switch(tweakable.type){
+			case FLOAT:
+				json_object_set(tweakable_json_object, "type", json_string("float"));
+				json_object_set(
+					tweakable_json_object,
+					"default",
+					json_real( *((float*) tweakable.value) )
+				);
+				break;
+			case COLOR:
+				json_object_set(tweakable_json_object, "type", json_string("color"));
+				float* colors = tweakable.value;
+				json_object_set(
+					tweakable_json_object,
+					"default",
+					json_pack("[fff]", colors[0], colors[1], colors[2])
+				);
+				break;
+			case BOOL:
+				json_object_set(tweakable_json_object, "type", json_string("bool"));
+				json_object_set(
+					tweakable_json_object,
+					"default",
+					json_boolean( *((float*) tweakable.value) )
+				);
+				break;
+		}
 
 		json_array_append(tweakables_json_array, tweakable_json_object);
 	}
