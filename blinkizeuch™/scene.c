@@ -124,6 +124,35 @@ scene_t* scene_load(const char filename[]) {
 	return scene;
 }
 
+void scene_save(const scene_t* scene){
+	json_t* tweakables_json_array = json_array();
+	for(int i = 0; i < scene->num_tweakables; i++){
+		json_t* tweakable_json_object = json_object();
+
+		json_object_set(tweakable_json_object, "name", json_string(scene->tweakables[i].name));
+		json_object_set(tweakable_json_object, "uniform", json_string(scene->tweakables[i].uniform_name));
+
+		json_array_append(tweakables_json_array, tweakable_json_object);
+	}
+
+	json_t* textures_json_array = json_array();
+	for(int i = 0; i < scene->num_textures; i++){
+		json_t* texture_json_object = json_object();
+
+		// where is the path?!
+		//json_object_set(texture_json_object, "path", json_string(scene->textures[i].name));
+		json_object_set(texture_json_object, "uniform", json_string(scene->textures[i].uniform_name));
+
+		json_array_append(textures_json_array, texture_json_object);
+	}
+
+	json_t* scene_config_json = json_object();
+	json_object_set(scene_config_json, "tewakables", tweakables_json_array);
+	json_object_set(scene_config_json, "textures", textures_json_array);
+
+	json_dumpf(scene_config_json, stdout, JSON_INDENT(4));
+}
+
 void scene_load_uniforms(scene_t* const scene, const GLuint program) {
 	for(int i = 0; i < scene->num_tweakables; i++) {
 		tweakable_load_uniform(&scene->tweakables[i], program);
