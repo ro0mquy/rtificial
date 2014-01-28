@@ -40,6 +40,7 @@ const int num_segments = 20;
 const GLfloat marker_width = .003;
 const GLfloat cursor_width = .003;
 const float zoom_factor = .9;
+const int scroll_factor = 7000;
 
 timeline_t* timeline_new() {
 	const GLuint vertex_shader = shader_load_strings(1, "timeline_vertex", (const GLchar* []) { timeline_vertex_source }, GL_VERTEX_SHADER);
@@ -181,12 +182,28 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 		const int _mouse_pos = focus + (horizontal - .5) * window_width;
 		const int mouse_pos = _mouse_pos < 0 ? 0 : _mouse_pos;
 
+		// check for pressed ctrl-key
+		Uint8* keystate= SDL_GetKeyState(NULL);;
+
 		switch(event->button.button) {
 			case SDL_BUTTON_WHEELUP:
+				// scroll the timeline
+				if (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) {
+					timeline->focus_position -= scroll_factor * timeline->zoom;
+					return true;
+				}
+				// zoom the timeline
 				timeline->focus_position = (focus - mouse_pos) * zoom_factor + mouse_pos;
 				timeline->zoom *= zoom_factor;
 				return true;
 			case SDL_BUTTON_WHEELDOWN:
+				// scroll the timeline
+				if (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) {
+					timeline->focus_position += scroll_factor * timeline->zoom;
+					return true;
+				}
+				// zoom the timeline
+				// personally I prefer when zooming out is not centered on the mouse
 				//timeline->focus_position = (focus - mouse_pos) / zoom_factor + mouse_pos;
 				timeline->zoom /= zoom_factor;
 				return true;
