@@ -3,6 +3,8 @@
 #include <string.h>
 #include <limits.h>
 
+#include <jansson.h>
+
 #include <libzeuch/shader.h>
 
 #include "window.h"
@@ -163,6 +165,49 @@ void timeline_destroy(timeline_t* const timeline) {
 	util_safe_free(timeline->keyframes);
 	util_safe_free(timeline->controlPoints);
 	glDeleteProgram(timeline->program);
+}
+
+void timeline_save(timeline_t* const timeline, char* path){
+	size_t num_frames = timeline->keyframes->length;
+	keyframe_t* keyframes = timeline->keyframes->elements;
+
+	json_t* keyframes_json_array = json_array();
+	for(size_t i = 0; i < num_frames; i++){
+		json_t* keyframe_json_object = json_object();
+
+		json_object_set(keyframe_json_object, "time", json_real(keyframes[i].time));
+		json_object_set(
+			keyframe_json_object,
+			"position",
+			json_pack(
+				"[fff]",
+				keyframes[i].camera.position.x,
+				keyframes[i].camera.position.y,
+				keyframes[i].camera.position.z
+			)
+		);
+		json_object_set(
+			keyframe_json_object,
+			"rotation",
+			json_pack(
+				"[ffff]",
+				keyframes[i].camera.rotation.v.x,
+				keyframes[i].camera.rotation.v.y,
+				keyframes[i].camera.rotation.v.z,
+				keyframes[i].camera.rotation.w
+			)
+		);
+
+		json_array_append(keyframes_json_array, keyframe_json_object);
+	}
+
+	json_t* timeline_json = json_object();
+	json_object_set(timeline_json, "keyframes", keyframes_json_array);
+
+	json_dumpf(timeline_json, stdout, JSON_INDENT(4) | JSON_PRESERVE_ORDER);
+	// just debugging
+	(void) path;
+	puts("");
 }
 
 bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* const event) {
