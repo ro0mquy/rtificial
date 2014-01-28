@@ -358,6 +358,8 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 			break;
 		case SDLK_F7:
 			scene_save(scene, config_path);
+		case SDLK_F8:
+			timeline_save(timeline, NULL);
 		default:
 			break;
 	}
