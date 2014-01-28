@@ -209,7 +209,10 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 				return true;
 			case SDL_BUTTON_LEFT:
 				timeline->cursor_position = mouse_pos;
-				timeline->camera_changed = true;
+				if (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) {
+					// only change camera when ctrl was pressed
+					timeline->camera_changed = true;
+				}
 				return true;
 		}
 	} else if(event->type == SDL_KEYDOWN) {
