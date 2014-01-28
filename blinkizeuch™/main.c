@@ -149,6 +149,8 @@ int main(int argc, char *argv[]) {
 
 	if(scene != NULL) scene_add_to_tweakbar(scene, tweakBar);
 
+	scene_save(scene);
+
 	SDL_WM_SetCaption(window_caption, NULL);
 	run = true;
 	while(run) {
