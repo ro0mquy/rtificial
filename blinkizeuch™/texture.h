@@ -7,6 +7,7 @@
 
 typedef struct {
 	char* uniform_name;
+	char* path;
 	GLuint tex;
 	GLint uniform_location;
 } texture_t;

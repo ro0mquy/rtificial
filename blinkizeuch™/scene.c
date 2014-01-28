@@ -171,8 +171,7 @@ void scene_save(const scene_t* scene){
 	for(int i = 0; i < scene->num_textures; i++){
 		json_t* texture_json_object = json_object();
 
-		// where is the path?!
-		//json_object_set(texture_json_object, "path", json_string(scene->textures[i].name));
+		json_object_set(texture_json_object, "path", json_string(scene->textures[i].path));
 		json_object_set(texture_json_object, "uniform", json_string(scene->textures[i].uniform_name));
 
 		json_array_append(textures_json_array, texture_json_object);
