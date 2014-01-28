@@ -38,6 +38,9 @@ bool texture_init(texture_t* texture, const char path[], const char uniform[]) {
 	}
 	texture->uniform_name = uniform_copy;
 
+	char* const path_copy = util_dup_string(path);
+	texture->path = path_copy;
+
 	return true;
 }
 
@@ -54,4 +57,5 @@ void texture_bind(const texture_t* texture, int index) {
 void texture_destroy(texture_t* texture) {
 	glDeleteTextures(1, &texture->tex);
 	util_safe_free(texture->uniform_name);
+	util_safe_free(texture->path);
 }
