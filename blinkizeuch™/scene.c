@@ -124,7 +124,7 @@ scene_t* scene_load(const char filename[]) {
 	return scene;
 }
 
-void scene_save(const scene_t* scene){
+void scene_save(const scene_t* scene, char* path){
 	json_t* tweakables_json_array = json_array();
 	for(int i = 0; i < scene->num_tweakables; i++){
 		tweakable_t tweakable = scene->tweakables[i];
@@ -132,9 +132,6 @@ void scene_save(const scene_t* scene){
 
 		json_object_set(tweakable_json_object, "name", json_string(tweakable.name));
 		json_object_set(tweakable_json_object, "uniform", json_string(tweakable.uniform_name));
-		if(strlen(tweakable.varparam) > 0){
-			json_object_set(tweakable_json_object, "varparam", json_string(tweakable.varparam));
-		}
 
 		switch(tweakable.type){
 			case FLOAT:
@@ -164,6 +161,10 @@ void scene_save(const scene_t* scene){
 				break;
 		}
 
+		if(strlen(tweakable.varparam) > 0){
+			json_object_set(tweakable_json_object, "varparam", json_string(tweakable.varparam));
+		}
+
 		json_array_append(tweakables_json_array, tweakable_json_object);
 	}
 
@@ -178,10 +179,15 @@ void scene_save(const scene_t* scene){
 	}
 
 	json_t* scene_config_json = json_object();
-	json_object_set(scene_config_json, "tewakables", tweakables_json_array);
+	json_object_set(scene_config_json, "tweakables", tweakables_json_array);
 	json_object_set(scene_config_json, "textures", textures_json_array);
 
-	json_dumpf(scene_config_json, stdout, JSON_INDENT(4));
+	if(json_dump_file(scene_config_json, path, JSON_INDENT(4) | JSON_PRESERVE_ORDER)){
+		fprintf(stderr, "error: config export: config file \"%s\" could not be written\n", path);
+	}
+	else{
+		printf("config file \"%s\" written\n", path);
+	}
 }
 
 void scene_load_uniforms(scene_t* const scene, const GLuint program) {

@@ -61,6 +61,8 @@ scene_t* scene;
 camera_t camera;
 
 char* scene_path;
+char* config_path;
+char* fragment_path;
 
 timeline_t* timeline;
 
@@ -96,6 +98,7 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "Usage: blinkizeuch scenedir/");
 		return EXIT_FAILURE;
 	}
+	// create path stings
 	size_t scene_path_length = strlen(argv[1]);
 	if(argv[1][scene_path_length - 1] != '/') {
 		scene_path = malloc(scene_path_length + 2);
@@ -106,6 +109,17 @@ int main(int argc, char *argv[]) {
 		scene_path = malloc(scene_path_length + 1);
 		memcpy(scene_path, argv[1], scene_path_length + 1);
 	}
+	scene_path_length = strlen(scene_path);
+
+	size_t fragment_name_length = strlen(fragment_name);
+	fragment_path = malloc(scene_path_length + fragment_name_length + 1);
+	strncpy(fragment_path, scene_path, scene_path_length);
+	strncpy(fragment_path + scene_path_length, fragment_name, fragment_name_length + 1);
+
+	size_t config_name_length = strlen(config_name);
+	config_path = malloc(scene_path_length + config_name_length + 1);
+	strncpy(config_path, scene_path, scene_path_length);
+	strncpy(config_path + scene_path_length, config_name, config_name_length + 1);
 
 #ifdef __linux__
 	// inotify setup
@@ -114,11 +128,6 @@ int main(int argc, char *argv[]) {
 	int in_wd;
 	char in_buffer[IN_BUF_LEN];
 
-	const size_t _scene_path_length = strlen(scene_path);
-	const size_t _fragment_name_length = strlen(fragment_name);
-	char _fragment_path[_scene_path_length + _fragment_name_length + 1];
-	strncpy(_fragment_path, scene_path, _scene_path_length);
-	strncpy(_fragment_path + _scene_path_length, fragment_name, _fragment_name_length + 1);
 
 	in_fd = inotify_init();
 	if(in_fd < 0)
@@ -126,8 +135,8 @@ int main(int argc, char *argv[]) {
 	if(fcntl(in_fd, F_SETFL, O_NONBLOCK))
 		fprintf(stderr, "error: inotify: fcntl()");
 
-	in_wd = inotify_add_watch(in_fd, _fragment_path, IN_CLOSE_WRITE);
-	printf("watching \"%s\"\n", _fragment_path);
+	in_wd = inotify_add_watch(in_fd, fragment_path, IN_CLOSE_WRITE);
+	printf("watching \"%s\"\n", fragment_path);
 #endif
 
 
@@ -148,8 +157,6 @@ int main(int argc, char *argv[]) {
 	TwAddVarRW(tweakBar, "Angular Speed", TW_TYPE_FLOAT, &angle_modifier, "min=0.0 step=0.2");
 
 	if(scene != NULL) scene_add_to_tweakbar(scene, tweakBar);
-
-	scene_save(scene);
 
 	SDL_WM_SetCaption(window_caption, NULL);
 	run = true;
@@ -172,7 +179,7 @@ int main(int argc, char *argv[]) {
 				 * file. in other code a IN_CLOSE_WRITE was fired instead.
 				 * reloading and rewatching it anyway. #yolo
 				 */
-				in_wd = inotify_add_watch(in_fd, _fragment_path, IN_CLOSE_WRITE);
+				in_wd = inotify_add_watch(in_fd, fragment_path, IN_CLOSE_WRITE);
 				puts("shader file changed. reloading it for ya.");
 				load_shader();
 			}
@@ -224,12 +231,6 @@ int main(int argc, char *argv[]) {
 
 static int init(void) {
 	camera_init(&camera);
-
-	const size_t scene_path_length = strlen(scene_path);
-	const size_t config_name_length = strlen(config_name);
-	char config_path[scene_path_length + config_name_length + 1];
-	strncpy(config_path, scene_path, scene_path_length);
-	strncpy(config_path + scene_path_length, config_name, config_name_length + 1);
 
 	vertex_shader = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
 
@@ -330,6 +331,8 @@ static void free_resources(void) {
 	timeline_destroy(timeline);
 	free(timeline);
 	free(scene_path);
+	free(config_path);
+	free(fragment_path);
 	glDeleteShader(vertex_shader);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
@@ -353,6 +356,8 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 		case SDLK_SPACE:
 			timeline_add_frame(timeline, camera);
 			break;
+		case SDLK_F7:
+			scene_save(scene, config_path);
 		default:
 			break;
 	}
@@ -373,7 +378,7 @@ static void update_state(void) {
 	float distance = movement_modifier * deltaT;
 
 	// get keystate map
-	Uint8* keystate= SDL_GetKeyState(NULL);;
+	Uint8* keystate = SDL_GetKeyState(NULL);
 
 	// rotate camera
 	if (keystate[SDLK_i]) {

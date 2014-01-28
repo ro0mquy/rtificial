@@ -15,7 +15,7 @@ typedef struct {
 
 scene_t* scene_load(const char filename[]);
 
-void scene_save(const scene_t* scene);
+void scene_save(const scene_t* scene, char* path);
 
 void scene_load_uniforms(scene_t* scene, GLuint program);
 
