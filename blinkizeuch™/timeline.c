@@ -212,6 +212,57 @@ void timeline_save(timeline_t* const timeline, char* path){
 	}
 }
 
+void timeline_load(timeline_t* timeline, char* path){
+	json_error_t error;
+	json_t* const timeline_json = json_load_file(path, 0, &error);
+	if(timeline_json == NULL) {
+		fprintf(stderr, "error: timeline_load: error  parsing json in %s line: %d column: %d!\n", path, error.line, error.column);
+		fprintf(stderr, error.text, path);
+		fprintf(stderr, "\n");
+	}
+
+	json_t* keyframes_json_array = json_object_get(timeline_json, "keyframes");
+
+	timeline->keyframes = list_clear(timeline->keyframes);
+
+	size_t i;
+	json_t* value;
+	json_array_foreach(keyframes_json_array, i, value){
+		json_dumpf(value, stdout, JSON_INDENT(4) | JSON_PRESERVE_ORDER);
+		float time = json_real_value(json_object_get(value, "time"));
+
+		json_t* json_position_array = json_object_get(value, "position");
+		vec3 position = {
+			.x = json_real_value(json_array_get(json_position_array, 0)),
+			.y = json_real_value(json_array_get(json_position_array, 1)),
+			.z = json_real_value(json_array_get(json_position_array, 2)),
+		};
+
+		json_t* json_rotation_array = json_object_get(value, "rotation");
+		quat rotation = {
+			.v = {
+				.x = json_real_value(json_array_get(json_rotation_array, 0)),
+				.y = json_real_value(json_array_get(json_rotation_array, 1)),
+				.z = json_real_value(json_array_get(json_rotation_array, 2))
+			},
+			.w = json_real_value(json_array_get(json_rotation_array, 3))
+		};
+
+		camera_t camera = {
+			.position = position,
+			.rotation = rotation
+		};
+
+		timeline->keyframes = list_insert(timeline->keyframes, (keyframe_t) {
+			.time = time,
+			.camera = camera,
+		}, i);
+
+	}
+
+	timeline->controlPoints = timeline_get_bezier_spline(timeline->controlPoints, timeline->keyframes, TIMELINE_DEFAULT_SCALE);
+}
+
 bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* const event) {
 	if(event->type == SDL_MOUSEBUTTONDOWN) {
 		if(1. - ((float) event->button.y / window_get_height()) > timeline_height) {

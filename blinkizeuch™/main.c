@@ -256,6 +256,8 @@ static int init(void) {
 
 	timeline = timeline_new();
 
+	timeline_load(timeline, timeline_path);
+
 	currentTime = SDL_GetTicks();
 
 	return 1;
