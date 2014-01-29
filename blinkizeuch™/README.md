@@ -44,7 +44,7 @@ You need the following dependencies
 
 ### Dependency Installation
 
-Gentoo:
+#### Gentoo
 
     USE="X audio opengl png sdl" \
     emerge \
@@ -53,13 +53,21 @@ Gentoo:
         '>=dev-libs/jansson-2.5' \
         '~media-libs/devil-1.7.8'
 
+#### OS X
+
+    brew install \
+        sdl \
+        anttweakbar \
+        devil \
+        jansson
+
 ### Building
 
 After you build and installed all dependencies, just run
 
     make
 
-and you should be happily provided with a `blinkizecuh` binary. `make clean` should clean up the mess you made with all that object files, you dirty little girl.
+and you should be happily provided with a `blinkizeuch` binary. `make clean` should clean up the mess you made with all that object files, you dirty little girl.
 
 ### Running
 
