@@ -472,10 +472,10 @@ static quat bisect(quat q0, quat q1) {
 
 // mirror q0 at q1
 static quat mirror(quat q0, quat q1) {
-	// original version by shoemake does not work somehow
-	//quat product = quat_mult(quat_mult(q0, q1), q1);
-	//return quat_sub(quat_s_mult(2, product), q0));
-	return quat_mult(q1, quat_mult(quat_conjugate(q0), q1));
+	// lol, shoemake actually does work
+	quat product = quat_s_mult(2 * quat_dot(q0, q1), q1);
+	return quat_sub(product, q0);
+
 }
 
 // taken from http://devmag.org.za/2011/06/23/bzier-path-algorithms/
