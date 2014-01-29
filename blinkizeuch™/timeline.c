@@ -169,21 +169,21 @@ void timeline_destroy(timeline_t* const timeline) {
 
 void timeline_save(timeline_t* const timeline, char* path){
 	size_t num_frames = timeline->keyframes->length;
-	keyframe_t* keyframes = timeline->keyframes->elements;
 
 	json_t* keyframes_json_array = json_array();
 	for(size_t i = 0; i < num_frames; i++){
+		keyframe_t keyframe = timeline->keyframes->elements[i];
 		json_t* keyframe_json_object = json_object();
 
-		json_object_set(keyframe_json_object, "time", json_real(keyframes[i].time));
+		json_object_set(keyframe_json_object, "time", json_integer(keyframe.time));
 		json_object_set(
 			keyframe_json_object,
 			"position",
 			json_pack(
 				"[fff]",
-				keyframes[i].camera.position.x,
-				keyframes[i].camera.position.y,
-				keyframes[i].camera.position.z
+				keyframe.camera.position.x,
+				keyframe.camera.position.y,
+				keyframe.camera.position.z
 			)
 		);
 		json_object_set(
@@ -191,10 +191,10 @@ void timeline_save(timeline_t* const timeline, char* path){
 			"rotation",
 			json_pack(
 				"[ffff]",
-				keyframes[i].camera.rotation.v.x,
-				keyframes[i].camera.rotation.v.y,
-				keyframes[i].camera.rotation.v.z,
-				keyframes[i].camera.rotation.w
+				keyframe.camera.rotation.v.x,
+				keyframe.camera.rotation.v.y,
+				keyframe.camera.rotation.v.z,
+				keyframe.camera.rotation.w
 			)
 		);
 
@@ -219,6 +219,7 @@ void timeline_load(timeline_t* timeline, char* path){
 		fprintf(stderr, "error: timeline_load: error  parsing json in %s line: %d column: %d!\n", path, error.line, error.column);
 		fprintf(stderr, error.text, path);
 		fprintf(stderr, "\n");
+		return;
 	}
 
 	json_t* keyframes_json_array = json_object_get(timeline_json, "keyframes");
@@ -228,7 +229,7 @@ void timeline_load(timeline_t* timeline, char* path){
 	size_t i;
 	json_t* value;
 	json_array_foreach(keyframes_json_array, i, value){
-		float time = json_real_value(json_object_get(value, "time"));
+		int time = json_integer_value(json_object_get(value, "time"));
 
 		json_t* json_position_array = json_object_get(value, "position");
 		vec3 position = {
