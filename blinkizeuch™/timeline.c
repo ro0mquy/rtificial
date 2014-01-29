@@ -204,10 +204,12 @@ void timeline_save(timeline_t* const timeline, char* path){
 	json_t* timeline_json = json_object();
 	json_object_set(timeline_json, "keyframes", keyframes_json_array);
 
-	json_dumpf(timeline_json, stdout, JSON_INDENT(4) | JSON_PRESERVE_ORDER);
-	// just debugging
-	(void) path;
-	puts("");
+	if(json_dump_file(timeline_json, path, JSON_INDENT(4) | JSON_PRESERVE_ORDER)){
+		fprintf(stderr, "error: timeline export: json file \"%s\" could not be written\n", path);
+	}
+	else{
+		printf("timeline file \"%s\" written\n", path);
+	}
 }
 
 bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* const event) {
