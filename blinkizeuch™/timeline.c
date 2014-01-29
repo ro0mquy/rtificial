@@ -3,6 +3,8 @@
 #include <string.h>
 #include <limits.h>
 
+#include <jansson.h>
+
 #include <libzeuch/shader.h>
 
 #include "window.h"
@@ -163,6 +165,102 @@ void timeline_destroy(timeline_t* const timeline) {
 	util_safe_free(timeline->keyframes);
 	util_safe_free(timeline->controlPoints);
 	glDeleteProgram(timeline->program);
+}
+
+void timeline_save(timeline_t* const timeline, char* path){
+	size_t num_frames = timeline->keyframes->length;
+
+	json_t* keyframes_json_array = json_array();
+	for(size_t i = 0; i < num_frames; i++){
+		keyframe_t keyframe = timeline->keyframes->elements[i];
+		json_t* keyframe_json_object = json_object();
+
+		json_object_set(keyframe_json_object, "time", json_integer(keyframe.time));
+		json_object_set(
+			keyframe_json_object,
+			"position",
+			json_pack(
+				"[fff]",
+				keyframe.camera.position.x,
+				keyframe.camera.position.y,
+				keyframe.camera.position.z
+			)
+		);
+		json_object_set(
+			keyframe_json_object,
+			"rotation",
+			json_pack(
+				"[ffff]",
+				keyframe.camera.rotation.v.x,
+				keyframe.camera.rotation.v.y,
+				keyframe.camera.rotation.v.z,
+				keyframe.camera.rotation.w
+			)
+		);
+
+		json_array_append(keyframes_json_array, keyframe_json_object);
+	}
+
+	json_t* timeline_json = json_object();
+	json_object_set(timeline_json, "keyframes", keyframes_json_array);
+
+	if(json_dump_file(timeline_json, path, JSON_INDENT(4) | JSON_PRESERVE_ORDER)){
+		fprintf(stderr, "error: timeline export: json file \"%s\" could not be written\n", path);
+	}
+	else{
+		printf("timeline file \"%s\" written\n", path);
+	}
+}
+
+void timeline_load(timeline_t* timeline, char* path){
+	json_error_t error;
+	json_t* const timeline_json = json_load_file(path, 0, &error);
+	if(timeline_json == NULL) {
+		fprintf(stderr, "error: timeline_load: error  parsing json in %s line: %d column: %d!\n", path, error.line, error.column);
+		fprintf(stderr, error.text, path);
+		fprintf(stderr, "\n");
+		return;
+	}
+
+	json_t* keyframes_json_array = json_object_get(timeline_json, "keyframes");
+
+	timeline->keyframes = list_clear(timeline->keyframes);
+
+	size_t i;
+	json_t* value;
+	json_array_foreach(keyframes_json_array, i, value){
+		int time = json_integer_value(json_object_get(value, "time"));
+
+		json_t* json_position_array = json_object_get(value, "position");
+		vec3 position = {
+			.x = json_real_value(json_array_get(json_position_array, 0)),
+			.y = json_real_value(json_array_get(json_position_array, 1)),
+			.z = json_real_value(json_array_get(json_position_array, 2)),
+		};
+
+		json_t* json_rotation_array = json_object_get(value, "rotation");
+		quat rotation = {
+			.v = {
+				.x = json_real_value(json_array_get(json_rotation_array, 0)),
+				.y = json_real_value(json_array_get(json_rotation_array, 1)),
+				.z = json_real_value(json_array_get(json_rotation_array, 2))
+			},
+			.w = json_real_value(json_array_get(json_rotation_array, 3))
+		};
+
+		camera_t camera = {
+			.position = position,
+			.rotation = rotation
+		};
+
+		timeline->keyframes = list_insert(timeline->keyframes, (keyframe_t) {
+			.time = time,
+			.camera = camera,
+		}, i);
+
+	}
+
+	timeline->controlPoints = timeline_get_bezier_spline(timeline->controlPoints, timeline->keyframes, TIMELINE_DEFAULT_SCALE);
 }
 
 bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* const event) {

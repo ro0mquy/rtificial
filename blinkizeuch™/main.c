@@ -63,6 +63,7 @@ camera_t camera;
 char* scene_path;
 char* config_path;
 char* fragment_path;
+char* timeline_path;
 
 timeline_t* timeline;
 
@@ -120,6 +121,11 @@ int main(int argc, char *argv[]) {
 	config_path = malloc(scene_path_length + config_name_length + 1);
 	strncpy(config_path, scene_path, scene_path_length);
 	strncpy(config_path + scene_path_length, config_name, config_name_length + 1);
+
+	size_t timeline_name_length = strlen(timeline_name);
+	timeline_path = malloc(scene_path_length + timeline_name_length + 1);
+	strncpy(timeline_path, scene_path, scene_path_length);
+	strncpy(timeline_path + scene_path_length, timeline_name, timeline_name_length + 1);
 
 #ifdef __linux__
 	// inotify setup
@@ -250,6 +256,8 @@ static int init(void) {
 
 	timeline = timeline_new();
 
+	timeline_load(timeline, timeline_path);
+
 	currentTime = SDL_GetTicks();
 
 	return 1;
@@ -333,6 +341,7 @@ static void free_resources(void) {
 	free(scene_path);
 	free(config_path);
 	free(fragment_path);
+	free(timeline_path);
 	glDeleteShader(vertex_shader);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
@@ -358,6 +367,8 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 			break;
 		case SDLK_F7:
 			scene_save(scene, config_path);
+		case SDLK_F8:
+			timeline_save(timeline, timeline_path);
 		default:
 			break;
 	}

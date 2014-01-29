@@ -20,6 +20,7 @@
 * `[Ctrl]+[Click]` jump to position moving to interpolated camera position
 * `P` start (play) animated flight through keyframes
 * `H` toggle timeline
+* `[F8]` save timeline (keyframes) to `timeline.json`
 
 ### General
 * `F` toggle full screen

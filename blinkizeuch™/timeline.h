@@ -36,6 +36,10 @@ void timeline_draw(timeline_t* timeline);
 
 void timeline_destroy(timeline_t* timeline);
 
+void timeline_save(timeline_t* const timeline, char* path);
+
+void timeline_load(timeline_t* timeline, char* path);
+
 bool timeline_handle_sdl_event(timeline_t* timeline, const SDL_Event* event);
 
 void timeline_add_frame(timeline_t* timeline, camera_t camera);
