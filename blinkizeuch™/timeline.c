@@ -228,7 +228,6 @@ void timeline_load(timeline_t* timeline, char* path){
 	size_t i;
 	json_t* value;
 	json_array_foreach(keyframes_json_array, i, value){
-		json_dumpf(value, stdout, JSON_INDENT(4) | JSON_PRESERVE_ORDER);
 		float time = json_real_value(json_object_get(value, "time"));
 
 		json_t* json_position_array = json_object_get(value, "position");
