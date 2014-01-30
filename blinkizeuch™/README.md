@@ -12,13 +12,13 @@
 
 ### Timeline
 
-* `[Space]` set keyframe
+* `P` place keyframe
 * `R` delete (remove) keyframe nearest to the mouse
 * `[Scroll]` zoom timeline (zoom in to mouse position, zoom out of screen center)
 * `[Ctrl]+[Scroll]` scroll timeline horizontically
 * `[Click]` jump to position staying ad current camera position
 * `[Ctrl]+[Click]` jump to position moving to interpolated camera position
-* `P` start (play) animated flight through keyframes
+* `[Space]` start animated flight through keyframes
 * `H` toggle timeline
 * `[F8]` save timeline (keyframes) to `timeline.json`
 

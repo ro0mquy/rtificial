@@ -318,7 +318,7 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 			case SDLK_h:
 				timeline->hidden = !timeline->hidden;
 				return true;
-			case SDLK_p:
+			case SDLK_SPACE:
 				timeline->is_playing = !timeline->is_playing;
 				return true;
 			case SDLK_r:
