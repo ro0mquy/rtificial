@@ -321,6 +321,9 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 			case SDLK_SPACE:
 				timeline->is_playing = !timeline->is_playing;
 				return true;
+			case SDLK_BACKSPACE:
+				timeline->cursor_position = 0;
+				return true;
 			case SDLK_r:
 				// remove nearest keyframe
 				timeline_remove_frame(timeline);
