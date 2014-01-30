@@ -43,6 +43,8 @@ const GLfloat marker_width = .003;
 const GLfloat cursor_width = .003;
 const float zoom_factor = .9;
 const int scroll_factor = 7000;
+const float zoom_min = 5.;
+const float zoom_max = .05;
 
 timeline_t* timeline_new() {
 	const GLuint vertex_shader = shader_load_strings(1, "timeline_vertex", (const GLchar* []) { timeline_vertex_source }, GL_VERTEX_SHADER);
@@ -293,6 +295,7 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 				// zoom the timeline
 				timeline->focus_position = (focus - mouse_pos) * zoom_factor + mouse_pos;
 				timeline->zoom *= zoom_factor;
+				timeline->zoom = fmax(timeline->zoom, zoom_max);
 				return true;
 			case SDL_BUTTON_WHEELDOWN:
 				// scroll the timeline
@@ -304,6 +307,7 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 				// personally I prefer when zooming out is not centered on the mouse
 				//timeline->focus_position = (focus - mouse_pos) / zoom_factor + mouse_pos;
 				timeline->zoom /= zoom_factor;
+				timeline->zoom = fmin(timeline->zoom, zoom_min);
 				return true;
 			case SDL_BUTTON_LEFT:
 				timeline->cursor_position = mouse_pos;
