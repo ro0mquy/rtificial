@@ -362,7 +362,7 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 		case SDLK_F5:
 			load_shader();
 			break;
-		case SDLK_SPACE:
+		case SDLK_p:
 			timeline_add_frame(timeline, camera);
 			break;
 		case SDLK_F7:
