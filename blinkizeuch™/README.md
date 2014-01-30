@@ -21,6 +21,7 @@
 * `[Space]` start animated flight through keyframes
 * `H` toggle timeline
 * `[F8]` save timeline (keyframes) to `timeline.json`
+* `[Delete]` reset animation play time cursor position
 
 ### General
 * `F` toggle full screen
