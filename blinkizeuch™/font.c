@@ -5,54 +5,69 @@
 const char standard_font[] = "FreeMono.ttf";
 const int standard_size = 48;
 
-void font_init() {
+bool font_init(font_t* font) {
 	// init FreeType library
-	FT_Library ft;
-	if(FT_Init_FreeType(&ft)) {
+	if(FT_Init_FreeType(&(font->ft_lib))) {
 		fprintf(stderr, "Could not init freetype library\n");
-		return 1;
+		return false;
 	}
 
 	// load standard font
-	FT_Face face;
-	if(FT_New_Face(ft, standard_font, 0, &face)) {
+	if(FT_New_Face(font->ft_lib, standard_font, 0, &(font->face))) {
 		fprintf(stderr, "Could not open font\n");
-		return 1;
+		return false;
 	}
 
 	// set standard font size
-	FT_Set_Pixel_Sizes(face, 0, standard_size);
+	FT_Set_Pixel_Sizes(font->face, 0, standard_size);
 
-		const GLuint vertex_shader = shader_load_strings(1, "font_vertex", (const GLchar* []) { font_vertex_source }, GL_VERTEX_SHADER);
-		const GLuint fragment_shader = shader_load_strings(1, "font_fragment", (const GLchar* []) { font_fragment_source }, GL_FRAGMENT_SHADER);
-		const GLuint program = shader_link_program(vertex_shader, fragment_shader);
-		glDeleteShader(vertex_shader);
-		glDeleteShader(fragment_shader);
+	const GLuint vertex_shader = shader_load_strings(1, "font_vertex", (const GLchar* []) { font_vertex_source }, GL_VERTEX_SHADER);
+	const GLuint fragment_shader = shader_load_strings(1, "font_fragment", (const GLchar* []) { font_fragment_source }, GL_FRAGMENT_SHADER);
+	font->program = shader_link_program(vertex_shader, fragment_shader);
+	glDeleteShader(vertex_shader);
+	glDeleteShader(fragment_shader);
 
-	glActiveTexture(GL_TEXTURE0);
 	glGenTextures(1, &(font->tex));
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, font->tex);
-	glUniform1i(uniform_tex, 0);
+	font->uniform_tex = glGetUniformLocation(font->program, "tex");
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	glGenBuffers(1, &(font->vbo));
-	glEnableVertexAttribArray(attribute_coord);
 	glBindBuffer(GL_ARRAY_BUFFER, font->vbo);
-	glVertexAttribPointer(attribute_coord, 4, GL_FLOAT, GL_FALSE, 0, 0);
+
+	GLint attribute_coord2d = glGetAttribLocation(font->program, "coord");
+	glEnableVertexAttribArray(attribute_coord2d);
+	glVertexAttribPointer(attribute_coord2d, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
+
+	GLint attribute_tex = glGetAttribLocation(font->program, "texcoord");
+	glEnableVertexAttribArray(attribute_tex);
+	glVertexAttribPointer(attribute_tex, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void*)(2 * sizeof(GLfloat)));
+
+	font->uniform_color = glGetUniformLocation(font->program, "color");
+	return true;
 }
 
-void render_text(font_t* font, const char *text, float x, float y, float sx, float sy) {
-	FT_GlyphSlot g = font->face->glyph;
+void font_render_text(font_t font, const char *text, float x, float y, float sx, float sy) {
+	FT_GlyphSlot g = font.face->glyph;
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glUseProgram(font.program);
+	glBindBuffer(GL_ARRAY_BUFFER, font.vbo);
+	glUniform4f(font.uniform_color, 1., 1., 1., 1.);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, font.tex);
 
 	for(const char* p = text; *p; p++) {
-		if(FT_Load_Char(face, *p, FT_LOAD_RENDER)) continue;
+		if(FT_Load_Char(font.face, *p, FT_LOAD_RENDER)) continue;
 
 		glTexImage2D(
 				GL_TEXTURE_2D,
@@ -65,6 +80,7 @@ void render_text(font_t* font, const char *text, float x, float y, float sx, flo
 				GL_UNSIGNED_BYTE,
 				g->bitmap.buffer
 			    );
+		glUniform1i(font.uniform_tex, 0);
 
 		float x2 = x + g->bitmap_left * sx;
 		float y2 = -y - g->bitmap_top * sy;

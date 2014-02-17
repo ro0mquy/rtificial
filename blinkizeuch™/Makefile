@@ -1,8 +1,8 @@
 LIBZEUCH_ROOT=../
 LIBZEUCH=$(LIBZEUCH_ROOT)libzeuch/libzeuch.a
 
-CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags) -I$(LIBZEUCH_ROOT) $(shell pkg-config --cflags jansson IL)
-LDLIBS=-lGLEW $(shell sdl-config --libs) $(LIBZEUCH) -lAntTweakBar $(shell pkg-config --libs jansson IL)
+CFLAGS=-Os -std=c99 -Wall -Wextra $(shell sdl-config --cflags) -I$(LIBZEUCH_ROOT) $(shell pkg-config --cflags jansson IL) $(shell freetype-config --cflags)
+LDLIBS=-lGLEW $(shell sdl-config --libs) $(LIBZEUCH) -lAntTweakBar $(shell pkg-config --libs jansson IL) $(shell freetype-config --libs)
 LINUX_LDLIBS=-lGL -lm
 DARWIN_LDLIBS=-framework Cocoa -framework OpenGL
 
@@ -17,6 +17,7 @@ OBJECTS=\
 	main.o\
 	camera.o\
 	flight.o\
+	font.o\
 	scene.o\
 	tweakable.o\
 	texture.o\
@@ -29,6 +30,7 @@ HEADER=\
 	camera.h\
 	vertex.h\
 	flight.h\
+	font.h\
 	scene.h\
 	tweakable.h\
 	texture.h\
