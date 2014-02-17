@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include "camera.h"
+#include "font.h"
 #include "vertex.h"
 #include "scene.h"
 #include "timeline.h"
@@ -63,6 +64,8 @@ camera_t camera;
 char* scene_path;
 
 timeline_t* timeline;
+
+font_t font;
 
 int main(int argc, char *argv[]) {
 	// reload shader when receiving SIGUSR1
@@ -247,6 +250,8 @@ static int init(void) {
 
 	timeline = timeline_new();
 
+	font_init(&font);
+
 	currentTime = SDL_GetTicks();
 
 	return 1;
@@ -313,6 +318,10 @@ static void draw(void) {
 	glDisableVertexAttribArray(attribute_coord2d);
 
 	timeline_draw(timeline);
+
+	float sx = 2.0 / window_get_width();
+	float sy = 2.0 / window_get_height();
+	font_render_text(font, "Hello World!", -1 + 8 * sx, 1 - 50 * sy, sx, sy);
 
 	// draw AntTweakBar
 	TwDraw();
