@@ -250,7 +250,7 @@ static int init(void) {
 
 	timeline = timeline_new();
 
-	font_init(&font);
+	font_init(&font, "FreeMono.ttf", 22);
 
 	currentTime = SDL_GetTicks();
 
@@ -319,9 +319,7 @@ static void draw(void) {
 
 	timeline_draw(timeline);
 
-	float sx = 2.0 / window_get_width();
-	float sy = 2.0 / window_get_height();
-	font_render_text(font, "Hello World!", -1 + 8 * sx, 1 - 50 * sy, sx, sy);
+	font_print(font, "Hello World!", 0, 0);
 
 	// draw AntTweakBar
 	TwDraw();
