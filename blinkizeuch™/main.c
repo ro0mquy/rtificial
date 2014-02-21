@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include "camera.h"
+#include "font.h"
 #include "vertex.h"
 #include "scene.h"
 #include "timeline.h"
@@ -66,6 +67,8 @@ char* fragment_path;
 char* timeline_path;
 
 timeline_t* timeline;
+
+font_t font;
 
 int main(int argc, char *argv[]) {
 	// reload shader when receiving SIGUSR1
