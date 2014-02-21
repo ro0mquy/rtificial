@@ -102,8 +102,8 @@ void font_print(font_t font, const char* text, float x, float y) {
 	glDeleteTextures(1, &tex);
 }
 
-void font_destroy(font_t* font) {
-	glDeleteProgram(font->program);
-	FT_Done_Face(font->face);
-	FT_Done_FreeType(font->ft_lib);
+void font_destroy(font_t font) {
+	glDeleteProgram(font.program);
+	FT_Done_Face(font.face);
+	FT_Done_FreeType(font.ft_lib);
 }
