@@ -8,6 +8,7 @@
 #include <libzeuch/gl.h>
 
 #include "camera.h"
+#include "font.h"
 
 struct keyframe_list_t;
 
@@ -15,6 +16,7 @@ typedef struct {
 	GLuint program;
 	GLint attribute_coord2d;
 	GLint uniform_color;
+	font_t font;
 	float zoom;
 	int focus_position;
 	struct keyframe_list_t* keyframes;
