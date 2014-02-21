@@ -10,25 +10,26 @@ typedef struct {
 	FT_Library ft_lib;
 	FT_Face face;
 	GLuint program;
-	GLuint tex;
 	GLuint vbo;
+	GLint attribute_coord2d;
 	GLint uniform_tex;
 	GLint uniform_color;
 } font_t;
 
-bool font_init(font_t* font);
-void font_render_text(font_t font, const char *text, float x, float y, float sx, float sy);
+bool font_init(font_t* font, const char* const fontname, int fontsize);
+void font_print(font_t font, const char* text, float x, float y);
+void font_destroy(font_t* font);
 
 static const char font_vertex_source[] =
 "#version 330\n"
 
-"in vec2 coord;"
-"in vec2 texcoord;"
+"in vec4 coord;"
+//"in vec2 texcoord;"
 "out vec2 Texcoord;"
 
 "void main(void) {"
-"	gl_Position = vec4(coord, 0, 1);"
-"	Texcoord = texcoord;"
+"	gl_Position = vec4(coord.xy, 0, 1);"
+"	Texcoord = coord.zw;"
 "}"
 ;
 
