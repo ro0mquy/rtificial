@@ -29,6 +29,7 @@
 #define IN_BUF_LEN    ( 1024 * (IN_EVENT_SIZE+16))
 
 const double TAU = 6.28318530718;
+const double PAU = 4.71238898038;
 
 static int init(void);
 static void handle_sig(int);
@@ -42,7 +43,10 @@ static void TW_CALL cb_set_rotation(const void* value, void* clientData);
 static void TW_CALL cb_get_rotation(void* value, void* clientData);
 
 GLuint program = 0, vbo_rectangle;
+GLuint postprocess_framebuffer;
 GLuint vertex_shader;
+GLuint postprocess_vertex_shader;
+GLuint postprocess_tex_buffer;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_view_position, uniform_view_direction, uniform_view_up;
 GLint uniform_res = -1;
@@ -241,7 +245,9 @@ int main(int argc, char *argv[]) {
 static int init(void) {
 	camera_init(&camera);
 
+	// set up vertex shader for main scene rendering and postprocessing
 	vertex_shader = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
+	postprocess_vertex_shader = shader_load_strings(1, "postprocess_vertex", (const GLchar* []) { postprocess_vertex_source }, GL_VERTEX_SHADER);
 
 	const GLfloat rectangle_vertices[] = {
 		-1.0,  1.0,
@@ -252,6 +258,30 @@ static int init(void) {
 	glGenBuffers(1, &vbo_rectangle);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
+
+	// create target framebuffer and texture for postprocessing
+	glActiveTexture(GL_TEXTURE0);
+	glGenTextures(1, &postprocess_tex_buffer);
+	glBindTexture(GL_TEXTURE_2D, postprocess_tex_buffer);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+			window_get_width(),
+			window_get_height(),
+			0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glGenFramebuffers(1, &postprocess_framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, postprocess_framebuffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, postprocess_tex_buffer, 0);
+	/// zomg error checking!1!elf1
+	GLenum status;
+	if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
+		fprintf(stderr, "Framebuffer not complete: error %X\n", status);
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	scene = scene_load(config_path);
 
@@ -313,6 +343,8 @@ static void draw(void) {
 	// glClearColor(0.0, 0.0, 0.0, 1.0);
 	// glClear(GL_COLOR_BUFFER_BIT);
 
+	// draw into framebuffer so we can do some postprocessing stuff
+	glBindFramebuffer(GL_FRAMEBUFFER, postprocess_framebuffer);
 	glEnableVertexAttribArray(attribute_coord2d);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
 	glVertexAttribPointer(
@@ -325,6 +357,8 @@ static void draw(void) {
 	);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(attribute_coord2d);
+	// switch back to normal screen
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	timeline_draw(timeline);
 
@@ -348,6 +382,7 @@ static void free_resources(void) {
 	glDeleteShader(vertex_shader);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
+	glDeleteFramebuffers(1, &postprocess_framebuffer);
 }
 
 static void print_sdl_error(const char message[]) {
