@@ -91,10 +91,14 @@ timeline_t* timeline_new() {
 
 	controlPoints = timeline_get_bezier_spline(controlPoints, keyframes, TIMELINE_DEFAULT_SCALE);
 
+	font_t font;
+	font_init(&font, "slkscr.ttf", 16);
+
 	*timeline = (timeline_t) {
 		.program = program,
 		.attribute_coord2d = attribute_coord2d,
 		.uniform_color = uniform_color,
+		.font = font,
 		.zoom = 1.,
 		.focus_position = num_segments * segment_length / 2,
 		.keyframes = keyframes,
@@ -149,20 +153,36 @@ void timeline_draw(timeline_t* const timeline) {
 	}
 
 	// draw cursor postion
-	const GLfloat x = (GLfloat) (timeline->cursor_position - left_edge) / window_width - marker_width / 2 / zoom;
+	const GLfloat x_cur = (GLfloat) (timeline->cursor_position - left_edge) / window_width - marker_width / 2 / zoom;
 	draw_rect(timeline, &(rect_t) {
-		.x = x, .y = 0., .w = cursor_width / zoom, .h = timeline_height,
+		.x = x_cur, .y = 0., .w = cursor_width / zoom, .h = timeline_height,
 		.r = 0., .g = 1., .b = 0., .a = 1.,
 	});
 
 	glDisableVertexAttribArray(timeline->attribute_coord2d);
 	glDisable(GL_BLEND);
+
+	// timelabels
+	char time_string[8]; // number is not bigger than 9999.99
+	for (size_t i = 0; i < timeline->keyframes->length; i++) {
+		const int time = list_get(timeline->keyframes, i)->time;
+		const GLfloat x = (GLfloat) (time - left_edge) / window_width - marker_width / 2 / zoom;
+		snprintf(time_string, 8, "%4.2f", time / 1000.);
+		// font coordinates are from -1. to 1.
+		font_print(timeline->font, time_string, -1. + 2.*x, -.99);
+	}
+
+	// label for cursor
+	snprintf(time_string, 8, "%4.2f", timeline->cursor_position / 1000.);
+	// font coordinates are from -1. to 1.
+	font_print(timeline->font, time_string, -1. + 2.*x_cur, -.99);
 }
 
 void timeline_destroy(timeline_t* const timeline) {
 	util_safe_free(timeline->keyframes);
 	util_safe_free(timeline->controlPoints);
 	glDeleteProgram(timeline->program);
+	font_destroy(timeline->font);
 }
 
 bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* const event) {

@@ -18,7 +18,7 @@ typedef struct {
 
 bool font_init(font_t* font, const char* const fontname, int fontsize);
 void font_print(font_t font, const char* text, float x, float y);
-void font_destroy(font_t* font);
+void font_destroy(font_t font);
 
 static const char font_vertex_source[] =
 "#version 330\n"

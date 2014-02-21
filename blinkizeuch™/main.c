@@ -250,8 +250,6 @@ static int init(void) {
 
 	timeline = timeline_new();
 
-	font_init(&font, "FreeMono.ttf", 22);
-
 	currentTime = SDL_GetTicks();
 
 	return 1;
@@ -318,8 +316,6 @@ static void draw(void) {
 	glDisableVertexAttribArray(attribute_coord2d);
 
 	timeline_draw(timeline);
-
-	font_print(font, "Hello World!", 0, 0);
 
 	// draw AntTweakBar
 	TwDraw();
