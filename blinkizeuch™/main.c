@@ -158,7 +158,9 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "error: inotify: fcntl()");
 
 	in_wd = inotify_add_watch(in_fd, fragment_path, IN_CLOSE_WRITE);
+	in_wd = inotify_add_watch(in_fd, post_path, IN_CLOSE_WRITE);
 	printf("watching \"%s\"\n", fragment_path);
+	printf("watching \"%s\"\n", post_path);
 #endif
 
 
@@ -202,6 +204,7 @@ int main(int argc, char *argv[]) {
 				 * reloading and rewatching it anyway. #yolo
 				 */
 				in_wd = inotify_add_watch(in_fd, fragment_path, IN_CLOSE_WRITE);
+				in_wd = inotify_add_watch(in_fd, post_path, IN_CLOSE_WRITE);
 				puts("shader file changed. reloading it for ya.");
 				load_shader();
 			}
