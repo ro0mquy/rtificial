@@ -10,7 +10,7 @@ void main(void) {\
 }\
 ";
 
-static const char postprocess_vertex_source[] = "\
+static const char post_vertex_source[] = "\
 #version 330\n\
 in vec2 coord2d;\
 out vec2 texcoord;\
