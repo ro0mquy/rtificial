@@ -339,7 +339,12 @@ static void load_shader(void) {
 	if(scene != NULL) scene_load_uniforms(scene, program);
 
 	// compile postprocessing program
-	const GLuint post_fragment_shader = shader_load_files(1, (const char* []) { post_path }, GL_FRAGMENT_SHADER);
+	GLuint post_fragment_shader = shader_load_files(1, (const char* []) { post_path }, GL_FRAGMENT_SHADER);
+	// if post.glsl file doesn't exist, load default shader which does nothing
+	if (post_fragment_shader == 0) {
+		post_fragment_shader = shader_load_strings(1, post_path, (const GLchar* []) { post_default_fragment_source }, GL_FRAGMENT_SHADER);
+	}
+
 	if(post_program != 0) glDeleteProgram(post_program);
 	post_program = shader_link_program(post_vertex_shader, post_fragment_shader);
 	glDeleteShader(post_fragment_shader);
@@ -381,7 +386,6 @@ static void draw(void) {
 		0
 	);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	//glDisableVertexAttribArray(attribute_coord2d);
 	// switch back to normal screen
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

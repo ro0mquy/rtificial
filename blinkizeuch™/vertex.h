@@ -20,4 +20,14 @@ void main() {\
 }\
 ";
 
+static const char post_default_fragment_source[] = "\
+#version 330\n\
+in vec2 texcoord;\
+out vec4 outColor;\
+uniform sampler2D tex;\
+void main() {\
+	outColor = texture(tex, texcoord);\
+}\
+";
+
 #endif
