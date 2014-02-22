@@ -71,6 +71,7 @@ camera_t camera;
 char* scene_path;
 char* config_path;
 char* fragment_path;
+char* post_path;
 char* timeline_path;
 
 timeline_t* timeline;
@@ -126,6 +127,11 @@ int main(int argc, char *argv[]) {
 	fragment_path = malloc(scene_path_length + fragment_name_length + 1);
 	strncpy(fragment_path, scene_path, scene_path_length);
 	strncpy(fragment_path + scene_path_length, fragment_name, fragment_name_length + 1);
+
+	size_t post_name_length = strlen(post_name);
+	post_path = malloc(scene_path_length + post_name_length + 1);
+	strncpy(post_path, scene_path, scene_path_length);
+	strncpy(post_path + scene_path_length, post_name, post_name_length + 1);
 
 	size_t config_name_length = strlen(config_name);
 	config_path = malloc(scene_path_length + config_name_length + 1);
@@ -305,20 +311,6 @@ static void handle_sig(int signum) {
 }
 
 static void load_shader(void) {
-	const size_t scene_path_length = strlen(scene_path);
-	const size_t fragment_name_length = strlen(fragment_name);
-	const size_t post_name_length = strlen(post_name);
-
-	// assemble fragment shader file path
-	char fragment_path[scene_path_length + fragment_name_length + 1];
-	strncpy(fragment_path, scene_path, scene_path_length);
-	strncpy(fragment_path + scene_path_length, fragment_name, fragment_name_length + 1);
-
-	// assemble postprocessing shader file path
-	char post_path[scene_path_length + post_name_length + 1];
-	strncpy(post_path, scene_path, scene_path_length);
-	strncpy(post_path + scene_path_length, post_name, post_name_length + 1);
-
 	// compile main raymarching program
 	const GLuint fragment_shader = shader_load_files(2, (const char* []) { libblink_path, fragment_path }, GL_FRAGMENT_SHADER);
 	if(program != 0) glDeleteProgram(program);
@@ -419,6 +411,7 @@ static void free_resources(void) {
 	free(scene_path);
 	free(config_path);
 	free(fragment_path);
+	free(post_path);
 	free(timeline_path);
 	glDeleteShader(vertex_shader);
 	glDeleteProgram(program);
