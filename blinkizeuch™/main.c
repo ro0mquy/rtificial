@@ -36,6 +36,7 @@ static void handle_sig(int);
 static void load_shader(void);
 static void draw(void);
 static void free_resources(void);
+static void post_resize_tex_buffer(void);
 static void print_sdl_error(const char message[]);
 static void handle_key_down(SDL_KeyboardEvent event);
 static void update_state(void);
@@ -228,6 +229,7 @@ int main(int argc, char *argv[]) {
 				case SDL_VIDEORESIZE:
 					if(!window_is_fullscreen()) {
 						window_handle_resize(false, event.resize.w, event.resize.h);
+						post_resize_tex_buffer();
 					}
 					break;
 			}
@@ -430,10 +432,20 @@ static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());
 }
 
+void post_resize_tex_buffer(void) {
+	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+			window_get_width(),
+			window_get_height(),
+			0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 	switch(keyEvent.keysym.sym) {
 		case SDLK_f:
 			window_handle_resize(!window_is_fullscreen(), 0, 0);
+			post_resize_tex_buffer();
 			break;
 		case SDLK_ESCAPE:
 			run = false;
