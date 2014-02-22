@@ -41,6 +41,7 @@ You need the following dependencies
 * [AntTweakBar](http://anttweakbar.sourceforge.net/doc/tools:anttweakbar?sb=tools) version 1.14 -- A library that adds an easy GUI into OpenGL applications to interactively tweak them on-screen
 * [DevIL](http://openil.sourceforge.net/) version 1.7.8 -- A full featured cross-platform image library
 * [Jansson](http://www.digip.org/jansson/) minimum Version: 2.5 -- C library for encoding, decoding and manipulating JSON data
+* [FreeType](http://www.freetype.org/) version 2.4.4 -- Library to render fonts
 * libzeuch bleeding edge version -- internal library for shader loading, vector math and other abstraction
 
 ### Dependency Installation
