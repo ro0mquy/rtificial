@@ -53,7 +53,8 @@ You need the following dependencies
         '<media-libs/libsdl-2.0' \
         '~media-libs/anttweakbar-1.14' \
         '>=dev-libs/jansson-2.5' \
-        '~media-libs/devil-1.7.8'
+        '~media-libs/devil-1.7.8' \
+        '~media-libs/freetype-2.4.11' 
 
 #### OS X
 
@@ -61,7 +62,8 @@ You need the following dependencies
         sdl \
         anttweakbar \
         devil \
-        jansson
+        jansson \
+        freetype
 
 ### Building
 
