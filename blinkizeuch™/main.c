@@ -279,11 +279,8 @@ static int init(void) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-			window_get_width(),
-			window_get_height(),
-			0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	// create texture as big as the window
+	post_resize_tex_buffer();
 
 	glGenFramebuffers(1, &post_framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, post_framebuffer);
@@ -428,7 +425,7 @@ static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());
 }
 
-void post_resize_tex_buffer(void) {
+static void post_resize_tex_buffer(void) {
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
 			window_get_width(),
