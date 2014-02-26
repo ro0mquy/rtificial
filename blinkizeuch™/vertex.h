@@ -23,10 +23,10 @@ void main() {\
 static const char post_default_fragment_source[] = "\
 #version 330\n\
 in vec2 texcoord;\
-out vec4 outColor;\
+out vec4 out_color;\
 uniform sampler2D tex;\
 void main() {\
-	outColor = texture(tex, texcoord);\
+	out_color = texture(tex, texcoord);\
 }\
 ";
 

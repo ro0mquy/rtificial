@@ -1,8 +1,9 @@
 #version 330
 
 in vec2 texcoord;
-out vec4 outColor;
+out vec4 out_color;
 uniform sampler2D tex;
+uniform sampler2D tex_depth;
 
 ivec2 offset[9] = ivec2[](
 	ivec2(-1, -1),
@@ -46,12 +47,23 @@ vec3 contrast(vec3 color, float k) {
 
 void main() {
 	vec3 color = texture(tex, texcoord).rgb;
+	float depth = texture(tex_depth, texcoord)/50.;
 
 	if (texcoord.x > .5) {
-		color = sharpen();
+		//color = sharpen();
 		color = contrast(color, 1.1);
 	}
 
+	//color *= (1.5 - depth);
+	//color = vec3(.9 * (1. - depth) + .1);
 
-	outColor = vec4(color, 1.);
+	/*
+	if (depth > 20.) {
+		color = contrast(color, -1.);
+	}
+	// */
+	//color *= depth;
+	//color = vec3(depth);
+
+	out_color = vec4(color, 1.);
 }

@@ -36,7 +36,7 @@ static void handle_sig(int);
 static void load_shader(void);
 static void draw(void);
 static void free_resources(void);
-static void post_resize_tex_buffer(void);
+static void post_resize_buffer(void);
 static void print_sdl_error(const char message[]);
 static void handle_key_down(SDL_KeyboardEvent event);
 static void update_state(void);
@@ -49,10 +49,11 @@ GLuint vertex_shader;
 GLuint post_program = 0;
 GLuint post_vertex_shader;
 GLuint post_tex_buffer;
+GLuint post_depth_buffer;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_view_position, uniform_view_direction, uniform_view_up;
 GLint uniform_res = -1;
-GLint post_attribute_coord2d, post_uniform_tex;
+GLint post_attribute_coord2d;
 
 int previousTime = 0;
 int currentTime = 0;
@@ -238,7 +239,7 @@ int main(int argc, char *argv[]) {
 				case SDL_VIDEORESIZE:
 					if(!window_is_fullscreen()) {
 						window_handle_resize(false, event.resize.w, event.resize.h);
-						post_resize_tex_buffer();
+						post_resize_buffer();
 					}
 					break;
 			}
@@ -279,12 +280,26 @@ static int init(void) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	// create texture as big as the window
-	post_resize_tex_buffer();
+
+	// depth buffer
+	glGenTextures(1, &post_depth_buffer);
+	glBindTexture(GL_TEXTURE_2D, post_depth_buffer);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	// make both textures as big as the window
+	post_resize_buffer();
 
 	glGenFramebuffers(1, &post_framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, post_framebuffer);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, post_tex_buffer, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, post_depth_buffer, 0);
+
+	// specify the attachments to be drawn to
+	glDrawBuffers(2, (GLenum[]) { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 });
+
 	/// zomg error checking!1!elf1
 	GLenum status;
 	if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
@@ -350,7 +365,11 @@ static void load_shader(void) {
 		return;
 	}
 
-	post_uniform_tex = shader_get_uniform(post_program, "tex");
+	glUseProgram(post_program);
+	GLuint post_uniform_tex = shader_get_uniform(post_program, "tex");
+	GLuint post_uniform_depth = shader_get_uniform(post_program, "tex_depth");
+	glUniform1i(post_uniform_tex, /*GL_TEXTURE*/0);
+	glUniform1i(post_uniform_depth, /*GL_TEXTURE*/1);
 }
 
 
@@ -380,18 +399,23 @@ static void draw(void) {
 		0
 	);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDisableVertexAttribArray(attribute_coord2d);
 	// switch back to normal screen
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// apply postprocessing
 	glUseProgram(post_program);
+	glEnableVertexAttribArray(post_attribute_coord2d);
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
-	glUniform1i(post_uniform_tex, /*GL_TEXTURE*/0);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, post_depth_buffer);
 
 	// we reuse the vbo from the last draw
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glDisableVertexAttribArray(attribute_coord2d);
+	glDisableVertexAttribArray(post_attribute_coord2d);
 
 	timeline_draw(timeline);
 
@@ -417,6 +441,7 @@ static void free_resources(void) {
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
 	glDeleteTextures(1, &post_tex_buffer);
+	glDeleteTextures(1, &post_depth_buffer);
 	glDeleteFramebuffers(1, &post_framebuffer);
 	glDeleteProgram(post_program);
 }
@@ -425,12 +450,18 @@ static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());
 }
 
-static void post_resize_tex_buffer(void) {
+static void post_resize_buffer(void) {
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
 			window_get_width(),
 			window_get_height(),
 			0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+	glBindTexture(GL_TEXTURE_2D, post_depth_buffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F,
+			window_get_width(),
+			window_get_height(),
+			0, GL_RED, GL_FLOAT, NULL);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -438,7 +469,7 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 	switch(keyEvent.keysym.sym) {
 		case SDLK_f:
 			window_handle_resize(!window_is_fullscreen(), 0, 0);
-			post_resize_tex_buffer();
+			post_resize_buffer();
 			break;
 		case SDLK_ESCAPE:
 			run = false;
