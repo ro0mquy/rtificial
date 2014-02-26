@@ -11,8 +11,8 @@ typedef struct {
 	FT_Face face;
 	GLuint program;
 	GLuint vbo;
+	GLuint tex;
 	GLint attribute_coord2d;
-	GLint uniform_tex;
 	GLint uniform_color;
 } font_t;
 
@@ -23,8 +23,7 @@ void font_destroy(font_t font);
 static const char font_vertex_source[] =
 "#version 330\n"
 
-"in vec4 coord;"
-//"in vec2 texcoord;"
+"in vec4 coord;" // .xy is normal coordinate, .zw is texture coordinate
 "out vec2 Texcoord;"
 
 "void main(void) {"
