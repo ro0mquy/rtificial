@@ -28,10 +28,18 @@ bool font_init(font_t* font, const char* const fontname, int fontsize) {
 
 	// bind uniforms and attributes
 	font->attribute_coord2d = glGetAttribLocation(font->program, "coord");
-	font->uniform_tex = glGetUniformLocation(font->program, "tex");
-	font->uniform_color = glGetUniformLocation(font->program, "color");
+	font->uniform_color = shader_get_uniform(font->program, "color");
+	glUniform1i(glGetUniformLocation(font->program, "tex"), /*GL_TEXTURE*/0);
 
 	glGenBuffers(1, &(font->vbo));
+
+	glGenTextures(1, &(font->tex));
+	glBindTexture(GL_TEXTURE_2D, font->tex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	return true;
 }
 
@@ -48,17 +56,8 @@ void font_print(font_t font, const char* text, float x, float y) {
 	glUseProgram(font.program);
 	glUniform4f(font.uniform_color, 1., 1., 1., 1.);
 
-	GLuint tex;
 	glActiveTexture(GL_TEXTURE0);
-	glGenTextures(1, &tex);
-	glBindTexture(GL_TEXTURE_2D, tex);
-	glUniform1i(font.uniform_tex, 0);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glBindTexture(GL_TEXTURE_2D, font.tex);
 
 	glEnableVertexAttribArray(font.attribute_coord2d);
 	glBindBuffer(GL_ARRAY_BUFFER, font.vbo);
@@ -99,10 +98,10 @@ void font_print(font_t font, const char* text, float x, float y) {
 	}
 
 	glDisableVertexAttribArray(font.attribute_coord2d);
-	glDeleteTextures(1, &tex);
 }
 
 void font_destroy(font_t font) {
+	glDeleteTextures(1, &(font.tex));
 	glDeleteProgram(font.program);
 	FT_Done_Face(font.face);
 	FT_Done_FreeType(font.ft_lib);
