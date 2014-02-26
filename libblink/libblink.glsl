@@ -7,7 +7,7 @@ uniform vec2 res;
 uniform float time;
 
 layout(location = 0) out vec4 out_color;
-layout(location = 1) out vec4 out_depth;
+layout(location = 1) out float out_depth;
 
 vec3 get_direction() {
 	vec3 view_right = cross(view_direction, view_up);

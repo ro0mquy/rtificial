@@ -56,13 +56,14 @@ void main() {
 
 	//color *= (1.5 - depth);
 	//color = vec3(.9 * (1. - depth) + .1);
+	//color = contrast(color, (1. - depth) * 1.5);
 
 	/*
-	if (depth > 20.) {
+	if (depth > .4) {
 		color = contrast(color, -1.);
 	}
 	// */
-	//color *= depth;
+	color *= depth;
 	//color = vec3(depth);
 
 	out_color = vec4(color, 1.);
