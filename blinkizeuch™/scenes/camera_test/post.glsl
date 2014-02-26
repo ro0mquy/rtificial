@@ -1,7 +1,7 @@
 #version 330
 
 in vec2 texcoord;
-out vec4 out_color;
+out vec3 out_color;
 uniform sampler2D tex;
 uniform sampler2D tex_depth;
 
@@ -46,7 +46,7 @@ vec3 contrast(vec3 color, float k) {
 }
 
 void main() {
-	vec3 color = texture(tex, texcoord).rgb;
+	vec3 color = texture(tex, texcoord);
 	float depth = texture(tex_depth, texcoord)/50.;
 
 	if (texcoord.x > .5) {
@@ -66,5 +66,5 @@ void main() {
 	color *= depth;
 	//color = vec3(depth);
 
-	out_color = vec4(color, 1.);
+	out_color = color;
 }

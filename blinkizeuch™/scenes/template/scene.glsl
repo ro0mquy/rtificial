@@ -18,8 +18,8 @@ void main(void){
 		vec3 normal = calc_normal(hit);
 		final_color = vec3(1.0);
 	}
-	out_color = vec4(final_color, 1); 
-} 
+	out_color = final_color;
+}
 
 vec2 f(vec3 p){
 	return vec2(sphere(p, 4.),1);
