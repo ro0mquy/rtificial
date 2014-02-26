@@ -3,13 +3,15 @@ CFLAGS=-Os -std=c99 -Wall -Wextra
 OBJECTS=\
 	shader.o\
 	vector.o\
-	quaternion.o
+	quaternion.o\
+	matrix.o
 
 HEADER=\
 	gl.h\
 	shader.h\
 	vector.h\
-	quaternion.h
+	quaternion.h\
+	matrix.h
 
 .PHONY: all
 all: $(OBJECTS)
