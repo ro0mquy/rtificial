@@ -55,7 +55,10 @@ void main(void) {
 		color *= dot(l, vec4(.7, .8, .9, .5));
 	}
 
+	float depth = distance(view_position, p);
+
 	out_color = vec4(color, 1.);
+	out_depth = vec4(depth, 0., 0., 1.);
 }
 
 vec2 f(vec3 p) {
