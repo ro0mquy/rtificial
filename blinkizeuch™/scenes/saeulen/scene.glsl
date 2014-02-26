@@ -59,7 +59,7 @@ void main() {
 		}
 	}
 	color += vec3(.8, .8, .9) * smoothstep(0., res.y, gl_FragCoord.y);
-	out_color = vec4(color, 1.);
+	out_color = color;
 }
 
 void initValues() {

@@ -31,8 +31,8 @@ void main(void){
 		final_color += 0.1 * ao(hit, normal, .15, 5);
 		final_color += shadow_ray(hit, light) * colors[int(f(hit)[1])] * max(dot(normalize(light - hit), normal), 0);
 	//}
-	out_color = vec4(final_color, 1); 
-} 
+	out_color = final_color;
+}
 
 vec2 f(vec3 p){
 	// schacht im schicht

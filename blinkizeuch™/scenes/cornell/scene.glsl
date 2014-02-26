@@ -35,7 +35,7 @@ void main(void) {
 		color = colors[material] * dot(l, vec4(.25));
 	}
 
-	out_color = vec4(color, 1.);
+	out_color = color;
 }
 
 vec2 f(vec3 p) {

@@ -1,14 +1,6 @@
-#version 120
 
 //varying vec2 pos;
 //uniform vec2 aspect;
-uniform vec2 res;
-uniform float time;
-
-
-uniform vec3 viewPosition;
-uniform vec3 viewDirection;
-uniform vec3 viewUp;
 
 float cr(float r, float R) {
 	float rR = clamp(r/R, 0., 1.);
@@ -78,7 +70,7 @@ float eq(float arg1, float arg2) {
 }
 
 vec3 rm(vec2 frag_coord, mat3 camera) {
-	vec3 ray_start = viewPosition;
+	vec3 ray_start = view_position;
 	vec3 ray_dir = normalize(vec3((frag_coord - .5*res)/res.y, -1));
 	ray_dir *= camera;
 
@@ -120,8 +112,8 @@ vec3 rm(vec2 frag_coord, mat3 camera) {
 }
 
 void main(void) {
-	vec3 right = cross(viewDirection, viewUp);
-	mat3 camera = transpose(mat3(right, viewUp, -viewDirection));
+	vec3 right = cross(view_direction, view_up);
+	mat3 camera = transpose(mat3(right, view_up, -view_direction));
 
 	vec2 off = vec2(-.25, .25);
 	vec3 color = vec3(0.);
@@ -129,6 +121,6 @@ void main(void) {
 	color += .25 * rm(gl_FragCoord.xy + off.xy, camera);
 	color += .25 * rm(gl_FragCoord.xy + off.yx, camera);
 	color += .25 * rm(gl_FragCoord.xy + off.yy, camera);
-	gl_FragColor = vec4(color, 1.0);
+	out_color = color;
 }
 

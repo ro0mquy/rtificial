@@ -55,7 +55,7 @@ void main(void) {
 		color *= dot(l, vec4(.7, .8, .9, .5));
 	}
 
-	out_color = vec4(color, 1.);
+	out_color = color;
 	out_depth = distance(view_position, p);
 }
 
