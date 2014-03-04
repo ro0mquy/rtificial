@@ -56,13 +56,13 @@ vec3 motionBlur() {
 
 	vec4 prev_cam_pos = previous_world_to_camera_matrix * world_pos;
 	vec2 prev_coord = prev_cam_pos.xy / prev_cam_pos.z;
-	vec2 velocity = (coord - prev_coord) / 2.;
+	vec2 velocity = (coord - prev_coord) / 20.;
 
 	vec3 color = vec3(0.);
-	for (int i = 0; i < 2; i++) {
+	for (float i = 0; i < 10.; i++) {
 		color += texture(tex, texcoord + i * velocity).rgb;
 	}
-	return color / 2.;
+	return color / 10.;
 }
 
 void main() {
