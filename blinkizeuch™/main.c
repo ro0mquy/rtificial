@@ -16,6 +16,7 @@
 #include <libzeuch/gl.h>
 #include <libzeuch/shader.h>
 #include <libzeuch/vector.h>
+#include <libzeuch/matrix.h>
 
 #include "config.h"
 #include "camera.h"
@@ -53,11 +54,14 @@ GLuint post_depth_buffer;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_view_position, uniform_view_direction, uniform_view_up;
 GLint uniform_res = -1;
+GLint uniform_inv_world_camera_matrix, uniform_prev_world_camera_matrix;
 GLint post_attribute_coord2d;
 
 int previousTime = 0;
 int currentTime = 0;
 float deltaT = 0;
+
+mat4x4 previous_world_to_camera_matrix;
 
 float angle_modifier = 1.; // ~ 50. / 360. * TAU
 float movement_modifier = 5.;
@@ -366,6 +370,8 @@ static void load_shader(void) {
 	}
 
 	glUseProgram(post_program);
+	uniform_prev_world_camera_matrix = shader_get_uniform(post_program, "previous_world_to_camera_matrix");
+	uniform_inv_world_camera_matrix = shader_get_uniform(post_program, "inverse_world_to_camera_matrix");
 	GLuint post_uniform_tex = shader_get_uniform(post_program, "tex");
 	GLuint post_uniform_depth = shader_get_uniform(post_program, "tex_depth");
 	glUniform1i(post_uniform_tex, /*GL_TEXTURE*/0);
@@ -408,6 +414,11 @@ static void draw(void) {
 	// apply postprocessing
 	glUseProgram(post_program);
 	glEnableVertexAttribArray(post_attribute_coord2d);
+
+	glUniformMatrix4fv(uniform_prev_world_camera_matrix, 1, GL_TRUE, previous_world_to_camera_matrix.a);
+	previous_world_to_camera_matrix = camera_world_to_camera_matrix(&camera);
+	mat4x4 inverse_world_to_camera_matrix = mat4x4_invert(previous_world_to_camera_matrix);
+	glUniformMatrix4fv(uniform_inv_world_camera_matrix, 1, GL_TRUE, inverse_world_to_camera_matrix.a);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
