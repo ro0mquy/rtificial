@@ -318,6 +318,7 @@ static int init(void) {
 	timeline = timeline_new();
 
 	timeline_load(timeline, timeline_path);
+	camera = timeline_get_camera(timeline);
 
 	currentTime = SDL_GetTicks();
 
