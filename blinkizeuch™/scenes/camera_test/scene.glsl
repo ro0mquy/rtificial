@@ -11,9 +11,11 @@ float cubicPulse(float c, float w, float x);
 
 DECLARE_MARCH(march)
 DECLARE_NORMAL(calc_normal)
+DECLARE_AO(ao)
 
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
+DEFINE_AO(ao, f)
 
 vec3 colors[4];
 
