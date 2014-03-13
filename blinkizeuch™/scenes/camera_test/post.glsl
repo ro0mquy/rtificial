@@ -52,7 +52,8 @@ vec3 contrast(vec3 color, float k) {
 vec3 motionBlur() {
 	vec2 coord = vec2(texcoord.x * 2 - 1, (1 - texcoord.y) * 2 - 1);
 	float depth = texture(tex_depth, texcoord);
-	vec4 world_pos = inverse_world_to_camera_matrix * vec4(coord * depth, depth, 1);
+	float z = depth / sqrt(length(coord) + 1);
+	vec4 world_pos = inverse_world_to_camera_matrix * vec4(coord * z, z, 1);
 
 	vec4 prev_cam_pos = previous_world_to_camera_matrix * world_pos;
 	vec2 prev_coord = prev_cam_pos.xy / prev_cam_pos.z;
