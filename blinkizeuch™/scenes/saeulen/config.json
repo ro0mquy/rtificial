@@ -1,41 +1,55 @@
 {
-	"tweakables": [
-	{
-		"name": "Light1 x",
-		"uniform": "light1_x",
-		"type": "float",
-		"default": -1.0
-	},
-	{
-		"name": "Light1 y",
-		"uniform": "light1_y",
-		"type": "float",
-		"default": 3.5
-	},
-	{
-		"name": "Light1 z",
-		"uniform": "light1_z",
-		"type": "float",
-		"default": 1.0
-	},
-
-	{
-		"name": "Light2 x",
-		"uniform": "light2_x",
-		"type": "float",
-		"default": -1.0
-	},
-	{
-		"name": "Light2 y",
-		"uniform": "light2_y",
-		"type": "float",
-		"default": 3.5
-	},
-	{
-		"name": "Light2 z",
-		"uniform": "light2_z",
-		"type": "float",
-		"default": 4.0
-	}
-	]
+    "tweakables": [
+        {
+            "name": "Foo1",
+            "uniform": "foo1",
+            "type": "float",
+            "default": 0.5,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+        {
+            "name": "Foo2",
+            "uniform": "foo2",
+            "type": "float",
+            "default": 0.5,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+        {
+            "name": "Light1 x",
+            "uniform": "light1_x",
+            "type": "float",
+            "default": 10.0
+        },
+        {
+            "name": "Light1 y",
+            "uniform": "light1_y",
+            "type": "float",
+            "default": 3.5
+        },
+        {
+            "name": "Light1 z",
+            "uniform": "light1_z",
+            "type": "float",
+            "default": 1.0
+        },
+        {
+            "name": "Light2 x",
+            "uniform": "light2_x",
+            "type": "float",
+            "default": -1.0
+        },
+        {
+            "name": "Light2 y",
+            "uniform": "light2_y",
+            "type": "float",
+            "default": 3.5
+        },
+        {
+            "name": "Light2 z",
+            "uniform": "light2_z",
+            "type": "float",
+            "default": 4.0
+        }
+    ],
+    "textures": []
 }
