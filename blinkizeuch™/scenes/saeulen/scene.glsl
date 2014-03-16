@@ -1,13 +1,17 @@
 void initValues();
 vec2 f(vec3 p);
-float spikeball(vec3 p);
-float octoBox(vec3 p, float l, float h);
+float octoBox(vec3 p, float d, float h);
 float ao(vec3 p, vec3 n, float d, float i);
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color);
 float softshadow(vec3 ro, vec3 rd, float k);
 
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
+DEFINE_SOFTSHADOW(softshadow, f)
+DEFINE_AO(ao, f)
+
+uniform float foo1;
+uniform float foo2;
 
 uniform float light1_x;
 uniform float light1_y;
@@ -27,8 +31,6 @@ vec3 color_lights[number_lights];
 
 float intensity_lights[number_lights];
 
-vec3 c[19];
-
 void main() {
 	initValues();
 
@@ -45,11 +47,15 @@ void main() {
 			vec3 normal = calc_normal(p);
 			vec3 light_color;
 			vec3 newColor = lighting(p, color_saeulen, direction, normal, light_color);
-			//newColor *= 2. - exp( -2. * pow(distance(p, view_position) / 20., 7.)); // fog
+			newColor += smoothstep(10., 50., float(i)); // iteration glow
+
+			// fog
 			vec3 hsv_newColor = rgb2hsv(newColor);
-			newColor = hsv2rgb(mix(hsv_newColor, vec3(hsv_newColor.x, color_fog.yz), smoothstep(2., 7., distance(p, view_position)))); // fog
-			//newColor += float(i) / 100.; // iteration glow
+			float fog_intensity = smoothstep(5., 35., distance(p, view_position));
+			newColor = hsv2rgb(mix(hsv_newColor, vec3(hsv_newColor.x, color_fog.yz), fog_intensity));
+
 			color += newColor * reflection_factor * light_color_factor;
+
 			light_color_factor *= light_color;
 			reflection_factor *= .4;
 			direction = reflect(direction, normal);
@@ -58,15 +64,15 @@ void main() {
 			break;
 		}
 	}
-	color += vec3(.8, .8, .9) * smoothstep(0., res.y, gl_FragCoord.y);
+	//color += vec3(.8, .8, .9) * smoothstep(0., res.y, gl_FragCoord.y);
 	out_color = vec4(color, 1.);
 }
 
 void initValues() {
 	lights[0] = vec3(light1_x, light1_y, light1_z);
 	lights[1] = vec3(light2_x, light2_y, light2_z);
-	lights[0] = vec3(-1.5, 3.5, 1.);
-	lights[1] = vec3(-1.5, 3.5, 4.);
+	//lights[0] = vec3(-1.5, 3.5, 1.);
+	//lights[1] = vec3(-1.5, 3.5, 4.);
 
 	color_lights[0] = vec3(.9, .9, 1.);
 	color_lights[1] = vec3(.9, .9, 1.);
@@ -78,14 +84,14 @@ void initValues() {
 vec2 f(vec3 p) {
 	float sphery = -sphere(p - view_position, 50.); // bounding sphere
 
-	float floor_plane = p.y+.5;
+	float floor_plane = p.y;
 	float ceiling_plane = -p.y+15.;
 	float room = min(floor_plane, ceiling_plane);
 
-	vec3 b = vec3(mod(p.x, 1.)-0.5*1., p.y, mod(p.z, 2.)-0.5*2.);
-	b = rY(radians(22.5)) * b;
+	vec3 b = domrep(p, 12., 3., 15.);
 
-	float saeulen = octoBox(b, 0.1, 3.);
+	float saeulen = octoBox(b, 2., 3.);
+	/*
 	float fugen_abstand = .5;
 	float fugen_hoehe = 0.02;
 	float fugen = .004 * (
@@ -93,52 +99,58 @@ vec2 f(vec3 p) {
 		+ smoothstep(fugen_abstand - .5 * fugen_hoehe, fugen_abstand, mod(p.y, fugen_abstand))
 	);
 	saeulen -= fugen;
+	*/
 
-	//vec3 b = p;
 	return vec2(min(min(sphery,saeulen), room), 0.);
 }
 
-float octoBox(vec3 p, float l, float h){
-	vec3 b1 = rY(radians(45.)) * p;
-	vec3 b2 = rY(radians(90.)) * p;
-	vec3 b3 = rY(radians(135.)) * p;
-	vec3 b4 = rY(radians(180.)) * p;
-	vec3 viertel = vec3(l, h, l+2*sqrt((l*l)/2));
-	return min(min(box(b1, viertel),box(b4, viertel)), min(box(b2, viertel),box(b3, viertel)));
+float invsmax(float a, float b) {
+	float k = .05;
+	float h = clamp(.5 - .5 * (b - a) / k, 0., 1. );
+	return mix(b, a, h) + 3. * k * h * (1. - h);
 }
-float ao(vec3 p, vec3 n, float d, float i) { // ambient occlusion ans sub surface scattering
-	float o, s = sign(d);
-	for (o=s*.5+.5;i>0.;i--) {
-		o-=(i*d-f(p+n*i*d*s)[0])/exp2(i);
-	}
-	return o;
+
+float octoBox(vec3 p, float d, float h) {
+	float box = p.x - d;
+	p = rY(TAU/8.) * p;
+	box = invsmax(box, p.x - d);
+	p = rY(TAU/8.) * p;
+	box = invsmax(box, p.x - d);
+	p = rY(TAU/8.) * p;
+	box = invsmax(box, p.x - d);
+	p = rY(TAU/8.) * p;
+	box = invsmax(box, p.x - d);
+	p = rY(TAU/8.) * p;
+	box = invsmax(box, p.x - d);
+	p = rY(TAU/8.) * p;
+	box = invsmax(box, p.x - d);
+	p = rY(TAU/8.) * p;
+	box = invsmax(box, p.x - d);
+	box = invsmax(box, -p.y - h / 2.);
+	box = invsmax(box, p.y - h / 2.);
+	return box;
 }
 
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color) {
 	light_color = vec3(0.);
 	for (int i = 0; i < number_lights; i++) {
-		vec3 point_to_light = normalize(lights[i] - p);
-		float diffuse = max(dot(normal, point_to_light), 0.); // diffuse light
+		// normale (diffuse) lighting
+		vec3 to_light = normalize(lights[i] - p);
+		float diffuse = max(dot(normal, to_light), 0.);
+
+		// specular lighting
 		float specular = 0.;
-		//float specular = pow(max(dot(reflect(point_to_light, normal), direction), 0.), 50.); // specular light
-		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular) * softshadow(p + .01 * normal, point_to_light, 16.);
+		specular = pow(max(dot(reflect(to_light, normal), direction), 0.), 50.);
+
+		// softshadows
+		float shadow = 1.;
+		//shadow = softshadow(lights[i], p, 32.);
+
+		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular) * shadow;
 	}
 
 	light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion
-	//light_color *= ao(p, direction, -0.3, 10.); // sub surface scattering
+	light_color += 7. * (1. - ao(p, -direction, 0.15, 5.)); // sub surface scattering
 
 	return color * light_color;
 }
-
-float softshadow(vec3 ro, vec3 rd, float k ) {
-	float res = 1.0;
-	float t = 0.01;
-	for(int i=0; i < 64; i++)
-	{
-		float h = f(ro + rd*t)[0];
-		res = min( res, max(k*h/t, 0.) );
-		t += clamp(h, 0.02, 0.1);
-	}
-	return clamp(res, 0., 1.);
-}
-

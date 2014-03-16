@@ -8,6 +8,8 @@ uniform float time;
 
 out vec4 out_color;
 
+float TAU = 6.28318530718;
+
 vec3 get_direction() {
 	vec3 view_right = cross(view_direction, view_up);
 	mat3 camera = mat3(view_right, view_up, -view_direction);
@@ -43,6 +45,33 @@ float name(vec3 hit, vec3 light) {\
 		if(dist < .001 * walked) break;\
 	}\
 	return float((distance(hit, light) - distance(light, p)) < .1);\
+}
+
+// iq's softshadows with penumbra
+// light: position of light
+// hit: the point hit by raymarching
+// hardness: the hardness of the shadow (2, 8, 32, 128 are good values)
+#define DECLARE_SOFTSHADOW(name) float name(vec3, vec3, float);
+#define DEFINE_SOFTSHADOW(name, f) \
+float softshadow(vec3 light, vec3 hit, float hardness) {\
+	vec3 direction = normalize(light - hit);\
+	float max_travel = .95 * distance(hit, light);\
+	float traveled = .001;\
+	float res = 1.;\
+\
+	for (; traveled < max_travel;) {\
+		float dist = f(hit + traveled*direction)[0];\
+\
+		/* if doing small steps, we hit something */ \
+		if (dist < 0.01 * traveled) {\
+			return 0.;\
+		}\
+\
+		/* save the smallest distance to an object */ \
+		res = min(res, hardness * dist / traveled);\
+		traveled += dist;\
+	}\
+	return res;\
 }
 
 #define DECLARE_NORMAL(name) vec3 name(vec3);
@@ -102,6 +131,12 @@ float smin(float a, float b, float k) {
 	return mix(b, a, h) - k * h * (1.0 - h);
 }
 
+// smooth maximum, k is the difference between the two values for which to smooth (eg. k = 0.1)
+float smax(float a, float b, float k) {
+	float h = clamp(0.5 - 0.5 * (b - a) / k, 0.0, 1.0 );
+	return mix(b, a, h) + k * h * (1.0 - h);
+}
+
 // c: x value of maximum
 // w: pulse width / 2
 // x: x
@@ -140,6 +175,11 @@ float box(vec3 p, vec3 b) {
 float torus(vec3 p, vec2 t) {
 	vec2 q = vec2(length(p.xz) - t.x, p.y);
 	return length(q) - t.y;
+}
+
+float tri_prism(vec3 p, vec2 h) {
+	vec3 q = abs(p);
+	return max(q.z - h.y, max(q.x * 0.866025 + p.y * 0.5, -p.y) -h.x * 0.5);
 }
 
 // c must be normalized
@@ -182,10 +222,10 @@ vec3 domrepv(vec3 p, vec3 c) {
 vec3 domrep(vec3 p, float x, float y, float z) {
 	return domrepv(p, vec3(x, y, z));
 }
-/* Given a position, this function generates a 3D co-ordinates based,
- * reconstructible static noise. */
-float noise(vec3 position)
-{
+
+// Given a position, this function generates a 3D co-ordinates based,
+// reconstructible static noise.
+float noise(vec3 position) {
 	position.x += position.y * 57. + position.z * 21.;
 	return sin(cos(position.x) * position.x);
 
@@ -193,13 +233,12 @@ float noise(vec3 position)
 	 * return fract(position.x * position.x * .0013) * 2. - 1.; */
 }
 
-/* Given a position, this function generates a 3D co-ordinates based,
- * reconstructible linearly interpolated smooth noise.
- *
- * This function uses the noise() function above for its underlying
- * noise texture. */
-float smooth_noise(vec3 position)
-{
+// Given a position, this function generates a 3D co-ordinates based,
+// reconstructible linearly interpolated smooth noise.
+//
+// This function uses the noise() function above for its underlying
+// noise texture.
+float smooth_noise(vec3 position) {
 	vec3 integer = floor(position);
 	vec3 fractional = position - integer;
 
@@ -218,6 +257,7 @@ float smooth_noise(vec3 position)
 		       fractional.y),
 		   fractional.z) * .5 + .5;
 }
+
 float rand(vec2 co){
 	return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
 }
@@ -226,6 +266,7 @@ vec2 g(float v) {
 	v *= 2.0 * 3.1415926;
 	return vec2(cos(v), sin(v));
 }
+
 vec2 fade(vec2 t) {
 	return t*t*t*(t*(t*6.0-15.0)+10.0);
 }
