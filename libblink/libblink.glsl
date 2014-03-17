@@ -182,6 +182,11 @@ float tri_prism(vec3 p, vec2 h) {
 	return max(q.z - h.y, max(q.x * 0.866025 + p.y * 0.5, -p.y) -h.x * 0.5);
 }
 
+float hex_prism(vec3 p, vec2 h) {
+	vec3 q = abs(p);
+	return max(q.z - h.y, max(q.x + q.y * 0.57735, q.y * 1.1547) - h.x);
+}
+
 // c must be normalized
 float cone(vec3 p, vec2 c) {
 	float q = length(p.xy);
