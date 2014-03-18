@@ -66,13 +66,34 @@ vec3 motionBlur() {
 	return color / 20.;
 }
 
+vec3 godRays() {
+	vec2 position = texcoord / 2.;
+	vec2 temp_position = position;
+	vec3 accumulation = vec3(0.0);
+	int iterations = 75;
+	float contrast = 2.;
+	vec2 movement = vec2(.5, .5);
+
+	float fadefactor = 1. / iterations;
+	float multiplier = 1.0;
+	for (int i=0; i<iterations; i++) {
+		vec3 texturesample = texture2D(tex, position + temp_position).xyz;
+		accumulation += multiplier * smoothstep(0.1, 1.0, texturesample * texturesample);
+		multiplier *= 1.0 - fadefactor;
+		temp_position += ((movement * .5) - position) / iterations;
+	}
+	accumulation /= iterations;
+	//contrast enhance to accentuate bright fragments
+	return texture2D(tex, texcoord).rgb + (accumulation * (contrast / (1.0 + dot(position, position))));
+}
+
 void main() {
 	vec3 color = texture(tex, texcoord).rgb;
 	float depth = texture(tex_depth, texcoord);
 
 	if (texcoord.x > .5) {
 		//color = sharpen();
-		color = contrast(color, 1.1);
+		//color = contrast(color, 1.1);
 	}
 
 	//color *= (1.5 - depth);
@@ -87,7 +108,9 @@ void main() {
 	//color *= depth;
 	//color = vec3(depth);
 
-	color = motionBlur();
+	//color = motionBlur();
+
+	color = godRays();
 
 	out_color = color;
 }
