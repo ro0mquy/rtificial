@@ -49,7 +49,7 @@ GLint uniform_res = -1;
 
 int previousTime = 0;
 int currentTime = 0;
-float deltaT = 0;
+int deltaT = 0;
 
 float angle_modifier = 1.; // ~ 50. / 360. * TAU
 float movement_modifier = 5.;
@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
 	TwInit(TW_OPENGL, NULL);
 	TwWindowSize(default_width, default_height);
 	tweakBar = TwNewBar("Rumfummeldings");
-	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_FLOAT, &deltaT, "precision=3");
+	TwAddVarRO(tweakBar, "Delta time", TW_TYPE_INT32, &deltaT, "");
 	TwAddVarCB(tweakBar, "Camera rotation", TW_TYPE_QUAT4F, cb_set_rotation, cb_get_rotation, NULL, "");
 	TwAddVarRW(tweakBar, "Movement Speed", TW_TYPE_FLOAT, &movement_modifier, "min=0.0");
 	TwAddVarRW(tweakBar, "Angular Speed", TW_TYPE_FLOAT, &angle_modifier, "min=0.0 step=0.2");
@@ -301,6 +301,10 @@ static void load_shader(void) {
 
 
 static void draw(void) {
+	// block until everything from the last frame is drawn
+	glFinish();
+	int start_time = SDL_GetTicks();
+
 	glUseProgram(program);
 	glUniform2f(uniform_res, window_get_width(), window_get_height());
 	camera_update_uniforms(&camera, uniform_view_position, uniform_view_direction, uniform_view_up);
@@ -325,6 +329,10 @@ static void draw(void) {
 	);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(attribute_coord2d);
+
+	// block until the main program is drawn
+	glFinish();
+	deltaT = SDL_GetTicks() - start_time;
 
 	timeline_draw(timeline);
 
@@ -380,16 +388,16 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 static void update_state(void) {
 	previousTime = currentTime;
 	currentTime = SDL_GetTicks();
-	deltaT = (currentTime - previousTime) / 1000.; //convert from milliseconds to seconds
+	int deltaTime = currentTime - previousTime;
 
-	timeline_update(timeline, currentTime - previousTime);
+	timeline_update(timeline, deltaTime);
 
 	if(timeline_camera_changed(timeline)) {
 		camera = timeline_get_camera(timeline);
 	}
 
-	float angle = angle_modifier * deltaT;
-	float distance = movement_modifier * deltaT;
+	float angle = angle_modifier * deltaTime / 1000.;
+	float distance = movement_modifier * deltaTime / 1000.;
 
 	// get keystate map
 	Uint8* keystate = SDL_GetKeyState(NULL);
