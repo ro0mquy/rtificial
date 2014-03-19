@@ -25,7 +25,7 @@ const int number_lights = 2;
 vec3 lights[number_lights];
 
 vec3 color_background = vec3(0.05, 0.05, 0.05);
-vec3 color_fog = vec3(.67, .1, .8); // in hsv
+vec3 color_fog = vec3(.67, .0, .9); // in hsv
 vec3 color_saeulen = vec3(1., 1., 1.);
 vec3 color_lights[number_lights];
 
@@ -43,49 +43,48 @@ void main() {
 	for (int reflections = 0; reflections < 1; reflections++) {
 		int i;
 		p = march(p, direction, i);
-		if(i < 100) {
-			vec3 normal = calc_normal(p);
-			vec3 light_color;
-			vec3 newColor = lighting(p, color_saeulen, direction, normal, light_color);
-			newColor += smoothstep(10., 50., float(i)); // iteration glow
-
-			// fog
-			vec3 hsv_newColor = rgb2hsv(newColor);
-			float fog_intensity = smoothstep(5., 35., distance(p, view_position));
-			newColor = hsv2rgb(mix(hsv_newColor, vec3(hsv_newColor.x, color_fog.yz), fog_intensity));
-
-			color += newColor * reflection_factor * light_color_factor;
-
-			light_color_factor *= light_color;
-			reflection_factor *= .4;
-			direction = reflect(direction, normal);
-		} else {
+		if (i >= 100) {
+			// hit nothing
 			color = hsv2rgb(color_fog);
 			break;
 		}
+
+		vec3 normal = calc_normal(p);
+		vec3 light_color;
+		vec3 newColor = lighting(p, color_saeulen, direction, normal, light_color);
+		newColor += smoothstep(10., 50., float(i)); // iteration glow
+
+		// fog
+		vec3 hsv_newColor = rgb2hsv(newColor);
+		float fog_intensity = smoothstep(5., 35., distance(p, view_position));
+		hsv_newColor.yz = mix(hsv_newColor.yz, color_fog.yz, fog_intensity);
+		newColor = hsv2rgb(hsv_newColor);
+
+		color += newColor * reflection_factor * light_color_factor;
+
+		light_color_factor *= light_color;
+		reflection_factor *= .4;
+		direction = reflect(direction, normal);
 	}
-	//color += vec3(.8, .8, .9) * smoothstep(0., res.y, gl_FragCoord.y);
 	out_color = vec4(color, 1.);
 }
 
 void initValues() {
 	lights[0] = vec3(light1_x, light1_y, light1_z);
 	lights[1] = vec3(light2_x, light2_y, light2_z);
-	//lights[0] = vec3(-1.5, 3.5, 1.);
-	//lights[1] = vec3(-1.5, 3.5, 4.);
 
-	color_lights[0] = vec3(.9, .9, 1.);
-	color_lights[1] = vec3(.9, .9, 1.);
+	color_lights[0] = vec3(1., 1., .9);
+	color_lights[1] = vec3(1., .2, .0);
 
-	intensity_lights[0] = .7;
-	intensity_lights[1] = .7;
+	intensity_lights[0] = .9;
+	intensity_lights[1] = .9;
 }
 
 vec2 f(vec3 p) {
 	float sphery = -sphere(p - view_position, 50.); // bounding sphere
 
 	float floor_plane = p.y;
-	float ceiling_plane = -p.y+15.;
+	float ceiling_plane = -p.y + 15.;
 	float room = min(floor_plane, ceiling_plane);
 
 	vec3 b = domrep(p, 12., 3., 15.);
@@ -101,7 +100,7 @@ vec2 f(vec3 p) {
 	saeulen -= fugen;
 	*/
 
-	return vec2(min(min(sphery,saeulen), room), 0.);
+	return vec2(min(min(sphery, saeulen), room), 0.);
 }
 
 float invsmax(float a, float b) {
@@ -113,19 +112,19 @@ float invsmax(float a, float b) {
 float octoBox(vec3 p, float d, float h) {
 	float box = p.x - d;
 	p = rY(TAU/8.) * p;
-	box = invsmax(box, p.x - d);
+	box = smax(box, p.x - d, .05);
 	p = rY(TAU/8.) * p;
-	box = invsmax(box, p.x - d);
+	box = smax(box, p.x - d, .05);
 	p = rY(TAU/8.) * p;
-	box = invsmax(box, p.x - d);
+	box = smax(box, p.x - d, .05);
 	p = rY(TAU/8.) * p;
-	box = invsmax(box, p.x - d);
+	box = smax(box, p.x - d, .05);
 	p = rY(TAU/8.) * p;
-	box = invsmax(box, p.x - d);
+	box = smax(box, p.x - d, .05);
 	p = rY(TAU/8.) * p;
-	box = invsmax(box, p.x - d);
+	box = smax(box, p.x - d, .05);
 	p = rY(TAU/8.) * p;
-	box = invsmax(box, p.x - d);
+	box = smax(box, p.x - d, .05);
 	box = invsmax(box, -p.y - h / 2.);
 	box = invsmax(box, p.y - h / 2.);
 	return box;
@@ -137,6 +136,7 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 		// normale (diffuse) lighting
 		vec3 to_light = normalize(lights[i] - p);
 		float diffuse = max(dot(normal, to_light), 0.);
+		diffuse = 1. - exp(- 10. * foo1 * pow(diffuse, 1. * foo2));
 
 		// specular lighting
 		float specular = 0.;
@@ -149,8 +149,8 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular) * shadow;
 	}
 
+	light_color += ao(p, direction, -0.15, 3.); // sub surface scattering
 	light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion
-	light_color += 7. * (1. - ao(p, -direction, 0.15, 5.)); // sub surface scattering
 
 	return color * light_color;
 }
