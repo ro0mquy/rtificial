@@ -4,31 +4,7 @@ DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
 DEFINE_AO(ao, f)
 //DEFINE_SHADOW_RAY(shadow_ray, f)
-
-// iq's softshadows with penumbra
-// light: position of light
-// hit: the point hit by raymarching
-// hardness: the hardness of the shadow (2, 8, 32, 128 are good values)
-float softshadow(vec3 light, vec3 hit, float hardness) {
-	vec3 direction = normalize(hit - light);
-	float max_travel = .9 * distance(hit, light);
-	float traveled = 0.;
-	float res = 1.0;
-
-	for (; traveled < max_travel;) {
-		float dist = f(light + traveled*direction)[0];
-
-		// if doing small steps, we hit something
-		if (dist < 0.001*traveled) {
-			return 0.;
-		}
-
-		// save the smallest distance to an object
-		res = min(res, hardness * dist / traveled);
-		traveled += dist;
-	}
-	return res;
-}
+DEFINE_SOFTSHADOW(softshadow, f)
 
 vec3 colors[4];
 
@@ -72,8 +48,7 @@ void main(void) {
 			float factor = max(0., dot(normal, to_light));
 			color = colors[material] * factor;
 			//color *= shadow_ray(p, light);
-			//color *= softshadow(light, -to_light, .1, distance(light, p) - 1.6, 32.);
-			color *= max(.05, softshadow(light, p, 32.));
+			color *= max(.05, softshadow(p, light, 32.));
 			//color += 0.1 * ao(p, normal, .15, 5);
 		}
 	}

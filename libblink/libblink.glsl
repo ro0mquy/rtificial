@@ -53,7 +53,7 @@ float name(vec3 hit, vec3 light) {\
 // hardness: the hardness of the shadow (2, 8, 32, 128 are good values)
 #define DECLARE_SOFTSHADOW(name) float name(vec3, vec3, float);
 #define DEFINE_SOFTSHADOW(name, f) \
-float softshadow(vec3 light, vec3 hit, float hardness) {\
+float softshadow(vec3 hit, vec3 light, float hardness) {\
 	vec3 direction = normalize(light - hit);\
 	float max_travel = .95 * distance(hit, light);\
 	float traveled = .001;\
