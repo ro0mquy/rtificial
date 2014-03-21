@@ -296,4 +296,32 @@ float classic_noise(vec2 co) {
 		u.y);
 }
 
+// positive dot product
+float pdot(vec3 a, vec3 b) {
+	return max(0., dot(a, b));
+}
+
+// calculate lambertian reflectance (diffuse term of phong model)
+// input vectors have to be of unit length
+float lambert_norm(vec3 to_light, vec3 normal) {
+	return pdot(to_light, normal);
+}
+
+// calculate lambertian reflectance (diffuse term of phong model)
+float lambert(vec3 to_light, vec3 normal) {
+	return lambert_norm(normalize(to_light), normalize(normal));
+}
+
+// calculate specular term of phong model
+// input vectors have to be of unit length
+float phong_norm(vec3 to_light, vec3 normal, vec3 to_view, float exponent) {
+	vec3 reflection = 2. * normal * dot(normal, to_light) - to_light;
+	return pow(pdot(reflection, to_view), exponent);
+}
+
+// calculate specular term of phong model
+float phong(vec3 to_light, vec3 normal, vec3 to_view, float exponent) {
+	return phong_norm(normalize(to_light), normalize(normal), normalize(to_view), exponent);
+}
+
 #line 1

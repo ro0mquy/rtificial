@@ -33,12 +33,13 @@ void main(void) {
 	if(i < 100) {
 		int material = int(f(p).y);
 		vec3 normal = calc_normal(p);
-		vec4 l = max(normal * mat4x3(
+		mat4x3 to_lights = mat4x3(
 			normalize(vec3(2.1, -.7, 1.4) - p),
 			normalize(vec3(-2.4, .5, 1.3) - p),
 			normalize(vec3(2.3, -.4, -1.4) - p),
 			normalize(vec3(-2.2, .8, -1.7) - p)
-		), vec4(0.));
+		);
+		vec4 l = max(normal * to_lights, vec4(0.));
 		if(material == 2) {
 			// float size = 2.;
 			// int n = int(floor(p.z / size));
@@ -55,6 +56,10 @@ void main(void) {
 			color = colors[material];
 		}
 		color *= dot(l, vec4(.7, .8, .9, .5));
+		color += .3 * vec3(1., 0., 0.) * phong(to_lights[0], normal, -direction, 50.);
+		color += .3 * vec3(0., 1., 0.) * phong(to_lights[1], normal, -direction, 32.);
+		color += .3 * vec3(0., 0., 1.) * phong(to_lights[2], normal, -direction, 40.);
+		color += .3 * vec3(1., 1., 0.) * phong(to_lights[3], normal, -direction, 43.);
 	}
 
 	out_color = vec4(color, 1.);
