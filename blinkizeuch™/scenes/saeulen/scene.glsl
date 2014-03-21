@@ -144,7 +144,7 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 
 		// softshadows
 		float shadow = 1.;
-		//shadow = softshadow(lights[i], p, 32.);
+		//shadow = softshadow(p, lights[i], 32.);
 
 		light_color += color_lights[i] * intensity_lights[i] * (diffuse + specular) * shadow;
 	}
