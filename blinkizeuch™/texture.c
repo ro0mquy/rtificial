@@ -12,7 +12,7 @@ bool texture_init(texture_t* texture, const char path[], const char uniform[]) {
 		ilDeleteImages(1, &il_tex);
 		return false;
 	}
-	if(!ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
+	if(!ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)) {
 		ilDeleteImages(1, &il_tex);
 		return false;
 	}
@@ -21,6 +21,8 @@ bool texture_init(texture_t* texture, const char path[], const char uniform[]) {
 	glBindTexture(GL_TEXTURE_2D, texture->tex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexImage2D(GL_TEXTURE_2D, 0,
 			ilGetInteger(IL_IMAGE_FORMAT),
 			ilGetInteger(IL_IMAGE_WIDTH),
