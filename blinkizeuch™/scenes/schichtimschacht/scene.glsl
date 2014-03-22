@@ -3,7 +3,7 @@ vec2 f(vec3);
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
 DEFINE_AO(ao, f)
-DEFINE_SHADOW_RAY(shadow_ray, f)
+DEFINE_SOFTSHADOW(softshadow, f)
 
 uniform vec3 color_foo1;
 uniform vec3 color_foo2;
@@ -29,10 +29,10 @@ void main(void){
 	//if(i < 100){
 		vec3 normal = calc_normal(hit);
 		final_color += 0.1 * ao(hit, normal, .15, 5);
-		final_color += shadow_ray(hit, light) * colors[int(f(hit)[1])] * max(dot(normalize(light - hit), normal), 0);
+		final_color += softshadow(hit, light, 64.) * colors[int(f(hit)[1])] * lambert(light - hit, normal);
 	//}
-	out_color = vec4(final_color, 1); 
-} 
+	out_color = vec4(final_color, 1);
+}
 
 vec2 f(vec3 p){
 	// schacht im schicht
