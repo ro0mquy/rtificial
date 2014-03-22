@@ -28,5 +28,11 @@
 			"type": "color",
 			"default": [0.28, 0.28, 0.28]
 		}
+	],
+	"textures": [
+		{
+			"path": "scenes/schichtimschacht/hello.df.png",
+			"uniform": "tex_hello"
+		}
 	]
 }
