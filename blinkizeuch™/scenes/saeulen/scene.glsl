@@ -21,6 +21,9 @@ uniform float light2_x;
 uniform float light2_y;
 uniform float light2_z;
 
+uniform float normal_noise_radius;
+uniform float diffuse_intensity;
+
 const int number_lights = 2;
 vec3 lights[number_lights];
 
@@ -40,7 +43,7 @@ void main() {
 	vec3 light_color_factor = vec3(1.);
 	float reflection_factor = 1.;
 
-	for (int reflections = 0; reflections < 1; reflections++) {
+	for (int reflections = 0; reflections < 2; reflections++) {
 		int i;
 		p = march(p, direction, i);
 		if (i >= 100) {
@@ -49,7 +52,12 @@ void main() {
 			break;
 		}
 
+		// apply some noise to the normal
 		vec3 normal = calc_normal(p);
+		float phi = smooth_noise(p) * TAU;
+		vec3 jitter = normal_noise_radius * smooth_noise(p) * vec3(cos(phi), sin(phi), 0.);
+		normal = normalize(normal - dot(jitter, normal) * normal + jitter);
+
 		vec3 light_color;
 		vec3 newColor = lighting(p, color_saeulen, direction, normal, light_color);
 		newColor += smoothstep(10., 50., float(i)); // iteration glow
@@ -64,6 +72,7 @@ void main() {
 
 		light_color_factor *= light_color;
 		reflection_factor *= .4;
+
 		direction = reflect(direction, normal);
 	}
 	out_color = vec4(color, 1.);
@@ -124,7 +133,7 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 		// normale (diffuse) lighting
 		vec3 to_light = normalize(lights[i] - p);
 		float diffuse = max(dot(normal, to_light), 0.);
-		diffuse = 1. - exp(- 10. * foo1 * pow(diffuse, 1. * foo2));
+		diffuse *= diffuse_intensity;
 
 		// specular lighting
 		float specular = 0.;
