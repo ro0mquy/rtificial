@@ -324,4 +324,28 @@ float phong(vec3 to_light, vec3 normal, vec3 to_view, float exponent) {
 	return phong_norm(normalize(to_light), normalize(normal), normalize(to_view), exponent);
 }
 
+// see oren_nayar()
+// phi2 = phi * phi
+// input vectors have to be of unit length
+float oren_nayar_norm(vec3 to_light, vec3 normal, vec3 to_view, float phi2) {
+	float A = 1 - phi2 / (2 * (phi2 + .33));
+	float B = .45 * phi2 / (phi2 + .09);
+	// orthogonalize to_light and to_view with normal to calculate angle
+	float cos_l_n = dot(to_light, normal);
+	float cos_v_n = dot(to_view, normal);
+	float cos_phi_i_minus_phi_r = dot(
+		normalize(to_light - normal * cos_l_n),
+		normalize(to_view - normal * cos_v_n)
+	);
+	// calculating sin and tan from cos avoids case differentiation
+	float sin_alpha_tan_beta = sqrt((1 - cos_l_n * cos_l_n) * (1 - cos_v_n * cos_v_n)) / max(cos_l_n, cos_v_n);
+	return max(0, cos_l_n) * (A + B * max(0, cos_phi_i_minus_phi_r) * sin_alpha_tan_beta);
+}
+
+// calculate oren-nayar reflectance
+// phi is roughness (phi = 0 equal to lambert)
+float oren_nayar(vec3 to_light, vec3 normal, vec3 to_view, float phi) {
+	return oren_nayar_norm(normalize(to_light), normalize(normal), normalize(to_view), phi * phi);
+}
+
 #line 1
