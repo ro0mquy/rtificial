@@ -31,7 +31,7 @@
 	],
 	"textures": [
 		{
-			"path": "scenes/schichtimschacht/hello.df.png",
+			"path": "hello.df.png",
 			"uniform": "tex_hello"
 		}
 	]

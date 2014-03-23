@@ -253,7 +253,7 @@ static int init(void) {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
 
-	scene = scene_load(config_path);
+	scene = scene_load(scene_path, config_path);
 
 	load_shader();
 
