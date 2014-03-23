@@ -16,6 +16,7 @@
 #include <libzeuch/gl.h>
 #include <libzeuch/shader.h>
 #include <libzeuch/vector.h>
+#include <libzeuch/matrix.h>
 
 #include "config.h"
 #include "camera.h"
@@ -29,12 +30,14 @@
 #define IN_BUF_LEN    ( 1024 * (IN_EVENT_SIZE+16))
 
 const double TAU = 6.28318530718;
+const double PAU = 4.71238898038;
 
 static int init(void);
 static void handle_sig(int);
 static void load_shader(void);
 static void draw(void);
 static void free_resources(void);
+static void post_resize_buffer(void);
 static void print_sdl_error(const char message[]);
 static void handle_key_down(SDL_KeyboardEvent event);
 static void update_state(void);
@@ -42,14 +45,23 @@ static void TW_CALL cb_set_rotation(const void* value, void* clientData);
 static void TW_CALL cb_get_rotation(void* value, void* clientData);
 
 GLuint program = 0, vbo_rectangle;
+GLuint post_framebuffer;
 GLuint vertex_shader;
+GLuint post_program = 0;
+GLuint post_vertex_shader;
+GLuint post_tex_buffer;
+GLuint post_depth_buffer;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_view_position, uniform_view_direction, uniform_view_up;
 GLint uniform_res = -1;
+GLint uniform_inv_world_camera_matrix, uniform_prev_world_camera_matrix;
+GLint post_attribute_coord2d;
 
 int previousTime = 0;
 int currentTime = 0;
 int deltaT = 0;
+
+mat4x4 previous_world_to_camera_matrix;
 
 float angle_modifier = 1.; // ~ 50. / 360. * TAU
 float movement_modifier = 5.;
@@ -64,6 +76,7 @@ camera_t camera;
 char* scene_path;
 char* config_path;
 char* fragment_path;
+char* post_path;
 char* timeline_path;
 
 timeline_t* timeline;
@@ -120,6 +133,11 @@ int main(int argc, char *argv[]) {
 	strncpy(fragment_path, scene_path, scene_path_length);
 	strncpy(fragment_path + scene_path_length, fragment_name, fragment_name_length + 1);
 
+	size_t post_name_length = strlen(post_name);
+	post_path = malloc(scene_path_length + post_name_length + 1);
+	strncpy(post_path, scene_path, scene_path_length);
+	strncpy(post_path + scene_path_length, post_name, post_name_length + 1);
+
 	size_t config_name_length = strlen(config_name);
 	config_path = malloc(scene_path_length + config_name_length + 1);
 	strncpy(config_path, scene_path, scene_path_length);
@@ -145,7 +163,9 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "error: inotify: fcntl()");
 
 	in_wd = inotify_add_watch(in_fd, fragment_path, IN_CLOSE_WRITE);
+	in_wd = inotify_add_watch(in_fd, post_path, IN_CLOSE_WRITE);
 	printf("watching \"%s\"\n", fragment_path);
+	printf("watching \"%s\"\n", post_path);
 #endif
 
 
@@ -189,6 +209,7 @@ int main(int argc, char *argv[]) {
 				 * reloading and rewatching it anyway. #yolo
 				 */
 				in_wd = inotify_add_watch(in_fd, fragment_path, IN_CLOSE_WRITE);
+				in_wd = inotify_add_watch(in_fd, post_path, IN_CLOSE_WRITE);
 				puts("shader file changed. reloading it for ya.");
 				load_shader();
 			}
@@ -222,6 +243,7 @@ int main(int argc, char *argv[]) {
 				case SDL_VIDEORESIZE:
 					if(!window_is_fullscreen()) {
 						window_handle_resize(false, event.resize.w, event.resize.h);
+						post_resize_buffer();
 					}
 					break;
 			}
@@ -241,7 +263,9 @@ int main(int argc, char *argv[]) {
 static int init(void) {
 	camera_init(&camera);
 
+	// set up vertex shader for main scene rendering and postprocessing
 	vertex_shader = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
+	post_vertex_shader = shader_load_strings(1, "post_vertex", (const GLchar* []) { post_vertex_source }, GL_VERTEX_SHADER);
 
 	const GLfloat rectangle_vertices[] = {
 		-1.0,  1.0,
@@ -253,6 +277,40 @@ static int init(void) {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
 
+	// create target framebuffer and texture for postprocessing
+	glGenTextures(1, &post_tex_buffer);
+	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	// depth buffer
+	glGenTextures(1, &post_depth_buffer);
+	glBindTexture(GL_TEXTURE_2D, post_depth_buffer);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	// make both textures as big as the window
+	post_resize_buffer();
+
+	glGenFramebuffers(1, &post_framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, post_framebuffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, post_tex_buffer, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, post_depth_buffer, 0);
+
+	// specify the attachments to be drawn to
+	glDrawBuffers(2, (GLenum[]) { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 });
+
+	/// zomg error checking!1!elf1
+	GLenum status;
+	if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
+		fprintf(stderr, "Framebuffer not complete: error %X\n", status);
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	scene = scene_load(scene_path, config_path);
 
 	load_shader();
@@ -260,6 +318,7 @@ static int init(void) {
 	timeline = timeline_new();
 
 	timeline_load(timeline, timeline_path);
+	camera = timeline_get_camera(timeline);
 
 	currentTime = SDL_GetTicks();
 
@@ -272,12 +331,7 @@ static void handle_sig(int signum) {
 }
 
 static void load_shader(void) {
-	const size_t scene_path_length = strlen(scene_path);
-	const size_t fragment_name_length = strlen(fragment_name);
-	char fragment_path[scene_path_length + fragment_name_length + 1];
-	strncpy(fragment_path, scene_path, scene_path_length);
-	strncpy(fragment_path + scene_path_length, fragment_name, fragment_name_length + 1);
-
+	// compile main raymarching program
 	const GLuint fragment_shader = shader_load_files(2, (const char* []) { libblink_path, fragment_path }, GL_FRAGMENT_SHADER);
 	if(program != 0) glDeleteProgram(program);
 	program = shader_link_program(vertex_shader, fragment_shader);
@@ -297,6 +351,32 @@ static void load_shader(void) {
 	uniform_view_up = shader_get_uniform(program, "view_up");
 
 	if(scene != NULL) scene_load_uniforms(scene, program);
+
+	// compile postprocessing program
+	GLuint post_fragment_shader = shader_load_files(1, (const char* []) { post_path }, GL_FRAGMENT_SHADER);
+	// if post.glsl file doesn't exist, load default shader which does nothing
+	if (post_fragment_shader == 0) {
+		post_fragment_shader = shader_load_strings(1, post_path, (const GLchar* []) { post_default_fragment_source }, GL_FRAGMENT_SHADER);
+	}
+
+	if(post_program != 0) glDeleteProgram(post_program);
+	post_program = shader_link_program(post_vertex_shader, post_fragment_shader);
+	glDeleteShader(post_fragment_shader);
+
+	const char post_attribute_coord2d_name[] = "coord2d";
+	post_attribute_coord2d = glGetAttribLocation(post_program, post_attribute_coord2d_name);
+	if(post_attribute_coord2d == -1) {
+		fprintf(stderr, "Could not bind attribute %s for postprocessing\n", post_attribute_coord2d_name);
+		return;
+	}
+
+	glUseProgram(post_program);
+	uniform_prev_world_camera_matrix = shader_get_uniform(post_program, "previous_world_to_camera_matrix");
+	uniform_inv_world_camera_matrix = shader_get_uniform(post_program, "inverse_world_to_camera_matrix");
+	GLuint post_uniform_tex = shader_get_uniform(post_program, "tex");
+	GLuint post_uniform_depth = shader_get_uniform(post_program, "tex_depth");
+	glUniform1i(post_uniform_tex, /*GL_TEXTURE*/0);
+	glUniform1i(post_uniform_depth, /*GL_TEXTURE*/1);
 }
 
 
@@ -305,7 +385,9 @@ static void draw(void) {
 	glFinish();
 	int start_time = SDL_GetTicks();
 
+	glDisable(GL_BLEND);
 	glUseProgram(program);
+
 	glUniform2f(uniform_res, window_get_width(), window_get_height());
 	camera_update_uniforms(&camera, uniform_view_position, uniform_view_direction, uniform_view_up);
 	glUniform1f(uniform_time, SDL_GetTicks());
@@ -317,6 +399,8 @@ static void draw(void) {
 	// glClearColor(0.0, 0.0, 0.0, 1.0);
 	// glClear(GL_COLOR_BUFFER_BIT);
 
+	// draw into framebuffer, so we can do some postprocessing stuff
+	glBindFramebuffer(GL_FRAMEBUFFER, post_framebuffer);
 	glEnableVertexAttribArray(attribute_coord2d);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
 	glVertexAttribPointer(
@@ -329,6 +413,27 @@ static void draw(void) {
 	);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(attribute_coord2d);
+	// switch back to normal screen
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// apply postprocessing
+	glUseProgram(post_program);
+	glEnableVertexAttribArray(post_attribute_coord2d);
+
+	glUniformMatrix4fv(uniform_prev_world_camera_matrix, 1, GL_TRUE, previous_world_to_camera_matrix.a);
+	previous_world_to_camera_matrix = camera_world_to_camera_matrix(&camera);
+	mat4x4 inverse_world_to_camera_matrix = mat4x4_invert(previous_world_to_camera_matrix);
+	glUniformMatrix4fv(uniform_inv_world_camera_matrix, 1, GL_TRUE, inverse_world_to_camera_matrix.a);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, post_depth_buffer);
+
+	// we reuse the vbo from the last draw
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDisableVertexAttribArray(post_attribute_coord2d);
 
 	// block until the main program is drawn
 	glFinish();
@@ -352,20 +457,41 @@ static void free_resources(void) {
 	free(scene_path);
 	free(config_path);
 	free(fragment_path);
+	free(post_path);
 	free(timeline_path);
 	glDeleteShader(vertex_shader);
 	glDeleteProgram(program);
 	glDeleteBuffers(1, &vbo_rectangle);
+	glDeleteTextures(1, &post_tex_buffer);
+	glDeleteTextures(1, &post_depth_buffer);
+	glDeleteFramebuffers(1, &post_framebuffer);
+	glDeleteProgram(post_program);
 }
 
 static void print_sdl_error(const char message[]) {
 	printf("%s %s\n", message, SDL_GetError());
 }
 
+static void post_resize_buffer(void) {
+	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+			window_get_width(),
+			window_get_height(),
+			0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+	glBindTexture(GL_TEXTURE_2D, post_depth_buffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F,
+			window_get_width(),
+			window_get_height(),
+			0, GL_RED, GL_FLOAT, NULL);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 	switch(keyEvent.keysym.sym) {
 		case SDLK_f:
 			window_handle_resize(!window_is_fullscreen(), 0, 0);
+			post_resize_buffer();
 			break;
 		case SDLK_ESCAPE:
 			run = false;

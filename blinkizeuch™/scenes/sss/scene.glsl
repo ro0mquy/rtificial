@@ -82,8 +82,7 @@ float classic_noise(vec2 co) {
 
 /* Given a position, this function constructs the oh-so-famous Perlin
  * noise. */
-float perlin(vec2 position)
-{
+float perlin(vec2 position) {
 	return classic_noise(position * .06125) * .5 +
 	       classic_noise(position * .125) * .25 +
 	       classic_noise(position * .25) * .125;
@@ -127,6 +126,6 @@ void main(void) {
 	}
 	//color += smoothstep(1.0, pow(float(i) / 100.0, 0.5), 0.7);
 
-	out_color = vec4(color, 1.);
+	out_color = color;
 }
 

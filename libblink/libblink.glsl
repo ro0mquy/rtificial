@@ -6,7 +6,8 @@ uniform vec3 view_direction;
 uniform vec2 res;
 uniform float time;
 
-out vec4 out_color;
+layout(location = 0) out vec3 out_color;
+layout(location = 1) out float out_depth;
 
 float TAU = 6.28318530718;
 

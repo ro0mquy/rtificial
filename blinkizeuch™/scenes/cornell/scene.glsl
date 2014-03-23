@@ -53,7 +53,7 @@ void main(void) {
 		}
 	}
 
-	out_color = vec4(color, 1.);
+	out_color = color;
 }
 
 vec2 f(vec3 p) {
