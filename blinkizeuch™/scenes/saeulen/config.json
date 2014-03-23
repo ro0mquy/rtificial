@@ -63,6 +63,13 @@
             "type": "float",
             "default": 1.0,
             "varparam": "min=0 max=2 step=0.01"
+        },
+        {
+            "name": "Jump Duration",
+            "uniform": "jump_duration",
+            "type": "float",
+            "default": 1.0,
+            "varparam": "min=0 max=10 step=0.1"
         }
     ],
     "textures": []
