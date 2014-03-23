@@ -103,31 +103,19 @@ vec2 f(vec3 p) {
 	return vec2(min(min(sphery, saeulen), room), 0.);
 }
 
-float invsmax(float a, float b) {
-	float k = .05;
-	float h = clamp(.5 - .5 * (b - a) / k, 0., 1. );
-	return mix(b, a, h) + 3. * k * h * (1. - h);
-}
-
 float octoBox(vec3 p, float d, float h) {
-	float box = p.x - d;
+	float octo = max(abs(p.x), abs(p.z)) - d;
 	p = rY(TAU/8.) * p;
-	box = smax(box, p.x - d, .05);
-	p = rY(TAU/8.) * p;
-	box = smax(box, p.x - d, .05);
-	p = rY(TAU/8.) * p;
-	box = smax(box, p.x - d, .05);
-	p = rY(TAU/8.) * p;
-	box = smax(box, p.x - d, .05);
-	p = rY(TAU/8.) * p;
-	box = smax(box, p.x - d, .05);
-	p = rY(TAU/8.) * p;
-	box = smax(box, p.x - d, .05);
-	p = rY(TAU/8.) * p;
-	box = smax(box, p.x - d, .05);
-	box = invsmax(box, -p.y - h / 2.);
-	box = invsmax(box, p.y - h / 2.);
-	return box;
+	octo = smax(octo, max(abs(p.x), abs(p.z)) - d, .05);
+
+	float fuge_hoehe = .1;
+	float fuge_tiefe = .02;
+	float fuge = smoothstep(.5 * fuge_hoehe, .0, p.y)
+		+ smoothstep(.5 * fuge_hoehe, fuge_hoehe, p.y);
+	fuge *= fuge_tiefe;
+
+	octo -= fuge;
+	return octo;
 }
 
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color) {
