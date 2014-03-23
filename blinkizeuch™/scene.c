@@ -7,13 +7,13 @@
 
 #include "scene.h"
 
-scene_t* scene_load(const char filename[]) {
+scene_t* scene_load(const char scene_path[], const char config_path[]) {
 	// TODO "gut, dass wir hier <s>kein</s> nicht so viel error handling gemacht haben"
 	json_error_t error;
-	json_t* const root = json_load_file(filename, 0, &error);
+	json_t* const root = json_load_file(config_path, 0, &error);
 	if(root == NULL) {
-		fprintf(stderr, "Error parsing json in %s line: %d column: %d!\n", filename, error.line, error.column);
-		fprintf(stderr, error.text, filename);
+		fprintf(stderr, "Error parsing json in %s line: %d column: %d!\n", config_path, error.line, error.column);
+		fprintf(stderr, error.text, config_path);
 		fprintf(stderr, "\n");
 		return NULL;
 	}
@@ -105,8 +105,18 @@ scene_t* scene_load(const char filename[]) {
 			fprintf(stderr, "texture #%d: path or uniform missing\n", i);
 			continue;
 		}
+
+		// assemble texture path; "<scene_path><path_json>\0"
+		size_t scene_path_length = strlen(scene_path);
+		size_t path_json_length = strlen(path_json);
+		char* path_texture = malloc(scene_path_length + path_json_length + 1);
+		strncpy(path_texture, scene_path, scene_path_length);
+		strncpy(path_texture + scene_path_length, path_json, path_json_length + 1);
+
 		texture_t* const texture = &textures[real_textures_size];
-		if(!texture_init(texture, path_json, uniform_json)) {
+		bool ok = texture_init(texture, path_texture, uniform_json);
+		util_safe_free(path_texture);
+		if(!ok) {
 			fprintf(stderr, "Failed to load texture #%d\n", i);
 			continue;
 		}

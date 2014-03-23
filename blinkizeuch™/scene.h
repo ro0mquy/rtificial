@@ -13,7 +13,7 @@ typedef struct {
 	int num_textures;
 } scene_t;
 
-scene_t* scene_load(const char filename[]);
+scene_t* scene_load(const char scene_path[], const char config_path[]);
 
 void scene_save(const scene_t* scene, char* path);
 
