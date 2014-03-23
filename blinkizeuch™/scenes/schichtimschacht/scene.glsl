@@ -36,15 +36,7 @@ void main(void){
 		final_color += softshadow(hit, light, 64.) * colors[material] * lambert(light - hit, normal);
 	//}
 	if (material == MAT_TEXT) {
-		float smoothing = .25 / (4. * 1.); // .25 / (spread * scale)
-		vec2 tex_size = textureSize(tex_hello, 0);
-		vec2 tex_coord = hit.xy;
-		tex_coord.x += -11.;
-		tex_coord.y += 9.;
-		tex_coord.y *= -tex_size.x / tex_size.y;
-		tex_coord /= 2.;
-		float tex_distance = texture(tex_hello, tex_coord).a;
-		final_color = vec3(smoothstep(.5 - smoothing, .5 + smoothing, tex_distance));
+		final_color = vec3(1., .5, .5) * lambert(light - hit, normal);
 	}
 
 	out_color = vec4(final_color, 1);
@@ -65,6 +57,13 @@ vec2 f(vec3 p){
 	vec2 schlitz_schacht = vec2(max(schacht,-schlitz), MAT_SCHACHT);
 
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 120.), MAT_BOUNDING);
-	vec2 text = vec2(box(trans(p, -10., 10., 0.), vec3(1., 1., 1.)), MAT_TEXT);
+	vec3 text_p = trans(p, -10., 10., 0.);
+	vec2 box_dim = vec2(16., 4.);
+	// spread is 500, original width 8000
+	float scale_factor = 500. / 8000. * box_dim.x;
+	float text_texture = texture(tex_hello, text_p.xy * (1./box_dim) + .5).a * scale_factor - .5;
+	text_texture += length(max(abs(text_p.xy) - box_dim * .5, 0.)); // 2d signed rectangle distance
+	float text_depth = 2.;
+	vec2 text = vec2(max(text_texture, abs(text_p.z) - text_depth * .5), MAT_TEXT);
 	return min_material(min_material(schlitz_schacht, bounding), text);
 }
