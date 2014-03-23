@@ -56,7 +56,9 @@ void main(void) {
 				color = color_house2;
 			} else if(material == MAT_WINDOWS) {
 				color = color_windows;
-				dir = reflect(dir, normal);
+				vec3 jitter = .01 * classic_noise(hit.xy) * vec3(cos(hit.y), sin(hit.x), 0);
+				vec3 normal2 = normalize((1 - dot(jitter, normal)) * normal + jitter);
+				dir = reflect(dir, normal2);
 				p = hit + .01 * dir;
 				factor *= window_reflectivity;
 				cont = true;
