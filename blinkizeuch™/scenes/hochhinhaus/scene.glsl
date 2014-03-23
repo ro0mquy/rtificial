@@ -4,7 +4,7 @@ vec2 f(vec3);
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
 DEFINE_AO(ao, f)
-DEFINE_SHADOW_RAY(shadow_ray, f)
+DEFINE_SOFTSHADOW(softshadow, f)
 
 const int MAT_UNTENRUM = 1;
 const int MAT_HOUSES = 2;
@@ -64,7 +64,7 @@ void main(void) {
 				cont = true;
 			}
 			local_factor *= max(dot(normal, normalize(light - hit)), 0);
-			color *= local_factor * shadow_ray(hit, light);
+			color *= local_factor * softshadow(hit + .001 * normal, light, 20.);
 			color += ambient_intensity * ao(hit, normal, .15, 5);
 			//factor *= local_factor;
 			final_color += color;
