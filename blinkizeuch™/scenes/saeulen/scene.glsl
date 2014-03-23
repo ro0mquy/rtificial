@@ -1,6 +1,6 @@
 void initValues();
 vec2 f(vec3 p);
-float octoBox(vec3 p, float d, float h);
+float octo_box(vec3 p, float d);
 float ao(vec3 p, vec3 n, float d, float i);
 vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color);
 float softshadow(vec3 ro, vec3 rd, float k);
@@ -23,6 +23,12 @@ uniform float light2_z;
 
 uniform float normal_noise_radius;
 uniform float diffuse_intensity;
+uniform float jump_duration;
+
+#define MAT_BOUNDING 0.
+#define MAT_FLOOR 1.
+#define MAT_CEILING 1.
+#define MAT_SAEULEN 2.
 
 const int number_lights = 2;
 vec3 lights[number_lights];
@@ -51,6 +57,7 @@ void main() {
 			color = hsv2rgb(color_fog);
 			break;
 		}
+		float material = f(p)[1];
 
 		// apply some noise to the normal
 		vec3 normal = calc_normal(p);
@@ -66,9 +73,14 @@ void main() {
 		vec3 hsv_newColor = rgb2hsv(newColor);
 		float fog_intensity = smoothstep(5., 35., distance(p, view_position));
 		hsv_newColor.yz = mix(hsv_newColor.yz, color_fog.yz, fog_intensity);
-		newColor = hsv2rgb(hsv_newColor);
+		//newColor = hsv2rgb(hsv_newColor);
 
 		color += newColor * reflection_factor * light_color_factor;
+
+		// only floor and ceiling are reflective
+		if (material != MAT_FLOOR && material != MAT_CEILING) {
+			break;
+		}
 
 		light_color_factor *= light_color;
 		reflection_factor *= .4;
@@ -90,40 +102,56 @@ void initValues() {
 }
 
 vec2 f(vec3 p) {
-	float sphery = -sphere(p - view_position, 50.); // bounding sphere
+	vec2 sphery = vec2(-sphere(p - view_position, 50.), MAT_BOUNDING); // bounding sphere
 
-	float floor_plane = p.y;
-	float ceiling_plane = -p.y + 15.;
-	float room = min(floor_plane, ceiling_plane);
+	vec2 floor_plane = vec2(p.y, MAT_FLOOR);
+	vec2 ceiling_plane = vec2(-abs(p.y) + 15., MAT_CEILING);
+	vec2 room = min_material(floor_plane, ceiling_plane);
 
-	vec3 b = domrep(p, 12., 3., 15.);
+	// jumpi di jump
+	float domrep_x = 28.;
+	float domrep_z = 24.;
+	float height_saeulen = 11.9; // - fuge_hoehe
+	float height_jump = 6.;
+	vec3 b = p;
+	if (jump_duration != 0.) {
+		float progress = TAU * (mod(time / (1000. * jump_duration), 1.) - .5);
+		// cycloids are fun \o/
+		// x = t - sin(t)
+		// y = 1 - cos(t)
+		p = trans(p,
+				(domrep_x - height_saeulen) * (progress - sin(progress)) / TAU,
+				height_jump * (1. - cos(progress)) / 2.,
+				0.);
+		b = domrep(p, domrep_x, 1., domrep_z);
+		b.y = p.y;
+		b = rZ(progress / 2.) * b;
+	} else {
+		b = domrep(p, domrep_x, 1., domrep_z);
+		b.y = p.y;
+	}
 
-	float saeulen = octoBox(b, 2., 3.);
-	/*
-	float fugen_abstand = .5;
-	float fugen_hoehe = 0.02;
-	float fugen = .004 * (
-		1. - smoothstep(fugen_abstand - fugen_hoehe, fugen_abstand - .5 * fugen_hoehe, mod(p.y, fugen_abstand))
-		+ smoothstep(fugen_abstand - .5 * fugen_hoehe, fugen_abstand, mod(p.y, fugen_abstand))
-	);
-	saeulen -= fugen;
-	*/
-
-	return vec2(min(min(sphery, saeulen), room), 0.);
-}
-
-float octoBox(vec3 p, float d, float h) {
-	float octo = max(abs(p.x), abs(p.z)) - d;
-	p = rY(TAU/8.) * p;
-	octo = smax(octo, max(abs(p.x), abs(p.z)) - d, .05);
+	float octo = octo_box(b, 2.);
+	octo = max(octo, -b.y);
+	octo = max(octo, b.y - height_saeulen);
 
 	float fuge_hoehe = .1;
 	float fuge_tiefe = .02;
-	float fuge = smoothstep(.5 * fuge_hoehe, .0, p.y)
-		+ smoothstep(.5 * fuge_hoehe, fuge_hoehe, p.y);
+	float mod_y = mod(b.y + fuge_hoehe, 3.);
+	float fuge = smoothstep(.5 * fuge_hoehe, .0, mod_y)
+		+ smoothstep(.5 * fuge_hoehe, fuge_hoehe, mod_y);
 	fuge *= fuge_tiefe;
 
 	octo -= fuge;
+	vec2 saeulen = vec2(octo, MAT_SAEULEN);
+
+	return min_material(min_material(sphery, room), saeulen);
+}
+
+float octo_box(vec3 p, float d) {
+	float octo = max(abs(p.x), abs(p.z)) - d;
+	p = rY(TAU/8.) * p;
+	octo = smax(octo, max(abs(p.x), abs(p.z)) - d, .05);
 	return octo;
 }
 
@@ -132,12 +160,13 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 	for (int i = 0; i < number_lights; i++) {
 		// normale (diffuse) lighting
 		vec3 to_light = normalize(lights[i] - p);
-		float diffuse = max(dot(normal, to_light), 0.);
+		//float diffuse = lambert(to_light, normal);
+		float diffuse = oren_nayar(to_light, normal, -direction, foo1);
 		diffuse *= diffuse_intensity;
 
 		// specular lighting
 		float specular = 0.;
-		specular = pow(max(dot(reflect(to_light, normal), direction), 0.), 50.);
+		specular = phong(to_light, normal, -direction, 30.);
 
 		// softshadows
 		float shadow = 1.;
