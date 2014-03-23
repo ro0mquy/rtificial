@@ -73,7 +73,7 @@ void main(void) {
 		//	break;
 		//}
 	}
-	out_color = vec4(final_color, 1);
+	out_color = final_color;
 }
 
 float corner(vec3 p, float corner_width) {

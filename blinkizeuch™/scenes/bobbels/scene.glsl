@@ -16,7 +16,7 @@ void main(void) {
 
 	vec3 color = vec3(0.5, 0.0, 0.3);
 	if(i < 100) {
-		vec3 normal = calc_normal(p);	
+		vec3 normal = calc_normal(p);
 		vec3 light_ray = vec3(0.5, 0.5, 10.0) - p;
 		light_ray = normalize(light_ray);
 		float lambert = dot(normal, light_ray);
@@ -25,6 +25,6 @@ void main(void) {
 		color = vec3(0.0);
 	}
 
-	out_color = vec4(color, 1.0);
+	out_color = color;
 }
 

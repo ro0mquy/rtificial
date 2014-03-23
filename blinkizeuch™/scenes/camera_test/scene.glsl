@@ -62,7 +62,8 @@ void main(void) {
 		color += .3 * vec3(1., 1., 0.) * phong(to_lights[3], normal, -direction, 43.);
 	}
 
-	out_color = vec4(color, 1.);
+	out_color = color;
+	out_depth = distance(view_position, p);
 }
 
 vec2 f(vec3 p) {

@@ -75,7 +75,7 @@ void main() {
 
 		direction = reflect(direction, normal);
 	}
-	out_color = vec4(color, 1.);
+	out_color = color;
 }
 
 void initValues() {

@@ -2,6 +2,7 @@
 #define QUATERNION_H
 
 #include "vector.h"
+#include "matrix.h"
 
 typedef struct {
 	vec3 v;
@@ -31,4 +32,7 @@ quat quat_slerp(quat v0, quat v1, float t);
 quat quat_cubic_bezier(quat q00, quat q10, quat q20, quat q30, float t);
 
 quat quat_conjugate(quat q);
+
+mat4x4 quat_to_mat4x4(quat q);
+
 #endif

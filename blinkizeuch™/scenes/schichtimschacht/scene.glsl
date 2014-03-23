@@ -39,7 +39,7 @@ void main(void){
 		final_color = vec3(1., .5, .5) * lambert(light - hit, normal);
 	}
 
-	out_color = vec4(final_color, 1);
+	out_color = final_color;
 }
 
 vec2 f(vec3 p){
