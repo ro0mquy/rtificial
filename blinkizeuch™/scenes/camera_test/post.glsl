@@ -42,11 +42,12 @@ vec3 sharpen() {
 // change contrast - k changes the intensity
 // k > 1: more contrast
 // k < 1: less contrast
-// k == 0: complete gray
+// k == 0: black-white
 // k == 1: the input color
 // k < 0: invert color & contrast(abs(k))
 vec3 contrast(vec3 color, float k) {
-	return mix(vec3(.5), color, k);
+	float luma = dot(color, vec3(.2126, .7152, .0722)); // magic luminance formular
+	return mix(vec3(luma), color, k);
 }
 
 vec3 motionBlur() {
@@ -93,7 +94,7 @@ void main() {
 
 	if (texcoord.x > .5) {
 		//color = sharpen();
-		//color = contrast(color, 1.1);
+		color = contrast(color, 2.1);
 	}
 
 	//color *= (1.5 - depth);
@@ -110,7 +111,7 @@ void main() {
 
 	//color = motionBlur();
 
-	color = godRays();
+	//color = godRays();
 
 	out_color = color;
 }
