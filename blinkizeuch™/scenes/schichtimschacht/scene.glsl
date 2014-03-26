@@ -59,17 +59,22 @@ vec2 f(vec3 p){
 
 	vec3 p2 = p;
 	     p2 = rY(TAU/4) * p2;
-	     p2 = trans(p2,-46.1,0,46.1);
+	     p2 = trans(p2, -46.1, 0, 46.1);
+
+	vec3 p3 = p;
+		 p3 = trans(p3, -92.2, 0, -67.2);
 
 
 	float schacht1_outer = max(box(p1, vec3(4.1, 4.1, 50.2)), -schlitz(p1));
 	float schacht2_outer = max(box(p2, vec3(4.1, 4.1, 50.2)), -schlitz(p2));
+	float schacht3_outer = max(box(p3, vec3(4.1, 4.1, 25.2)), -schlitz(p3));
 
 	float schacht1_inner = box(p1, vec3(4,4,50));
 	float schacht2_inner = box(p2, vec3(4,4,50));
+	float schacht3_inner = box(p3, vec3(4,4,25));
 
-	float schacht_inner = min(schacht1_inner, schacht2_inner);
-	float schacht_outer = min(schacht1_outer, schacht2_outer);
+	float schacht_inner = min(schacht1_inner, min(schacht2_inner, schacht3_inner));
+	float schacht_outer = min(schacht1_outer, min(schacht2_outer, schacht3_outer));
 
 	vec2 schacht = vec2(max(schacht_outer, -schacht_inner), MAT_SCHACHT);
 
