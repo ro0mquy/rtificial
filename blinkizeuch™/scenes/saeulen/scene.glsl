@@ -102,10 +102,10 @@ void initValues() {
 }
 
 vec2 f(vec3 p) {
-	vec2 sphery = vec2(-sphere(p - view_position, 50.), MAT_BOUNDING); // bounding sphere
+	vec2 sphery = vec2(-sphere(p - view_position, 75.), MAT_BOUNDING); // bounding sphere
 
 	vec2 floor_plane = vec2(p.y, MAT_FLOOR);
-	vec2 ceiling_plane = vec2(-abs(p.y) + 15., MAT_CEILING);
+	vec2 ceiling_plane = vec2(-abs(p.y) + 25., MAT_CEILING);
 	vec2 room = min_material(floor_plane, ceiling_plane);
 
 	// jumpi di jump
@@ -115,17 +115,28 @@ vec2 f(vec3 p) {
 	float height_jump = 6.;
 	vec3 b = p;
 	if (jump_duration != 0.) {
-		float progress = TAU * (mod(time / (1000. * jump_duration), 1.) - .5);
+		float progress = mod(time / (1000. * jump_duration), 1.) - .5;
 		// cycloids are fun \o/
 		// x = t - sin(t)
 		// y = 1 - cos(t)
 		p = trans(p,
-				(domrep_x - height_saeulen) * (progress - sin(progress)) / TAU,
-				height_jump * (1. - cos(progress)) / 2.,
+				(domrep_x /*- height_saeulen*/) * (progress - sin(TAU * progress) / TAU),
+				height_jump * (1. - cos(TAU * progress)) / 2.,
 				0.);
+
 		b = domrep(p, domrep_x, 1., domrep_z);
 		b.y = p.y;
-		b = rZ(progress / 2.) * b;
+
+		float shift_y = height_saeulen / 2. * smoothstep(0., .5, abs(progress));
+		b.y -= shift_y;
+		b = rZ(TAU / 2. * progress) * b;
+
+		float angle = TAU / 16. * b.y / height_saeulen * 2 * (smoothstep(-.5, .5, progress) - .5);
+		float c = cos(angle);
+		float s = sin(angle);
+		mat2 m = mat2(c, s, -s, c);
+		b.xy = m * b.xy;
+		b.y += shift_y;
 	} else {
 		b = domrep(p, domrep_x, 1., domrep_z);
 		b.y = p.y;
