@@ -43,6 +43,16 @@ void main(void){
 	out_color = final_color;
 }
 
+
+float schlitz(vec3 p){
+	vec3 q = domrep(trans(p, 4, 0, 0), 8, 1, 0.4 + 0.2);
+	q.y = p.y;
+	float schlitz = box(trans(q, 0,-4,0), vec3(3.8,0.3,.2));
+	q = domrep(p, 4, 1, 4.2 * schlitzabstand * 20);
+	q.y = p.y;
+	return max(schlitz, box(trans(q, 0, -4, 0), vec3(4., 0.3, 4.2)));
+}
+
 vec2 f(vec3 p){
 	// schacht im schicht
 	vec3 p1 = p;
@@ -51,8 +61,9 @@ vec2 f(vec3 p){
 	     p2 = rY(TAU/4) * p2;
 	     p2 = trans(p2,-46.1,0,46.1);
 
-	float schacht1_outer = box(p1, vec3(4.1, 4.1, 50.2));
-	float schacht2_outer = box(p2, vec3(4.1, 4.1, 50.2));
+
+	float schacht1_outer = max(box(p1, vec3(4.1, 4.1, 50.2)), -schlitz(p1));
+	float schacht2_outer = max(box(p2, vec3(4.1, 4.1, 50.2)), -schlitz(p2));
 
 	float schacht1_inner = box(p1, vec3(4,4,50));
 	float schacht2_inner = box(p2, vec3(4,4,50));
@@ -60,17 +71,7 @@ vec2 f(vec3 p){
 	float schacht_inner = min(schacht1_inner, schacht2_inner);
 	float schacht_outer = min(schacht1_outer, schacht2_outer);
 
-	float schacht = max(schacht_outer, -schacht_inner);
-
-	vec3 q = domrep(trans(p1, 4, 0, 0), 8, 1, 0.4 + 0.2);
-	q.y = p1.y;
-	float schlitz = box(trans(q, 0,-4,0), vec3(3.8,0.3,.2));
-
-	q = domrep(p1, 4, 1, 4.2 * schlitzabstand * 20);
-	q.y = p1.y;
-	schlitz = max(schlitz, box(trans(q, 0, -4, 0), vec3(4., 0.3, 4.2)));
-
-	vec2 schlitz_schacht = vec2(max(schacht,-schlitz), MAT_SCHACHT);
+	vec2 schacht = vec2(max(schacht_outer, -schacht_inner), MAT_SCHACHT);
 
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 220.), MAT_BOUNDING);
 	vec3 text_p = trans(p, -10., 10., 0.);
@@ -81,5 +82,5 @@ vec2 f(vec3 p){
 	text_texture += length(max(abs(text_p.xy) - box_dim * .5, 0.)); // 2d signed rectangle distance
 	float text_depth = 2.;
 	vec2 text = vec2(max(text_texture, abs(text_p.z) - text_depth * .5), MAT_TEXT);
-	return min_material(min_material(schlitz_schacht, bounding), text);
+	return min_material(min_material(schacht, bounding), text);
 }
