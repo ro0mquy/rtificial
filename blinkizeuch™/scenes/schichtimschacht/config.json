@@ -27,6 +27,13 @@
 			"uniform": "color_schacht",
 			"type": "color",
 			"default": [0.28, 0.28, 0.28]
+		},
+		{
+			"name": "Schlitzabstand",
+			"uniform": "schlitzabstand",
+			"type": "float",
+			"varparam": "min=0 max=1 step=0.01",
+			"default": 0.5
 		}
 	],
 	"textures": [
