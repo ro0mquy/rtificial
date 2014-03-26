@@ -3,6 +3,10 @@
 
 #include "shader.h"
 
+#define COLOR_RED_BOLD "\033[1;31m"
+#define COLOR_RED      "\033[0;31m"
+#define COLOR_RESET    "\033[0m"
+
 static char* file_read(const char filename[]);
 
 GLuint shader_load_files(int n, const char* filenames[n], GLenum type) {
@@ -93,7 +97,7 @@ void print_log(GLuint object) {
 		glGetProgramInfoLog(object, log_length, NULL, log);
 	}
 
-	fprintf(stderr, "%s", log);
+	fprintf(stderr, "%s%s%s", COLOR_RED_BOLD, log, COLOR_RESET);
 	free(log);
 }
 
