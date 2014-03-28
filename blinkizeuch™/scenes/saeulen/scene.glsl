@@ -144,7 +144,7 @@ vec2 f(vec3 p) {
 
 	float octo = octo_box(b, 2.);
 	octo = max(octo, -b.y);
-	octo = max(octo, b.y - height_saeulen);
+	octo = smax(octo, b.y - height_saeulen, .1);
 
 	float fuge_hoehe = .1;
 	float fuge_tiefe = .02;
