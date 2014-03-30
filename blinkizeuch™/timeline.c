@@ -37,14 +37,14 @@ static size_t list_find(keyframe_list_t* list, int time);
 static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoints, keyframe_list_t* knots, float scale);
 
 const GLfloat timeline_height = .15;
-const int segment_length = 10000;
+const int segment_length = 1000;
 const int num_segments = 20;
 const GLfloat marker_width = .003;
 const GLfloat cursor_width = .003;
 const float zoom_factor = .9;
-const int scroll_factor = 7000;
-const float zoom_min = 5.;
-const float zoom_max = .05;
+const int scroll_factor = 700;
+const float zoom_min = 10.;
+const float zoom_max = .04;
 
 timeline_t* timeline_new() {
 	const GLuint vertex_shader = shader_load_strings(1, "timeline_vertex", (const GLchar* []) { timeline_vertex_source }, GL_VERTEX_SHADER);
@@ -149,17 +149,17 @@ void timeline_draw(timeline_t* const timeline) {
 	// draw keyframe markers
 	for (size_t i = 0; i < timeline->keyframes->length; i++) {
 		const int time = list_get(timeline->keyframes, i)->time;
-		const GLfloat x = (GLfloat) (time - left_edge) / window_width - marker_width / 2 / zoom;
+		const GLfloat x = (GLfloat) (time - left_edge) / window_width - marker_width / 2;
 		draw_rect(timeline, &(rect_t) {
-			.x = x, .y = 0., .w = marker_width / zoom, .h = timeline_height,
+			.x = x, .y = 0., .w = marker_width, .h = timeline_height,
 			.r = 1., .g = 0., .b = 0., .a = 1.,
 		});
 	}
 
 	// draw cursor postion
-	const GLfloat x_cur = (GLfloat) (timeline->cursor_position - left_edge) / window_width - marker_width / 2 / zoom;
+	const GLfloat x_cur = (GLfloat) (timeline->cursor_position - left_edge) / window_width - marker_width / 2;
 	draw_rect(timeline, &(rect_t) {
-		.x = x_cur, .y = 0., .w = cursor_width / zoom, .h = timeline_height,
+		.x = x_cur, .y = 0., .w = cursor_width, .h = timeline_height,
 		.r = 0., .g = 1., .b = 0., .a = 1.,
 	});
 
@@ -173,7 +173,7 @@ void timeline_draw(timeline_t* const timeline) {
 		const GLfloat x = (GLfloat) (time - left_edge) / window_width - marker_width / 2 / zoom;
 		snprintf(time_string, 8, "%4.2f", time / 1000.);
 		// font coordinates are from -1. to 1.
-		font_print(timeline->font, time_string, -1. + 2.*x, -.99);
+		font_print(timeline->font, time_string, -1. + 2.*x, -.99 + i%6 * .05);
 	}
 
 	// label for cursor
