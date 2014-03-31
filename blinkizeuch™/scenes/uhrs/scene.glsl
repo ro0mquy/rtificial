@@ -38,7 +38,7 @@ vec2 f(vec3 p){
 	vec2 bounding = vec2(-sphere(p - view_position, 40.), mat_bounding);
 
 	// timewarp \o/
-	float time = 55. + time / 1000.;
+	float time = 43195. + time / 1000.;
 
 	float face = length(p.xy) - 1.;
 	face = smax(face, abs(p.z) - .3, .05);
@@ -61,15 +61,16 @@ vec2 f(vec3 p){
 	p_sek = trans(p_sek, 0., .4, .3);
 	float sek = box(p_sek, vec3(.01, .4, .05));
 
-	// some smoothed step-function
-	float ticking_min = 2 - mod(time / 60., 1.);
-	ticking_min *= .997;
-	ticking_min = exp(-pow(ticking_min, 1000.));
-	ticking_min = floor(time / 60.) + ticking_min;
+	float ticking_min = floor(time / 60.) + smoothstep(59.9, 60., mod(time, 60.));
 	vec3 p_min = rZ(TAU * ticking_min / 60.) * p;
 	p_min = trans(p_min, 0., .4, .3);
 	float minute = box(p_min, vec3(.03, .4, .05));
 
-	vec2 zeiger = vec2(min(sek, minute), mat_zeiger);
+	float ticking_hour = floor(time / 3600.) + smoothstep(3599.9, 3600., mod(time, 3600.));
+	vec3 p_hour = rZ(TAU * ticking_hour / 12.) * p;
+	p_hour = trans(p_hour, 0., .3, .3);
+	float hour = box(p_hour, vec3(.05, .3, .05));
+
+	vec2 zeiger = vec2(min(min(sek, minute), hour), mat_zeiger);
 	return min_material(min_material(bounding, uhr), zeiger);
 }
