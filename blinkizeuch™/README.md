@@ -65,6 +65,15 @@ You need the following dependencies
         jansson \
         freetype
 
+#### Arch Linux
+
+    yaourt -S \
+        sdl \
+        anttweakbar \
+        devil \
+        jansson \
+        freetype
+
 ### Building
 
 After you build and installed all dependencies, just run
