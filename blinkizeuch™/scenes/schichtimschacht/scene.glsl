@@ -81,9 +81,9 @@ vec2 f(vec3 p){
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 220.), MAT_BOUNDING);
 	vec3 text_p = trans(p, -10., 10., 0.);
 	vec2 box_dim = vec2(16, 4.);
-	float text_texture = texture(tex_hello, text_p.xy / box_dim + .5).a - .5;
-	// spread is 500, original width 8000
-	text_texture *= 500. / 8000 * box_dim.x;
+	float text_texture = texture(tex_hello, text_p.xy / box_dim + .5).r - .5;
+	// spread is 250, original width 8000
+	text_texture *= 250. / 8000 * box_dim.x;
 	text_texture += length(max(abs(text_p.xy) - box_dim * .5, 0.)); // 2d signed rectangle distance
 	float text_depth = 2.;
 	vec2 text = vec2(max(text_texture, abs(text_p.z) - text_depth * .5), MAT_TEXT);
