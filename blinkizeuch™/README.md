@@ -19,6 +19,7 @@
 * `[Click]` jump to position staying ad current camera position
 * `[Ctrl]+[Click]` jump to position moving to interpolated camera position
 * `[Space]` start animated flight through keyframes
+* `[Ctrl]+[Space]` only change position in timeline, not camera
 * `H` toggle timeline
 * `[F8]` save timeline (keyframes) to `timeline.json`
 * `[Delete]` reset animation play time cursor position
@@ -126,12 +127,12 @@ This is a configuration file for variables and textures to be used in the shader
 * `name`: string containing the name of the variable
 * `uniform`: string containing the name of the uniform variable as accessed in the shader. It better be all ascii without spaces or god knows what might happen
 * `type`: string specifying the variable type as a string. May be either `bool`, `float` or `color`
-* `varparam` (optional) a string which contains parameters directly passed to AntTweakBar. Refer to [their documentation](http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:varparamsyntax).
-* `defaul`: (optional) specifies the default values to be loaded. It will also be saved by blinkzeuch once set. Please use the correct type. `color`s are represented by an array of three floats between 0 and 1 in RGB format.
+* `varparam`: (optional) a string which contains parameters directly passed to AntTweakBar. Refer to [their documentation](http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:varparamsyntax).
+* `default`: (optional) specifies the default values to be loaded. It will also be saved by blinkzeuch once set. Please use the correct type. `color`s are represented by an array of three floats between 0 and 1 in RGB format.
 
 `textures` contains an array of texture-objects. These have the following attributes:
 
-* `path`: the path **relative to the blinkizeuch working directory** to the texture file in png format.
+* `path`: the path **relative to the scene directory** to the texture file in png format.
 * `uniform`: the name of the uniform variable to be accessed in the shader.
 
 An example:
