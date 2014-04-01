@@ -90,7 +90,7 @@ float perlin(vec2 position) {
 
 vec2 f(vec3 p) {
 	p.z += 3.0;
-	p = rX(radians(time/1000.0 * 37.0)) * rY(radians(-23.0 * time/1000.0)) * p;
+	p = rX(radians(time * 37.0)) * rY(radians(-23.0 * time)) * p;
 	float t = torus(p, vec2(1., 0.5)) + 0.06 * perlin((p.yx + p.zy) * 97.0);
 	return vec2(t, 0.);
 }

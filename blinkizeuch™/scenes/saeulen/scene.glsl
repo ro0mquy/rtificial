@@ -115,7 +115,7 @@ vec2 f(vec3 p) {
 	float height_jump = 6.;
 	vec3 b = p;
 	if (jump_duration != 0.) {
-		float progress = mod(time / (1000. * jump_duration), 1.) - .5;
+		float progress = mod(time / jump_duration, 1.) - .5;
 		// cycloids are fun \o/
 		// x = t - sin(t)
 		// y = 1 - cos(t)

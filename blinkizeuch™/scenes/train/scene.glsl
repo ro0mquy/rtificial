@@ -76,7 +76,7 @@ void main(void) {
 		color = vec3(0.2, 1.0, 0.);
 	} else {
 		color = vec3(0.8, 0.2, 0.0);
-		color += 0.2 * pow(sin(time / 1000. * 3.), 2.);
+		color += 0.2 * pow(sin(time * 3.), 2.);
 	}
 
 	if(length(ray_start - p) < 50.0) {

@@ -41,12 +41,12 @@ float sdPlane(vec3 p, vec3 n) {
 	return dot(p, n);
 }
 vec2 g(vec3 p) {
-	float bottom = p.y + 2. + 0.02 * sin(p.z*5.+time/1000. * 3.) * cos(p.x*5.+time/1000.0 * 2.);
+	float bottom = p.y + 2. + 0.02 * sin(p.z*5.+time * 3.) * cos(p.x*5.+time * 2.);
 	float top    = -(p.y - 2.);
 	float left   = p.x + 2.3;
 	float right  = -(p.x - 2.3);
 	float back   = (p.z + 5.);
-	float sphere = length(p - vec3(sin(time/1000.), -0.7 + 0.2 * sin(time/1000. * 3. + 7.),-3. + cos(time/1000.))) - 1.;
+	float sphere = length(p - vec3(sin(time), -0.7 + 0.2 * sin(time * 3. + 7.),-3. + cos(time))) - 1.;
 	float room = min(min(back, min(top, bottom)), min(left, right));
 	float d = min(sphere, room);
 	float material = step(sphere, d) * 1. + step(room, d) * 2.;
