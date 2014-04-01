@@ -25,6 +25,7 @@ typedef struct {
 	int cursor_position;
 	bool is_playing;
 	bool camera_changed;
+	bool camera_should_change;
 } timeline_t;
 
 typedef struct {
@@ -53,5 +54,7 @@ void timeline_update(timeline_t* timeline, int dtime);
 bool timeline_camera_changed(const timeline_t* timeline);
 
 camera_t timeline_get_camera(timeline_t* timeline);
+
+float timeline_get_time(const timeline_t* const timeline);
 
 #endif

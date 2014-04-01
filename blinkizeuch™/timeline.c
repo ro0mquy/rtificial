@@ -111,6 +111,7 @@ timeline_t* timeline_new() {
 		.cursor_position = 0,
 		.is_playing = false,
 		.camera_changed = false,
+		.camera_should_change = false,
 	};
 	return timeline;
 }
@@ -303,7 +304,7 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 		const int mouse_pos = _mouse_pos < 0 ? 0 : _mouse_pos;
 
 		// check for pressed ctrl-key
-		Uint8* keystate= SDL_GetKeyState(NULL);;
+		Uint8* keystate = SDL_GetKeyState(NULL);
 
 		switch(event->button.button) {
 			case SDL_BUTTON_WHEELUP:
@@ -344,6 +345,9 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 				return true;
 			case SDLK_SPACE:
 				timeline->is_playing = !timeline->is_playing;
+				// check for pressed ctrl-key, camera shouldn't change when ctrl was pressed
+				Uint8* keystate = SDL_GetKeyState(NULL);
+				timeline->camera_should_change = !(keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]);
 				return true;
 			case SDLK_BACKSPACE:
 				timeline->cursor_position = 0;
@@ -401,7 +405,9 @@ void timeline_remove_frame(timeline_t* const timeline) {
 void timeline_update(timeline_t* timeline, int dtime) {
 	if(timeline->is_playing) {
 		timeline->cursor_position += dtime;
-		timeline->camera_changed = true;
+		if (timeline->camera_should_change) {
+			timeline->camera_changed = true;
+		}
 	}
 }
 
@@ -426,6 +432,10 @@ camera_t timeline_get_camera(timeline_t* const timeline) {
 
 	flight_t flight = flight_new(&p0->camera, &p1->camera, &p2->camera, &p3->camera, p0->time, p3->time - p0->time);
 	return flight_get_camera(&flight, timeline->cursor_position);
+}
+
+float timeline_get_time(const timeline_t* const timeline) {
+	return timeline->cursor_position;
 }
 
 static void draw_rect(const timeline_t* const timeline, const rect_t* const rect) {

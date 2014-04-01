@@ -390,7 +390,7 @@ static void draw(void) {
 
 	glUniform2f(uniform_res, window_get_width(), window_get_height());
 	camera_update_uniforms(&camera, uniform_view_position, uniform_view_direction, uniform_view_up);
-	glUniform1f(uniform_time, SDL_GetTicks());
+	glUniform1f(uniform_time, timeline_get_time(timeline));
 
 	if(scene != NULL) scene_bind(scene);
 
