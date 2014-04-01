@@ -27,7 +27,7 @@ vec3 colors[] = vec3[](
 void main(void){
 	vec3 dir = get_direction();
 	vec3 final_color = vec3(0);
-	vec3 light = vec3(10*foo2*cos(.002*time), -40, 10*foo1*sin(.002*time));
+	vec3 light = vec3(10*foo2*cos(2.*time), -40, 10*foo1*sin(2.*time));
 	int i;
 	vec3 hit = march(view_position, dir, i);
 	int material = int(f(hit)[1]);

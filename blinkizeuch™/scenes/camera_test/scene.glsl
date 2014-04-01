@@ -51,7 +51,7 @@ void main(void) {
 			// }
 			vec3 color1 = texture2D(tex1, p.xz/3.).rgb;
 			vec3 color2 = texture2D(tex2, p.xz).rgb;
-			color = mix(color1, color2, sin(time/1000. + length(p.xz)));
+			color = mix(color1, color2, sin(time + length(p.xz)));
 		} else {
 			color = colors[material];
 		}

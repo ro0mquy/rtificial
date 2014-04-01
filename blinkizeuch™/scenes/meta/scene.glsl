@@ -39,7 +39,7 @@ vec3 rZ(vec3 p, float theta) {
 
 float f(vec3 p) {
 	p.z += 3.0;
-	float t = time / 1000.;
+	float t = time;
 	vec3 e = vec3(sin(t), cos(t), .3 * sin(3. * t+1.)) * 1.5;
 	//float d1 = length(p - e) - 1.;
 	float d1 = sdBox(rZ(rY(p, radians(45.)), radians(45.)), vec3(.7));

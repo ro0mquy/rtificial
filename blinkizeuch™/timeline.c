@@ -435,7 +435,7 @@ camera_t timeline_get_camera(timeline_t* const timeline) {
 }
 
 float timeline_get_time(const timeline_t* const timeline) {
-	return timeline->cursor_position;
+	return timeline->cursor_position / 1000.;
 }
 
 static void draw_rect(const timeline_t* const timeline, const rect_t* const rect) {

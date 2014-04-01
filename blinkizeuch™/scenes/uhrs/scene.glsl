@@ -38,7 +38,7 @@ vec2 f(vec3 p){
 	vec2 bounding = vec2(-sphere(p - view_position, 40.), mat_bounding);
 
 	// timewarp \o/
-	float time = 43195. + time / 1000.;
+	float time = 43195. + time;
 
 	float face = length(p.xy) - 1.;
 	face = smax(face, abs(p.z) - .3, .05);
