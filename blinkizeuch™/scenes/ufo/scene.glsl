@@ -40,6 +40,7 @@ void main(void){
 	}
 
 	out_color = final_color;
+	out_depth = distance(view_position, hit);
 }
 
 vec2 f(vec3 p){
