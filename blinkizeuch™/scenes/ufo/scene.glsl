@@ -36,7 +36,7 @@ void main(void){
 	final_color += softshadow(hit, light, 64.) * colors[material] * lambert(light - hit, normal);
 
 	if(material == MAT_BOUNDING){
-		final_color = vec3(step(star_amount, smooth_noise(hit)));
+		final_color = vec3(step(star_amount, smooth_noise(300. * transpose(get_camera()) * dir)));
 	}
 
 	out_color = final_color;
