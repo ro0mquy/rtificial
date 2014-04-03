@@ -11,10 +11,13 @@ layout(location = 1) out float out_depth;
 
 float TAU = 6.28318530718;
 
-vec3 get_direction() {
+mat3 get_camera() {
 	vec3 view_right = cross(view_direction, view_up);
-	mat3 camera = mat3(view_right, view_up, -view_direction);
-	return camera * normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y , -1.));
+	return mat3(view_right, view_up, -view_direction);
+}
+
+vec3 get_direction() {
+	return get_camera() * normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y , -1.));
 }
 
 #define DECLARE_MARCH(name) vec3 name(vec3, vec3, out int);
