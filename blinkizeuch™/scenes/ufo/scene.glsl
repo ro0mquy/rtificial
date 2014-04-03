@@ -9,15 +9,19 @@ uniform vec3 color_foo1;
 uniform vec3 color_foo2;
 uniform float foo1;
 uniform float foo2;
+uniform vec3 color_sky;
+uniform vec3 color_ufo_body;
+uniform vec3 color_ufo_cockpit;
+uniform float star_amount;
 
 #define MAT_BOUNDING 0
 #define MAT_UFO_BODY 1
 #define MAT_UFO_COCKPIT 2
 
 vec3 colors[] = vec3[](
-	vec3(0.,0.01,0.04),
-	color_foo1,
-	color_foo2
+	color_sky,
+	color_ufo_body,
+	color_ufo_cockpit
 );
 
 void main(void){
@@ -30,6 +34,10 @@ void main(void){
 	vec3 normal = calc_normal(hit);
 	final_color += 0.1 * ao(hit, normal, .15, 5);
 	final_color += softshadow(hit, light, 64.) * colors[material] * lambert(light - hit, normal);
+
+	if(material == MAT_BOUNDING){
+		final_color = vec3(step(star_amount, smooth_noise(hit)));
+	}
 
 	out_color = final_color;
 }

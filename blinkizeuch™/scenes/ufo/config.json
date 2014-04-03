@@ -1,26 +1,76 @@
 {
-	"tweakables": [
-		{
-			"name": "Foo Color1",
-			"uniform": "color_foo1",
-			"type": "color"
-		},
-		{
-			"name": "Foo Color2",
-			"uniform": "color_foo2",
-			"type": "color"
-		},
-		{
-			"name": "Foo1",
-			"uniform": "foo1",
-			"type": "float",
-			"varparam": "min=0 max=1 step=0.01"
-		},
-		{
-			"name": "Foo2",
-			"uniform": "foo2",
-			"type": "float",
-			"varparam": "min=0 max=1 step=0.01"
-		}
-	]
+    "tweakables": [
+        {
+            "name": "Foo Color1",
+            "uniform": "color_foo1",
+            "type": "color",
+            "default": [
+				1.0,
+				1.0,
+				1.0
+            ]
+        },
+        {
+            "name": "Foo Color2",
+            "uniform": "color_foo2",
+            "type": "color",
+            "default": [
+				1.0,
+				1.0,
+                1.0
+            ]
+        },
+        {
+            "name": "Foo1",
+            "uniform": "foo1",
+            "type": "float",
+            "default": 1.0,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+        {
+            "name": "Foo2",
+            "uniform": "foo2",
+            "type": "float",
+            "default": 1.0,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+        {
+            "name": "UFO Body Color",
+            "uniform": "color_ufo_body",
+            "type": "color",
+            "default": [
+                0.070588238537311554,
+                0.086274512112140656,
+                0.15686275064945221
+            ]
+        },
+        {
+            "name": "UFO Cockpit Color",
+            "uniform": "color_ufo_cockpit",
+            "type": "color",
+            "default": [
+                0.5215686559677124,
+                0.94509810209274292,
+                1.0
+            ]
+        },
+        {
+            "name": "Sky Backround Color",
+            "uniform": "color_sky",
+            "type": "color",
+            "default": [
+				0.0,
+				0.01,
+				0.04
+            ]
+        },
+        {
+            "name": "Amount of Stars",
+            "uniform": "star_amount",
+            "type": "float",
+            "default": 0.97,
+            "varparam": "min=0.8 max=1 step=0.001"
+        }
+    ],
+    "textures": []
 }
