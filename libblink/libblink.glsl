@@ -354,4 +354,33 @@ float oren_nayar(vec3 to_light, vec3 normal, vec3 to_view, float sigma) {
 	return oren_nayar_norm(normalize(to_light), normalize(normal), normalize(to_view), sigma * sigma);
 }
 
+// see cook_torrance()
+// m2 = m * m
+// R0 is from schlick's approximation
+// input vectors have to be of unit length
+float cook_torrance_norm(vec3 to_light, vec3 normal, vec3 to_view, float m2, float R0) {
+	vec3 H = .5 * (to_light + to_view);
+	float NdotH = dot(normal, H);
+	float cos2_alpha = NdotH * NdotH;
+	// beckmann distribution
+	float distribution = exp(-(1. - cos2_alpha)/(cos2_alpha * m2)) / (m2 * cos2_alpha * cos2_alpha);
+	// schlick's approximation
+	float fresnel = R0 + (1. - R0) * pow(1 - dot(H, to_view), 5.);
+	float VdotH = dot(to_view, H);
+	float LdotN = dot(to_light, normal);
+	float VdotN = dot(to_view, normal);
+	// geometric attenuation
+	float geometric = min(1., 2. * NdotH / VdotH * min(LdotN, VdotN));
+	return distribution * fresnel * geometric / (4. * LdotN * VdotN);
+}
+
+// calculate cook-torrance reflectance
+// m is roughness (rms slope of the surface microfasets)
+// n is the refraction index of the material
+float cook_torrance(vec3 to_light, vec3 normal, vec3 to_view, float m, float n) {
+	float R0 = (1. - n) / (1. + n);
+	R0 *= R0;
+	return cook_torrance_norm(normalize(to_light), normalize(normal), normalize(to_view), m * m, R0);
+}
+
 #line 1
