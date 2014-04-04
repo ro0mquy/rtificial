@@ -28,11 +28,11 @@ void main(void){
 	out_color = pow(final_color, vec3(1./2.2));
 }
 
-float cube(vec3 p) {
+float cube(vec3 p, float r) {
 	// seems to be faster than
 	// return box(p, vec3(1.));
 	p = abs(p);
-	return max(p.x, max(p.y, p.z)) - 1.;
+	return max(p.x, max(p.y, p.z)) - r;
 }
 
 float pythagoraen(vec3 p) {
@@ -41,21 +41,21 @@ float pythagoraen(vec3 p) {
 	alpha = radians(alpha);
 	float a = cos(alpha);
 	float b = sqrt(1. - a * a);
-	float tree = cube(p);
-
 	float p_a = 1.;
+	float tree = cube(p, p_a);
+
 	for(int i = 0; i < 10; i++) {
 		float q_a = a * p_a;
 		vec3 q = trans(p, 0, p_a , -p_a);
 		q = rX(alpha) * q;
 		q = trans(q, 0, q_a, q_a);
-		tree = min(tree, scale(cube, q, q_a));
+		tree = min(tree, cube(q, q_a));
 
 		float r_a = b * p_a;
 		vec3 r = trans(p, 0, p_a, p_a);
 		r = rX(-beta) * r;
 		r = trans(r, 0, r_a, -r_a);
-		tree = min(tree, scale(cube, r, r_a));
+		tree = min(tree, cube(r, r_a));
 
 		p = q;
 		p_a = q_a;
