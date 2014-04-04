@@ -18,8 +18,8 @@ void main(void){
 		int material = int(f(hit)[1]);
 		if(material == 1) {
 			vec3 normal = calc_normal(hit);
-			vec3 to_light = vec3(10) - hit;
-			final_color = .8 * vec3(1) * lambert(to_light, normal);
+			vec3 to_light = vec3(1000) - hit;
+			final_color = .9 * vec3(cook_torrance(to_light, normal, -dir, .45, 450.));
 			final_color += .1;
 			final_color *= ao(hit, normal, .15, 5.);
 		}
@@ -31,7 +31,7 @@ float cube(vec3 p) {
 	return box(p, vec3(1.));
 }
 
-vec2 f(vec3 p){
+float pythagoraen(vec3 p) {
 	float alpha = foo1 * 90.;
 	float beta = radians(90. - alpha);
 	alpha = radians(alpha);
@@ -40,7 +40,7 @@ vec2 f(vec3 p){
 	float tree = cube(p);
 
 	float p_a = 1.;
-	for(int i = 0; i < 5.; i++) {
+	for(int i = 0; i < 10; i++) {
 		float q_a = a * p_a;
 		vec3 q = trans(p, 0, p_a + q_a, -(p_a - q_a));
 		q = trans(q, 0, -q_a, -q_a);
@@ -57,8 +57,13 @@ vec2 f(vec3 p){
 
 		p = q;
 		p_a = q_a;
+		p = rY(radians(foo2 * 90.)) * p;
 	}
+	return tree;
+}
 
+vec2 f(vec3 p) {
+	float tree = pythagoraen(p) + .03 * classic_noise(5. * p.xz);
 	vec2 bounding = vec2(-sphere(p - view_position, 1000.), 2);
 	return min_material(vec2(tree,1), bounding);
 }
