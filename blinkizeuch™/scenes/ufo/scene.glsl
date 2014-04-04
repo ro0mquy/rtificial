@@ -9,6 +9,8 @@ uniform vec3 color_foo1;
 uniform vec3 color_foo2;
 uniform float foo1;
 uniform float foo2;
+
+uniform vec3 color_light;
 uniform vec3 color_sky;
 uniform vec3 color_ufo_body;
 uniform vec3 color_ufo_cockpit;
@@ -25,18 +27,49 @@ vec3 colors[] = vec3[](
 );
 
 void main(void){
-	vec3 dir = get_direction();
+	vec3 direction = get_direction();
 	vec3 final_color = vec3(0);
-	vec3 light = vec3(10*foo1, 40, 10*foo1);
-	int i;
-	vec3 hit = march(view_position, dir, i);
-	int material = int(f(hit)[1]);
-	vec3 normal = calc_normal(hit);
-	final_color += 0.1 * ao(hit, normal, .15, 5);
-	final_color += softshadow(hit, light, 64.) * colors[material] * lambert(light - hit, normal);
+	vec3 light = view_position + vec3(10*foo1, 40, 10*foo1);
+	vec3 hit = view_position;
+	vec3 light_color_factor = vec3(1.);
+	float reflection_factor = 1.;
 
-	if(material == MAT_BOUNDING){
-		final_color = vec3(step(star_amount, smooth_noise(300. * dir)));
+	for (int reflections = 0; reflections < 2; reflections++) {
+		int i;
+		hit = march(hit, direction, i);
+		if (i >= 100) {
+			// hit nothing
+			break;
+		}
+
+		int material = int(f(hit)[1]);
+		vec3 normal = calc_normal(hit);
+		vec3 to_light = light - hit;
+		vec3 to_view = view_position - hit;
+
+		vec3 light_color = vec3(lambert(to_light, normal));
+		light_color += vec3(phong(to_light, normal, to_view, 50.));
+		light_color *= color_light;
+		light_color *= softshadow(hit, light, 64.);
+		light_color *= ao(hit, normal, .15, 5);
+
+		vec3 new_color = colors[material] * light_color;
+
+		if(material == MAT_BOUNDING) {
+			final_color += vec3(step(star_amount, smooth_noise(300. * direction)));
+		}
+
+		final_color += new_color * reflection_factor * light_color_factor;
+
+		// only floor and ceiling are reflective
+		if (material != MAT_UFO_COCKPIT) {
+			break;
+		}
+
+		light_color_factor *= light_color;
+		reflection_factor *= .8;
+
+		direction = reflect(direction, normal);
 	}
 
 	out_color = final_color;
@@ -46,7 +79,7 @@ void main(void){
 vec2 f(vec3 p){
 	float ufo_bottom = sphere(p, 15);
 	float ufo_top = sphere(trans(p, 0., 0.55*50., 0.), 15);
-	vec2 ufo_body = vec2(max(ufo_top, ufo_bottom), MAT_UFO_BODY);
+	vec2 ufo_body = vec2(smax(ufo_top, ufo_bottom, 0.05), MAT_UFO_BODY);
 
 	vec3 p2 = trans(p, 0., 50*.23, 0.);
 	vec2 ufo_cockpit = vec2(max(sphere(p2, 5), -ufo_bottom), MAT_UFO_COCKPIT);
