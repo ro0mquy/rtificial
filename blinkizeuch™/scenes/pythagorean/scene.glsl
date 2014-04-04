@@ -39,19 +39,25 @@ vec2 f(vec3 p){
 	float b = sqrt(1. - a * a);
 	float tree = cube(p);
 
-	float q_a = a * 1.;
-	vec3 q = trans(p, 0, 1 + q_a, -(1. - q_a));
-	q = trans(q, 0, -q_a, -q_a);
-	q = rX(alpha) * q;
-	q = trans(q, 0, q_a, q_a);
-	tree = min(tree, scale(cube, q, q_a));
+	float p_a = 1.;
+	for(int i = 0; i < 5.; i++) {
+		float q_a = a * p_a;
+		vec3 q = trans(p, 0, p_a + q_a, -(p_a - q_a));
+		q = trans(q, 0, -q_a, -q_a);
+		q = rX(alpha) * q;
+		q = trans(q, 0, q_a, q_a);
+		tree = min(tree, scale(cube, q, q_a));
 
-	float r_a = b * 1.;
-	vec3 r = trans(p, 0, 1 + r_a, 1. - r_a);
-	r = trans(r, 0, -r_a, r_a);
-	r = rX(-beta) * r;
-	r = trans(r, 0, r_a, -r_a);
-	tree = min(tree, scale(cube, r, r_a));
+		float r_a = b * p_a;
+		vec3 r = trans(p, 0, p_a + r_a, p_a - r_a);
+		r = trans(r, 0, -r_a, r_a);
+		r = rX(-beta) * r;
+		r = trans(r, 0, r_a, -r_a);
+		tree = min(tree, scale(cube, r, r_a));
+
+		p = q;
+		p_a = q_a;
+	}
 
 	vec2 bounding = vec2(-sphere(p - view_position, 1000.), 2);
 	return min_material(vec2(tree,1), bounding);
