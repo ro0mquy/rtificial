@@ -61,9 +61,11 @@ vec2 f(vec3 p){
 	//foo = smax(box(p, vec3(1.)), -foo, .1);
 	//float foo = smin(octahedron(p), octahedron(trans(p, 1., 0, 0)), .1);
 	//return vec2(foo, 1);
-	vec3 q = rY(p.y + time * 5.) * p;
-	vec3 r = rY(-p.y - time * 3.) * p;
-	float foo = box(q, vec3(1, 5, 1));
-	foo = smax(foo, box(r, vec3(1, 5, 1)), .1);
+	vec3 q = rY(p.y * .7 + time * 5.) * p;
+	vec3 r = rY(-p.y * .7 - time * 3.) * p;
+	float height = 5.;
+	float side_lenght = 1. - .3 * (p.y / height + .5);
+	float foo = box(q, vec3(side_lenght, height, side_lenght)) - .5;
+	foo = smin(foo, box(r, vec3(side_lenght, height, side_lenght)) - .5, .1);
 	return min_material(vec2(-sphere(p - view_position, 500.), 0), vec2(foo, 1));
 }
