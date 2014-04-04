@@ -53,7 +53,7 @@ void main() {
 	float depth = texture(tex_depth, texcoord);
 
 //	if (texcoord.x > .5) {
-		color = motionBlur();
+		//color = motionBlur();
 		//color = godRays();
 //	}
 
