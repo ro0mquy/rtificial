@@ -1,7 +1,8 @@
 vec2 f(vec3);
+vec2 f_noise(vec3);
 
 DEFINE_MARCH(march, f)
-DEFINE_NORMAL(calc_normal, f)
+DEFINE_NORMAL(calc_normal, f_noise)
 DEFINE_AO(ao, f)
 
 uniform vec3 color_foo1;
@@ -42,15 +43,13 @@ float pythagoraen(vec3 p) {
 	float p_a = 1.;
 	for(int i = 0; i < 10; i++) {
 		float q_a = a * p_a;
-		vec3 q = trans(p, 0, p_a + q_a, -(p_a - q_a));
-		q = trans(q, 0, -q_a, -q_a);
+		vec3 q = trans(p, 0, p_a , -p_a);
 		q = rX(alpha) * q;
 		q = trans(q, 0, q_a, q_a);
 		tree = min(tree, scale(cube, q, q_a));
 
 		float r_a = b * p_a;
-		vec3 r = trans(p, 0, p_a + r_a, p_a - r_a);
-		r = trans(r, 0, -r_a, r_a);
+		vec3 r = trans(p, 0, p_a, p_a);
 		r = rX(-beta) * r;
 		r = trans(r, 0, r_a, -r_a);
 		tree = min(tree, scale(cube, r, r_a));
@@ -61,9 +60,12 @@ float pythagoraen(vec3 p) {
 	}
 	return tree;
 }
-
-vec2 f(vec3 p) {
-	float tree = pythagoraen(p) + .03 * classic_noise(5. * p.xz);
-	vec2 bounding = vec2(-sphere(p - view_position, 1000.), 2);
-	return min_material(vec2(tree,1), bounding);
+#define DEFINE_F(name, noiseterm)\
+vec2 name(vec3 p) {\
+	float tree = pythagoraen(p) + noiseterm;\
+	vec2 bounding = vec2(-sphere(p - view_position, 1000.), 2);\
+	return min_material(vec2(tree,1), bounding);\
 }
+
+DEFINE_F(f, 0.)
+DEFINE_F(f_noise, .01 * classic_noise(10. * p.xz))
