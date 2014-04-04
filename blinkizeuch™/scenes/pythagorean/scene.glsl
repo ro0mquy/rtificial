@@ -29,7 +29,10 @@ void main(void){
 }
 
 float cube(vec3 p) {
-	return box(p, vec3(1.));
+	// seems to be faster than
+	// return box(p, vec3(1.));
+	p = abs(p);
+	return max(p.x, max(p.y, p.z)) - 1.;
 }
 
 float pythagoraen(vec3 p) {
