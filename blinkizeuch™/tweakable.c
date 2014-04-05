@@ -1,12 +1,14 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <libzeuch/quaternion.h>
+#include <libzeuch/matrix.h>
 #include "util.h"
-
 #include "tweakable.h"
 
 static size_t get_value_size(tweakable_type_t type);
 static void init_value(void* const value, tweakable_type_t type, void* defaults);
+static void update_rotation_uniform(GLint uniform_location, const float value[4]);
 
 bool tweakable_init(
 	tweakable_t* const tweakable,
@@ -51,6 +53,12 @@ void tweakable_update_uniform(const tweakable_t* const tweakable) {
 		case BOOL:
 			glUniform1ui(uniform_location, *bool_value);
 			break;
+		case DIR3:
+			glUniform3f(uniform_location, value[0], value[1], value[2]);
+			break;
+		case ROTATION:
+			update_rotation_uniform(uniform_location, value);
+			break;
 		case FLOAT:
 		default:
 			glUniform1f(uniform_location, value[0]);
@@ -73,6 +81,10 @@ bool tweakable_get_type(const char name[], tweakable_type_t* const out_type) {
 		*out_type = FLOAT;
 	} else if(strcmp(name, "bool") == 0) {
 		*out_type = BOOL;
+	} else if(strcmp(name, "direction") == 0) {
+		*out_type = DIR3;
+	} else if(strcmp(name, "rotation") == 0) {
+		*out_type = ROTATION;
 	} else {
 		return false;
 	}
@@ -87,6 +99,12 @@ void tweakable_add_to_bar(const tweakable_t* const tweakable, TwBar* const tweak
 			break;
 		case BOOL:
 			type = TW_TYPE_BOOL8;
+			break;
+		case DIR3:
+			type = TW_TYPE_DIR3F;
+			break;
+		case ROTATION:
+			type = TW_TYPE_QUAT4F;
 			break;
 		case FLOAT:
 		default:
@@ -103,6 +121,10 @@ static size_t get_value_size(const tweakable_type_t type) {
 			return 3 * sizeof(float);
 		case BOOL:
 			return sizeof(bool);
+		case DIR3:
+			return 3 * sizeof(float);
+		case ROTATION:
+			return 4 * sizeof(float);
 		case FLOAT:
 		default:
 			return 1 * sizeof(float);
@@ -114,7 +136,7 @@ static void init_value(void* const value, const tweakable_type_t type, void* def
 	float* const float_defaults = (float*) defaults;
 	bool* const bool_value = (bool*) value;
 	bool* const bool_defaults = (bool*) defaults;
-		switch(type) {
+	switch(type) {
 		case COLOR:
 			if (defaults == NULL) {
 				float_value[0] = 1.;
@@ -133,6 +155,30 @@ static void init_value(void* const value, const tweakable_type_t type, void* def
 				*bool_value = *bool_defaults;
 			}
 			break;
+		case DIR3:
+			if(defaults == NULL) {
+				float_value[0] = 1.;
+				float_value[1] = 0.;
+				float_value[2] = 0.;
+			} else {
+				float_value[0] = float_defaults[0];
+				float_value[1] = float_defaults[1];
+				float_value[2] = float_defaults[2];
+			}
+			break;
+		case ROTATION:
+			if(defaults == NULL) {
+				float_value[0] = 0.;
+				float_value[1] = 0.;
+				float_value[2] = 0.;
+				float_value[3] = 1.;
+			} else {
+				float_value[0] = float_defaults[0];
+				float_value[1] = float_defaults[1];
+				float_value[2] = float_defaults[2];
+				float_value[3] = float_defaults[3];
+			}
+			break;
 		case FLOAT:
 		default:
 			if (defaults == NULL) {
@@ -142,4 +188,22 @@ static void init_value(void* const value, const tweakable_type_t type, void* def
 			}
 			break;
 	}
+}
+
+static void update_rotation_uniform(GLint uniform_location, const float value[4]) {
+	const quat q = quat_new(vec3_new(value[0], value[1], value[2]), value[3]);
+	const mat4x4 mat4 = quat_to_mat4x4(q);
+	// transposed for inverse rotation
+	const GLfloat mat3[9] = {
+		mat4.a[0][0],
+		mat4.a[0][1],
+		mat4.a[0][2],
+		mat4.a[1][0],
+		mat4.a[1][1],
+		mat4.a[1][2],
+		mat4.a[2][0],
+		mat4.a[2][1],
+		mat4.a[2][2],
+	};
+	glUniformMatrix3fv(uniform_location, 1, GL_FALSE, mat3);
 }
