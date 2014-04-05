@@ -23,7 +23,7 @@ void main(void){
 		vec3 normal = calc_normal(hit);
 		vec3 reflect_dir = reflect(dir, normal);
 		float lod = max(specular_lod, textureQueryLod(environment, reflect_dir).y);
-		final_color = textureLod(environment, reflect_dir, lod).rgb;;
+		final_color = textureLod(environment, reflect_dir, lod).rgb + cook_torrance(light, normal, -dir, .45, 450.);
 	} else {
 		final_color = texture(environment, dir).rgb;
 	}
