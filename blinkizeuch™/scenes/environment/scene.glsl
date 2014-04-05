@@ -10,20 +10,23 @@ uniform float foo1;
 uniform float foo2;
 
 uniform samplerCube environment;
+uniform mat3 rotation;
+uniform vec3 light;
 
 void main(void){
 	vec3 dir = get_direction();
 	vec3 final_color = vec3(0);
 	int i;
 	vec3 hit = march(view_position, dir, i);
-	if(i < 100){
+	if(i < 100 && f(hit)[1] == 1.) {
 		vec3 normal = calc_normal(hit);
-		final_color = vec3(1.0);
+		final_color = mix(texture(environment, reflect(dir, normal)).rgb, vec3(lambert(light, normal)), foo1);
+	} else {
+		final_color = texture(environment, dir).rgb;
 	}
-	final_color = texture(environment, dir).rgb;
 	out_color = final_color;
 }
 
 vec2 f(vec3 p){
-	return vec2(sphere(p, 4.),1);
+	return vec2(torus(rotation * p, vec2(4., 1)),1);
 }
