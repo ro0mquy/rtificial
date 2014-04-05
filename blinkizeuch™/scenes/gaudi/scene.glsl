@@ -66,16 +66,32 @@ vec2 f(vec3 p){
 
 	float ra = length(p.xz);
 	float phi = atan(p.z, p.x);
-	float c = 10.;
-	phi = mod(phi, TAU /c) - TAU / c * .5;
-	p = vec3(ra * cos(phi), p.y, ra * sin(phi));
-	p = trans(p, 10., 0., 0.);
+	float c = 4.;
 
-	vec3 q = rY(p.y * .7 + time * 5.) * p;
-	vec3 r = rY(-p.y * .7 - time * 3.) * p;
-	float height = 8.;
+	float phi1 = phi + TAU / 32. * p.y;
+	phi1 = mod(phi1, TAU /c) - TAU / c * .5;
+	vec3 p1 = vec3(ra * cos(phi1), p.y, ra * sin(phi1));
+	p1 = trans(p1, 4., 0., 0.);
+
+	float phi2 = phi - TAU / 32. * p.y;
+	phi2 = mod(phi2, TAU /c) - TAU / c * .5;
+	vec3 p2 = vec3(ra * cos(phi2), p.y, ra * sin(phi2));
+	p2 = trans(p2, 4., 0., 0.);
+
+	float height = 80.;
 	float side_lenght = 1. - .3 * (p.y / height + .5);
-	float foo = box(q, vec3(side_lenght, height, side_lenght)) - .5;
-	foo = smin(foo, box(r, vec3(side_lenght, height, side_lenght)) - .5, .1);
+
+	vec3 q1 = rY(p.y * .7 + time * 5.) * p1;
+	vec3 r1 = rY(-p.y * .7 - time * 3.) * p1;
+	float foo1 = box(q1, vec3(side_lenght, height, side_lenght)) - .5;
+	foo1 = smin(foo1, box(r1, vec3(side_lenght, height, side_lenght)) - .5, .1);
+
+	vec3 q2 = rY(p.y * .7 + time * 5.) * p2;
+	vec3 r2 = rY(-p.y * .7 - time * 3.) * p2;
+	float foo2 = box(q2, vec3(side_lenght, height, side_lenght)) - .5;
+	foo2 = smin(foo2, box(r2, vec3(side_lenght, height, side_lenght)) - .5, .1);
+
+	float foo = smin(foo1, foo2, 1.);
+
 	return min_material(vec2(-sphere(p - view_position, 500.), 0), vec2(foo, 1));
 }
