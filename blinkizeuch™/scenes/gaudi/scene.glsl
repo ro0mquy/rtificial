@@ -17,7 +17,7 @@ void main(void){
 	if(i < 100){
 		if(f(hit)[1] > 0) {
 			vec3 normal = calc_normal(hit);
-			vec3 to_light = vec3(10) - hit;
+			vec3 to_light = vec3(0, 0, 10) - hit;
 			final_color = .8 * vec3(oren_nayar(to_light, normal, -dir, foo1 * 10.));
 			final_color *= ao(hit, dir, -.7, 5.);
 			final_color *= ao(hit, dir, .1, 5.);
@@ -28,13 +28,14 @@ void main(void){
 }
 
 float tetrahedron(vec3 p) {
+	p = trans(p, 0, .25, 0);
 	vec4 q = p * mat4x3(
 		vec3(0., -1., 0.),
 		vec3(0., .333, .943),
 		vec3(.816, .333, -.471),
 		vec3(-.816, .333, -.471)
 	);
-	return max(max(q.x, q.y), max(q.z, q.w)) - 1.;
+	return max(max(q.x, q.y), max(q.z, q.w)) - .25;
 }
 
 float octa(vec3 p) {
@@ -51,10 +52,21 @@ vec3 grad(vec3 p) {
 }
 
 float octahedron(vec3 p) {
+	//*
 	float v = octa(p);
 	vec3 g = grad(p);
 	float de = v/length(g);
 	return de;
+	// */
+
+	// alternativ method
+	/*
+	float tetra = tetrahedron(p);
+	vec3 p0 = rX(TAU / 2) * p;
+	p0 = trans(p0, 0., -.5, 0.);
+	float octa = max(tetra, tetrahedron(p0));
+	return octa;
+	// */
 }
 
 float schwurbelsaeule(vec3 p) {
@@ -94,6 +106,9 @@ float schwurbelsaeule(vec3 p) {
 
 float abelian(vec3 p) {
 	float tetra = tetrahedron(p);
+	vec3 p0 = rX(TAU / 2) * p;
+	p0 = trans(p0, 0., -.5, 0.);
+	tetra = smax(tetra, tetrahedron(p0), .0);
 
 	return tetra;
 }
