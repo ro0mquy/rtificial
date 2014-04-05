@@ -78,7 +78,27 @@ scene_t* scene_load(const char scene_path[], const char config_path[]) {
 					float* defaults_float = (float*) defaults;
 					*defaults_float = json_real_value(defaults_object_json);
 					break;
-				default:
+				case DIR3:
+					if (!json_is_array(defaults_object_json) || json_array_size(defaults_object_json) != 3) {
+						fprintf(stderr, "tweakable #%d: default of direction is no array of length 3\n", i);
+						break;
+					}
+					defaults = malloc(3 * sizeof(float));
+					float* defaults_dir = (float*) defaults;
+					for (int i = 0; i < 3; i++) {
+						defaults_dir[i] = json_real_value(json_array_get(defaults_object_json, i));
+					}
+					break;
+				case ROTATION:
+					if (!json_is_array(defaults_object_json) || json_array_size(defaults_object_json) != 4) {
+						fprintf(stderr, "tweakable #%d: default of rotation is no array of length 4\n", i);
+						break;
+					}
+					defaults = malloc(4 * sizeof(float));
+					float* defaults_rot = (float*) defaults;
+					for (int i = 0; i < 4; i++) {
+						defaults_rot[i] = json_real_value(json_array_get(defaults_object_json, i));
+					}
 					break;
 			}
 		}
