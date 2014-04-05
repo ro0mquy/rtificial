@@ -8,7 +8,7 @@
 #include <libzeuch/gl.h>
 
 typedef enum tweakable_type_t {
-	COLOR, FLOAT, BOOL
+	COLOR, FLOAT, BOOL, ROTATION, DIR3, ROT
 } tweakable_type_t;
 
 typedef struct tweakable_t {
