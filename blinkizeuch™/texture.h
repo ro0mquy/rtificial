@@ -10,9 +10,12 @@ typedef struct {
 	char* path;
 	GLuint tex;
 	GLint uniform_location;
+	GLuint target;
 } texture_t;
 
 bool texture_init(texture_t* texture, const char path[], const char uniform[]);
+
+bool texture_init_cubemap(texture_t* texture, char* const path[], const char uniform[]);
 
 void texture_load_uniform(texture_t* texture, GLuint program);
 

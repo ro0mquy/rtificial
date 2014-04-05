@@ -119,25 +119,59 @@ scene_t* scene_load(const char scene_path[], const char config_path[]) {
 	int real_textures_size = 0;
 	for(int i = 0; i < textures_size; i++) {
 		json_t* const texture_json = json_array_get(textures_json, i);
-		const char* const path_json = json_string_value(json_object_get(texture_json, "path"));
-		const char* const uniform_json = json_string_value(json_object_get(texture_json, "uniform"));
-		if(path_json == NULL || uniform_json == NULL) {
-			fprintf(stderr, "texture #%d: path or uniform missing\n", i);
-			continue;
-		}
+		json_t* const path_json_object = json_object_get(texture_json, "path");
 
-		// assemble texture path; "<scene_path><path_json>\0"
-		size_t scene_path_length = strlen(scene_path);
-		size_t path_json_length = strlen(path_json);
-		char* path_texture = malloc(scene_path_length + path_json_length + 1);
-		strncpy(path_texture, scene_path, scene_path_length);
-		strncpy(path_texture + scene_path_length, path_json, path_json_length + 1);
+		if(json_is_string(path_json_object)) {
+			const char* const path_json = json_string_value(path_json_object);
+			const char* const uniform_json = json_string_value(json_object_get(texture_json, "uniform"));
+			if(path_json == NULL || uniform_json == NULL) {
+				fprintf(stderr, "texture #%d: path or uniform missing\n", i);
+				continue;
+			}
 
-		texture_t* const texture = &textures[real_textures_size];
-		bool ok = texture_init(texture, path_texture, uniform_json);
-		util_safe_free(path_texture);
-		if(!ok) {
-			fprintf(stderr, "Failed to load texture #%d\n", i);
+			// assemble texture path; "<scene_path><path_json>\0"
+			const size_t scene_path_length = strlen(scene_path);
+			const size_t path_json_length = strlen(path_json);
+			char* path_texture = malloc(scene_path_length + path_json_length + 1);
+			strncpy(path_texture, scene_path, scene_path_length);
+			strncpy(path_texture + scene_path_length, path_json, path_json_length + 1);
+
+			texture_t* const texture = &textures[real_textures_size];
+			const bool ok = texture_init(texture, path_texture, uniform_json);
+			util_safe_free(path_texture);
+			if(!ok) {
+				fprintf(stderr, "Failed to load texture #%d\n", i);
+				continue;
+			}
+		} else if(json_is_array(path_json_object) && json_array_size(path_json_object) == 6) {
+			const char* const uniform_json = json_string_value(json_object_get(texture_json, "uniform"));
+			if(uniform_json == NULL) {
+				fprintf(stderr, "texture #%d: uniform missing\n", i);
+				continue;
+			}
+
+			char* paths_texture[6];
+			const size_t scene_path_length = strlen(scene_path);
+			for(int i = 0; i < 6; i++) {
+				const char* const path_json = json_string_value(json_array_get(path_json_object, i));
+				const size_t path_json_length = strlen(path_json);
+				char* const path_texture = malloc(scene_path_length + path_json_length + 1);
+				strncpy(path_texture, scene_path, scene_path_length);
+				strncpy(path_texture + scene_path_length, path_json, path_json_length + 1);
+				paths_texture[i] = path_texture;
+			}
+
+			texture_t* const texture = &textures[real_textures_size];
+			const bool ok = texture_init_cubemap(texture, paths_texture, uniform_json);
+			for(int i = 0; i < 6; i++) {
+				util_safe_free(paths_texture[i]);
+			}
+			if(!ok) {
+				fprintf(stderr, "Failed to load texture #%d\n", i);
+				continue;
+			}
+		} else {
+			fprintf(stderr, "Not a valid path in texture #%d\n", i);
 			continue;
 		}
 		real_textures_size++;
