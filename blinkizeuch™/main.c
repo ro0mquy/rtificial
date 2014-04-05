@@ -261,6 +261,7 @@ int main(int argc, char *argv[]) {
 }
 
 static int init(void) {
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	camera_init(&camera);
 
 	// set up vertex shader for main scene rendering and postprocessing
