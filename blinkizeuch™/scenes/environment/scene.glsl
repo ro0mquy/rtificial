@@ -21,6 +21,7 @@ void main(void){
 	if(i < 100 && f(hit)[1] == 1.) {
 		vec3 normal = calc_normal(hit);
 		final_color = mix(texture(environment, reflect(dir, normal)).rgb, vec3(lambert(light, normal)), foo1);
+		//final_color = texture(environment, normal).rgb;
 	} else {
 		final_color = texture(environment, dir).rgb;
 	}
