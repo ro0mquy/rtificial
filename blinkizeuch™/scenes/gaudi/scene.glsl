@@ -29,10 +29,10 @@ void main(void){
 
 float tetrahedron(vec3 p) {
 	vec4 q = p * mat4x3(
-		vec3(-.577, .577, .577),
-		vec3(.577, -.577, .577),
-		vec3(-.577, -.577, -.577),
-		vec3(.577, .577, -.577)
+		vec3(0., -1., 0.),
+		vec3(0., .333, .943),
+		vec3(.816, .333, -.471),
+		vec3(-.816, .333, -.471)
 	);
 	return max(max(q.x, q.y), max(q.z, q.w)) - 1.;
 }
@@ -92,6 +92,12 @@ float schwurbelsaeule(vec3 p) {
 	return foo;
 }
 
+float abelian(vec3 p) {
+	float tetra = tetrahedron(p);
+
+	return tetra;
+}
+
 vec2 f(vec3 p){
 	/*
 	float foo = scale(tetrahedron, p, .5 + foo1);
@@ -99,7 +105,9 @@ vec2 f(vec3 p){
 	foo = smax(box(p, vec3(1.)), -foo, .1);
 	// */
 	//float foo = smin(octahedron(p), octahedron(trans(p, 1., 0, 0)), .1);
-	float foo = schwurbelsaeule(p);
+	//float foo = schwurbelsaeule(p);
+
+	float foo = abelian(p);
 
 	return min_material(vec2(-sphere(p - view_position, 500.), 0), vec2(foo, 1));
 }
