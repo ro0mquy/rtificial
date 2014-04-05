@@ -18,7 +18,9 @@ void main(void){
 		if(f(hit)[1] > 0) {
 			vec3 normal = calc_normal(hit);
 			vec3 to_light = vec3(10) - hit;
-			final_color = .8 * vec3(lambert(to_light, normal));
+			final_color = .8 * vec3(oren_nayar(to_light, normal, -dir, foo1 * 10.));
+			final_color *= ao(hit, dir, -.7, 5.);
+			final_color *= ao(hit, dir, .1, 5.);
 			final_color += .2;
 		}
 	}
@@ -61,9 +63,17 @@ vec2 f(vec3 p){
 	//foo = smax(box(p, vec3(1.)), -foo, .1);
 	//float foo = smin(octahedron(p), octahedron(trans(p, 1., 0, 0)), .1);
 	//return vec2(foo, 1);
+
+	float ra = length(p.xz);
+	float phi = atan(p.z, p.x);
+	float c = 10.;
+	phi = mod(phi, TAU /c) - TAU / c * .5;
+	p = vec3(ra * cos(phi), p.y, ra * sin(phi));
+	p = trans(p, 10., 0., 0.);
+
 	vec3 q = rY(p.y * .7 + time * 5.) * p;
 	vec3 r = rY(-p.y * .7 - time * 3.) * p;
-	float height = 5.;
+	float height = 8.;
 	float side_lenght = 1. - .3 * (p.y / height + .5);
 	float foo = box(q, vec3(side_lenght, height, side_lenght)) - .5;
 	foo = smin(foo, box(r, vec3(side_lenght, height, side_lenght)) - .5, .1);
