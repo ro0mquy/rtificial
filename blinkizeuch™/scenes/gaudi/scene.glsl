@@ -57,13 +57,8 @@ float octahedron(vec3 p) {
 	return de;
 }
 
-vec2 f(vec3 p){
-	//float foo = scale(tetrahedron, p, .5 + foo1);
-	//foo = max(-tetrahedron(rY(radians(180. * foo1)) * p), foo);
-	//foo = smax(box(p, vec3(1.)), -foo, .1);
-	//float foo = smin(octahedron(p), octahedron(trans(p, 1., 0, 0)), .1);
-	//return vec2(foo, 1);
-
+float schwurbelsaeule(vec3 p) {
+	// radial domrep code
 	float ra = length(p.xz);
 	float phi = atan(p.z, p.x);
 	float c = 4.;
@@ -78,6 +73,7 @@ vec2 f(vec3 p){
 	vec3 p2 = vec3(ra * cos(phi2), p.y, ra * sin(phi2));
 	p2 = trans(p2, 4., 0., 0.);
 
+	// actual schwurbel code
 	float height = 80.;
 	float side_lenght = 1. - .3 * (p.y / height + .5);
 
@@ -92,6 +88,18 @@ vec2 f(vec3 p){
 	foo2 = smin(foo2, box(r2, vec3(side_lenght, height, side_lenght)) - .5, .1);
 
 	float foo = smin(foo1, foo2, 1.);
+
+	return foo;
+}
+
+vec2 f(vec3 p){
+	/*
+	float foo = scale(tetrahedron, p, .5 + foo1);
+	foo = max(-tetrahedron(rY(radians(180. * foo1)) * p), foo);
+	foo = smax(box(p, vec3(1.)), -foo, .1);
+	// */
+	//float foo = smin(octahedron(p), octahedron(trans(p, 1., 0, 0)), .1);
+	float foo = schwurbelsaeule(p);
 
 	return min_material(vec2(-sphere(p - view_position, 500.), 0), vec2(foo, 1));
 }
