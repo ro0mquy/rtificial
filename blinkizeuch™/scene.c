@@ -154,7 +154,7 @@ void scene_save(const scene_t* scene, char* path){
 				break;
 			case COLOR:
 				json_object_set(tweakable_json_object, "type", json_string("color"));
-				float* colors = tweakable.value;
+				const float* const colors = tweakable.value;
 				json_object_set(
 					tweakable_json_object,
 					"default",
@@ -167,6 +167,24 @@ void scene_save(const scene_t* scene, char* path){
 					tweakable_json_object,
 					"default",
 					json_boolean( *((float*) tweakable.value) )
+				);
+				break;
+			case ROTATION:
+				json_object_set(tweakable_json_object, "type", json_string("rotation"));
+				const float* const rot_values = tweakable.value;
+				json_object_set(
+					tweakable_json_object,
+					"default",
+					json_pack("[ffff]", rot_values[0], rot_values[1], rot_values[2], rot_values[3])
+				);
+				break;
+			case DIR3:
+				json_object_set(tweakable_json_object, "type", json_string("direction"));
+				const float* const dir_values = tweakable.value;
+				json_object_set(
+					tweakable_json_object,
+					"default",
+					json_pack("[fff]", dir_values[0], dir_values[1], dir_values[2])
 				);
 				break;
 		}
