@@ -67,6 +67,7 @@ float octahedron(vec3 p) {
 	float octa = max(tetra, tetrahedron(p0));
 	return octa;
 	// */
+	// auch mit 4 normalen, da je zwei seiten parallel sind
 }
 
 float schwurbelsaeule(vec3 p) {
@@ -105,10 +106,22 @@ float schwurbelsaeule(vec3 p) {
 }
 
 float abelian(vec3 p) {
-	float tetra = tetrahedron(p);
-	vec3 p0 = rX(TAU / 2) * p;
-	p0 = trans(p0, 0., -.5, 0.);
-	tetra = smax(tetra, tetrahedron(p0), .0);
+	vec3 p0 = p;
+	vec3 p1 = trans(p, 0, .25, 0);
+	p1 = rY(TAU / 6 * time) * rZ(TAU / 16 * time) * rX(TAU * smooth_noise(vec3(time * .1))) * p1;
+	p1 = trans(p1, 0, -.25, 0);
+	vec3 p2 = p;
+	p2 = rY(TAU * smooth_noise(vec3(time + 24.25) * .51)) * rZ(TAU / 5 * time) * p2;
+
+	float tetra0 = scale(tetrahedron, p0, smooth_noise(vec3(time)) + .5);
+	float tetra1 = tetrahedron(p1);
+	float mintetra = smin(tetra0, tetra1, 1.);
+	float maxtetra = smax(tetra0, -tetra1, .1);
+	float tetra = smax(mintetra, -maxtetra, .1);
+
+	float cube = box(p2, vec3(.33)) - .1;
+
+	tetra = smax(-tetra, cube, .1);
 
 	return tetra;
 }
