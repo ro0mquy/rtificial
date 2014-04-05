@@ -12,6 +12,7 @@ uniform float foo2;
 uniform samplerCube environment;
 uniform mat3 rotation;
 uniform vec3 light;
+uniform float specular_lod;
 
 void main(void){
 	vec3 dir = get_direction();
@@ -20,8 +21,9 @@ void main(void){
 	vec3 hit = march(view_position, dir, i);
 	if(i < 100 && f(hit)[1] == 1.) {
 		vec3 normal = calc_normal(hit);
-		final_color = mix(texture(environment, reflect(dir, normal)).rgb, vec3(lambert(light, normal)), foo1);
-		//final_color = texture(environment, normal).rgb;
+		vec3 reflect_dir = reflect(dir, normal);
+		float lod = max(specular_lod, textureQueryLod(environment, reflect_dir).y);
+		final_color = textureLod(environment, reflect_dir, lod).rgb;;
 	} else {
 		final_color = texture(environment, dir).rgb;
 	}

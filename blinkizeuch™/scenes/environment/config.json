@@ -32,6 +32,12 @@
 			"uniform": "light",
 			"type": "direction",
 			"default": [0.0, 1.0, 0.0]
+		},
+		{
+			"name": "Specular LOD",
+			"uniform": "specular_lod",
+			"type": "float",
+			"varparam": "min=0 step=0.1"
 		}
 	],
 	"textures": [
