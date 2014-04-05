@@ -1,4 +1,4 @@
-#version 330
+#version 400
 
 uniform vec3 view_position;
 uniform vec3 view_up;
