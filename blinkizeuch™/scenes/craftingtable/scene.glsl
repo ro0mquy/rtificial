@@ -17,7 +17,10 @@ vec3 materials[] = vec3[](
 	vec3(1.),
 	vec3(.5),
 	vec3(.2),
-	vec3(1., .62, .62)
+	vec3(1., .62, .62),
+	vec3(.9),
+	vec3(.9, .1, 0),
+	vec3(0, .2, .9)
 );
 
 void main(void) {
@@ -29,7 +32,7 @@ void main(void) {
 		vec3 normal = calc_normal(hit);
 		vec3 to_light = light - hit;
 		vec3 to_view = view_position - hit;
-		final_color += lambert(to_light, normal);
+		final_color += .8 * lambert(to_light, normal) + .2;
 		final_color += phong(to_light, normal, to_view, 10.);
 		final_color *= materials[int(f(hit)[1])];
 	}
@@ -66,16 +69,26 @@ vec2 companion_cube_v2(vec3 p) {
 	return min_material(min_material(corners2, cube2), spherey2);
 }
 
+vec2 barber(vec3 p) {
+	float cylinder = length(p.xz) - 1.;
+	float barb = cylinder;
+	float phi = acos(normalize(p.xz).y);
+	phi = TAU + sign(p.x) * phi;
+	phi += TAU / 8 * (p.y + time);
+	phi = mod(phi, TAU);
+	float material = floor(phi / TAU * 3.) + 4.;
+	return vec2(barb, material);
+}
+
 vec2 f(vec3 p){
 	vec2 bounding = vec2(-sphere(p - view_position, 100.), mat_bounding);
-	p = rY(time * TAU * .05) * rZ(time * TAU * .164) * rX(time * TAU * .0153) * p;
+	//p = rY(time * TAU * .05) * rZ(time * TAU * .164) * rX(time * TAU * .0153) * p;
 
-	/*
-	float thingie = companion_cube_v1(p);
-	vec2 thing = vec2(thingie, 0.);
-	// */
+	//float thingie = companion_cube_v1(p);
+	//vec2 thing = vec2(thingie, 0.);
 
-	vec2 thing = companion_cube_v2(p);
+	//vec2 thing = companion_cube_v2(p);
+	vec2 thing = barber(p);
 
 	return min_material(bounding, thing);
 }
