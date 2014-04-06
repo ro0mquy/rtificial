@@ -207,6 +207,15 @@ float plane(vec3 p, vec3 n) {
 	return dot(p, n.xyz);
 }
 
+// a and b are the endpoints
+// r is the radius if you want some kind of capsule
+float line(vec3 p, vec3 a, vec3 b, float r) {
+	vec3 pa = p - a;
+	vec3 ba = b - a;
+	float h = clamp(dot(pa,ba) / dot(ba,ba), 0., 1. );
+	return length(pa - ba*h) - r;
+}
+
 // f: distance function to object
 // p: evaluation point
 // s: scale factor
