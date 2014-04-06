@@ -44,7 +44,7 @@ float pythagoraen(vec3 p) {
 	float p_a = 1.;
 	float tree = cube(p, p_a);
 
-	for(int i = 0; i < 20; i++) {
+	for(int i = 0; i < 15; i++) {
 		float q_a = a * p_a;
 		vec3 q = trans(p, 0, p_a , -p_a);
 		q = rX(alpha) * q;
@@ -65,8 +65,12 @@ float pythagoraen(vec3 p) {
 }
 #define DEFINE_F(name, noiseterm)\
 vec2 name(vec3 p) {\
-	float tree = pythagoraen(p) + noiseterm;\
-	vec2 bounding = vec2(-sphere(p - view_position, 1000.), 2);\
+	float c = 20;\
+	vec3 q = domrep(p, c, 1., c);\
+	q.y = p.y;\
+	float foo = 4. * rand(200. * floor(p.xz / c) - 123.);\
+	float tree = pythagoraen(rY(foo * radians(90. * foo1)) * q) + noiseterm;\
+	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), 2);\
 	return min_material(vec2(tree,1), bounding);\
 }
 
