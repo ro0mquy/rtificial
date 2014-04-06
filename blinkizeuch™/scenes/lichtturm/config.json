@@ -1,0 +1,49 @@
+{
+    "tweakables": [
+        {
+            "name": "Foo Color1",
+            "uniform": "color_foo1",
+            "type": "color",
+            "default": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "name": "Foo Color2",
+            "uniform": "color_foo2",
+            "type": "color",
+            "default": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "name": "Foo1",
+            "uniform": "foo1",
+            "type": "float",
+            "default": 0.5,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+        {
+            "name": "Foo2",
+            "uniform": "foo2",
+            "type": "float",
+            "default": 0.5,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+        {
+            "name": "Light direction",
+            "uniform": "light_direction",
+            "type": "direction",
+            "default": [
+                0.32085651159286499,
+                -0.63167369365692139,
+                0.70571660995483398
+            ]
+        }
+    ],
+    "textures": []
+}
