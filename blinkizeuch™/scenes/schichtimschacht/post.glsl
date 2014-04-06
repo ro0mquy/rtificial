@@ -65,10 +65,10 @@ void main() {
 	vec3 color = texture(tex, texcoord).rgb;
 	float depth = texture(tex_depth, texcoord);
 
-	if(texcoord.x > 0.5)
-	color = vec3(1-depth);
+//	if(texcoord.x > 0.5)
+//	color = vec3(1-depth);
 
-	//color = fxaa();
+	color = fxaa();
 
 	out_color = color;
 }
