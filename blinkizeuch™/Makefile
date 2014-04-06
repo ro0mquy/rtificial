@@ -24,6 +24,7 @@ OBJECTS=\
 	util.o\
 	timeline.o\
 	window.o\
+	music.o\
 
 HEADER=\
 	config.h\
@@ -39,6 +40,7 @@ HEADER=\
 	timeline_vertex.h\
 	timeline_fragment.h\
 	window.h\
+	music.h\
 
 .PHONY: all
 all: blinkizeuch
