@@ -1,8 +1,7 @@
 vec2 f(vec3);
-vec2 f_noise(vec3);
 
 DEFINE_MARCH(march, f)
-DEFINE_NORMAL(calc_normal, f_noise)
+DEFINE_NORMAL(calc_normal, f)
 DEFINE_AO(ao, f)
 
 uniform vec3 color_foo1;
@@ -17,13 +16,17 @@ void main(void){
 	vec3 hit = march(view_position, dir, i);
 	if(i < 100){
 		int material = int(f(hit)[1]);
+		vec3 normal = calc_normal(hit);
+		vec3 light = vec3(0, 10, 0);
 		if(material == 1) {
-			vec3 normal = calc_normal(hit);
-			vec3 to_light = vec3(10., 2., 1.) - hit;
-			final_color = .9 * vec3(cook_torrance(to_light, normal, -dir, .45, 450.));
+			vec3 to_light = light - hit;
+			final_color = .9 * vec3(oren_nayar(to_light, normal, -dir, foo2));
 			final_color += .1;
-			final_color *= ao(hit, normal, .15, 5.);
+		} else if(material == 2) {
+			final_color = vec3(1.);
 		}
+		final_color *= ao(hit, normal, .2, 10.);
+		final_color *= 1. - smoothstep(0., 200., distance(view_position, hit));
 	}
 	out_color = pow(final_color, vec3(1./2.2));
 }
@@ -63,16 +66,13 @@ float pythagoraen(vec3 p) {
 	}
 	return tree;
 }
-#define DEFINE_F(name, noiseterm)\
-vec2 name(vec3 p) {\
-	float c = 20;\
-	vec3 q = domrep(p, c, 1., c);\
-	q.y = p.y;\
-	float foo = 4. * rand(200. * floor(p.xz / c) - 123.);\
-	float tree = pythagoraen(rY(foo * radians(90. * foo1)) * q) + noiseterm;\
-	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), 2);\
-	return min_material(vec2(tree,1), bounding);\
+vec2 f(vec3 p) {
+	float c = 20;
+	vec3 q = domrep(p, c, 1., c);
+	q.y = p.y;
+	float foo = 4. * rand(200. * floor(p.xz / c) - 123.);
+	float tree = pythagoraen(rY(foo * radians(90.)) * q);
+	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), 2);
+	return min_material(vec2(tree,1), min_material(vec2(p.y + 1. + classic_noise(p.xz * 3.) * .15, 2.), bounding));
 }
 
-DEFINE_F(f, 0.)
-DEFINE_F(f_noise, .01 * classic_noise(10. * p.xz))
