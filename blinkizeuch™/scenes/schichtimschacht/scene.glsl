@@ -31,11 +31,23 @@ void main(void){
 	int i;
 	vec3 hit = march(view_position, dir, i);
 	int material = int(f(hit)[1]);
-	//if(i < 100){
-		vec3 normal = calc_normal(hit);
-		final_color += 0.1 * ao(hit, normal, .15, 5);
-		final_color += softshadow(hit, light, 64.) * colors[material] * lambert(light - hit, normal);
-	//}
+	vec3 normal = calc_normal(hit);
+
+	final_color += 0.1 * ao(hit, normal, .15, 5);
+
+	vec3 color_mixin;
+	color_mixin = colors[material];
+	color_mixin *= lambert(light - hit, normal);
+
+	if(material == MAT_BOUNDING){
+		final_color += color_mixin;
+		out_color = final_color;
+		return;
+	}
+
+	color_mixin *= softshadow(hit, light, 64.);
+	final_color += color_mixin;
+
 	if (material == MAT_TEXT) {
 		final_color = vec3(1., .5, .5) * lambert(light - hit, normal);
 	}
