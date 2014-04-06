@@ -19,7 +19,7 @@ void main(void){
 		int material = int(f(hit)[1]);
 		if(material == 1) {
 			vec3 normal = calc_normal(hit);
-			vec3 to_light = vec3(1000) - hit;
+			vec3 to_light = vec3(10., 2., 1.) - hit;
 			final_color = .9 * vec3(cook_torrance(to_light, normal, -dir, .45, 450.));
 			final_color += .1;
 			final_color *= ao(hit, normal, .15, 5.);
@@ -36,7 +36,7 @@ float cube(vec3 p, float r) {
 }
 
 float pythagoraen(vec3 p) {
-	float alpha = foo1 * 90.;
+	float alpha = (1. - 0.6 * smoothstep(0., 10., time)) * 90.;
 	float beta = radians(90. - alpha);
 	alpha = radians(alpha);
 	float a = cos(alpha);
@@ -44,7 +44,7 @@ float pythagoraen(vec3 p) {
 	float p_a = 1.;
 	float tree = cube(p, p_a);
 
-	for(int i = 0; i < 10; i++) {
+	for(int i = 0; i < 20; i++) {
 		float q_a = a * p_a;
 		vec3 q = trans(p, 0, p_a , -p_a);
 		q = rX(alpha) * q;
@@ -59,7 +59,7 @@ float pythagoraen(vec3 p) {
 
 		p = q;
 		p_a = q_a;
-		p = rY(radians(foo2 * 90.)) * p;
+		p = rY(radians(smoothstep(0., 10., time) * 90.)) * p;
 	}
 	return tree;
 }
