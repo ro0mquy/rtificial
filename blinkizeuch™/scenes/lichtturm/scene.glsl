@@ -31,7 +31,7 @@ void main(void) {
 
 		vec3 line_start = vec3(0, 0, 2);
 		vec3 line_end   = vec3(2, 0, 0);
-		float distance = length(hit - view_position);
+		float distance = distance(hit, view_position);
 		//*
 		// kind of raymarching
 		float minimal_dist = line(hit, line_start, line_end, 0);
@@ -42,7 +42,7 @@ void main(void) {
 			t += dist;
 			if (dist < .001) break;
 		}
-		float alpha = 1 / (minimal_dist * minimal_dist + 1);
+		float alpha = .7 / (pow(minimal_dist * 4, 4) + 1);
 		// */
 		/*
 		// fixed stepsize
