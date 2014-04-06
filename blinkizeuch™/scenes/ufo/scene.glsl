@@ -50,18 +50,19 @@ void main(void){
 		vec3 light_color = vec3(lambert(to_light, normal));
 		light_color += vec3(phong(to_light, normal, to_view, 50.));
 		light_color *= color_light;
-		light_color *= softshadow(hit, light, 64.);
 		light_color *= ao(hit, normal, .15, 5);
-
-		vec3 new_color = colors[material] * light_color;
 
 		if(material == MAT_BOUNDING) {
 			final_color += vec3(step(star_amount, smooth_noise(300. * direction)));
 		}
+		else{
+			light_color *= softshadow(hit, light, 64.);
+		}
 
+		vec3 new_color = colors[material] * light_color;
 		final_color += new_color * reflection_factor * light_color_factor;
 
-		// only floor and ceiling are reflective
+		// only cockpit is reflective
 		if (material != MAT_UFO_COCKPIT) {
 			break;
 		}
