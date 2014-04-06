@@ -68,8 +68,11 @@ void main(void) {
 				cont = true;
 			}
 			local_factor *= max(dot(normal, normalize(light - hit)), 0);
-			color *= local_factor * softshadow(hit + .001 * normal, light, 20.);
-			color += ambient_intensity * ao(hit, normal, .15, 5);
+			color *= local_factor;
+			if(material != 0) {
+				color *= softshadow(hit + .001 * normal, light, 20.);
+				color += ambient_intensity * ao(hit, normal, .15, 5);
+			}
 			//factor *= local_factor;
 			final_color += color;
 			if(!cont) break;
