@@ -9,11 +9,13 @@ DEFINE_SOFTSHADOW(softshadow, f)
 const int MAT_UNTENRUM = 1;
 const int MAT_HOUSES = 2;
 const int MAT_HOUSE2 = 3;
-const int MAT_WINDOWS = 4;
+const int MAT_HOUSE3 = 4;
+const int MAT_WINDOWS = 5;
 
 uniform vec3 color_untenrum;
 uniform vec3 color_house1;
 uniform vec3 color_house2;
+uniform vec3 color_house3;
 uniform float noisiness;
 uniform float corner_width;
 uniform float ambient_intensity;
@@ -54,6 +56,8 @@ void main(void) {
 				color = color_house1;
 			} else if(material == MAT_HOUSE2) {
 				color = color_house2;
+			} else if(material == MAT_HOUSE3) {
+				color = color_house3;
 			} else if(material == MAT_WINDOWS) {
 				color = color_windows;
 				vec3 jitter = .01 * classic_noise(hit.xy) * vec3(cos(hit.y), sin(hit.x), 0);
@@ -116,7 +120,8 @@ vec2 haus_mit_ecken(vec3 p, vec3 box_dim, float corner_width, int material) {
 }
 
 vec2 f(vec3 p) {
-	vec2 aussrenrum = vec2(-sphere(transv(p, view_position), 400), 0);
+	// sphere around house, not eye
+	vec2 aussrenrum = vec2(-sphere(p, 400), 0);
 	// ist die normale, oben wird man dich loben!
 	float house3_width = 14. / 2.;
 	float house1_width = 17. / 2.;
@@ -129,11 +134,11 @@ vec2 f(vec3 p) {
 	vec2 house2 = haus_mit_ecken(trans(p, 0, house2_height, 0), vec3(house2_width, house2_height, house2_width),  corner_width * house2_width, MAT_HOUSE2);
 	vec2 house3 = haus_mit_ecken(trans(p, 0, 2 * (house2_height + house1_height) + house3_width, 0), vec3(house3_width, house3_height, house3_width),  corner_width * house3_width, MAT_HOUSE2);
 	vec2 house = min_material(house1, min_material(house2, house3));
-	float foo = length(floor(p.xz / 10) * 10);
-	float houses_height = 6 + sin(foo);
+	float foo = length(floor(p.xz / 20) * 20);
+	float houses_height = 6;
 	vec3 q = trans(p, 0, houses_height, 0);
-	float houses_dist = box(domrep(q, 10, q.y + .1, 10), vec3(3, houses_height, 3));
+	float houses_dist = box(domrep(q, 20, q.y + .1, 20), vec3(3, houses_height, 3));
 	float no_houses = box(p, vec3(20, 24, 20));
-	vec2 houses = vec2(max(houses_dist, -no_houses), MAT_HOUSES);
+	vec2 houses = vec2(max(houses_dist, -no_houses), MAT_HOUSES + int(foo) % 3);
 	return min_material(min_material(aussrenrum, untenrum), min_material(house, houses));
 }

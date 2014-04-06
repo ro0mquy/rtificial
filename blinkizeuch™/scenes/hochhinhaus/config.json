@@ -41,6 +41,12 @@
 			"default": [0.3, 0.2, 0.2]
 		},
 		{
+			"name": "Color House3",
+			"uniform": "color_house3",
+			"type": "color",
+			"default": [0.2, 0.3, 0.2]
+		},
+		{
 			"name": "Noise",
 			"uniform": "noisiness",
 			"type": "float",
