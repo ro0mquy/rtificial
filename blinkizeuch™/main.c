@@ -25,6 +25,7 @@
 #include "scene.h"
 #include "timeline.h"
 #include "window.h"
+#include "music.h"
 
 #define IN_EVENT_SIZE ( sizeof(struct inotify_event))
 #define IN_BUF_LEN    ( 1024 * (IN_EVENT_SIZE+16))
@@ -43,6 +44,7 @@ static void handle_key_down(SDL_KeyboardEvent event);
 static void update_state(void);
 static void TW_CALL cb_set_rotation(const void* value, void* clientData);
 static void TW_CALL cb_get_rotation(void* value, void* clientData);
+static void init_music(void);
 
 GLuint program = 0, vbo_rectangle;
 GLuint post_framebuffer;
@@ -82,6 +84,8 @@ char* timeline_path;
 timeline_t* timeline;
 
 font_t font;
+
+music_t music;
 
 int main(int argc, char *argv[]) {
 	// reload shader when receiving SIGUSR1
@@ -321,6 +325,8 @@ static int init(void) {
 	timeline_load(timeline, timeline_path);
 	camera = timeline_get_camera(timeline);
 
+	init_music();
+
 	currentTime = SDL_GetTicks();
 
 	return 1;
@@ -444,7 +450,6 @@ static void draw(void) {
 
 	// draw AntTweakBar
 	TwDraw();
-
 	SDL_GL_SwapBuffers();
 }
 
@@ -453,6 +458,7 @@ static void free_resources(void) {
 		scene_destroy(scene);
 		free(scene);
 	}
+	music_destroy(&music);
 	timeline_destroy(timeline);
 	free(timeline);
 	free(scene_path);
@@ -584,4 +590,8 @@ static void TW_CALL cb_get_rotation(void* value, void* clientData) {
 	quat[1] = rotation.v.y;
 	quat[2] = rotation.v.z;
 	quat[3] = rotation.w;
+}
+
+static void init_music(void) {
+	music_load(&music);
 }
