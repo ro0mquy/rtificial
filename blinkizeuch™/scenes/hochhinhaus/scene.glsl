@@ -84,18 +84,15 @@ void main(void) {
 }
 
 float corner(vec3 p, float corner_width) {
-	p = abs(p);
-	return max(plane(trans(p, corner_width, 0, 0), vec3(1, 0, 0)), plane(trans(p, 0, 0, corner_width), vec3(0, 0, 1)));
+	return box2(p.xz, vec2(corner_width));
 }
 
 float window_xy(vec3 p, vec2 window_size) {
-	p = abs(p);
-	return max(plane(trans(p, 0, 0, window_size.x), vec3(0, 0, 1)), plane(trans(p, 0, window_size.y, 0), vec3(0, 1, 0)));
+	return box2(p.zy, window_size);
 }
 
 float window_zy(vec3 p, vec2 window_size) {
-	p = abs(p);
-	return max(plane(trans(p, window_size.x, 0, 0), vec3(1, 0, 0)), plane(trans(p, 0, window_size.y, 0), vec3(0, 1, 0)));
+	return box2(p.xy, window_size);
 }
 
 vec2 haus_mit_ecken(vec3 p, vec3 box_dim, float corner_width, int material) {
@@ -105,16 +102,16 @@ vec2 haus_mit_ecken(vec3 p, vec3 box_dim, float corner_width, int material) {
 	vec3 p2 = p;
 	p2.z = abs(p.z);
 	vec3 q = trans(p2, 0, 0, box_dim.x);
-	vec3 q2 = domrep(q, window_size.x * 2. + .1, window_size.y * 2. + .1, 1.);
-	q2.z = q.z;
+	vec3 q2 = domrep(q, window_size.x * 2. + .1, window_size.y * 2. + .1, 10.);
+	//q2.z = q.z; should not be necessary
 	float windows_z = window_zy(q2, window_size);
 	windows_z = max(windows_z, box(q, vec3(box_dim.x - corner_width, box_dim.y, .01)));
 
 	p2 = p;
 	p2.x = abs(p.x);
 	q = trans(p2, box_dim.z, 0, 0);
-	q2 = domrep(q, 1., window_size.y * 2. + .1, window_size.x * 2. + .1);
-	q2.x = q.x;
+	q2 = domrep(q, 10., window_size.y * 2. + .1, window_size.x * 2. + .1);
+	//q2.x = q.x; should not be necessary
 	float windows_x = window_xy(q2, window_size);
 	windows_x = max(windows_x, box(q, vec3(.1, box_dim.y, box_dim.z - corner_width)));
 
