@@ -53,6 +53,11 @@ void main(void){
 		light_color += vec3(phong(to_light, normal, to_view, 50.));
 		light_color *= color_light;
 		light_color *= ao(hit, normal, .15, 5);
+		if (material != MAT_UFO_COCKPIT) {
+			light_color *= softshadow(hit, light, 64.);
+		}
+
+		vec3 new_color = colors[material] * light_color;
 
 		if(material == MAT_BOUNDING) {
 			float brightness = smoothstep(star_amount, 1, smooth_noise(150. * direction));
@@ -60,11 +65,7 @@ void main(void){
 		} else if (material == MAT_UFO_LIGHTS) {
 			new_color = colors[MAT_UFO_LIGHTS];
 		}
-		else{
-			light_color *= softshadow(hit, light, 64.);
-		}
 
-		vec3 new_color = colors[material] * light_color;
 		final_color += new_color * reflection_factor * light_color_factor;
 
 		// only cockpit is reflective
