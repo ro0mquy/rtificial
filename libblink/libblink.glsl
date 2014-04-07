@@ -177,6 +177,12 @@ float sphere(vec3 p, float s) {
 }
 
 float box(vec3 p, vec3 b) {
+	p = abs(p) - b;
+	return max(p.x, max(p.y, p.z));
+}
+
+// more accurate than box(), but slower
+float slowbox(vec3 p, vec3 b) {
 	vec3 d = abs(p) - b;
 	return min(max(d.x, max(d.y, d.z)), 0.) + length(max(d, 0.));
 }
