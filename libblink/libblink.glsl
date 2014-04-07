@@ -181,6 +181,11 @@ float box(vec3 p, vec3 b) {
 	return max(p.x, max(p.y, p.z));
 }
 
+float box2(vec2 p, vec2 b) {
+	p = abs(p) - b;
+	return max(p.x, p.y);
+}
+
 // more accurate than box(), but slower
 float slowbox(vec3 p, vec3 b) {
 	vec3 d = abs(p) - b;
