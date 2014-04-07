@@ -19,11 +19,13 @@ uniform float star_amount;
 #define MAT_BOUNDING 0
 #define MAT_UFO_BODY 1
 #define MAT_UFO_COCKPIT 2
+#define MAT_UFO_LIGHTS 3
 
 vec3 colors[] = vec3[](
 	color_sky,
 	color_ufo_body,
-	color_ufo_cockpit
+	color_ufo_cockpit,
+	vec3(1) // color ufo lights
 );
 
 void main(void){
@@ -53,7 +55,10 @@ void main(void){
 		light_color *= ao(hit, normal, .15, 5);
 
 		if(material == MAT_BOUNDING) {
-			final_color += vec3(step(star_amount, smooth_noise(300. * direction)));
+			float brightness = smoothstep(star_amount, 1, smooth_noise(150. * direction));
+			new_color = mix(new_color, vec3(1), brightness);
+		} else if (material == MAT_UFO_LIGHTS) {
+			new_color = colors[MAT_UFO_LIGHTS];
 		}
 		else{
 			light_color *= softshadow(hit, light, 64.);
@@ -78,6 +83,8 @@ void main(void){
 }
 
 vec2 f(vec3 p){
+	vec2 bounding = vec2(-sphere(transv(p, view_position), 220.), MAT_BOUNDING);
+
 	float ufo_bottom = sphere(p, 15);
 	float ufo_top = sphere(trans(p, 0., 0.55*50., 0.), 15);
 	vec2 ufo_body = vec2(smax(ufo_top, ufo_bottom, 0.05), MAT_UFO_BODY);
@@ -85,6 +92,13 @@ vec2 f(vec3 p){
 	vec3 p2 = trans(p, 0., 50*.23, 0.);
 	vec2 ufo_cockpit = vec2(max(sphere(p2, 5), -ufo_bottom), MAT_UFO_COCKPIT);
 
-	vec2 bounding = vec2(-sphere(transv(p, view_position), 220.), MAT_BOUNDING);
-	return min_material(min_material(ufo_body, ufo_cockpit), bounding);
+	float r = length(p.xz);
+	float phi = atan(p.z, p.x);
+	float c = 6.;
+	phi = mod(phi, TAU /c) - TAU / c * .5;
+	vec3 q = vec3(r * cos(phi), p.y, r * sin(phi));
+	q = trans(q, 5., 14.1, 0.);
+	vec2 ufo_lights = vec2(sphere(q, .1), MAT_UFO_LIGHTS);
+
+	return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), ufo_lights);
 }
