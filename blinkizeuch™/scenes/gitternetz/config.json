@@ -1,0 +1,71 @@
+{
+    "tweakables": [
+        {
+            "name": "Foo Color1",
+            "uniform": "color_foo1",
+            "type": "color",
+            "default": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "name": "Foo Color2",
+            "uniform": "color_foo2",
+            "type": "color",
+            "default": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "name": "Foo1",
+            "uniform": "foo1",
+            "type": "float",
+            "default": 0.5,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+        {
+            "name": "Foo2",
+            "uniform": "foo2",
+            "type": "float",
+            "default": 0.5,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+        {
+            "name": "Light direction",
+            "uniform": "light_direction",
+            "type": "direction",
+            "default": [
+                -0.3339536190032959,
+                0.37907412648200989,
+                0.86300337314605713
+            ]
+        },
+        {
+            "name": "Color Gitter",
+            "uniform": "color_gitter",
+            "type": "color",
+            "default": [
+                0.019607843831181526,
+                1.0,
+                0.0
+            ],
+            "varparam": "colormode=hls"
+        },
+        {
+            "name": "Color Kugel",
+            "uniform": "color_kugel",
+            "type": "color",
+            "default": [
+                0.56470590829849243,
+                0.0,
+                0.0
+            ],
+            "varparam": "colormode=hls"
+        }
+    ],
+    "textures": []
+}
