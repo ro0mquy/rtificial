@@ -40,7 +40,7 @@ void main(void) {
 }
 
 float companion_cube_v1(vec3 p) {
-	float cube = box(p, vec3(2.));
+	float cube = slowbox(p, vec3(2.));
 	float spherey = sphere(p, 5.1);
 	float corners = smax(cube, -spherey, .01) - dot(abs(p), vec3(1.)) * .2;
 	float companion = smin(cube - 1.24, corners, 0.1);
@@ -48,15 +48,15 @@ float companion_cube_v1(vec3 p) {
 }
 
 vec2 companion_cube_v2(vec3 p) {
-	float corners = box(p, vec3(3.1)) - .01;
+	float corners = roundbox(p, vec3(3.1), .01);
 	corners = smax(corners, -sphere(p, 3.7), .05);
 	float grid = box(domrep(p, 6., 6., 6.), vec3(2.));
 	corners = smax(corners, grid, .01);
 	corners = smax(corners, -box(p, vec3(2.72)), .01);
-	corners = max(corners, dot(abs(p), vec3(1.)) - 8.3);
+	corners = smax(corners, dot(abs(p), vec3(1.)) - 8.3, .01);
 	vec2 corners2 = vec2(corners, 0.);
 
-	float cube = box(p, vec3(2.7)) - .01;
+	float cube = roundbox(p, vec3(2.7), .01);
 	cube = smax(cube, -sphere(p, 3.2), .05);
 	cube = max(cube, -box(p, vec3(2.68)));
 	float small_grid = box(domrep(p, 6., 6., 6.), vec3(2.9));

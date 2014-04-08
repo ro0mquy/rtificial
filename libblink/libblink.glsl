@@ -192,6 +192,11 @@ float slowbox(vec3 p, vec3 b) {
 	return min(max(d.x, max(d.y, d.z)), 0.) + length(max(d, 0.));
 }
 
+// box with rounded corners, r is radius of corners
+float roundbox(vec3 p, vec3 b, float r) {
+	return slowbox(p, b) - r;
+}
+
 float torus(vec3 p, vec2 t) {
 	vec2 q = vec2(length(p.xz) - t.x, p.y);
 	return length(q) - t.y;
