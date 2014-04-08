@@ -39,9 +39,9 @@
             "uniform": "light_position",
             "type": "direction",
             "default": [
-                -9.3999996185302734,
-                -2.9000000953674316,
-                1.7000000476837158
+                -4.5870819091796875,
+                1.8578100204467773,
+                -8.669891357421875
             ]
         },
         {
@@ -84,8 +84,15 @@
             "name": "Sigma Delle",
             "uniform": "sigma_delle",
             "type": "float",
-            "default": 1.6000000238418579,
+            "default": 1.7999999523162842,
             "varparam": "min=0 max=20 step=0.1"
+        },
+        {
+            "name": "Sigma Trichter",
+            "uniform": "sigma_trichter",
+            "type": "float",
+            "default": 30.0,
+            "varparam": "min=0 max=500 step=1"
         }
     ],
     "textures": []
