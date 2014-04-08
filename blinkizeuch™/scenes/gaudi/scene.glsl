@@ -92,17 +92,17 @@ float schwurbelsaeule(vec3 p) {
 
 	vec3 q1 = rY(p.y * .7 + time * 5.) * p1;
 	vec3 r1 = rY(-p.y * .7 - time * 3.) * p1;
-	float foo1 = box(q1, vec3(side_lenght, height, side_lenght)) - .5;
-	foo1 = smin(foo1, box(r1, vec3(side_lenght, height, side_lenght)) - .5, .1);
+	float f1 = roundbox(q1, vec3(side_lenght, height, side_lenght), .5);
+	f1 = smin(f1, roundbox(r1, vec3(side_lenght, height, side_lenght), .5), .1);
 
 	vec3 q2 = rY(p.y * .7 + time * 5.) * p2;
 	vec3 r2 = rY(-p.y * .7 - time * 3.) * p2;
-	float foo2 = box(q2, vec3(side_lenght, height, side_lenght)) - .5;
-	foo2 = smin(foo2, box(r2, vec3(side_lenght, height, side_lenght)) - .5, .1);
+	float f2 = roundbox(q2, vec3(side_lenght, height, side_lenght), .5);
+	f2 = smin(f2, roundbox(r2, vec3(side_lenght, height, side_lenght), .5), .1);
 
-	float foo = smin(foo1, foo2, 1.);
+	float f = smin(f1, f2, 1.);
 
-	return foo;
+	return f;
 }
 
 float abelian(vec3 p) {
@@ -119,7 +119,7 @@ float abelian(vec3 p) {
 	float maxtetra = smax(tetra0, -tetra1, .1);
 	float tetra = smax(mintetra, -maxtetra, .1);
 
-	float cube = box(p2, vec3(.33)) - .1;
+	float cube = roundbox(p2, vec3(.33), .1);
 
 	tetra = smax(-tetra, cube, .1);
 
