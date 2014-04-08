@@ -9,7 +9,7 @@ uniform vec3 color_foo1;
 uniform vec3 color_foo2;
 uniform float foo1;
 uniform float foo2;
-uniform vec3 light_direction;
+uniform vec3 light_position;
 uniform vec3 color_gitter;
 uniform vec3 color_kugel;
 uniform float radius_kugel;
@@ -35,14 +35,15 @@ void main(void) {
 	vec3 hit = march(view_position, dir, i);
 	if (i < 100) {
 		vec3 normal = calc_normal(hit);
+		vec3 to_light = light_position - hit;
 		float material = f(hit)[1];
-		//final_color += .95 * lambert(light_direction, normal) + .05;
-		final_color += .95 * oren_nayar(light_direction, normal, -dir, .5) + .05;
-		//final_color += .95 * cook_torrance(light_direction, normal, -dir, .5, 450) + .05;
-		final_color += vec3(phong(light_direction, normal, -dir, 50.));
+		//final_color += .95 * lambert(to_light, normal) + .05;
+		final_color += .95 * oren_nayar(to_light, normal, -dir, .5) + .05;
+		//final_color += .95 * cook_torrance(to_light, normal, -dir, .5, 450) + .05;
+		final_color += vec3(phong(to_light, normal, -dir, 50.));
 
 		final_color *= mat_colors[int(material)];
-		final_color *= .95 * softshadow(hit, 10 * light_direction, 32.) + .05;
+		final_color *= .95 * softshadow(hit, light_position, 32.) + .05;
 		// black fog
 		final_color *= mix(final_color, vec3(0), smoothstep(35, 45, length(hit)));
 	}
