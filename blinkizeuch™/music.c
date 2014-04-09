@@ -99,6 +99,15 @@ int music_get_time(music_t* const music) {
 	return position * 1000 / 44100;
 }
 
+void music_update_uniforms(music_t* const music, GLint uniform_envelopes, GLint uniform_notes) {
+	SDL_LockAudio();
+	int position = music->playback_position;
+	SDL_UnlockAudio();
+	int index = position * 32 / 256;
+	glUniform1fv(uniform_envelopes, 32, &music->envelope_data[index]);
+	glUniform1iv(uniform_notes, 32, &music->note_data[index]);
+}
+
 static void fill_audio(void* userdata, Uint8* stream, int len) {
 	music_t* const music = (music_t*) userdata;
 	int samples = len / 4; // samples are 2 bytes, 2 samples for stereo

@@ -5,6 +5,8 @@ uniform vec3 view_up;
 uniform vec3 view_direction;
 uniform vec2 res;
 uniform float time;
+uniform int notes[32];
+uniform float envelopes[32];
 
 layout(location = 0) out vec3 out_color;
 layout(location = 1) out float out_depth;
