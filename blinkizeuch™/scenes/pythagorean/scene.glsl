@@ -100,7 +100,7 @@ vec2 f(vec3 p) {
 	q.y = p.y;
 	float foo = 4. * rand(200. * floor(p.xz / c) - 123.);
 	float tree = pythagoraen(rY(foo * radians(90.)) * q);
-	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), 2);
+	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), 0);
 	return min_material(vec2(tree,1), min_material(vec2(f_floor(p), 2.), bounding));
 }
 
