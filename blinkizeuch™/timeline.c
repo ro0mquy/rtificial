@@ -46,7 +46,7 @@ const int scroll_factor = 700;
 const float zoom_min = 10.;
 const float zoom_max = .04;
 
-timeline_t* timeline_new() {
+timeline_t* timeline_new(music_t* const music) {
 	const GLuint vertex_shader = shader_load_strings(1, "timeline_vertex", (const GLchar* []) { timeline_vertex_source }, GL_VERTEX_SHADER);
 	const GLuint fragment_shader = shader_load_strings(1, "timeline_fragment", (const GLchar* []) { timeline_fragment_source }, GL_FRAGMENT_SHADER);
 	const GLuint program = shader_link_program(vertex_shader, fragment_shader);
@@ -112,6 +112,7 @@ timeline_t* timeline_new() {
 		.is_playing = false,
 		.camera_changed = false,
 		.camera_should_change = false,
+		.music = music,
 	};
 	return timeline;
 }
@@ -332,6 +333,7 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 				return true;
 			case SDL_BUTTON_LEFT:
 				timeline->cursor_position = mouse_pos;
+				music_set_time(timeline->music, timeline->cursor_position);
 				if (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) {
 					// only change camera when ctrl was pressed
 					timeline->camera_changed = true;
@@ -348,9 +350,11 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 				// check for pressed ctrl-key, camera shouldn't change when ctrl was pressed
 				Uint8* keystate = SDL_GetKeyState(NULL);
 				timeline->camera_should_change = !(keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]);
+				music_play(timeline->is_playing);
 				return true;
 			case SDLK_BACKSPACE:
 				timeline->cursor_position = 0;
+				music_set_time(timeline->music, 0);
 				return true;
 			case SDLK_r:
 				// remove nearest keyframe
@@ -404,7 +408,8 @@ void timeline_remove_frame(timeline_t* const timeline) {
 
 void timeline_update(timeline_t* timeline, int dtime) {
 	if(timeline->is_playing) {
-		timeline->cursor_position += dtime;
+		//timeline->cursor_position += dtime;
+		timeline->cursor_position = music_get_time(timeline->music);
 		if (timeline->camera_should_change) {
 			timeline->camera_changed = true;
 		}
