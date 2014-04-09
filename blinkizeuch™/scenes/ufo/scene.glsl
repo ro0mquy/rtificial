@@ -15,7 +15,7 @@ uniform vec3 color_sky;
 uniform vec3 color_ufo_body;
 uniform vec3 color_ufo_cockpit;
 uniform float star_amount;
-uniform float cockpit_close;
+//uniform float cockpit_close;
 
 #define MAT_BOUNDING 0
 #define MAT_UFO_BODY 1
@@ -96,12 +96,21 @@ vec2 f(vec3 p){
 	float ufo_ball_hole = max(smax(ufo_top, ufo_bottom, 0.05), -sphere(trans(cockpit_p, 0., 6.5, 0.), 5.35));
 	vec2 ufo_body = vec2(ufo_ball_hole, MAT_UFO_BODY);
 
+	float cock_anim_start = 6.5;
+	float cock_anim_duration = 2.5;
+	float cock_anim_time = (clamp(time, cock_anim_start, cock_anim_start + cock_anim_duration) -cock_anim_start)/(cock_anim_duration);
+	float cockpit_close = 5-5*cock_anim_time;
 	vec3 cut_p = trans(cockpit_p, 0., 5*0.59, 0.);
 	float cut_planes = min(plane(cut_p, normalize(vec3(0., cockpit_close, -1.))), plane(cut_p, normalize(vec3(0., cockpit_close, 1.))));
 	float empty_cockpit = max(max(sphere(cockpit_p, 5), -sphere(p, 15)), -sphere(cockpit_p, 4.9));
 	vec2 ufo_cockpit = vec2(max(empty_cockpit, cut_planes), MAT_UFO_COCKPIT);
 
-	vec2 ball = vec2(max(sphere(trans(p, 0., 2.9 + 50*.23, 0.), 1.75), -ufo_ball_hole), MAT_BALL);
+	float ball_anim_start = 1.;
+	float ball_anim_duration = 5.;
+	float ball_anim_time = (clamp(time, ball_anim_start, ball_anim_start + ball_anim_duration) -ball_anim_start)/(ball_anim_duration);
+	float ball_gravity = 500;
+	float ball_height = 0.5*ball_gravity /* start height */ +  -0.5 * ball_gravity * ball_anim_time*ball_anim_time /* 1/2 a t^2 */ + 14.4 /* end height */;
+	vec2 ball = vec2(max(sphere(trans(p, 0., ball_height,  0.), 1.75), -ufo_ball_hole), MAT_BALL);
 
 	float r = length(p.xz);
 	float phi = atan(p.z, p.x);
