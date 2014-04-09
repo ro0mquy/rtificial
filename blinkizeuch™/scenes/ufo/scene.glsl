@@ -22,13 +22,15 @@ uniform float star_amount;
 #define MAT_UFO_COCKPIT 2
 #define MAT_UFO_LIGHTS 3
 #define MAT_BALL 4
+#define mat_planet 5
 
 vec3 colors[] = vec3[](
 	color_sky,
 	color_ufo_body,
 	color_ufo_cockpit,
 	vec3(1), // color ufo lights
-	vec3(0.56,0.,0.)
+	vec3(0.56,0.,0.),
+	vec3(0.8,0.7,.3)
 );
 
 void main(void){
@@ -53,7 +55,9 @@ void main(void){
 		vec3 to_view = view_position - hit;
 
 		vec3 light_color = vec3(lambert(to_light, normal));
-		light_color += vec3(phong(to_light, normal, to_view, 50.));
+		if(material != mat_planet){
+			light_color += vec3(phong(to_light, normal, to_view, 50.));
+		}
 		light_color *= color_light;
 		light_color *= ao(hit, normal, .15, 5);
 		if (material != MAT_BOUNDING) {
@@ -67,6 +71,11 @@ void main(void){
 			new_color = mix(new_color, vec3(1), brightness);
 		} else if (material == MAT_UFO_LIGHTS) {
 			new_color = colors[MAT_UFO_LIGHTS];
+		}
+
+		if(material == mat_planet){
+			float random = smooth_noise(10 * hit.yyy);
+			new_color = new_color * (1-vec3(random));
 		}
 
 		final_color += new_color * reflection_factor * light_color_factor;
@@ -84,6 +93,15 @@ void main(void){
 
 	out_color = final_color;
 	out_depth = distance(view_position, hit);
+}
+
+float length_n_vec2(vec2 p, float n) {
+	return pow(dot(pow(abs(p), vec2(n)), vec2(1)), 1./n);
+}
+
+float torus82(vec3 p, vec2 t){
+	vec2 q = vec2(length_n_vec2(p.xz, 2)-t.x, p.y);
+	return length_n_vec2(q, 8)-t.y;
 }
 
 vec2 f(vec3 p){
@@ -120,5 +138,13 @@ vec2 f(vec3 p){
 	q = trans(q, 5., 14.1, 0.);
 	vec2 ufo_lights = vec2(sphere(q, .1), MAT_UFO_LIGHTS);
 
-	return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, ball));
+	vec3 p_planet = trans(p, 100,10,100);
+	float planet = sphere(p_planet, 13);
+	vec3 p_ring = rX(1/4*TAU) * p_planet;
+	float ring = max(torus(p_ring, vec2(20, 1.4)), -min(plane(trans(p_ring, 0., -0.05, 0), vec3(0,1,0)), plane(trans(p_ring, 0.,0.05,0.), vec3(0,-1,0)) ));
+	float ring2 = max(torus(p_ring, vec2(23.5, 1.2)), -min(plane(trans(p_ring, 0., -0.05, 0), vec3(0,1,0)), plane(trans(p_ring, 0.,0.05,0.), vec3(0,-1,0)) ));
+	vec2 the_planet = vec2(min(min(ring2, ring), planet), mat_planet);
+
+
+	return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, min_material(ball, the_planet)));
 }
