@@ -16,35 +16,37 @@ void main(void){
 	vec3 final_color = vec3(0);
 	int i;
 	vec3 hit = march(view_position, dir, i);
-	if(i < 100){
-		int material = int(f(hit)[1]);
-		vec3 light = vec3(0, 10, 0);
-		vec3 normal;
-		vec3 color = vec3(0.);
-		vec3 to_light = light - hit;
-		float m;
-		if(material == 1) {
-			normal =  calc_normal(hit);
-			color = vec3(.9);
-			final_color += .1;
-			m = 0.;
-		} else if(material == 2) {
-			normal = calc_normal_floor(hit);
-			color = vec3(1.);
-			m = .42;
-		}
-		final_color += color * oren_nayar(to_light, normal, -dir, m);
-		final_color *= ao(hit, normal, .2, 10.);
-		final_color *= 1. - smoothstep(0., 200., distance(view_position, hit));
+	int material = int(f(hit)[1]);
+	vec3 light = vec3(0, 10, 0);
+	vec3 normal;
+	vec3 color = vec3(0.);
+	vec3 to_light = light - hit;
+	float m;
+	if(material == 1) {
+		normal =  calc_normal(hit);
+		color = vec3(.9);
+		final_color += .1;
+		m = 0.;
+	} else if(material == 2) {
+		normal = calc_normal_floor(hit);
+		color = vec3(1.);
+		m = .42;
 	}
-	out_color = pow(final_color, vec3(1./2.2));
+	if(material != 0) {
+		final_color += color * oren_nayar(to_light, normal, -dir, m);
+		final_color *= ao(hit, normal, .3, 5.);
+	}
+	final_color *= 1. - smoothstep(0., 200., distance(view_position, hit));
+	out_color = final_color;
 }
 
 float cube(vec3 p, float r) {
 	// seems to be faster than
 	// return box(p, vec3(1.));
+	float s = sphere(p, r);
 	p = abs(p);
-	return max(p.x, max(p.y, p.z)) - r;
+	float f = max(p.x, max(p.y, p.z)) - r;
+	return mix(s, f, 1. + .4 * smoothstep(5., 15., time));
 }
 
 float pythagoraen(vec3 p) {
