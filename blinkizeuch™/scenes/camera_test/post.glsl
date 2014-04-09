@@ -1,7 +1,7 @@
 #version 330
 
 in vec2 texcoord;
-out vec3 out_color;
+out vec4 out_color;
 
 uniform sampler2D tex;
 uniform sampler2D tex_depth;
@@ -26,6 +26,12 @@ float kernel[9] = float[](
 	-1., 5., -1.,
 	0., -1., 0.
 );
+
+void set_color(vec3 color) {
+	color = pow(color, vec3(1 / 2.2));
+	out_color.rgb = color;
+	out_color.a = dot(color, vec3(.2126, .7152, .0722));
+}
 
 float rgb2luma(vec3 rgb) {
 	return dot(rgb, vec3(.2126, .7152, .0722)); // magic luminance formular
@@ -124,5 +130,5 @@ void main() {
 
 	//color = fxaa(.75, .25, .0625);
 
-	out_color = color;
+	set_color(color);
 }
