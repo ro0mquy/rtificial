@@ -346,12 +346,12 @@ static int init(void) {
 
 	load_shader();
 
-	timeline = timeline_new();
+	init_music();
+	timeline = timeline_new(&music);
 
 	timeline_load(timeline, timeline_path);
 	camera = timeline_get_camera(timeline);
 
-	init_music();
 
 	currentTime = SDL_GetTicks();
 
@@ -513,6 +513,7 @@ static void free_resources(void) {
 		scene_destroy(scene);
 		free(scene);
 	}
+	music_close_audio();
 	music_destroy(&music);
 	timeline_destroy(timeline);
 	free(timeline);
@@ -660,4 +661,5 @@ static void TW_CALL cb_get_rotation(void* value, void* clientData) {
 
 static void init_music(void) {
 	music_load(&music);
+	music_open_audio(&music);
 }

@@ -9,6 +9,7 @@
 
 #include "camera.h"
 #include "font.h"
+#include "music.h"
 
 struct keyframe_list_t;
 
@@ -26,6 +27,7 @@ typedef struct {
 	bool is_playing;
 	bool camera_changed;
 	bool camera_should_change;
+	music_t* music;
 } timeline_t;
 
 typedef struct {
@@ -33,7 +35,7 @@ typedef struct {
 	camera_t camera;
 } keyframe_t;
 
-timeline_t* timeline_new(void);
+timeline_t* timeline_new(music_t* music);
 
 void timeline_draw(timeline_t* timeline);
 
