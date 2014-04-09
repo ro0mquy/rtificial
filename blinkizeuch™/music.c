@@ -96,7 +96,7 @@ int music_get_time(music_t* const music) {
 	SDL_LockAudio();
 	int position = music->playback_position;
 	SDL_UnlockAudio();
-	return position * 1000 / 44100;
+	return (int64_t) position * 1000 / 44100;
 }
 
 void music_update_uniforms(music_t* const music, GLint uniform_envelopes, GLint uniform_notes) {
