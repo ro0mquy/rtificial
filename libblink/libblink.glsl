@@ -408,7 +408,7 @@ float cook_torrance_norm(vec3 to_light, vec3 normal, vec3 to_view, float m2, flo
 float cook_torrance(vec3 to_light, vec3 normal, vec3 to_view, float m, float n) {
 	float R0 = (1. - n) / (1. + n);
 	R0 *= R0;
-	return cook_torrance_norm(normalize(to_light), normalize(normal), normalize(to_view), m * m, R0);
+	return max(0, cook_torrance_norm(normalize(to_light), normalize(normal), normalize(to_view), m * m, R0));
 }
 
 #line 1
