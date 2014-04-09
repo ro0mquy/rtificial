@@ -9,6 +9,12 @@ uniform sampler2D tex_depth;
 uniform mat4 previous_world_to_camera_matrix;
 uniform mat4 inverse_world_to_camera_matrix;
 
+void set_color(vec3 color) {
+	color = pow(color, vec3(1 / 2.2));
+	out_color.rgb = color;
+	out_color.a = dot(color, vec3(.2126, .7152, .0722));
+}
+
 vec3 motionBlur() {
 	vec2 coord = vec2(texcoord.x * 2 - 1, (1 - texcoord.y) * 2 - 1);
 	float depth = texture(tex_depth, texcoord);
@@ -57,5 +63,5 @@ void main() {
 		//color = godRays();
 //	}
 
-	out_color = color;
+	set_color(color);
 }
