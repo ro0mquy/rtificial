@@ -29,7 +29,7 @@ OBJECTS=\
 HEADER=\
 	config.h\
 	camera.h\
-	vertex.h\
+	shader_sources.h\
 	flight.h\
 	font.h\
 	scene.h\

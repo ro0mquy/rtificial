@@ -21,7 +21,7 @@
 #include "config.h"
 #include "camera.h"
 #include "font.h"
-#include "vertex.h"
+#include "shader_sources.h"
 #include "scene.h"
 #include "timeline.h"
 #include "window.h"
@@ -46,18 +46,23 @@ static void TW_CALL cb_set_rotation(const void* value, void* clientData);
 static void TW_CALL cb_get_rotation(void* value, void* clientData);
 static void init_music(void);
 
-GLuint program = 0, vbo_rectangle;
-GLuint post_framebuffer;
+GLuint program = 0;
+GLuint vbo_rectangle;
 GLuint vertex_shader;
+GLuint post_framebuffer;
 GLuint post_program = 0;
 GLuint post_vertex_shader;
 GLuint post_tex_buffer;
 GLuint post_depth_buffer;
+GLuint fxaa_framebuffer;
+GLuint fxaa_program = 0;
+GLuint fxaa_tex_buffer;
 GLint attribute_coord2d, uniform_time;
 GLint uniform_view_position, uniform_view_direction, uniform_view_up;
 GLint uniform_res = -1;
 GLint uniform_inv_world_camera_matrix, uniform_prev_world_camera_matrix;
 GLint post_attribute_coord2d;
+GLint fxaa_attribute_coord2d;
 
 int previousTime = 0;
 int currentTime = 0;
@@ -298,22 +303,43 @@ static int init(void) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
+	// anti-aliasing buffer
+	glGenTextures(1, &fxaa_tex_buffer);
+	glBindTexture(GL_TEXTURE_2D, fxaa_tex_buffer);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
 	// make both textures as big as the window
 	post_resize_buffer();
 
+	// postprocessing framebuffer
 	glGenFramebuffers(1, &post_framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, post_framebuffer);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, post_tex_buffer, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, post_depth_buffer, 0);
-
 	// specify the attachments to be drawn to
 	glDrawBuffers(2, (GLenum[]) { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 });
 
-	/// zomg error checking!1!elf1
+	// zomg error checking!1!elf1
 	GLenum status;
 	if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
-		fprintf(stderr, "Framebuffer not complete: error %X\n", status);
+		fprintf(stderr, "Postprocessing framebuffer not complete: error %X\n", status);
 	}
+
+	// anti-aliasing framebuffer
+	glGenFramebuffers(1, &fxaa_framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fxaa_tex_buffer, 0);
+	// specify the attachments to be drawn to
+	glDrawBuffers(1, (GLenum[]) { GL_COLOR_ATTACHMENT0 });
+
+	// zomg error checking!1!elf1
+	if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
+		fprintf(stderr, "FXAA framebuffer not complete: error %X\n", status);
+	}
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	scene = scene_load(scene_path, config_path);
@@ -384,6 +410,23 @@ static void load_shader(void) {
 	GLuint post_uniform_depth = shader_get_uniform(post_program, "tex_depth");
 	glUniform1i(post_uniform_tex, /*GL_TEXTURE*/0);
 	glUniform1i(post_uniform_depth, /*GL_TEXTURE*/1);
+
+	// compile anti-aliasing program
+	GLuint fxaa_fragment_shader = shader_load_strings(1, "fxaa", (const GLchar* []) { fxaa_fragment_source }, GL_FRAGMENT_SHADER);
+	if (fxaa_program != 0) glDeleteProgram(fxaa_program);
+	fxaa_program = shader_link_program(post_vertex_shader, fxaa_fragment_shader);
+	glDeleteShader(fxaa_fragment_shader);
+
+	const char fxaa_attribute_coord2d_name[] = "coord2d";
+	fxaa_attribute_coord2d = glGetAttribLocation(fxaa_program, fxaa_attribute_coord2d_name);
+	if(fxaa_attribute_coord2d == -1) {
+		fprintf(stderr, "Could not bind attribute %s for anti-aliasing\n", fxaa_attribute_coord2d_name);
+		return;
+	}
+
+	glUseProgram(fxaa_program);
+	GLuint fxaa_uniform_tex = shader_get_uniform(fxaa_program, "tex");
+	glUniform1i(fxaa_uniform_tex, /*GL_TEXTURE*/0);
 }
 
 
@@ -420,8 +463,9 @@ static void draw(void) {
 	);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(attribute_coord2d);
-	// switch back to normal screen
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// switch to anti-aliasing buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
 
 	// apply postprocessing
 	glUseProgram(post_program);
@@ -441,6 +485,17 @@ static void draw(void) {
 	// we reuse the vbo from the last draw
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(post_attribute_coord2d);
+
+	// switch back to normal screen
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// apply anti-aliasing
+	glUseProgram(fxaa_program);
+	glEnableVertexAttribArray(fxaa_attribute_coord2d);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, fxaa_tex_buffer);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDisableVertexAttribArray(fxaa_attribute_coord2d);
 
 	// block until the main program is drawn
 	glFinish();
@@ -473,6 +528,9 @@ static void free_resources(void) {
 	glDeleteTextures(1, &post_depth_buffer);
 	glDeleteFramebuffers(1, &post_framebuffer);
 	glDeleteProgram(post_program);
+	glDeleteTextures(1, &fxaa_tex_buffer);
+	glDeleteFramebuffers(1, &fxaa_framebuffer);
+	glDeleteProgram(fxaa_program);
 }
 
 static void print_sdl_error(const char message[]) {
@@ -491,6 +549,12 @@ static void post_resize_buffer(void) {
 			window_get_width(),
 			window_get_height(),
 			0, GL_RED, GL_FLOAT, NULL);
+
+	glBindTexture(GL_TEXTURE_2D, fxaa_tex_buffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+			window_get_width(),
+			window_get_height(),
+			0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
