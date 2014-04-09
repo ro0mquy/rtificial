@@ -5,9 +5,9 @@
             "uniform": "color_foo1",
             "type": "color",
             "default": [
-				1.0,
-				1.0,
-				1.0
+                1.0,
+                1.0,
+                1.0
             ]
         },
         {
@@ -15,8 +15,8 @@
             "uniform": "color_foo2",
             "type": "color",
             "default": [
-				1.0,
-				1.0,
+                1.0,
+                1.0,
                 1.0
             ]
         },
@@ -39,9 +39,9 @@
             "uniform": "color_light",
             "type": "color",
             "default": [
-				1.0,
-				1.0,
-				1.0
+                1.0,
+                1.0,
+                1.0
             ],
             "varparam": "colormode=hls"
         },
@@ -50,9 +50,9 @@
             "uniform": "color_ufo_body",
             "type": "color",
             "default": [
-                0.070588238537311554,
-                0.086274512112140656,
-                0.15686275064945221
+                0.039215687662363052,
+                0.058823533356189728,
+                0.078431375324726105
             ]
         },
         {
@@ -70,16 +70,16 @@
             "uniform": "color_sky",
             "type": "color",
             "default": [
-				0.0,
-				0.01,
-				0.04
+                0.0,
+                0.0039215688593685627,
+                0.011764707043766975
             ]
         },
         {
             "name": "Amount of Stars",
             "uniform": "star_amount",
             "type": "float",
-            "default": 0.97,
+            "default": 0.97000002861022949,
             "varparam": "min=0.8 max=1 step=0.001"
         },
         {
