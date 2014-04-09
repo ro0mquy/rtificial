@@ -20,19 +20,24 @@ void main(void){
 		int material = int(f(hit)[1]);
 		vec3 light = vec3(0, 10, 0);
 		vec3 normal;
+		vec3 color = vec3(0.);
+		vec3 to_light = light - hit;
+		float m;
 		if(material == 1) {
 			normal =  calc_normal(hit);
-			vec3 to_light = light - hit;
-			final_color = .9 * vec3(oren_nayar(to_light, normal, -dir, foo2));
+			color = vec3(.9);
 			final_color += .1;
+			m = 0.;
 		} else if(material == 2) {
 			normal = calc_normal_floor(hit);
-			final_color = vec3(1.);
+			color = vec3(1.);
+			m = .42;
 		}
+		final_color += color * oren_nayar(to_light, normal, -dir, m);
 		final_color *= ao(hit, normal, .2, 10.);
 		final_color *= 1. - smoothstep(0., 200., distance(view_position, hit));
 	}
-	out_color = final_color;
+	out_color = pow(final_color, vec3(1./2.2));
 }
 
 float cube(vec3 p, float r) {
@@ -98,5 +103,5 @@ vec2 f(vec3 p) {
 }
 
 vec2 g(vec3 p) {
-	return vec2(f_floor(p) + fbm(p.xz * 5.) * .15, 2.);
+	return vec2(f_floor(p) + fbm(p.xz * .7) * .03, 2.);
 }
