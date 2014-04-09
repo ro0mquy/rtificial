@@ -54,6 +54,9 @@ GLuint post_program = 0;
 GLuint post_vertex_shader;
 GLuint post_tex_buffer;
 GLuint post_depth_buffer;
+GLuint bloom_framebuffers[3];
+GLuint bloom_programs[3] = { 0, 0, 0 };
+GLuint bloom_tex_buffers[3];
 GLuint fxaa_framebuffer;
 GLuint fxaa_program = 0;
 GLuint fxaa_tex_buffer;
@@ -63,6 +66,7 @@ GLint uniform_res = -1;
 GLint uniform_inv_world_camera_matrix, uniform_prev_world_camera_matrix;
 GLint uniform_envelopes, uniform_notes;
 GLint post_attribute_coord2d;
+GLint bloom_attribute_coord2ds[3];
 GLint fxaa_attribute_coord2d;
 
 int previousTime = 0;
@@ -73,6 +77,8 @@ mat4x4 previous_world_to_camera_matrix;
 
 float angle_modifier = 1.; // ~ 50. / 360. * TAU
 float movement_modifier = 5.;
+
+bool bloom_enabled = false;
 
 bool run;
 
@@ -194,6 +200,7 @@ int main(int argc, char *argv[]) {
 	TwAddVarCB(tweakBar, "Camera rotation", TW_TYPE_QUAT4F, cb_set_rotation, cb_get_rotation, NULL, "");
 	TwAddVarRW(tweakBar, "Movement Speed", TW_TYPE_FLOAT, &movement_modifier, "min=0.0");
 	TwAddVarRW(tweakBar, "Angular Speed", TW_TYPE_FLOAT, &angle_modifier, "min=0.0 step=0.2");
+	TwAddVarRW(tweakBar, "Bloom", TW_TYPE_BOOL8, &bloom_enabled, "");
 
 	if(scene != NULL) scene_add_to_tweakbar(scene, tweakBar);
 
@@ -304,6 +311,18 @@ static int init(void) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
+	// bloom buffers
+	// one for the as a render target
+	// two smaller for bluring
+	glGenTextures(3, bloom_tex_buffers);
+	for (size_t i = 0; i < 3; i++) {
+		glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[i]);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	}
+
 	// anti-aliasing buffer
 	glGenTextures(1, &fxaa_tex_buffer);
 	glBindTexture(GL_TEXTURE_2D, fxaa_tex_buffer);
@@ -329,6 +348,16 @@ static int init(void) {
 		fprintf(stderr, "Postprocessing framebuffer not complete: error %X\n", status);
 	}
 
+	// bloom framebuffers
+	glGenFramebuffers(3, bloom_framebuffers);
+	for (size_t i = 0; i < 3; i++) {
+		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[i]);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloom_tex_buffers[i], 0);
+		if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
+			fprintf(stderr, "Bloom framebuffer #%zu not complete: error %X\n", i, status);
+		}
+	}
+
 	// anti-aliasing framebuffer
 	glGenFramebuffers(1, &fxaa_framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
@@ -336,7 +365,6 @@ static int init(void) {
 	// specify the attachments to be drawn to
 	glDrawBuffers(1, (GLenum[]) { GL_COLOR_ATTACHMENT0 });
 
-	// zomg error checking!1!elf1
 	if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
 		fprintf(stderr, "FXAA framebuffer not complete: error %X\n", status);
 	}
@@ -352,7 +380,6 @@ static int init(void) {
 
 	timeline_load(timeline, timeline_path);
 	camera = timeline_get_camera(timeline);
-
 
 	currentTime = SDL_GetTicks();
 
@@ -414,6 +441,32 @@ static void load_shader(void) {
 	glUniform1i(post_uniform_tex, /*GL_TEXTURE*/0);
 	glUniform1i(post_uniform_depth, /*GL_TEXTURE*/1);
 
+	// compile bloom programs
+	for (size_t i = 0; i < 3; i++) {
+		char bloom_shader_name[7];
+		snprintf(bloom_shader_name, 7, "bloom%zu", i);
+		GLuint bloom_fragment_shader = shader_load_strings(1, bloom_shader_name, (const GLchar* []) { bloom_fragment_sources[i] }, GL_FRAGMENT_SHADER);
+		if (bloom_programs[i] != 0) glDeleteProgram(bloom_programs[i]);
+		bloom_programs[i] = shader_link_program(post_vertex_shader, bloom_fragment_shader);
+		glDeleteShader(bloom_fragment_shader);
+
+		const char bloom_attribute_coord2d_name[] = "coord2d";
+		bloom_attribute_coord2ds[i] = glGetAttribLocation(bloom_programs[i], bloom_attribute_coord2d_name);
+		if(bloom_attribute_coord2ds[i] == -1) {
+			fprintf(stderr, "Could not bind attribute %s for bloom%zu\n", bloom_attribute_coord2d_name, i);
+			return;
+		}
+
+		glUseProgram(bloom_programs[i]);
+		GLuint bloom_uniform_tex = shader_get_uniform(bloom_programs[i], "tex");
+		glUniform1i(bloom_uniform_tex, /*GL_TEXTURE*/0);
+		if (i == 2) {
+			// last shader takes original and blured image as input
+			GLuint bloom_uniform_blurtex = shader_get_uniform(bloom_programs[i], "blurtex");
+			glUniform1i(bloom_uniform_blurtex, /*GL_TEXTURE*/1);
+		}
+	}
+
 	// compile anti-aliasing program
 	GLuint fxaa_fragment_shader = shader_load_strings(1, "fxaa", (const GLchar* []) { fxaa_fragment_source }, GL_FRAGMENT_SHADER);
 	if (fxaa_program != 0) glDeleteProgram(fxaa_program);
@@ -468,8 +521,13 @@ static void draw(void) {
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(attribute_coord2d);
 
-	// switch to anti-aliasing buffer
-	glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
+	if (bloom_enabled) {
+		// switch to bloom buffer
+		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[0]);
+	} else {
+		// switch to anti-aliasing buffer
+		glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
+	}
 
 	// apply postprocessing
 	glUseProgram(post_program);
@@ -489,6 +547,45 @@ static void draw(void) {
 	// we reuse the vbo from the last draw
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(post_attribute_coord2d);
+
+	if (bloom_enabled) {
+		// filter brights and scale down
+		glViewport(0, 0, window_get_width() * .25, window_get_height() * .25);
+		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[1]);
+		glUseProgram(bloom_programs[0]);
+		glEnableVertexAttribArray(bloom_attribute_coord2ds[0]);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[0]);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glDisableVertexAttribArray(bloom_attribute_coord2ds[0]);
+
+		// apply first (vertical) blur to scaled down image
+		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[2]);
+		glUseProgram(bloom_programs[1]);
+		glEnableVertexAttribArray(bloom_attribute_coord2ds[1]);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[1]);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+		// apply second (horizontal) blur
+		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[1]);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[2]);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glDisableVertexAttribArray(bloom_attribute_coord2ds[1]);
+
+		// combine blured and original image
+		glViewport(0, 0, window_get_width(), window_get_height());
+		glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
+		glUseProgram(bloom_programs[2]);
+		glEnableVertexAttribArray(bloom_attribute_coord2ds[2]);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[0]);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[1]);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glDisableVertexAttribArray(bloom_attribute_coord2ds[2]);
+	}
 
 	// switch back to normal screen
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -533,6 +630,11 @@ static void free_resources(void) {
 	glDeleteTextures(1, &post_depth_buffer);
 	glDeleteFramebuffers(1, &post_framebuffer);
 	glDeleteProgram(post_program);
+	glDeleteTextures(3, bloom_tex_buffers);
+	glDeleteFramebuffers(3, bloom_framebuffers);
+	glDeleteProgram(bloom_programs[0]);
+	glDeleteProgram(bloom_programs[1]);
+	glDeleteProgram(bloom_programs[2]);
 	glDeleteTextures(1, &fxaa_tex_buffer);
 	glDeleteFramebuffers(1, &fxaa_framebuffer);
 	glDeleteProgram(fxaa_program);
@@ -543,6 +645,7 @@ static void print_sdl_error(const char message[]) {
 }
 
 static void post_resize_buffer(void) {
+	// postprocessing
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
 			window_get_width(),
@@ -555,6 +658,27 @@ static void post_resize_buffer(void) {
 			window_get_height(),
 			0, GL_RED, GL_FLOAT, NULL);
 
+	// bloom
+	glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[0]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
+			window_get_width(),
+			window_get_height(),
+			0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+
+	float shrink = .25;
+	glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[1]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
+			window_get_width() * shrink,
+			window_get_height() * shrink,
+			0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+
+	glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[2]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
+			window_get_width() * shrink,
+			window_get_height() * shrink,
+			0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+
+	// fxaa
 	glBindTexture(GL_TEXTURE_2D, fxaa_tex_buffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16,
 			window_get_width(),

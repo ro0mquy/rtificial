@@ -33,6 +33,57 @@ void main() {\
 }\
 ";
 
+// only pass bright pixels and scale image down
+static const char bloom_fragment_source0[] = "\
+#version 330\n\
+\
+in vec2 texcoord;\
+out vec3 out_color;\
+\
+uniform sampler2D tex;\
+\
+void main() {\
+	out_color = texture(tex, texcoord).rgb;\
+	float luma = dot(out_color, vec3(.2126, .7152, .0722));\
+	float treshold = .0;\
+	if (luma < treshold) {\
+		out_color = vec3(0);\
+	}\
+}\
+";
+
+static const char bloom_fragment_source1[] = "\
+#version 330\n\
+\
+in vec2 texcoord;\
+out vec3 out_color;\
+\
+uniform sampler2D tex;\
+\
+void main() {\
+	out_color = texture(tex, texcoord).rgb;\
+}\
+";
+
+static const char bloom_fragment_source2[] = "\
+#version 330\n\
+\
+in vec2 texcoord;\
+out vec3 out_color;\
+\
+uniform sampler2D tex;\
+uniform sampler2D blurtex;\
+\
+void main() {\
+	out_color = texture(blurtex, texcoord).rgb;\
+}\
+";
+static const char* bloom_fragment_sources[3] = {
+	bloom_fragment_source0,
+	bloom_fragment_source1,
+	bloom_fragment_source2,
+};
+
 static const char fxaa_fragment_source[] = "\
 #version 330\n\
 \n\
