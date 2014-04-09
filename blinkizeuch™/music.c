@@ -104,8 +104,14 @@ void music_update_uniforms(music_t* const music, GLint uniform_envelopes, GLint 
 	int position = music->playback_position;
 	SDL_UnlockAudio();
 	int index = position * 32 / 256;
-	glUniform1fv(uniform_envelopes, 32, &music->envelope_data[index]);
-	glUniform1iv(uniform_notes, 32, &music->note_data[index]);
+	GLfloat envelopes[16];
+	GLint notes[16];
+	for(int i = 0; i < 16; i++) {
+		envelopes[i] = music->envelope_data[index + 2 * i];
+		notes[i] = music->note_data[index + 2 * i];
+	}
+	glUniform1fv(uniform_envelopes, 16, envelopes);
+	glUniform1iv(uniform_notes, 16, notes);
 }
 
 static void fill_audio(void* userdata, Uint8* stream, int len) {
