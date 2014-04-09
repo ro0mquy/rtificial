@@ -1,7 +1,7 @@
 #version 330
 
 in vec2 texcoord;
-out vec3 out_color;
+out vec4 out_color;
 
 uniform sampler2D tex;
 uniform sampler2D tex_depth;
