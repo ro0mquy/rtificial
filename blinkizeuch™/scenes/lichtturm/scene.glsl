@@ -58,7 +58,7 @@ void main(void) {
 
 		final_color += color_foo1 * alpha;
 	}
-	out_color = pow(final_color, vec3(1/2.2));
+	out_color = final_color;
 }
 
 vec2 f(vec3 p) {

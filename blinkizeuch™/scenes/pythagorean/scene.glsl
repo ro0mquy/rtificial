@@ -28,7 +28,7 @@ void main(void){
 		final_color *= ao(hit, normal, .2, 10.);
 		final_color *= 1. - smoothstep(0., 200., distance(view_position, hit));
 	}
-	out_color = pow(final_color, vec3(1./2.2));
+	out_color = final_color;
 }
 
 float cube(vec3 p, float r) {

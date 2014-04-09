@@ -292,24 +292,24 @@ static int init(void) {
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
 	// depth buffer
 	glGenTextures(1, &post_depth_buffer);
 	glBindTexture(GL_TEXTURE_2D, post_depth_buffer);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
 	// anti-aliasing buffer
 	glGenTextures(1, &fxaa_tex_buffer);
 	glBindTexture(GL_TEXTURE_2D, fxaa_tex_buffer);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
 	// make both textures as big as the window
 	post_resize_buffer();
@@ -492,7 +492,7 @@ static void draw(void) {
 	// apply anti-aliasing
 	glUseProgram(fxaa_program);
 	glEnableVertexAttribArray(fxaa_attribute_coord2d);
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, fxaa_tex_buffer);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(fxaa_attribute_coord2d);
@@ -539,10 +539,10 @@ static void print_sdl_error(const char message[]) {
 
 static void post_resize_buffer(void) {
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
 			window_get_width(),
 			window_get_height(),
-			0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+			0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
 
 	glBindTexture(GL_TEXTURE_2D, post_depth_buffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F,
@@ -551,10 +551,10 @@ static void post_resize_buffer(void) {
 			0, GL_RED, GL_FLOAT, NULL);
 
 	glBindTexture(GL_TEXTURE_2D, fxaa_tex_buffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16,
 			window_get_width(),
 			window_get_height(),
-			0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+			0, GL_RGBA, GL_UNSIGNED_SHORT, NULL);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 

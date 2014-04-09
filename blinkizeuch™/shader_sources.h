@@ -23,10 +23,13 @@ void main() {\
 static const char post_default_fragment_source[] = "\
 #version 330\n\
 in vec2 texcoord;\
-out vec3 out_color;\
+out vec4 out_color;\
 uniform sampler2D tex;\
 void main() {\
-	out_color = texture(tex, texcoord).rgb;\
+	vec3 color = texture(tex, texcoord).rgb;\
+	color = pow(color, vec3(1 / 2.2));\
+	out_color.rgb = color;\
+	out_color.a = dot(color, vec3(.2126, .7152, .0722));\
 }\
 ";
 
@@ -38,12 +41,8 @@ out vec3 out_color;\n\
 \n\
 uniform sampler2D tex;\n\
 \n\
-float rgb2luma(vec3 rgb) {\n\
-	return dot(rgb, vec3(.2126, .7152, .0722)); // magic luminance formular\n\
-}\n\
-\n\
 float rgba2luma(vec4 rgba) {\n\
-	return rgb2luma(rgba.rgb);\n\
+	return rgba.a;\n\
 }\n\
 \n\
 // NVIDIA FXAA 3.11 by TIMOTHY LOTTES\n\
