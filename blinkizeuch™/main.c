@@ -61,6 +61,7 @@ GLint attribute_coord2d, uniform_time;
 GLint uniform_view_position, uniform_view_direction, uniform_view_up;
 GLint uniform_res = -1;
 GLint uniform_inv_world_camera_matrix, uniform_prev_world_camera_matrix;
+GLint uniform_envelopes, uniform_notes;
 GLint post_attribute_coord2d;
 GLint fxaa_attribute_coord2d;
 
@@ -382,6 +383,8 @@ static void load_shader(void) {
 	uniform_view_position = shader_get_uniform(program, "view_position");
 	uniform_view_direction = shader_get_uniform(program, "view_direction");
 	uniform_view_up = shader_get_uniform(program, "view_up");
+	uniform_envelopes = shader_get_uniform(program, "envelopes");
+	uniform_notes = shader_get_uniform(program, "notes");
 
 	if(scene != NULL) scene_load_uniforms(scene, program);
 
@@ -441,6 +444,7 @@ static void draw(void) {
 	glUniform2f(uniform_res, window_get_width(), window_get_height());
 	camera_update_uniforms(&camera, uniform_view_position, uniform_view_direction, uniform_view_up);
 	glUniform1f(uniform_time, timeline_get_time(timeline));
+	music_update_uniforms(&music, uniform_envelopes, uniform_notes);
 
 	if(scene != NULL) scene_bind(scene);
 
