@@ -97,7 +97,7 @@ vec2 f(vec3 p){
 	vec2 ufo_body = vec2(ufo_ball_hole, MAT_UFO_BODY);
 
 	vec3 cut_p = trans(cockpit_p, 0., 5*0.59, 0.);
-	float cut_planes = min(plane(cut_p, vec3(0., cockpit_close, -1.)), plane(cut_p,vec3(0., cockpit_close, 1.)));
+	float cut_planes = min(plane(cut_p, normalize(vec3(0., cockpit_close, -1.))), plane(cut_p, normalize(vec3(0., cockpit_close, 1.))));
 	float empty_cockpit = max(max(sphere(cockpit_p, 5), -sphere(p, 15)), -sphere(cockpit_p, 4.9));
 	vec2 ufo_cockpit = vec2(max(empty_cockpit, cut_planes), MAT_UFO_COCKPIT);
 
