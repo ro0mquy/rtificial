@@ -14,6 +14,7 @@ uniform vec3 color_light;
 uniform vec3 color_sky;
 uniform vec3 color_ufo_body;
 uniform vec3 color_ufo_cockpit;
+uniform vec3 color_saturn;
 uniform float star_amount;
 //uniform float cockpit_close;
 
@@ -22,7 +23,9 @@ uniform float star_amount;
 #define MAT_UFO_COCKPIT 2
 #define MAT_UFO_LIGHTS 3
 #define MAT_BALL 4
-#define mat_planet 5
+#define mat_saturn 5
+#define mat_saturn_rings 6
+#define mat_mars 7
 
 vec3 colors[] = vec3[](
 	color_sky,
@@ -30,7 +33,9 @@ vec3 colors[] = vec3[](
 	color_ufo_cockpit,
 	vec3(1), // color ufo lights
 	vec3(0.56,0.,0.),
-	vec3(0.8,0.7,.3)
+	color_saturn,
+	vec3(0.1),
+	vec3(0.75,0.7,0.5)
 );
 
 void main(void){
@@ -55,7 +60,7 @@ void main(void){
 		vec3 to_view = view_position - hit;
 
 		vec3 light_color = vec3(lambert(to_light, normal));
-		if(material != mat_planet){
+		if(material != mat_saturn){
 			light_color += vec3(phong(to_light, normal, to_view, 50.));
 		}
 		light_color *= color_light;
@@ -73,9 +78,13 @@ void main(void){
 			new_color = colors[MAT_UFO_LIGHTS];
 		}
 
-		if(material == mat_planet){
-			float random = smooth_noise(10 * hit.yyy);
+		if(material == mat_saturn){
+			float random = smooth_noise(0.7 * hit.yyy);
 			new_color = new_color * (1-vec3(random));
+		}
+		else if (material == mat_mars){
+			float random = smoothstep(0., 1., clamp(smooth_noise(.83 * hit), 0.3, 0.7));
+			new_color = new_color * vec3(random);
 		}
 
 		final_color += new_color * reflection_factor * light_color_factor;
@@ -138,13 +147,17 @@ vec2 f(vec3 p){
 	q = trans(q, 5., 14.1, 0.);
 	vec2 ufo_lights = vec2(sphere(q, .1), MAT_UFO_LIGHTS);
 
-	vec3 p_planet = trans(p, 100,10,100);
-	float planet = sphere(p_planet, 13);
-	vec3 p_ring = rX(1/4*TAU) * p_planet;
+	vec3 p_saturn = trans(p, 100,10,100);
+	float saturn = sphere(p_saturn, 13);
+	vec2 the_saturn = vec2(saturn, mat_saturn);
+	vec3 p_ring = rX(1/4*TAU) * p_saturn;
 	float ring = max(torus(p_ring, vec2(20, 1.4)), -min(plane(trans(p_ring, 0., -0.05, 0), vec3(0,1,0)), plane(trans(p_ring, 0.,0.05,0.), vec3(0,-1,0)) ));
 	float ring2 = max(torus(p_ring, vec2(23.5, 1.2)), -min(plane(trans(p_ring, 0., -0.05, 0), vec3(0,1,0)), plane(trans(p_ring, 0.,0.05,0.), vec3(0,-1,0)) ));
-	vec2 the_planet = vec2(min(min(ring2, ring), planet), mat_planet);
+	vec2 saturn_rings = vec2(min(ring, ring2), mat_saturn_rings);
 
+	vec3 p_mars = trans(p, -100, -10, 100);
+	float mars = sphere(p_mars, 7);
+	vec2 the_mars = vec2(mars, mat_mars);
 
-	return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, min_material(ball, the_planet)));
+	return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, min_material(min_material(ball, the_mars), min_material(the_saturn, saturn_rings))));
 }
