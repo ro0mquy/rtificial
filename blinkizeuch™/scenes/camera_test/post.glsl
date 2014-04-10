@@ -27,12 +27,6 @@ float kernel[9] = float[](
 	0., -1., 0.
 );
 
-void set_color(vec3 color) {
-	color = pow(color, vec3(1 / 2.2));
-	out_color.rgb = color;
-	out_color.a = dot(color, vec3(.2126, .7152, .0722));
-}
-
 float rgb2luma(vec3 rgb) {
 	return dot(rgb, vec3(.2126, .7152, .0722)); // magic luminance formular
 }
@@ -104,7 +98,9 @@ vec3 godRays() {
 
 
 void main() {
-	vec3 color = texture(tex, texcoord).rgb;
+	vec4 color_bloom = texture(tex, texcoord);
+	vec3 color = color_bloom.rgb;
+	float bloom = color_bloom.a;
 	float depth = texture(tex_depth, texcoord);
 
 	if (texcoord.x > .5) {
@@ -130,5 +126,6 @@ void main() {
 
 	//color = fxaa(.75, .25, .0625);
 
-	set_color(color);
+	out_color.rgb = color;
+	out_color.a = bloom;
 }

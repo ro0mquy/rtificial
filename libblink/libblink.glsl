@@ -8,7 +8,7 @@ uniform float time;
 uniform int notes[16];
 uniform float envelopes[16];
 
-layout(location = 0) out vec3 out_color;
+layout(location = 0) out vec4 out_color;
 layout(location = 1) out float out_depth;
 
 float TAU = 6.28318530718;
