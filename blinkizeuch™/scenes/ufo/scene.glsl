@@ -16,7 +16,6 @@ uniform vec3 color_ufo_body;
 uniform vec3 color_ufo_cockpit;
 uniform vec3 color_saturn;
 uniform float star_amount;
-//uniform float cockpit_close;
 
 #define MAT_BOUNDING 0
 #define MAT_UFO_BODY 1
@@ -105,15 +104,6 @@ void main(void){
 	out_depth = distance(view_position, hit);
 }
 
-float length_n_vec2(vec2 p, float n) {
-	return pow(dot(pow(abs(p), vec2(n)), vec2(1)), 1./n);
-}
-
-float torus82(vec3 p, vec2 t){
-	vec2 q = vec2(length_n_vec2(p.xz, 2)-t.x, p.y);
-	return length_n_vec2(q, 8)-t.y;
-}
-
 vec2 f(vec3 p){
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 220.), MAT_BOUNDING);
 
@@ -148,13 +138,14 @@ vec2 f(vec3 p){
 	q = trans(q, 5., 14.1, 0.);
 	vec2 ufo_lights = vec2(sphere(q, .1), MAT_UFO_LIGHTS);
 
-	vec3 p_saturn = trans(p, 100,10,100);
+	vec3 p_saturn = trans(p, 100, 10, 100);
 	float saturn = sphere(p_saturn, 13);
 	vec2 the_saturn = vec2(saturn, mat_saturn);
-	vec3 p_ring = rX(1/4*TAU) * p_saturn;
-	float ring = max(torus(p_ring, vec2(20, 1.4)), -min(plane(trans(p_ring, 0., -0.05, 0), vec3(0,1,0)), plane(trans(p_ring, 0.,0.05,0.), vec3(0,-1,0)) ));
-	float ring2 = max(torus(p_ring, vec2(23.5, 1.2)), -min(plane(trans(p_ring, 0., -0.05, 0), vec3(0,1,0)), plane(trans(p_ring, 0.,0.05,0.), vec3(0,-1,0)) ));
-	vec2 saturn_rings = vec2(min(ring, ring2), mat_saturn_rings);
+
+	float rings = abs(sphere(p_saturn, 22)) - 2;
+	rings = max(rings, -(abs(sphere(p_saturn, 21.8)) - .4));
+	rings = max(rings, abs(p_saturn.y) - .05);
+	vec2 saturn_rings = vec2(rings, mat_saturn_rings);
 
 	vec3 p_mars = trans(p, -100, -10, 100);
 	float mars = sphere(p_mars, 7);

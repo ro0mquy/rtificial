@@ -91,13 +91,6 @@
             "type": "float",
             "default": 0.97000002861022949,
             "varparam": "min=0.8 max=1 step=0.001"
-        },
-        {
-            "name": "Cockpit Closing",
-            "uniform": "cockpit_close",
-            "type": "float",
-            "default": 1.5,
-            "varparam": "min=0.0 max=5.0 step=0.1"
         }
     ],
     "textures": []
