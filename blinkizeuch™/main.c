@@ -653,10 +653,10 @@ static void print_sdl_error(const char message[]) {
 static void post_resize_buffer(void) {
 	// postprocessing
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16,
 			window_get_width(),
 			window_get_height(),
-			0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+			0, GL_RGBA, GL_UNSIGNED_SHORT, NULL);
 
 	glBindTexture(GL_TEXTURE_2D, post_depth_buffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F,
@@ -666,10 +666,10 @@ static void post_resize_buffer(void) {
 
 	// bloom
 	glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[0]);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16,
 			window_get_width(),
 			window_get_height(),
-			0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+			0, GL_RGBA, GL_UNSIGNED_SHORT, NULL);
 
 	float shrink = .25;
 	glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[1]);

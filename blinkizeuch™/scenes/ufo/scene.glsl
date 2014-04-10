@@ -41,6 +41,7 @@ vec3 colors[] = vec3[](
 void main(void){
 	vec3 direction = get_direction();
 	vec3 final_color = vec3(0);
+	float final_bloom = 0;
 	vec3 light = view_position + vec3(10*foo1, 40, 10*foo1);
 	vec3 hit = view_position;
 	vec3 light_color_factor = vec3(1.);
@@ -76,13 +77,12 @@ void main(void){
 			new_color = mix(new_color, vec3(1), brightness);
 		} else if (material == MAT_UFO_LIGHTS) {
 			new_color = colors[MAT_UFO_LIGHTS];
-		}
-
-		if(material == mat_saturn){
+			final_bloom = 1;
+		} else if (material == mat_saturn) {
 			float random = smooth_noise(0.7 * hit.yyy);
 			new_color = new_color * (1-vec3(random));
-		}
-		else if (material == mat_mars){
+			final_bloom = .5;
+		} else if (material == mat_mars) {
 			float random = smoothstep(0., 1., clamp(smooth_noise(.83 * hit), 0.3, 0.7));
 			new_color = new_color * vec3(random);
 		}
@@ -100,7 +100,8 @@ void main(void){
 		direction = reflect(direction, normal);
 	}
 
-	out_color = final_color;
+	out_color.rgb = final_color;
+	out_color.a = final_bloom;
 	out_depth = distance(view_position, hit);
 }
 

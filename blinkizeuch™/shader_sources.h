@@ -26,14 +26,11 @@ in vec2 texcoord;\
 out vec4 out_color;\
 uniform sampler2D tex;\
 void main() {\
-	vec3 color = texture(tex, texcoord).rgb;\
-	color = pow(color, vec3(1 / 2.2));\
-	out_color.rgb = color;\
-	out_color.a = dot(color, vec3(.2126, .7152, .0722));\
+	out_color = texture(tex, texcoord);\
 }\
 ";
 
-// only pass bright pixels and scale image down
+// only pass blooming pixels and scale image down
 static const char bloom_fragment_source0[] = "\
 #version 330\n\
 \
@@ -43,12 +40,9 @@ out vec3 out_color;\
 uniform sampler2D tex;\
 \
 void main() {\
-	out_color = texture(tex, texcoord).rgb;\
-	float luma = dot(out_color, vec3(.2126, .7152, .0722));\
-	float treshold = .0;\
-	if (luma < treshold) {\
-		out_color = vec3(0);\
-	}\
+	// amount of bloom is stored in alpha\n\
+	vec4 color = texture(tex, texcoord);\
+	out_color = color.rgb * color.a;\
 }\
 ";
 
