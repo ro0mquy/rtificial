@@ -24,7 +24,7 @@ void main(void){
 			final_color += .2;
 		}
 	}
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 float tetrahedron(vec3 p) {

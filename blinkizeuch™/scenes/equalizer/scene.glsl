@@ -14,10 +14,10 @@ void main(void){
 	float env = envelopes[int(pos.x * 16)];
 	float note = float(notes[int(pos.x * 16)]) / 128;
 	if(pos.y > .51) {
-		out_color = vec3(1. - step(env, (pos.y - .51) / .49));
+		out_color.rgb = vec3(1. - step(env, (pos.y - .51) / .49));
 	} else if (pos.y < .49) {
-		out_color = vec3(1. - step(note, pos.y / .45));
+		out_color.rgb = vec3(1. - step(note, pos.y / .45));
 	} else {
-		out_color = vec3(step(1., mod(pos.x * 16, 2)), 0, 0);
+		out_color.rgb = vec3(step(1., mod(pos.x * 16, 2)), 0, 0);
 	}
 }

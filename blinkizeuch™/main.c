@@ -57,6 +57,9 @@ GLuint post_depth_buffer;
 GLuint bloom_framebuffers[3];
 GLuint bloom_programs[3] = { 0, 0, 0 };
 GLuint bloom_tex_buffers[3];
+GLuint gamma_framebuffer;
+GLuint gamma_program = 0;
+GLuint gamma_tex_buffer;
 GLuint fxaa_framebuffer;
 GLuint fxaa_program = 0;
 GLuint fxaa_tex_buffer;
@@ -68,6 +71,7 @@ GLint uniform_bloom_vertical;
 GLint uniform_envelopes, uniform_notes;
 GLint post_attribute_coord2d;
 GLint bloom_attribute_coord2ds[3];
+GLint gamma_attribute_coord2d;
 GLint fxaa_attribute_coord2d;
 
 int previousTime = 0;
@@ -324,6 +328,14 @@ static int init(void) {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	}
 
+	// gamma correction buffer
+	glGenTextures(1, &gamma_tex_buffer);
+	glBindTexture(GL_TEXTURE_2D, gamma_tex_buffer);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
 	// anti-aliasing buffer
 	glGenTextures(1, &fxaa_tex_buffer);
 	glBindTexture(GL_TEXTURE_2D, fxaa_tex_buffer);
@@ -357,6 +369,14 @@ static int init(void) {
 		if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
 			fprintf(stderr, "Bloom framebuffer #%zu not complete: error %X\n", i, status);
 		}
+	}
+
+	// gamma correction framebuffer
+	glGenFramebuffers(1, &gamma_framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, gamma_framebuffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gamma_tex_buffer, 0);
+	if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
+		fprintf(stderr, "Gamma framebuffer not complete: error %X\n", status);
 	}
 
 	// anti-aliasing framebuffer
@@ -471,6 +491,23 @@ static void load_shader(void) {
 		}
 	}
 
+	// compile gamma correction program
+	GLuint gamma_fragment_shader = shader_load_strings(1, "gamma", (const GLchar* []) { gamma_fragment_source }, GL_FRAGMENT_SHADER);
+	if (gamma_program != 0) glDeleteProgram(gamma_program);
+	gamma_program = shader_link_program(post_vertex_shader, gamma_fragment_shader);
+	glDeleteShader(gamma_fragment_shader);
+
+	const char gamma_attribute_coord2d_name[] = "coord2d";
+	gamma_attribute_coord2d = glGetAttribLocation(gamma_program, gamma_attribute_coord2d_name);
+	if(gamma_attribute_coord2d == -1) {
+		fprintf(stderr, "Could not bind attribute %s for anti-aliasing\n", gamma_attribute_coord2d_name);
+		return;
+	}
+
+	glUseProgram(gamma_program);
+	GLuint gamma_uniform_tex = shader_get_uniform(gamma_program, "tex");
+	glUniform1i(gamma_uniform_tex, /*GL_TEXTURE*/0);
+
 	// compile anti-aliasing program
 	GLuint fxaa_fragment_shader = shader_load_strings(1, "fxaa", (const GLchar* []) { fxaa_fragment_source }, GL_FRAGMENT_SHADER);
 	if (fxaa_program != 0) glDeleteProgram(fxaa_program);
@@ -529,8 +566,8 @@ static void draw(void) {
 		// switch to bloom buffer
 		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[0]);
 	} else {
-		// switch to anti-aliasing buffer
-		glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
+		// switch to gamma correction buffer
+		glBindFramebuffer(GL_FRAMEBUFFER, gamma_framebuffer);
 	}
 
 	// apply postprocessing
@@ -582,7 +619,7 @@ static void draw(void) {
 
 		// combine blured and original image
 		glViewport(0, 0, window_get_width(), window_get_height());
-		glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, gamma_framebuffer);
 		glUseProgram(bloom_programs[2]);
 		glEnableVertexAttribArray(bloom_attribute_coord2ds[2]);
 		glActiveTexture(GL_TEXTURE0);
@@ -592,6 +629,15 @@ static void draw(void) {
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glDisableVertexAttribArray(bloom_attribute_coord2ds[2]);
 	}
+
+	// correct gamma and store luma in alpha channel
+	glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
+	glUseProgram(gamma_program);
+	glEnableVertexAttribArray(gamma_attribute_coord2d);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gamma_tex_buffer);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDisableVertexAttribArray(gamma_attribute_coord2d);
 
 	// switch back to normal screen
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -682,6 +728,13 @@ static void post_resize_buffer(void) {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
 			window_get_width() * shrink,
 			window_get_height() * shrink,
+			0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+
+	// gamma correction
+	glBindTexture(GL_TEXTURE_2D, gamma_tex_buffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
+			window_get_width(),
+			window_get_height(),
 			0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
 
 	// fxaa

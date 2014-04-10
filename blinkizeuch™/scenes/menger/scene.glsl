@@ -60,5 +60,5 @@ void main(void) {
 			color -= vec3(i * k - f(p + normal * i * k)[0]) / pow(2., i);
 		}
 	}
-	out_color = color;
+	out_color.rgb = color;
 }

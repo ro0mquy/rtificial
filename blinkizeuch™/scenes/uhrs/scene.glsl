@@ -31,7 +31,7 @@ void main(void) {
 		vec3 to_light = light - hit;
 		final_color += materials[int(f(hit)[1])] * lambert(to_light, normal);
 	}
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 vec2 f(vec3 p){

@@ -53,7 +53,7 @@ void main(void) {
 		}
 	}
 
-	out_color = color;
+	out_color.rgb = color;
 }
 
 vec2 f(vec3 p) {

@@ -87,7 +87,7 @@ void main() {
 
 		direction = reflect(direction, normal);
 	}
-	out_color = color;
+	out_color.rgb = color;
 }
 
 void initValues() {

@@ -59,7 +59,7 @@ void main() {
 		}
 	}
 
-	out_color = color;
+	out_color.rgb = color;
 }
 
 void initValues() {

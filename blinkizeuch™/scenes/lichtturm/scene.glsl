@@ -58,7 +58,7 @@ void main(void) {
 
 		final_color += color_foo1 * alpha;
 	}
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 vec2 f(vec3 p) {
