@@ -41,7 +41,7 @@ void main(void){
 
 	if(material == MAT_BOUNDING){
 		final_color += color_mixin;
-		out_color = final_color;
+		out_color.rgb = final_color;
 		return;
 	}
 
@@ -52,7 +52,7 @@ void main(void){
 		final_color = vec3(1., .5, .5) * lambert(light - hit, normal);
 	}
 
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 

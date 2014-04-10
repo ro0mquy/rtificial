@@ -126,6 +126,6 @@ void main(void) {
 	}
 	//color += smoothstep(1.0, pow(float(i) / 100.0, 0.5), 0.7);
 
-	out_color = color;
+	out_color.rgb = color;
 }
 

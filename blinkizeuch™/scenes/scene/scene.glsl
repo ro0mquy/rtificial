@@ -121,6 +121,6 @@ void main(void) {
 	color += .25 * rm(gl_FragCoord.xy + off.xy, camera);
 	color += .25 * rm(gl_FragCoord.xy + off.yx, camera);
 	color += .25 * rm(gl_FragCoord.xy + off.yy, camera);
-	out_color = color;
+	out_color.rgb = color;
 }
 

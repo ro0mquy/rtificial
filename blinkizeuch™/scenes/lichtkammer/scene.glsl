@@ -22,7 +22,7 @@ void main(void){
 		//final_color = .2 + .8 * vec3(1.0) * oren_nayar(vec3(1000.) - hit, normal, -dir, foo1);
 		final_color = .2 + vec3(1.0) * cook_torrance(light_direction, normal, -dir, roughness, 450.);
 	}
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 vec2 f(vec3 p){

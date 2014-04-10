@@ -135,6 +135,23 @@ static const char* bloom_fragment_sources[3] = {
 	bloom_fragment_source2,
 };
 
+static const char gamma_fragment_source[] = "\
+#version 330\n\
+\
+in vec2 texcoord;\
+out vec4 out_color;\
+\
+uniform sampler2D tex;\
+\
+void main() {\
+	vec3 color = texture(tex, texcoord).rgb;\
+	float luma = dot(color, vec3(.2126, .7152, .0722));\
+	color = pow(color, vec3(1 / 2.2));\
+	out_color.rgb = color;\
+	out_color.a = luma;\
+}\
+";
+
 static const char fxaa_fragment_source[] = "\
 #version 330\n\
 \n\

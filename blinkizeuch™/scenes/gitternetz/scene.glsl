@@ -48,7 +48,7 @@ void main(void) {
 		// black fog
 		final_color *= mix(final_color, vec3(0), smoothstep(35, 45, length(hit)));
 	}
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 vec2 f(vec3 p) {

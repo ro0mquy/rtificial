@@ -25,6 +25,6 @@ void main(void) {
 		color = vec3(0.0);
 	}
 
-	out_color = color;
+	out_color.rgb = color;
 }
 

@@ -37,7 +37,7 @@ void main(void){
 		final_color *= ao(hit, normal, .3, 5.);
 	}
 	final_color *= 1. - smoothstep(0., 200., distance(view_position, hit));
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 float cube(vec3 p, float r) {

@@ -36,7 +36,7 @@ void main(void) {
 		final_color += phong(to_light, normal, to_view, 10.);
 		final_color *= materials[int(f(hit)[1])];
 	}
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 float companion_cube_v1(vec3 p) {

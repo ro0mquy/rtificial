@@ -65,7 +65,7 @@ void main(void){
 		direction = reflect(direction, normal);
 	}
 
-	out_color = pow(final_color, vec3(1/2.2));
+	out_color.rgb = final_color;
 	out_depth = distance(view_position, hit);
 }
 

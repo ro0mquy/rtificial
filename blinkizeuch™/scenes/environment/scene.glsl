@@ -27,7 +27,7 @@ void main(void){
 	} else {
 		final_color = texture(environment, dir).rgb;
 	}
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 vec2 f(vec3 p){

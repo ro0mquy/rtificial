@@ -80,7 +80,7 @@ void main(void) {
 		//	break;
 		//}
 	}
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 float corner(vec3 p, float corner_width) {

@@ -18,7 +18,7 @@ void main(void){
 		vec3 normal = calc_normal(hit);
 		final_color = vec3(1.0);
 	}
-	out_color = final_color;
+	out_color.rgb = final_color;
 }
 
 vec2 f(vec3 p){
