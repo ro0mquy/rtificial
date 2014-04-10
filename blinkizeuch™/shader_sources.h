@@ -52,6 +52,7 @@ void main() {\
 }\
 ";
 
+// apply horizontal/vertical blur
 static const char bloom_fragment_source1[] = "\
 #version 330\n\
 \
@@ -59,9 +60,63 @@ in vec2 texcoord;\
 out vec3 out_color;\
 \
 uniform sampler2D tex;\
+uniform bool vertical;\
+\
+const float[14] blur_filter = float[](\
+		/*\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619,\
+		.047619\
+		*/\
+	     \
+	     0.003,\
+	     0.010,\
+	     0.026,\
+	     0.055,\
+	     0.097,\
+	     0.140,\
+	     0.168,\
+	     0.168,\
+	     0.140,\
+	     0.097,\
+	     0.055,\
+	     0.026,\
+	     0.010,\
+	     0.003\
+		);\
 \
 void main() {\
-	out_color = texture(tex, texcoord).rgb;\
+	float pixel_size = 1. / textureSize(tex, 0);\
+	vec2 direction = vec2(pixel_size, 0);\
+	if (vertical) {\
+		direction = direction.yx;\
+	}\
+\
+	vec3 color = vec3(0);\
+	for (int i = -7; i < 7; i++) {\
+		vec3 c = texture(tex, texcoord + i * direction).rgb;\
+		color += c * blur_filter[i + 7];\
+	}\
+\
+	out_color = color;\
 }\
 ";
 
@@ -75,7 +130,9 @@ uniform sampler2D tex;\
 uniform sampler2D blurtex;\
 \
 void main() {\
-	out_color = texture(blurtex, texcoord).rgb;\
+	vec3 original = texture(tex, texcoord).rgb;\
+	vec3 blured = texture(blurtex, texcoord).rgb;\
+	out_color = original + blured;\
 }\
 ";
 static const char* bloom_fragment_sources[3] = {

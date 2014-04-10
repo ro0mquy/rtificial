@@ -64,6 +64,7 @@ GLint attribute_coord2d, uniform_time;
 GLint uniform_view_position, uniform_view_direction, uniform_view_up;
 GLint uniform_res = -1;
 GLint uniform_inv_world_camera_matrix, uniform_prev_world_camera_matrix;
+GLint uniform_bloom_vertical;
 GLint uniform_envelopes, uniform_notes;
 GLint post_attribute_coord2d;
 GLint bloom_attribute_coord2ds[3];
@@ -460,7 +461,10 @@ static void load_shader(void) {
 		glUseProgram(bloom_programs[i]);
 		GLuint bloom_uniform_tex = shader_get_uniform(bloom_programs[i], "tex");
 		glUniform1i(bloom_uniform_tex, /*GL_TEXTURE*/0);
-		if (i == 2) {
+		if (i == 1) {
+			// should we blur vertical or horizontal
+			uniform_bloom_vertical = shader_get_uniform(bloom_programs[i], "vertical");
+		} else if (i == 2) {
 			// last shader takes original and blured image as input
 			GLuint bloom_uniform_blurtex = shader_get_uniform(bloom_programs[i], "blurtex");
 			glUniform1i(bloom_uniform_blurtex, /*GL_TEXTURE*/1);
@@ -562,6 +566,7 @@ static void draw(void) {
 		// apply first (vertical) blur to scaled down image
 		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[2]);
 		glUseProgram(bloom_programs[1]);
+		glUniform1i(uniform_bloom_vertical, 1); // true
 		glEnableVertexAttribArray(bloom_attribute_coord2ds[1]);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[1]);
@@ -569,6 +574,7 @@ static void draw(void) {
 
 		// apply second (horizontal) blur
 		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[1]);
+		glUniform1i(uniform_bloom_vertical, 0); // false
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[2]);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
