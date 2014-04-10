@@ -63,5 +63,6 @@ void main() {
 		//color = godRays();
 //	}
 
-	set_color(color);
+	//set_color(color);
+	out_color.rgb = color;
 }
