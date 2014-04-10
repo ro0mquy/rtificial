@@ -76,6 +76,16 @@
             ]
         },
         {
+            "name": "Saturn Color",
+            "uniform": "color_saturn",
+            "type": "color",
+            "default": [
+                0.8,
+                0.7,
+                0.3
+            ]
+        },
+        {
             "name": "Amount of Stars",
             "uniform": "star_amount",
             "type": "float",
