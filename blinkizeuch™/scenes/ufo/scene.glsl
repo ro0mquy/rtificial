@@ -74,6 +74,7 @@ void main(void){
 		if(material == MAT_BOUNDING) {
 			float brightness = smoothstep(star_amount, 1, smooth_noise(150. * direction));
 			new_color = mix(new_color, vec3(1), brightness);
+			final_bloom = brightness;
 		} else if (material == MAT_UFO_LIGHTS) {
 			new_color = colors[MAT_UFO_LIGHTS];
 			final_bloom = 1;
