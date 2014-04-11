@@ -1,4 +1,5 @@
 vec2 f(vec3);
+float  light_f(vec3 p);
 
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
@@ -25,6 +26,7 @@ uniform float star_amount;
 #define mat_saturn 5
 #define mat_saturn_rings 6
 #define mat_mars 7
+#define mat_laser 8
 
 vec3 colors[] = vec3[](
 	color_sky,
@@ -34,7 +36,8 @@ vec3 colors[] = vec3[](
 	vec3(0.56,0.,0.),
 	color_saturn,
 	vec3(0.1),
-	vec3(0.75,0.7,0.5)
+	vec3(0.75,0.7,0.5),
+	vec3(241./255., 24./255., .0)
 );
 
 void main(void){
@@ -89,6 +92,22 @@ void main(void){
 
 		final_color += new_color * reflection_factor * light_color_factor;
 
+		float fuck_you_distance = distance(hit, view_position);
+
+		// volumetric laz0rs
+		// kind of raymarching
+		float minimal_dist = light_f(hit);
+		for (float t = 0; t < fuck_you_distance; ) {
+			vec3 p = view_position + t * direction;
+			float dist = light_f(p);
+			minimal_dist = min(minimal_dist, dist);
+			t += dist;
+			if (dist < .001) break;
+		}
+		float laser = .7 / (pow(minimal_dist * 4, 4) + 1);
+		//float laser = .7 * exp(-minimal_dist*minimal_dist);
+		final_color += colors[mat_laser] * laser;
+
 		// only cockpit is reflective
 		if (material != MAT_UFO_COCKPIT) {
 			break;
@@ -103,6 +122,14 @@ void main(void){
 	out_color.rgb = final_color;
 	out_color.a = final_bloom;
 	out_depth = distance(view_position, hit);
+}
+
+float  light_f(vec3 p){
+	vec3 p_laser = trans(p, 100 * foo1* step(10,time)*time, 20*0.67,0);
+	vec3 q = domrep(p_laser, 100, 1,1);
+	q.yz = p_laser.yz;
+	float beam = line(q, vec3(-1,0,0), vec3(1,0,0), 0);
+	return max(beam, -p.x+2.5);
 }
 
 vec2 f(vec3 p){
