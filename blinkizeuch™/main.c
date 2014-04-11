@@ -591,7 +591,7 @@ static void draw(void) {
 
 	if (bloom_enabled) {
 		// filter brights and scale down
-		glViewport(0, 0, window_get_width() * .25, window_get_height() * .25);
+		glViewport(0, 0, window_get_width() * .5, window_get_height() * .5);
 		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[1]);
 		glUseProgram(bloom_programs[0]);
 		glEnableVertexAttribArray(bloom_attribute_coord2ds[0]);
@@ -717,7 +717,7 @@ static void post_resize_buffer(void) {
 			window_get_height(),
 			0, GL_RGBA, GL_UNSIGNED_SHORT, NULL);
 
-	float shrink = .25;
+	float shrink = .5;
 	glBindTexture(GL_TEXTURE_2D, bloom_tex_buffers[1]);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16,
 			window_get_width() * shrink,

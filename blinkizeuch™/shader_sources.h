@@ -56,7 +56,8 @@ out vec3 out_color;\
 uniform sampler2D tex;\
 uniform bool vertical;\
 \
-const float[14] blur_filter = float[](\
+const int filter_size  = 14;\
+const float[filter_size] blur_filter = float[](\
 		/*\
 		.047619,\
 		.047619,\
@@ -105,9 +106,9 @@ void main() {\
 	}\
 \
 	vec3 color = vec3(0);\
-	for (int i = -7; i < 7; i++) {\
+	for (int i = -filter_size / 2; i < filter_size / 2. + .5; i++) {\
 		vec3 c = texture(tex, texcoord + i * direction).rgb;\
-		color += c * blur_filter[i + 7];\
+		color += c * blur_filter[i + filter_size / 2];\
 	}\
 \
 	out_color = color;\
