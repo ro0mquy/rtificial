@@ -120,6 +120,8 @@ vec2 haus_mit_ecken(vec3 p, vec3 box_dim, float corner_width, int material) {
 }
 
 vec2 f(vec3 p) {
+	p = rX(p.z * .0005) * p;
+	p = rZ(-p.x * .0005) * p;
 	// sphere around house, not eye
 	vec2 aussrenrum = vec2(-sphere(p, 400), 0);
 	// ist die normale, oben wird man dich loben!
