@@ -42,6 +42,7 @@ void main(void){
 		vec3 light = vec3(1, 8, 5);
 		final_color = vec3(1.0) * lambert(light - hit, normal);
 		final_color *= softshadow(hit, light, 60 * (1. - foo1));
+		final_color *= ao(hit, normal, .15, 5.);
 		float z = 10000000.;
 		if(material == mat_vincent) {
 			z = 0.;
@@ -54,7 +55,9 @@ void main(void){
 		}
 		bloom = max(smoothstep(4., 0., abs(kugel_trans.z - z)), 0.); 
 	}
-	out_color= vec4(final_color, bloom);
+	final_color *= smoothstep(200, 0, distance(hit, view_position));
+	out_color.rgb = final_color;
+	out_color.a = bloom;
 }
 
 float textbox(vec3 p, sampler2D tex, vec3 dim, float orig_width) {
@@ -85,7 +88,8 @@ vec2 f(vec3 p){
 	vec2 ps0ke = vec2(textbox(p_ps0ke, tex_ps0ke, dim_ps0ke, origdim_ps0ke.x), mat_ps0ke);
 	vec2 ro0mquy = vec2(textbox(p_ro0mquy, tex_ro0mquy, dim_ro0mquy, origdim_ro0mquy.x), mat_ro0mquy);
 	vec2 text = min_material(min_material(vincent, drb), min_material(ro0mquy, ps0ke));
-	vec2 plane = vec2(p.y, mat_plane);
+	float tunnel = min(plane(trans(p, 0, 20, 0), normalize(vec3(1, -1, 0))), plane(trans(p, 0, 20, 0), normalize(vec3(-1, -1, 0))));
+	vec2 plane = vec2(min(p.y, tunnel), mat_plane);
 	vec2 kugel = vec2(sphere(transv(p, kugel_trans), 1.), mat_kugel);
 	return min_material(min_material(min_material(text, plane), bounding), kugel);
 }
