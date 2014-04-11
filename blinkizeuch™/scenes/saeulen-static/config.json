@@ -1,0 +1,43 @@
+{
+    "tweakables": [
+        {
+            "name": "Foo1",
+            "uniform": "foo1",
+            "type": "float",
+            "default": 0.5,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+        {
+            "name": "Foo2",
+            "uniform": "foo2",
+            "type": "float",
+            "default": 0.5,
+            "varparam": "min=0 max=1 step=0.01"
+        },
+		{
+			"name": "Light Position",
+			"uniform": "light",
+			"type": "direction",
+			"default": [
+				0.0,
+				10.0,
+				-5.0
+			]
+		},
+        {
+            "name": "Normal-Noise Radius",
+            "uniform": "normal_noise_radius",
+            "type": "float",
+            "default": 0.019999999552965164,
+            "varparam": "min=0 max=.1 step=0.001"
+        },
+        {
+            "name": "Diffuse Lightning Intensity",
+            "uniform": "diffuse_intensity",
+            "type": "float",
+            "default": 1.0,
+            "varparam": "min=0 max=2 step=0.01"
+        }
+    ],
+    "textures": []
+}
