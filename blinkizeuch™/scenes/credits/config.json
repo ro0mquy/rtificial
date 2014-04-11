@@ -1,0 +1,44 @@
+{
+	"tweakables": [
+		{
+			"name": "Foo Color1",
+			"uniform": "color_foo1",
+			"type": "color"
+		},
+		{
+			"name": "Foo Color2",
+			"uniform": "color_foo2",
+			"type": "color"
+		},
+		{
+			"name": "Foo1",
+			"uniform": "foo1",
+			"type": "float",
+			"varparam": "min=0 max=1 step=0.01"
+		},
+		{
+			"name": "Foo2",
+			"uniform": "foo2",
+			"type": "float",
+			"varparam": "min=0 max=1 step=0.01"
+		}
+	],
+	"textures": [
+		{
+			"path": "vincent.df.png",
+			"uniform": "tex_vincent"
+		},
+		{
+			"path": "drb.df.png",
+			"uniform": "tex_drb"
+		},
+		{
+			"path": "ps0ke.df.png",
+			"uniform": "tex_ps0ke"
+		},
+		{
+			"path": "ro0mquy.df.png",
+			"uniform": "tex_ro0mquy"
+		}
+	]
+}
