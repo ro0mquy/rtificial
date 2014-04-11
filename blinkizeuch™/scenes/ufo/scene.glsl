@@ -159,11 +159,13 @@ vec2 f(vec3 p){
 	float ball_height = 0.5*ball_gravity /* start height */ +  -0.5 * ball_gravity * ball_anim_time*ball_anim_time /* 1/2 a t^2 */ + 14.4 /* end height */;
 	vec2 ball = vec2(max(sphere(trans(p, 0., ball_height,  0.), 1.75), -ufo_ball_hole), MAT_BALL);
 
-	float r = length(p.xz);
-	float phi = atan(p.z, p.x);
+
+	vec3 p_light = rY(time * TAU /2)*p;
+	float r = length(p_light.xz);
+	float phi = atan(p_light.z, p_light.x);
 	float c = 6.;
 	phi = mod(phi, TAU /c) - TAU / c * .5;
-	vec3 q = vec3(r * cos(phi), p.y, r * sin(phi));
+	vec3 q = vec3(r * cos(phi), p_light.y, r * sin(phi));
 	q = trans(q, 5., 14.1, 0.);
 	vec2 ufo_lights = vec2(sphere(q, .1), MAT_UFO_LIGHTS);
 
