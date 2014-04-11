@@ -54,7 +54,11 @@ void main(void) {
 vec2 f(vec3 p) {
 	vec2 bounding = vec2(-sphere(p, 50.), mat_bounding);
 
-	vec2 pos_delle = vec2(5 * sin(TAU / 4 * time), 3 * sin(TAU / 5 * time));
+	float a = 70; // use to tweak shape of spiral
+	float t = time + .001;
+	t = t * (.5 + pow(t * .09, 8)); // use to tweak the speed of the kugel
+	vec2 pos_delle = a / t * vec2(-sin(t), cos(t));
+	pos_delle += vec2(25, 0);
 	vec3 p_delle = trans(p, pos_delle.x, 0, pos_delle.y);
 
 	float l = length(p_delle.xz) / sigma_delle;
@@ -80,8 +84,13 @@ vec2 f(vec3 p) {
 	float f_gitter = smax(de_trichter, smin(p_gitter.x, p_gitter.z, .01), .01) - .01;
 	vec2 vec_gitter = vec2(f_gitter, mat_gitter);
 
-	float f_trichter_pos_kugel = - sigma_trichter / distance(pos_delle, pos_trichter);
-	vec3 p_kugel = trans(p_delle, 0, f_trichter_pos_kugel + dy_kugel + radius_kugel, 0);
+	vec2 pos_kugel_trichter = pos_delle - pos_trichter;
+	vec2 npos_kugel_trichter = normalize(pos_kugel_trichter);
+	float x_kugel = length(pos_kugel_trichter);
+	float f_trichter_pos_kugel = - sigma_trichter / x_kugel;
+	vec3 correction_kugel = normalize(vec3(npos_kugel_trichter.x, x_kugel / f_trichter_pos_kugel, npos_kugel_trichter.y));
+	vec3 p_kugel = trans(p_delle, 0, f_trichter_pos_kugel + dy_kugel, 0);
+	p_kugel += radius_kugel * correction_kugel;
 	float f_kugel = sphere(p_kugel, radius_kugel);
 	vec2 vec_kugel = vec2(f_kugel, mat_kugel);
 
