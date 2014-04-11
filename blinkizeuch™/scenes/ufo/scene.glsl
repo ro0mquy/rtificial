@@ -128,7 +128,8 @@ float  light_f(vec3 p){
 	vec3 p_laser = trans(p, 100 * foo1* step(10,time)*time, 20*0.67,0);
 	vec3 q = domrep(p_laser, 100, 1,1);
 	q.yz = p_laser.yz;
-	float beam = line(q, vec3(-1,0,0), vec3(1,0,0), 0);
+	q.z = abs(q.z);
+	float beam = line(q, vec3(-1,0,3), vec3(1,0,3), 0);
 	return max(beam, -p.x+2.5);
 }
 
