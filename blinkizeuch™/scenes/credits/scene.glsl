@@ -1,7 +1,8 @@
 vec2 f(vec3);
+vec2 f_noise(vec3);
 
 DEFINE_MARCH(march, f)
-DEFINE_NORMAL(calc_normal, f)
+DEFINE_NORMAL(calc_normal, f_noise)
 DEFINE_AO(ao, f)
 DEFINE_SOFTSHADOW(softshadow, f)
 
@@ -52,24 +53,39 @@ void main(void){
 			z = -20.;
 		} else if(material == mat_ro0mquy) {
 			z = -30.;
+		} else if(material == mat_plane) {
+			final_color *= 1. - .3 * (sin(hit.x) * sin(hit.y) * .5 + .5);
 		}
-		bloom = max(smoothstep(4., 0., abs(kugel_trans.z - z)), 0.); 
+		bloom = max(smoothstep(4., 0., abs(kugel_trans.z - z)), 0.);
 	}
-	final_color *= smoothstep(200, 0, distance(hit, view_position));
+	final_color *= smoothstep(100, -20, distance(hit, view_position));
 	out_color.rgb = final_color;
 	out_color.a = bloom;
 }
 
 float textbox(vec3 p, sampler2D tex, vec3 dim, float orig_width) {
 	float spread = 200.;
-	float d = texture(tex, vec2(1., -1.) * p.xy / dim.xy + .5).r - .5;	
+	float d = texture(tex, vec2(1., -1.) * p.xy / dim.xy + .5).r - .5;
 	d *= spread / orig_width * dim.x;
 	d += length(max(abs(p.xy) - dim.xy * .5, 0.));
 	return max(d, abs(p.z) - dim.z * .5) - .02; // -.02 for extra smoothness
 }
 
+float fbm(vec2 p) {
+	float sum = 0.;
+	float amplitude = .5;
+	float freq = 1.;
+	for(int i = 0; i < 3; i++) {
+		sum += classic_noise(p * freq) * amplitude;
+		freq *= 2.;
+		amplitude *= .5;
+	}
+	return sum;
+}
+
 vec2 f(vec3 p){
 	p.y += 1.;
+	p = rZ((smoothstep(10., -60., p.z) - .1 ) * .6) * p;
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
 	vec3 base_dim = vec3(2., 2., 1.);
 
@@ -88,8 +104,20 @@ vec2 f(vec3 p){
 	vec2 ps0ke = vec2(textbox(p_ps0ke, tex_ps0ke, dim_ps0ke, origdim_ps0ke.x), mat_ps0ke);
 	vec2 ro0mquy = vec2(textbox(p_ro0mquy, tex_ro0mquy, dim_ro0mquy, origdim_ro0mquy.x), mat_ro0mquy);
 	vec2 text = min_material(min_material(vincent, drb), min_material(ro0mquy, ps0ke));
-	float tunnel = min(plane(trans(p, 0, 20, 0), normalize(vec3(1, -1, 0))), plane(trans(p, 0, 20, 0), normalize(vec3(-1, -1, 0))));
-	vec2 plane = vec2(min(p.y, tunnel), mat_plane);
+
+	vec3 norm1 = normalize(vec3(1, -1, 0));
+	vec3 norm2 = normalize(vec3(-1, -1, 0));
+	float tunnel = min(plane(trans(p, 0, 20, 0), norm1), plane(trans(p, 0, 20, 0), norm2));
+
+	vec2 plane = vec2(min(p.y, tunnel) , mat_plane);
 	vec2 kugel = vec2(sphere(transv(p, kugel_trans), 1.), mat_kugel);
 	return min_material(min_material(min_material(text, plane), bounding), kugel);
+}
+
+vec2 f_noise(vec3 p) {
+	vec2 f_result = f(p);
+	if(f_result[1] == mat_plane) {
+		f_result[0] += .1 * fbm(p.xz + .2 *  vec2(fbm(5. * p.xz), fbm(3. * p.zx)));
+	}
+	return f_result;
 }
