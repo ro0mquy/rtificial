@@ -85,7 +85,7 @@ float fbm(vec2 p) {
 
 vec2 f(vec3 p){
 	p.y += 1.;
-	p = rZ((smoothstep(10., -60., p.z) - .1 ) * .6) * p;
+	p = rZ((smoothstep(10., -60., p.z) - .5 ) * .3 + sin(time * 2. + .1 * p.z) * .03) * p;
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
 	vec3 base_dim = vec3(2., 2., 1.);
 
