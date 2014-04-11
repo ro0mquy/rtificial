@@ -1,0 +1,1 @@
+run `install.sh` to install the git hooks (might override your files!). This will recompile `libblink` and `blinkizeuch` after every checkout (checking out old revisions, switching branches) and every merge (i.e. pulling).
