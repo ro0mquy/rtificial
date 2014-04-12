@@ -76,7 +76,7 @@ float fbm(vec2 p) {
 	float sum = 0.;
 	float amplitude = .5;
 	float freq = 1.;
-	for(int i = 0; i < 3; i++) {
+	for(int i = 0; i < 2; i++) {
 		sum += classic_noise(p * freq) * amplitude;
 		freq *= 2.;
 		amplitude *= .5;
@@ -117,7 +117,7 @@ vec2 f(vec3 p){
 vec2 f_noise(vec3 p) {
 	vec2 f_result = f(p);
 	if(f_result[1] == mat_plane) {
-		f_result[0] += .1 * fbm(p.xz + .2 *  vec2(fbm(5. * p.xz), fbm(3. * p.zx)));
+		f_result[0] += .1 * fbm(p.xz + .2 * fbm(5. * p.xz));
 	}
 	return f_result;
 }
