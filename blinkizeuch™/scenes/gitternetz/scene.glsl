@@ -12,10 +12,15 @@ uniform float foo2;
 uniform vec3 light_position;
 uniform vec3 color_gitter;
 uniform vec3 color_kugel;
+uniform vec3 color_text;
 uniform float radius_kugel;
 uniform float dy_kugel;
 uniform float sigma_delle;
 uniform float sigma_trichter;
+
+uniform sampler2D tex_text;
+
+vec2 origdim_text = vec2(43, 7);
 
 #define mat_bounding 0
 #define mat_gitter 1
@@ -29,9 +34,17 @@ vec3[] mat_colors = vec3[](
 		color_kugel
 );
 
+float[] mat_blooms = float[](
+		0,
+		0,
+		.1,
+		1
+);
+
 void main(void) {
 	vec3 dir = get_direction();
 	vec3 final_color = vec3(0);
+	float final_bloom = 0;
 	int i;
 	vec3 hit = march(view_position, dir, i);
 	if (i < 100) {
@@ -44,11 +57,24 @@ void main(void) {
 		final_color += vec3(phong(to_light, normal, -dir, 50.));
 
 		final_color *= mat_colors[int(material)];
+
+		if (material == mat_gitter) {
+			vec2 base_dim = vec2(8., 10.);
+			vec2 dim_text = vec2(origdim_text.x / origdim_text.y, 1.) * base_dim;
+			vec2 p_text = hit.zx - vec2(-15 + 2 * time, 0);
+			float d = texture(tex_text, vec2(1, -1) * p_text / dim_text.xy + .5).r;
+			final_color += d * color_text;
+			final_bloom += d;
+		}
+
 		final_color *= .95 * softshadow(hit, light_position, 32.) + .05;
 		// black fog
 		final_color *= mix(final_color, vec3(0), smoothstep(35, 45, length(hit)));
+
+		final_bloom += mat_blooms[int(material)];
 	}
 	out_color.rgb = final_color;
+	out_color.a = final_bloom;
 }
 
 vec2 f(vec3 p) {

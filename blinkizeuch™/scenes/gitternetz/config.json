@@ -67,6 +67,17 @@
             "varparam": "colormode=hls"
         },
         {
+            "name": "Color Text",
+            "uniform": "color_text",
+            "type": "color",
+            "default": [
+                0.5,
+                1.0,
+                0.0
+            ],
+            "varparam": "colormode=hls"
+        },
+        {
             "name": "Radius Kugel",
             "uniform": "radius_kugel",
             "type": "float",
@@ -95,5 +106,10 @@
             "varparam": "min=0 max=500 step=1"
         }
     ],
-    "textures": []
+    "textures": [
+        {
+            "path": "mercury.png",
+            "uniform": "tex_ro0mquy"
+        }
+    ]
 }
