@@ -29,7 +29,8 @@ vec2 origdim_ro0mquy = vec2(5081, 684);
 #define mat_ps0ke 5
 #define mat_ro0mquy 6
 
-vec3 kugel_trans = vec3(-7 * sin(time / 5 * TAU), 1., 5 - 20 * time /5);
+const vec2 spread = vec2(-2., 30.);
+vec3 kugel_trans = vec3(-7 * sin(time / 5 * TAU), 1., spread.y /2. - (spread.y*2.) * time /5);
 
 void main(void){
 	vec3 dir = get_direction();
@@ -48,15 +49,15 @@ void main(void){
 		if(material == mat_vincent) {
 			z = 0.;
 		} else if(material == mat_drb) {
-			z = -10.;
+			z = -spread.y;
 		} else if(material == mat_ps0ke) {
-			z = -20.;
+			z = -spread.y * 2.;
 		} else if(material == mat_ro0mquy) {
-			z = -30.;
+			z = -spread.y * 3.;
 		} else if(material == mat_plane) {
 			final_color *= 1. - .3 * (sin(hit.x) * sin(hit.y) * .5 + .5);
 		}
-		bloom = max(smoothstep(4., 0., abs(kugel_trans.z - z)), 0.);
+		bloom = clamp(2. * smoothstep(spread.y / 2., 0., abs(kugel_trans.z - z)), 0., 1.);
 	}
 	final_color *= smoothstep(100, -20, distance(hit, view_position));
 	out_color.rgb = final_color;
@@ -85,7 +86,7 @@ float fbm(vec2 p) {
 
 vec2 f(vec3 p){
 	p.y += 1.;
-	p = rZ((smoothstep(10., -60., p.z) - .5 ) * .3 + sin(time * 2. + .1 * p.z) * .03) * p;
+	p = rZ((smoothstep(spread.y, -spread.y * 6., p.z) - .5 ) * .3 + sin(time * 2. + .1 * p.z) * .03) * p;
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
 	vec3 base_dim = vec3(2., 2., 1.);
 
@@ -93,7 +94,6 @@ vec2 f(vec3 p){
 	vec3 dim_drb = vec3(origdim_drb.x /origdim_drb.y, 1., 1.) * base_dim;
 	vec3 dim_ps0ke = vec3(origdim_ps0ke.x /origdim_ps0ke.y, 1., 1.) * base_dim;
 	vec3 dim_ro0mquy = vec3(origdim_ro0mquy.x /origdim_ro0mquy.y, 1., 1.) * base_dim;
-	vec2 spread = vec2(-2., 10.);
 	vec3 p_vincent = trans(p, dim_vincent.x * .5 + spread.x, base_dim.y * .5, 0);
 	vec3 p_drb = trans(p, -dim_drb.x * .5 - spread.x, base_dim.y * .5, -spread.y);
 	vec3 p_ps0ke = trans(p, dim_ps0ke.x * .5 + spread.x, base_dim.y * .5, -spread.y * 2);
