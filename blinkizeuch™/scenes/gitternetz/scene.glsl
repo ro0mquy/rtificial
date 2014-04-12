@@ -77,7 +77,7 @@ vec2 f(vec3 p) {
 	vec2 vec_untergrund = vec2(f_untergrund, mat_untergrund);
 
 	vec3 p_gitter = domrep(p, 1, 1, 1);
-	p_gitter = abs(p_gitter);
+	p_gitter.xz = abs(p_gitter.xz);
 	p_gitter.y = p.y - f_delle;
 
 	float de_trichter = abs(f_trichter - p_gitter.y) / sqrt(1 + f_trichter * f_trichter / d / d);
