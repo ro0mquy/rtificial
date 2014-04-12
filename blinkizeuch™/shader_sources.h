@@ -127,7 +127,8 @@ uniform sampler2D blurtex;\
 void main() {\
 	vec3 original = texture(tex, texcoord).rgb;\
 	vec3 blured = texture(blurtex, texcoord).rgb;\
-	out_color = original + blured;\
+	out_color = original + blured;\n\
+	//out_color = original + blured - (original * blured);\n\
 }\
 ";
 static const char* bloom_fragment_sources[3] = {
