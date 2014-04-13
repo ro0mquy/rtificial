@@ -83,11 +83,11 @@ void main(void){
 			final_bloom = 1;
 		} else if (material == mat_saturn) {
 			float random = smooth_noise(0.7 * hit.yyy);
-			new_color = new_color * (1-vec3(random));
+			new_color *= random;
 			final_bloom = .5;
 		} else if (material == mat_mars) {
 			float random = smoothstep(0., 1., clamp(smooth_noise(.83 * hit), 0.3, 0.7));
-			new_color = new_color * vec3(random);
+			new_color *= random;
 		}
 
 		final_color += new_color * reflection_factor * light_color_factor;
@@ -124,7 +124,7 @@ void main(void){
 	out_depth = distance(view_position, hit);
 }
 
-float  light_f(vec3 p){
+float light_f(vec3 p){
 	vec3 p_laser = trans(p, -50 + 100 * step(10,time)*(time - 10), 20*0.67,0);
 	vec3 q = domrep(p_laser, 100, 1,1);
 	q.yz = p_laser.yz;
