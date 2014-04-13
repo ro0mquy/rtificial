@@ -122,7 +122,9 @@ vec2 f(vec3 p) {
 	float c = 20;
 	vec3 q = domrep(p, c, 1., c);
 	q.y = p.y;
-	float foo = 4. * rand(200. * floor(p.xz / c) - 123.);
+	float foo = 4. * rand(400. * (floor(p.xz / c) - 123.));
+	float foo2 = 4. * rand(400. * (floor(p.xz / c) - 456.));
+	q = trans(q, 2. * (foo - 2.), .0, 2. * (foo2 - 2.));
 	vec2 tree = pythagoraen(rY(foo * radians(90.)) * q);
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
 	return min_material(tree, min_material(vec2(f_floor(p), mat_floor), bounding));
