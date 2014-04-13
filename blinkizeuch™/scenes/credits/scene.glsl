@@ -31,7 +31,7 @@ vec2 origdim_ro0mquy = vec2(5081, 684);
 
 vec3[] mat_colors = vec3[](
 		vec3(1),
-		vec3(1),
+		vec3(64,87,128)/vec3(255),
 		vec3(.56, 0, 0),
 		//pow(vec3(240/255., 52/255., 173/255.), vec3(2.2)),
 		vec3(229, 46, 5)/vec3(255),
@@ -69,7 +69,9 @@ void main(void){
 		} else if(material == mat_plane) {
 			final_color *= 1. - .3 * (sin(hit.x) * sin(hit.y) * .5 + .5);
 		}
-		bloom = clamp(2. * smoothstep(spread.y / 2., 0., abs(kugel_trans.z - z)), .1, 1.);
+		if(material >= mat_vincent) {
+			bloom = clamp(5. * smoothstep(spread.y / 2., 0., abs(kugel_trans.z - z)), .1, 1.);
+		}
 	}
 	final_color *= smoothstep(100, 20, distance(hit, view_position));
 	out_color.rgb = final_color;
