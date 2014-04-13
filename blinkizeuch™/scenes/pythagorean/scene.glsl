@@ -1,6 +1,8 @@
 vec2 f(vec3);
 vec2 g(vec3);
 
+float fbm(vec2 p);
+
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
 DEFINE_NORMAL(calc_normal_floor, g)
@@ -11,6 +13,20 @@ uniform vec3 color_foo2;
 uniform float foo1;
 uniform float foo2;
 
+#define mat_bounding 0
+#define mat_floor 1
+#define mat_tree1 2
+#define mat_tree2 3
+#define mat_tree3 4
+
+vec3 colors[] = vec3[](
+	vec3(0),
+	vec3(1),
+	vec3(.1,1.,.2),
+	vec3(.6,.9,.5),
+	vec3(1.,.6,.8)
+);
+
 void main(void){
 	vec3 dir = get_direction();
 	vec3 final_color = vec3(0);
@@ -19,25 +35,32 @@ void main(void){
 	int material = int(f(hit)[1]);
 	vec3 light = vec3(0, 10, 0);
 	vec3 normal;
-	vec3 color = vec3(0.);
+	vec3 color = colors[material];
 	vec3 to_light = light - hit;
 	float m;
-	if(material == 1) {
+	float bloom = 0.;
+	if(material >= mat_tree1) {
 		normal =  calc_normal(hit);
-		color = vec3(.9);
 		final_color += .1;
 		m = 0.;
-	} else if(material == 2) {
+		vec2 coord = floor(hit.xz / 20);
+		bloom = color.x;
+		color.x = rand(coord * .25);
+		color = hsv2rgb(color);
+	} else if(material == mat_floor) {
 		normal = calc_normal_floor(hit);
-		color = vec3(1.);
 		m = .42;
 	}
 	if(material != 0) {
 		final_color += color * oren_nayar(to_light, normal, -dir, m);
 		final_color *= ao(hit, normal, .3, 5.);
+	} else {
+		vec2 spherical = vec2(acos(dir.y) / 3.141, abs(atan(dir.z, dir.x) / 3.141));
+		final_color = hsv2rgb(vec3(foo1, .5 + .5 * fbm(spherical * 20.), foo2));
 	}
-	final_color *= 1. - smoothstep(0., 200., distance(view_position, hit));
+	final_color *= 1. - smoothstep(0., 300., distance(view_position, hit));
 	out_color.rgb = final_color;
+	out_color.a = bloom;
 }
 
 float cube(vec3 p, float r) {
@@ -49,27 +72,28 @@ float cube(vec3 p, float r) {
 	return mix(s, f, 1. + .4 * smoothstep(5., 15., time));
 }
 
-float pythagoraen(vec3 p) {
+vec2 pythagoraen(vec3 p) {
 	float alpha = (1. - 0.6 * smoothstep(0., 10., time)) * 90.;
 	float beta = radians(90. - alpha);
 	alpha = radians(alpha);
 	float a = cos(alpha);
 	float b = sqrt(1. - a * a);
 	float p_a = 1.;
-	float tree = cube(p, p_a);
+	vec2 tree = vec2(cube(p, p_a), mat_tree3);
 
 	for(int i = 0; i < 15; i++) {
 		float q_a = a * p_a;
 		vec3 q = trans(p, 0, p_a , -p_a);
 		q = rX(alpha) * q;
 		q = trans(q, 0, q_a, q_a);
-		tree = min(tree, cube(q, q_a));
 
 		float r_a = b * p_a;
 		vec3 r = trans(p, 0, p_a, p_a);
 		r = rX(-beta) * r;
 		r = trans(r, 0, r_a, -r_a);
-		tree = min(tree, cube(r, r_a));
+
+		vec2 next_cubes = vec2(min(cube(r, r_a), cube(q, q_a)), mat_tree1 + i % 3);
+		tree = min_material(tree, next_cubes);
 
 		p = q;
 		p_a = q_a;
@@ -99,9 +123,9 @@ vec2 f(vec3 p) {
 	vec3 q = domrep(p, c, 1., c);
 	q.y = p.y;
 	float foo = 4. * rand(200. * floor(p.xz / c) - 123.);
-	float tree = pythagoraen(rY(foo * radians(90.)) * q);
-	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), 0);
-	return min_material(vec2(tree,1), min_material(vec2(f_floor(p), 2.), bounding));
+	vec2 tree = pythagoraen(rY(foo * radians(90.)) * q);
+	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
+	return min_material(tree, min_material(vec2(f_floor(p), mat_floor), bounding));
 }
 
 vec2 g(vec3 p) {
