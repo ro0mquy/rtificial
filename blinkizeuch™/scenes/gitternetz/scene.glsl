@@ -18,9 +18,13 @@ uniform float dy_kugel;
 uniform float sigma_delle;
 uniform float sigma_trichter;
 
-uniform sampler2D tex_text;
+uniform sampler2D tex_mercury;
+uniform sampler2D tex_urs;
+uniform sampler2D tex_iq;
 
-vec2 origdim_text = vec2(43, 7);
+vec2 origdim_mercury = vec2(43, 7);
+vec2 origdim_urs = vec2(18, 7);
+vec2 origdim_iq = vec2(9, 8);
 
 #define mat_bounding 0
 #define mat_gitter 1
@@ -57,17 +61,33 @@ void main(void) {
 		final_color += vec3(phong(to_light, normal, -dir, 50.));
 
 		final_color *= mat_colors[int(material)];
+		if (material != mat_bounding) {
+			final_color *= .95 * softshadow(hit, light_position, 32.) + .05;
+		}
 
 		if (material == mat_gitter) {
 			vec2 base_dim = vec2(8., 10.);
-			vec2 dim_text = vec2(origdim_text.x / origdim_text.y, 1.) * base_dim;
-			vec2 p_text = hit.zx - vec2(-15 + 2 * time, 0);
-			float d = texture(tex_text, vec2(1, -1) * p_text / dim_text.xy + .5).r;
-			final_color += d * color_text;
-			final_bloom += d;
+
+			vec2 dim_mercury = vec2(origdim_mercury.x / origdim_mercury.y, 1.) * base_dim;
+			vec2 p_mercury = hit.zx - vec2(-15 + 2 * time, 0);
+			vec2 p_tex_mercury = vec2(1, -1) * p_mercury / dim_mercury.xy + .5;
+			float f_mercury = texture(tex_mercury, p_tex_mercury).r;
+
+			vec2 dim_urs = vec2(origdim_urs.x / origdim_urs.y, 1.) * base_dim;
+			vec2 p_urs = hit.zx - vec2(-20 + 1.2 * time, -15);
+			vec2 p_tex_urs = vec2(1, -1) * p_urs / dim_urs.xy + .5;
+			float f_urs = texture(tex_urs, p_tex_urs).r;
+
+			vec2 dim_iq = vec2(origdim_iq.x / origdim_iq.y, 1.) * base_dim;
+			vec2 p_iq = hit.xz - vec2(-15 + 3 * time, 0);
+			vec2 p_tex_iq = vec2(1, 1) * p_iq / dim_iq.xy + .5;
+			float f_iq = texture(tex_iq, p_tex_iq).r;
+
+			float f_text = max(max(f_mercury, f_urs), f_iq);
+			final_color += f_text * color_text;
+			final_bloom += f_text * (1 - mod(time, 1));
 		}
 
-		final_color *= .95 * softshadow(hit, light_position, 32.) + .05;
 		// black fog
 		final_color *= mix(final_color, vec3(0), smoothstep(35, 45, length(hit)));
 
