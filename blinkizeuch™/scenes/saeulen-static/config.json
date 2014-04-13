@@ -1,6 +1,26 @@
 {
     "tweakables": [
         {
+            "name": "Foo Color1",
+            "uniform": "color_foo1",
+            "type": "color",
+            "default": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "name": "Foo Color2",
+            "uniform": "color_foo2",
+            "type": "color",
+            "default": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
             "name": "Foo1",
             "uniform": "foo1",
             "type": "float",
@@ -14,16 +34,49 @@
             "default": 0.5,
             "varparam": "min=0 max=1 step=0.01"
         },
-		{
-			"name": "Light Position",
-			"uniform": "light",
-			"type": "direction",
-			"default": [
-				0.0,
-				10.0,
-				-5.0
-			]
-		},
+        {
+            "name": "Light Position",
+            "uniform": "light",
+            "type": "direction",
+            "default": [
+                0.0,
+                10.0,
+                -5.0
+            ]
+        },
+        {
+            "name": "Color Light",
+            "uniform": "color_light",
+            "type": "color",
+            "default": [
+                0.80000001192092896,
+                0.80000001192092896,
+                1.0
+            ],
+            "varparam": "colormode=hls"
+        },
+        {
+            "name": "Color Saeulen",
+            "uniform": "color_saeulen",
+            "type": "color",
+            "default": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "varparam": "colormode=hls"
+        },
+        {
+            "name": "Color Fog",
+            "uniform": "color_fog",
+            "type": "color",
+            "default": [
+                0.89019614458084106,
+                0.90196084976196289,
+                0.91372555494308472
+            ],
+            "varparam": "colormode=hls"
+        },
         {
             "name": "Normal-Noise Radius",
             "uniform": "normal_noise_radius",
