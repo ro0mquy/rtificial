@@ -56,7 +56,7 @@ void main(void){
 		final_color *= ao(hit, normal, .3, 5.);
 	} else {
 		vec2 spherical = vec2(acos(dir.y) / 3.141, abs(atan(dir.z, dir.x) / 3.141));
-		final_color = hsv2rgb(vec3(foo1, .5 + .5 * fbm(spherical * 20.), foo2));
+		final_color = hsv2rgb(vec3(.67, .5 + .5 * fbm(spherical * 20.), .45));
 	}
 	final_color *= 1. - smoothstep(0., 300., distance(view_position, hit));
 	out_color.rgb = final_color;
