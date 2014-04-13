@@ -13,7 +13,7 @@ typedef struct {
 	GLuint target;
 } texture_t;
 
-bool texture_init(texture_t* texture, const char path[], const char uniform[]);
+bool texture_init(texture_t* texture, const char scene_path[], const char path[], const char uniform[]);
 
 bool texture_init_cubemap(texture_t* texture, char* const path[], const char uniform[]);
 
