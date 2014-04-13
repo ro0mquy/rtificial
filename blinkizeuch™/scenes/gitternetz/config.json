@@ -39,9 +39,9 @@
             "uniform": "light_position",
             "type": "direction",
             "default": [
-                -4.5870819091796875,
-                1.8578100204467773,
-                -8.669891357421875
+                -1.8820754289627075,
+                -1.0884135961532593,
+                -9.7433547973632812
             ]
         },
         {
@@ -71,9 +71,9 @@
             "uniform": "color_text",
             "type": "color",
             "default": [
-                0.5,
+                0.51764708757400513,
                 1.0,
-                0.0
+                0.0039215688593685627
             ],
             "varparam": "colormode=hls"
         },
@@ -109,7 +109,15 @@
     "textures": [
         {
             "path": "mercury.png",
-            "uniform": "tex_ro0mquy"
+            "uniform": "tex_mercury"
+        },
+        {
+            "path": "urs.png",
+            "uniform": "tex_urs"
+        },
+        {
+            "path": "iq.png",
+            "uniform": "tex_iq"
         }
     ]
 }
