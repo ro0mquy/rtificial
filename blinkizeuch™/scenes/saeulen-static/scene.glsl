@@ -1,33 +1,33 @@
-void initValues();
 vec2 f(vec3 p);
 float octo_box(vec3 p, float d);
-float ao(vec3 p, vec3 n, float d, float i);
-vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color);
-float softshadow(vec3 ro, vec3 rd, float k);
 
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
 DEFINE_SOFTSHADOW(softshadow, f)
 DEFINE_AO(ao, f)
 
+uniform vec3 color_foo1;
+uniform vec3 color_foo2;
 uniform float foo1;
 uniform float foo2;
 
 uniform vec3 light;
+uniform vec3 color_fog;
+uniform vec3 color_saeulen;
+uniform vec3 color_light;
 uniform float normal_noise_radius;
 uniform float diffuse_intensity;
-uniform float jump_duration;
 
 #define MAT_BOUNDING 0.
 #define MAT_FLOOR 1.
 #define MAT_CEILING 1.
 #define MAT_SAEULEN 2.
 
-vec3 color_background = vec3(0.05, 0.05, 0.05);
-vec3 color_fog = vec3(.67, .0, .9); // in hsv
-vec3 color_saeulen = vec3(1., 1., 1.);
-vec3 color_light = vec3(.8, .8, 1.);
-float intensity_light = .9;
+vec3[] mat_colors = vec3[](
+		vec3(0),
+		vec3(1),
+		color_saeulen
+);
 
 void main() {
 	vec3 color = vec3(0.);
@@ -42,10 +42,12 @@ void main() {
 		p = march(p, direction, i);
 		if (i >= 100) {
 			// hit nothing
-			color = hsv2rgb(color_fog);
+			color = color_fog;
 			break;
 		}
+
 		float material = f(p)[1];
+		vec3 to_light = light - p;
 
 		// apply some noise to the normal
 		vec3 normal = calc_normal(p);
@@ -53,15 +55,24 @@ void main() {
 		vec3 jitter = normal_noise_radius * smooth_noise(p) * vec3(cos(phi), sin(phi), 0.);
 		normal = normalize(normal - dot(jitter, normal) * normal + jitter);
 
-		vec3 light_color;
-		vec3 newColor = lighting(p, color_saeulen, direction, normal, light_color);
+		// lighting
+		vec3 light_color = vec3(0.);
+		//light_color += .05 + .95 * lambert(to_light, normal) * diffuse_intensity;
+		light_color += .05 + .95 * oren_nayar(to_light, normal, -direction, foo1) * diffuse_intensity;
+		light_color += phong(to_light, normal, -direction, 30.);
+
+		if (material != MAT_BOUNDING) {
+			light_color *= .05 + .95 * softshadow(p, light, 32.);
+		}
+		light_color *= ao(p, normal, 0.15, 5.);
+		light_color *= color_light;
+
+		vec3 newColor = light_color * mat_colors[int(material)];
 		newColor += smoothstep(10., 50., float(i)); // iteration glow
 
 		// fog
-		vec3 hsv_newColor = rgb2hsv(newColor);
 		float fog_intensity = smoothstep(5., 35., distance(p, view_position));
-		hsv_newColor.yz = mix(hsv_newColor.yz, color_fog.yz, fog_intensity);
-//		newColor = hsv2rgb(hsv_newColor);
+		newColor = mix(newColor, color_fog, fog_intensity);
 		bloom += fog_intensity;
 
 		color += newColor * reflection_factor * light_color_factor;
@@ -117,28 +128,4 @@ float octo_box(vec3 p, float d) {
 	p = rY(TAU/8.) * p;
 	octo = smax(octo, max(abs(p.x), abs(p.z)) - d, .05);
 	return octo;
-}
-
-vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_color) {
-	light_color = vec3(0.);
-	// normale (diffuse) lighting
-	vec3 to_light = normalize(light - p);
-	//float diffuse = lambert(to_light, normal);
-	float diffuse = oren_nayar(to_light, normal, -direction, foo1);
-	diffuse *= diffuse_intensity;
-
-	// specular lighting
-	float specular = 0.;
-	specular = phong(to_light, normal, -direction, 30.);
-
-	// softshadows
-	float shadow = 1.;
-	shadow = softshadow(p, light, 32.);
-
-	light_color += color_light * intensity_light * (diffuse + specular) * shadow;
-
-//	light_color += ao(p, direction, -0.15, 3.); // sub surface scattering
-	light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion
-
-	return color * light_color;
 }
