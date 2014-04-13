@@ -129,16 +129,8 @@ scene_t* scene_load(const char scene_path[], const char config_path[]) {
 				continue;
 			}
 
-			// assemble texture path; "<scene_path><path_json>\0"
-			const size_t scene_path_length = strlen(scene_path);
-			const size_t path_json_length = strlen(path_json);
-			char* path_texture = malloc(scene_path_length + path_json_length + 1);
-			strncpy(path_texture, scene_path, scene_path_length);
-			strncpy(path_texture + scene_path_length, path_json, path_json_length + 1);
-
 			texture_t* const texture = &textures[real_textures_size];
-			const bool ok = texture_init(texture, path_texture, uniform_json);
-			util_safe_free(path_texture);
+			const bool ok = texture_init(texture, scene_path, path_json, uniform_json);
 			if(!ok) {
 				fprintf(stderr, "Failed to load texture #%d\n", i);
 				continue;

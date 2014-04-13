@@ -6,7 +6,7 @@
 
 static bool load_texture(const char path[], GLenum target);
 
-bool texture_init(texture_t* texture, const char path[], const char uniform[]) {
+bool texture_init(texture_t* texture, const char scene_path[], const char path[], const char uniform[]) {
 	texture->path = NULL;
 	texture->uniform_name = NULL;
 
@@ -16,7 +16,16 @@ bool texture_init(texture_t* texture, const char path[], const char uniform[]) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	const bool load_success = load_texture(path, GL_TEXTURE_2D);
+
+	// assemble texture path; "<scene_path><path_json>\0"
+	const size_t scene_path_length = strlen(scene_path);
+	const size_t path_length = strlen(path);
+	char* path_texture = malloc(scene_path_length + path_length + 1);
+	strncpy(path_texture, scene_path, scene_path_length);
+	strncpy(path_texture + scene_path_length, path, path_length + 1);
+
+	const bool load_success = load_texture(path_texture, GL_TEXTURE_2D);
+	util_safe_free(path_texture);
 	if(!load_success) {
 		texture_destroy(texture);
 		return false;
