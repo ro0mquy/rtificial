@@ -13,41 +13,18 @@ void main(void){
 	vec3 dir = get_direction();
 	vec3 final_color = vec3(0);
 	int i;
-	float factor = 1.;
-	float bloom = 0.;
-	for(int j = 0; j < 3; j++) {
-		vec3 hit = march(view_position, dir, i);
-		int material = int(f(hit)[1]);
-		if(material <= 0) {
-			break;
-		}
+	vec3 hit = march(view_position, dir, i);
+	int material = int(f(hit)[1]);
+	if(material > 0) {
 		vec3 normal = calc_normal(hit);
 		vec3 to_light = vec3(0, 0, 10) - hit;
-		// "marble"
-		//final_color = .8 * vec3(oren_nayar(to_light, normal, -dir, foo1 * 10.));
-		//final_color *= ao(hit, dir, -.7, 5.);
-		//final_color *= ao(hit, dir, .1, 5.);
-		//final_color += .2;
-
-		if(material == 1) {
-			// metallic
-			vec3 color = .95 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
-			color += .05 * color_foo1;
-			final_color += factor * color;
-			factor *= .5;
-			dir = reflect(normal, dir);
-		} else if(material == 2) {
-			if(j == 0) {
-				bloom = 1.;
-			}
-			final_color += vec3(1, 0, 0) * .9 * oren_nayar(to_light, normal, -dir, 3.);
-			final_color += vec3(1, 0, 0) * .05;
-			break;
-		}
+		final_color = .8 * vec3(oren_nayar(to_light, normal, -dir, foo1 * 10.));
+		final_color *= ao(hit, dir, -.7, 5.);
+		final_color *= ao(hit, dir, .1, 5.);
+		final_color += .2;
 	}
 
 	out_color.rgb = final_color;
-	out_color.a = bloom;
 }
 
 float tetrahedron(vec3 p) {
@@ -156,10 +133,8 @@ vec2 f(vec3 p){
 	foo = smax(box(p, vec3(1.)), -foo, .1);
 	// */
 	//float foo = smin(octahedron(p), octahedron(trans(p, 1., 0, 0)), .1);
-	float foo = schwurbelsaeule(p);
 
-	//float foo = abelian(p);
-	float bar = sphere(p, 1);
+	float foo = abelian(p);
 
-	return min_material(vec2(-sphere(p - view_position, 500.), 0), min_material(vec2(foo, 1), vec2(bar, 2)));
+	return min_material(vec2(-sphere(p - view_position, 500.), 0), vec2(foo, 1));
 }
