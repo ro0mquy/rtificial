@@ -14,7 +14,7 @@ uniform vec3 color_gitter;
 uniform vec3 color_kugel;
 uniform vec3 color_text;
 uniform float radius_kugel;
-uniform float dy_kugel;
+uniform float udy_kugel;
 uniform float sigma_delle;
 uniform float sigma_trichter;
 
@@ -55,9 +55,12 @@ void main(void) {
 		vec3 normal = calc_normal(hit);
 		vec3 to_light = light_position - hit;
 		float material = f(hit)[1];
-		//final_color += .95 * lambert(to_light, normal) + .05;
-		final_color += .95 * oren_nayar(to_light, normal, -dir, .5) + .05;
-		//final_color += .95 * cook_torrance(to_light, normal, -dir, .5, 450) + .05;
+		if (material == mat_kugel) {
+			//final_color += .05 + .95 * cook_torrance(to_light, normal, -dir, .5, 450);
+			final_color += .05 + .95 * lambert(to_light, normal);
+		} else {
+			final_color += .05 + .95 * oren_nayar(to_light, normal, -dir, .5);
+		}
 		final_color += vec3(phong(to_light, normal, -dir, 50.));
 
 		final_color *= mat_colors[int(material)];
@@ -89,7 +92,7 @@ void main(void) {
 		}
 
 		// black fog
-		final_color *= mix(final_color, vec3(0), smoothstep(35, 45, length(hit)));
+		final_color *= mix(final_color, vec3(0), smoothstep(75, 95, distance(hit, view_position)));
 
 		final_bloom += mat_blooms[int(material)];
 	}
@@ -98,18 +101,36 @@ void main(void) {
 }
 
 vec2 f(vec3 p) {
-	vec2 bounding = vec2(-sphere(p, 50.), mat_bounding);
+	vec2 bounding = vec2(-sphere(transv(p, view_position), 100.), mat_bounding);
 
-	float a = 70; // use to tweak shape of spiral
-	float t = time + .001;
-	t = t * (.5 + pow(t * .09, 8)); // use to tweak the speed of the kugel
-	vec2 pos_delle = a / t * vec2(-sin(t), cos(t));
-	pos_delle += vec2(25, 0);
+	vec2 pos_delle = vec2(0);
+	float dy_kugel = udy_kugel;
+	if (time < 2) {
+		pos_delle += vec2(5);
+		float time = time;
+		float anim_duration = 2;
+		float start_height = 40;
+		float t = time / anim_duration;
+		dy_kugel += -start_height * t*t + start_height;
+	} else if (time < 10) {
+		pos_delle += vec2(5);
+		float time = time - 2;
+		float v_0 = 2 * 20; // 2 * start_height
+		float omega_d = 10 * foo1;
+		float daempfung = 10 * foo2;
+		dy_kugel += v_0 / omega_d * exp(-daempfung * time) * cos(omega_d * time + TAU / 4);
+	} else if (time < 100) {
+		float a = 70; // use to tweak shape of spiral
+		float t = time + .001;
+		t = t * (.5 + pow(t * .09, 8)); // use to tweak the speed of the kugel
+		pos_delle = a / t * vec2(-sin(t), cos(t));
+		pos_delle += vec2(25, 0);
+	}
 	vec3 p_delle = trans(p, pos_delle.x, 0, pos_delle.y);
 
 	float l = length(p_delle.xz) / sigma_delle;
 	float f_delle = 1 / (l*l + 1);
-	f_delle *= dy_kugel;
+	f_delle *= clamp(dy_kugel, -100, 0);
 
 	vec2 pos_trichter = vec2(25, 0);
 	vec3 p_trichter = trans(p, pos_trichter.x, 0, pos_trichter.y);
