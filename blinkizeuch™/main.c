@@ -51,7 +51,6 @@ GLuint vbo_rectangle;
 GLuint vertex_shader;
 GLuint post_framebuffer;
 GLuint post_program = 0;
-GLuint post_vertex_shader;
 GLuint post_tex_buffer;
 GLuint post_depth_buffer;
 GLuint bloom_framebuffers[3];
@@ -288,7 +287,6 @@ static int init(void) {
 
 	// set up vertex shader for main scene rendering and postprocessing
 	vertex_shader = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
-	post_vertex_shader = shader_load_strings(1, "post_vertex", (const GLchar* []) { post_vertex_source }, GL_VERTEX_SHADER);
 
 	const GLfloat rectangle_vertices[] = {
 		-1.0,  1.0,
@@ -444,7 +442,7 @@ static void load_shader(void) {
 	}
 
 	if(post_program != 0) glDeleteProgram(post_program);
-	post_program = shader_link_program(post_vertex_shader, post_fragment_shader);
+	post_program = shader_link_program(vertex_shader, post_fragment_shader);
 	glDeleteShader(post_fragment_shader);
 
 	const char post_attribute_coord2d_name[] = "coord2d";
@@ -468,7 +466,7 @@ static void load_shader(void) {
 		snprintf(bloom_shader_name, 7, "bloom%zu", i);
 		GLuint bloom_fragment_shader = shader_load_strings(1, bloom_shader_name, (const GLchar* []) { bloom_fragment_sources[i] }, GL_FRAGMENT_SHADER);
 		if (bloom_programs[i] != 0) glDeleteProgram(bloom_programs[i]);
-		bloom_programs[i] = shader_link_program(post_vertex_shader, bloom_fragment_shader);
+		bloom_programs[i] = shader_link_program(vertex_shader, bloom_fragment_shader);
 		glDeleteShader(bloom_fragment_shader);
 
 		const char bloom_attribute_coord2d_name[] = "coord2d";
@@ -494,7 +492,7 @@ static void load_shader(void) {
 	// compile gamma correction program
 	GLuint gamma_fragment_shader = shader_load_strings(1, "gamma", (const GLchar* []) { gamma_fragment_source }, GL_FRAGMENT_SHADER);
 	if (gamma_program != 0) glDeleteProgram(gamma_program);
-	gamma_program = shader_link_program(post_vertex_shader, gamma_fragment_shader);
+	gamma_program = shader_link_program(vertex_shader, gamma_fragment_shader);
 	glDeleteShader(gamma_fragment_shader);
 
 	const char gamma_attribute_coord2d_name[] = "coord2d";
@@ -511,7 +509,7 @@ static void load_shader(void) {
 	// compile anti-aliasing program
 	GLuint fxaa_fragment_shader = shader_load_strings(1, "fxaa", (const GLchar* []) { fxaa_fragment_source }, GL_FRAGMENT_SHADER);
 	if (fxaa_program != 0) glDeleteProgram(fxaa_program);
-	fxaa_program = shader_link_program(post_vertex_shader, fxaa_fragment_shader);
+	fxaa_program = shader_link_program(vertex_shader, fxaa_fragment_shader);
 	glDeleteShader(fxaa_fragment_shader);
 
 	const char fxaa_attribute_coord2d_name[] = "coord2d";
