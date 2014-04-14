@@ -15,8 +15,9 @@ void main(void){
 	int i;
 	float factor = 1.;
 	float bloom = 0.;
+	vec3 p = view_position;
 	for(int j = 0; j < 3; j++) {
-		vec3 hit = march(view_position, dir, i);
+		vec3 hit = march(p, dir, i);
 		int material = int(f(hit)[1]);
 		if(material <= 0) {
 			break;
@@ -30,6 +31,7 @@ void main(void){
 			final_color += factor * color;
 			factor *= .5;
 			dir = reflect(normal, dir);
+			p = hit + .01 * normal; // noise reduction
 		} else if(material == 2) {
 			if(j == 0) {
 				bloom = 1.;
