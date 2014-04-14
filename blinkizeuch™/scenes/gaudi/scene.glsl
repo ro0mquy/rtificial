@@ -14,7 +14,8 @@ void main(void){
 	vec3 final_color = vec3(0);
 	int i;
 	float factor = 1.;
-	for(int j = 0; j < 2; j++) {
+	float bloom = 0.;
+	for(int j = 0; j < 3; j++) {
 		vec3 hit = march(view_position, dir, i);
 		int material = int(f(hit)[1]);
 		if(material <= 0) {
@@ -29,19 +30,24 @@ void main(void){
 		//final_color += .2;
 
 		if(material == 1) {
-		// metallic
-		vec3 color = .95 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
-		color += .05 * color_foo1;
-		final_color += factor * color;
-		factor *= .5;
-		dir = reflect(normal, dir);
+			// metallic
+			vec3 color = .95 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
+			color += .05 * color_foo1;
+			final_color += factor * color;
+			factor *= .5;
+			dir = reflect(normal, dir);
 		} else if(material == 2) {
-		final_color += vec3(1, 0, 0) * .9 * oren_nayar(to_light, normal, -dir, 3.);
-		final_color += vec3(1, 0, 0) * .05;
+			if(j == 0) {
+				bloom = 1.;
+			}
+			final_color += vec3(1, 0, 0) * .9 * oren_nayar(to_light, normal, -dir, 3.);
+			final_color += vec3(1, 0, 0) * .05;
+			break;
 		}
 	}
 
 	out_color.rgb = final_color;
+	out_color.a = bloom;
 }
 
 float tetrahedron(vec3 p) {
