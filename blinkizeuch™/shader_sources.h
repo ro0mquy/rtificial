@@ -6,7 +6,7 @@ static const char vertex_source[] = "\
 in vec2 coord2d;\
 out vec2 texcoord;\
 void main() {\
-	texcoord = (coord2d + 1.) / 2.;\
+	texcoord = coord2d * .5 + .5;\
 	gl_Position = vec4(coord2d, 0.0, 1.0);\
 }\
 ";
