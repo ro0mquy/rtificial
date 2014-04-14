@@ -22,11 +22,13 @@ uniform float diffuse_intensity;
 #define MAT_FLOOR 1.
 #define MAT_CEILING 1.
 #define MAT_SAEULEN 2.
+#define mat_kugel 3
 
 vec3[] mat_colors = vec3[](
-		vec3(0),
-		vec3(1),
-		color_saeulen
+	vec3(0),
+	vec3(1),
+	color_saeulen,
+	vec3(144./255., 0.,0.)
 );
 
 void main() {
@@ -42,7 +44,7 @@ void main() {
 		p = march(p, direction, i);
 		if (i >= 100) {
 			// hit nothing
-			color = color_fog;
+			color += color_fog*reflection_factor;
 			break;
 		}
 
@@ -58,7 +60,11 @@ void main() {
 		// lighting
 		vec3 light_color = vec3(0.);
 		//light_color += .05 + .95 * lambert(to_light, normal) * diffuse_intensity;
-		light_color += .05 + .95 * oren_nayar(to_light, normal, -direction, foo1) * diffuse_intensity;
+		if(material == mat_kugel){
+			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, .45, 450.);
+		} else {
+			light_color += .05 + .95 * oren_nayar(to_light, normal, -direction, foo1) * diffuse_intensity;
+		}
 		light_color += phong(to_light, normal, -direction, 30.);
 
 		if (material != MAT_BOUNDING) {
@@ -68,22 +74,25 @@ void main() {
 		light_color *= color_light;
 
 		vec3 newColor = light_color * mat_colors[int(material)];
-		newColor += smoothstep(10., 50., float(i)); // iteration glow
+//		newColor += smoothstep(10., 50., float(i)); // iteration glow
 
 		// fog
-		float fog_intensity = smoothstep(5., 35., distance(p, view_position));
+		float fog_intensity = smoothstep(10., 45., distance(p, view_position));
 		newColor = mix(newColor, color_fog, fog_intensity);
-		bloom += fog_intensity;
+		//bloom += fog_intensity;
 
 		color += newColor * reflection_factor * light_color_factor;
+		if(material == mat_kugel ){
+			bloom += 1 * reflection_factor;
+		}
 
 		// only floor and ceiling are reflective
-		if (material != MAT_FLOOR && material != MAT_CEILING) {
+		if (material != MAT_FLOOR && material != mat_kugel) {
 			break;
 		}
 
 		light_color_factor *= light_color;
-		reflection_factor *= .4;
+		reflection_factor *= .05;
 
 		direction = reflect(direction, normal);
 	}
@@ -101,7 +110,7 @@ vec2 f(vec3 p) {
 	// jumpi di jump
 	float domrep_x = 10.;
 	float domrep_z = 10.;
-	float height_saeulen = 19.9; // - fuge_hoehe
+	float height_saeulen = 29.9; // - fuge_hoehe
 	float height_jump = 6.;
 	vec3 b = domrep(p, domrep_x, 1., domrep_z);
 	b.y = p.y;
@@ -120,7 +129,10 @@ vec2 f(vec3 p) {
 	octo -= fuge;
 	vec2 saeulen = vec2(octo, MAT_SAEULEN);
 
-	return min_material(min_material(sphery, room), saeulen);
+	vec3 p_kugel = trans(p, 0.,1.5,0.);
+	vec2 kugel = vec2(sphere(p_kugel, 1.5), mat_kugel);
+
+	return min_material(min_material(sphery, room), min_material(saeulen, kugel));
 }
 
 float octo_box(vec3 p, float d) {
