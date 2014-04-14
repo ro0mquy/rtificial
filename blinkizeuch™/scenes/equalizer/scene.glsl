@@ -12,6 +12,8 @@ uniform float foo2;
 void main(void){
 	vec2 pos = gl_FragCoord.xy / res;
 	float env = envelopes[int(pos.x * 32)];
+	float senv = senvelopes[int(pos.x * 32)];
+	env = mix(env, senv, foo1);
 	float note = float(notes[int(pos.x * 32)]) / 128;
 	if(pos.y > .51) {
 		out_color.rgb = vec3(1. - step(env, (pos.y - .51) / .49));

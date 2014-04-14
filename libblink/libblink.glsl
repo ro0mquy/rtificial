@@ -7,6 +7,8 @@ uniform vec2 res;
 uniform float time;
 uniform int notes[32];
 uniform float envelopes[32];
+uniform float aenvelopes[32];
+uniform float senvelopes[32];
 
 layout(location = 0) out vec4 out_color;
 layout(location = 1) out float out_depth;
