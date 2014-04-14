@@ -92,7 +92,7 @@ vec2 pythagoraen(vec3 p) {
 	float p_a = 1.;
 	vec2 tree = vec2(cube(p, p_a), mat_tree3);
 
-	for(int i = 0; i < 15; i++) {
+	for(int i = 0; i < 10; i++) {
 		float q_a = a * p_a;
 		vec3 q = trans(p, 0, p_a , -p_a);
 		q = rX(alpha) * q;
