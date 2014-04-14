@@ -13,17 +13,34 @@ void main(void){
 	vec3 dir = get_direction();
 	vec3 final_color = vec3(0);
 	int i;
-	vec3 hit = march(view_position, dir, i);
-	if(i < 100){
-		if(f(hit)[1] > 0) {
-			vec3 normal = calc_normal(hit);
-			vec3 to_light = vec3(0, 0, 10) - hit;
-			final_color = .8 * vec3(oren_nayar(to_light, normal, -dir, foo1 * 10.));
-			final_color *= ao(hit, dir, -.7, 5.);
-			final_color *= ao(hit, dir, .1, 5.);
-			final_color += .2;
+	float factor = 1.;
+	for(int j = 0; j < 2; j++) {
+		vec3 hit = march(view_position, dir, i);
+		int material = int(f(hit)[1]);
+		if(material <= 0) {
+			break;
+		}
+		vec3 normal = calc_normal(hit);
+		vec3 to_light = vec3(0, 0, 10) - hit;
+		// "marble"
+		//final_color = .8 * vec3(oren_nayar(to_light, normal, -dir, foo1 * 10.));
+		//final_color *= ao(hit, dir, -.7, 5.);
+		//final_color *= ao(hit, dir, .1, 5.);
+		//final_color += .2;
+
+		if(material == 1) {
+		// metallic
+		vec3 color = .95 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
+		color += .05 * color_foo1;
+		final_color += factor * color;
+		factor *= .5;
+		dir = reflect(normal, dir);
+		} else if(material == 2) {
+		final_color += vec3(1, 0, 0) * .9 * oren_nayar(to_light, normal, -dir, 3.);
+		final_color += vec3(1, 0, 0) * .05;
 		}
 	}
+
 	out_color.rgb = final_color;
 }
 
@@ -90,13 +107,13 @@ float schwurbelsaeule(vec3 p) {
 	float height = 80.;
 	float side_lenght = 1. - .3 * (p.y / height + .5);
 
-	vec3 q1 = rY(p.y * .7 + time * 5.) * p1;
-	vec3 r1 = rY(-p.y * .7 - time * 3.) * p1;
+	vec3 q1 = rY(p.y * .7 + time * 5. * .5) * p1;
+	vec3 r1 = rY(-p.y * .7 - time * 3. * .5) * p1;
 	float f1 = roundbox(q1, vec3(side_lenght, height, side_lenght), .5);
 	f1 = smin(f1, roundbox(r1, vec3(side_lenght, height, side_lenght), .5), .1);
 
-	vec3 q2 = rY(p.y * .7 + time * 5.) * p2;
-	vec3 r2 = rY(-p.y * .7 - time * 3.) * p2;
+	vec3 q2 = rY(p.y * .7 + time * 5. * .5) * p2;
+	vec3 r2 = rY(-p.y * .7 - time * 3. * .5) * p2;
 	float f2 = roundbox(q2, vec3(side_lenght, height, side_lenght), .5);
 	f2 = smin(f2, roundbox(r2, vec3(side_lenght, height, side_lenght), .5), .1);
 
@@ -133,9 +150,10 @@ vec2 f(vec3 p){
 	foo = smax(box(p, vec3(1.)), -foo, .1);
 	// */
 	//float foo = smin(octahedron(p), octahedron(trans(p, 1., 0, 0)), .1);
-	//float foo = schwurbelsaeule(p);
+	float foo = schwurbelsaeule(p);
 
-	float foo = abelian(p);
+	//float foo = abelian(p);
+	float bar = sphere(p, 1);
 
-	return min_material(vec2(-sphere(p - view_position, 500.), 0), vec2(foo, 1));
+	return min_material(vec2(-sphere(p - view_position, 500.), 0), min_material(vec2(foo, 1), vec2(bar, 2)));
 }
