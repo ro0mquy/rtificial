@@ -15,9 +15,10 @@ uniform float foo2;
 
 #define mat_bounding 0
 #define mat_floor 1
-#define mat_tree1 2
-#define mat_tree2 3
-#define mat_tree3 4
+#define mat_kugel 2
+#define mat_tree1 3
+#define mat_tree2 4
+#define mat_tree3 5
 
 vec3 colors[] = vec3[](
 	vec3(0),
@@ -26,6 +27,9 @@ vec3 colors[] = vec3[](
 	vec3(.6,.9,.5),
 	vec3(1.,.6,.8)
 );
+
+float wakeup = smoothstep(12., 15., time);
+float wakeup_limited = wakeup * step(-15, -time);
 
 void main(void){
 	vec3 dir = get_direction();
@@ -40,16 +44,23 @@ void main(void){
 	float m;
 	float bloom = 0.;
 	if(material >= mat_tree1) {
-		normal =  calc_normal(hit);
+		normal = calc_normal(hit);
 		final_color += .1;
 		m = 0.;
 		vec2 coord = floor(hit.xz / 20);
-		bloom = color.x;
+		bloom = color.x * wakeup;
 		color.x = rand(coord * .25);
 		color = hsv2rgb(color);
 	} else if(material == mat_floor) {
 		normal = calc_normal_floor(hit);
 		m = .42;
+	} else if(material == mat_kugel) {
+		normal = calc_normal(hit);
+		color = vec3(1, 0, 0);
+		final_color += .1 * color;
+		bloom = senvelopes[2] + senvelopes[3];
+		bloom += wakeup;
+		final_color += .2 * wakeup_limited;
 	}
 	if(material != 0) {
 		final_color += color * oren_nayar(to_light, normal, -dir, m);
@@ -127,7 +138,10 @@ vec2 f(vec3 p) {
 	q = trans(q, 2. * (foo - 2.), .0, 2. * (foo2 - 2.));
 	vec2 tree = pythagoraen(rY(foo * radians(90.)) * q);
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
-	return min_material(tree, min_material(vec2(f_floor(p), mat_floor), bounding));
+	vec2 k = vec2(time * 5., time * 3.);
+	vec3 trans_kugel = .1 * vec3(rand(k), rand(k + 2.), rand(k + 3.)) * wakeup_limited;
+	vec2 kugel = vec2(sphere(transv(p, trans_kugel), 1.), mat_kugel);
+	return min_material(tree, min_material(vec2(f_floor(p), mat_floor), min_material(bounding, kugel)));
 }
 
 vec2 g(vec3 p) {
