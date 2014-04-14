@@ -52,6 +52,10 @@ bool music_load(music_t* const music) {
 	fclose(envelope_file);
 
 	music->playback_position = 0;
+	for(int i = 0; i < 32; i++) {
+		music->smooth_envelopes[i] = 0.;
+		music->accum_envelopes[i] = 0.;
+	}
 	return true;
 }
 
@@ -99,12 +103,19 @@ int music_get_time(music_t* const music) {
 	return (int64_t) position * 1000 / 44100;
 }
 
-void music_update_uniforms(music_t* const music, GLint uniform_envelopes, GLint uniform_notes) {
+void music_update_uniforms(music_t* const music, GLint uniform_envelopes, GLint uniform_notes, GLint uniform_smooth_envelopes, GLint uniform_accum_envelopes) {
 	SDL_LockAudio();
 	int position = music->playback_position;
 	SDL_UnlockAudio();
 	int index = position * 32 / 256;
+	const float factor = .3;
+	for(int i = 0; i < 32; i++) {
+		music->smooth_envelopes[i] = (1. - factor) * music->envelope_data[index + i] + factor * music->smooth_envelopes[i];
+		music->accum_envelopes[i] = music->envelope_data[index + i];
+	}
 	glUniform1fv(uniform_envelopes, 32, &music->envelope_data[index]);
+	glUniform1fv(uniform_smooth_envelopes, 32, music->smooth_envelopes);
+	glUniform1fv(uniform_accum_envelopes, 32, music->accum_envelopes);
 	glUniform1iv(uniform_notes, 32, &music->note_data[index]);
 }
 
