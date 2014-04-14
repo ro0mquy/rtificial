@@ -1,4 +1,5 @@
 vec2 f(vec3);
+float fbm(vec3);
 
 DEFINE_MARCH(march, f)
 DEFINE_NORMAL(calc_normal, f)
@@ -19,14 +20,11 @@ void main(void){
 	for(int j = 0; j < 3; j++) {
 		vec3 hit = march(p, dir, i);
 		int material = int(f(hit)[1]);
-		if(material <= 0) {
-			break;
-		}
 		vec3 normal = calc_normal(hit);
 		vec3 to_light = vec3(0, 0, 10) - hit;
 
 		if(material == 1) {
-			vec3 color = .95 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
+			vec3 color = .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
 			color += .05 * color_foo1;
 			final_color += factor * color;
 			factor *= .5;
@@ -36,8 +34,11 @@ void main(void){
 			if(j == 0) {
 				bloom = 1.;
 			}
-			final_color += vec3(1, 0, 0) * .9 * oren_nayar(to_light, normal, -dir, 3.);
-			final_color += vec3(1, 0, 0) * .05;
+			final_color += factor * vec3(1, 0, 0) * .9 * oren_nayar(to_light, normal, -dir, 3.);
+			final_color += factor * vec3(1, 0, 0) * .05;
+			break;
+		} else if(material == 0) {
+			final_color += factor * mix(vec3(0), color_foo2, fbm(dir * 2.));
 			break;
 		}
 	}
@@ -87,4 +88,16 @@ vec2 f(vec3 p){
 	float bar = sphere(p, 1);
 
 	return min_material(vec2(-sphere(p - view_position, 500.), 0), min_material(vec2(foo, 1), vec2(bar, 2)));
+}
+
+float fbm(vec3 p) {
+	float sum = 0.;
+	float amplitude = .5;
+	float freq = 1.;
+	for(int i = 0; i < 3; i++) {
+		sum += smooth_noise(p * freq) * amplitude;
+		freq *= 2.;
+		amplitude *= .5;
+	}
+	return sum;
 }
