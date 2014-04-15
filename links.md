@@ -26,3 +26,4 @@
 * [Global Illumination in a Nutshell](http://www.thepolygoners.com/tutorials/GIIntro/GIIntro.htm)
 * Shader Repo from IQ [main](https://github.com/demoscenepassivist/SocialCoding/blob/master/code_demos_jogamp/shaders/raymarchingshaders/hartverdrahtet_development_main.fs) [postprocessing](https://github.com/demoscenepassivist/SocialCoding/blob/master/code_demos_jogamp/shaders/raymarchingshaders/hartverdrahtet_development_post.fs)
 * [Depth of Field and Bokeh with code](http://mynameismjp.wordpress.com/2011/04/19/bokeh-ii-the-sequel/)
+* [Ultra Super Hyper Mega Anti-Aliasing for Champions](http://www.iryoku.com/smaa/)
