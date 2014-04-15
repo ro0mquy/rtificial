@@ -8,8 +8,8 @@
 #include "scene_blank.h"
 #include "4klang.inh"
 
-//#define WIDTH 1366
-//#define HEIGHT 768
+//#define WIDTH 1920
+//#define HEIGHT 1080
 //#define FULLSCREEN
 
 #define WIDTH 800
@@ -69,12 +69,39 @@ int main() {
 	glUseProgram(program);
 
 	int run = true;
+	int alt = false;
 	while(run) {
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
 			switch(event.type) {
 				case SDL_QUIT:
 					run = false;
+					break;
+				case SDL_KEYDOWN:
+					switch(event.key.keysym.sym) {
+						case SDLK_ESCAPE:
+							return 0;
+						case SDLK_LALT:
+						case SDLK_RALT:
+							alt = true;
+							break;
+						case SDLK_F4:
+							if(alt == true) return 0;
+							break;
+						default:
+							break;
+					}
+					break;
+				case SDL_KEYUP:
+					switch(event.key.keysym.sym) {
+						case SDLK_LALT:
+						case SDLK_RALT:
+							alt = false;
+							break;
+						default:
+							break;
+					}
+				default:
 					break;
 			}
 		}
