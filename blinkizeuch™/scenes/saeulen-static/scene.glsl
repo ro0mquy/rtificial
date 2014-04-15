@@ -92,7 +92,11 @@ void main() {
 		}
 
 		light_color_factor *= light_color;
-		reflection_factor *= .05;
+		if(material == MAT_FLOOR){
+			reflection_factor *= .2;
+		} else {
+			reflection_factor *= .05;
+		}
 
 		direction = reflect(direction, normal);
 	}
@@ -129,7 +133,11 @@ vec2 f(vec3 p) {
 	octo -= fuge;
 	vec2 saeulen = vec2(octo, MAT_SAEULEN);
 
-	vec3 p_kugel = trans(p, 0.,1.5,0.);
+	// nobody exspects the spanish inquisition!
+	vec2 kugel_anim;
+	kugel_anim.x = -12*foo1*sin(0.5 * TAU * time);
+	kugel_anim.y = 12*foo2*cos(0.5 * TAU * time);
+	vec3 p_kugel = trans(p, kugel_anim.x,1.5, kugel_anim.y);
 	vec2 kugel = vec2(sphere(p_kugel, 1.5), mat_kugel);
 
 	return min_material(min_material(sphery, room), min_material(saeulen, kugel));
