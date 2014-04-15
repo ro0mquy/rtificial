@@ -108,6 +108,14 @@
     ],
     "textures": [
         {
+            "path": "thanks.png",
+            "uniform": "tex_thanks"
+        },
+        {
+            "path": "greetings.png",
+            "uniform": "tex_greetings"
+        },
+        {
             "path": "mercury.png",
             "uniform": "tex_mercury"
         },
