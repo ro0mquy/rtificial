@@ -31,6 +31,11 @@ vec3[] mat_colors = vec3[](
 	vec3(144./255., 0.,0.)
 );
 
+// this demo is sponsored by: vanish oxy action -- vertrau #ee2888, vergiss flecken!
+float vanish_anim_start = 1.;
+float vanish_anim_duration = 4.;
+float vanish_anim_time = (clamp(time, vanish_anim_start, vanish_anim_start + vanish_anim_duration) -vanish_anim_start)/(vanish_anim_duration);
+
 void main() {
 	vec3 color = vec3(0.);
 	float bloom = 0.;
@@ -74,12 +79,17 @@ void main() {
 		light_color *= color_light;
 
 		vec3 newColor = light_color * mat_colors[int(material)];
-//		newColor += smoothstep(10., 50., float(i)); // iteration glow
+		if(vanish_anim_time != 0 && material != mat_kugel){
+			newColor += smoothstep(10., 50., float(i)) * vanish_anim_time; // iteration glow
+		}
 
 		// fog
 		float fog_intensity = smoothstep(10., 45., distance(p, view_position));
+		if(vanish_anim_time != 0 && material != mat_kugel){
+			fog_intensity += smoothstep(10., 15., distance(p, view_position)) * vanish_anim_time;
+			bloom += fog_intensity * 10 * vanish_anim_time;
+		}
 		newColor = mix(newColor, color_fog, fog_intensity);
-		//bloom += fog_intensity;
 
 		color += newColor * reflection_factor * light_color_factor;
 		if(material == mat_kugel ){
@@ -87,7 +97,7 @@ void main() {
 		}
 
 		// only floor and ceiling are reflective
-		if (material != MAT_FLOOR && material != mat_kugel) {
+		if ((material != MAT_FLOOR && material != mat_kugel) || vanish_anim_time !=0) {
 			break;
 		}
 
@@ -99,6 +109,10 @@ void main() {
 		}
 
 		direction = reflect(direction, normal);
+
+		if(vanish_anim_time != 0 && material != mat_kugel){
+			color += 1.1*vanish_anim_time;
+		}
 	}
 	out_color.rgb = color;
 	out_color.a = bloom;
@@ -134,13 +148,29 @@ vec2 f(vec3 p) {
 	vec2 saeulen = vec2(octo, MAT_SAEULEN);
 
 	// nobody exspects the spanish inquisition!
+
+	float ball_anim_start = vanish_anim_start+vanish_anim_duration +1;
+	float ball_anim_duration = 5.;
+	float ball_anim_time = (clamp(time, ball_anim_start, ball_anim_start + ball_anim_duration) -ball_anim_start)/(ball_anim_duration);
+	float ball_gravity = 500;
+	float ball_height =1.5+ -0.5 * ball_gravity * ball_anim_time*ball_anim_time /* 1/2 a t^2 */;
+
 	vec2 kugel_anim;
-	kugel_anim.x = -12*foo1*sin(0.5 * TAU * time);
-	kugel_anim.y = 12*foo2*cos(0.5 * TAU * time);
-	vec3 p_kugel = trans(p, kugel_anim.x,1.5, kugel_anim.y);
+	if(vanish_anim_time !=1){
+		kugel_anim.x = -12*foo1*sin(0.5 * TAU * time);
+		kugel_anim.y = 12*foo2*cos(0.5 * TAU * time);
+	}else{
+		kugel_anim.x = 0;
+		kugel_anim.y = 0;
+	}
+	vec3 p_kugel = trans(p, kugel_anim.x,ball_height, kugel_anim.y);
 	vec2 kugel = vec2(sphere(p_kugel, 1.5), mat_kugel);
 
-	return min_material(min_material(sphery, room), min_material(saeulen, kugel));
+	if(vanish_anim_time ==1){
+		return min_material(sphery, kugel);
+	}else{
+		return min_material(min_material(sphery, room), min_material(saeulen, kugel));
+	}
 }
 
 float octo_box(vec3 p, float d) {
