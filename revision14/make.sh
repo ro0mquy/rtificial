@@ -1,3 +1,4 @@
 #!/bin/sh
 
-gcc -o main main.c libzeuch/libzeuch.a -I. $(sdl-config --cflags --libs) $(pkg-config --cflags --libs glew)
+gcc -Os -m32 -o main main.c 4klang.o libzeuch/libzeuch.a -I. $(sdl-config-32 --cflags --libs) $(pkg-config --cflags --libs glew) -Wall
+

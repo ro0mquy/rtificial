@@ -18,7 +18,7 @@ all: $(OBJECTS)
 	ar rcs libzeuch.a $(OBJECTS)
 
 %.o: %.c $(HEADER)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -m32 -c -o $@ $< $(CFLAGS)
 
 .PHONY: clean
 clean:
