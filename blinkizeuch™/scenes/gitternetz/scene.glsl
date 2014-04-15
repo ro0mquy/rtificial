@@ -18,13 +18,21 @@ uniform float udy_kugel;
 uniform float sigma_delle;
 uniform float sigma_trichter;
 
+uniform sampler2D tex_thanks;
+uniform sampler2D tex_greetings;
 uniform sampler2D tex_mercury;
 uniform sampler2D tex_urs;
 uniform sampler2D tex_iq;
 
+vec2 origdim_thanks = vec2(36, 7);
+vec2 origdim_greetings = vec2(66, 7);
 vec2 origdim_mercury = vec2(43, 7);
 vec2 origdim_urs = vec2(18, 7);
 vec2 origdim_iq = vec2(9, 8);
+
+vec3 color_thanks_greetings = color_text;
+vec3 color_mercury_urs = vec3(1, .35, 0);
+vec3 color_iq = color_text;
 
 #define mat_bounding 0
 #define mat_gitter 1
@@ -70,23 +78,51 @@ void main(void) {
 
 		if (material == mat_gitter) {
 			vec2 base_dim = vec2(8., 10.);
+			float f_text = 0;
+			vec3 color_text = vec3(0);
 
-			vec2 dim_mercury = vec2(origdim_mercury.x / origdim_mercury.y, 1.) * base_dim;
-			vec2 p_mercury = hit.zx - vec2(-15 + 2 * time, 0);
-			vec2 p_tex_mercury = vec2(1, -1) * p_mercury / dim_mercury.xy + .5;
-			float f_mercury = texture(tex_mercury, p_tex_mercury).r;
+			if (time > 52 && time < 57) {
+				// thanks and greetings
+				float time = time - 52;
+				vec2 dim_thanks = vec2(origdim_thanks.x / origdim_thanks.y, 1.) * base_dim;
+				vec2 p_thanks = hit.xz - vec2(-51, -55 + time * 20);
+				vec2 p_tex_thanks = vec2(-1, 1) * p_thanks.yx / dim_thanks.xy + .5;
+				float f_thanks = texture(tex_thanks, p_tex_thanks).r;
 
-			vec2 dim_urs = vec2(origdim_urs.x / origdim_urs.y, 1.) * base_dim;
-			vec2 p_urs = hit.zx - vec2(-20 + 1.2 * time, -15);
-			vec2 p_tex_urs = vec2(1, -1) * p_urs / dim_urs.xy + .5;
-			float f_urs = texture(tex_urs, p_tex_urs).r;
+				vec2 dim_greetings = vec2(origdim_greetings.x / origdim_greetings.y, 1.) * base_dim;
+				vec2 p_greetings = hit.xz - vec2(-40, 10 - time * 4);
+				vec2 p_tex_greetings = vec2(-1, 1) * p_greetings.yx / dim_greetings.xy + .5;
+				float f_greetings = texture(tex_greetings, p_tex_greetings).r;
 
-			vec2 dim_iq = vec2(origdim_iq.x / origdim_iq.y, 1.) * base_dim;
-			vec2 p_iq = hit.xz - vec2(-15 + 3 * time, 0);
-			vec2 p_tex_iq = vec2(1, 1) * p_iq / dim_iq.xy + .5;
-			float f_iq = texture(tex_iq, p_tex_iq).r;
+				f_text = f_greetings + f_thanks;
+				color_text = color_thanks_greetings;
+			} else if (time > 57 && time < 64) {
+				// mercury -- urs
+				float time = time - 57;
+				vec2 dim_mercury = vec2(origdim_mercury.x / origdim_mercury.y, 1.) * base_dim;
+				vec2 p_mercury = hit.xz - vec2(-40, -15 - time * 3);
+				vec2 p_tex_mercury = vec2(-1, 1) * p_mercury.yx / dim_mercury.xy + .5;
+				float f_mercury = texture(tex_mercury, p_tex_mercury).r;
 
-			float f_text = max(max(f_mercury, f_urs), f_iq);
+				vec2 dim_urs = vec2(origdim_urs.x / origdim_urs.y, 1.) * base_dim;
+				vec2 p_urs = hit.xz - vec2(-42 - 3.2 * time, -8);
+				vec2 p_tex_urs = vec2(1, 1) * p_urs.xy / dim_urs.xy + .5;
+				float f_urs = texture(tex_urs, p_tex_urs).r;
+
+				f_text = f_mercury + f_urs;
+				color_text = color_mercury_urs;
+			} else if (time > 64 && time < 69) {
+				// iq
+				float time = time - 64;
+				vec2 dim_iq = vec2(origdim_iq.x / origdim_iq.y, 1.) * base_dim;
+				vec2 p_iq = hit.xz - vec2(-55, -10);
+				vec2 p_tex_iq = vec2(-1, 1) * p_iq.yx / dim_iq.xy + .5;
+				float f_iq = texture(tex_iq, p_tex_iq).r;
+
+				f_text = f_iq;
+				color_text = color_iq;
+			}
+
 			final_color += f_text * color_text;
 			final_bloom += f_text * (1 - mod(time, 1));
 		}
@@ -105,21 +141,54 @@ vec2 f(vec3 p) {
 
 	vec2 pos_delle = vec2(0);
 	float dy_kugel = udy_kugel;
-	if (time < 2) {
-		pos_delle += vec2(5);
-		float time = time;
+	if (time < 46) {
+		// dropdown
+		float time = time - 44;
+		pos_delle += vec2(-90, -45);
 		float anim_duration = 2;
 		float start_height = 40;
 		float t = time / anim_duration;
 		dy_kugel += -start_height * t*t + start_height;
-	} else if (time < 10) {
-		pos_delle += vec2(5);
-		float time = time - 2;
+	} else if (time < 48) {
+		// bouncing
+		float time = time - 46;
+		pos_delle += vec2(-90, -45);
 		float v_0 = 2 * 20; // 2 * start_height
-		float omega_d = 10 * foo1;
-		float daempfung = 10 * foo2;
+		float omega_d = 5.5;
+		float daempfung = 2.3;
 		dy_kugel += v_0 / omega_d * exp(-daempfung * time) * cos(omega_d * time + TAU / 4);
+	} else if (time < 50) {
+		// rolling
+		float time = time - 48;
+		pos_delle += vec2(-90, -45);
+		pos_delle += vec2(6 * time, 20 * sin(TAU / 4 * smoothstep(0, 2, time)));
+	} else if (time < 52) {
+		// rolling2
+		float time = time - 50;
+		pos_delle += vec2(-78, -25);
+		pos_delle += vec2(-6 * time, 20 * sin(TAU / 4 * smoothstep(0, 2, time)));
+	} else if (time < 57) {
+		// thanks & greetings
+		float time = time - 52;
+		pos_delle += vec2(-90, 15);
+		pos_delle += vec2(3 * time * time, -11 * time);
+	} else if (time < 64) {
+		// mercury & urs
+		float time = time - 57;
+		pos_delle += vec2(-90, -45);
+		pos_delle += time * vec2(9, 7.24);
+	} else if (time < 66) {
+		// iq, hin
+		float time = time - 64;
+		pos_delle += vec2(-55.5, -11.5);
+		pos_delle += smoothstep(2, 0, time) * vec2(40, 0);
+	} else if (time < 68) {
+		// iq, weg
+		float time = time - 66;
+		pos_delle += vec2(-55.5, -11.5);
+		pos_delle += smoothstep(0, 2, time) * vec2(0, -40);
 	} else if (time < 100) {
+		float time = time - 68;
 		float a = 70; // use to tweak shape of spiral
 		float t = time + .001;
 		t = t * (.5 + pow(t * .09, 8)); // use to tweak the speed of the kugel
