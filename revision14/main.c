@@ -4,6 +4,8 @@
 #include <libzeuch/shader.h>
 #include <libzeuch/gl.h>
 
+static void draw_quad(GLint attribute_coord2d);
+
 #include "vertex_source.h"
 #include "scene_blank.h"
 #include "4klang.inh"
@@ -21,8 +23,8 @@
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
 static int playback_position = 0;
 
-static void draw_quad(GLint attribute_coord2d);
 static void fill_audio(void* userdata, Uint8* stream, int len);
+static void draw(void);
 
 static GLuint vbo_rectangle;
 
@@ -53,10 +55,6 @@ int main() {
 
 	SDL_PauseAudio(0);
 
-	const GLuint vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
-	const GLuint fragment = shader_load_strings(1, "fragment", (const GLchar* []) { scene_blank_source }, GL_FRAGMENT_SHADER);
-	const GLuint program = shader_link_program(vertex, fragment);
-	const GLint attribute_coord2d = glGetAttribLocation(program, "c");
 	glGenBuffers(1, &vbo_rectangle);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
 	const GLfloat rectangle_vertices[] = {
@@ -66,7 +64,6 @@ int main() {
 		 1.0, -1.0,
 	};
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
-	glUseProgram(program);
 
 	int run = true;
 	int alt = false;
@@ -106,7 +103,7 @@ int main() {
 			}
 		}
 
-		draw_quad(attribute_coord2d);
+		draw();
 		SDL_GL_SwapBuffers();
 	}
 
@@ -143,4 +140,18 @@ static void fill_audio(void* userdata, Uint8* stream, int len) {
 	memcpy(stream, &audio_buffer[playback_position * 2], write_len);
 	memset(stream + write_len, 0, len - write_len);
 	playback_position += write_len / 4;
+}
+
+static int initialized = false;
+
+static GLuint vertex;
+
+static void draw(void) {
+	if(!initialized) {
+		vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
+		blank_init(vertex);
+		initialized = true;
+	} else {
+		blank_draw();
+	}
 }
