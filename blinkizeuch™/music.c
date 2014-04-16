@@ -111,7 +111,7 @@ void music_update_uniforms(music_t* const music, GLint uniform_envelopes, GLint 
 	const float factor = .3;
 	for(int i = 0; i < 32; i++) {
 		music->smooth_envelopes[i] = (1. - factor) * music->envelope_data[index + i] + factor * music->smooth_envelopes[i];
-		music->accum_envelopes[i] = music->envelope_data[index + i];
+		music->accum_envelopes[i] += music->envelope_data[index + i];
 	}
 	glUniform1fv(uniform_envelopes, 32, &music->envelope_data[index]);
 	glUniform1fv(uniform_smooth_envelopes, 32, music->smooth_envelopes);
