@@ -349,7 +349,7 @@ bool timeline_handle_sdl_event(timeline_t* const timeline, const SDL_Event* cons
 				timeline->is_playing = !timeline->is_playing;
 				// check for pressed ctrl-key, camera shouldn't change when ctrl was pressed
 				Uint8* keystate = SDL_GetKeyState(NULL);
-				timeline->camera_should_change = !(keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]);
+				timeline->camera_should_change = keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL];
 				music_play(timeline->is_playing);
 				return true;
 			case SDLK_BACKSPACE:
