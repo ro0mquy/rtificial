@@ -60,7 +60,7 @@ vec3[num_rand_colors] rand_colors = vec3[num_rand_colors](
 
 float wakeup_end = 14.757;
 float jump_end = 15.616;
-float path1_end = jump_end + 1/.15;
+float path1_end = 21.8;//jump_end + 1/.15;
 float wakeup = smoothstep(12.594, wakeup_end, time);
 float wakeup_limited = wakeup * step(-15, -time);
 
@@ -205,7 +205,7 @@ vec2 f(vec3 p) {
 		trans_kugel.y = h;
 	} else if(time < path1_end) {
 		float dtime = time - jump_end;
-		float t = dtime * .15;
+		float t = dtime / (path1_end - jump_end);
 		vec2 p12 = mix(p1, p2, t);
 		vec2 p23 = mix(p2, p3, t);
 		vec2 p34 = mix(p3, p4, t);
