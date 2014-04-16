@@ -35,6 +35,7 @@ static void update_uniforms(const uniforms_t* uniforms);
 static void get_uniforms(uniforms_t* uniforms, GLuint program);
 
 #include "camera.h"
+#include "timeline.h"
 #include "libblink.h"
 #include "shader_sources.h"
 #include "4klang.inh"
