@@ -22,8 +22,8 @@ uniform float foo2;
 
 vec3 colors[] = vec3[](
 	vec3(0),
-	vec3(1),
-	vec3(.1,1.,.2),
+	vec3(.2),
+	vec3(1, 0, 0),
 	vec3(.6,.9,.5),
 	vec3(1.,.6,.8)
 );
@@ -41,7 +41,7 @@ void main(void){
 	vec3 normal;
 	vec3 color = colors[material];
 	vec3 to_light = light - hit;
-	float m;
+	float m = 0;
 	float bloom = 0.;
 	if(material >= mat_tree1) {
 		normal = calc_normal(hit);
@@ -56,13 +56,18 @@ void main(void){
 		m = .42;
 	} else if(material == mat_kugel) {
 		normal = calc_normal(hit);
-		color = vec3(1, 0, 0);
-		final_color += .1 * color;
-		bloom = senvelopes[2] + senvelopes[3];
+		m = 2;
+		float senvs = senvelopes[2] + senvelopes[3];
+		final_color += (.1 + senvs + .7 * wakeup_limited) * color;
+		bloom = senvs * 10;
 		bloom += wakeup;
-		final_color += .2 * wakeup_limited;
+		//final_color += .2 * wakeup_limited;
 	}
-	if(material != 0) {
+
+	if(material == mat_kugel) {
+		final_color += color * cook_torrance(to_light, normal, -dir, m, 450);
+		final_color *= ao(hit, normal, .3, 5.);
+	} else if(material != mat_bounding) {
 		final_color += color * oren_nayar(to_light, normal, -dir, m);
 		final_color *= ao(hit, normal, .3, 5.);
 	} else {
@@ -138,8 +143,21 @@ vec2 f(vec3 p) {
 	q = trans(q, 2. * (foo - 2.), .0, 2. * (foo2 - 2.));
 	vec2 tree = pythagoraen(rY(foo * radians(90.)) * q);
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
-	vec2 k = vec2(time * 5., time * 3.);
-	vec3 trans_kugel = .1 * vec3(rand(k), rand(k + 2.), rand(k + 3.)) * wakeup_limited;
+
+	vec3 trans_kugel = vec3(0);
+	if (time < 15) {
+		vec2 k = vec2(time * 5., time * 3.);
+		trans_kugel = .1 * vec3(rand(k), rand(k + 2.), rand(k + 3.)) * wakeup_limited;
+	} else if (time < 16) {
+		float time = time - 15;
+		float anim_duration = 1;
+		time -= anim_duration / 2;
+		float gravity = 20;
+		float h = .5 * gravity * time * time;
+		h = .5 * gravity * anim_duration * anim_duration / 4 - h;
+		trans_kugel.y = h;
+	}
+
 	vec2 kugel = vec2(sphere(transv(p, trans_kugel), 1.), mat_kugel);
 	return min_material(tree, min_material(vec2(f_floor(p), mat_floor), min_material(bounding, kugel)));
 }
