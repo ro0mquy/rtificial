@@ -107,7 +107,7 @@ void music_update_uniforms(music_t* const music, GLint uniform_envelopes, GLint 
 	SDL_LockAudio();
 	int position = music->playback_position;
 	SDL_UnlockAudio();
-	int index = position * 32 / 256;
+	int index = (position / 256) * 32;
 	const float factor = .3;
 	for(int i = 0; i < 32; i++) {
 		music->smooth_envelopes[i] = (1. - factor) * music->envelope_data[index + i] + factor * music->smooth_envelopes[i];
