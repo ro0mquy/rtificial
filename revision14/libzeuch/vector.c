@@ -20,6 +20,10 @@ float vec3_distance(vec3 v, vec3 w) {
 }
 
 vec3 vec3_normalize(vec3 v) {
+	float l = vec3_length(v);
+	if (l == 0) {
+		return vec3_new(0, 0, 0);
+	}
 	return vec3_s_mult(1./vec3_length(v), v);
 }
 
