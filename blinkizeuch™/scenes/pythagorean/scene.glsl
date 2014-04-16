@@ -58,7 +58,10 @@ vec3[num_rand_colors] rand_colors = vec3[num_rand_colors](
 	vec3(.5, 0, .5)
 );
 
-float wakeup = smoothstep(12., 15., time);
+float wakeup_end = 14.757;
+float jump_end = 15.616;
+float path1_end = jump_end + 1/.15;
+float wakeup = smoothstep(12.594, wakeup_end, time);
 float wakeup_limited = wakeup * step(-15, -time);
 
 void main(void){
@@ -182,20 +185,48 @@ vec2 f(vec3 p) {
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
 
 	vec3 trans_kugel = vec3(0);
-	if (time < 15) {
+	vec2 p1 = vec2(0);
+	vec2 p2 = vec2(30, -5);
+	vec2 p3 = vec2(-12, -36);
+	vec2 p4 = vec2(5, -72);
+	vec2 p5 = vec2(-30, -60);
+	vec2 p6 = vec2(-22, -29);
+	vec2 p7 = vec2(-50, -24);
+	if (time < wakeup_end) {
 		vec2 k = vec2(time * 5., time * 3.);
 		trans_kugel = .1 * vec3(rand(k), rand(k + 2.), rand(k + 3.)) * wakeup_limited;
-	} else if (time < 16) {
-		float time = time - 15;
-		float anim_duration = 1;
+	} else if (time < jump_end) {
+		float time = time - wakeup_end;
+		float anim_duration = jump_end - wakeup_end;
 		time -= anim_duration / 2;
 		float gravity = 20;
 		float h = .5 * gravity * time * time;
 		h = .5 * gravity * anim_duration * anim_duration / 4 - h;
 		trans_kugel.y = h;
+	} else if(time < path1_end) {
+		float dtime = time - jump_end;
+		float t = dtime * .15;
+		vec2 p12 = mix(p1, p2, t);
+		vec2 p23 = mix(p2, p3, t);
+		vec2 p34 = mix(p3, p4, t);
+		trans_kugel.xz = mix(mix(p12, p23, t), mix(p23, p34, t), t);
+	} else {
+		float dtime = time - path1_end;
+		float t = dtime * .15;
+		vec2 p12 = mix(p4, p5, t);
+		vec2 p23 = mix(p5, p6, t);
+		vec2 p34 = mix(p6, p7, t);
+		trans_kugel.xz = mix(mix(p12, p23, t), mix(p23, p34, t), t);
 	}
 
 	vec2 kugel = vec2(sphere(transv(p, trans_kugel), 1.), mat_kugel);
+	kugel = min_material(vec2(sphere(trans(p, p1.x, 0, p4.y), .5), mat_kugel), kugel);
+	kugel = min_material(vec2(sphere(trans(p, p2.x, 0, p4.y), .5), mat_kugel), kugel);
+	kugel = min_material(vec2(sphere(trans(p, p3.x, 0, p4.y), .5), mat_kugel), kugel);
+	kugel = min_material(vec2(sphere(trans(p, p4.x, 0, p4.y), .5), mat_kugel), kugel);
+	kugel = min_material(vec2(sphere(trans(p, p5.x, 0, p5.y), .5), mat_kugel), kugel);
+	kugel = min_material(vec2(sphere(trans(p, p6.x, 0, p6.y), .5), mat_kugel), kugel);
+	kugel = min_material(vec2(sphere(trans(p, p7.x, 0, p7.y), .5), mat_kugel), kugel);
 	return min_material(tree, min_material(vec2(f_floor(p), mat_floor), min_material(bounding, kugel)));
 }
 
