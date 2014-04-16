@@ -66,7 +66,7 @@ void main() {
 		vec3 light_color = vec3(0.);
 		//light_color += .05 + .95 * lambert(to_light, normal) * diffuse_intensity;
 		if(material == mat_kugel){
-			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, .45, 450.);
+			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, 1.5, 450.);
 		} else {
 			light_color += .05 + .95 * oren_nayar(to_light, normal, -direction, foo1) * diffuse_intensity;
 		}
@@ -149,21 +149,27 @@ vec2 f(vec3 p) {
 
 	// nobody exspects the spanish inquisition!
 
-	float ball_anim_start = vanish_anim_start+vanish_anim_duration +.25;
-	float ball_anim_duration = 5.;
-	float ball_anim_time = (clamp(time, ball_anim_start, ball_anim_start + ball_anim_duration) -ball_anim_start)/(ball_anim_duration);
-	float ball_gravity = 500;
-	float ball_height =1.5+ -0.5 * ball_gravity * ball_anim_time*ball_anim_time /* 1/2 a t^2 */;
+	float fall_anim_start = vanish_anim_start+vanish_anim_duration +.25;
+	float fall_anim_duration = 5.;
+	float fall_anim_time = (clamp(time, fall_anim_start, fall_anim_start + fall_anim_duration) -fall_anim_start)/(fall_anim_duration);
+	float fall_gravity = 500;
+	float fall_height =1.5+ -0.5 * fall_gravity * fall_anim_time*fall_anim_time /* 1/2 a t^2 */;
 
+
+	float kugel_anim_start = 30.0;
+	float kugel_anim_duration = vanish_anim_start-kugel_anim_start;
+	float kugel_anim_time = (clamp(time, kugel_anim_start, kugel_anim_start + kugel_anim_duration) -kugel_anim_start)/(kugel_anim_duration);
 	vec2 kugel_anim = vec2(0.);
-//	if(vanish_anim_time !=1){
+
+	if(vanish_anim_time <= .99){
 //		kugel_anim.x = -12*foo1*sin(0.5 * TAU * time);
 //		kugel_anim.y = 12*foo2*cos(0.5 * TAU * time);
-//	}else{
+		kugel_anim.y = 100*kugel_anim_time;
+	}else{
 		kugel_anim.x = 0;
 		kugel_anim.y = 0;
-//	}
-	vec3 p_kugel = trans(p, kugel_anim.x,ball_height, kugel_anim.y);
+	}
+	vec3 p_kugel = trans(p, kugel_anim.x,fall_height, kugel_anim.y);
 	vec2 kugel = vec2(sphere(p_kugel, 1.5), mat_kugel);
 
 	if(vanish_anim_time >=.99){
