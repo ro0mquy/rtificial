@@ -149,21 +149,21 @@ vec2 f(vec3 p) {
 
 	// nobody exspects the spanish inquisition!
 
-	float fall_anim_start = vanish_anim_start+vanish_anim_duration +.25;
+	float fall_anim_start = 43.0;//vanish_anim_start+vanish_anim_duration +.25;
 	float fall_anim_duration = 5.;
 	float fall_anim_time = (clamp(time, fall_anim_start, fall_anim_start + fall_anim_duration) -fall_anim_start)/(fall_anim_duration);
 	float fall_gravity = 500;
 	float fall_height =1.5+ -0.5 * fall_gravity * fall_anim_time*fall_anim_time /* 1/2 a t^2 */;
 
 
-	float kugel_anim_start = 30.0;
+	float kugel_anim_start = 28.9;
 	float kugel_anim_duration = vanish_anim_start-kugel_anim_start;
 	float kugel_anim_time = (clamp(time, kugel_anim_start, kugel_anim_start + kugel_anim_duration) -kugel_anim_start)/(kugel_anim_duration);
 	vec2 kugel_anim = vec2(0.);
 
 	if(vanish_anim_time <= .99){
 		if(time < 34.398){
-			kugel_anim.y = 100*kugel_anim_time;
+			kugel_anim.y = 50*kugel_anim_time;
 		} else if(time < 42.256){
 			kugel_anim.x = -12*sin(0.1 * TAU * time);
 			kugel_anim.y = 12*cos(0.1 * TAU * time);
