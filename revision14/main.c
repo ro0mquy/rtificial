@@ -1,26 +1,70 @@
 #include <SDL/SDL.h>
+#include <pthread.h>
 
 #include <libzeuch/shader.h>
+#include <libzeuch/matrix.h>
+#include <libzeuch/vector.h>
+#include <libzeuch/quaternion.h>
 #include <libzeuch/gl.h>
 
-#include "vertex_source.h"
-#include "scene_blank.h"
+#define true 1
+#define false 0
 
-//#define WIDTH 1366
-//#define HEIGHT 768
+//#define WIDTH 1920
+//#define HEIGHT 1080
 //#define FULLSCREEN
 
 #define WIDTH 800
 #define HEIGHT 600
 
-#define true 1
-#define false 0
+typedef struct {
+	GLint view_position;
+	GLint view_up;
+	GLint view_direction;
+	GLint res;
+	GLint time;
+	GLint notes;
+	GLint envelopes;
+	GLint aenvelopes;
+	GLint senvelopes;
+} uniforms_t;
 
+// functions that need to be called from scenes
 static void draw_quad(GLint attribute_coord2d);
+static void update_uniforms(const uniforms_t* uniforms);
+static void get_uniforms(uniforms_t* uniforms, GLuint program);
 
-GLuint vbo_rectangle;
+#include "camera.h"
+#include "timeline.h"
+#include "libblink.h"
+#include "shader_sources.h"
+#include "4klang.inh"
+static camera_t camera;
+#include "postproc.h"
 
-void main() {
+typedef unsigned char ILubyte;
+#include "drb.df.h"
+#include "vincent.df.h"
+#include "ro0mquy.df.h"
+#include "ps0ke.df.h"
+
+// scenes go here
+#include "scene_blank.h"
+#include "scene_test.h"
+
+
+static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
+static volatile int playback_position = 0;
+
+static void fill_audio(void* userdata, Uint8* stream, int len);
+static void draw(void);
+
+static GLuint vbo_rectangle;
+
+int main() {
+	pthread_t synth_thread;
+	pthread_create(&synth_thread, NULL, __4klang_render, audio_buffer);
+
 	// "Usually you initialize SDL with SDL_Init, but it also works if we leave this out." (TODO: try this)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_OPENGL
@@ -36,14 +80,14 @@ void main() {
 		.format = AUDIO_S16SYS,
 		.channels = 2,
 		.samples = 1024,
-		.callback = NULL,
+		.callback = fill_audio,
 		.userdata = NULL
 	};
+	SDL_OpenAudio(&wanted, NULL);
 
-	const GLuint vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
-	const GLuint fragment = shader_load_strings(1, "fragment", (const GLchar* []) { scene_blank_source }, GL_FRAGMENT_SHADER);
-	const GLuint program = shader_link_program(vertex, fragment);
-	const GLint attribute_coord2d = glGetAttribLocation(program, "c");
+
+	SDL_PauseAudio(0);
+
 	glGenBuffers(1, &vbo_rectangle);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
 	const GLfloat rectangle_vertices[] = {
@@ -53,9 +97,15 @@ void main() {
 		 1.0, -1.0,
 	};
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
-	glUseProgram(program);
+
+	camera = (camera_t) {
+		.position = vec3_new(0, 0, 10),
+		.rotation = quat_new(vec3_new(0, 0, 0), 1),
+	};
+
 
 	int run = true;
+	int alt = false;
 	while(run) {
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
@@ -63,16 +113,46 @@ void main() {
 				case SDL_QUIT:
 					run = false;
 					break;
+				case SDL_KEYDOWN:
+					switch(event.key.keysym.sym) {
+						case SDLK_ESCAPE:
+							return 0;
+						case SDLK_LALT:
+						case SDLK_RALT:
+							alt = true;
+							break;
+						case SDLK_F4:
+							if(alt == true) return 0;
+							break;
+						default:
+							break;
+					}
+					break;
+				case SDL_KEYUP:
+					switch(event.key.keysym.sym) {
+						case SDLK_LALT:
+						case SDLK_RALT:
+							alt = false;
+							break;
+						default:
+							break;
+					}
+				default:
+					break;
 			}
-
-			draw_quad(attribute_coord2d);
-
-			SDL_GL_SwapBuffers();
 		}
+
+		draw();
+		SDL_GL_SwapBuffers();
 	}
 
+
+	// SDL_CloseAudio
 	// probably not gonna need that
 	// SDL_Quit();
+	//
+	// also, we could kill the audio thread TODO
+	return 0;
 }
 
 static void draw_quad(GLint attribute_coord2d) {
@@ -88,4 +168,51 @@ static void draw_quad(GLint attribute_coord2d) {
 	);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(attribute_coord2d);
+}
+
+static void fill_audio(void* userdata, Uint8* stream, int len) {
+	int samples = len / 4; // samples are 2 bytes, 2 samples for stereo
+	int write_len = len;
+	if(samples + playback_position > MAX_SAMPLES) {
+		write_len = 4 * (MAX_SAMPLES - playback_position);
+	}
+	memcpy(stream, &audio_buffer[playback_position * 2], write_len);
+	memset(stream + write_len, 0, len - write_len);
+	playback_position += write_len / 4;
+}
+
+static int initialized = false;
+
+static GLuint vertex;
+
+static void draw(void) {
+	if(!initialized) {
+		vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
+		postproc_init(vertex);
+		blank_init(vertex);
+		test_init(vertex);
+		initialized = true;
+	} else {
+		postproc_before_draw();
+		//blank_draw();
+		test_draw();
+		postproc_after_draw();
+	}
+}
+
+static void update_uniforms(const uniforms_t* const uniforms) {
+	glUniform2f(uniforms->res, WIDTH, HEIGHT);
+	camera_update_uniforms(&camera, uniforms->view_position, uniforms->view_direction, uniforms->view_up);
+}
+
+static void get_uniforms(uniforms_t* uniforms, GLuint program) {
+	uniforms->view_position = shader_get_uniform(program, "view_position");
+	uniforms->view_up = shader_get_uniform(program, "view_up");
+	uniforms->view_direction = shader_get_uniform(program, "view_direction");
+	uniforms->res = shader_get_uniform(program, "res");
+	uniforms->time = shader_get_uniform(program, "time");
+	uniforms->notes = shader_get_uniform(program, "notes");
+	uniforms->envelopes = shader_get_uniform(program, "envelopes");
+	uniforms->aenvelopes = shader_get_uniform(program, "aenvelopes");
+	uniforms->senvelopes = shader_get_uniform(program, "senvelopes");
 }
