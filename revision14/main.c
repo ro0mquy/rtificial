@@ -51,6 +51,7 @@ typedef unsigned char ILubyte;
 // scenes go here
 #include "scene_blank.h"
 #include "scene_test.h"
+#include "scene_pythagorean.h"
 
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
@@ -191,11 +192,13 @@ static void draw(void) {
 		postproc_init(vertex);
 		blank_init(vertex);
 		test_init(vertex);
+		pythagorean_init(vertex);
 		initialized = true;
 	} else {
 		postproc_before_draw();
 		//blank_draw();
-		test_draw();
+		//test_draw();
+		pythagorean_draw();
 		postproc_after_draw();
 	}
 }
@@ -219,6 +222,7 @@ static void update_uniforms(const uniforms_t* const uniforms) {
 	glUniform1fv(uniforms->senvelopes, 32, smooth_envelopes);
 	glUniform1fv(uniforms->aenvelopes, 32, accum_envelopes);
 	glUniform1iv(uniforms->notes, 32, &(&__4klang_note_buffer)[index]);
+	glUniform1f(uniforms->time, (double) position / 44100);
 }
 
 static void get_uniforms(uniforms_t* uniforms, GLuint program) {
