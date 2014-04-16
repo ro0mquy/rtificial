@@ -32,8 +32,8 @@ vec3[] mat_colors = vec3[](
 );
 
 // this demo is sponsored by: vanish oxy action -- vertrau #ee2888, vergiss flecken!
-float vanish_anim_start = 1.;
-float vanish_anim_duration = 4.;
+float vanish_anim_start = 42.3;
+float vanish_anim_duration = .1;
 float vanish_anim_time = (clamp(time, vanish_anim_start, vanish_anim_start + vanish_anim_duration) -vanish_anim_start)/(vanish_anim_duration);
 
 void main() {
@@ -96,6 +96,10 @@ void main() {
 			bloom += 1 * reflection_factor;
 		}
 
+		if(vanish_anim_time != 0 && material != mat_kugel){
+			color += 1.1*vanish_anim_time;
+		}
+
 		// only floor and ceiling are reflective
 		if ((material != MAT_FLOOR && material != mat_kugel) || vanish_anim_time !=0) {
 			break;
@@ -109,10 +113,6 @@ void main() {
 		}
 
 		direction = reflect(direction, normal);
-
-		if(vanish_anim_time != 0 && material != mat_kugel){
-			color += 1.1*vanish_anim_time;
-		}
 	}
 	out_color.rgb = color;
 	out_color.a = bloom;
@@ -149,24 +149,24 @@ vec2 f(vec3 p) {
 
 	// nobody exspects the spanish inquisition!
 
-	float ball_anim_start = vanish_anim_start+vanish_anim_duration +1;
+	float ball_anim_start = vanish_anim_start+vanish_anim_duration +.25;
 	float ball_anim_duration = 5.;
 	float ball_anim_time = (clamp(time, ball_anim_start, ball_anim_start + ball_anim_duration) -ball_anim_start)/(ball_anim_duration);
 	float ball_gravity = 500;
 	float ball_height =1.5+ -0.5 * ball_gravity * ball_anim_time*ball_anim_time /* 1/2 a t^2 */;
 
-	vec2 kugel_anim;
-	if(vanish_anim_time !=1){
-		kugel_anim.x = -12*foo1*sin(0.5 * TAU * time);
-		kugel_anim.y = 12*foo2*cos(0.5 * TAU * time);
-	}else{
+	vec2 kugel_anim = vec2(0.);
+//	if(vanish_anim_time !=1){
+//		kugel_anim.x = -12*foo1*sin(0.5 * TAU * time);
+//		kugel_anim.y = 12*foo2*cos(0.5 * TAU * time);
+//	}else{
 		kugel_anim.x = 0;
 		kugel_anim.y = 0;
-	}
+//	}
 	vec3 p_kugel = trans(p, kugel_anim.x,ball_height, kugel_anim.y);
 	vec2 kugel = vec2(sphere(p_kugel, 1.5), mat_kugel);
 
-	if(vanish_anim_time ==1){
+	if(vanish_anim_time >=.99){
 		return min_material(sphery, kugel);
 	}else{
 		return min_material(min_material(sphery, room), min_material(saeulen, kugel));
