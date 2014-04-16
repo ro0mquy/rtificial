@@ -178,8 +178,8 @@ vec2 f(vec3 p) {
 	vec3 q = domrep(p, c, 1., c);
 	q.y = p.y;
 	float foo = 4. * rand(400. * (floor(p.xz / c) - 123.));
-	float foo2 = 4. * rand(400. * (floor(p.xz / c) - 456.));
-	q = trans(q, 2. * (foo - 2.), .0, 2. * (foo2 - 2.));
+	float foo3 = 4. * rand(400. * (floor(p.xz / c) - 456.));
+	q = trans(q, 2. * (foo - 2.), .0, 2. * (foo3 - 2.));
 	vec2 tree = pythagoraen(rY(foo * radians(90.)) * q);
 	tree.y = mod(floor(tree.y + foo), 9) + mat_tree1;
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
@@ -188,7 +188,7 @@ vec2 f(vec3 p) {
 	vec2 p1 = vec2(0);
 	vec2 p2 = vec2(30, -5);
 	vec2 p3 = vec2(-12, -36);
-	vec2 p4 = vec2(5, -72);
+	vec2 p4 = vec2(5 + .94 * 5., -72 + .44 * 5.);
 	vec2 p5 = vec2(-30, -60);
 	vec2 p6 = vec2(-22, -29);
 	vec2 p7 = vec2(-50, -24);
@@ -220,13 +220,13 @@ vec2 f(vec3 p) {
 	}
 
 	vec2 kugel = vec2(sphere(transv(p, trans_kugel), 1.), mat_kugel);
-	kugel = min_material(vec2(sphere(trans(p, p1.x, 0, p4.y), .5), mat_kugel), kugel);
-	kugel = min_material(vec2(sphere(trans(p, p2.x, 0, p4.y), .5), mat_kugel), kugel);
-	kugel = min_material(vec2(sphere(trans(p, p3.x, 0, p4.y), .5), mat_kugel), kugel);
-	kugel = min_material(vec2(sphere(trans(p, p4.x, 0, p4.y), .5), mat_kugel), kugel);
-	kugel = min_material(vec2(sphere(trans(p, p5.x, 0, p5.y), .5), mat_kugel), kugel);
-	kugel = min_material(vec2(sphere(trans(p, p6.x, 0, p6.y), .5), mat_kugel), kugel);
-	kugel = min_material(vec2(sphere(trans(p, p7.x, 0, p7.y), .5), mat_kugel), kugel);
+	//kugel = min_material(vec2(sphere(trans(p, p1.x, 0, p4.y), .5), mat_kugel), kugel);
+	//kugel = min_material(vec2(sphere(trans(p, p2.x, 0, p4.y), .5), mat_kugel), kugel);
+	//kugel = min_material(vec2(sphere(trans(p, p3.x, 0, p4.y), .5), mat_kugel), kugel);
+	//kugel = min_material(vec2(sphere(trans(p, p4.x, 0, p4.y), .5), mat_kugel), kugel);
+	//kugel = min_material(vec2(sphere(trans(p, p5.x, 0, p5.y), .5), mat_kugel), kugel);
+	//kugel = min_material(vec2(sphere(trans(p, p6.x, 0, p6.y), .5), mat_kugel), kugel);
+	//kugel = min_material(vec2(sphere(trans(p, p7.x, 0, p7.y), .5), mat_kugel), kugel);
 	return min_material(tree, min_material(vec2(f_floor(p), mat_floor), min_material(bounding, kugel)));
 }
 
