@@ -101,7 +101,7 @@ void main() {
 		}
 
 		// only floor and ceiling are reflective
-		if ((material != MAT_FLOOR && material != mat_kugel) || vanish_anim_time !=0) {
+		if ((material != MAT_FLOOR /*&& material != mat_kugel*/) || vanish_anim_time !=0) {
 			break;
 		}
 
@@ -162,9 +162,12 @@ vec2 f(vec3 p) {
 	vec2 kugel_anim = vec2(0.);
 
 	if(vanish_anim_time <= .99){
-//		kugel_anim.x = -12*foo1*sin(0.5 * TAU * time);
-//		kugel_anim.y = 12*foo2*cos(0.5 * TAU * time);
-		kugel_anim.y = 100*kugel_anim_time;
+		if(time < 35.194){
+			kugel_anim.y = 100*kugel_anim_time;
+		} else {
+			kugel_anim.x = -12*sin(0.1 * TAU * time);
+			kugel_anim.y = 12*cos(0.1 * TAU * time);
+		}
 	}else{
 		kugel_anim.x = 0;
 		kugel_anim.y = 0;
