@@ -31,7 +31,7 @@ vec2 origdim_ro0mquy = vec2(5081, 684);
 
 vec3[] mat_colors = vec3[](
 		vec3(1),
-		vec3(64,87,128)/vec3(255),
+		vec3(9,11,15)/vec3(255),
 		vec3(.56, 0, 0),
 		//pow(vec3(240/255., 52/255., 173/255.), vec3(2.2)),
 		vec3(229, 46, 5)/vec3(255),
@@ -41,7 +41,8 @@ vec3[] mat_colors = vec3[](
 );
 
 const vec2 spread = vec2(-2., 30.);
-vec3 kugel_trans = vec3(-7 * sin(time / 5 * TAU), 1., spread.y /2. - (spread.y*2.) * time /5);
+float dtime = max(0, time - 178.709);
+vec3 kugel_trans = vec3(-7 * sin(dtime / 5 * TAU), 1., spread.y /2. - (spread.y*2.) * dtime /5);
 
 void main(void){
 	vec3 dir = get_direction();
@@ -52,10 +53,18 @@ void main(void){
 	float bloom = 0.;
 	if(material > 0) {
 		vec3 normal = calc_normal(hit);
-		vec3 light = vec3(1, 8, 5);
-		final_color = vec3(1.0) * lambert(light - hit, normal);
-		final_color *= mat_colors[int(material)];
-		final_color *= softshadow(hit, light, 60 * (1. - foo1));
+		vec3 light = kugel_trans;//vec3(1, 8, 5);
+		light.y += 4;
+		light.z -= dtime * .2 - 5.;
+		final_color = mat_colors[int(material)];
+		vec3 to_light = light - hit;
+		if(material != mat_kugel) {
+			final_color *= lambert(to_light, normal);
+			final_color *= .1 + .9 * softshadow(hit, light, 60 * (1. - foo1));
+		} else {
+			final_color *= .05 + .95 * cook_torrance(to_light, normal, -dir, 1., 450.);
+			bloom = 1.;
+		}
 		final_color *= ao(hit, normal, .15, 5.);
 		float z = 10000000.;
 		if(material == mat_vincent) {
@@ -70,7 +79,7 @@ void main(void){
 			final_color *= 1. - .3 * (sin(hit.x) * sin(hit.y) * .5 + .5);
 		}
 		if(material >= mat_vincent) {
-			bloom = clamp(5. * smoothstep(spread.y / 2., 0., abs(kugel_trans.z - z)), .1, 1.);
+			bloom = 10. * smoothstep(spread.y / 2., 0., abs(kugel_trans.z - z - 1.));
 		}
 	}
 	final_color *= smoothstep(100, 20, distance(hit, view_position));
@@ -100,7 +109,7 @@ float fbm(vec2 p) {
 
 vec2 f(vec3 p){
 	p.y += 1.;
-	p = rZ((smoothstep(spread.y, -spread.y * 6., p.z) - .5 ) * .3 + sin(time * 2. + .1 * p.z) * .03) * p;
+	p = rZ((smoothstep(spread.y, -spread.y * 6., p.z) - .5 ) * .3 + sin(dtime * 2. + .1 * p.z) * .03) * p;
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
 	vec3 base_dim = vec3(2., 2., 1.);
 
