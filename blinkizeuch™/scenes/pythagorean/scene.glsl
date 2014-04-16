@@ -26,19 +26,26 @@ uniform float foo2;
 #define mat_tree8 10
 #define mat_tree9 11
 
-vec3 colors[] = vec3[](
-	vec3(0),
-	vec3(.3),
-	vec3(1, 0, 0),
-	vec3(.9, .9, .95),
-	vec3(.7, .7, .75),
-	vec3(.1, .1, .1),
-	vec3(.9, .9, .95),
-	vec3(.7, .7, .75),
-	vec3(.1, .1, .1),
+vec3[] tree_colors = vec3[](
 	vec3(.9, .9, .95),
 	vec3(.7, .7, .75),
 	vec3(.1, .1, .1)
+
+);
+
+vec3 colors[] = vec3[](
+	vec3(0),
+	vec3(.4),
+	vec3(1, 0, 0),
+	tree_colors[0],
+	tree_colors[1],
+	tree_colors[2],
+	tree_colors[0],
+	tree_colors[1],
+	tree_colors[2],
+	tree_colors[1],
+	tree_colors[2],
+	tree_colors[0]
 );
 
 const int num_rand_colors = 6;
@@ -73,9 +80,6 @@ void main(void){
 		vec2 coord = floor(hit.xz / 20);
 		material += int(time * length(coord));
 		vec3 bunt = rand_colors[material % num_rand_colors];
-
-		//float hue = rand(floor(time) * material * coord * .25);
-		//vec3 bunt = hsv2rgb(vec3(hue, 1, 1));
 
 		int[] playing = int[](10, 11, 2, 3, 31, 31, 31, 31, 31);
 		int instrument = playing[material % 9];
