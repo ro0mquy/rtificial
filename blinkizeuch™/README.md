@@ -18,8 +18,8 @@
 * `[Ctrl]+[Scroll]` scroll timeline horizontically
 * `[Click]` jump to position staying ad current camera position
 * `[Ctrl]+[Click]` jump to position moving to interpolated camera position
-* `[Space]` start animated flight through keyframes
-* `[Ctrl]+[Space]` only change position in timeline, not camera
+* `[Space]` only change position in timeline, not camera
+* `[Ctrl]+[Space]` start animated flight through keyframes
 * `H` toggle timeline
 * `[F8]` save timeline (keyframes) to `timeline.json`
 * `[Delete]` reset animation play time cursor position
