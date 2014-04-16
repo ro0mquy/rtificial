@@ -36,7 +36,7 @@ camera_t timeline_get_camera(timeline_t* const timeline, int time) {
         keyframe_t* const p2 = list_get(timeline->controlPoints, nodeIndex + 2);
         keyframe_t* const p3 = list_get(timeline->controlPoints, nodeIndex + 3);
 
-	const float t = (time - p0->time) / (p3->time - p0->time);
+	const float t = (float) (time - p0->time) / (p3->time - p0->time);
 	return camera_cubic_bezier(&p0->camera, &p1->camera, &p2->camera, &p3->camera, t);
 }
 
