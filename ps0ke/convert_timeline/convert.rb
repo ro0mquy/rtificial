@@ -10,7 +10,7 @@ timeline_json = JSON.parse( File.open(ARGV[1], 'r').read )
 keyframes_h = File.open(scene+'_keyframes.h', 'w')
 num_keyframes = timeline_json['keyframes'].count
 
-keyframes_h.puts "static const keyframe_list_t #{scene}_keyframe_list = {"
+keyframes_h.puts "static keyframe_list_t #{scene}_keyframe_list = {"
 keyframes_h.puts "\t.length = #{num_keyframes},"
 keyframes_h.puts "\t.allocated = #{num_keyframes},"
 keyframes_h.puts "\t.elements = {"
