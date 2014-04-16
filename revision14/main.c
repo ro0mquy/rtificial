@@ -22,7 +22,7 @@ static void update_uniforms(const uniforms_t* uniforms);
 static void get_uniforms(uniforms_t* uniforms, GLuint program);
 
 #include "libblink.h"
-#include "vertex_source.h"
+#include "shader_sources.h"
 #include "4klang.inh"
 
 // scenes go here
