@@ -44,7 +44,7 @@ const GLfloat cursor_width = .003;
 const float zoom_factor = .9;
 const int scroll_factor = 700;
 const float zoom_min = 10.;
-const float zoom_max = .04;
+const float zoom_max = .01;
 
 timeline_t* timeline_new(music_t* const music) {
 	const GLuint vertex_shader = shader_load_strings(1, "timeline_vertex", (const GLchar* []) { timeline_vertex_source }, GL_VERTEX_SHADER);
@@ -172,14 +172,14 @@ void timeline_draw(timeline_t* const timeline) {
 	char time_string[8]; // number is not bigger than 9999.99
 	for (size_t i = 0; i < timeline->keyframes->length; i++) {
 		const int time = list_get(timeline->keyframes, i)->time;
-		const GLfloat x = (GLfloat) (time - left_edge) / window_width - marker_width / 2 / zoom;
-		snprintf(time_string, 8, "%4.2f", time / 1000.);
+		const GLfloat x = (GLfloat) (time - left_edge) / window_width - marker_width / 2;
+		snprintf(time_string, 8, "%4.3f", time / 1000.);
 		// font coordinates are from -1. to 1.
 		font_print(timeline->font, time_string, -1. + 2.*x, -.99 + i%6 * .05);
 	}
 
 	// label for cursor
-	snprintf(time_string, 8, "%4.2f", timeline->cursor_position / 1000.);
+	snprintf(time_string, 8, "%4.3f", timeline->cursor_position / 1000.);
 	// font coordinates are from -1. to 1.
 	font_print(timeline->font, time_string, -1. + 2.*x_cur, -.99);
 }
