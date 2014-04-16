@@ -2,7 +2,20 @@
 #include <pthread.h>
 
 #include <libzeuch/shader.h>
+#include <libzeuch/matrix.h>
+#include <libzeuch/vector.h>
+#include <libzeuch/quaternion.h>
 #include <libzeuch/gl.h>
+
+#define true 1
+#define false 0
+
+//#define WIDTH 1920
+//#define HEIGHT 1080
+//#define FULLSCREEN
+
+#define WIDTH 800
+#define HEIGHT 600
 
 typedef struct {
 	GLint view_position;
@@ -21,23 +34,17 @@ static void draw_quad(GLint attribute_coord2d);
 static void update_uniforms(const uniforms_t* uniforms);
 static void get_uniforms(uniforms_t* uniforms, GLuint program);
 
+#include "camera.h"
 #include "libblink.h"
 #include "shader_sources.h"
 #include "4klang.inh"
+static camera_t camera;
+#include "postproc.h"
 
 // scenes go here
 #include "scene_blank.h"
 #include "scene_test.h"
 
-//#define WIDTH 1920
-//#define HEIGHT 1080
-//#define FULLSCREEN
-
-#define WIDTH 800
-#define HEIGHT 600
-
-#define true 1
-#define false 0
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
 static volatile int playback_position = 0;
@@ -83,6 +90,12 @@ int main() {
 		 1.0, -1.0,
 	};
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
+
+	camera = (camera_t) {
+		.position = vec3_new(0, 0, 10),
+		.rotation = quat_new(vec3_new(0, 0, 0), 1),
+	};
+
 
 	int run = true;
 	int alt = false;
@@ -168,20 +181,21 @@ static GLuint vertex;
 static void draw(void) {
 	if(!initialized) {
 		vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
+		postproc_init(vertex);
 		blank_init(vertex);
 		test_init(vertex);
 		initialized = true;
 	} else {
+		postproc_before_draw();
 		//blank_draw();
 		test_draw();
+		postproc_after_draw();
 	}
 }
 
 static void update_uniforms(const uniforms_t* const uniforms) {
-	glUniform3f(uniforms->view_position, 0, 0, 10);
-	glUniform3f(uniforms->view_up, 0, 1, 0);
-	glUniform3f(uniforms->view_direction, 0, 0, -1);
 	glUniform2f(uniforms->res, WIDTH, HEIGHT);
+	camera_update_uniforms(&camera, uniforms->view_position, uniforms->view_direction, uniforms->view_up);
 }
 
 static void get_uniforms(uniforms_t* uniforms, GLuint program) {
