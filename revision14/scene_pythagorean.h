@@ -1,4 +1,6 @@
-const char scene_pythagorean_source[] = "\
+#include "pythagorean_keyframes.h"
+
+static const char scene_pythagorean_source[] = "\
 vec2 f(vec3);\n\
 vec2 g(vec3);\n\
 \n\
@@ -239,17 +241,25 @@ vec2 g(vec3 p) {\n\
 static GLuint pythagorean_program;
 static GLuint pythagorean_attrib_c2d;
 static uniforms_t pythagorean_uniforms;
+static timeline_t pythagorean_timeline;
 
 static void pythagorean_init(GLuint vertex) {
 	const GLuint fragment = shader_load_strings(2, "test", (const GLchar* []) { libblink_source, scene_pythagorean_source }, GL_FRAGMENT_SHADER);
 	pythagorean_program = shader_link_program(vertex, fragment);
 	pythagorean_attrib_c2d = glGetAttribLocation(pythagorean_program, "c");
 	get_uniforms(&pythagorean_uniforms, pythagorean_program);
+	pythagorean_timeline.keyframes = &pythagorean_keyframe_list;
+	keyframe_list_t* controlPoints = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
+	*controlPoints = (keyframe_list_t) {
+		.length = 0,
+		.allocated = 1,
+	};
+	pythagorean_timeline.controlPoints = timeline_get_bezier_spline(controlPoints, pythagorean_timeline.keyframes, .5);
 }
 
-static void pythagorean_draw(void) {
+static void pythagorean_draw() {
 	glUseProgram(pythagorean_program);
-	update_uniforms(&pythagorean_uniforms);
+	update_uniforms(&pythagorean_uniforms, &pythagorean_timeline);
 	draw_quad(pythagorean_attrib_c2d);
 }
 

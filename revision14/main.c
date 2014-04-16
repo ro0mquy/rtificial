@@ -14,8 +14,8 @@
 //#define HEIGHT 1080
 //#define FULLSCREEN
 
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 853
+#define HEIGHT 480
 
 typedef struct {
 	GLint view_position;
@@ -29,13 +29,14 @@ typedef struct {
 	GLint senvelopes;
 } uniforms_t;
 
-// functions that need to be called from scenes
-static void draw_quad(GLint attribute_coord2d);
-static void update_uniforms(const uniforms_t* uniforms);
-static void get_uniforms(uniforms_t* uniforms, GLuint program);
-
 #include "camera.h"
 #include "timeline.h"
+
+// functions that need to be called from scenes
+static void draw_quad(GLint attribute_coord2d);
+static void update_uniforms(const uniforms_t* uniforms, timeline_t* timeline);
+static void get_uniforms(uniforms_t* uniforms, GLuint program);
+
 #include "libblink.h"
 #include "shader_sources.h"
 #include "4klang.inh"
@@ -206,9 +207,8 @@ static void draw(void) {
 static float smooth_envelopes[32];
 static float accum_envelopes[32];
 
-static void update_uniforms(const uniforms_t* const uniforms) {
+static void update_uniforms(const uniforms_t* const uniforms, timeline_t* timeline) {
 	glUniform2f(uniforms->res, WIDTH, HEIGHT);
-	camera_update_uniforms(&camera, uniforms->view_position, uniforms->view_direction, uniforms->view_up);
 	SDL_LockAudio();
 	int position = playback_position;
 	SDL_UnlockAudio();
@@ -222,7 +222,10 @@ static void update_uniforms(const uniforms_t* const uniforms) {
 	glUniform1fv(uniforms->senvelopes, 32, smooth_envelopes);
 	glUniform1fv(uniforms->aenvelopes, 32, accum_envelopes);
 	glUniform1iv(uniforms->notes, 32, &(&__4klang_note_buffer)[index]);
+	int time = (int64_t) position * 1000 / 44100;
 	glUniform1f(uniforms->time, (double) position / 44100);
+	camera = timeline_get_camera(timeline, time);
+	camera_update_uniforms(&camera, uniforms->view_position, uniforms->view_direction, uniforms->view_up);
 }
 
 static void get_uniforms(uniforms_t* uniforms, GLuint program) {

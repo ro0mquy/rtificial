@@ -40,6 +40,6 @@ static void test_init(GLuint vertex) {
 
 static void test_draw(void) {
 	glUseProgram(test_program);
-	update_uniforms(&test_uniforms);
+	update_uniforms(&test_uniforms, NULL);
 	draw_quad(test_attrib_c2d);
 }
