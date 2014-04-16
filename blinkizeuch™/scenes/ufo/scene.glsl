@@ -28,7 +28,8 @@ uniform float star_amount;
 #define mat_mars 7
 #define mat_laser 8
 
-float scene_start_time = 95.143;
+float scene_start_time = 95.6;
+float scene_end_time = 117.143;
 
 vec3 colors[] = vec3[](
 	color_sky,
@@ -121,9 +122,14 @@ void main(void){
 		direction = reflect(direction, normal);
 	}
 
-	out_color.rgb = final_color;
-	out_color.a = final_bloom;
-	out_depth = distance(view_position, hit);
+	if(time >= scene_end_time){
+		out_color.rgba = vec4(0.);
+		out_depth = 0.;
+	} else {
+		out_color.rgb = final_color;
+		out_color.a = final_bloom;
+		out_depth = distance(view_position, hit);
+	}
 }
 
 float light_f(vec3 p){
