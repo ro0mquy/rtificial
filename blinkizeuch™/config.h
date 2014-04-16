@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 
-const int default_width = 800;
-const int default_height = 600;
+const int default_width = 853;
+const int default_height = 480;
 
 const char window_caption[] = "blinkizeuch™";
 
