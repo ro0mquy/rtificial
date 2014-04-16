@@ -19,13 +19,26 @@ uniform float foo2;
 #define mat_tree1 3
 #define mat_tree2 4
 #define mat_tree3 5
+#define mat_tree4 6
+#define mat_tree5 7
+#define mat_tree6 8
+#define mat_tree7 9
+#define mat_tree8 10
+#define mat_tree9 11
 
 vec3 colors[] = vec3[](
 	vec3(0),
-	vec3(.2),
+	vec3(.3),
 	vec3(1, 0, 0),
-	vec3(.6,.9,.5),
-	vec3(1.,.6,.8)
+	vec3(.9, .9, .95),
+	vec3(.7, .7, .75),
+	vec3(.1, .1, .1),
+	vec3(.9, .9, .95),
+	vec3(.7, .7, .75),
+	vec3(.1, .1, .1),
+	vec3(.9, .9, .95),
+	vec3(.7, .7, .75),
+	vec3(.1, .1, .1)
 );
 
 float wakeup = smoothstep(12., 15., time);
@@ -45,12 +58,27 @@ void main(void){
 	float bloom = 0.;
 	if(material >= mat_tree1) {
 		normal = calc_normal(hit);
+		m = 0;
+
+		vec2 coord = floor(hit.xz / 20);
+		material += int(length(coord));
+		float hue = rand(time * material * coord * .25);
+		vec3 bunt = hsv2rgb(vec3(hue, 1, 1));
+
+		int[] playing = int[](2, 3, 3);
+		int instrument = playing[material % 3];
+		float intensity = clamp(2 * senvelopes[instrument], 0, 1);
+		color = mix(color, bunt, intensity);
+		bloom += intensity;
+
+		/*
 		final_color += .1;
 		m = 0.;
 		vec2 coord = floor(hit.xz / 20);
 		bloom = color.x * wakeup;
 		color.x = rand(coord * .25);
 		color = hsv2rgb(color);
+		*/
 	} else if(material == mat_floor) {
 		normal = calc_normal_floor(hit);
 		m = .42;
@@ -59,20 +87,19 @@ void main(void){
 		m = 2;
 		float senvs = senvelopes[2] + senvelopes[3];
 		final_color += (.1 + senvs + .7 * wakeup_limited) * color;
-		bloom = senvs * 10;
+		bloom = senvs * 2;
 		bloom += wakeup;
-		//final_color += .2 * wakeup_limited;
 	}
 
 	if(material == mat_kugel) {
 		final_color += color * cook_torrance(to_light, normal, -dir, m, 450);
 		final_color *= ao(hit, normal, .3, 5.);
 	} else if(material != mat_bounding) {
-		final_color += color * oren_nayar(to_light, normal, -dir, m);
+		final_color += color * (.05 + .95 * oren_nayar(to_light, normal, -dir, m));
 		final_color *= ao(hit, normal, .3, 5.);
 	} else {
-		vec2 spherical = vec2(acos(dir.y) / 3.141, abs(atan(dir.z, dir.x) / 3.141));
-		final_color = hsv2rgb(vec3(.67, .5 + .5 * fbm(spherical * 20.), .45));
+		//vec2 spherical = vec2(acos(dir.y) / 3.141, abs(atan(dir.z, dir.x) / 3.141));
+		//final_color = hsv2rgb(vec3(.67, .5 + .5 * fbm(spherical * 20.), .45));
 	}
 	final_color *= 1. - smoothstep(0., 300., distance(view_position, hit));
 	out_color.rgb = final_color;
@@ -108,7 +135,9 @@ vec2 pythagoraen(vec3 p) {
 		r = rX(-beta) * r;
 		r = trans(r, 0, r_a, -r_a);
 
-		vec2 next_cubes = vec2(min(cube(r, r_a), cube(q, q_a)), mat_tree1 + i % 3);
+		vec2 cube_1 = vec2(cube(r, r_a), mat_tree1 + (i * i) % 9);
+		vec2 cube_2 = vec2(cube(q, q_a), mat_tree1 + (i * (i+1)) % 9);
+		vec2 next_cubes = min_material(cube_1, cube_2);
 		tree = min_material(tree, next_cubes);
 
 		p = q;
@@ -142,6 +171,7 @@ vec2 f(vec3 p) {
 	float foo2 = 4. * rand(400. * (floor(p.xz / c) - 456.));
 	q = trans(q, 2. * (foo - 2.), .0, 2. * (foo2 - 2.));
 	vec2 tree = pythagoraen(rY(foo * radians(90.)) * q);
+	tree.y = mod(floor(tree.y + foo), 9) + mat_tree1;
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);
 
 	vec3 trans_kugel = vec3(0);
