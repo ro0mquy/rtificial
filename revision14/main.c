@@ -4,11 +4,30 @@
 #include <libzeuch/shader.h>
 #include <libzeuch/gl.h>
 
-static void draw_quad(GLint attribute_coord2d);
+typedef struct {
+	GLint view_position;
+	GLint view_up;
+	GLint view_direction;
+	GLint res;
+	GLint time;
+	GLint notes;
+	GLint envelopes;
+	GLint aenvelopes;
+	GLint senvelopes;
+} uniforms_t;
 
+// functions that need to be called from scenes
+static void draw_quad(GLint attribute_coord2d);
+static void update_uniforms(const uniforms_t* uniforms);
+static void get_uniforms(uniforms_t* uniforms, GLuint program);
+
+#include "libblink.h"
 #include "vertex_source.h"
-#include "scene_blank.h"
 #include "4klang.inh"
+
+// scenes go here
+#include "scene_blank.h"
+#include "scene_test.h"
 
 //#define WIDTH 1920
 //#define HEIGHT 1080
@@ -21,7 +40,7 @@ static void draw_quad(GLint attribute_coord2d);
 #define false 0
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
-static int playback_position = 0;
+static volatile int playback_position = 0;
 
 static void fill_audio(void* userdata, Uint8* stream, int len);
 static void draw(void);
@@ -150,8 +169,29 @@ static void draw(void) {
 	if(!initialized) {
 		vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
 		blank_init(vertex);
+		test_init(vertex);
 		initialized = true;
 	} else {
-		blank_draw();
+		//blank_draw();
+		test_draw();
 	}
+}
+
+static void update_uniforms(const uniforms_t* const uniforms) {
+	glUniform3f(uniforms->view_position, 0, 0, 10);
+	glUniform3f(uniforms->view_up, 0, 1, 0);
+	glUniform3f(uniforms->view_direction, 0, 0, -1);
+	glUniform2f(uniforms->res, WIDTH, HEIGHT);
+}
+
+static void get_uniforms(uniforms_t* uniforms, GLuint program) {
+	uniforms->view_position = shader_get_uniform(program, "view_position");
+	uniforms->view_up = shader_get_uniform(program, "view_up");
+	uniforms->view_direction = shader_get_uniform(program, "view_direction");
+	uniforms->res = shader_get_uniform(program, "res");
+	uniforms->time = shader_get_uniform(program, "time");
+	uniforms->notes = shader_get_uniform(program, "notes");
+	uniforms->envelopes = shader_get_uniform(program, "envelopes");
+	uniforms->aenvelopes = shader_get_uniform(program, "aenvelopes");
+	uniforms->senvelopes = shader_get_uniform(program, "senvelopes");
 }
