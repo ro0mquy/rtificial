@@ -162,15 +162,18 @@ vec2 f(vec3 p) {
 	vec2 kugel_anim = vec2(0.);
 
 	if(vanish_anim_time <= .99){
-		if(time < 35.194){
+		if(time < 34.398){
 			kugel_anim.y = 100*kugel_anim_time;
-		} else {
+		} else if(time < 42.256){
 			kugel_anim.x = -12*sin(0.1 * TAU * time);
 			kugel_anim.y = 12*cos(0.1 * TAU * time);
+		} else{
+			kugel_anim.x = -12*sin(0.1 * TAU * 42.256);
+			kugel_anim.y = 12*cos(0.1 * TAU * 42.256);
 		}
 	}else{
-		kugel_anim.x = 0;
-		kugel_anim.y = 0;
+		kugel_anim.x = -12*sin(0.1 * TAU * 42.256);
+		kugel_anim.y = 12*cos(0.1 * TAU * 42.256);
 	}
 	vec3 p_kugel = trans(p, kugel_anim.x,fall_height, kugel_anim.y);
 	vec2 kugel = vec2(sphere(p_kugel, 1.5), mat_kugel);
