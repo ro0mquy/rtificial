@@ -82,7 +82,7 @@ mat4x4 previous_world_to_camera_matrix;
 float angle_modifier = 1.; // ~ 50. / 360. * TAU
 float movement_modifier = 5.;
 
-bool bloom_enabled = false;
+bool bloom_enabled = true;
 
 bool run;
 
