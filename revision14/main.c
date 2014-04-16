@@ -41,6 +41,12 @@ static void get_uniforms(uniforms_t* uniforms, GLuint program);
 static camera_t camera;
 #include "postproc.h"
 
+typedef unsigned char ILubyte;
+#include "drb.df.h"
+#include "vincent.df.h"
+#include "ro0mquy.df.h"
+#include "ps0ke.df.h"
+
 // scenes go here
 #include "scene_blank.h"
 #include "scene_test.h"
