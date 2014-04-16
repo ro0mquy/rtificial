@@ -41,6 +41,16 @@ vec3 colors[] = vec3[](
 	vec3(.1, .1, .1)
 );
 
+const int num_rand_colors = 6;
+vec3[num_rand_colors] rand_colors = vec3[num_rand_colors](
+	vec3(1, 0, 0),
+	vec3(.5, .5, 0),
+	vec3(0, 1, 0),
+	vec3(0, .5, .5),
+	vec3(0, 0, 1),
+	vec3(.5, 0, .5)
+);
+
 float wakeup = smoothstep(12., 15., time);
 float wakeup_limited = wakeup * step(-15, -time);
 
@@ -61,24 +71,17 @@ void main(void){
 		m = 0;
 
 		vec2 coord = floor(hit.xz / 20);
-		material += int(length(coord));
-		float hue = rand(time * material * coord * .25);
-		vec3 bunt = hsv2rgb(vec3(hue, 1, 1));
+		material += int(time * length(coord));
+		vec3 bunt = rand_colors[material % num_rand_colors];
 
-		int[] playing = int[](2, 3, 3);
-		int instrument = playing[material % 3];
+		//float hue = rand(floor(time) * material * coord * .25);
+		//vec3 bunt = hsv2rgb(vec3(hue, 1, 1));
+
+		int[] playing = int[](10, 11, 2, 3, 31, 31, 31, 31, 31);
+		int instrument = playing[material % 9];
 		float intensity = clamp(2 * senvelopes[instrument], 0, 1);
 		color = mix(color, bunt, intensity);
 		bloom += intensity;
-
-		/*
-		final_color += .1;
-		m = 0.;
-		vec2 coord = floor(hit.xz / 20);
-		bloom = color.x * wakeup;
-		color.x = rand(coord * .25);
-		color = hsv2rgb(color);
-		*/
 	} else if(material == mat_floor) {
 		normal = calc_normal_floor(hit);
 		m = .42;
