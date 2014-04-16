@@ -54,7 +54,7 @@ typedef unsigned char ILubyte;
 
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
-static volatile int playback_position = 0;
+static int playback_position = 0;
 
 static void fill_audio(void* userdata, Uint8* stream, int len);
 static void draw(void);
@@ -200,9 +200,25 @@ static void draw(void) {
 	}
 }
 
+static float smooth_envelopes[32];
+static float accum_envelopes[32];
+
 static void update_uniforms(const uniforms_t* const uniforms) {
 	glUniform2f(uniforms->res, WIDTH, HEIGHT);
 	camera_update_uniforms(&camera, uniforms->view_position, uniforms->view_direction, uniforms->view_up);
+	SDL_LockAudio();
+	int position = playback_position;
+	SDL_UnlockAudio();
+	int index = (position / 256) * 32;
+	const float factor = .3;
+	for(int i = 0; i < 32; i++) {
+		smooth_envelopes[i] = (1. - factor) * (&__4klang_envelope_buffer)[index + i] + factor * smooth_envelopes[i];
+		accum_envelopes[i] += (&__4klang_envelope_buffer)[index + i];
+	}
+	glUniform1fv(uniforms->envelopes, 32, &(&__4klang_envelope_buffer)[index]);
+	glUniform1fv(uniforms->senvelopes, 32, smooth_envelopes);
+	glUniform1fv(uniforms->aenvelopes, 32, accum_envelopes);
+	glUniform1iv(uniforms->notes, 32, &(&__4klang_note_buffer)[index]);
 }
 
 static void get_uniforms(uniforms_t* uniforms, GLuint program) {

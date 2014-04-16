@@ -19,7 +19,7 @@ void main(void){\n\
 		vec3 normal = calc_normal(hit);\n\
 		final_color = vec3(1.0);\n\
 	}\n\
-	out_color.rgb = final_color;\n\
+	out_color.rgb = senvelopes[0] * final_color;\n\
 }\n\
 \n\
 vec2 f(vec3 p){\n\
