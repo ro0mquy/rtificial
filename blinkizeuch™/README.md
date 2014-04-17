@@ -13,6 +13,7 @@
 ### Timeline
 
 * `P` place keyframe
+* `[Ctrl]+P` place two keyframes
 * `R` delete (remove) keyframe nearest to the mouse
 * `[Scroll]` zoom timeline (zoom in to mouse position, zoom out of screen center)
 * `[Ctrl]+[Scroll]` scroll timeline horizontically

@@ -49,6 +49,8 @@ bool timeline_handle_sdl_event(timeline_t* timeline, const SDL_Event* event);
 
 void timeline_add_frame(timeline_t* timeline, camera_t camera);
 
+void timeline_add_two_frames(timeline_t* const timeline, const camera_t camera);
+
 void timeline_remove_frame(timeline_t* const timeline);
 
 void timeline_update(timeline_t* timeline, int dtime);

@@ -747,6 +747,9 @@ static void post_resize_buffer(void) {
 }
 
 static void handle_key_down(SDL_KeyboardEvent keyEvent) {
+	// check for pressed ctrl-key
+	Uint8* keystate = SDL_GetKeyState(NULL);
+
 	switch(keyEvent.keysym.sym) {
 		case SDLK_f:
 			window_handle_resize(!window_is_fullscreen(), 0, 0);
@@ -759,6 +762,10 @@ static void handle_key_down(SDL_KeyboardEvent keyEvent) {
 			load_shader();
 			break;
 		case SDLK_p:
+			if (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) {
+				timeline_add_two_frames(timeline, camera);
+				break;
+			}
 			timeline_add_frame(timeline, camera);
 			break;
 		case SDLK_F7:
