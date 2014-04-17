@@ -124,6 +124,38 @@
             "uniform": "tex_urs"
         },
         {
+            "path": "alcatraz.png",
+            "uniform": "tex_alcatraz"
+        },
+        {
+            "path": "asd.png",
+            "uniform": "tex_asd"
+        },
+        {
+            "path": "conspiracy.png",
+            "uniform": "tex_conspiracy"
+        },
+        {
+            "path": "fairlight.png",
+            "uniform": "tex_fairlight"
+        },
+        {
+            "path": "horology.png",
+            "uniform": "tex_horology"
+        },
+        {
+            "path": "nerd2nerd.png",
+            "uniform": "tex_nerd2nerd"
+        },
+        {
+            "path": "nerdarzt.png",
+            "uniform": "tex_nerdarzt"
+        },
+        {
+            "path": "stroboholics.png",
+            "uniform": "tex_stroboholics"
+        },
+        {
             "path": "iq.png",
             "uniform": "tex_iq"
         }
