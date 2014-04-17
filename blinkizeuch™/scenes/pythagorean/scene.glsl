@@ -111,7 +111,21 @@ void main(void){
 		vec2 spherical = vec2(acos(dir.y) / 3.141 * 2., abs(atan(dir.z, dir.x) / 3.141));
 		final_color = hsv2rgb(vec3(.63, .6 + .4 * fbm(spherical * 20.), .15));
 	}
+
+
+	//vec3 strobo_bunt = rand_colors[int(time) % num_rand_colors];
+	vec3 strobo_bunt = rand_colors[material % num_rand_colors];
+	float strobo_intensity = clamp(2 * (senvelopes[2]+ senvelopes[31]+ senvelopes[10] + senvelopes[11]), 0, 1);
+	vec3 strobo_color = mix(final_color, strobo_bunt, strobo_intensity);
+
 	final_color *= smoothstep(250., 50., distance(view_position, hit));
+
+	if(time > 118.){ // turn on some fuckin strobo
+		final_color = 0.5 * (final_color +  strobo_color) ;
+		if(strobo_intensity > .2){
+			final_color += .1;
+		}
+	}
 	out_color.rgb = final_color;
 	out_color.a = bloom;
 }
