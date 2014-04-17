@@ -49,6 +49,7 @@ vec2 origdim_stroboholics = vec2(67, 7);
 vec3 color_thanks_greetings = color_text;
 vec3 color_mercury_urs = vec3(1, .35, 0);
 vec3 color_iq = color_text;
+vec3 color_stroboholics = color_text;
 
 #define mat_bounding 0
 #define mat_gitter 1
@@ -82,6 +83,10 @@ void main(void) {
 	} else if (time < 60) {
 		// thanks & greetings
 		light_position = vec3(-50, -10, -10);
+	} else if (time < 100) {
+		float time = time - 81;
+		light_position = vec3(0, 14, 5);
+		light_position.y -= 1.5 * time;
 	}
 
 	vec3 dir = get_direction();
@@ -151,6 +156,16 @@ void main(void) {
 
 				f_text = f_iq;
 				color_text = color_iq;
+			} else if (time > 81.0 && time < 90) {
+				// stroboholics
+				float time = time - 81;
+				vec2 dim_stroboholics = vec2(origdim_stroboholics.x / origdim_stroboholics.y, 1.) * base_dim;
+				vec2 p_stroboholics = hit.xz - vec2(-45, 25);
+				vec2 p_tex_stroboholics = vec2(1, -1) * p_stroboholics.yx / dim_stroboholics.xy + .5;
+				float f_stroboholics = texture(tex_stroboholics, p_tex_stroboholics).r;
+
+				f_text = f_stroboholics;
+				color_text = color_stroboholics;
 			}
 
 			final_color += f_text * color_text;
@@ -218,9 +233,10 @@ vec2 f(vec3 p) {
 		pos_delle += vec2(-55.5, -11.5);
 		pos_delle += smoothstep(0, 2, time) * vec2(0, -40);
 	} else if (time < 100) {
-		float time = time - 68;
+		// trichter
+		float time = time - 82.2;
 		float a = 70; // use to tweak shape of spiral
-		float t = time + .001;
+		float t = time + 1.2;
 		t = t * (.5 + pow(t * .09, 8)); // use to tweak the speed of the kugel
 		pos_delle = a / t * vec2(-sin(t), cos(t));
 		pos_delle += vec2(25, 0);
