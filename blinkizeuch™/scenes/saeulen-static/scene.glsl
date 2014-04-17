@@ -114,6 +114,8 @@ void main() {
 
 		direction = reflect(direction, normal);
 	}
+	color *= vignette(1.);
+	color = contrast(color, 2*.8);
 	out_color.rgb = color;
 	out_color.a = bloom;
 }
