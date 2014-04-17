@@ -47,6 +47,7 @@ vec2 origdim_nerdarzt = vec2(46, 7);
 vec2 origdim_stroboholics = vec2(67, 7);
 
 vec3 color_thanks_greetings = color_text;
+vec3 color_alcatraz_conspiracy = color_text;
 vec3 color_mercury_urs = vec3(1, .35, 0);
 vec3 color_iq = color_text;
 vec3 color_nerd2nerd_nerdarzt = color_text;
@@ -81,9 +82,13 @@ void main(void) {
 		float time = time - 48.759;
 		light_position = vec3(-85, -5, -40);
 		light_position.y += .1 * time;
-	} else if (time < 60) {
+	//} else if (time < 59.5) {
 		// thanks & greetings
-		light_position = vec3(-50, -10, -10);
+		//light_position = vec3(-50, -10, -10);
+	} else if (time < 69) {
+		// iq
+		float t = (time - 54) / (69 - 54);
+		light_position = mix(vec3(-50, -10, -10), vec3(-20, -5, 8), t);
 	} else if (time < 76) {
 		// mercury & urs
 		float time = time - 69;
@@ -123,7 +128,7 @@ void main(void) {
 			float f_text = 0;
 			vec3 color_text = vec3(0);
 
-			if (time > 54 && time < 60) {
+			if (time > 54 && time < 63) {
 				// thanks and greetings
 				float time = time - 54;
 				vec2 dim_thanks = vec2(origdim_thanks.x / origdim_thanks.y, 1.) * base_dim;
@@ -136,18 +141,44 @@ void main(void) {
 				vec2 p_tex_greetings = vec2(-1, 1) * p_greetings.yx / dim_greetings.xy + .5;
 				float f_greetings = texture(tex_greetings, p_tex_greetings).r;
 
-				f_text = f_greetings + f_thanks;
-				color_text = color_thanks_greetings;
-			} else if (time > 64 && time < 69) {
+				// alcatraz -- conspiracy
+				vec2 dim_alcatraz = vec2(origdim_alcatraz.x / origdim_alcatraz.y, 1.) * base_dim;
+				vec2 p_alcatraz = hit.xz - vec2(-13 + 2 * time, -20);
+				vec2 p_tex_alcatraz = vec2(1, 1) * p_alcatraz.xy / dim_alcatraz.xy + .5;
+				float f_alcatraz = texture(tex_alcatraz, p_tex_alcatraz).r;
+
+				vec2 dim_conspiracy = vec2(origdim_conspiracy.x / origdim_conspiracy.y, 1.) * base_dim;
+				vec2 p_conspiracy = hit.xz - vec2(-7, 10 + 1.5 * time);
+				vec2 p_tex_conspiracy = vec2(1, -1) * p_conspiracy.yx / dim_conspiracy.xy + .5;
+				float f_conspiracy = texture(tex_conspiracy, p_tex_conspiracy).r;
+
+				float f_thanks_greetings = f_greetings + f_thanks;
+				float f_alcatraz_conspiracy = f_alcatraz + f_conspiracy;
+				f_text = f_thanks_greetings + f_alcatraz_conspiracy;
+				color_text = color_thanks_greetings * f_thanks_greetings + color_alcatraz_conspiracy * f_alcatraz_conspiracy;;
+			} else if (time > 63 && time < 69) {
+				// alcatraz -- conspiracy
+				float time = time - 54;
+				vec2 dim_alcatraz = vec2(origdim_alcatraz.x / origdim_alcatraz.y, 1.) * base_dim;
+				vec2 p_alcatraz = hit.xz - vec2(-13 + 2 * time, -20);
+				vec2 p_tex_alcatraz = vec2(1, 1) * p_alcatraz.xy / dim_alcatraz.xy + .5;
+				float f_alcatraz = texture(tex_alcatraz, p_tex_alcatraz).r;
+
+				vec2 dim_conspiracy = vec2(origdim_conspiracy.x / origdim_conspiracy.y, 1.) * base_dim;
+				vec2 p_conspiracy = hit.xz - vec2(-7, 10 + 1.5 * time);
+				vec2 p_tex_conspiracy = vec2(1, -1) * p_conspiracy.yx / dim_conspiracy.xy + .5;
+				float f_conspiracy = texture(tex_conspiracy, p_tex_conspiracy).r;
+
 				// iq
-				float time = time - 64;
+				time -= 10;
 				vec2 dim_iq = vec2(origdim_iq.x / origdim_iq.y, 1.) * base_dim;
 				vec2 p_iq = hit.xz - vec2(-55, -10);
 				vec2 p_tex_iq = vec2(-1, 1) * p_iq.yx / dim_iq.xy + .5;
 				float f_iq = texture(tex_iq, p_tex_iq).r;
 
-				f_text = f_iq;
-				color_text = color_iq;
+				float f_alcatraz_conspiracy = f_alcatraz + f_conspiracy;
+				f_text = f_iq + f_alcatraz_conspiracy;
+				color_text = color_iq * f_iq + color_alcatraz_conspiracy * f_alcatraz_conspiracy;
 			} else if (time > 69 && time < 76) {
 				// mercury -- urs
 				float time = time - 69;
@@ -238,16 +269,23 @@ vec2 f(vec3 p) {
 	} else if (time < 60) {
 		// thanks & greetings
 		float time = time - 54;
-		pos_delle += vec2(-90, 15);
-		pos_delle += vec2(3 * time * time, -11 * time);
-	} else if (time < 66) {
+		float t = smoothstep(0, 6, time);
+		vec2 p1 = vec2(-90, 15);
+		vec2 p2 = vec2(-50, -50);
+		vec2 p3 = vec2(-15.5, -11.5);
+		pos_delle += mix(mix(p1, p2, t), mix(p2, p3, t), t);
+	} else if (time < 65) {
+		// alcatraz -- conspiracy
+		//pos_delle += P2;
+		pos_delle += vec2(-15.5, -11.5);
+	} else if (time < 67) {
 		// iq, hin
-		float time = time - 64;
+		float time = time - 65;
 		pos_delle += vec2(-55.5, -11.5);
 		pos_delle += smoothstep(2, 0, time) * vec2(40, 0);
-	} else if (time < 68) {
+	} else if (time < 69) {
 		// iq, weg
-		float time = time - 66;
+		float time = time - 67.5;
 		pos_delle += vec2(-55.5, -11.5);
 		pos_delle += smoothstep(0, 2, time) * vec2(0, -40);
 	} else if (time < 76) {
