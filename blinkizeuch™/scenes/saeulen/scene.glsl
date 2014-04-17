@@ -87,8 +87,9 @@ void main() {
 
 		direction = reflect(direction, normal);
 	}
+	color *= vignette(.5);
 	out_color.rgb = color;
-	out_color.a = 0.; // no bloom here, it' bright enough :)
+	out_color.a = 2 * (senvelopes[12] + senvelopes[13]); // more bloom here, even if it' bright enough :)
 }
 
 void initValues() {
@@ -129,7 +130,7 @@ vec2 f(vec3 p) {
 			time += (old_time - cut) * 2.;
 		}
 		if(old_time > 159.246) {
-			time = old_time - foo1 * jump_duration;
+			time = old_time - .5 * jump_duration;
 		}
 		float progress = mod(time / jump_duration, 1.) - .5;
 		// cycloids are fun \o/
@@ -188,7 +189,7 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 		// normale (diffuse) lighting
 		vec3 to_light = normalize(lights[i] - p);
 		//float diffuse = lambert(to_light, normal);
-		float diffuse = oren_nayar(to_light, normal, -direction, foo1);
+		float diffuse = oren_nayar(to_light, normal, -direction, .5);
 		diffuse *= diffuse_intensity;
 
 		// specular lighting
