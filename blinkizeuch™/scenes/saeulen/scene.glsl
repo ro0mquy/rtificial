@@ -88,6 +88,7 @@ void main() {
 		direction = reflect(direction, normal);
 	}
 	out_color.rgb = color;
+	out_color.a = 0.; // no bloom here, it' bright enough :)
 }
 
 void initValues() {
@@ -102,7 +103,7 @@ void initValues() {
 }
 
 vec2 f(vec3 p) {
-	vec2 sphery = vec2(-sphere(p - view_position, 75.), MAT_BOUNDING); // bounding sphere
+	vec2 sphery = vec2(-sphere(p - view_position, 200.), MAT_BOUNDING); // bounding sphere
 
 	vec2 floor_plane = vec2(p.y, MAT_FLOOR);
 	vec2 ceiling_plane = vec2(-abs(p.y) + 25., MAT_CEILING);
