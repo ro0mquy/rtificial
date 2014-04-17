@@ -20,15 +20,31 @@ uniform float sigma_trichter;
 
 uniform sampler2D tex_thanks;
 uniform sampler2D tex_greetings;
+uniform sampler2D tex_alcatraz;
+uniform sampler2D tex_asd;
+uniform sampler2D tex_conspiracy;
+uniform sampler2D tex_fairlight;
+uniform sampler2D tex_horology;
+uniform sampler2D tex_iq;
 uniform sampler2D tex_mercury;
 uniform sampler2D tex_urs;
-uniform sampler2D tex_iq;
+uniform sampler2D tex_nerd2nerd;
+uniform sampler2D tex_nerdarzt;
+uniform sampler2D tex_stroboholics;
 
 vec2 origdim_thanks = vec2(36, 7);
 vec2 origdim_greetings = vec2(66, 7);
+vec2 origdim_alcatraz = vec2(45, 7);
+vec2 origdim_asd = vec2(18, 7);
+vec2 origdim_conspiracy = vec2(59, 7);
+vec2 origdim_fairlight = vec2(45, 7);
+vec2 origdim_horology = vec2(48, 7);
+vec2 origdim_iq = vec2(9, 8);
 vec2 origdim_mercury = vec2(43, 7);
 vec2 origdim_urs = vec2(18, 7);
-vec2 origdim_iq = vec2(9, 8);
+vec2 origdim_nerd2nerd = vec2(54, 7);
+vec2 origdim_nerdarzt = vec2(46, 7);
+vec2 origdim_stroboholics = vec2(67, 7);
 
 vec3 color_thanks_greetings = color_text;
 vec3 color_mercury_urs = vec3(1, .35, 0);
@@ -54,6 +70,20 @@ float[] mat_blooms = float[](
 );
 
 void main(void) {
+	vec3 light_position = light_position;
+	if (time < 49.168) {
+		// bouncing
+		light_position = vec3(-85, 5, -40);
+	} else if (time < 54.0) {
+		// rolling
+		float time = time - 49.168;
+		light_position = vec3(-85, -5, -40);
+		light_position.y += .1 * time;
+	} else if (time < 60) {
+		// thanks & greetings
+		light_position = vec3(-50, -10, -10);
+	}
+
 	vec3 dir = get_direction();
 	vec3 final_color = vec3(0);
 	float final_bloom = 0;
@@ -81,9 +111,9 @@ void main(void) {
 			float f_text = 0;
 			vec3 color_text = vec3(0);
 
-			if (time > 52 && time < 57) {
+			if (time > 54 && time < 60) {
 				// thanks and greetings
-				float time = time - 52;
+				float time = time - 54;
 				vec2 dim_thanks = vec2(origdim_thanks.x / origdim_thanks.y, 1.) * base_dim;
 				vec2 p_thanks = hit.xz - vec2(-51, -55 + time * 20);
 				vec2 p_tex_thanks = vec2(-1, 1) * p_thanks.yx / dim_thanks.xy + .5;
@@ -162,14 +192,14 @@ vec2 f(vec3 p) {
 		float time = time - 48;
 		pos_delle += vec2(-90, -45);
 		pos_delle += vec2(6 * time, 20 * sin(TAU / 4 * smoothstep(0, 2, time)));
-	} else if (time < 52) {
+	} else if (time < 54) {
 		// rolling2
 		float time = time - 50;
 		pos_delle += vec2(-78, -25);
 		pos_delle += vec2(-6 * time, 20 * sin(TAU / 4 * smoothstep(0, 2, time)));
-	} else if (time < 57) {
+	} else if (time < 60) {
 		// thanks & greetings
-		float time = time - 52;
+		float time = time - 54;
 		pos_delle += vec2(-90, 15);
 		pos_delle += vec2(3 * time * time, -11 * time);
 	} else if (time < 64) {
