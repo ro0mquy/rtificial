@@ -149,11 +149,11 @@ float light_f(vec3 p){
 	if(time > flight_start){
 		p = transv(p, p_flight);
 	}
-	float my_time = time - scene_start_time - 14.247;
+	float my_time = time -113.508;
 //	if(time > scene_end_time -3.5){
 //		my_time *= smoothstep(1., 0., time);
 //	}
-	vec3 p_laser = trans(p,-100 + 100 * my_time, 20*0.67,0);
+	vec3 p_laser = trans(p, 100 * my_time, 20*0.67,0);
 	vec3 q = domrep(p_laser, 43, 1,1);
 	q.yz = p_laser.yz;
 	q.z = abs(q.z);
@@ -164,7 +164,7 @@ float light_f(vec3 p){
 vec2 f(vec3 p){
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 500.), MAT_BOUNDING);
 
-	vec3 p_saturn = trans(p, 150, -30, 25);
+	vec3 p_saturn = trans(p, 200, -30, 100);
 	float saturn = sphere(p_saturn, 13);
 	vec2 the_saturn = vec2(saturn, mat_saturn);
 
@@ -177,12 +177,12 @@ vec2 f(vec3 p){
 	float mars = sphere(p_mars, 7);
 	vec2 the_mars = vec2(mars, mat_mars);
 
-
+/*
 	vec2 bezier = vec2(sphere(transv(p, p1), 1), MAT_BALL);
 	bezier = min_material(bezier, vec2(sphere(transv(p, p2), 1), MAT_BALL));
 	bezier = min_material(bezier, vec2(sphere(transv(p, p3), 1), MAT_BALL));
 	bezier = min_material(bezier, vec2(sphere(transv(p, p4), 1), MAT_BALL));
-
+*/
 	if(time > flight_start){
 		p = transv(p, p_flight);
 	}
@@ -220,6 +220,6 @@ vec2 f(vec3 p){
 	q = trans(q, 5., 14.1, 0.);
 	vec2 ufo_lights = vec2(sphere(q, .1), MAT_UFO_LIGHTS);
 
-	ball = min_material(ball, bezier);
+//	ball = min_material(ball, bezier);
 	return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, min_material(min_material(ball, the_mars), min_material(the_saturn, saturn_rings))));
 }
