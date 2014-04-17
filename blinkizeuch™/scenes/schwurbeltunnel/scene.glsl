@@ -23,10 +23,18 @@ void main(void){
 		vec3 normal = calc_normal(hit);
 		float time = time - 136.402;
 		float duration = 150.526 - 136.402;
-		vec3 light = vec3(0, -16. + mix(-45, 45, time/duration), 0);
+		vec3 light;
+		float val;
+		if(time + 136.402 < 164.2) {
+			light = vec3(0, -16. + mix(-45, 45, time/duration), 0);
+			val = .5 + senvelopes[4] * 1.5;
+		} else {
+			light = vec3(0);
+			light.y = view_position.y + 8.;
+			val = 1.;
+		}
 		vec3 to_light = light - hit;
 
-		float val = .5 + senvelopes[4] * 1.5;
 		if(material == 1) {
 			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
 			color += .05 * color_foo1;
