@@ -133,8 +133,9 @@ void main(void){
 }
 
 float light_f(vec3 p){
-	vec3 p_laser = trans(p, -50 + 100 * step(scene_start_time + 14.247,time)*(time - 14.247), 20*0.67,0);
-	vec3 q = domrep(p_laser, 100, 1,1);
+	float time = time - scene_start_time - 14.247;
+	vec3 p_laser = trans(p,-100 + 100 * time, 20*0.67,0);
+	vec3 q = domrep(p_laser, 43, 1,1);
 	q.yz = p_laser.yz;
 	q.z = abs(q.z);
 	float beam = line(q, vec3(-1,0,3), vec3(1,0,3), 0);
