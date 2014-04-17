@@ -164,7 +164,7 @@ float light_f(vec3 p){
 vec2 f(vec3 p){
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 500.), MAT_BOUNDING);
 
-	vec3 p_saturn = trans(p, 200, -30, 100);
+	vec3 p_saturn = trans(p, 217, -30, 100);
 	float saturn = sphere(p_saturn, 13);
 	vec2 the_saturn = vec2(saturn, mat_saturn);
 
