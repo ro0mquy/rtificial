@@ -43,6 +43,19 @@ vec3 colors[] = vec3[](
 	vec3(241./255., 24./255., .0)
 );
 
+float flight_start = 102.7;
+float flight_end = 109.847;
+vec3 p1 = vec3(100.,-100.,33.);
+vec3 p2 = vec3(500.,0.,50.);
+vec3 p3 = vec3(100.,20.,100.);
+vec3 p4 = vec3(-100.,-30.,100.);
+float dtime = min(time, flight_end) - flight_start;
+float t = dtime* .15;
+vec3 p12 = mix(p1, p2, t);
+vec3 p23 = mix(p2, p3, t);
+vec3 p34 = mix(p3, p4, t);
+vec3 p_flight = mix(mix(p12, p23, t), mix(p23, p34, t), t);
+
 void main(void){
 	vec3 direction = get_direction();
 	vec3 final_color = vec3(0);
@@ -133,8 +146,14 @@ void main(void){
 }
 
 float light_f(vec3 p){
-	float time = time - scene_start_time - 14.247;
-	vec3 p_laser = trans(p,-100 + 100 * time, 20*0.67,0);
+	if(time > flight_start){
+		p = transv(p, p_flight);
+	}
+	float my_time = time - scene_start_time - 14.247;
+//	if(time > scene_end_time -3.5){
+//		my_time *= smoothstep(1., 0., time);
+//	}
+	vec3 p_laser = trans(p,-100 + 100 * my_time, 20*0.67,0);
 	vec3 q = domrep(p_laser, 43, 1,1);
 	q.yz = p_laser.yz;
 	q.z = abs(q.z);
@@ -143,9 +162,9 @@ float light_f(vec3 p){
 }
 
 vec2 f(vec3 p){
-	vec2 bounding = vec2(-sphere(transv(p, view_position), 300.), MAT_BOUNDING);
+	vec2 bounding = vec2(-sphere(transv(p, view_position), 500.), MAT_BOUNDING);
 
-	vec3 p_saturn = trans(p, 100, 10, 100);
+	vec3 p_saturn = trans(p, 150, -30, 25);
 	float saturn = sphere(p_saturn, 13);
 	vec2 the_saturn = vec2(saturn, mat_saturn);
 
@@ -154,9 +173,19 @@ vec2 f(vec3 p){
 	rings = max(rings, abs(p_saturn.y) - .05);
 	vec2 saturn_rings = vec2(rings, mat_saturn_rings);
 
-	vec3 p_mars = trans(p, -100, -10, 100);
+	vec3 p_mars = trans(p, -100, -50, 100);
 	float mars = sphere(p_mars, 7);
 	vec2 the_mars = vec2(mars, mat_mars);
+
+
+	vec2 bezier = vec2(sphere(transv(p, p1), 1), MAT_BALL);
+	bezier = min_material(bezier, vec2(sphere(transv(p, p2), 1), MAT_BALL));
+	bezier = min_material(bezier, vec2(sphere(transv(p, p3), 1), MAT_BALL));
+	bezier = min_material(bezier, vec2(sphere(transv(p, p4), 1), MAT_BALL));
+
+	if(time > flight_start){
+		p = transv(p, p_flight);
+	}
 
 	vec3 cockpit_p = trans(p, 0., 50*.23, 0.);
 
@@ -191,5 +220,6 @@ vec2 f(vec3 p){
 	q = trans(q, 5., 14.1, 0.);
 	vec2 ufo_lights = vec2(sphere(q, .1), MAT_UFO_LIGHTS);
 
+	ball = min_material(ball, bezier);
 	return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, min_material(min_material(ball, the_mars), min_material(the_saturn, saturn_rings))));
 }
