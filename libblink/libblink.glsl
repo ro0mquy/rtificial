@@ -426,8 +426,8 @@ float rgb2luma(vec3 rgb) {
 // k == 1: the input color
 // k < 0: invert color & contrast(abs(k))
 vec3 contrast(vec3 color, float k) {
-	float luma = rgb2luma(color);
-	return mix(vec3(luma), color, k);
+	//float luma = rgb2luma(color);
+	return mix(vec3(.5), color, k);
 }
 
 // add some kind of vignette

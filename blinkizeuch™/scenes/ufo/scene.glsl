@@ -146,8 +146,7 @@ void main(void){
 		direction = reflect(direction, normal);
 	}
 
-	final_color *=vignette(1.);
-	final_color = contrast(final_color, 0.65);
+	final_color *= vignette(1.);
 
 	if(time >= scene_end_time && time < scene_start_time + 10){
 		out_color.rgba = vec4(0.);

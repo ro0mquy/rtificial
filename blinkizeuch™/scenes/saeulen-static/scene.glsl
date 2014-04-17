@@ -66,7 +66,7 @@ void main() {
 		vec3 light_color = vec3(0.);
 		//light_color += .05 + .95 * lambert(to_light, normal) * diffuse_intensity;
 		if(material == mat_kugel){
-			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, 1.5, 450.);
+			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, 1., 450.);
 		} else {
 			light_color += .05 + .95 * oren_nayar(to_light, normal, -direction, foo1) * diffuse_intensity;
 		}
@@ -114,8 +114,8 @@ void main() {
 
 		direction = reflect(direction, normal);
 	}
+	color = contrast(color, 1.03);
 	color *= vignette(1.);
-	color = contrast(color, 2*.8);
 	out_color.rgb = color;
 	out_color.a = bloom;
 }
