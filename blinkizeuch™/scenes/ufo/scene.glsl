@@ -45,18 +45,25 @@ vec3 colors[] = vec3[](
 
 float flight_start = 102.7;
 float flight_end = 109.847;
-vec3 p1 = vec3(100.,-100.,33.);
-vec3 p2 = vec3(500.,0.,50.);
-vec3 p3 = vec3(100.,20.,100.);
-vec3 p4 = vec3(-100.,-30.,100.);
-float dtime = min(time, flight_end) - flight_start;
-float t = dtime* .15;
-vec3 p12 = mix(p1, p2, t);
-vec3 p23 = mix(p2, p3, t);
-vec3 p34 = mix(p3, p4, t);
-vec3 p_flight = mix(mix(p12, p23, t), mix(p23, p34, t), t);
+vec3 p_flight = vec3(0);
 
 void main(void){
+	if (time < scene_end_time + 10) {
+		vec3 p1 = vec3(100.,-100.,33.);
+		vec3 p2 = vec3(500.,0.,50.);
+		vec3 p3 = vec3(100.,20.,100.);
+		vec3 p4 = vec3(-100.,-30.,100.);
+		float dtime = min(time, flight_end) - flight_start;
+		float t = dtime* .15;
+		vec3 p12 = mix(p1, p2, t);
+		vec3 p23 = mix(p2, p3, t);
+		vec3 p34 = mix(p3, p4, t);
+		p_flight = mix(mix(p12, p23, t), mix(p23, p34, t), t);
+	} else if (time < 179) {
+		p_flight = vec3(0);
+		p_flight = trans(p_flight, -217, 30, -100);
+	}
+
 	vec3 direction = get_direction();
 	vec3 final_color = vec3(0);
 	float final_bloom = 0;
@@ -122,7 +129,11 @@ void main(void){
 		}
 		float laser = .7 / (pow(minimal_dist * 4, 4) + 1);
 		//float laser = .7 * exp(-minimal_dist*minimal_dist);
-		final_color += colors[mat_laser] * laser;
+		if (time < scene_end_time + 10) {
+			final_color += colors[mat_laser] * laser;
+		} else if (time < 179) {
+			final_color += laser * hsv2rgb(vec3(.1 * aenvelopes[2], 1, 1));
+		}
 
 		// only cockpit is reflective
 		if (material != MAT_UFO_COCKPIT) {
@@ -138,7 +149,7 @@ void main(void){
 	final_color *=vignette(1.);
 	final_color = contrast(final_color, 0.65);
 
-	if(time >= scene_end_time){
+	if(time >= scene_end_time && time < scene_start_time + 10){
 		out_color.rgba = vec4(0.);
 		out_depth = 0.;
 	} else {
@@ -149,19 +160,27 @@ void main(void){
 }
 
 float light_f(vec3 p){
-	if(time > flight_start){
-		p = transv(p, p_flight);
+	float f_beam = 10000;
+	if (time < scene_end_time + 10) {
+		if(time > flight_start){
+			p = transv(p, p_flight);
+		}
+		float my_time = time -113.508;
+	//	if(time > scene_end_time -3.5){
+	//		my_time *= smoothstep(1., 0., time);
+	//	}
+		vec3 p_laser = trans(p, 100 * my_time, 20*0.67,0);
+		vec3 q = domrep(p_laser, 43, 1,1);
+		q.yz = p_laser.yz;
+		q.z = abs(q.z);
+		float beam = line(q, vec3(-1,0,3), vec3(1,0,3), 0);
+		f_beam = max(max(beam, -p.x+2.5), p_laser.x);
+	} else if (time < 179) {
+		float time = time - 169.272;
+		p = trans(p, 217, -30, 100);
+		f_beam = line(p, vec3(-5,0,3), vec3(1,0,3), 0);
 	}
-	float my_time = time -113.508;
-//	if(time > scene_end_time -3.5){
-//		my_time *= smoothstep(1., 0., time);
-//	}
-	vec3 p_laser = trans(p, 100 * my_time, 20*0.67,0);
-	vec3 q = domrep(p_laser, 43, 1,1);
-	q.yz = p_laser.yz;
-	q.z = abs(q.z);
-	float beam = line(q, vec3(-1,0,3), vec3(1,0,3), 0);
-	return max(max(beam, -p.x+2.5), p_laser.x);
+	return f_beam;
 }
 
 vec2 f(vec3 p){
@@ -224,5 +243,9 @@ vec2 f(vec3 p){
 	vec2 ufo_lights = vec2(sphere(q, .1), MAT_UFO_LIGHTS);
 
 //	ball = min_material(ball, bezier);
-	return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, min_material(min_material(ball, the_mars), min_material(the_saturn, saturn_rings))));
+	if (time < scene_end_time) {
+		return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, min_material(min_material(ball, the_mars), min_material(the_saturn, saturn_rings))));
+	} else {
+		return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, min_material(min_material(ball, the_mars), saturn_rings)));
+	}
 }
