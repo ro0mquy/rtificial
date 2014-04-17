@@ -36,6 +36,7 @@ typedef struct {
 static void draw_quad(GLint attribute_coord2d);
 static void update_uniforms(const uniforms_t* uniforms, timeline_t* timeline);
 static void get_uniforms(uniforms_t* uniforms, GLuint program);
+static void init_timeline(timeline_t* timeline, keyframe_list_t* keyframes);
 
 #include "libblink.h"
 #include "shader_sources.h"
@@ -53,6 +54,7 @@ typedef unsigned char ILubyte;
 #include "scene_blank.h"
 #include "scene_test.h"
 #include "scene_pythagorean.h"
+#include "scene_saeulen_static.h"
 
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
@@ -88,7 +90,6 @@ int main() {
 	SDL_OpenAudio(&wanted, NULL);
 
 
-	SDL_PauseAudio(0);
 
 	glGenBuffers(1, &vbo_rectangle);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
@@ -194,12 +195,21 @@ static void draw(void) {
 		blank_init(vertex);
 		test_init(vertex);
 		pythagorean_init(vertex);
+		saeulen_static_init(vertex);
+		SDL_PauseAudio(0);
 		initialized = true;
 	} else {
 		postproc_before_draw();
 		//blank_draw();
 		//test_draw();
-		pythagorean_draw();
+		SDL_LockAudio();
+		int time = (int64_t) playback_position * 1000 / 44100;
+		SDL_UnlockAudio();
+		if(time < 28900) {
+			pythagorean_draw();
+		} else {
+			saeulen_static_draw();
+		}
 		postproc_after_draw();
 	}
 }
@@ -238,4 +248,14 @@ static void get_uniforms(uniforms_t* uniforms, GLuint program) {
 	uniforms->envelopes = shader_get_uniform(program, "envelopes");
 	uniforms->aenvelopes = shader_get_uniform(program, "aenvelopes");
 	uniforms->senvelopes = shader_get_uniform(program, "senvelopes");
+}
+
+static void init_timeline(timeline_t* timeline, keyframe_list_t* keyframes) {
+	timeline->keyframes = keyframes;
+	keyframe_list_t* controlPoints = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
+	*controlPoints = (keyframe_list_t) {
+		.length = 0,
+		.allocated = 1,
+	};
+	timeline->controlPoints = timeline_get_bezier_spline(controlPoints, timeline->keyframes, .5);
 }

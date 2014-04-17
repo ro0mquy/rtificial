@@ -248,13 +248,7 @@ static void pythagorean_init(GLuint vertex) {
 	pythagorean_program = shader_link_program(vertex, fragment);
 	pythagorean_attrib_c2d = glGetAttribLocation(pythagorean_program, "c");
 	get_uniforms(&pythagorean_uniforms, pythagorean_program);
-	pythagorean_timeline.keyframes = &pythagorean_keyframe_list;
-	keyframe_list_t* controlPoints = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
-	*controlPoints = (keyframe_list_t) {
-		.length = 0,
-		.allocated = 1,
-	};
-	pythagorean_timeline.controlPoints = timeline_get_bezier_spline(controlPoints, pythagorean_timeline.keyframes, .5);
+	init_timeline(&pythagorean_timeline, &pythagorean_keyframe_list);
 }
 
 static void pythagorean_draw() {
