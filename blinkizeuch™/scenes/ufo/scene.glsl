@@ -160,7 +160,7 @@ vec2 f(vec3 p){
 	float empty_cockpit = max(max(sphere(cockpit_p, 5), -sphere(p, 15)), -sphere(cockpit_p, 4.9));
 	vec2 ufo_cockpit = vec2(max(empty_cockpit, cut_planes), MAT_UFO_COCKPIT);
 
-	float ball_anim_start = scene_start_time + 1.;
+	float ball_anim_start = scene_start_time -2.;
 	float ball_anim_duration = 5.;
 	float ball_anim_time = (clamp(time, ball_anim_start, ball_anim_start + ball_anim_duration) -ball_anim_start)/(ball_anim_duration);
 	float ball_gravity = 500;
