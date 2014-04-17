@@ -18,7 +18,6 @@ uniform vec3 color_light;
 uniform float normal_noise_radius;
 uniform float diffuse_intensity;
 //uniform float jump_duration;
-float jump_duration = 60./136.;
 
 #define MAT_BOUNDING 0.
 #define MAT_FLOOR 1.
@@ -106,8 +105,19 @@ vec2 f(vec3 p) {
 	float height_saeulen = 11.9; // - fuge_hoehe
 	float height_jump = 6.;
 	vec3 b = p;
+	float jump_duration = 60./136.;
 	//if (jump_duration != 0.) {
-		float time = time + .34 * jump_duration;
+		float old_time = time;
+		float offset = - .34 * jump_duration;
+		float time = old_time + offset;
+		float cut = 132.877;
+		float cut2 = 136.41;
+		if(old_time > cut) {
+			time = cut + offset + (min(old_time, cut2) - cut) * .05;
+		}
+		if(old_time > cut2) {
+			time += (old_time - cut) * 2.;
+		}
 		float progress = mod(time / jump_duration, 1.) - .5;
 		// cycloids are fun \o/
 		// x = t - sin(t)
