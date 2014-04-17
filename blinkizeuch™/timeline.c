@@ -383,6 +383,33 @@ void timeline_add_frame(timeline_t* const timeline, const camera_t camera) {
 	timeline->controlPoints = timeline_get_bezier_spline(timeline->controlPoints, timeline->keyframes, TIMELINE_DEFAULT_SCALE);
 }
 
+void timeline_add_two_frames(timeline_t* const timeline, const camera_t camera) {
+	const int time = timeline->cursor_position;
+	const size_t pos = list_find(timeline->keyframes, time);
+
+	// check if there is already a frame for this time point
+	if (list_get(timeline->keyframes, pos)->time == time) {
+		timeline->keyframes = list_remove(timeline->keyframes, pos);
+	}
+
+	timeline->keyframes = list_insert(timeline->keyframes, (keyframe_t) {
+		.time = time,
+		.camera = camera,
+	}, pos);
+
+	// add second frame
+	const size_t pos2 = list_find(timeline->keyframes, time+1);
+	if (list_get(timeline->keyframes, pos2)->time == time+1) {
+		timeline->keyframes = list_remove(timeline->keyframes, pos2);
+	}
+
+	timeline->keyframes = list_insert(timeline->keyframes, (keyframe_t) {
+		.time = time+1,
+		.camera = camera,
+	}, pos2);
+	timeline->controlPoints = timeline_get_bezier_spline(timeline->controlPoints, timeline->keyframes, TIMELINE_DEFAULT_SCALE);
+}
+
 void timeline_remove_frame(timeline_t* const timeline) {
 	// remove nearest keyframe
 	const int time = timeline->cursor_position;
