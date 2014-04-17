@@ -71,12 +71,12 @@ float[] mat_blooms = float[](
 
 void main(void) {
 	vec3 light_position = light_position;
-	if (time < 49.168) {
+	if (time < 48.759) {
 		// bouncing
 		light_position = vec3(-85, 5, -40);
 	} else if (time < 54.0) {
 		// rolling
-		float time = time - 49.168;
+		float time = time - 48.759;
 		light_position = vec3(-85, -5, -40);
 		light_position.y += .1 * time;
 	} else if (time < 60) {
