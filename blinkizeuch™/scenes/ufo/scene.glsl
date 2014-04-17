@@ -133,7 +133,7 @@ void main(void){
 }
 
 float light_f(vec3 p){
-	vec3 p_laser = trans(p, -50 + 100 * step(scene_start_time + 10,time)*(time - 10), 20*0.67,0);
+	vec3 p_laser = trans(p, -50 + 100 * step(scene_start_time + 14.247,time)*(time - 14.247), 20*0.67,0);
 	vec3 q = domrep(p_laser, 100, 1,1);
 	q.yz = p_laser.yz;
 	q.z = abs(q.z);
@@ -151,8 +151,8 @@ vec2 f(vec3 p){
 	float ufo_ball_hole = max(smax(ufo_top, ufo_bottom, 0.05), -sphere(trans(cockpit_p, 0., 6.5, 0.), 5.35));
 	vec2 ufo_body = vec2(ufo_ball_hole, MAT_UFO_BODY);
 
-	float cock_anim_start = scene_start_time + 6.5;
-	float cock_anim_duration = 2.5;
+	float cock_anim_start = 98.651;
+	float cock_anim_duration = 3.8;
 	float cock_anim_time = (clamp(time, cock_anim_start, cock_anim_start + cock_anim_duration) -cock_anim_start)/(cock_anim_duration);
 	float cockpit_close = 5-5*cock_anim_time;
 	vec3 cut_p = trans(cockpit_p, 0., 5*0.59, 0.);
