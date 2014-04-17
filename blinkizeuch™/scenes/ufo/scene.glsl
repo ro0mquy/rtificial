@@ -135,6 +135,9 @@ void main(void){
 		direction = reflect(direction, normal);
 	}
 
+	final_color *=vignette(1.);
+	final_color = contrast(final_color, 0.65);
+
 	if(time >= scene_end_time){
 		out_color.rgba = vec4(0.);
 		out_depth = 0.;
