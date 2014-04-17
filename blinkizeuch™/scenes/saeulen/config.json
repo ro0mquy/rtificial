@@ -1,26 +1,5 @@
-
 {
     "tweakables": [
-        {
-            "name": "Foo Color1",
-            "uniform": "color_foo1",
-            "type": "color",
-            "default": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        {
-            "name": "Foo Color2",
-            "uniform": "color_foo2",
-            "type": "color",
-            "default": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
         {
             "name": "Foo1",
             "uniform": "foo1",
@@ -36,47 +15,40 @@
             "varparam": "min=0 max=1 step=0.01"
         },
         {
-            "name": "Light Position",
-            "uniform": "light",
-            "type": "direction",
-            "default": [
-                0.0,
-                10.0,
-                -5.0
-            ]
+            "name": "Light1 x",
+            "uniform": "light1_x",
+            "type": "float",
+            "default": 10.0
         },
         {
-            "name": "Color Light",
-            "uniform": "color_light",
-            "type": "color",
-            "default": [
-                0.80000001192092896,
-                0.80000001192092896,
-                1.0
-            ],
-            "varparam": "colormode=hls"
+            "name": "Light1 y",
+            "uniform": "light1_y",
+            "type": "float",
+            "default": 3.5
         },
         {
-            "name": "Color Saeulen",
-            "uniform": "color_saeulen",
-            "type": "color",
-            "default": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "varparam": "colormode=hls"
+            "name": "Light1 z",
+            "uniform": "light1_z",
+            "type": "float",
+            "default": 1.0
         },
         {
-            "name": "Color Fog",
-            "uniform": "color_fog",
-            "type": "color",
-            "default": [
-                0.89019614458084106,
-                0.90196084976196289,
-                0.91372555494308472
-            ],
-            "varparam": "colormode=hls"
+            "name": "Light2 x",
+            "uniform": "light2_x",
+            "type": "float",
+            "default": -1.0
+        },
+        {
+            "name": "Light2 y",
+            "uniform": "light2_y",
+            "type": "float",
+            "default": 3.5
+        },
+        {
+            "name": "Light2 z",
+            "uniform": "light2_z",
+            "type": "float",
+            "default": 4.0
         },
         {
             "name": "Normal-Noise Radius",
