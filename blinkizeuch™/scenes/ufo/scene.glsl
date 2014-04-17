@@ -143,7 +143,20 @@ float light_f(vec3 p){
 }
 
 vec2 f(vec3 p){
-	vec2 bounding = vec2(-sphere(transv(p, view_position), 220.), MAT_BOUNDING);
+	vec2 bounding = vec2(-sphere(transv(p, view_position), 300.), MAT_BOUNDING);
+
+	vec3 p_saturn = trans(p, 100, 10, 100);
+	float saturn = sphere(p_saturn, 13);
+	vec2 the_saturn = vec2(saturn, mat_saturn);
+
+	float rings = abs(sphere(p_saturn, 22)) - 2;
+	rings = max(rings, -(abs(sphere(p_saturn, 21.8)) - .4));
+	rings = max(rings, abs(p_saturn.y) - .05);
+	vec2 saturn_rings = vec2(rings, mat_saturn_rings);
+
+	vec3 p_mars = trans(p, -100, -10, 100);
+	float mars = sphere(p_mars, 7);
+	vec2 the_mars = vec2(mars, mat_mars);
 
 	vec3 cockpit_p = trans(p, 0., 50*.23, 0.);
 
@@ -153,7 +166,7 @@ vec2 f(vec3 p){
 	vec2 ufo_body = vec2(ufo_ball_hole, MAT_UFO_BODY);
 
 	float cock_anim_start = 98.651;
-	float cock_anim_duration = 3.8;
+	float cock_anim_duration = 4.05;
 	float cock_anim_time = (clamp(time, cock_anim_start, cock_anim_start + cock_anim_duration) -cock_anim_start)/(cock_anim_duration);
 	float cockpit_close = 5-5*cock_anim_time;
 	vec3 cut_p = trans(cockpit_p, 0., 5*0.59, 0.);
@@ -177,19 +190,6 @@ vec2 f(vec3 p){
 	vec3 q = vec3(r * cos(phi), p_light.y, r * sin(phi));
 	q = trans(q, 5., 14.1, 0.);
 	vec2 ufo_lights = vec2(sphere(q, .1), MAT_UFO_LIGHTS);
-
-	vec3 p_saturn = trans(p, 100, 10, 100);
-	float saturn = sphere(p_saturn, 13);
-	vec2 the_saturn = vec2(saturn, mat_saturn);
-
-	float rings = abs(sphere(p_saturn, 22)) - 2;
-	rings = max(rings, -(abs(sphere(p_saturn, 21.8)) - .4));
-	rings = max(rings, abs(p_saturn.y) - .05);
-	vec2 saturn_rings = vec2(rings, mat_saturn_rings);
-
-	vec3 p_mars = trans(p, -100, -10, 100);
-	float mars = sphere(p_mars, 7);
-	vec2 the_mars = vec2(mars, mat_mars);
 
 	return min_material(min_material(min_material(ufo_body, ufo_cockpit), bounding), min_material(ufo_lights, min_material(min_material(ball, the_mars), min_material(the_saturn, saturn_rings))));
 }
