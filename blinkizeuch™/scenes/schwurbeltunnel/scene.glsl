@@ -21,10 +21,14 @@ void main(void){
 		vec3 hit = march(p, dir, i);
 		int material = int(f(hit)[1]);
 		vec3 normal = calc_normal(hit);
-		vec3 to_light = vec3(0, 0, 10) - hit;
+		float time = time - 136.402;
+		float duration = 150.526 - 136.402;
+		vec3 light = vec3(0, -16. + mix(-45, 45, time/duration), 0);
+		vec3 to_light = light - hit;
 
+		float val = .5 + senvelopes[4] * 1.5;
 		if(material == 1) {
-			vec3 color = .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
+			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
 			color += .05 * color_foo1;
 			final_color += factor * color;
 			factor *= .5;
@@ -38,7 +42,7 @@ void main(void){
 			final_color += factor * vec3(1, 0, 0) * .05;
 			break;
 		} else if(material == 0) {
-			final_color += factor * mix(vec3(0), color_foo2, fbm(dir * 2.));
+			final_color += factor * mix(vec3(0), color_foo2, fbm(dir * 2.)) * max(1. - val, .3);
 			break;
 		}
 	}
@@ -84,8 +88,10 @@ float schwurbelsaeule(vec3 p) {
 }
 
 vec2 f(vec3 p){
+	float time = time - 136.402;
+	float duration = 150.526 - 136.402;
 	float foo = schwurbelsaeule(p);
-	float bar = sphere(trans(p, 0, time * 20. - 30., 0), 1);
+	float bar = sphere(trans(p, 1.5 * sin(time * .5), mix(-50, 60, time / duration), 1.5 * cos(time * .5)), 1);
 
 	return min_material(vec2(-sphere(p - view_position, 500.), 0), min_material(vec2(foo, 1), vec2(bar, 2)));
 }
