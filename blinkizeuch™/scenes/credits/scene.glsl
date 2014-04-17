@@ -83,6 +83,10 @@ void main(void){
 		}
 	}
 	final_color *= smoothstep(100, 20, distance(hit, view_position));
+
+	// end fade out
+	final_color *= smoothstep(192.8,191.,time);
+
 	out_color.rgb = final_color;
 	out_color.a = bloom;
 }
