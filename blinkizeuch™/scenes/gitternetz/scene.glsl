@@ -35,10 +35,10 @@ uniform sampler2D tex_stroboholics;
 vec2 origdim_thanks = vec2(36, 7);
 vec2 origdim_greetings = vec2(66, 7);
 vec2 origdim_alcatraz = vec2(45, 7);
-vec2 origdim_asd = vec2(18, 7);
+//vec2 origdim_asd = vec2(18, 7);
 vec2 origdim_conspiracy = vec2(59, 7);
-vec2 origdim_fairlight = vec2(45, 7);
-vec2 origdim_horology = vec2(48, 7);
+//vec2 origdim_fairlight = vec2(45, 7);
+//vec2 origdim_horology = vec2(48, 7);
 vec2 origdim_iq = vec2(9, 8);
 vec2 origdim_mercury = vec2(43, 7);
 vec2 origdim_urs = vec2(18, 7);
@@ -49,6 +49,7 @@ vec2 origdim_stroboholics = vec2(67, 7);
 vec3 color_thanks_greetings = color_text;
 vec3 color_mercury_urs = vec3(1, .35, 0);
 vec3 color_iq = color_text;
+vec3 color_nerd2nerd_nerdarzt = color_text;
 vec3 color_stroboholics = color_text;
 
 #define mat_bounding 0
@@ -83,7 +84,13 @@ void main(void) {
 	} else if (time < 60) {
 		// thanks & greetings
 		light_position = vec3(-50, -10, -10);
+	} else if (time < 76) {
+		// mercury & urs
+		float time = time - 69;
+		light_position = vec3(-40, -5, -12);
+		light_position.xz += 2 * time * vec2(1, 1);
 	} else if (time < 100) {
+		// trichter
 		float time = time - 81;
 		light_position = vec3(0, 14, 5);
 		light_position.y -= 1.5 * time;
@@ -131,9 +138,19 @@ void main(void) {
 
 				f_text = f_greetings + f_thanks;
 				color_text = color_thanks_greetings;
-			} else if (time > 57 && time < 64) {
+			} else if (time > 64 && time < 69) {
+				// iq
+				float time = time - 64;
+				vec2 dim_iq = vec2(origdim_iq.x / origdim_iq.y, 1.) * base_dim;
+				vec2 p_iq = hit.xz - vec2(-55, -10);
+				vec2 p_tex_iq = vec2(-1, 1) * p_iq.yx / dim_iq.xy + .5;
+				float f_iq = texture(tex_iq, p_tex_iq).r;
+
+				f_text = f_iq;
+				color_text = color_iq;
+			} else if (time > 69 && time < 76) {
 				// mercury -- urs
-				float time = time - 57;
+				float time = time - 69;
 				vec2 dim_mercury = vec2(origdim_mercury.x / origdim_mercury.y, 1.) * base_dim;
 				vec2 p_mercury = hit.xz - vec2(-40, -15 - time * 3);
 				vec2 p_tex_mercury = vec2(-1, 1) * p_mercury.yx / dim_mercury.xy + .5;
@@ -146,16 +163,22 @@ void main(void) {
 
 				f_text = f_mercury + f_urs;
 				color_text = color_mercury_urs;
-			} else if (time > 64 && time < 69) {
-				// iq
-				float time = time - 64;
-				vec2 dim_iq = vec2(origdim_iq.x / origdim_iq.y, 1.) * base_dim;
-				vec2 p_iq = hit.xz - vec2(-55, -10);
-				vec2 p_tex_iq = vec2(-1, 1) * p_iq.yx / dim_iq.xy + .5;
-				float f_iq = texture(tex_iq, p_tex_iq).r;
+			} else if (time > 76 && time < 81) {
+				// nerd2nerd -- nerdarzt
+				float time = time - 79;
+				time = min(time, 0);
+				vec2 dim_nerd2nerd = vec2(origdim_nerd2nerd.x / origdim_nerd2nerd.y, 1.) * base_dim;
+				vec2 p_nerd2nerd = hit.xz - vec2(-42 + 4 * time, 15 - time);
+				vec2 p_tex_nerd2nerd = vec2(-1, 1) * p_nerd2nerd.yx / dim_nerd2nerd.xy + .5;
+				float f_nerd2nerd = texture(tex_nerd2nerd, p_tex_nerd2nerd).r;
 
-				f_text = f_iq;
-				color_text = color_iq;
+				vec2 dim_nerdarzt = vec2(origdim_nerdarzt.x / origdim_nerdarzt.y, 1.) * base_dim;
+				vec2 p_nerdarzt = hit.xz - vec2(-42 - 3 * time, -14.8 + time);
+				vec2 p_tex_nerdarzt = vec2(-1, 1) * p_nerdarzt.yx / dim_nerdarzt.xy + .5;
+				float f_nerdarzt = texture(tex_nerdarzt, p_tex_nerdarzt).r;
+
+				f_text = f_nerd2nerd + f_nerdarzt;
+				color_text = color_nerd2nerd_nerdarzt;
 			} else if (time > 81.0 && time < 90) {
 				// stroboholics
 				float time = time - 81;
@@ -169,7 +192,7 @@ void main(void) {
 			}
 
 			final_color += f_text * color_text;
-			final_bloom += f_text * (1 - mod(time, 1));
+			final_bloom += f_text * 2 * (senvelopes[12] + senvelopes[13] + senvelopes[14]);
 		}
 
 		// black fog
@@ -217,11 +240,6 @@ vec2 f(vec3 p) {
 		float time = time - 54;
 		pos_delle += vec2(-90, 15);
 		pos_delle += vec2(3 * time * time, -11 * time);
-	} else if (time < 64) {
-		// mercury & urs
-		float time = time - 57;
-		pos_delle += vec2(-90, -45);
-		pos_delle += time * vec2(9, 7.24);
 	} else if (time < 66) {
 		// iq, hin
 		float time = time - 64;
@@ -232,6 +250,18 @@ vec2 f(vec3 p) {
 		float time = time - 66;
 		pos_delle += vec2(-55.5, -11.5);
 		pos_delle += smoothstep(0, 2, time) * vec2(0, -40);
+	} else if (time < 76) {
+		// mercury & urs
+		float time = time - 69;
+		time = smoothstep(0., 5.5, time);
+		pos_delle += vec2(-90, -45);
+		pos_delle += 6 * time * vec2(9, 7.24);
+	} else if (time < 81) {
+		// nerd2nerdarzt
+		float time = time - 75;
+		pos_delle += vec2(-42, 0);
+		pos_delle.x += 7.5 * sin(TAU * .6 * time);
+		pos_delle.y += 15 * cos(TAU * .5 * time);
 	} else if (time < 100) {
 		// trichter
 		float time = time - 82.2;
