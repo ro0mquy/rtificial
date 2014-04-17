@@ -128,20 +128,8 @@
             "uniform": "tex_alcatraz"
         },
         {
-            "path": "asd.png",
-            "uniform": "tex_asd"
-        },
-        {
             "path": "conspiracy.png",
             "uniform": "tex_conspiracy"
-        },
-        {
-            "path": "fairlight.png",
-            "uniform": "tex_fairlight"
-        },
-        {
-            "path": "horology.png",
-            "uniform": "tex_horology"
         },
         {
             "path": "nerd2nerd.png",
