@@ -92,6 +92,7 @@ void main(void){
 	} else if(material == mat_floor) {
 		normal = calc_normal_floor(hit);
 		m = .42;
+		final_color = vec3(.2,.7,.0);
 	} else if(material == mat_kugel) {
 		normal = calc_normal(hit);
 		m = 2;
@@ -108,8 +109,11 @@ void main(void){
 		final_color += color * (.05 + .95 * oren_nayar(to_light, normal, -dir, m));
 		final_color *= ao(hit, normal, .3, 5.);
 	} else {
-		vec2 spherical = vec2(acos(dir.y) / 3.141 * 2., abs(atan(dir.z, dir.x) / 3.141));
-		final_color = hsv2rgb(vec3(.63, .6 + .4 * fbm(spherical * 20.), .15));
+		//vec2 spherical = vec2(acos(dir.y) / 3.141 * 2., abs(atan(dir.z, dir.x) / 3.141));
+		//final_color = hsv2rgb(vec3(.63, .6 + .4 * fbm(spherical * 20.), .15));
+		//final_color = vec3(hit.y/100., 0.,0.); // R
+		//final_color = vec3(0., hit.y/100.,0.); // G
+		final_color = vec3(0.,.5,hit.y/100); // B
 	}
 
 
@@ -126,6 +130,7 @@ void main(void){
 			final_color += .1;
 		}
 	}
+	final_color *= vignette(.9);
 	out_color.rgb = final_color;
 	out_color.a = bloom;
 }
