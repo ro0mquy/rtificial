@@ -108,10 +108,10 @@ void main(void){
 		final_color += color * (.05 + .95 * oren_nayar(to_light, normal, -dir, m));
 		final_color *= ao(hit, normal, .3, 5.);
 	} else {
-		//vec2 spherical = vec2(acos(dir.y) / 3.141, abs(atan(dir.z, dir.x) / 3.141));
-		//final_color = hsv2rgb(vec3(.67, .5 + .5 * fbm(spherical * 20.), .45));
+		vec2 spherical = vec2(acos(dir.y) / 3.141 * 2., abs(atan(dir.z, dir.x) / 3.141));
+		final_color = hsv2rgb(vec3(.63, .6 + .4 * fbm(spherical * 20.), .15));
 	}
-	final_color *= 1. - smoothstep(0., 300., distance(view_position, hit));
+	final_color *= smoothstep(250., 50., distance(view_position, hit));
 	out_color.rgb = final_color;
 	out_color.a = bloom;
 }
@@ -211,7 +211,7 @@ vec2 f(vec3 p) {
 		vec2 p34 = mix(p3, p4, t);
 		trans_kugel.xz = mix(mix(p12, p23, t), mix(p23, p34, t), t);
 	} else {
-		float dtime = time - path1_end;
+		float dtime = min(time, 28.2)  - path1_end;
 		float t = dtime * .15;
 		vec2 p12 = mix(p4, p5, t);
 		vec2 p23 = mix(p5, p6, t);

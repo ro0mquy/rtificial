@@ -85,7 +85,7 @@ float schwurbelsaeule(vec3 p) {
 
 vec2 f(vec3 p){
 	float foo = schwurbelsaeule(p);
-	float bar = sphere(p, 1);
+	float bar = sphere(trans(p, 0, time * 20. - 30., 0), 1);
 
 	return min_material(vec2(-sphere(p - view_position, 500.), 0), min_material(vec2(foo, 1), vec2(bar, 2)));
 }
