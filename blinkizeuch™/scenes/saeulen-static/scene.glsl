@@ -162,7 +162,7 @@ vec2 f(vec3 p) {
 	vec2 kugel_anim = vec2(0.);
 
 	if(vanish_anim_time <= .99){
-		if(time < 34.398){
+		if(time < 33.637){
 			kugel_anim.y = 50*kugel_anim_time;
 		} else if(time < 42.256){
 			kugel_anim.x = -12*sin(0.1 * TAU * time);
