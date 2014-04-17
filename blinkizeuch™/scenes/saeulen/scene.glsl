@@ -118,6 +118,9 @@ vec2 f(vec3 p) {
 		if(old_time > cut2) {
 			time += (old_time - cut) * 2.;
 		}
+		if(old_time > 159.246) {
+			time = old_time - foo1 * jump_duration;
+		}
 		float progress = mod(time / jump_duration, 1.) - .5;
 		// cycloids are fun \o/
 		// x = t - sin(t)
