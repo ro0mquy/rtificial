@@ -82,11 +82,8 @@ void main(void) {
 		float time = time - 48.759;
 		light_position = vec3(-85, -5, -40);
 		light_position.y += .1 * time;
-	//} else if (time < 59.5) {
-		// thanks & greetings
-		//light_position = vec3(-50, -10, -10);
 	} else if (time < 69) {
-		// iq
+		// greetings -- alcatraz & conspiracy -- iq
 		float t = (time - 54) / (69 - 54);
 		light_position = mix(vec3(-50, -10, -10), vec3(-20, -5, 8), t);
 	} else if (time < 76) {
@@ -183,12 +180,12 @@ void main(void) {
 				// mercury -- urs
 				float time = time - 69;
 				vec2 dim_mercury = vec2(origdim_mercury.x / origdim_mercury.y, 1.) * base_dim;
-				vec2 p_mercury = hit.xz - vec2(-40, -15 - time * 3);
+				vec2 p_mercury = hit.xz - vec2(-40, -20 - time * 3);
 				vec2 p_tex_mercury = vec2(-1, 1) * p_mercury.yx / dim_mercury.xy + .5;
 				float f_mercury = texture(tex_mercury, p_tex_mercury).r;
 
 				vec2 dim_urs = vec2(origdim_urs.x / origdim_urs.y, 1.) * base_dim;
-				vec2 p_urs = hit.xz - vec2(-42 - 3.2 * time, -8);
+				vec2 p_urs = hit.xz - vec2(-52 - 3.2 * time, -8);
 				vec2 p_tex_urs = vec2(1, 1) * p_urs.xy / dim_urs.xy + .5;
 				float f_urs = texture(tex_urs, p_tex_urs).r;
 
@@ -276,7 +273,6 @@ vec2 f(vec3 p) {
 		pos_delle += mix(mix(p1, p2, t), mix(p2, p3, t), t);
 	} else if (time < 65) {
 		// alcatraz -- conspiracy
-		//pos_delle += P2;
 		pos_delle += vec2(-15.5, -11.5);
 	} else if (time < 67) {
 		// iq, hin
