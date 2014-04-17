@@ -55,7 +55,7 @@ void main(void){
 		}
 	}
 
-	out_color.rgb = final_color;
+	out_color.rgb = final_color * vignette(.5);
 	out_color.a = bloom;
 }
 
