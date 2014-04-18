@@ -108,7 +108,7 @@ void main(void){
 		f_next_tree = 1 - f_next_tree;
 		phi_next_tree += 2 * (-.5 + smooth_noise(.25 * vec3(r_next_tree, r_next_tree, phi_next_tree)));
 		f_next_tree *= smooth_noise(vec3(phi_next_tree));
-		final_color = mix(vec3(.2,.7,.0), color_foo1, f_next_tree);
+		final_color = mix(vec3(.2,.7,.0), vec3(87, 53, 25)/vec3(255.), f_next_tree);
 	} else if(material == mat_kugel) {
 		normal = calc_normal(hit);
 		m = .75;
