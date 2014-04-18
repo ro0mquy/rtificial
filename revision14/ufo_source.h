@@ -45,7 +45,7 @@ vec3 colors[] = vec3[](\n\
 float scene_start_time = 95.6;\n\
 float scene_end_time = 117.143;\n\
 float flight_start = 102.7;\n\
-float flight_end = 109.847;\n\
+float flight_end = 111.746;\n\
 vec3 p_flight = vec3(0);\n\
 \n\
 void main(void){\n\
@@ -53,9 +53,9 @@ void main(void){\n\
 		vec3 p1 = vec3(100.,-100.,33.);\n\
 		vec3 p2 = vec3(500.,0.,50.);\n\
 		vec3 p3 = vec3(100.,20.,100.);\n\
-		vec3 p4 = vec3(-100.,-30.,100.);\n\
+		vec3 p4 = vec3(-141.,-40.,100.);\n\
 		float dtime = min(time, flight_end) - flight_start;\n\
-		float t = dtime* .15;\n\
+		float t = dtime / (flight_end - flight_start);\n\
 		vec3 p12 = mix(p1, p2, t);\n\
 		vec3 p23 = mix(p2, p3, t);\n\
 		vec3 p34 = mix(p3, p4, t);\n\

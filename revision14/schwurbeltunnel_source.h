@@ -42,7 +42,7 @@ void main(void){\n\
 		vec3 to_light = light - hit;\n\
 \n\
 		if(material == 1) {\n\
-			vec3 hsv = vec3(sin(time * TAU * 136./60. * .125 + hit.y * .1 + sin(hit.x + sin(3. * hit.z))) * .5 + .5, .5, 1.);\n\
+			vec3 hsv = vec3(sin(time * TAU * 136./60. * .125 + hit.y * .1 + sin(hit.x + sin(3. * hit.z))) * .5 + .5, .8, 1.);\n\
 			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * hsv2rgb(hsv);\n\
 			color += .05 * vec3(1);\n\
 			final_color += factor * color;\n\
@@ -61,9 +61,11 @@ void main(void){\n\
 			break;\n\
 		}\n\
 	}\n\
-	vec3 col = factor * vec3(109,36,25)/255 * fbm(get_direction() * 2.) * max(1. - val, .3);\n\
+	vec3 col = vec3(255)/255;\n\
 	final_color = mix(final_color, col, smoothstep(0., 150., dist));\n\
-	out_color.rgb = final_color * vignette(.5);\n\
+	final_color = contrast(final_color, 1.46);\n\
+	final_color *= vignette(.5);\n\
+	out_color.rgb = final_color;\n\
 	out_color.a = bloom;\n\
 }\n\
 \n\

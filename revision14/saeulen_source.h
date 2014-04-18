@@ -11,8 +11,8 @@ DEFINE_NORMAL(calc_normal, f)\n\
 DEFINE_SOFTSHADOW(softshadow, f)\n\
 DEFINE_AO(ao, f)\n\
 \n\
-//uniform float foo1;\n\
-//uniform float foo2;\n\
+uniform float foo1;\n\
+uniform float foo2;\n\
 \n\
 float light1_x = 10.0;\n\
 float light1_y = 3.5;\n\
@@ -88,6 +88,8 @@ void main() {\n\
 \n\
 		direction = reflect(direction, normal);\n\
 	}\n\
+\n\
+	color = contrast(color, 1.23);\n\
 	color *= vignette(.5);\n\
 	out_color.rgb = color;\n\
 	out_color.a = 2 * (senvelopes[12] + senvelopes[13]); // more bloom here, even if it' bright enough :)\n\
