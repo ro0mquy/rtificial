@@ -10,12 +10,12 @@
 #define true 1
 #define false 0
 
-//#define WIDTH 1920
-//#define HEIGHT 1080
-//#define FULLSCREEN
+#define WIDTH 1920
+#define HEIGHT 1080
+#define FULLSCREEN
 
-#define WIDTH 853
-#define HEIGHT 480
+//#define WIDTH 853
+//#define HEIGHT 480
 
 typedef struct {
 	GLint view_position;
@@ -203,9 +203,6 @@ static void draw(void) {
 		schwurbeltunnel_init(vertex);
 		credits_init(vertex);
 		initialized = true;
-		SDL_LockAudio();
-		playback_position = 44500 / 1000 * 44100;
-		SDL_UnlockAudio();
 		SDL_PauseAudio(0);
 	} else {
 		postproc_before_draw();
@@ -218,7 +215,7 @@ static void draw(void) {
 			saeulen_static_draw();
 		} else if(time < 98000) {
 			gitter_draw();
-		} else if(time < 158800) {
+		} else if(time < 118800) {
 			ufo_draw();
 		} else if(time < 125829) {
 			pythagorean_draw();

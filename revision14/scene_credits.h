@@ -40,13 +40,13 @@ static void credits_init(GLuint vertex) {
 
 static void credits_draw() {
 	glUseProgram(credits_program);
-	glActiveTexture(GL_TEXTURE_0);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, tex_vincent);
-	glActiveTexture(GL_TEXTURE_1);
+	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, tex_drb);
-	glActiveTexture(GL_TEXTURE_2);
+	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, tex_ps0ke);
-	glActiveTexture(GL_TEXTURE_3);
+	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, tex_ro0mquy);
 	update_uniforms(&credits_uniforms, &credits_timeline);
 	draw_quad(credits_attrib_c2d);

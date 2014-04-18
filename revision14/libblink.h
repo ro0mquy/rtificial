@@ -415,6 +415,30 @@ float cook_torrance(vec3 to_light, vec3 normal, vec3 to_view, float m, float n) 
 	R0 *= R0;\n\
 	return max(0, cook_torrance_norm(normalize(to_light), normalize(normal), normalize(to_view), m * m, R0));\n\
 }\n\
+float rgb2luma(vec3 rgb) {\n\
+	return dot(rgb, vec3(.2126, .7152, .0722)); // magic luminance formular\n\
+}\n\
+\n\
+// change contrast - k changes the intensity\n\
+// k > 1: more contrast\n\
+// k < 1: less contrast\n\
+// k == 0: black-white\n\
+// k == 1: the input color\n\
+// k < 0: invert color & contrast(abs(k))\n\
+vec3 contrast(vec3 color, float k) {\n\
+	//float luma = rgb2luma(color);\n\
+	return mix(vec3(.5), color, k);\n\
+}\n\
+\n\
+// add some kind of vignette\n\
+// 0 < intensity < 1\n\
+// intensity = .7 is good default\n\
+float vignette(float intensity) {\n\
+	float one_minus_intesity = 1. - intensity;\n\
+	vec2 position = gl_FragCoord.xy / res;\n\
+	position.y *= -1.;\n\
+	return one_minus_intesity + intensity * 16. * position.x *position.y * (1. - position.x) * (-1. - position.y);\n\
+}\n\
 \n\
 #line 1\n\
 ";

@@ -6,13 +6,27 @@ DEFINE_NORMAL(calc_normal, f)\n\
 DEFINE_AO(ao, f)\n\
 DEFINE_SOFTSHADOW(softshadow, f)\n\
 \n\
+uniform vec3 color_foo1;\n\
+uniform vec3 color_foo2;\n\
+uniform float foo1;\n\
+uniform float foo2;\n\
+//uniform vec3 light_position;\n\
+//uniform vec3 color_gitter;\n\
+//uniform vec3 color_kugel;\n\
+//uniform vec3 color_text;\n\
+//uniform float radius_kugel;\n\
+//uniform float udy_kugel;\n\
+//uniform float sigma_delle;\n\
+//uniform float sigma_trichter;\n\
+\n\
+vec3 light_position = vec3(-1.7236928939819336, 4.1704692840576172, 8.9048290252685547);\n\
 vec3 color_gitter = vec3(1);\n\
-vec3 color_kugel = vec3(.5647, .0, .0);\n\
-vec3 color_text = vec3(.5176, 1., .0039);\n\
-float radius_kugel = 1.;\n\
+vec3 color_kugel = vec3(0.9960784912109375, 0.08235294371843338, 0.0);\n\
+vec3 color_text = vec3(0.51764708757400513, 1.0, 0.0039215688593685627);\n\
+float radius_kugel = 1;\n\
 float udy_kugel = -1.5;\n\
 float sigma_delle = 1.8;\n\
-float sigma_trichter = 30.;\n\
+float sigma_trichter = 30;\n\
 \n\
 uniform sampler2D tex_thanks;\n\
 uniform sampler2D tex_greetings;\n\
@@ -63,7 +77,7 @@ float[] mat_blooms = float[](\n\
 );\n\
 \n\
 void main(void) {\n\
-	vec3 light_position;\n\
+	vec3 light_position = light_position;\n\
 	if (time < 48.759) {\n\
 		// bouncing\n\
 		light_position = vec3(-85, 5, -40);\n\
@@ -331,5 +345,4 @@ vec2 f(vec3 p) {\n\
 	vec2 vec_kugel = vec2(f_kugel, mat_kugel);\n\
 \n\
 	return min_material(min_material(min_material(bounding, vec_untergrund), vec_gitter), vec_kugel);\n\
-}\n\
-";
+}";
