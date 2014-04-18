@@ -73,7 +73,7 @@ void main() {
 		vec3 light_color = vec3(0.);
 		//light_color += .05 + .95 * lambert(to_light, normal) * diffuse_intensity;
 		if(material == mat_kugel){
-			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, 1., 450.);
+			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, .75, 450.);
 		} else {
 			light_color += .05 + .95 * oren_nayar(to_light, normal, -direction, .5) * diffuse_intensity;
 		}
@@ -130,7 +130,7 @@ void main() {
 }
 
 vec2 f(vec3 p) {
-	vec2 sphery = vec2(-sphere(p - view_position, 75.), MAT_BOUNDING); // bounding sphere
+	vec2 sphery = vec2(-sphere(p - view_position, 200.), MAT_BOUNDING); // bounding sphere
 
 	vec2 floor_plane = vec2(p.y, MAT_FLOOR);
 	vec2 ceiling_plane = vec2(-abs(p.y) + 25., MAT_CEILING);
