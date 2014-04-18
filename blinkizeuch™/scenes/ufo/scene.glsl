@@ -177,8 +177,8 @@ float light_f(vec3 p){
 		p = trans(p, 217, -30, 100);
 		const float bpm = 60. / 136.;
 		float t_offset = 0;
-		const int len_offsets = 9;
-		float[len_offsets] offsets = float[](1, 6, 10, 13, 15, 16, 17, 18, 19);
+		const int len_offsets = 11;
+		float[len_offsets] offsets = float[](1, 6, 10, 13, 15, 17, 18, 19, 19.5, 20, 20.5);
 
 		for (int i = 0; i < len_offsets; i++) {
 			t_offset = offsets[i] * bpm;
@@ -187,7 +187,7 @@ float light_f(vec3 p){
 
 				vec3 p_start = random_flight(t_offset);
 				vec3 p_laser = transv(p, p_start);
-				p_laser = rZ(t_offset) * p_laser;
+				p_laser = rZ(t_offset * 100) * p_laser;
 				float r = length(p_laser.xz);
 				float alpha = atan(p_laser.z, p_laser.x);
 				float c = 20;
