@@ -41,7 +41,7 @@ void main(void){
 		vec3 to_light = light - hit;
 
 		if(material == 1) {
-			vec3 hsv = vec3(sin(time * TAU * 136./60. * .125 + hit.y * .1 + sin(hit.x + sin(3. * hit.z))) * .5 + .5, .5, 1.);
+			vec3 hsv = vec3(sin(time * TAU * 136./60. * .125 + hit.y * .1 + sin(hit.x + sin(3. * hit.z))) * .5 + .5, .8, 1.);
 			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * hsv2rgb(hsv);
 			color += .05 * vec3(1);
 			final_color += factor * color;
@@ -60,9 +60,11 @@ void main(void){
 			break;
 		}
 	}
-	vec3 col = factor * vec3(109,36,25)/255 * fbm(get_direction() * 2.) * max(1. - val, .3);
+	vec3 col = vec3(255)/255;
 	final_color = mix(final_color, col, smoothstep(0., 150., dist));
-	out_color.rgb = final_color * vignette(.5);
+	final_color = contrast(final_color, 1.46);
+	final_color *= vignette(.5);
+	out_color.rgb = final_color;
 	out_color.a = bloom;
 }
 
