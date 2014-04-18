@@ -60,7 +60,7 @@ void main(void){
 		vec3 to_light = light - hit;
 		if(material != mat_kugel) {
 			final_color *= lambert(to_light, normal);
-			final_color *= .1 + .9 * softshadow(hit, light, 60 * (1. - foo1));
+			final_color *= .1 + .9 * softshadow(hit, light, 24.);
 		} else {
 			final_color *= .05 + .95 * cook_torrance(to_light, normal, -dir, 1., 450.);
 			bloom = 1.;
@@ -72,9 +72,9 @@ void main(void){
 		} else if(material == mat_drb) {
 			z = -spread.y;
 		} else if(material == mat_ps0ke) {
-			z = -spread.y * 2.;
+			z = -spread.y * 2. + 10;
 		} else if(material == mat_ro0mquy) {
-			z = -spread.y * 3.;
+			z = -spread.y * 3. + 15;
 		} else if(material == mat_plane) {
 			final_color *= 1. - .3 * (sin(hit.x) * sin(hit.y) * .5 + .5);
 		}
