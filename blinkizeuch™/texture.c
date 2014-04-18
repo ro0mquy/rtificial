@@ -3,6 +3,7 @@
 #include "util.h"
 
 #include "texture.h"
+#include "urs.h"
 
 static bool load_texture(const char path[], GLenum target);
 
@@ -107,14 +108,37 @@ static bool load_texture(const char path[], GLenum target) {
 		return false;
 	}
 
+	int width = URS_IMAGE_WIDTH;
+	int height = URS_IMAGE_HEIGHT;
+	ILubyte new_data[URS_IMAGE_WIDTH * URS_IMAGE_HEIGHT * 4];
+	for(int y = 0; y < height; y++) {
+		for(int x = 0; x < width; x++) {
+			new_data[4 * (y * width + x) + 0] = URS_IL_IMAGE[y * width + x];
+			new_data[4 * (y * width + x) + 1] = URS_IL_IMAGE[y * width + x];
+			new_data[4 * (y * width + x) + 2] = URS_IL_IMAGE[y * width + x];
+			new_data[4 * (y * width + x) + 3] = 255;
+		}
+	}
+
 	glTexImage2D(target, 0,
-			ilGetInteger(IL_IMAGE_FORMAT),
-			ilGetInteger(IL_IMAGE_WIDTH),
-			ilGetInteger(IL_IMAGE_HEIGHT),
+			GL_RGBA,
+			URS_IMAGE_WIDTH,
+			URS_IMAGE_HEIGHT,
 			0,
-			ilGetInteger(IL_IMAGE_FORMAT),
-			ilGetInteger(IL_IMAGE_TYPE),
-			ilGetData());
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			new_data);
+	/*
+	puts(path);
+	for(int y = 0; y < height; y++) {
+		for(int x = 0; x < width; x++) {
+			printf("%3d ", *(ilGetData() + 4 * (y * width + x)));
+			//printf("%3d ", *(ilGetData() + 1 + 4 * (y * width + x)));
+			//printf("%3d ", *(ilGetData() + 2 + 4 * (y * width + x)));
+			//printf("%3d\t", *(ilGetData() + 3 + 4 * (y * width + x)));
+		}
+		puts("");
+	}*/
 
 	ilDeleteImages(1, &il_tex);
 	return true;
