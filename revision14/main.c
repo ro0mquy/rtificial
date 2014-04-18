@@ -47,25 +47,14 @@ static void load_texture(GLuint* texture , ILubyte* data, int width, int height)
 static camera_t camera;
 #include "postproc.h"
 
-#include "drb.df.h"
-#include "vincent.df.h"
-#include "ro0mquy.df.h"
-#include "ps0ke.df.h"
-
-#include "texture/alcatraz.h"
-#include "texture/conspiracy.h"
-#include "texture/greetings.h"
-#include "texture/iq.h"
-#include "texture/mercury.h"
-#include "texture/nerd2nerd.h"
-#include "texture/nerdarzt.h"
-#include "texture/stroboholics.h"
-#include "texture/urs.h"
-
 // scenes go here
 #include "scene_pythagorean.h"
 #include "scene_saeulen_static.h"
 #include "scene_gitter.h"
+#include "scene_ufo.h"
+#include "scene_saeulen.h"
+#include "scene_schwurbeltunnel.h"
+#include "scene_credits.h"
 
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
@@ -209,6 +198,10 @@ static void draw(void) {
 		pythagorean_init(vertex);
 		saeulen_static_init(vertex);
 		gitter_init(vertex);
+		ufo_init(vertex);
+		saeulen_init(vertex);
+		schwurbeltunnel_init(vertex);
+		credits_init(vertex);
 		initialized = true;
 		SDL_LockAudio();
 		playback_position = 44500 / 1000 * 44100;
@@ -216,8 +209,6 @@ static void draw(void) {
 		SDL_PauseAudio(0);
 	} else {
 		postproc_before_draw();
-		//blank_draw();
-		//test_draw();
 		SDL_LockAudio();
 		int time = (int64_t) playback_position * 1000 / 44100;
 		SDL_UnlockAudio();
@@ -225,8 +216,28 @@ static void draw(void) {
 			pythagorean_draw();
 		} else if(time < 44000) {
 			saeulen_static_draw();
-		} else {
+		} else if(time < 98000) {
 			gitter_draw();
+		} else if(time < 158800) {
+			ufo_draw();
+		} else if(time < 125829) {
+			pythagorean_draw();
+		} else if(time < 138485) {
+			saeulen_draw();
+		} else if(time < 150526) {
+			schwurbeltunnel_draw();
+		} else if(time < 159246) {
+			pythagorean_draw();
+		} else if(time < 164200) {
+			saeulen_draw();
+		} else if(time < 169272) {
+			schwurbeltunnel_draw();
+		} else if(time < 178709) {
+			ufo_draw();
+		} else if(time < 192800) {
+			credits_draw();
+		} else {
+			exit(0);
 		}
 		postproc_after_draw();
 	}
