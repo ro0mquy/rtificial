@@ -161,9 +161,9 @@ vec2 f(vec3 p) {
 	// nobody exspects the spanish inquisition!
 
 	float fall_anim_start = 43.0;//vanish_anim_start+vanish_anim_duration +.25;
-	float fall_anim_duration = 5.;
+	float fall_anim_duration = 5;
 	float fall_anim_time = (clamp(time, fall_anim_start, fall_anim_start + fall_anim_duration) -fall_anim_start)/(fall_anim_duration);
-	float fall_gravity = 500;
+	float fall_gravity = 700;
 	float fall_height =1.5+ -0.5 * fall_gravity * fall_anim_time*fall_anim_time /* 1/2 a t^2 */;
 
 
