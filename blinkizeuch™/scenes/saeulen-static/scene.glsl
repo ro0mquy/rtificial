@@ -122,7 +122,9 @@ void main() {
 		direction = reflect(direction, normal);
 	}
 	color = contrast(color, 1.03);
-	color *= vignette(1.);
+	if(vanish_anim_time == 0){
+		color *= vignette(1.);
+	}
 	out_color.rgb = color;
 	out_color.a = bloom;
 }
