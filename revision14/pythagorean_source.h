@@ -93,7 +93,23 @@ void main(void){\n\
 	} else if(material == mat_floor) {\n\
 		normal = calc_normal_floor(hit);\n\
 		m = .42;\n\
-		final_color = vec3(.2,.7,.0);\n\
+\n\
+		float c = 20;\n\
+		vec3 q = domrep(hit, c, 1., c);\n\
+		q.y = hit.y;\n\
+		float foo = 4. * rand(400. * (floor(hit.xz / c) - 123.));\n\
+		float foo3 = 4. * rand(400. * (floor(hit.xz / c) - 456.));\n\
+		q = trans(q, 2. * (foo - 2.), .0, 2. * (foo3 - 2.));\n\
+		q = rY(foo * radians(90.)) * q;\n\
+\n\
+		vec3 vec_next_tree = q;\n\
+		float r_next_tree = length(vec_next_tree.xz);\n\
+		float phi_next_tree = atan(vec_next_tree.x, vec_next_tree.z) + floor(77 * length(floor(hit.xz / vec2(c))));\n\
+		float f_next_tree = clamp(r_next_tree / (6.5 - .5 + smooth_noise(vec3(phi_next_tree * 3 + 5))), 0, 1);\n\
+		f_next_tree = 1 - f_next_tree;\n\
+		phi_next_tree += 2 * (-.5 + smooth_noise(.25 * vec3(r_next_tree, r_next_tree, phi_next_tree)));\n\
+		f_next_tree *= smooth_noise(vec3(phi_next_tree));\n\
+		final_color = mix(vec3(.2,.7,.0), vec3(87, 53, 25)/vec3(255.), f_next_tree);\n\
 	} else if(material == mat_kugel) {\n\
 		normal = calc_normal(hit);\n\
 		m = .75;\n\
@@ -132,7 +148,7 @@ void main(void){\n\
 		}\n\
 	}\n\
 	final_color *= vignette(.9);\n\
-	final_color = mix(final_color, vec3(0), step(28.7, time) * (1 - step(28.7 + 10, time)));\n\
+	final_color = mix(final_color, vec3(0), smoothstep(28.8, 28.86, time) * (1 - step(28.7 + 10, time)));\n\
 	out_color.rgb = final_color;\n\
 	out_color.a = bloom;\n\
 }\n\
@@ -201,7 +217,8 @@ vec2 f(vec3 p) {\n\
 	float foo = 4. * rand(400. * (floor(p.xz / c) - 123.));\n\
 	float foo3 = 4. * rand(400. * (floor(p.xz / c) - 456.));\n\
 	q = trans(q, 2. * (foo - 2.), .0, 2. * (foo3 - 2.));\n\
-	vec2 tree = pythagoraen(rY(foo * radians(90.)) * q);\n\
+	q = rY(foo * radians(90.)) * q;\n\
+	vec2 tree = pythagoraen(q);\n\
 	tree.y = mod(floor(tree.y + foo), 9) + mat_tree1;\n\
 	vec2 bounding = vec2(-sphere(transv(p, view_position), 200.), mat_bounding);\n\
 \n\
@@ -232,7 +249,7 @@ vec2 f(vec3 p) {\n\
 		vec2 p34 = mix(p3, p4, t);\n\
 		trans_kugel.xz = mix(mix(p12, p23, t), mix(p23, p34, t), t);\n\
 	} else {\n\
-		float dtime = min(time, 28.2)  - path1_end;\n\
+		float dtime = time - path1_end;\n\
 		float t = dtime * .15;\n\
 		vec2 p12 = mix(p4, p5, t);\n\
 		vec2 p23 = mix(p5, p6, t);\n\
