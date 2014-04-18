@@ -88,6 +88,7 @@ void main(void){\n\
 	// end fade out\n\
 	final_color *= smoothstep(192.8,191.,time);\n\
 \n\
+	final_color *= vignette(.5);\n\
 	out_color.rgb = final_color;\n\
 	out_color.a = bloom;\n\
 }\n\
