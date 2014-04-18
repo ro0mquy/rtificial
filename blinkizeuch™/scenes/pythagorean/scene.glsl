@@ -147,7 +147,7 @@ void main(void){
 		}
 	}
 	final_color *= vignette(.9);
-	final_color = mix(final_color, vec3(0), smoothstep(28.8, 28.86, time) * (1 - step(28.7 + 10, time)));
+	final_color = mix(final_color, vec3(0), step(28.7, time) * (1 - step(28.7 + 10, time)));
 	out_color.rgb = final_color;
 	out_color.a = bloom;
 }
@@ -248,7 +248,7 @@ vec2 f(vec3 p) {
 		vec2 p34 = mix(p3, p4, t);
 		trans_kugel.xz = mix(mix(p12, p23, t), mix(p23, p34, t), t);
 	} else {
-		float dtime = time - path1_end;
+		float dtime = min(time, 28.2)  - path1_end;
 		float t = dtime * .15;
 		vec2 p12 = mix(p4, p5, t);
 		vec2 p23 = mix(p5, p6, t);
