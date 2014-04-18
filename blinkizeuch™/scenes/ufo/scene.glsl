@@ -7,17 +7,17 @@ DEFINE_NORMAL(calc_normal, f)
 DEFINE_AO(ao, f)
 DEFINE_SOFTSHADOW(softshadow, f)
 
-uniform vec3 color_foo1;
-uniform vec3 color_foo2;
-uniform float foo1;
-uniform float foo2;
+//uniform vec3 color_foo1;
+//uniform vec3 color_foo2;
+//uniform float foo1;
+//uniform float foo2;
 
-uniform vec3 color_light;
-uniform vec3 color_sky;
-uniform vec3 color_ufo_body;
-uniform vec3 color_ufo_cockpit;
-uniform vec3 color_saturn;
-uniform float star_amount;
+vec3 color_light = vec3(1.);
+vec3 color_sky = vec3 (0.0, 0.0039215688593685627, 0.011764707043766975);
+vec3 color_ufo_body = vec3(0.039215687662363052, 0.058823533356189728, 0.078431375324726105);
+vec3 color_ufo_cockpit = vec3(0.5215686559677124, 0.94509810209274292, 1.0);
+vec3 color_saturn = vec3( 0.80000001192092896, 0.69999998807907104, 0.30000001192092896);
+float star_amount = 0.97000002861022949;
 
 #define MAT_BOUNDING 0
 #define MAT_UFO_BODY 1
