@@ -49,12 +49,12 @@ vec2 origdim_nerd2nerd = vec2(54, 7);
 vec2 origdim_nerdarzt = vec2(46, 7);
 vec2 origdim_stroboholics = vec2(67, 7);
 
-vec3 color_thanks_greetings = vec3(0.51764708757400513, 1.0, 0.0039215688593685627);
+vec3 color_greetings = vec3(0.51764708757400513, 1.0, 0.0039215688593685627);
 vec3 color_alcatraz_conspiracy = vec3(1, 238, 255) / vec3(255.);
+vec3 color_iq = vec3(0.51764708757400513, 1.0, 0.0039215688593685627);
 vec3 color_mercury_urs = vec3(1, .35, 0);
-vec3 color_iq = vec3(255, 1, 132) / vec3(255.);
-vec3 color_nerd2nerd_nerdarzt = vec3(255, 14, 1) / vec3(255.);;
-vec3 color_stroboholics = color_text;
+vec3 color_nerd2nerd_nerdarzt = vec3(1, .35, 0);
+vec3 color_stroboholics = vec3(0.51764708757400513, 1.0, 0.0039215688593685627);
 
 #define mat_bounding 0
 #define mat_gitter 1
@@ -129,15 +129,10 @@ void main(void) {
 			vec3 color_text = vec3(0);
 
 			if (time > 54 && time < 63) {
-				// thanks and greetings
+				// greetings
 				float time = time - 54;
-				vec2 dim_thanks = vec2(origdim_thanks.x / origdim_thanks.y, 1.) * base_dim;
-				vec2 p_thanks = hit.xz - vec2(-51, -55 + time * 20);
-				vec2 p_tex_thanks = vec2(-1, 1) * p_thanks.yx / dim_thanks.xy + .5;
-				float f_thanks = texture(tex_thanks, p_tex_thanks).r;
-
 				vec2 dim_greetings = vec2(origdim_greetings.x / origdim_greetings.y, 1.) * base_dim;
-				vec2 p_greetings = hit.xz - vec2(-40, 10 - time * 4);
+				vec2 p_greetings = hit.xz - vec2(-50, 10 - time * 4);
 				vec2 p_tex_greetings = vec2(-1, 1) * p_greetings.yx / dim_greetings.xy + .5;
 				float f_greetings = texture(tex_greetings, p_tex_greetings).r;
 
@@ -152,10 +147,9 @@ void main(void) {
 				vec2 p_tex_conspiracy = vec2(1, -1) * p_conspiracy.yx / dim_conspiracy.xy + .5;
 				float f_conspiracy = texture(tex_conspiracy, p_tex_conspiracy).r;
 
-				float f_thanks_greetings = f_greetings + f_thanks;
 				float f_alcatraz_conspiracy = f_alcatraz + f_conspiracy;
-				f_text = f_thanks_greetings + f_alcatraz_conspiracy;
-				color_text = color_thanks_greetings * f_thanks_greetings + color_alcatraz_conspiracy * f_alcatraz_conspiracy;;
+				f_text = f_greetings + f_alcatraz_conspiracy;
+				color_text = color_greetings * f_greetings + color_alcatraz_conspiracy * f_alcatraz_conspiracy;;
 			} else if (time > 63 && time < 69) {
 				// alcatraz -- conspiracy
 				float time = time - 54;
