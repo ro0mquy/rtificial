@@ -103,12 +103,12 @@ void main(void){
 
 		vec3 vec_next_tree = q;
 		float r_next_tree = length(vec_next_tree.xz);
-		float phi_next_tree = atan(vec_next_tree.x, vec_next_tree.z);// + floor(100 * length(hit.xz / vec2(c)));
-		float f_next_tree = clamp(r_next_tree / (8 - .5 + smooth_noise(vec3(phi_next_tree * 3 + 5))), 0, 1);
+		float phi_next_tree = atan(vec_next_tree.x, vec_next_tree.z) + floor(77 * length(floor(hit.xz / vec2(c))));
+		float f_next_tree = clamp(r_next_tree / (6.5 - .5 + smooth_noise(vec3(phi_next_tree * 3 + 5))), 0, 1);
 		f_next_tree = 1 - f_next_tree;
 		phi_next_tree += 2 * (-.5 + smooth_noise(.25 * vec3(r_next_tree, r_next_tree, phi_next_tree)));
 		f_next_tree *= smooth_noise(vec3(phi_next_tree));
-		final_color = mix(vec3(.2,.7,.0), vec3(.102, .043, .016), f_next_tree);
+		final_color = mix(vec3(.2,.7,.0), color_foo1, f_next_tree);
 	} else if(material == mat_kugel) {
 		normal = calc_normal(hit);
 		m = .75;
