@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 #include <pthread.h>
+#include <unistd.h>
 
 #include <libzeuch/shader.h>
 #include <libzeuch/matrix.h>
@@ -55,6 +56,7 @@ static camera_t camera;
 #include "scene_saeulen.h"
 #include "scene_schwurbeltunnel.h"
 #include "scene_credits.h"
+#include "scene_ladebalken.h"
 
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
@@ -64,10 +66,6 @@ static void fill_audio(void* userdata, Uint8* stream, int len);
 static void draw(void);
 
 static GLuint vbo_rectangle;
-
-static void callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, void* userParam) {
-	puts(message);
-}
 
 int main() {
 	pthread_t synth_thread;
@@ -91,8 +89,6 @@ int main() {
 		.userdata = NULL
 	};
 	SDL_OpenAudio(&wanted, NULL);
-
-	glDebugMessageCallback(&callback, NULL);
 
 	glGenBuffers(1, &vbo_rectangle);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
@@ -194,14 +190,35 @@ static GLuint vertex;
 static void draw(void) {
 	if(!initialized) {
 		vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
+		ladebalken_init(vertex);
+		ladebalken_draw(.1);
+		usleep(200000);
 		postproc_init(vertex);
+		ladebalken_draw(.2);
+		usleep(200000);
 		pythagorean_init(vertex);
+		ladebalken_draw(.3);
+		usleep(200000);
 		saeulen_static_init(vertex);
+		ladebalken_draw(.4);
+		usleep(200000);
 		gitter_init(vertex);
+		ladebalken_draw(.5);
+		usleep(200000);
 		ufo_init(vertex);
+		ladebalken_draw(.6);
+		usleep(200000);
 		saeulen_init(vertex);
+		ladebalken_draw(.7);
+		usleep(200000);
 		schwurbeltunnel_init(vertex);
+		ladebalken_draw(.8);
+		usleep(200000);
 		credits_init(vertex);
+		ladebalken_draw(.9);
+		usleep(200000);
+		ladebalken_draw(1.);
+		usleep(200000);
 		initialized = true;
 		SDL_PauseAudio(0);
 	} else {
