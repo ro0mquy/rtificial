@@ -229,7 +229,7 @@ void main(void) {
 		final_bloom += mat_blooms[int(material)];
 	}
 	final_color = contrast(final_color, 1.04);
-	final_color *= vignette(.5);
+	final_color *= vignette(1);
 	out_color.rgb = final_color;
 	out_color.a = final_bloom;
 }
