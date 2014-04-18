@@ -60,8 +60,8 @@
             "uniform": "color_kugel",
             "type": "color",
             "default": [
-                0.56470590829849243,
-                0.0,
+                0.9960784912109375,
+                0.08235294371843338,
                 0.0
             ],
             "varparam": "colormode=hls"

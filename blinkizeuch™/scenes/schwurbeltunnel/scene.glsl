@@ -36,8 +36,8 @@ void main(void){
 		vec3 to_light = light - hit;
 
 		if(material == 1) {
-			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * color_foo1;
-			color += .05 * color_foo1;
+			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * vec3(1);
+			color += .05 * vec3(1);
 			final_color += factor * color;
 			factor *= .5;
 			dir = reflect(normal, dir);
@@ -50,7 +50,7 @@ void main(void){
 			final_color += factor * vec3(1, 0, 0) * .05;
 			break;
 		} else if(material == 0) {
-			final_color += factor * mix(vec3(0), color_foo2, fbm(dir * 2.)) * max(1. - val, .3);
+			final_color += factor * mix(vec3(0), vec3(1), fbm(dir * 2.)) * max(1. - val, .3);
 			break;
 		}
 	}

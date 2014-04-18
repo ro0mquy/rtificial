@@ -11,12 +11,19 @@ uniform vec3 color_foo2;
 uniform float foo1;
 uniform float foo2;
 
-uniform vec3 light;
-uniform vec3 color_fog;
-uniform vec3 color_saeulen;
-uniform vec3 color_light;
-uniform float normal_noise_radius;
-uniform float diffuse_intensity;
+//uniform vec3 light;
+//uniform vec3 color_fog;
+//uniform vec3 color_saeulen;
+//uniform vec3 color_light;
+//uniform float normal_noise_radius;
+//uniform float diffuse_intensity;
+
+vec3 light = vec3(0.0, 10.0, -5.0);
+vec3 color_fog = vec3(0.89019614458084106, 0.90196084976196289, 0.91372555494308472);
+vec3 color_saeulen = vec3(1);
+vec3 color_light = vec3(.8, .8, 1);
+float normal_noise_radius = 0.019999999552965164;
+float diffuse_intensity = 1;
 
 #define MAT_BOUNDING 0.
 #define MAT_FLOOR 1.
@@ -68,7 +75,7 @@ void main() {
 		if(material == mat_kugel){
 			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, 1., 450.);
 		} else {
-			light_color += .05 + .95 * oren_nayar(to_light, normal, -direction, foo1) * diffuse_intensity;
+			light_color += .05 + .95 * oren_nayar(to_light, normal, -direction, .5) * diffuse_intensity;
 		}
 		light_color += phong(to_light, normal, -direction, 30.);
 
