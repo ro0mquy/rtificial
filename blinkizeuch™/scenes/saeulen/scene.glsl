@@ -10,19 +10,19 @@ DEFINE_NORMAL(calc_normal, f)
 DEFINE_SOFTSHADOW(softshadow, f)
 DEFINE_AO(ao, f)
 
-uniform float foo1;
-uniform float foo2;
+//uniform float foo1;
+//uniform float foo2;
 
-uniform float light1_x;
-uniform float light1_y;
-uniform float light1_z;
+float light1_x = 10.0;
+float light1_y = 3.5;
+float light1_z = 1.5;
 
-uniform float light2_x;
-uniform float light2_y;
-uniform float light2_z;
+float light2_x = -1.0;
+float light2_y = 3.5;
+float light2_z = 4.0;
 
-uniform float normal_noise_radius;
-uniform float diffuse_intensity;
+float normal_noise_radius = 0.019999999552965164;
+float diffuse_intensity = 1.0;
 //uniform float jump_duration;
 
 #define MAT_BOUNDING 0.
