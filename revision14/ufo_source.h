@@ -35,7 +35,7 @@ vec3 colors[] = vec3[](\n\
 	color_ufo_body,\n\
 	color_ufo_cockpit,\n\
 	vec3(1), // color ufo lights\n\
-	vec3(0.56,0.,0.),\n\
+	vec3(144./255.,0.,0.),\n\
 	color_saturn,\n\
 	vec3(0.1),\n\
 	vec3(0.75,0.7,0.5),\n\
@@ -151,7 +151,7 @@ void main(void){\n\
 \n\
 	final_color *= vignette(1.);\n\
 	final_color = mix(final_color, vec3(0), step(scene_end_time, time) * (1 - step(scene_end_time + 10, time)));\n\
-	final_color = mix(final_color, vec3(1), smoothstep(177., 178.709, time));\n\
+	final_color = mix(final_color, vec3(0), smoothstep(177., 178.709, time));\n\
 \n\
 	out_color.rgb = final_color;\n\
 	out_color.a = final_bloom;\n\
@@ -282,4 +282,5 @@ vec3 random_flight(float time) {\n\
 	p.y = 7 * sin(TAU * time);\n\
 	p.z = 35 * sin(TAU * .5 * time) * cos(TAU * .2 * time);\n\
 	return p;\n\
-}";
+}\n\
+";

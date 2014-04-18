@@ -37,7 +37,7 @@ vec3[] tree_colors = vec3[](\n\
 vec3 colors[] = vec3[](\n\
 	vec3(0),\n\
 	vec3(.4),\n\
-	vec3(1, 0, 0),\n\
+	vec3(144./255., 0, 0),\n\
 	tree_colors[0],\n\
 	tree_colors[1],\n\
 	tree_colors[2],\n\
@@ -96,7 +96,7 @@ void main(void){\n\
 		final_color = vec3(.2,.7,.0);\n\
 	} else if(material == mat_kugel) {\n\
 		normal = calc_normal(hit);\n\
-		m = 2;\n\
+		m = .75;\n\
 		float senvs = senvelopes[2] + senvelopes[3];\n\
 		final_color += (.1 + senvs + .7 * wakeup_limited) * color;\n\
 		bloom = senvs * 2;\n\
@@ -132,6 +132,7 @@ void main(void){\n\
 		}\n\
 	}\n\
 	final_color *= vignette(.9);\n\
+	final_color = mix(final_color, vec3(0), step(28.7, time) * (1 - step(28.7 + 10, time)));\n\
 	out_color.rgb = final_color;\n\
 	out_color.a = bloom;\n\
 }\n\
@@ -252,4 +253,5 @@ vec2 f(vec3 p) {\n\
 \n\
 vec2 g(vec3 p) {\n\
 	return vec2(f_floor(p) + fbm(p.xz * .7) * .03, 2.);\n\
-}";
+}\n\
+";

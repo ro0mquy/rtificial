@@ -192,33 +192,23 @@ static void draw(void) {
 		vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
 		ladebalken_init(vertex);
 		ladebalken_draw(.1);
-		usleep(200000);
 		postproc_init(vertex);
 		ladebalken_draw(.2);
-		usleep(200000);
 		pythagorean_init(vertex);
 		ladebalken_draw(.3);
-		usleep(200000);
 		saeulen_static_init(vertex);
 		ladebalken_draw(.4);
-		usleep(200000);
 		gitter_init(vertex);
 		ladebalken_draw(.5);
-		usleep(200000);
 		ufo_init(vertex);
 		ladebalken_draw(.6);
-		usleep(200000);
 		saeulen_init(vertex);
 		ladebalken_draw(.7);
-		usleep(200000);
 		schwurbeltunnel_init(vertex);
 		ladebalken_draw(.8);
-		usleep(200000);
 		credits_init(vertex);
 		ladebalken_draw(.9);
-		usleep(200000);
 		ladebalken_draw(1.);
-		usleep(200000);
 		initialized = true;
 		SDL_PauseAudio(0);
 	} else {
@@ -230,7 +220,7 @@ static void draw(void) {
 			pythagorean_draw();
 		} else if(time < 44000) {
 			saeulen_static_draw();
-		} else if(time < 98000) {
+		} else if(time < 95600) {
 			gitter_draw();
 		} else if(time < 118800) {
 			ufo_draw();
@@ -248,7 +238,7 @@ static void draw(void) {
 			schwurbeltunnel_draw();
 		} else if(time < 178709) {
 			ufo_draw();
-		} else if(time < 192800) {
+		} else if(time < 192800 + 3000) {
 			credits_draw();
 		} else {
 			exit(0);

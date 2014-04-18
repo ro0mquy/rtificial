@@ -50,12 +50,12 @@ vec2 origdim_nerd2nerd = vec2(54, 7);\n\
 vec2 origdim_nerdarzt = vec2(46, 7);\n\
 vec2 origdim_stroboholics = vec2(67, 7);\n\
 \n\
-vec3 color_thanks_greetings = color_text;\n\
-vec3 color_alcatraz_conspiracy = color_text;\n\
+vec3 color_greetings = vec3(0.51764708757400513, 1.0, 0.0039215688593685627);\n\
+vec3 color_alcatraz_conspiracy = vec3(1, 238, 255) / vec3(255.);\n\
+vec3 color_iq = vec3(0.51764708757400513, 1.0, 0.0039215688593685627);\n\
 vec3 color_mercury_urs = vec3(1, .35, 0);\n\
-vec3 color_iq = color_text;\n\
-vec3 color_nerd2nerd_nerdarzt = color_text;\n\
-vec3 color_stroboholics = color_text;\n\
+vec3 color_nerd2nerd_nerdarzt = vec3(1, .35, 0);\n\
+vec3 color_stroboholics = vec3(0.51764708757400513, 1.0, 0.0039215688593685627);\n\
 \n\
 #define mat_bounding 0\n\
 #define mat_gitter 1\n\
@@ -130,15 +130,10 @@ void main(void) {\n\
 			vec3 color_text = vec3(0);\n\
 \n\
 			if (time > 54 && time < 63) {\n\
-				// thanks and greetings\n\
+				// greetings\n\
 				float time = time - 54;\n\
-				vec2 dim_thanks = vec2(origdim_thanks.x / origdim_thanks.y, 1.) * base_dim;\n\
-				vec2 p_thanks = hit.xz - vec2(-51, -55 + time * 20);\n\
-				vec2 p_tex_thanks = vec2(-1, 1) * p_thanks.yx / dim_thanks.xy + .5;\n\
-				float f_thanks = texture(tex_thanks, p_tex_thanks).r;\n\
-\n\
 				vec2 dim_greetings = vec2(origdim_greetings.x / origdim_greetings.y, 1.) * base_dim;\n\
-				vec2 p_greetings = hit.xz - vec2(-40, 10 - time * 4);\n\
+				vec2 p_greetings = hit.xz - vec2(-50, 10 - time * 4);\n\
 				vec2 p_tex_greetings = vec2(-1, 1) * p_greetings.yx / dim_greetings.xy + .5;\n\
 				float f_greetings = texture(tex_greetings, p_tex_greetings).r;\n\
 \n\
@@ -153,10 +148,9 @@ void main(void) {\n\
 				vec2 p_tex_conspiracy = vec2(1, -1) * p_conspiracy.yx / dim_conspiracy.xy + .5;\n\
 				float f_conspiracy = texture(tex_conspiracy, p_tex_conspiracy).r;\n\
 \n\
-				float f_thanks_greetings = f_greetings + f_thanks;\n\
 				float f_alcatraz_conspiracy = f_alcatraz + f_conspiracy;\n\
-				f_text = f_thanks_greetings + f_alcatraz_conspiracy;\n\
-				color_text = color_thanks_greetings * f_thanks_greetings + color_alcatraz_conspiracy * f_alcatraz_conspiracy;;\n\
+				f_text = f_greetings + f_alcatraz_conspiracy;\n\
+				color_text = color_greetings * f_greetings + color_alcatraz_conspiracy * f_alcatraz_conspiracy;;\n\
 			} else if (time > 63 && time < 69) {\n\
 				// alcatraz -- conspiracy\n\
 				float time = time - 54;\n\
@@ -229,9 +223,14 @@ void main(void) {\n\
 \n\
 		// black fog\n\
 		final_color *= mix(final_color, vec3(0), smoothstep(75, 95, distance(hit, view_position)));\n\
+		if (time > 90) {\n\
+			final_color = mix(final_color, vec3(0), smoothstep(-30, -37, hit.y));\n\
+		}\n\
 \n\
 		final_bloom += mat_blooms[int(material)];\n\
 	}\n\
+	final_color = contrast(final_color, 1.04);\n\
+	final_color *= vignette(.5);\n\
 	out_color.rgb = final_color;\n\
 	out_color.a = final_bloom;\n\
 }\n\
@@ -345,4 +344,5 @@ vec2 f(vec3 p) {\n\
 	vec2 vec_kugel = vec2(f_kugel, mat_kugel);\n\
 \n\
 	return min_material(min_material(min_material(bounding, vec_untergrund), vec_gitter), vec_kugel);\n\
-}";
+}\n\
+";
