@@ -1,6 +1,6 @@
 static keyframe_list_t pythagorean_keyframe_list = {
-	.length = 34,
-	.allocated = 34,
+	.length = 33,
+	.allocated = 33,
 	.elements = {
 		{
 			.time = 0,
@@ -238,24 +238,6 @@ static keyframe_list_t pythagorean_keyframe_list = {
 		},
 		{
 			.time = 28780,
-			.camera = {
-				.position = {
-					.x = -54.80728530883789,
-					.y = -0.6880234479904175,
-					.z = -23.354360580444336
-				},
-				.rotation = {
-					.v = {
-						.x = 0.4428045451641083,
-						.y = -0.5207515358924866,
-						.z = 0.3611372709274292
-					},
-					.w = 0.6342885494232178
-				}
-			}
-		},
-		{
-			.time = 28781,
 			.camera = {
 				.position = {
 					.x = -54.80728530883789,
