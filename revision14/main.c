@@ -209,6 +209,7 @@ static void draw(void) {
 		credits_init(vertex);
 		ladebalken_draw(.9);
 		ladebalken_draw(1.);
+		sleep(1);
 		initialized = true;
 		SDL_PauseAudio(0);
 	} else {
