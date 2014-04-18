@@ -222,9 +222,14 @@ void main(void) {
 
 		// black fog
 		final_color *= mix(final_color, vec3(0), smoothstep(75, 95, distance(hit, view_position)));
+		if (time > 90) {
+			final_color = mix(final_color, vec3(0), smoothstep(-30, -37, hit.y));
+		}
 
 		final_bloom += mat_blooms[int(material)];
 	}
+	final_color = contrast(final_color, 1.04);
+	final_color *= vignette(.5);
 	out_color.rgb = final_color;
 	out_color.a = final_bloom;
 }
