@@ -32,11 +32,14 @@ typedef struct {
 #include "camera.h"
 #include "timeline.h"
 
+typedef uint8_t ILubyte;
+
 // functions that need to be called from scenes
 static void draw_quad(GLint attribute_coord2d);
 static void update_uniforms(const uniforms_t* uniforms, timeline_t* timeline);
 static void get_uniforms(uniforms_t* uniforms, GLuint program);
 static void init_timeline(timeline_t* timeline, keyframe_list_t* keyframes);
+static void load_texture(GLuint* texture , ILubyte* data, int width, int height);
 
 #include "libblink.h"
 #include "shader_sources.h"
@@ -44,17 +47,25 @@ static void init_timeline(timeline_t* timeline, keyframe_list_t* keyframes);
 static camera_t camera;
 #include "postproc.h"
 
-typedef unsigned char ILubyte;
 #include "drb.df.h"
 #include "vincent.df.h"
 #include "ro0mquy.df.h"
 #include "ps0ke.df.h"
 
+#include "texture/alcatraz.h"
+#include "texture/conspiracy.h"
+#include "texture/greetings.h"
+#include "texture/iq.h"
+#include "texture/mercury.h"
+#include "texture/nerd2nerd.h"
+#include "texture/nerdarzt.h"
+#include "texture/stroboholics.h"
+#include "texture/urs.h"
+
 // scenes go here
-#include "scene_blank.h"
-#include "scene_test.h"
 #include "scene_pythagorean.h"
 #include "scene_saeulen_static.h"
+#include "scene_gitter.h"
 
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * 2];
@@ -65,10 +76,13 @@ static void draw(void);
 
 static GLuint vbo_rectangle;
 
+static void callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, void* userParam) {
+	puts(message);
+}
+
 int main() {
 	pthread_t synth_thread;
 	pthread_create(&synth_thread, NULL, __4klang_render, audio_buffer);
-
 	// "Usually you initialize SDL with SDL_Init, but it also works if we leave this out." (TODO: try this)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_OPENGL
@@ -89,7 +103,7 @@ int main() {
 	};
 	SDL_OpenAudio(&wanted, NULL);
 
-
+	glDebugMessageCallback(&callback, NULL);
 
 	glGenBuffers(1, &vbo_rectangle);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_rectangle);
@@ -192,12 +206,14 @@ static void draw(void) {
 	if(!initialized) {
 		vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
 		postproc_init(vertex);
-		blank_init(vertex);
-		test_init(vertex);
 		pythagorean_init(vertex);
 		saeulen_static_init(vertex);
-		SDL_PauseAudio(0);
+		gitter_init(vertex);
 		initialized = true;
+		SDL_LockAudio();
+		playback_position = 44500 / 1000 * 44100;
+		SDL_UnlockAudio();
+		SDL_PauseAudio(0);
 	} else {
 		postproc_before_draw();
 		//blank_draw();
@@ -207,8 +223,10 @@ static void draw(void) {
 		SDL_UnlockAudio();
 		if(time < 28900) {
 			pythagorean_draw();
-		} else {
+		} else if(time < 44000) {
 			saeulen_static_draw();
+		} else {
+			gitter_draw();
 		}
 		postproc_after_draw();
 	}
@@ -258,4 +276,31 @@ static void init_timeline(timeline_t* timeline, keyframe_list_t* keyframes) {
 		.allocated = 1,
 	};
 	timeline->controlPoints = timeline_get_bezier_spline(controlPoints, timeline->keyframes, .5);
+}
+
+static void load_texture(GLuint* texture , ILubyte* data, int width, int height) {
+	ILubyte rgba_data[width * height * 4];
+	for(int y = 0; y < height; y++) {
+		for(int x = 0; x < width; x++) {
+			rgba_data[4 * (y * width + x) + 0] = data[y * width + x];
+			rgba_data[4 * (y * width + x) + 1] = data[y * width + x];
+			rgba_data[4 * (y * width + x) + 2] = data[y * width + x];
+			rgba_data[4 * (y * width + x) + 3] = 255;
+		}
+	}
+	glGenTextures(1, texture);
+	glBindTexture(GL_TEXTURE_2D, *texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glTexImage2D(GL_TEXTURE_2D, 0,
+			GL_RGBA,
+			width,
+			height,
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			rgba_data);
 }
