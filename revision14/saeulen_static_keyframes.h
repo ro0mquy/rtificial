@@ -1,6 +1,6 @@
 static keyframe_list_t saeulen_static_keyframe_list = {
-	.length = 26,
-	.allocated = 26,
+	.length = 24,
+	.allocated = 24,
 	.elements = {
 		{
 			.time = 0,
@@ -129,7 +129,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			.time = 32222,
+			.time = 31592,
 			.camera = {
 				.position = {
 					.x = -1.3267082067613956e-05,
@@ -147,7 +147,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			.time = 32223,
+			.time = 31593,
 			.camera = {
 				.position = {
 					.x = -1.3267082067613956e-05,
@@ -156,16 +156,16 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 				},
 				.rotation = {
 					.v = {
-						.x = -0.00019813922699540854,
+						.x = -0.00019813701510429382,
 						.y = 0.999123215675354,
 						.z = -0.04159572720527649
 					},
-					.w = -0.004758486058562994
+					.w = -0.004758492112159729
 				}
 			}
 		},
 		{
-			.time = 32224,
+			.time = 31594,
 			.camera = {
 				.position = {
 					.x = 7.573894023895264,
@@ -174,11 +174,11 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 				},
 				.rotation = {
 					.v = {
-						.x = -0.08717548847198486,
-						.y = 0.8749405741691589,
-						.z = 0.3491210341453552
+						.x = -0.08717547357082367,
+						.y = 0.8749409317970276,
+						.z = 0.34911975264549255
 					},
-					.w = 0.3240281343460083
+					.w = 0.3240283727645874
 				}
 			}
 		},
@@ -219,43 +219,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			.time = 34398,
-			.camera = {
-				.position = {
-					.x = 0.9517699480056763,
-					.y = 9.012075424194336,
-					.z = 6.928756237030029
-				},
-				.rotation = {
-					.v = {
-						.x = -0.005630955100059509,
-						.y = 0.9796873927116394,
-						.z = 0.19790464639663696
-					},
-					.w = -0.03185349702835083
-				}
-			}
-		},
-		{
-			.time = 34399,
-			.camera = {
-				.position = {
-					.x = 0.9517699480056763,
-					.y = 9.012075424194336,
-					.z = 6.928756237030029
-				},
-				.rotation = {
-					.v = {
-						.x = -0.005630955100059509,
-						.y = 0.9796873927116394,
-						.z = 0.19790464639663696
-					},
-					.w = -0.03185349702835083
-				}
-			}
-		},
-		{
-			.time = 34400,
+			.time = 33637,
 			.camera = {
 				.position = {
 					.x = 0.9517685174942017,
@@ -265,15 +229,15 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 				.rotation = {
 					.v = {
 						.x = -0.15783146023750305,
-						.y = 0.07742851972579956,
-						.z = 0.011809540912508965
+						.y = 0.0774286538362503,
+						.z = 0.011809559538960457
 					},
 					.w = 0.9843549132347107
 				}
 			}
 		},
 		{
-			.time = 34401,
+			.time = 33638,
 			.camera = {
 				.position = {
 					.x = 0.9517685174942017,
@@ -283,8 +247,8 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 				.rotation = {
 					.v = {
 						.x = -0.15783146023750305,
-						.y = 0.07742851972579956,
-						.z = 0.011809540912508965
+						.y = 0.0774286538362503,
+						.z = 0.011809559538960457
 					},
 					.w = 0.9843549132347107
 				}
