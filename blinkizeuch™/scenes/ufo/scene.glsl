@@ -34,7 +34,7 @@ vec3 colors[] = vec3[](
 	color_ufo_body,
 	color_ufo_cockpit,
 	vec3(1), // color ufo lights
-	vec3(0.56,0.,0.),
+	vec3(144./255.,0.,0.),
 	color_saturn,
 	vec3(0.1),
 	vec3(0.75,0.7,0.5),
