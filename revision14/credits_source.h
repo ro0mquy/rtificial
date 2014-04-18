@@ -31,14 +31,14 @@ vec2 origdim_ro0mquy = vec2(5081, 684);\n\
 #define mat_ro0mquy 6\n\
 \n\
 vec3[] mat_colors = vec3[](\n\
-		vec3(1),\n\
-		vec3(9,11,15)/vec3(255),\n\
-		vec3(.56, 0, 0),\n\
+		vec3(1), // bounding\n\
+		vec3(9,11,15)/vec3(255), // plane\n\
+		vec3(.56, 0, 0), // kugel\n\
 		//pow(vec3(240/255., 52/255., 173/255.), vec3(2.2)),\n\
-		vec3(229, 46, 5)/vec3(255),\n\
-		pow(vec3(20/255., 128/255., 201/255.), vec3(2.2)),\n\
-		pow(vec3(167/255., 69/255., 1), vec3(2.2)),\n\
-		pow(vec3(13/255., 194/255., 189/255.), vec3(2.2))\n\
+		vec3(229, 46, 5)/vec3(255), // _vincent\n\
+		pow(vec3(1.0, 0.0, 0.5176470588235295), vec3(2.2)), // drb\n\
+		pow(vec3(0.01568627450980392, 0.8431372549019608, 0.9529411764705882), vec3(2.2)), // ps0ke\n\
+		pow(vec3(0.,1.,0.), vec3(2.2)) // ro0mquy\n\
 );\n\
 \n\
 const vec2 spread = vec2(-2., 30.);\n\
@@ -61,7 +61,7 @@ void main(void){\n\
 		vec3 to_light = light - hit;\n\
 		if(material != mat_kugel) {\n\
 			final_color *= lambert(to_light, normal);\n\
-			final_color *= .1 + .9 * softshadow(hit, light, 60 * (1. - foo1));\n\
+			final_color *= .1 + .9 * softshadow(hit, light, 24.);\n\
 		} else {\n\
 			final_color *= .05 + .95 * cook_torrance(to_light, normal, -dir, 1., 450.);\n\
 			bloom = 1.;\n\
@@ -73,9 +73,9 @@ void main(void){\n\
 		} else if(material == mat_drb) {\n\
 			z = -spread.y;\n\
 		} else if(material == mat_ps0ke) {\n\
-			z = -spread.y * 2.;\n\
+			z = -spread.y * 2. + 10;\n\
 		} else if(material == mat_ro0mquy) {\n\
-			z = -spread.y * 3.;\n\
+			z = -spread.y * 3. + 15;\n\
 		} else if(material == mat_plane) {\n\
 			final_color *= 1. - .3 * (sin(hit.x) * sin(hit.y) * .5 + .5);\n\
 		}\n\
@@ -148,4 +148,5 @@ vec2 f_noise(vec3 p) {\n\
 		f_result[0] += .1 * fbm(p.xz + .2 * fbm(5. * p.xz));\n\
 	}\n\
 	return f_result;\n\
-}";
+}\n\
+";

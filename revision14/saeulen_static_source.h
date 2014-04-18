@@ -74,7 +74,7 @@ void main() {\n\
 		vec3 light_color = vec3(0.);\n\
 		//light_color += .05 + .95 * lambert(to_light, normal) * diffuse_intensity;\n\
 		if(material == mat_kugel){\n\
-			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, 1., 450.);\n\
+			light_color += .05 + 0.95*cook_torrance(to_light, normal, -direction, .75, 450.);\n\
 		} else {\n\
 			light_color += .05 + .95 * oren_nayar(to_light, normal, -direction, .5) * diffuse_intensity;\n\
 		}\n\
@@ -123,13 +123,15 @@ void main() {\n\
 		direction = reflect(direction, normal);\n\
 	}\n\
 	color = contrast(color, 1.03);\n\
-	color *= vignette(1.);\n\
+	if(vanish_anim_time == 0){\n\
+		color *= vignette(1.);\n\
+	}\n\
 	out_color.rgb = color;\n\
 	out_color.a = bloom;\n\
 }\n\
 \n\
 vec2 f(vec3 p) {\n\
-	vec2 sphery = vec2(-sphere(p - view_position, 75.), MAT_BOUNDING); // bounding sphere\n\
+	vec2 sphery = vec2(-sphere(p - view_position, 200.), MAT_BOUNDING); // bounding sphere\n\
 \n\
 	vec2 floor_plane = vec2(p.y, MAT_FLOOR);\n\
 	vec2 ceiling_plane = vec2(-abs(p.y) + 25., MAT_CEILING);\n\
@@ -160,9 +162,9 @@ vec2 f(vec3 p) {\n\
 	// nobody exspects the spanish inquisition!\n\
 \n\
 	float fall_anim_start = 43.0;//vanish_anim_start+vanish_anim_duration +.25;\n\
-	float fall_anim_duration = 5.;\n\
+	float fall_anim_duration = 5;\n\
 	float fall_anim_time = (clamp(time, fall_anim_start, fall_anim_start + fall_anim_duration) -fall_anim_start)/(fall_anim_duration);\n\
-	float fall_gravity = 500;\n\
+	float fall_gravity = 700;\n\
 	float fall_height =1.5+ -0.5 * fall_gravity * fall_anim_time*fall_anim_time /* 1/2 a t^2 */;\n\
 \n\
 \n\
@@ -200,4 +202,5 @@ float octo_box(vec3 p, float d) {\n\
 	p = rY(TAU/8.) * p;\n\
 	octo = smax(octo, max(abs(p.x), abs(p.z)) - d, .05);\n\
 	return octo;\n\
-}";
+}\n\
+";

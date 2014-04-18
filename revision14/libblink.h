@@ -29,7 +29,7 @@ vec3 get_direction() {\n\
 #define DEFINE_MARCH(name, f) \\\n\
 vec3 name(vec3 p, vec3 direction, out int i) {\\\n\
 	float walked = 0.;\\\n\
-	for (i=0; i < 100; i++) {\\\n\
+	for (i=0; i < 150; i++) {\\\n\
 		float dist = f(p)[0];\\\n\
 		p += direction * dist;\\\n\
 		dist = abs(dist);\\\n\

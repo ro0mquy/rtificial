@@ -18,29 +18,35 @@ void main(void){\n\
 	float factor = 1.;\n\
 	float bloom = 0.;\n\
 	vec3 p = view_position;\n\
+	float dist;\n\
+	float val = 1.;\n\
+	if(time < 164.2) {\n\
+		val = .5 + senvelopes[4] * 1.5;\n\
+	}\n\
 	for(int j = 0; j < 3; j++) {\n\
 		vec3 hit = march(p, dir, i);\n\
+		if(j == 0) {\n\
+			dist = distance(hit, view_position);\n\
+		}\n\
 		int material = int(f(hit)[1]);\n\
 		vec3 normal = calc_normal(hit);\n\
 		float time = time - 136.402;\n\
 		float duration = 150.526 - 136.402;\n\
 		vec3 light;\n\
-		float val;\n\
 		if(time + 136.402 < 164.2) {\n\
 			light = vec3(0, -16. + mix(-45, 45, time/duration), 0);\n\
-			val = .5 + senvelopes[4] * 1.5;\n\
 		} else {\n\
 			light = vec3(0);\n\
 			light.y = view_position.y + 8.;\n\
-			val = 1.;\n\
 		}\n\
 		vec3 to_light = light - hit;\n\
 \n\
 		if(material == 1) {\n\
-			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * vec3(1);\n\
+			vec3 hsv = vec3(sin(time * TAU * 136./60. * .125 + hit.y * .1 + sin(hit.x + sin(3. * hit.z))) * .5 + .5, .5, 1.);\n\
+			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * hsv2rgb(hsv);\n\
 			color += .05 * vec3(1);\n\
 			final_color += factor * color;\n\
-			factor *= .5;\n\
+			factor *= .8;\n\
 			dir = reflect(normal, dir);\n\
 			p = hit + .01 * normal; // noise reduction\n\
 		} else if(material == 2) {\n\
@@ -51,11 +57,12 @@ void main(void){\n\
 			final_color += factor * vec3(1, 0, 0) * .05;\n\
 			break;\n\
 		} else if(material == 0) {\n\
-			final_color += factor * mix(vec3(0), vec3(1), fbm(dir * 2.)) * max(1. - val, .3);\n\
+			final_color += factor * vec3(109,36,25)/255 * fbm(dir * 2.) * max(1. - val, .3);\n\
 			break;\n\
 		}\n\
 	}\n\
-\n\
+	vec3 col = factor * vec3(109,36,25)/255 * fbm(get_direction() * 2.) * max(1. - val, .3);\n\
+	final_color = mix(final_color, col, smoothstep(0., 150., dist));\n\
 	out_color.rgb = final_color * vignette(.5);\n\
 	out_color.a = bloom;\n\
 }\n\
@@ -78,7 +85,7 @@ float schwurbelsaeule(vec3 p) {\n\
 	p2 = trans(p2, r, 0., 0.);\n\
 \n\
 	// actual schwurbel code\n\
-	float height = 80.;\n\
+	float height = 800.;\n\
 	float side_lenght = 1. - .3 * (p.y / height + .5);\n\
 \n\
 	vec3 q1 = rY(p.y * .7 + time * 5. * .5) * p1;\n\
@@ -115,4 +122,5 @@ float fbm(vec3 p) {\n\
 		amplitude *= .5;\n\
 	}\n\
 	return sum;\n\
-}";
+}\n\
+";

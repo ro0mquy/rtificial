@@ -208,4 +208,5 @@ vec3 lighting(vec3 p, vec3 color, vec3 direction, vec3 normal, out vec3 light_co
 	light_color *= ao(p, normal, 0.15, 5.); // ambient occlusion\n\
 \n\
 	return color * light_color;\n\
-}";
+}\n\
+";
