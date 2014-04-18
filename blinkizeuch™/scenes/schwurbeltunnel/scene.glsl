@@ -17,29 +17,35 @@ void main(void){
 	float factor = 1.;
 	float bloom = 0.;
 	vec3 p = view_position;
+	float dist;
+	float val = 1.;
+	if(time < 164.2) {
+		val = .5 + senvelopes[4] * 1.5;
+	}
 	for(int j = 0; j < 3; j++) {
 		vec3 hit = march(p, dir, i);
+		if(j == 0) {
+			dist = distance(hit, view_position);
+		}
 		int material = int(f(hit)[1]);
 		vec3 normal = calc_normal(hit);
 		float time = time - 136.402;
 		float duration = 150.526 - 136.402;
 		vec3 light;
-		float val;
 		if(time + 136.402 < 164.2) {
 			light = vec3(0, -16. + mix(-45, 45, time/duration), 0);
-			val = .5 + senvelopes[4] * 1.5;
 		} else {
 			light = vec3(0);
 			light.y = view_position.y + 8.;
-			val = 1.;
 		}
 		vec3 to_light = light - hit;
 
 		if(material == 1) {
-			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * vec3(1);
+			vec3 hsv = vec3(sin(time * TAU * 136./60. * .125 + hit.y * .1 + sin(hit.x + sin(3. * hit.z))) * .5 + .5, .5, 1.);
+			vec3 color = val * .85 * cook_torrance(to_light, normal, -dir, 1., 450.) * hsv2rgb(hsv);
 			color += .05 * vec3(1);
 			final_color += factor * color;
-			factor *= .5;
+			factor *= .8;
 			dir = reflect(normal, dir);
 			p = hit + .01 * normal; // noise reduction
 		} else if(material == 2) {
@@ -50,11 +56,12 @@ void main(void){
 			final_color += factor * vec3(1, 0, 0) * .05;
 			break;
 		} else if(material == 0) {
-			final_color += factor * mix(vec3(0), vec3(1), fbm(dir * 2.)) * max(1. - val, .3);
+			final_color += factor * vec3(109,36,25)/255 * fbm(dir * 2.) * max(1. - val, .3);
 			break;
 		}
 	}
-
+	vec3 col = factor * vec3(109,36,25)/255 * fbm(get_direction() * 2.) * max(1. - val, .3);
+	final_color = mix(final_color, col, smoothstep(0., 150., dist));
 	out_color.rgb = final_color * vignette(.5);
 	out_color.a = bloom;
 }
@@ -77,7 +84,7 @@ float schwurbelsaeule(vec3 p) {
 	p2 = trans(p2, r, 0., 0.);
 
 	// actual schwurbel code
-	float height = 80.;
+	float height = 800.;
 	float side_lenght = 1. - .3 * (p.y / height + .5);
 
 	vec3 q1 = rY(p.y * .7 + time * 5. * .5) * p1;
