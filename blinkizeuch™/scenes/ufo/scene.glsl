@@ -150,7 +150,7 @@ void main(void){
 
 	final_color *= vignette(1.);
 	final_color = mix(final_color, vec3(0), step(scene_end_time, time) * (1 - step(scene_end_time + 10, time)));
-	final_color = mix(final_color, vec3(1), smoothstep(177., 178.709, time));
+	final_color = mix(final_color, vec3(0), smoothstep(177., 178.709, time));
 
 	out_color.rgb = final_color;
 	out_color.a = final_bloom;
