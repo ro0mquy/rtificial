@@ -49,11 +49,11 @@ vec2 origdim_nerd2nerd = vec2(54, 7);
 vec2 origdim_nerdarzt = vec2(46, 7);
 vec2 origdim_stroboholics = vec2(67, 7);
 
-vec3 color_thanks_greetings = color_text;
-vec3 color_alcatraz_conspiracy = color_text;
+vec3 color_thanks_greetings = vec3(0.51764708757400513, 1.0, 0.0039215688593685627);
+vec3 color_alcatraz_conspiracy = vec3(1, 238, 255) / vec3(255.);
 vec3 color_mercury_urs = vec3(1, .35, 0);
-vec3 color_iq = color_text;
-vec3 color_nerd2nerd_nerdarzt = color_text;
+vec3 color_iq = vec3(255, 1, 132) / vec3(255.);
+vec3 color_nerd2nerd_nerdarzt = vec3(255, 14, 1) / vec3(255.);;
 vec3 color_stroboholics = color_text;
 
 #define mat_bounding 0
