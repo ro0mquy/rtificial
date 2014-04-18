@@ -51,12 +51,12 @@ vec3 colors[] = vec3[](\n\
 \n\
 const int num_rand_colors = 6;\n\
 vec3[num_rand_colors] rand_colors = vec3[num_rand_colors](\n\
-	vec3(1, 0, 0),\n\
-	vec3(.5, .5, 0),\n\
-	vec3(0, 1, 0),\n\
-	vec3(0, .5, .5),\n\
-	vec3(0, 0, 1),\n\
-	vec3(.5, 0, .5)\n\
+	vec3(0.4196078431372549, 0.8941176470588236, 0.0),\n\
+	vec3(0.0, 0.45098039215686275, 0.24313725490196078),\n\
+	vec3(0.8117647058823529, 0.9686274509803922, 0.0),\n\
+	vec3(0.8862745098039215, 0.0, 0.2823529411764706),\n\
+	vec3(0.0, 0.6901960784313725, 0.3764705882352941),\n\
+	vec3(1.)\n\
 );\n\
 \n\
 float wakeup_end = 14.757;\n\
@@ -93,6 +93,7 @@ void main(void){\n\
 	} else if(material == mat_floor) {\n\
 		normal = calc_normal_floor(hit);\n\
 		m = .42;\n\
+		final_color = vec3(.2,.7,.0);\n\
 	} else if(material == mat_kugel) {\n\
 		normal = calc_normal(hit);\n\
 		m = 2;\n\
@@ -109,10 +110,28 @@ void main(void){\n\
 		final_color += color * (.05 + .95 * oren_nayar(to_light, normal, -dir, m));\n\
 		final_color *= ao(hit, normal, .3, 5.);\n\
 	} else {\n\
-		//vec2 spherical = vec2(acos(dir.y) / 3.141, abs(atan(dir.z, dir.x) / 3.141));\n\
-		//final_color = hsv2rgb(vec3(.67, .5 + .5 * fbm(spherical * 20.), .45));\n\
+		//vec2 spherical = vec2(acos(dir.y) / 3.141 * 2., abs(atan(dir.z, dir.x) / 3.141));\n\
+		//final_color = hsv2rgb(vec3(.63, .6 + .4 * fbm(spherical * 20.), .15));\n\
+		//final_color = vec3(hit.y/100., 0.,0.); // R\n\
+		//final_color = vec3(0., hit.y/100.,0.); // G\n\
+		final_color = vec3(0.,.5,hit.y/100); // B\n\
 	}\n\
-	final_color *= 1. - smoothstep(0., 300., distance(view_position, hit));\n\
+\n\
+\n\
+	//vec3 strobo_bunt = rand_colors[int(time) % num_rand_colors];\n\
+	vec3 strobo_bunt = rand_colors[material % num_rand_colors];\n\
+	float strobo_intensity = clamp(2 * (senvelopes[2]+ senvelopes[31]+ senvelopes[10] + senvelopes[11]), 0, 1);\n\
+	vec3 strobo_color = mix(final_color, strobo_bunt, strobo_intensity);\n\
+\n\
+	final_color *= smoothstep(250., 50., distance(view_position, hit));\n\
+\n\
+	if(time > 118.){ // turn on some fuckin strobo\n\
+		final_color = 0.5 * (final_color +  strobo_color) ;\n\
+		if(strobo_intensity > .2){\n\
+			final_color += .1;\n\
+		}\n\
+	}\n\
+	final_color *= vignette(.9);\n\
 	out_color.rgb = final_color;\n\
 	out_color.a = bloom;\n\
 }\n\
@@ -212,7 +231,7 @@ vec2 f(vec3 p) {\n\
 		vec2 p34 = mix(p3, p4, t);\n\
 		trans_kugel.xz = mix(mix(p12, p23, t), mix(p23, p34, t), t);\n\
 	} else {\n\
-		float dtime = time - path1_end;\n\
+		float dtime = min(time, 28.2)  - path1_end;\n\
 		float t = dtime * .15;\n\
 		vec2 p12 = mix(p4, p5, t);\n\
 		vec2 p23 = mix(p5, p6, t);\n\
@@ -233,5 +252,4 @@ vec2 f(vec3 p) {\n\
 \n\
 vec2 g(vec3 p) {\n\
 	return vec2(f_floor(p) + fbm(p.xz * .7) * .03, 2.);\n\
-}\n\
-";
+}";
