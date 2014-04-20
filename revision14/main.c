@@ -1,9 +1,13 @@
-#include <SDL/SDL.h>
-#include <pthread.h>
-#include <unistd.h>
+#ifdef _WINDOWS
+#  include <SDL.h>
+#else
+#	include <SDL/SDL.h>
+#	include <unistd.h>
+#endif
+
+//#include <pthread.h>
 
 #include <libzeuch/shader.h>
-#include <libzeuch/matrix.h>
 #include <libzeuch/vector.h>
 #include <libzeuch/quaternion.h>
 #include <libzeuch/gl.h>
@@ -68,8 +72,8 @@ static void draw(void);
 static GLuint vbo_rectangle;
 
 int main() {
-	pthread_t synth_thread;
-	pthread_create(&synth_thread, NULL, __4klang_render, audio_buffer);
+//	pthread_t synth_thread;
+//	pthread_create(&synth_thread, NULL, __4klang_render, audio_buffer);
 	// "Usually you initialize SDL with SDL_Init, but it also works if we leave this out." (TODO: try this)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_OPENGL
@@ -209,7 +213,7 @@ static void draw(void) {
 		credits_init(vertex);
 		ladebalken_draw(.9);
 		ladebalken_draw(1.);
-		sleep(1);
+	//	sleep(1);
 		initialized = true;
 		SDL_PauseAudio(0);
 	} else {

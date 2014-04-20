@@ -17,14 +17,14 @@ static GLint gamma_attribute_coord2d;
 static GLint fxaa_attribute_coord2d;
 static GLint uniform_bloom_vertical;
 static GLint uniform_inv_world_camera_matrix, uniform_prev_world_camera_matrix;
-static mat4x4 previous_world_to_camera_matrix;
 
 void postproc_init(GLuint vertex_shader) {
 	// compile postprocessing program
 	GLuint post_fragment_shader;// = shader_load_files(1, (const char* []) { post_path }, GL_FRAGMENT_SHADER);
 	// if post.glsl file doesn't exist, load default shader which does nothing
 	//if (post_fragment_shader == 0) {
-		post_fragment_shader = shader_load_strings(1, "post default", (const GLchar* []) { post_default_fragment_source }, GL_FRAGMENT_SHADER);
+		const GLchar* temp_glchar[] = { post_default_fragment_source }
+		post_fragment_shader = shader_load_strings(1, "post default", temp_glchar , GL_FRAGMENT_SHADER);
 	//}
 
 	if(post_program != 0) glDeleteProgram(post_program);

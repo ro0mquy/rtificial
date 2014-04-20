@@ -19,19 +19,8 @@ static void camera_update_uniforms(
 
 static camera_t camera_cubic_bezier(const camera_t* const p0, const camera_t* const p1, const camera_t* const p2, const camera_t* const p3, float t) {
 	camera_t camera = {
-		.position = vec3_cubic_bezier(p0->position, p1->position, p2->position, p3->position, t),
-		.rotation = quat_cubic_bezier(p0->rotation, p1->rotation, p2->rotation, p3->rotation, t),
+		vec3_cubic_bezier(p0->position, p1->position, p2->position, p3->position, t),
+		quat_cubic_bezier(p0->rotation, p1->rotation, p2->rotation, p3->rotation, t),
 	};
 	return camera;
-}
-
-static mat4x4 camera_world_to_camera_matrix(camera_t* const camera) {
-	mat4x4 translation = mat4x4_new((float[4][4]) {
-			{ 1, 0, 0, camera->position.x },
-			{ 0, 1, 0, camera->position.y },
-			{ 0, 0, 1, camera->position.z },
-			{ 0, 0, 0,                  1 },
-			});
-	mat4x4 rotation = quat_to_mat4x4(camera->rotation);
-	return mat4x4_mult(rotation, translation);
 }

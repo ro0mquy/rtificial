@@ -42,7 +42,7 @@ camera_t timeline_get_camera(timeline_t* const timeline, int time) {
 
 static keyframe_list_t* list_insert(keyframe_list_t* list, const keyframe_t frame, const size_t position) {
 	if(list->length == list->allocated) {
-		keyframe_list_t* const new_list = realloc(list, sizeof(keyframe_list_t) + 2 * list->length * sizeof(keyframe_t));
+		keyframe_list_t* const new_list = (keyframe_list_t*) realloc(list, sizeof(keyframe_list_t) + 2 * list->length * sizeof(keyframe_t));
 		new_list->allocated *= 2;
 		list = new_list;
 	}
@@ -89,7 +89,8 @@ static quat mirror(quat q0, quat q1) {
 // http://caig.cs.nctu.edu.tw/course/CA/Lecture/slerp.pdf
 static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoints, keyframe_list_t* knots, float scale) {
 	controlPoints = list_clear(controlPoints);
-	for (uint i = 0; i < knots->length; i++) {
+	unsigned int i = 0;
+	for (; i < knots->length; i++) {
 		if (i == 0) { // is first
 			vec3 p1 = knots->elements[i].camera.position;
 			quat v1 = knots->elements[i].camera.rotation;
@@ -104,10 +105,12 @@ static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoint
 			// add p1
 			controlPoints = list_insert(controlPoints, knots->elements[i], controlPoints->length);
 			// add q1 and a1
-			controlPoints = list_insert(controlPoints, (keyframe_t) {
-					.time = 0,
-					.camera = (camera_t) { .position = q1, .rotation = a1 }
-					}, controlPoints->length);
+			const camera_t temp_cam = { q1, a1 };
+			const keyframe_t temp_keyframe = {
+					0,
+					temp_cam
+					};
+			controlPoints = list_insert(controlPoints, temp_keyframe , controlPoints->length);
 		} else if (i == knots->length - 1) { // last
 			vec3 p0 = knots->elements[i-1].camera.position;
 			quat v0 = knots->elements[i-1].camera.rotation;
@@ -120,10 +123,12 @@ static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoint
 			quat b1 = bisect(v1, v0);
 
 			// add q0 and b1
-			controlPoints = list_insert(controlPoints, (keyframe_t) {
-					.time = 0,
-					.camera = (camera_t) { .position = q0, .rotation = b1 }
-					}, controlPoints->length);
+			const camera_t temp_cam = { q0, b1 };
+			const keyframe_t temp_keyframe =  {
+					0,
+					temp_cam
+					};
+			controlPoints = list_insert(controlPoints, temp_keyframe, controlPoints->length);
 			// add p1
 			controlPoints = list_insert(controlPoints, knots->elements[i], controlPoints->length);
 		} else {
@@ -143,17 +148,21 @@ static keyframe_list_t* timeline_get_bezier_spline(keyframe_list_t* controlPoint
 
 
 			// add q0 and b1
-			controlPoints = list_insert(controlPoints, (keyframe_t) {
-					.time = 0,
-					.camera = (camera_t) { .position = q0, .rotation = b1 }
-					}, controlPoints->length);
+			const camera_t temp_cam = { q0, b1 };
+			const keyframe_t temp_keyframe = {
+					0,
+					temp_cam
+					};
+			controlPoints = list_insert(controlPoints, temp_keyframe , controlPoints->length);
 			// add p1
 			controlPoints = list_insert(controlPoints, knots->elements[i], controlPoints->length);
 			// add q1 and a1
-			controlPoints = list_insert(controlPoints, (keyframe_t) {
-					.time = 0,
-					.camera = (camera_t) { .position = q1, .rotation = a1 }
-					}, controlPoints->length);
+			const camera_t temp_cam2 = { q1, a1 };
+			const keyframe_t temp_keyframe2 = {
+					0,
+					temp_cam2
+					};
+			controlPoints = list_insert(controlPoints, temp_keyframe2 , controlPoints->length);
 		}
 	}
 

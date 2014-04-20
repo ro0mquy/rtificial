@@ -1,1 +1,22 @@
-try5/4klang 1504_7.inh
+// some useful song defines for 4klang
+#define SAMPLE_RATE 44100
+#define BPM 136.000000
+#define MAX_INSTRUMENTS 16
+#define MAX_PATTERNS 110
+#define PATTERN_SIZE_SHIFT 6
+#define PATTERN_SIZE (1 << PATTERN_SIZE_SHIFT)
+#define MAX_TICKS (MAX_PATTERNS*PATTERN_SIZE)
+#define SAMPLES_PER_TICK 4863
+#define MAX_SAMPLES (SAMPLES_PER_TICK*MAX_TICKS)
+#define POLYPHONY 2
+#define INTEGER_16BIT
+#define SAMPLE_TYPE short
+
+#define LINUX_OBJECT
+
+// declaration of the external synth render function, you'll always need that
+extern void* __4klang_render(void*);
+// declaration of the external envelope buffer. access only if you're song was exported with that option
+extern float __4klang_envelope_buffer;
+// declaration of the external note buffer. access only if you're song was exported with that option
+extern int   __4klang_note_buffer;
