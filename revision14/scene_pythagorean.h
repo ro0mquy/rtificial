@@ -7,7 +7,8 @@ static uniforms_t pythagorean_uniforms;
 static timeline_t pythagorean_timeline;
 
 static void pythagorean_init(GLuint vertex) {
-	const GLuint fragment = shader_load_strings(2, "test", (const GLchar* []) { libblink_source, scene_pythagorean_source }, GL_FRAGMENT_SHADER);
+	const GLchar* bla[] = { libblink_source, scene_pythagorean_source };
+	const GLuint fragment = shader_load_strings(2, "test", bla, GL_FRAGMENT_SHADER);
 	pythagorean_program = shader_link_program(vertex, fragment);
 	pythagorean_attrib_c2d = glGetAttribLocation(pythagorean_program, "c");
 	get_uniforms(&pythagorean_uniforms, pythagorean_program);

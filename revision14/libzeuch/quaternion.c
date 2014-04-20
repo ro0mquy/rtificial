@@ -4,7 +4,7 @@
 
 
 quat quat_new(vec3 v, float w) {
-	quat q = { .v = v, .w = w };
+	quat q = { v, w };
 	return q;
 }
 
@@ -108,19 +108,4 @@ quat quat_cubic_bezier(quat q00, quat q10, quat q20, quat q30, float t) {
 	quat q12 = quat_slerp(q11, q21, t);
 	quat q03 = quat_slerp(q02, q12, t);
 	return quat_normalize(q03);
-}
-
-// get the corresponding rotation matrix
-mat4x4 quat_to_mat4x4(quat q) {
-	float q0 = q.w;
-	float q1 = q.v.x;
-	float q2 = q.v.y;
-	float q3 = q.v.z;
-
-	return mat4x4_new((float[4][4]) {
-			{ 1 - 2*(q2*q2 + q3*q3),     2*(q1*q2 - q0*q3),     2*(q0*q2 + q1*q3), 0 },
-			{     2*(q0*q3 + q1*q2), 1 - 2*(q1*q1 + q3*q3),     2*(q2*q3 - q0*q1), 0 },
-			{     2*(q1*q3 - q0*q2),     2*(q0*q1 + q2*q3), 1 - 2*(q1*q1 + q2*q2), 0 },
-			{                     0,                     0,                     0, 1 },
-			});
 }

@@ -18,7 +18,8 @@ static GLuint
 	tex_ro0mquy;
 
 static void credits_init(GLuint vertex) {
-	const GLuint fragment = shader_load_strings(2, "test", (const GLchar* []) { libblink_source, scene_credits_source }, GL_FRAGMENT_SHADER);
+	const GLchar* ficken[] ={ libblink_source, scene_credits_source };
+	const GLuint fragment = shader_load_strings(2, "test", ficken, GL_FRAGMENT_SHADER);
 	credits_program = shader_link_program(vertex, fragment);
 	credits_attrib_c2d = glGetAttribLocation(credits_program, "c");
 	get_uniforms(&credits_uniforms, credits_program);

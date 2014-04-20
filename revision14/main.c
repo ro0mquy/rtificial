@@ -85,12 +85,12 @@ int main() {
 	glewInit();
 
 	SDL_AudioSpec wanted = {
-		.freq = 44100,
-		.format = AUDIO_S16SYS,
-		.channels = 2,
-		.samples = 1024,
-		.callback = fill_audio,
-		.userdata = NULL
+		44100,
+		AUDIO_S16SYS,
+		2,
+		1024,
+		fill_audio,
+		NULL
 	};
 	SDL_OpenAudio(&wanted, NULL);
 
@@ -104,9 +104,9 @@ int main() {
 	};
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
 
-	camera = (camera_t) {
-		.position = vec3_new(0, 0, 10),
-		.rotation = quat_new(vec3_new(0, 0, 0), 1),
+	camera_t camera = {
+		vec3_new(0, 0, 10),
+		quat_new(vec3_new(0, 0, 0), 1),
 	};
 
 
@@ -193,7 +193,8 @@ static GLuint vertex;
 
 static void draw(void) {
 	if(!initialized) {
-		vertex = shader_load_strings(1, "vertex", (const GLchar* []) { vertex_source }, GL_VERTEX_SHADER);
+		const GLchar* soso[] = { vertex_source };
+		vertex = shader_load_strings(1, "vertex", soso, GL_VERTEX_SHADER);
 		ladebalken_init(vertex);
 		ladebalken_draw(.1);
 		postproc_init(vertex);
@@ -290,7 +291,7 @@ static void get_uniforms(uniforms_t* uniforms, GLuint program) {
 
 static void init_timeline(timeline_t* timeline, keyframe_list_t* keyframes) {
 	timeline->keyframes = keyframes;
-	keyframe_list_t* controlPoints = malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
+	keyframe_list_t* controlPoints = (keyframe_list_t *) malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
 	*controlPoints = (keyframe_list_t) {
 		.length = 0,
 		.allocated = 1,

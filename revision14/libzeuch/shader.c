@@ -9,7 +9,7 @@
 
 static char* file_read(const char filename[]);
 
-GLuint shader_load_files(int n, const char* filenames[n], GLenum type) {
+GLuint shader_load_files(int n, const char* filenames[], GLenum type) {
 	GLchar* sources[n];
 	for(int i = 0; i < n; i++) {
 		sources[i] = file_read(filenames[i]);
@@ -29,7 +29,7 @@ GLuint shader_load_files(int n, const char* filenames[n], GLenum type) {
 	return res;
 }
 
-GLuint shader_load_strings(int n, const char* name, const GLchar* sources[n], GLenum type) {
+GLuint shader_load_strings(int n, const char* name, const GLchar* sources[], GLenum type) {
 	const GLuint res = glCreateShader(type);
 	glShaderSource(res, n, sources, NULL);
 
@@ -63,7 +63,7 @@ static char* file_read(const char filename[]) {
 	if(size == -1) return NULL;
 	if(fseek(input, 0, SEEK_SET) == -1) return NULL;
 
-	char* const content = malloc(size + 1);
+	char* const content = (char *const) malloc(size + 1);
 	if(content == NULL) return NULL;
 
 	fread(content, 1, size, input);
@@ -89,7 +89,7 @@ void print_log(GLuint object) {
 		return;
 	}
 
-	char* const log = malloc(log_length);
+	char* const log = (char *const) malloc(log_length);
 
 	if(glIsShader(object)) {
 		glGetShaderInfoLog(object, log_length, NULL, log);

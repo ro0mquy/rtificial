@@ -29,7 +29,8 @@ static GLuint
 	tex_urs;
 
 static void gitter_init(GLuint vertex) {
-	const GLuint fragment = shader_load_strings(2, "test", (const GLchar* []) { libblink_source, scene_gitter_source }, GL_FRAGMENT_SHADER);
+	const GLchar* foobar[] = { libblink_source, scene_gitter_source };
+	const GLuint fragment = shader_load_strings(2, "test", foobar, GL_FRAGMENT_SHADER);
 	gitter_program = shader_link_program(vertex, fragment);
 	gitter_attrib_c2d = glGetAttribLocation(gitter_program, "c");
 	get_uniforms(&gitter_uniforms, gitter_program);

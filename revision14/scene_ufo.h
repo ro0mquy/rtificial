@@ -7,7 +7,8 @@ static uniforms_t ufo_uniforms;
 static timeline_t ufo_timeline;
 
 static void ufo_init(GLuint vertex) {
-	const GLuint fragment = shader_load_strings(2, "test", (const GLchar* []) { libblink_source, scene_ufo_source }, GL_FRAGMENT_SHADER);
+	const GLchar* penis[] = { libblink_source, scene_ufo_source };
+	const GLuint fragment = shader_load_strings(2, "test", penis, GL_FRAGMENT_SHADER);
 	ufo_program = shader_link_program(vertex, fragment);
 	ufo_attrib_c2d = glGetAttribLocation(ufo_program, "c");
 	get_uniforms(&ufo_uniforms, ufo_program);

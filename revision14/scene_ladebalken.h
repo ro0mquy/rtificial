@@ -4,7 +4,8 @@ static GLuint balken_attrib_c2d;
 static GLint uniform_progress;
 
 void ladebalken_init(GLuint vertex) {
-	const GLuint fragment = shader_load_strings(1, "balken", (const GLchar* []) { scene_ladebalken_source }, GL_FRAGMENT_SHADER);
+	const GLchar* kram[] = { scene_ladebalken_source };
+	const GLuint fragment = shader_load_strings(1, "balken", kram, GL_FRAGMENT_SHADER);
 	balken_program = shader_link_program(vertex, fragment);
 	balken_attrib_c2d = glGetAttribLocation(balken_program, "c");
 	GLint res = shader_get_uniform(balken_program, "res");

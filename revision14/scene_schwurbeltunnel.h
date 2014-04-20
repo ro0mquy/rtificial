@@ -7,7 +7,8 @@ static uniforms_t schwurbeltunnel_uniforms;
 static timeline_t schwurbeltunnel_timeline;
 
 static void schwurbeltunnel_init(GLuint vertex) {
-	const GLuint fragment = shader_load_strings(2, "test", (const GLchar* []) { libblink_source, scene_schwurbeltunnel_source }, GL_FRAGMENT_SHADER);
+	const GLchar* test[] = { libblink_source, scene_schwurbeltunnel_source };
+	const GLuint fragment = shader_load_strings(2, "test", test, GL_FRAGMENT_SHADER);
 	schwurbeltunnel_program = shader_link_program(vertex, fragment);
 	schwurbeltunnel_attrib_c2d = glGetAttribLocation(schwurbeltunnel_program, "c");
 	get_uniforms(&schwurbeltunnel_uniforms, schwurbeltunnel_program);

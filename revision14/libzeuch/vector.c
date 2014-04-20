@@ -3,7 +3,7 @@
 #include "vector.h"
 
 vec3 vec3_new(float x, float y, float z) {
-	vec3 v = { .x = x, .y = y, .z = z };
+	vec3 v = { x, y, z };
 	return v;
 }
 

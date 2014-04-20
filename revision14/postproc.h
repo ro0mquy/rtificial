@@ -18,12 +18,39 @@ static GLint fxaa_attribute_coord2d;
 static GLint uniform_bloom_vertical;
 static GLint uniform_inv_world_camera_matrix, uniform_prev_world_camera_matrix;
 
+#include <stdio.h>
+
+#define snprintf c99_snprintf
+
+inline int c99_vsnprintf(char* str, size_t size, const char* format, va_list ap)
+{
+    int count = -1;
+
+    if (size != 0)
+        count = _vsnprintf_s(str, size, _TRUNCATE, format, ap);
+    if (count == -1)
+        count = _vscprintf(format, ap);
+
+    return count;
+}
+inline int c99_snprintf(char* str, size_t size, const char* format, ...)
+{
+    int count;
+    va_list ap;
+
+    va_start(ap, format);
+    count = c99_vsnprintf(str, size, format, ap);
+    va_end(ap);
+
+    return count;
+}
+
 void postproc_init(GLuint vertex_shader) {
 	// compile postprocessing program
 	GLuint post_fragment_shader;// = shader_load_files(1, (const char* []) { post_path }, GL_FRAGMENT_SHADER);
 	// if post.glsl file doesn't exist, load default shader which does nothing
 	//if (post_fragment_shader == 0) {
-		const GLchar* temp_glchar[] = { post_default_fragment_source }
+		const GLchar* temp_glchar[] = { post_default_fragment_source };
 		post_fragment_shader = shader_load_strings(1, "post default", temp_glchar , GL_FRAGMENT_SHADER);
 	//}
 
@@ -50,7 +77,8 @@ void postproc_init(GLuint vertex_shader) {
 	for (size_t i = 0; i < 3; i++) {
 		char bloom_shader_name[7];
 		snprintf(bloom_shader_name, 7, "bloom%zu", i);
-		GLuint bloom_fragment_shader = shader_load_strings(1, bloom_shader_name, (const GLchar* []) { bloom_fragment_sources[i] }, GL_FRAGMENT_SHADER);
+		const GLchar* tmp_glchar[] = { bloom_fragment_sources[i] };
+		GLuint bloom_fragment_shader = shader_load_strings(1, bloom_shader_name, tmp_glchar, GL_FRAGMENT_SHADER);
 		if (bloom_programs[i] != 0) glDeleteProgram(bloom_programs[i]);
 		bloom_programs[i] = shader_link_program(vertex_shader, bloom_fragment_shader);
 		glDeleteShader(bloom_fragment_shader);
@@ -76,7 +104,8 @@ void postproc_init(GLuint vertex_shader) {
 	}
 
 	// compile gamma correction program
-	GLuint gamma_fragment_shader = shader_load_strings(1, "gamma", (const GLchar* []) { gamma_fragment_source }, GL_FRAGMENT_SHADER);
+	const GLchar* temp_glchar_foo[] = { gamma_fragment_source };
+	GLuint gamma_fragment_shader = shader_load_strings(1, "gamma", temp_glchar_foo, GL_FRAGMENT_SHADER);
 	if (gamma_program != 0) glDeleteProgram(gamma_program);
 	gamma_program = shader_link_program(vertex_shader, gamma_fragment_shader);
 	glDeleteShader(gamma_fragment_shader);
@@ -93,7 +122,8 @@ void postproc_init(GLuint vertex_shader) {
 	glUniform1i(gamma_uniform_tex, /*GL_TEXTURE*/0);
 
 	// compile anti-aliasing program
-	GLuint fxaa_fragment_shader = shader_load_strings(1, "fxaa", (const GLchar* []) { fxaa_fragment_source }, GL_FRAGMENT_SHADER);
+	const GLchar* foo_tmp_glchar[] =  { fxaa_fragment_source };
+	GLuint fxaa_fragment_shader = shader_load_strings(1, "fxaa", foo_tmp_glchar, GL_FRAGMENT_SHADER);
 	if (fxaa_program != 0) glDeleteProgram(fxaa_program);
 	fxaa_program = shader_link_program(vertex_shader, fxaa_fragment_shader);
 	glDeleteShader(fxaa_fragment_shader);
@@ -211,7 +241,8 @@ void postproc_init(GLuint vertex_shader) {
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, post_tex_buffer, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, post_depth_buffer, 0);
 	// specify the attachments to be drawn to
-	glDrawBuffers(2, (GLenum[]) { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 });
+	const GLenum tempdings[] =  { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+	glDrawBuffers(2, tempdings);
 
 	// zomg error checking!1!elf1
 	GLenum status;
@@ -242,7 +273,8 @@ void postproc_init(GLuint vertex_shader) {
 	glBindFramebuffer(GL_FRAMEBUFFER, fxaa_framebuffer);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fxaa_tex_buffer, 0);
 	// specify the attachments to be drawn to
-	glDrawBuffers(1, (GLenum[]) { GL_COLOR_ATTACHMENT0 });
+	GLenum glpenis[]= { GL_COLOR_ATTACHMENT0 };
+	glDrawBuffers(1, glpenis);
 
 	if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
 		fprintf(stderr, "FXAA framebuffer not complete: error %X\n", status);
@@ -267,11 +299,6 @@ static void postproc_after_draw(void) {
 
 	// apply postprocessing
 	glUseProgram(post_program);
-
-	glUniformMatrix4fv(uniform_prev_world_camera_matrix, 1, GL_TRUE, previous_world_to_camera_matrix.a);
-	previous_world_to_camera_matrix = camera_world_to_camera_matrix(&camera);
-	mat4x4 inverse_world_to_camera_matrix = mat4x4_invert(previous_world_to_camera_matrix);
-	glUniformMatrix4fv(uniform_inv_world_camera_matrix, 1, GL_TRUE, inverse_world_to_camera_matrix.a);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);

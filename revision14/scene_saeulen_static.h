@@ -7,7 +7,8 @@ static uniforms_t saeulen_static_uniforms;
 static timeline_t saeulen_static_timeline;
 
 static void saeulen_static_init(GLuint vertex) {
-	const GLuint fragment = shader_load_strings(2, "test", (const GLchar* []) { libblink_source, scene_saeulen_static_source }, GL_FRAGMENT_SHADER);
+	const GLchar* dinge[] =  { libblink_source, scene_saeulen_static_source };
+	const GLuint fragment = shader_load_strings(2, "test", dinge, GL_FRAGMENT_SHADER);
 	saeulen_static_program = shader_link_program(vertex, fragment);
 	saeulen_static_attrib_c2d = glGetAttribLocation(saeulen_static_program, "c");
 	get_uniforms(&saeulen_static_uniforms, saeulen_static_program);
