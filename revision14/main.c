@@ -10,6 +10,7 @@
 #include <libzeuch/shader.h>
 #include <libzeuch/vector.h>
 #include <libzeuch/quaternion.h>
+#define GLEW_STATIC
 #include <libzeuch/gl.h>
 
 #define true 1
@@ -71,7 +72,7 @@ static void draw(void);
 
 static GLuint vbo_rectangle;
 
-int main() {
+int main(int argc, char *argv[]) {
 //	pthread_t synth_thread;
 //	pthread_create(&synth_thread, NULL, __4klang_render, audio_buffer);
 	// "Usually you initialize SDL with SDL_Init, but it also works if we leave this out." (TODO: try this)
