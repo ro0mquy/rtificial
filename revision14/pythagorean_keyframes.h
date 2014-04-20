@@ -1,9 +1,9 @@
 static keyframe_list_t pythagorean_keyframe_list = {
 	33,
-	{num_keyframes},
+	33,
 	{
 		{
-			{keyframe['time'].to_i},
+			0,
 			{
 				{
 					-30.941375732421875,
@@ -21,7 +21,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			3268,
 			{
 				{
 					-13.042184829711914,
@@ -39,7 +39,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			7925,
 			{
 				{
 					-1.7763290405273438,
@@ -57,7 +57,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			13833,
 			{
 				{
 					0.5327029228210449,
@@ -75,7 +75,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			16406,
 			{
 				{
 					-0.5078135132789612,
@@ -93,7 +93,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			19526,
 			{
 				{
 					-1.4632729291915894,
@@ -111,7 +111,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			22646,
 			{
 				{
 					-5.699711799621582,
@@ -129,7 +129,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			28006,
 			{
 				{
 					-47.429561614990234,
@@ -147,7 +147,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			28007,
 			{
 				{
 					-47.429561614990234,
@@ -165,7 +165,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			28008,
 			{
 				{
 					-47.429561614990234,
@@ -183,7 +183,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			28587,
 			{
 				{
 					-47.429561614990234,
@@ -201,7 +201,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			28779,
 			{
 				{
 					-47.429561614990234,
@@ -219,7 +219,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			28780,
 			{
 				{
 					-47.429561614990234,
@@ -237,7 +237,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			28781,
 			{
 				{
 					-47.429561614990234,
@@ -255,7 +255,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			118798,
 			{
 				{
 					-34.02886962890625,
@@ -273,7 +273,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			118799,
 			{
 				{
 					-34.02886962890625,
@@ -291,7 +291,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			118800,
 			{
 				{
 					-34.02886962890625,
@@ -309,7 +309,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			119224,
 			{
 				{
 					-12.469310760498047,
@@ -327,7 +327,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			120115,
 			{
 				{
 					15.932765007019043,
@@ -345,7 +345,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			120984,
 			{
 				{
 					38.22383499145508,
@@ -363,7 +363,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			121871,
 			{
 				{
 					79.59898376464844,
@@ -381,7 +381,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			123174,
 			{
 				{
 					96.27108764648438,
@@ -399,7 +399,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			124024,
 			{
 				{
 					114.08035278320312,
@@ -417,7 +417,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			124946,
 			{
 				{
 					130.44931030273438,
@@ -435,7 +435,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			125827,
 			{
 				{
 					174.3837432861328,
@@ -453,7 +453,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			125828,
 			{
 				{
 					174.3837432861328,
@@ -471,7 +471,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			125829,
 			{
 				{
 					174.3837432861328,
@@ -489,7 +489,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			150525,
 			{
 				{
 					180.9484100341797,
@@ -507,7 +507,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			150526,
 			{
 				{
 					180.9484100341797,
@@ -525,7 +525,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			157575,
 			{
 				{
 					196.20144653320312,
@@ -543,7 +543,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			159246,
 			{
 				{
 					255.71632385253906,
@@ -561,7 +561,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			159247,
 			{
 				{
 					255.71632385253906,
@@ -579,7 +579,7 @@ static keyframe_list_t pythagorean_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			2147483637,
 			{
 				{
 					0.0,

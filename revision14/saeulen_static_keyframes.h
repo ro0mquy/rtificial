@@ -1,9 +1,9 @@
 static keyframe_list_t saeulen_static_keyframe_list = {
 	24,
-	{num_keyframes},
+	24,
 	{
 		{
-			{keyframe['time'].to_i},
+			0,
 			{
 				{
 					0.0,
@@ -21,7 +21,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			27000,
 			{
 				{
 					-1.3266419045976363e-05,
@@ -39,7 +39,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			27001,
 			{
 				{
 					-1.3266419045976363e-05,
@@ -57,7 +57,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			28900,
 			{
 				{
 					-1.3267082067613956e-05,
@@ -75,7 +75,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			31002,
 			{
 				{
 					-1.3267082067613956e-05,
@@ -93,7 +93,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			31005,
 			{
 				{
 					-1.3267082067613956e-05,
@@ -111,7 +111,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			31009,
 			{
 				{
 					-1.3267082067613956e-05,
@@ -129,7 +129,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			31592,
 			{
 				{
 					-1.3267082067613956e-05,
@@ -147,7 +147,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			31593,
 			{
 				{
 					-1.3267082067613956e-05,
@@ -165,7 +165,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			31594,
 			{
 				{
 					7.573894023895264,
@@ -183,7 +183,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			33635,
 			{
 				{
 					0.9517699480056763,
@@ -201,7 +201,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			33636,
 			{
 				{
 					0.9517699480056763,
@@ -219,7 +219,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			33637,
 			{
 				{
 					0.9517685174942017,
@@ -237,7 +237,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			33638,
 			{
 				{
 					0.9517685174942017,
@@ -255,7 +255,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			35403,
 			{
 				{
 					-1.9848253726959229,
@@ -273,7 +273,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			36415,
 			{
 				{
 					1.2752872705459595,
@@ -291,7 +291,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			36416,
 			{
 				{
 					1.2752872705459595,
@@ -309,7 +309,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			36834,
 			{
 				{
 					3.1453428268432617,
@@ -327,7 +327,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			36835,
 			{
 				{
 					3.1453428268432617,
@@ -345,7 +345,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			39872,
 			{
 				{
 					-6.379151821136475,
@@ -363,7 +363,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			39873,
 			{
 				{
 					-6.379151821136475,
@@ -381,7 +381,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			42256,
 			{
 				{
 					9.851757049560547,
@@ -399,7 +399,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			42257,
 			{
 				{
 					9.851757049560547,
@@ -417,7 +417,7 @@ static keyframe_list_t saeulen_static_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			2147483637,
 			{
 				{
 					0.0,

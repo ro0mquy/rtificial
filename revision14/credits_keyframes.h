@@ -1,9 +1,9 @@
 static keyframe_list_t credits_keyframe_list = {
 	9,
-	{num_keyframes},
+	9,
 	{
 		{
-			{keyframe['time'].to_i},
+			178709,
 			{
 				{
 					5.984250545501709,
@@ -21,7 +21,7 @@ static keyframe_list_t credits_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			178710,
 			{
 				{
 					5.984250545501709,
@@ -39,7 +39,7 @@ static keyframe_list_t credits_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			178711,
 			{
 				{
 					5.984250545501709,
@@ -57,7 +57,7 @@ static keyframe_list_t credits_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			182459,
 			{
 				{
 					-12.503836631774902,
@@ -75,7 +75,7 @@ static keyframe_list_t credits_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			184458,
 			{
 				{
 					0.23933562636375427,
@@ -93,7 +93,7 @@ static keyframe_list_t credits_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			188198,
 			{
 				{
 					5.4433488845825195,
@@ -111,7 +111,7 @@ static keyframe_list_t credits_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			188199,
 			{
 				{
 					5.4433488845825195,
@@ -129,7 +129,7 @@ static keyframe_list_t credits_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			188200,
 			{
 				{
 					5.4433488845825195,
@@ -147,7 +147,7 @@ static keyframe_list_t credits_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			2147483637,
 			{
 				{
 					0.0,

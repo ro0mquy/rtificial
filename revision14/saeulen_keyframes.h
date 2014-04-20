@@ -1,9 +1,9 @@
 static keyframe_list_t saeulen_keyframe_list = {
 	19,
-	{num_keyframes},
+	19,
 	{
 		{
-			{keyframe['time'].to_i},
+			0,
 			{
 				{
 					0.0,
@@ -21,7 +21,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			125813,
 			{
 				{
 					-60.91485595703125,
@@ -39,7 +39,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			125814,
 			{
 				{
 					-60.91485595703125,
@@ -57,7 +57,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			125815,
 			{
 				{
 					-60.91485595703125,
@@ -75,7 +75,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			127364,
 			{
 				{
 					-60.91485595703125,
@@ -93,7 +93,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			129418,
 			{
 				{
 					36.69314956665039,
@@ -111,7 +111,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			130913,
 			{
 				{
 					-12.20885181427002,
@@ -129,7 +129,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			132749,
 			{
 				{
 					-9.621585845947266,
@@ -147,7 +147,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			136475,
 			{
 				{
 					-12.489480018615723,
@@ -165,7 +165,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			138985,
 			{
 				{
 					-12.489480018615723,
@@ -183,7 +183,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			138986,
 			{
 				{
 					-12.489480018615723,
@@ -201,7 +201,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			138987,
 			{
 				{
 					-12.489480018615723,
@@ -219,7 +219,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			159245,
 			{
 				{
 					35.04136657714844,
@@ -237,7 +237,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			159246,
 			{
 				{
 					35.04136657714844,
@@ -255,7 +255,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			159247,
 			{
 				{
 					35.04136657714844,
@@ -273,7 +273,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			164201,
 			{
 				{
 					3.0915184020996094,
@@ -291,7 +291,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			164202,
 			{
 				{
 					3.0915184020996094,
@@ -309,7 +309,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			164203,
 			{
 				{
 					3.0915184020996094,
@@ -327,7 +327,7 @@ static keyframe_list_t saeulen_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			2147483637,
 			{
 				{
 					0.0,

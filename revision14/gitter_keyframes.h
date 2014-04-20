@@ -1,9 +1,9 @@
 static keyframe_list_t gitter_keyframe_list = {
 	47,
-	{num_keyframes},
+	47,
 	{
 		{
-			{keyframe['time'].to_i},
+			0,
 			{
 				{
 					-19.52227783203125,
@@ -21,7 +21,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			43998,
 			{
 				{
 					-86.06189727783203,
@@ -39,7 +39,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			43999,
 			{
 				{
 					-86.06189727783203,
@@ -57,7 +57,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			44000,
 			{
 				{
 					-86.06189727783203,
@@ -75,7 +75,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			45520,
 			{
 				{
 					-86.06189727783203,
@@ -93,7 +93,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			46147,
 			{
 				{
 					-83.8966064453125,
@@ -111,7 +111,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			48758,
 			{
 				{
 					-83.8966064453125,
@@ -129,7 +129,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			48759,
 			{
 				{
 					-83.8966064453125,
@@ -147,7 +147,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			48760,
 			{
 				{
 					-87.36387634277344,
@@ -165,7 +165,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			48761,
 			{
 				{
 					-87.36387634277344,
@@ -183,7 +183,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			50725,
 			{
 				{
 					-80.29817962646484,
@@ -201,7 +201,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			54000,
 			{
 				{
 					-94.63204956054688,
@@ -219,7 +219,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			54001,
 			{
 				{
 					-94.63204956054688,
@@ -237,7 +237,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			54002,
 			{
 				{
 					-83.8211898803711,
@@ -255,7 +255,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			54003,
 			{
 				{
 					-83.8211898803711,
@@ -273,7 +273,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			54676,
 			{
 				{
 					-75.35912322998047,
@@ -291,7 +291,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			55558,
 			{
 				{
 					-50.6461067199707,
@@ -309,7 +309,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			57426,
 			{
 				{
 					-9.613908767700195,
@@ -327,7 +327,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			57427,
 			{
 				{
 					-9.613908767700195,
@@ -345,7 +345,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			57428,
 			{
 				{
 					-9.613908767700195,
@@ -363,7 +363,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			59500,
 			{
 				{
 					-49.207977294921875,
@@ -381,7 +381,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			63096,
 			{
 				{
 					-26.00311851501465,
@@ -399,7 +399,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			65002,
 			{
 				{
 					-10.043954849243164,
@@ -417,7 +417,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			68234,
 			{
 				{
 					-48.55651092529297,
@@ -435,7 +435,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			68235,
 			{
 				{
 					-48.55651092529297,
@@ -453,7 +453,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			68999,
 			{
 				{
 					-48.55651092529297,
@@ -471,7 +471,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			69000,
 			{
 				{
 					-48.55651092529297,
@@ -489,7 +489,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			69001,
 			{
 				{
 					-24.571243286132812,
@@ -507,7 +507,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			69002,
 			{
 				{
 					-24.571243286132812,
@@ -525,7 +525,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			74622,
 			{
 				{
 					-30.827720642089844,
@@ -543,7 +543,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			75999,
 			{
 				{
 					-31.740978240966797,
@@ -561,7 +561,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			76000,
 			{
 				{
 					-31.740978240966797,
@@ -579,7 +579,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			76001,
 			{
 				{
 					-15.16525650024414,
@@ -597,7 +597,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			76002,
 			{
 				{
 					-15.16525650024414,
@@ -615,7 +615,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			80999,
 			{
 				{
 					-16.209918975830078,
@@ -633,7 +633,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			81000,
 			{
 				{
 					-16.209918975830078,
@@ -651,7 +651,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			81001,
 			{
 				{
 					-74.2953872680664,
@@ -669,7 +669,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			81002,
 			{
 				{
 					-74.2953872680664,
@@ -687,7 +687,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			82203,
 			{
 				{
 					-73.04454803466797,
@@ -705,7 +705,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			82852,
 			{
 				{
 					-71.37117004394531,
@@ -723,7 +723,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			82853,
 			{
 				{
 					-71.37117004394531,
@@ -741,7 +741,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			88673,
 			{
 				{
 					-16.705280303955078,
@@ -759,7 +759,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			91703,
 			{
 				{
 					-9.297484397888184,
@@ -777,7 +777,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			95597,
 			{
 				{
 					-6.912958145141602,
@@ -795,7 +795,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			95598,
 			{
 				{
 					-6.912958145141602,
@@ -813,7 +813,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			95599,
 			{
 				{
 					-6.912958145141602,
@@ -831,7 +831,7 @@ static keyframe_list_t gitter_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			2147483637,
 			{
 				{
 					0.0,

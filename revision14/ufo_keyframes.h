@@ -1,9 +1,9 @@
 static keyframe_list_t ufo_keyframe_list = {
 	24,
-	{num_keyframes},
+	24,
 	{
 		{
-			{keyframe['time'].to_i},
+			0,
 			{
 				{
 					-24.81735610961914,
@@ -21,7 +21,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			95598,
 			{
 				{
 					-24.81735610961914,
@@ -39,7 +39,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			95599,
 			{
 				{
 					-24.81735610961914,
@@ -57,7 +57,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			95600,
 			{
 				{
 					-24.81735610961914,
@@ -75,7 +75,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			98651,
 			{
 				{
 					-23.77629852294922,
@@ -93,7 +93,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			98652,
 			{
 				{
 					-23.77629852294922,
@@ -111,7 +111,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			100042,
 			{
 				{
 					-21.054706573486328,
@@ -129,7 +129,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			101439,
 			{
 				{
 					-3.588257312774658,
@@ -147,7 +147,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			102700,
 			{
 				{
 					-1.5578489303588867,
@@ -165,7 +165,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			102701,
 			{
 				{
 					-1.5578489303588867,
@@ -183,7 +183,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			102702,
 			{
 				{
 					60.58396530151367,
@@ -201,7 +201,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			102703,
 			{
 				{
 					60.58396530151367,
@@ -219,7 +219,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			106291,
 			{
 				{
 					103.01361083984375,
@@ -237,7 +237,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			107815,
 			{
 				{
 					147.012939453125,
@@ -255,7 +255,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			117143,
 			{
 				{
 					225.3236083984375,
@@ -273,7 +273,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			117144,
 			{
 				{
 					225.3236083984375,
@@ -291,7 +291,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			169251,
 			{
 				{
 					240.5146026611328,
@@ -309,7 +309,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			169252,
 			{
 				{
 					240.5146026611328,
@@ -327,7 +327,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			169253,
 			{
 				{
 					240.5146026611328,
@@ -345,7 +345,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			174292,
 			{
 				{
 					283.683837890625,
@@ -363,7 +363,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			178711,
 			{
 				{
 					258.62152099609375,
@@ -381,7 +381,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			178712,
 			{
 				{
 					258.62152099609375,
@@ -399,7 +399,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			178713,
 			{
 				{
 					258.62152099609375,
@@ -417,7 +417,7 @@ static keyframe_list_t ufo_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			2147483637,
 			{
 				{
 					0.0,

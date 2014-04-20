@@ -12,12 +12,12 @@ num_keyframes = timeline_json['keyframes'].count
 
 keyframes_h.puts "static keyframe_list_t #{scene}_keyframe_list = {"
 keyframes_h.puts "\t#{num_keyframes},"
-keyframes_h.puts "\t{num_keyframes},"
+keyframes_h.puts "\t#{num_keyframes},"
 keyframes_h.puts "\t{"
 
 timeline_json['keyframes'].each_with_index do |keyframe, i|
 	keyframes_h.puts "\t\t{"
-	keyframes_h.puts "\t\t\t{keyframe['time'].to_i},"
+	keyframes_h.puts "\t\t\t#{keyframe['time'].to_i},"
 	keyframes_h.puts "\t\t\t{"
 	keyframes_h.puts "\t\t\t\t{"
 	keyframes_h.puts "\t\t\t\t\t#{keyframe['position'][0]},"

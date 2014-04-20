@@ -1,9 +1,9 @@
 static keyframe_list_t schwurbeltunnel_keyframe_list = {
 	14,
-	{num_keyframes},
+	14,
 	{
 		{
-			{keyframe['time'].to_i},
+			0,
 			{
 				{
 					0.0,
@@ -21,7 +21,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			136402,
 			{
 				{
 					1.3350006341934204,
@@ -39,7 +39,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			136403,
 			{
 				{
 					1.3350006341934204,
@@ -57,7 +57,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			140962,
 			{
 				{
 					-1.3575531244277954,
@@ -75,7 +75,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			150525,
 			{
 				{
 					2.58781099319458,
@@ -93,7 +93,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			150526,
 			{
 				{
 					2.58781099319458,
@@ -111,7 +111,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			164200,
 			{
 				{
 					-0.1992741972208023,
@@ -129,7 +129,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			164201,
 			{
 				{
 					-0.1992741972208023,
@@ -147,7 +147,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			165279,
 			{
 				{
 					-0.30826786160469055,
@@ -165,7 +165,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			166396,
 			{
 				{
 					-0.4480971693992615,
@@ -183,7 +183,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			167310,
 			{
 				{
 					-0.6255611777305603,
@@ -201,7 +201,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			169271,
 			{
 				{
 					-1.1657322645187378,
@@ -219,7 +219,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			169272,
 			{
 				{
 					-1.1657322645187378,
@@ -237,7 +237,7 @@ static keyframe_list_t schwurbeltunnel_keyframe_list = {
 			}
 		},
 		{
-			{keyframe['time'].to_i},
+			2147483637,
 			{
 				{
 					0.0,
