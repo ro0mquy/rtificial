@@ -84,14 +84,14 @@ int main() {
 	SDL_ShowCursor(SDL_DISABLE);
 	glewInit();
 
-	SDL_AudioSpec wanted = {
-		44100,
-		AUDIO_S16SYS,
-		2,
-		1024,
-		fill_audio,
-		NULL
-	};
+	SDL_AudioSpec wanted;
+	wanted.freq = 44100;
+	wanted.format = AUDIO_S16SYS;
+	wanted.channels = 2;
+	wanted.samples = 1024;
+	wanted.callback = fill_audio;
+	wanted.userdata = NULL;
+
 	SDL_OpenAudio(&wanted, NULL);
 
 	glGenBuffers(1, &vbo_rectangle);
@@ -292,15 +292,13 @@ static void get_uniforms(uniforms_t* uniforms, GLuint program) {
 static void init_timeline(timeline_t* timeline, keyframe_list_t* keyframes) {
 	timeline->keyframes = keyframes;
 	keyframe_list_t* controlPoints = (keyframe_list_t *) malloc(sizeof(keyframe_list_t) + sizeof(keyframe_t));
-	*controlPoints = (keyframe_list_t) {
-		.length = 0,
-		.allocated = 1,
-	};
+	controlPoints->length = 0;
+	controlPoints->allocated = 1;
 	timeline->controlPoints = timeline_get_bezier_spline(controlPoints, timeline->keyframes, .5);
 }
 
 static void load_texture(GLuint* texture , ILubyte* data, int width, int height) {
-	ILubyte rgba_data[width * height * 4];
+	ILubyte *rgba_data = (ILubyte*) _malloca(width * height * 4 * sizeof(ILubyte));
 	for(int y = 0; y < height; y++) {
 		for(int x = 0; x < width; x++) {
 			rgba_data[4 * (y * width + x) + 0] = data[y * width + x];

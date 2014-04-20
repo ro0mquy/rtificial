@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <malloc.h>
 
 #include "shader.h"
 
@@ -10,7 +11,7 @@
 static char* file_read(const char filename[]);
 
 GLuint shader_load_files(int n, const char* filenames[], GLenum type) {
-	GLchar* sources[n];
+	GLchar** sources = (GLchar**) _malloca(n * sizeof(GLchar*));
 	for(int i = 0; i < n; i++) {
 		sources[i] = file_read(filenames[i]);
 		if(sources[i] == NULL) {
