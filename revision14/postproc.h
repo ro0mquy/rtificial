@@ -74,9 +74,9 @@ void postproc_init(GLuint vertex_shader) {
 	glUniform1i(post_uniform_depth, /*GL_TEXTURE*/1);
 
 	// compile bloom programs
-	for (size_t i = 0; i < 3; i++) {
+	for (int i = 0; i < 3; i++) {
 		char bloom_shader_name[7];
-		snprintf(bloom_shader_name, 7, "bloom%zu", i);
+		snprintf(bloom_shader_name, 7, "bloom%d", i);
 		const GLchar* tmp_glchar[] = { bloom_fragment_sources[i] };
 		GLuint bloom_fragment_shader = shader_load_strings(1, bloom_shader_name, tmp_glchar, GL_FRAGMENT_SHADER);
 		if (bloom_programs[i] != 0) glDeleteProgram(bloom_programs[i]);
@@ -86,7 +86,7 @@ void postproc_init(GLuint vertex_shader) {
 		const char bloom_attribute_coord2d_name[] = "c";
 		bloom_attribute_coord2ds[i] = glGetAttribLocation(bloom_programs[i], bloom_attribute_coord2d_name);
 		if(bloom_attribute_coord2ds[i] == -1) {
-			fprintf(stderr, "Could not bind attribute %s for bloom%zu\n", bloom_attribute_coord2d_name, i);
+			fprintf(stderr, "Could not bind attribute %s for bloom%d\n", bloom_attribute_coord2d_name, i);
 			return;
 		}
 
@@ -252,11 +252,11 @@ void postproc_init(GLuint vertex_shader) {
 
 	// bloom framebuffers
 	glGenFramebuffers(3, bloom_framebuffers);
-	for (size_t i = 0; i < 3; i++) {
+	for (int i = 0; i < 3; i++) {
 		glBindFramebuffer(GL_FRAMEBUFFER, bloom_framebuffers[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloom_tex_buffers[i], 0);
 		if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
-			fprintf(stderr, "Bloom framebuffer #%zu not complete: error %X\n", i, status);
+			fprintf(stderr, "Bloom framebuffer #%d not complete: error %X\n", i, status);
 		}
 	}
 

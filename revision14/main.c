@@ -72,18 +72,35 @@ static void draw(void);
 
 static GLuint vbo_rectangle;
 
+int render_4klang_thread(void *data) {
+	_4klang_render(data);
+	return 0;
+}
+//
 int main(int argc, char *argv[]) {
 //	pthread_t synth_thread;
 //	pthread_create(&synth_thread, NULL, __4klang_render, audio_buffer);
 	// "Usually you initialize SDL with SDL_Init, but it also works if we leave this out." (TODO: try this)
 	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_CreateThread(render_4klang_thread, audio_buffer);
 	SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_OPENGL
 #ifdef FULLSCREEN
 	| SDL_FULLSCREEN
 #endif
 	);
 	SDL_ShowCursor(SDL_DISABLE);
-	glewInit();
+	//glewInit();
+	const GLenum err = glewInit();
+	if (err != GLEW_OK) {
+		printf("%s\n", glewGetErrorString(err));
+		FILE* tmp = fopen("stdout.txt", "a");
+	fprintf(tmp, "%s\n", glewGetErrorString(err));
+	fclose(tmp);
+		return EXIT_FAILURE;
+	}
+	FILE* tmp = fopen("stdout.txt", "a");
+	fprintf(tmp, "%p\n", glGenBuffers);
+	fclose(tmp);
 
 	SDL_AudioSpec wanted;
 	wanted.freq = 44100;
@@ -265,13 +282,13 @@ static void update_uniforms(const uniforms_t* const uniforms, timeline_t* timeli
 	int index = (position / 256) * 32;
 	const float factor = .3;
 	for(int i = 0; i < 32; i++) {
-		smooth_envelopes[i] = (1. - factor) * (&__4klang_envelope_buffer)[index + i] + factor * smooth_envelopes[i];
-		accum_envelopes[i] += (&__4klang_envelope_buffer)[index + i];
+		smooth_envelopes[i] = (1. - factor) * (&_4klang_envelope_buffer)[index + i] + factor * smooth_envelopes[i];
+		accum_envelopes[i] += (&_4klang_envelope_buffer)[index + i];
 	}
-	glUniform1fv(uniforms->envelopes, 32, &(&__4klang_envelope_buffer)[index]);
+	glUniform1fv(uniforms->envelopes, 32, &(&_4klang_envelope_buffer)[index]);
 	glUniform1fv(uniforms->senvelopes, 32, smooth_envelopes);
 	glUniform1fv(uniforms->aenvelopes, 32, accum_envelopes);
-	glUniform1iv(uniforms->notes, 32, &(&__4klang_note_buffer)[index]);
+	glUniform1iv(uniforms->notes, 32, &(&_4klang_note_buffer)[index]);
 	int time = (int64_t) position * 1000 / 44100;
 	glUniform1f(uniforms->time, (double) position / 44100);
 	camera = timeline_get_camera(timeline, time);

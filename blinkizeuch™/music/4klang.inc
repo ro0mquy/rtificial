@@ -2,6 +2,7 @@
    global _%1
    _%1:
 %endmacro
+%define USE_SECTIONS
 %define SAMPLE_RATE	44100
 %define MAX_INSTRUMENTS	16
 %define MAX_VOICES 2
