@@ -7,4 +7,4 @@
 * Nicer leuchtturm
 * schwarzer strobo
 * schwarzlicht
-* dunkle geometrie mit ganz wenig specular highlights
+* 1-bit black/white mit specular (revision, alcatraz-demo)
