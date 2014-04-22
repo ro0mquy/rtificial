@@ -4,4 +4,7 @@
 * etwas Film Noir maessiges, schwarz/weiss
 * 4D Körper in 3D projizieren; so eine demo wie flatland nur in 3D
 * Wolkenhimmel (Morgenröte, andere Lichteffekte)
-Nicer leuchtturm
+* Nicer leuchtturm
+* schwarzer strobo
+* schwarzlicht
+* dunkle geometrie mit ganz wenig specular highlights
