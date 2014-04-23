@@ -1,0 +1,17 @@
+{
+  "uuid": "1231390c-2e48-41af-a084-910d32369fe7",
+  "shortName": "wilderkiesel",
+  "longName": "wilderkiesel",
+  "companyName": "rtificial",
+  "versionCode": 1,
+  "versionLabel": "1.0.0",
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": []
+  }
+}
