@@ -90,7 +90,28 @@
             "type": "float",
             "default": 1.0,
             "varparam": "min=0 max=2 step=0.01"
-        }
+        },
+		{
+			"name": "Lift",
+			"uniform": "lift",
+			"type": "color",
+			"default": [0.0, 0.0, 0.0],
+			"varparam": "colormode=hls"
+		},
+		{
+			"name": "Gamma",
+			"uniform": "gamma",
+			"type": "color",
+			"default": [1.0, 1.0, 1.0],
+			"varparam": "colormode=hls"
+		},
+		{
+			"name": "Gain",
+			"uniform": "gain",
+			"type": "color",
+			"default": [1.0, 1.0, 1.0],
+			"varparam": "colormode=hls"
+		}
     ],
     "textures": []
 }

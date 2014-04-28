@@ -10,6 +10,7 @@ uniform vec3 color_foo1;
 uniform vec3 color_foo2;
 uniform float foo1;
 uniform float foo2;
+uniform vec3 lift, gamma, gain;
 
 //uniform vec3 light;
 //uniform vec3 color_fog;
@@ -121,6 +122,7 @@ void main() {
 
 		direction = reflect(direction, normal);
 	}
+	color = pow(gain * mix(lift, vec3(1), color), 1./gamma);
 	color = contrast(color, 1.03);
 	if(vanish_anim_time == 0){
 		color *= vignette(1.);
