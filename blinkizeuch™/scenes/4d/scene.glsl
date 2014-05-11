@@ -87,7 +87,10 @@ void main(void){
 		vec4 v1 = projection * ((rotation * triangles[3 * i]) - from);
 		vec4 v2 = projection * ((rotation * triangles[3 * i + 1]) - from);
 		vec4 v3 = projection * ((rotation * triangles[3 * i + 2]) - from);
-		float t2 = intersect(view_position, dir, v1.xyz/v1.w, v2.xyz/v2.w, v3.xyz/v3.w);
+		vec3 u1 = v1.xyz/v1.w;
+		vec3 u2 = v2.xyz/v2.w;
+		vec3 u3 = v3.xyz/v3.w;
+		float t2 = intersect(view_position, dir, u1, u2, u3);
 		/*
 		if(t2 > 0. && t2 < t) {
 			index = i;
@@ -95,20 +98,33 @@ void main(void){
 		}
 		*/
 		if(t2 > 0.) {
+			vec3 normal = normalize(cross(u2 - u1, u3 - u1));
+			if(dot(normal, view_position - u1) < 0.) {
+				normal = -normal;
+			}
+			vec3 light = normalize(vec3(2, 3, 10) - view_position);
+			vec3 col = lambert(normal, light) * color;
+			col += phong(normal, light, -dir, 32);
+			col += .1 * color;
 			if(t2 < t) {
-				final_color = mix(final_color, color, opacity);
+				final_color = mix(final_color, col, opacity);
 			} else {
-				final_color = mix(color, final_color, opacity);
+				final_color = mix(col, final_color, opacity);
 			}
 		}
 	}
 	if(index >= 0) {
 		int i = index;
-		//vec3 v1 = /*rotation */ triangles[3 * i];
-		//vec3 v2 = /*rotation */ triangles[3 * i + 1];
-		//vec3 v3 = /*rotation */ triangles[3 * i + 2];
-		//vec3 normal = normalize(cross(v2 - v1, v3 - v1));
+		/*
+		vec4 v1 = projection * ((rotation * triangles[3 * i]) - from);
+		vec4 v2 = projection * ((rotation * triangles[3 * i + 1]) - from);
+		vec4 v3 = projection * ((rotation * triangles[3 * i + 2]) - from);
+		vec3 normal = normalize(cross(v2 - v1, v3 - v1));
+		if(dot(normal, view_position) < 0.) {
+			normal = -normal;
+		}
 		vec3 light = normalize(vec3(2, 3, 10) - view_position);
+		*/
 		//final_color = .1 + vec3(.5) * lambert(normal, light);
 		//final_color += phong(normal, light, -dir, 32.);
 		//final_color = vec3(1);
