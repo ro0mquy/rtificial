@@ -83,6 +83,7 @@ void main(void){
 	mat4 projection = calc_matrix();
 	float opacity = .3;
 	vec3 color = color_cube;
+	vec3 light_position = vec3(2, 5, 3);
 	for(int i = 0; i < n; i++) {
 		vec4 v1 = projection * ((rotation * triangles[3 * i]) - from);
 		vec4 v2 = projection * ((rotation * triangles[3 * i + 1]) - from);
@@ -102,7 +103,7 @@ void main(void){
 			if(dot(normal, view_position - u1) < 0.) {
 				normal = -normal;
 			}
-			vec3 light = normalize(vec3(2, 3, 10) - view_position);
+			vec3 light = normalize(light_position - view_position);
 			vec3 col = lambert(normal, light) * color;
 			col += phong(normal, light, -dir, 32);
 			col += .1 * color;
@@ -128,6 +129,30 @@ void main(void){
 		//final_color = .1 + vec3(.5) * lambert(normal, light);
 		//final_color += phong(normal, light, -dir, 32.);
 		//final_color = vec3(1);
+	}
+	float t_floor = intersect(view_position, dir, vec3(-10,0,5), vec3(10,-2,5), vec3(0,-2,-10));
+	if(t_floor > 0.) {
+		vec3 hit = view_position + t_floor * dir;
+		dir = normalize(light_position - hit);
+		t = 1e6;
+		for(int i = 0; i < n; i++) {
+			vec4 v1 = projection * ((rotation * triangles[3 * i]) - from);
+			vec4 v2 = projection * ((rotation * triangles[3 * i + 1]) - from);
+			vec4 v3 = projection * ((rotation * triangles[3 * i + 2]) - from);
+			vec3 u1 = v1.xyz/v1.w;
+			vec3 u2 = v2.xyz/v2.w;
+			vec3 u3 = v3.xyz/v3.w;
+			float t2 = intersect(hit + 1e-5 * dir, dir, u1, u2, u3);
+			if(t2 > 0. && t2 < distance(hit, light_position)) {
+				vec3 col = color;
+				if(t2 < t) {
+					final_color = mix(final_color, col, opacity);
+				} else {
+					final_color = mix(col, final_color, opacity);
+				}
+			}
+		}
+		final_color = mix(final_color, vec3(1.), opacity);
 	}
 
 	out_color.rgb = final_color;
