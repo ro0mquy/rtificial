@@ -21,6 +21,19 @@
 			"uniform": "foo2",
 			"type": "float",
 			"varparam": "min=0 max=1 step=0.01"
+		},
+		{
+			"name": "Cube color",
+			"uniform": "color_cube",
+			"type": "color",
+			"varparam": "colormode=hls"
+		},
+		{
+			"name": "Background color",
+			"uniform": "color_background",
+			"type": "color",
+			"varparam": "colormode=hls",
+			"default": [0.0, 0.0, 0.0]
 		}
 	]
 }

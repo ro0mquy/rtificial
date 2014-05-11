@@ -4,6 +4,8 @@ uniform vec3 color_foo1;
 uniform vec3 color_foo2;
 uniform float foo1;
 uniform float foo2;
+uniform vec3 color_background;
+uniform vec3 color_cube;
 
 float intersect(vec3 origin, vec3 dir, vec3 v1, vec3 v2, vec3 v3);
 mat4 calc_matrix();
@@ -17,7 +19,7 @@ mat4 rZW(float theta);
 
 void main(void){
 	vec3 dir = get_direction();
-	vec3 final_color = vec3(0);
+	vec3 final_color = color_background;
 
 	const vec4 p1  = vec4(-1, -1,  1, -1);
 	const vec4 p2  = vec4( 1, -1,  1, -1);
@@ -76,6 +78,8 @@ void main(void){
 	int index = -1;
 	float t = 1e6; // far far away
 	mat4 projection = calc_matrix();
+	float opacity = .3;
+	vec3 color = color_cube;
 	for(int i = 0; i < n; i++) {
 		vec3 v1 = (projection * rotation * triangles[3 * i]).xyz;
 		vec3 v2 = (projection * rotation * triangles[3 * i + 1]).xyz;
@@ -88,7 +92,11 @@ void main(void){
 		}
 		*/
 		if(t2 > 0.) {
-			final_color += .2;
+			if(t2 < t) {
+				final_color = mix(final_color, color, opacity);
+			} else {
+				final_color = mix(color, final_color, opacity);
+			}
 		}
 	}
 	mat4 view = calc_matrix();
