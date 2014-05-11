@@ -8,6 +8,7 @@
 * schwarzer strobo
 * schwarzlicht
 * 1-bit black/white mit specular (revision, alcatraz-demo)
+* platons hoehlengleichnis (schattenspiele), erst 2d demo und dann schwenk auf 3d objekte, die schatten werfen
 * Credits/Greetings als Ebenen im Raum, Text ist ausgeschnitten und Kamera fliegt durch die Lücken
 * Strommasten mit Kabeln und so (können umher schwanken, Sachen gehen durch die Kabel, …)
 * Origami
