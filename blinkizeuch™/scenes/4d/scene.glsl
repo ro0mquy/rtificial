@@ -1,5 +1,3 @@
-vec2 f(vec3);
-
 uniform vec3 color_foo1;
 uniform vec3 color_foo2;
 uniform float foo1;
@@ -16,6 +14,11 @@ mat4 rZX(float theta);
 mat4 rXW(float theta);
 mat4 rYW(float theta);
 mat4 rZW(float theta);
+
+vec4 from = vec4(4, 0, 0, 0);
+vec4 to = vec4(0);
+vec4 up = vec4(0, 1, 0, 0);
+vec4 over = vec4(0, 0, 1, 0);
 
 void main(void){
 	vec3 dir = get_direction();
@@ -73,7 +76,7 @@ void main(void){
 		p9, p14, p13, p9, p10, p14  // front
 	);
 	float angle = radians(50.) * time;
-	mat4 rotation = rXY(angle) * rYZ(angle) * rZX(angle) * rXW(angle) * rYW(angle) * rZW(angle) * mat4(3.);
+	mat4 rotation = rXY(angle) * rYZ(angle) * rZX(angle) * rXW(angle) * rYW(angle) * rZW(angle);
 	int n = 48;
 	int index = -1;
 	float t = 1e6; // far far away
@@ -81,10 +84,10 @@ void main(void){
 	float opacity = .3;
 	vec3 color = color_cube;
 	for(int i = 0; i < n; i++) {
-		vec3 v1 = (projection * rotation * triangles[3 * i]).xyz;
-		vec3 v2 = (projection * rotation * triangles[3 * i + 1]).xyz;
-		vec3 v3 = (projection * rotation * triangles[3 * i + 2]).xyz;
-		float t2 = intersect(view_position, dir, v1, v2, v3);
+		vec4 v1 = projection * ((rotation * triangles[3 * i]) - from);
+		vec4 v2 = projection * ((rotation * triangles[3 * i + 1]) - from);
+		vec4 v3 = projection * ((rotation * triangles[3 * i + 2]) - from);
+		float t2 = intersect(view_position, dir, v1.xyz/v1.w, v2.xyz/v2.w, v3.xyz/v3.w);
 		/*
 		if(t2 > 0. && t2 < t) {
 			index = i;
@@ -99,7 +102,6 @@ void main(void){
 			}
 		}
 	}
-	mat4 view = calc_matrix();
 	if(index >= 0) {
 		int i = index;
 		//vec3 v1 = /*rotation */ triangles[3 * i];
@@ -136,10 +138,6 @@ float intersect(vec3 origin, vec3 dir, vec3 v1, vec3 v2, vec3 v3) {
 	return mix(-1, t, t > epilepsilon);
 }
 
-vec4 from = vec4(4, 0, 0, 0);
-vec4 to = vec4(0);
-vec4 up = vec4(0, 1, 0, 0);
-vec4 over = vec4(0, 0, 1, 0);
 mat4 calc_matrix() {
 	vec4 wa, wb, wc, wd;
 	wd = normalize(to - from);
