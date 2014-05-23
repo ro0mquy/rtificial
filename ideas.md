@@ -9,3 +9,18 @@
 * schwarzlicht
 * 1-bit black/white mit specular (revision, alcatraz-demo)
 * Credits/Greetings als Ebenen im Raum, Text ist ausgeschnitten und Kamera fliegt durch die Lücken
+* Strommasten mit Kabeln und so (können umher schwanken, Sachen gehen durch die Kabel, …)
+* Origami
+* Quallenartiges Zeugs
+* Heißluftballon fliegt durch Dinge (bzw. vorbei)
+* (Vulkanische?/glühende? (auf jeden Fall was mit heiß)) Landschaft mit zerstörten Objekten
+* Irgendwas in Richtung Steampunk
+
+## Bilder
+* http://projectosxar.deviantart.com/art/Through-the-Gap-455732816
+* https://d2ip58kv7n8yjd.cloudfront.net/p/assets/images/images/000/061/895/large/046_ebifa_fullHD.jpg?1399767110
+* https://d2ip58kv7n8yjd.cloudfront.net/p/assets/images/images/000/044/422/large/horizon-of-heaven-fullres.jpg?1398709436
+* https://d2ip58kv7n8yjd.cloudfront.net/p/assets/images/images/000/043/872/large/3.jpg?1398689737
+
+## Weitere Quellen der Inspiration:
+* http://cghubs.com/
