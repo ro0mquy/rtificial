@@ -8,3 +8,4 @@
 * schwarzer strobo
 * schwarzlicht
 * 1-bit black/white mit specular (revision, alcatraz-demo)
+* Credits/Greetings als Ebenen im Raum, Text ist ausgeschnitten und Kamera fliegt durch die Lücken
