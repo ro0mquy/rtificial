@@ -17,8 +17,11 @@ def configure(ctx):
 def build(ctx):
     ctx.load('pebble_sdk')
 
+    # for libfixmath options see
+    # see https://code.google.com/p/libfixmath/wiki/CompilationOptions
     ctx.pbl_program(source=ctx.path.ant_glob('src/**/*.c'),
-                    target='pebble-app.elf')
+                    target='pebble-app.elf',
+                    cflags=['-Wall', '-W', '-DFIXMATH_NO_CACHE'])
 
     ctx.pbl_bundle(elf='pebble-app.elf',
                    js=ctx.path.ant_glob('src/js/**/*.js'))

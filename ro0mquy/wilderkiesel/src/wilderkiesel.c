@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "libfixmath/fix16.h"
 
 #define fb_w 144
 #define fb_h 168
@@ -15,10 +16,47 @@ static GBitmap bitmap_framebuffer;
 static uint8_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 	uint16_t out_color = 0;
 
+	/*
 	size_t pos_y = (y + ms / 10) % fb_h;
 	pos_y = abs(pos_y - fb_h / 2) * 2;
 
 	out_color = pos_y * 255 / fb_h;
+	*/
+
+	fix16_t cx = fix16_div(fix16_from_int(10*x), fix16_from_int(fb_w));
+	fix16_t cy = fix16_div(fix16_from_int(10*y), fix16_from_int(fb_h));
+	fix16_t time = fix16_div(fix16_from_int(ms), fix16_from_int(10000));
+	fix16_t v = 0;
+	fix16_t fix16_two = F16(2);
+
+	v = fix16_add(v, fix16_sin(fix16_add(cx, time)));
+	v = fix16_add(v, fix16_sin(fix16_div(fix16_add(cy, time), fix16_two)));
+	v = fix16_add(v, fix16_sin(fix16_div(fix16_add(fix16_add(cx, cy), time), fix16_two)));
+
+	cx = fix16_add(cx, fix16_sin(fix16_div(time, fix16_from_int(3))));
+	cy = fix16_add(cy, fix16_cos(fix16_div(time, fix16_two)));
+
+	v = fix16_add(v, fix16_sin(fix16_add(fix16_sqrt(fix16_add(fix16_add(fix16_sq(cx), fix16_sq(cy)), fix16_one)), time)));
+	v = fix16_div(v, fix16_two);
+
+	fix16_t color = fix16_div(fix16_add(fix16_sin(fix16_mul(fix16_pi, v)), fix16_one), fix16_two);
+	color = fix16_mul(color, fix16_from_int(256));
+	out_color = fix16_to_int(color);
+
+	/*
+	float cx = (float) x / fb_w;
+	float cy = (float) y / fb_h;
+	float time = ms / 1000.;
+	float v = 0.;
+	v += sin(cx+time);
+	v += sin((cy+time)/2.0);
+	v += sin((cx+cy+time)/2.0);
+	cx += sin(time/3.0);
+	cy += cos(time/2.0);
+	v += sin(sqrt(cx*cx+cy*cy+1.0)+time);
+	v = v/2.0;
+	out_color = sin(3.14159*v) * .5 + .5;
+	 */
 
 	return out_color;
 }
