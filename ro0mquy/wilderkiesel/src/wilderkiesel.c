@@ -1,5 +1,5 @@
 #include <pebble.h>
-#include "libfixmath/fix16.h"
+#include <fix16.h>
 
 #define fb_w 144
 #define fb_h 168
