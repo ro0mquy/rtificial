@@ -268,11 +268,6 @@ static void postproc_after_draw(void) {
 	// apply postprocessing
 	glUseProgram(post_program);
 
-	glUniformMatrix4fv(uniform_prev_world_camera_matrix, 1, GL_TRUE, previous_world_to_camera_matrix.a);
-	previous_world_to_camera_matrix = camera_world_to_camera_matrix(&camera);
-	mat4x4 inverse_world_to_camera_matrix = mat4x4_invert(previous_world_to_camera_matrix);
-	glUniformMatrix4fv(uniform_inv_world_camera_matrix, 1, GL_TRUE, inverse_world_to_camera_matrix.a);
-
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, post_tex_buffer);
 

@@ -24,14 +24,3 @@ static camera_t camera_cubic_bezier(const camera_t* const p0, const camera_t* co
 	};
 	return camera;
 }
-
-static mat4x4 camera_world_to_camera_matrix(camera_t* const camera) {
-	mat4x4 translation = mat4x4_new((float[4][4]) {
-			{ 1, 0, 0, camera->position.x },
-			{ 0, 1, 0, camera->position.y },
-			{ 0, 0, 1, camera->position.z },
-			{ 0, 0, 0,                  1 },
-			});
-	mat4x4 rotation = quat_to_mat4x4(camera->rotation);
-	return mat4x4_mult(rotation, translation);
-}
