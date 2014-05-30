@@ -16,6 +16,8 @@ static int8_t framebuffer[2][res_x]; // buffer for two lines of pixels
 static uint8_t bitmap_data_framebuffer[res_y][20]; // buffer for bitmap data, width has to be % 4 == 0
 static GBitmap bitmap_framebuffer;
 
+static uint8_t center_z = 2;
+
 static const fix16_t fix16_two = F16(2);
 static const fix16_t f16_res_x = F16(res_x);
 static const fix16_t f16_res_y = F16(res_y);
@@ -29,7 +31,7 @@ static uint8_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 	fix16_t f16_x = fix16_from_int(x);
 	fix16_t f16_y = fix16_from_int(y);
 
-	v3d center = { .x = fix16_from_int(0), .y = fix16_from_int(0), .z = fix16_from_int(-2) };
+	v3d center = { .x = fix16_from_int(0), .y = fix16_from_int(0), .z = fix16_from_int(-center_z) };
 	fix16_t radius = fix16_from_int(1);
 
 	v3d direction = {
@@ -49,11 +51,37 @@ static uint8_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 	fix16_t discr2 = fix16_sub(v3d_dot(&relativ, &relativ), fix16_sq(radius));
 	fix16_t discriminant = fix16_sub(discr1, discr2);
 
-	// no solution, no hit
 	if (discriminant < 0) {
+		// no solution, no hit
 		out_color = 0;
 	} else {
-		out_color = 255;
+		// we hit something
+		fix16_t plus_b = v3d_dot(&relativ, &direction);
+		discriminant = fix16_sqrt(discriminant);
+
+		if (plus_b < discriminant) {
+			// -b + sqrt(b^2 - 4ac) is bigger than 0
+
+			// now get smallest distance and hit point
+			fix16_t hit_dist = fix16_add(-plus_b, discriminant);
+			v3d hit_pos;
+			v3d_mul_s(&hit_pos, &direction, hit_dist);
+			v3d_add(&hit_pos, &camera_pos, &hit_pos);
+
+			// calculate normal
+			v3d normal;
+			v3d_sub(&normal, &hit_pos, &center);
+			v3d_normalize(&normal, &normal);
+
+			// lambertian lighting
+			v3d to_light = { fix16_from_float(.7071), 0, -fix16_from_float(.7071) };
+			fix16_t lambert = v3d_dot(&normal, &to_light);
+			lambert = fix16_clamp(lambert, 0, fix16_one);
+			out_color = fix16_to_int(fix16_mul(lambert, F16(255)));
+		} else {
+			// all hitpoints are behind the camera
+			out_color = 0;
+		}
 	}
 
 	return out_color;
@@ -108,6 +136,7 @@ static void redraw_task(void *data) {
 }
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
+	center_z++;
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
