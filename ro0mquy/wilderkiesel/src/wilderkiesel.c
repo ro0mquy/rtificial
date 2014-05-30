@@ -5,6 +5,8 @@
 #define res_x 144
 #define res_y 168
 
+static const uint16_t time_between_frames = 16;
+
 static Window *window;
 static Layer *canvas_layer;
 static AppTimer *redraw_timer;
@@ -15,38 +17,43 @@ static uint8_t bitmap_data_framebuffer[res_y][20]; // buffer for bitmap data, wi
 static GBitmap bitmap_framebuffer;
 
 static const fix16_t fix16_two = F16(2);
-static uint8_t center_z = 1;
+static const fix16_t f16_res_x = F16(res_x);
+static const fix16_t f16_res_y = F16(res_y);
+static const fix16_t f16_res_x_2 = F16(res_x / 2);
+static const fix16_t f16_res_y_2 = F16(res_y / 2);
+
+static const v3d camera_pos = { .x = 0, .y = 0, .z = 0 };
 
 static uint8_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 	uint16_t out_color = 0;
+	fix16_t f16_x = fix16_from_int(x);
+	fix16_t f16_y = fix16_from_int(y);
 
-	v3d* center = &(v3d) { .x = fix16_from_int(0), .y = fix16_from_int(0), .z = fix16_from_int(-center_z) };
+	v3d center = { .x = fix16_from_int(0), .y = fix16_from_int(0), .z = fix16_from_int(-2) };
 	fix16_t radius = fix16_from_int(1);
 
-	v3d* start = &(v3d) {
-		.x = fix16_from_int(0),
-		.y = fix16_from_int(0),
-		.z = fix16_from_int(0)
-	};
-	v3d* direction = &(v3d) {
-		.x = fix16_div(fix16_sub(fix16_from_int(x), F16(res_x / 2)), F16(res_y)),
-		.y = fix16_div(fix16_sub(fix16_from_int(y), F16(res_y / 2)), F16(res_y)),
+	v3d direction = {
+		.x = fix16_div(fix16_sub(f16_x, f16_res_x_2), f16_res_y),
+		.y = fix16_div(fix16_sub(f16_y, f16_res_y_2), f16_res_y),
 		.z = fix16_from_int(-1)
 	};
-	v3d_normalize(direction, direction);
+	v3d_normalize(&direction, &direction);
 
-	v3d* relativ = &(v3d) { .x = fix16_from_int(0), .y = fix16_from_int(0), .z = fix16_from_int(0) };
-	v3d_sub(relativ, start, center);
+	v3d relativ;
+	v3d_sub(&relativ, &camera_pos, &center);
+	// in case that camera is always at (0, 0, 0)
+	// intersection point formula must be changed
+	//v3d relativ = center;
 
-	fix16_t discr1 = fix16_sq(v3d_dot(relativ, direction));
-	fix16_t discr2 = fix16_sub(v3d_dot(relativ, relativ), fix16_sq(radius));
+	fix16_t discr1 = fix16_sq(v3d_dot(&relativ, &direction));
+	fix16_t discr2 = fix16_sub(v3d_dot(&relativ, &relativ), fix16_sq(radius));
 	fix16_t discriminant = fix16_sub(discr1, discr2);
 
 	// no solution, no hit
 	if (discriminant < 0) {
-		out_color = 255;
-	} else {
 		out_color = 0;
+	} else {
+		out_color = 255;
 	}
 
 	return out_color;
@@ -97,11 +104,10 @@ static void canvas_draw(Layer* layer, GContext* context) {
 
 static void redraw_task(void *data) {
 	layer_mark_dirty(canvas_layer);
-	redraw_timer = app_timer_register(16, redraw_task, NULL);
+	redraw_timer = app_timer_register(time_between_frames, redraw_task, NULL);
 }
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-	center_z++;
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -141,7 +147,7 @@ static void init(void) {
 	window_stack_push(window, animated);
 	bitmap_framebuffer = (GBitmap) { .addr = bitmap_data_framebuffer, .bounds = GRect(0, 0, res_x, res_y), .row_size_bytes = 20 };
 	time(&startup_time);
-	redraw_timer = app_timer_register(16, redraw_task, NULL);
+	redraw_timer = app_timer_register(time_between_frames, redraw_task, NULL);
 }
 
 static void deinit(void) {
