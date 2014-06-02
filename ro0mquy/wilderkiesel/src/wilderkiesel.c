@@ -17,8 +17,6 @@ static int16_t framebuffer[2][res_x]; // buffer for two lines of pixels
 static uint8_t bitmap_data_framebuffer[res_y][20]; // buffer for bitmap data, width has to be % 4 == 0
 static GBitmap bitmap_framebuffer;
 
-static uint8_t center_z = 2;
-
 static const fix16_t fix16_two = F16(2);
 static const fix16_t f16_res_x = F16(res_x);
 static const fix16_t f16_res_y = F16(res_y);
@@ -28,61 +26,73 @@ static const fix16_t f16_max_color = F16(max_color);
 
 static const v3d camera_pos = { .x = 0, .y = 0, .z = 0 };
 
+#define num_spheres 2
+static const v3d center_spheres[num_spheres] = {
+	{ .x = F16(0), .y = F16(2), .z = F16(-3) },
+	{ .x = F16(0), .y = F16(-1000), .z = F16(-3) },
+};
+static const fix16_t radius_spheres[num_spheres] = {
+	F16(1),
+	F16(1000),
+};
+
 static uint16_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 	uint16_t out_color = 0;
 	fix16_t f16_x = fix16_from_int(x);
 	fix16_t f16_y = fix16_from_int(y);
 
-	v3d center = { .x = fix16_from_int(0), .y = fix16_from_int(0), .z = fix16_from_int(-center_z) };
-	fix16_t radius = fix16_from_int(1);
-
 	v3d direction = {
 		.x = fix16_div(fix16_sub(f16_x, f16_res_x_2), f16_res_y),
 		.y = fix16_div(fix16_sub(f16_y, f16_res_y_2), f16_res_y),
-		.z = fix16_from_int(-1)
+		.z = -fix16_one
 	};
 	v3d_normalize(&direction, &direction);
 
-	v3d relativ;
-	v3d_sub(&relativ, &camera_pos, &center);
-	// in case that camera is always at (0, 0, 0)
-	// intersection point formula must be changed
-	//v3d relativ = center;
+	// iterate through all spheres
+	for (size_t i = 0; i < num_spheres; i++) {
+		v3d center = center_spheres[i];
+		fix16_t radius = radius_spheres[num_spheres];
+		v3d relativ;
+		v3d_sub(&relativ, &camera_pos, &center);
+		// in case that camera is always at (0, 0, 0)
+		// intersection point formula must be changed
+		//v3d relativ = center;
 
-	fix16_t discr1 = fix16_sq(v3d_dot(&relativ, &direction));
-	fix16_t discr2 = fix16_sub(v3d_dot(&relativ, &relativ), fix16_sq(radius));
-	fix16_t discriminant = fix16_sub(discr1, discr2);
+		fix16_t discr1 = fix16_sq(v3d_dot(&relativ, &direction));
+		fix16_t discr2 = fix16_sub(v3d_dot(&relativ, &relativ), fix16_sq(radius));
+		fix16_t discriminant = fix16_sub(discr1, discr2);
 
-	if (discriminant < 0) {
-		// no solution, no hit
-		out_color = 0;
-	} else {
-		// we hit something
-		fix16_t plus_b = v3d_dot(&relativ, &direction);
-		discriminant = fix16_sqrt(discriminant);
-
-		if (plus_b < discriminant) {
-			// -b + sqrt(b^2 - 4ac) is bigger than 0
-
-			// now get smallest distance and hit point
-			fix16_t hit_dist = fix16_add(-plus_b, discriminant);
-			v3d hit_pos;
-			v3d_mul_s(&hit_pos, &direction, hit_dist);
-			v3d_add(&hit_pos, &camera_pos, &hit_pos);
-
-			// calculate normal
-			v3d normal;
-			v3d_sub(&normal, &hit_pos, &center);
-			v3d_normalize(&normal, &normal);
-
-			// lambertian lighting
-			v3d to_light = { fix16_from_float(.7071), 0, -fix16_from_float(.7071) };
-			fix16_t lambert = v3d_dot(&normal, &to_light);
-			lambert = fix16_clamp(lambert, 0, fix16_one);
-			out_color = fix16_to_int(fix16_mul(lambert, f16_max_color));
+		if (discriminant < 0) {
+			// no solution, no hit
+			out_color += 0;
 		} else {
-			// all hitpoints are behind the camera
-			out_color = 0;
+			// we hit something
+			fix16_t plus_b = v3d_dot(&relativ, &direction);
+			discriminant = fix16_sqrt(discriminant);
+
+			if (plus_b < discriminant) {
+				// -b + sqrt(b^2 - 4ac) is bigger than 0
+
+				// now get smallest distance and hit point
+				fix16_t hit_dist = fix16_add(-plus_b, discriminant);
+				v3d hit_pos;
+				v3d_mul_s(&hit_pos, &direction, hit_dist);
+				v3d_add(&hit_pos, &camera_pos, &hit_pos);
+
+				// calculate normal
+				v3d normal;
+				v3d_sub(&normal, &hit_pos, &center);
+				v3d_normalize(&normal, &normal);
+
+				// lambertian lighting
+				v3d to_light = { fix16_from_float(.7071), 0, -fix16_from_float(.7071) };
+				fix16_t lambert = v3d_dot(&normal, &to_light);
+				lambert = fix16_clamp(lambert, 0, fix16_one);
+				out_color += fix16_to_int(fix16_mul(lambert, f16_max_color));
+			} else {
+				// all hitpoints are behind the camera
+				out_color += 0;
+			}
 		}
 	}
 
@@ -138,7 +148,6 @@ static void redraw_task(void *data) {
 }
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-	center_z++;
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
