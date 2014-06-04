@@ -24,12 +24,12 @@ static const fix16_t f16_res_y_2 = F16(res_y / 2);
 
 static const v3d camera_pos = { .x = 0, .y = 0, .z = 0 };
 //static const v3d to_light = { fix16_from_float(.7071), 0, -fix16_from_float(.7071) };
-static const v3d to_light = { 0, -F16(1), 0 };
+static const v3d to_light = { 0, F16(1), 0 };
 
 #define num_spheres 2
 static const v3d center_spheres[num_spheres] = {
-	{ .x = F16(0), .y = F16(-2), .z = F16(-4) },
-	{ .x = F16(0), .y = F16(102), .z = F16(-3) },
+	{ .x = F16(1), .y = F16(2), .z = F16(-4) },
+	{ .x = F16(0), .y = F16(-102), .z = F16(-3) },
 };
 static const fix16_t radius_spheres[num_spheres] = {
 	F16(1),
@@ -117,7 +117,7 @@ static void render(uint32_t milliseconds) {
 			int8_t bw_dithered_color = fix16_to_int(dithered_color);
 
 			// modify bit of bitmap, yay bitoperations
-			bitmap_data_framebuffer[y][byte] = (bitmap_data_framebuffer[y][byte] & ~mask) | (-bw_dithered_color & mask);
+			bitmap_data_framebuffer[res_y - y][byte] = (bitmap_data_framebuffer[res_y - y][byte] & ~mask) | (-bw_dithered_color & mask);
 		}
 		memset(framebuffer[active_line], 0, res_x * sizeof(fix16_t));
 		active_line ^= 1;
