@@ -4,7 +4,6 @@
 
 #define res_x 144
 #define res_y 168
-#define max_color 65536
 
 static const uint16_t time_between_frames = 16;
 
@@ -13,7 +12,7 @@ static Layer *canvas_layer;
 static AppTimer *redraw_timer;
 static time_t startup_time;
 
-static int16_t framebuffer[2][res_x]; // buffer for two lines of pixels
+static fix16_t framebuffer[2][res_x]; // buffer for two lines of pixels
 static uint8_t bitmap_data_framebuffer[res_y][20]; // buffer for bitmap data, width has to be % 4 == 0
 static GBitmap bitmap_framebuffer;
 
@@ -22,22 +21,23 @@ static const fix16_t f16_res_x = F16(res_x);
 static const fix16_t f16_res_y = F16(res_y);
 static const fix16_t f16_res_x_2 = F16(res_x / 2);
 static const fix16_t f16_res_y_2 = F16(res_y / 2);
-static const fix16_t f16_max_color = F16(max_color);
 
 static const v3d camera_pos = { .x = 0, .y = 0, .z = 0 };
+//static const v3d to_light = { fix16_from_float(.7071), 0, -fix16_from_float(.7071) };
+static const v3d to_light = { 0, -F16(1), 0 };
 
 #define num_spheres 2
 static const v3d center_spheres[num_spheres] = {
-	{ .x = F16(0), .y = F16(2), .z = F16(-3) },
-	{ .x = F16(0), .y = F16(-1000), .z = F16(-3) },
+	{ .x = F16(0), .y = F16(-2), .z = F16(-4) },
+	{ .x = F16(0), .y = F16(102), .z = F16(-3) },
 };
 static const fix16_t radius_spheres[num_spheres] = {
 	F16(1),
-	F16(1000),
+	F16(100),
 };
 
-static uint16_t fragment_draw(size_t x, size_t y, uint32_t ms) {
-	uint16_t out_color = 0;
+static fix16_t fragment_draw(size_t x, size_t y, uint32_t ms) {
+	fix16_t out_color = 0;
 	fix16_t f16_x = fix16_from_int(x);
 	fix16_t f16_y = fix16_from_int(y);
 
@@ -51,7 +51,7 @@ static uint16_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 	// iterate through all spheres
 	for (size_t i = 0; i < num_spheres; i++) {
 		v3d center = center_spheres[i];
-		fix16_t radius = radius_spheres[num_spheres];
+		fix16_t radius = radius_spheres[i];
 		v3d relativ;
 		v3d_sub(&relativ, &camera_pos, &center);
 		// in case that camera is always at (0, 0, 0)
@@ -62,15 +62,13 @@ static uint16_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 		fix16_t discr2 = fix16_sub(v3d_dot(&relativ, &relativ), fix16_sq(radius));
 		fix16_t discriminant = fix16_sub(discr1, discr2);
 
-		if (discriminant < 0) {
-			// no solution, no hit
-			out_color += 0;
-		} else {
+		if (discriminant >= 0) {
 			// we hit something
 			fix16_t plus_b = v3d_dot(&relativ, &direction);
 			discriminant = fix16_sqrt(discriminant);
 
 			if (plus_b < discriminant) {
+				// hitpoint is before the camera
 				// -b + sqrt(b^2 - 4ac) is bigger than 0
 
 				// now get smallest distance and hit point
@@ -85,13 +83,9 @@ static uint16_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 				v3d_normalize(&normal, &normal);
 
 				// lambertian lighting
-				v3d to_light = { fix16_from_float(.7071), 0, -fix16_from_float(.7071) };
 				fix16_t lambert = v3d_dot(&normal, &to_light);
 				lambert = fix16_clamp(lambert, 0, fix16_one);
-				out_color += fix16_to_int(fix16_mul(lambert, f16_max_color));
-			} else {
-				// all hitpoints are behind the camera
-				out_color += 0;
+				out_color = fix16_add(out_color, lambert);
 			}
 		}
 	}
@@ -100,32 +94,32 @@ static uint16_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 }
 
 static void render(uint32_t milliseconds) {
-	memset(framebuffer, 0, 2 * res_x * sizeof(uint16_t));
+	memset(framebuffer, 0, 2 * res_x * sizeof(fix16_t));
 	uint8_t active_line = 0;
 	for (size_t y = 0; y < res_y; y++) {
 		for (size_t x = 0; x < res_x; x++) {
 			// get color of pixel
 			// color from fragment_draw() is between 0 and 65536
 			// range for dithering is between -32768 and 32767
-			int32_t pixel_color = framebuffer[active_line][x];
-			pixel_color += fragment_draw(x, y, milliseconds) - 32768;
-			int32_t dithered_color = pixel_color / abs(pixel_color);
-			int32_t dithering_error = pixel_color - dithered_color * 32767;
-			framebuffer[active_line][(x+1 + res_x) % res_x] += dithering_error * 7 / 16;
-			framebuffer[active_line ^ 1][(x-1 + res_x) % res_x] += dithering_error * 3 / 16;
-			framebuffer[active_line ^ 1][x] += dithering_error * 5 / 16;
-			framebuffer[active_line ^ 1][(x+1) % res_x] += dithering_error * 1 / 16;
+			fix16_t pixel_color = framebuffer[active_line][x];
+			pixel_color = fix16_add(pixel_color, fragment_draw(x, y, milliseconds));
+			fix16_t dithered_color = fix16_floor(fix16_add(pixel_color, fix16_div(fix16_one, fix16_two)));
+			fix16_t dithering_error = fix16_sub(pixel_color, dithered_color);
+			framebuffer[active_line][(x+1 + res_x) % res_x] += fix16_mul(dithering_error, fix16_div(F16(7), F16(16)));
+			framebuffer[active_line ^ 1][(x-1 + res_x) % res_x] += fix16_mul(dithering_error, fix16_div(F16(3), F16(16)));
+			framebuffer[active_line ^ 1][x] += fix16_mul(dithering_error, fix16_div(F16(5), F16(16)));
+			framebuffer[active_line ^ 1][(x+1) % res_x] += fix16_mul(dithering_error, fix16_div(F16(1), F16(16)));
 
 			// write to bitmap
 			size_t byte = x / 8;
 			size_t bit = x % 8;
 			int8_t mask = 1 << bit;
-			int8_t bw_dithered_color = (dithered_color + 1) / 2;
+			int8_t bw_dithered_color = fix16_to_int(dithered_color);
 
 			// modify bit of bitmap, yay bitoperations
 			bitmap_data_framebuffer[y][byte] = (bitmap_data_framebuffer[y][byte] & ~mask) | (-bw_dithered_color & mask);
 		}
-		memset(framebuffer[active_line], 0, res_x * sizeof(uint16_t));
+		memset(framebuffer[active_line], 0, res_x * sizeof(fix16_t));
 		active_line ^= 1;
 	}
 }
