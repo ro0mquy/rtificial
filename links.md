@@ -34,4 +34,4 @@
     * [Grammar of the Edit](http://www.amazon.de/dp/0240526007/) 
     * [Design for Hackers](http://designforhackers.com/) (in der Dropbox)
     * Revision 2013, pixtur/still: [Concept, Camera, Composition and Color](https://www.youtube.com/watch?v=sgCmCJWUGAc)
-
+* [Bezier Kurven zum anfassen](https://pomax.github.io/bezierinfo/)
