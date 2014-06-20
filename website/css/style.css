@@ -1,8 +1,21 @@
+/*
+ * TODO
+ * title fading
+ * toolbar links
+ * in progress demo section 
+ * party mode
+ * we're hiring
+ * member section
+ * local images
+ * z-index
+ */
+
 body, html{
 	margin: 0;
 	padding: 0;
 	background: #111;
 	color: #eee;
+	font-family: 'Helvetica Neue', sans-serif;
 }
 
 header{
@@ -41,11 +54,23 @@ header h1{
 	-webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,1);
 	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
 	margin-bottom: 5px;
-    transition: transform 0.1s ease-in-out;
+    -webkit-transition: -webkit-transform 0.1s ease-in-out, opacity 0.25s ease-in-out;
+    transition: transform 0.1s ease-in-out, opacity 0.25s ease-in-out;
+	opacity: 0.5;
 }
 .person:hover .avatar{
 	transform: scale(1.1);
-    transition: transform 0.1s ease-in-out;
+	-webkit-transform: scale(1.1);
+	opacity: 1.0;
+    -webkit-transition: -webkit-transform 0.1s ease-in-out, opacity 0.25s ease-in-out;
+    transition: transform 0.1s ease-in-out, opacity 0.25s ease-in-out;
+}
+.person:hover .nick, .person:hover .profession{
+	opacity: 1.0;
+    transition: opacity 0.25s ease-in-out;
+}
+.person:hover .profession{
+	opacity: 0.75;
 }
 .person a:link, .person a:visited{
 	text-decoration: none;
@@ -55,6 +80,8 @@ header h1{
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding: 0px;
+	opacity: 0.5;
+    transition: opacity 0.25s ease-in-out;
 }
 .nick{
 	font-weight: bold;
@@ -63,28 +90,68 @@ header h1{
 .profession{
 	font-style: italic;
 	font-size: 0.9em;
-	opacity: 0.75;
+	opacity: 0.25;
 }
 
 .content{
-	background: #333;
+	xbackground: #333;
 }
 .demo{
-
+	display: block;
 }
 .demo h2{
-
+	font-weight: thin;
+}
+.demo:hover .screenshot{
+	xmargin-top: 20px;
+}
+.screenshot{
+	border-radius: 5px;
+	margin-bottom: 0px;
+	-webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,1);
+	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
+	height: 400px;
+	width: 800px;
 }
 .toolbar{
-
+	background: #333;
+	display: inline-block;
+	list-style: none;
+	width: 100%;
+	padding: 10px 15px 10px 0px;
+	box-sizing: border-box;
+	-webkit-border-radius: 0 0 5px 5px;
+	border-radius: 0 0 5px 5px;
+	margin-top: -40px;
+    transition: margin-top 0.25s ease-in-out;
 }
+.demo:hover .toolbar{
+	margin-top: -5px;
+	-webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,1);
+	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
+    transition: margin-top 0.25s ease-in-out;
+}
+.toolbar li{
+	float: right;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+.toolbar a:link, .toolbar a:visited{
+	text-decoration: none;
+	color: inherit;
+}
+.toolbar a:hover{
+	text-decoration: underline;
+}
+
 
 
 footer{
-	opacity: 0.75;
+	opacity: 0.5;
 	text-align: center;
 	margin-bottom: 50px;
 	font-size: 0.8em;
+	clear: both;
 }
 footer p{
 	margin: 5px;
