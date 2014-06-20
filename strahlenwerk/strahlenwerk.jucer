@@ -4,10 +4,19 @@
               bundleIdentifier="org.rtificial.strahlenwerk" includeBinaryInAppConfig="1"
               jucerVersion="3.1.0" companyName="rtificial" companyWebsite="http://rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
-    <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source"/>
+    <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
+      <FILE id="CHb8Tv" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="LokCeX" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="kt9k5n" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="ETqG8P" name="OpenGLComponent.cpp" compile="1" resource="0"
+            file="Source/OpenGLComponent.cpp"/>
+      <FILE id="TyU334" name="OpenGLComponent.h" compile="0" resource="0"
+            file="Source/OpenGLComponent.h"/>
+    </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <LINUX_MAKE targetFolder="Builds/Linux">
+    <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-std=c++11">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="" isDebug="1" optimisation="1" targetName="strahlenwerk"/>
         <CONFIGURATION name="Release" libraryPath="" isDebug="0" optimisation="2" targetName="strahlenwerk"/>
