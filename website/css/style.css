@@ -1,0 +1,93 @@
+body, html{
+	margin: 0;
+	padding: 0;
+	background: #111;
+	color: #eee;
+}
+
+header{
+	margin-top: 50px;
+}
+.logo{
+	margin: 0 auto;
+	display: block;
+}
+header h1{
+	text-align: center;
+	font-size: 50pt;
+}
+
+.wrapper{
+	margin: 0 auto;
+	width: 800px;
+}
+
+.we{
+	height: 180px;
+}
+.person{
+	display: inline-block;
+	float: left;
+	margin-left: 50px;
+	margin-right: 50px;
+	text-align: center;
+}
+.avatar{
+	width: 94px;
+	height: 94px;
+	border-radius: 100%;
+	border: 3px solid #eee;
+	box-shadow: 
+	-webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,1);
+	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
+	margin-bottom: 5px;
+    transition: transform 0.1s ease-in-out;
+}
+.person:hover .avatar{
+	transform: scale(1.1);
+    transition: transform 0.1s ease-in-out;
+}
+.person a:link, .person a:visited{
+	text-decoration: none;
+	color: inherit;
+}
+.nick, .profession{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 0px;
+}
+.nick{
+	font-weight: bold;
+	font-size: 1.1em;
+}
+.profession{
+	font-style: italic;
+	font-size: 0.9em;
+	opacity: 0.75;
+}
+
+.content{
+	background: #333;
+}
+.demo{
+
+}
+.demo h2{
+
+}
+.toolbar{
+
+}
+
+
+footer{
+	opacity: 0.75;
+	text-align: center;
+	margin-bottom: 50px;
+	font-size: 0.8em;
+}
+footer p{
+	margin: 5px;
+	padding: 0px;	
+}
+
