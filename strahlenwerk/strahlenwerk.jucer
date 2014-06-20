@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="gxTjTP" name="strahlenwerk" projectType="guiapp" version=""
+              bundleIdentifier="org.rtificial.strahlenwerk" includeBinaryInAppConfig="1"
+              jucerVersion="3.1.0" companyName="rtificial" companyWebsite="http://rtificial.org">
+  <MAINGROUP id="NF53ab" name="strahlenwerk">
+    <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source"/>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <LINUX_MAKE targetFolder="Builds/Linux">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="" isDebug="1" optimisation="1" targetName="strahlenwerk"/>
+        <CONFIGURATION name="Release" libraryPath="" isDebug="0" optimisation="2" targetName="strahlenwerk"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="juce_modules"/>
+        <MODULEPATH id="juce_events" path="juce_modules"/>
+        <MODULEPATH id="juce_graphics" path="juce_modules"/>
+        <MODULEPATH id="juce_data_structures" path="juce_modules"/>
+        <MODULEPATH id="juce_gui_basics" path="juce_modules"/>
+        <MODULEPATH id="juce_gui_extra" path="juce_modules"/>
+        <MODULEPATH id="juce_cryptography" path="juce_modules"/>
+        <MODULEPATH id="juce_video" path="juce_modules"/>
+        <MODULEPATH id="juce_opengl" path="juce_modules"/>
+        <MODULEPATH id="juce_audio_basics" path="juce_modules"/>
+        <MODULEPATH id="juce_audio_devices" path="juce_modules"/>
+        <MODULEPATH id="juce_audio_formats" path="juce_modules"/>
+        <MODULEPATH id="juce_audio_processors" path="juce_modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_cryptography" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_video" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
