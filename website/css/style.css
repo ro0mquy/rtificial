@@ -1,13 +1,14 @@
 /*
  * TODO
- * title fading
  * toolbar links
  * in progress demo section 
  * party mode
  * we're hiring
  * member section
  * local images
- * z-index
+ * mobile
+ * :will-change
+ * :active
  */
 
 body, html{
@@ -28,6 +29,7 @@ header{
 header h1{
 	text-align: center;
 	font-size: 50pt;
+	text-shadow: 0 0 15px #000;
 }
 
 .wrapper{
@@ -50,8 +52,6 @@ header h1{
 	height: 94px;
 	border-radius: 100%;
 	border: 3px solid #eee;
-	box-shadow: 
-	-webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,1);
 	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
 	margin-bottom: 5px;
     -webkit-transition: -webkit-transform 0.1s ease-in-out, opacity 0.25s ease-in-out;
@@ -99,19 +99,41 @@ header h1{
 .demo{
 	display: block;
 }
-.demo h2{
-	font-weight: thin;
+.demo .title{
+	font-weight: 100;
+	font-size: 2em;
+    -webkit-transition: opacity 0.25s ease-in-out;
+    transition: opacity 0.25s ease-in-out;
+	opacity: 0.0;
+}
+.demo:hover .title{
+    -webkit-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+	opacity: 1.0;
+}
+.demo .title .year{
+	float: right;
+	font-size: 0.5em;
+	padding-top: 15px;
 }
 .demo:hover .screenshot{
-	xmargin-top: 20px;
+    -webkit-transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
+    transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
+	margin-top: -35px;
+	opacity: 1.0;
 }
 .screenshot{
 	border-radius: 5px;
 	margin-bottom: 0px;
-	-webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,1);
 	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
 	height: 400px;
 	width: 800px;
+	position: relative;
+	z-index: 10;
+	margin-top: -70px;
+    -webkit-transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
+    transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
+	opacity: 0.5;
 }
 .toolbar{
 	background: #333;
@@ -122,14 +144,17 @@ header h1{
 	box-sizing: border-box;
 	-webkit-border-radius: 0 0 5px 5px;
 	border-radius: 0 0 5px 5px;
-	margin-top: -40px;
-    transition: margin-top 0.25s ease-in-out;
+	margin-top: -100px;
+    -webkit-transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
+    transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
+	opacity: 0.0;
 }
 .demo:hover .toolbar{
 	margin-top: -5px;
-	-webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,1);
 	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
-    transition: margin-top 0.25s ease-in-out;
+    -webkit-transition: margin-top 0.25s ease-in-out, opacity 0.5s ease-in-out;
+    transition: margin-top 0.25s ease-in-out, opacity 0.5s ease-in-out;
+	opacity: 1.0;
 }
 .toolbar li{
 	float: right;
