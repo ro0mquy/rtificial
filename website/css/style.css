@@ -1,7 +1,6 @@
 /*
  * TODO
  * party mode
- * mobile
  * font
  * remove important
  */
@@ -190,5 +189,69 @@ footer a:link, footer a:visited{
 }
 footer a:hover{
 	text-decoration: underline;
+}
+
+
+@media screen and (max-width: 799px){
+	header h1{
+		font-size: 40pt;
+	}
+
+	.we{
+		height: 150px;
+		width: 500px;
+		margin: 0 auto;
+	}
+	.person{
+		width: 70px;
+		margin-left: 25px;
+		margin-right: 25px;
+	}
+	.avatar, .person:hover .avatar{
+		width: 64px;
+		height: 64px;
+		-webkit-transform: scale(1.0);
+				transform: scale(1.0);
+		opacity: 1.0;
+	}
+	.nick, .profession, .person:hover .nick, .person:hover .profession{
+		opacity: 1.0;
+	}
+
+	.wrapper{
+		width: 95%;
+	}
+
+	.demo .title{
+		opacity: 1.0;
+		font-size: 1.8em;
+	}
+	.screenshot, .demo:hover .screenshot{
+		width: 100%;
+		height: 350px;
+		margin-top: -20px; 
+		opacity: 1.0;
+	}
+	.toolbar, .demo:hover .toolbar{
+		opacity: 1.0;
+		margin-top: -10px;
+		box-shadow: 0 0 10px 5px rgba(0,0,0,1);
+	}
+}
+@media screen and (max-width: 499px){
+	.screenshot, .demo:hover .screenshot{
+		height: 200px;
+	}
+
+	.we{
+		height: 300px;
+		width: 300px;
+		margin: 0 auto;
+	}
+	.person{
+		width: 100px;
+		margin-left: 25px;
+		margin-right: 25px;
+	}
 }
 
