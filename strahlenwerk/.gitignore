@@ -1,2 +1,5 @@
 # ignore symlink to juce modules
 juce_modules
+
+# build directory
+Builds/*/build
