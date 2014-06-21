@@ -65,7 +65,11 @@ public:
 										Colours::lightgrey,
 										DocumentWindow::allButtons)
 		{
-			setContentOwned(new MainContentComponent(), true);
+			// lol memory leak TODO
+			auto mainComponent = new MainContentComponent();
+			auto lookAndFeel = new LookAndFeel_V3();
+			mainComponent->setLookAndFeel(lookAndFeel);
+			setContentOwned(mainComponent, true);
 
 			centreWithSize(getWidth(), getHeight());
 			setVisible(true);
