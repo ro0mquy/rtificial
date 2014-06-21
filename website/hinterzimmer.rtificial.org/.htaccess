@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "rtficial hinterzimmer"
+AuthUserFile /var/www/virtual/ps0ke/hinterzimmer.rtficial.org/.htpasswd
+Require valid-user

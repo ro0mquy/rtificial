@@ -1,0 +1,11 @@
+Options +Indexes
+IndexOptions +FancyIndexing +FoldersFirst +HTMLTable +IconsAreLinks +SuppressIcon +SuppressDescription 
+ReadmeName README
+
+#AuthUserFile /var/www/virtual/ps0ke/html/code/mdbl0g/admin/.htpasswd
+#AuthName "New Upload"
+#AuthType Basic
+#<Files "upload.php">
+#	Require valid-user
+#</Files>
+#

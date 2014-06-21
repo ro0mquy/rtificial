@@ -2,7 +2,6 @@
  * TODO
  * party mode
  * font
- * remove important
  */
 
 body, html{
@@ -124,9 +123,9 @@ header h1{
 	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
 	height: 400px;
 	width: 800px;
-	background-repeat: no-repeat !important;
-	background-position: center !important;
-	background-size: cover !important;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
 	position: relative;
 	z-index: 10;
 	margin-top: -70px;
