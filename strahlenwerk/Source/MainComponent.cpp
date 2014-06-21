@@ -23,22 +23,21 @@ class MakeDemoButton : public ButtonPropertyComponent {
 
 //==============================================================================
 MainContentComponent::MainContentComponent() :
-	resizer(&panel, &constrainer, ResizableEdgeComponent::rightEdge) {
-	setSize (500, 400);
+	resizer(&layout, 1, true) {
+	setSize (800, 600);
 
-	Array<PropertyComponent*> components;
-	components.add(new BooleanPropertyComponent(booleanValue, "Zustand des Dingses", "Dings aus"));
-	components.add(new MakeDemoButton());
-	panel.addProperties(components);
+	Array<PropertyComponent*> properties;
+	properties.add(new BooleanPropertyComponent(booleanValue, "Zustand des Dingses", "Dings aus"));
+	properties.add(new MakeDemoButton());
+	panel.addProperties(properties);
+
+	layout.setItemLayout(0, 200, -1., -.4);
+	layout.setItemLayout(1, 8, 8, 8);
+	layout.setItemLayout(2, 400, -1., -.6);
 
 	addAndMakeVisible(panel);
-	panel.addAndMakeVisible(resizer);
-	resizer.setAlwaysOnTop(true);
-
-	panel.setBounds(0, 0, 300, getHeight());
-
+	addAndMakeVisible(resizer);
 	addAndMakeVisible(openGLComponent);
-	openGLComponent.setBounds(300, 0, 200, getHeight());
 
 	resized();
 }
@@ -47,16 +46,8 @@ MainContentComponent::~MainContentComponent() {
 }
 
 void MainContentComponent::resized() {
-	auto b(panel.getLocalBounds());
-	panel.setBounds(b.withHeight(getHeight()));
-
-	auto c(openGLComponent.getLocalBounds());
-	openGLComponent.setBounds(c.withHeight(getHeight()) + b.getTopRight());
-
-	Rectangle<int> r(getLocalBounds());
-	r.removeFromLeft(panel.getWidth() - 4);
-	resizer.setBounds(r.withWidth(4));
-
+	Component* comps[] = { &panel, &resizer, &openGLComponent };
+	layout.layOutComponents(comps, 3, 0, 0, getWidth(), getHeight(), false, true);
 }
 
 void MainContentComponent::childBoundsChanged(Component* child) {

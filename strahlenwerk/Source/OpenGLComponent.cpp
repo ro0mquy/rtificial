@@ -1,6 +1,4 @@
 #include "OpenGLComponent.h"
-#include <iostream>
-using namespace std;
 
 OpenGLComponent::OpenGLComponent() : program(context) {
 	context.setRenderer(this);
@@ -10,7 +8,7 @@ OpenGLComponent::OpenGLComponent() : program(context) {
 
 void OpenGLComponent::newOpenGLContextCreated() {
 	program.addVertexShader("#version 330\nattribute vec2 c;\nvoid main() { gl_Position = vec4(c, 0., 1.); }");
-	program.addFragmentShader("#version 330\nout vec3 color; void main() { color = vec3(1., 0., 0.); }");
+	program.addFragmentShader("#version 330\nout vec3 color; void main() { color = vec3(sin(gl_FragCoord.y * .3), cos(gl_FragCoord.x * .2), sin(gl_FragCoord.x * .23) * cos(gl_FragCoord.y * .17)) * .5 + .5; }");
 	program.link();
 
 	auto coord = OpenGLShaderProgram::Attribute(program, "c");
@@ -21,6 +19,7 @@ void OpenGLComponent::openGLContextClosing() {
 }
 
 void OpenGLComponent::renderOpenGL() {
+	glClear(GL_COLOR_BUFFER_BIT);
 	program.use();
 	context.extensions.glEnableVertexAttribArray(attribute_coord);
 	const GLfloat rectangle_vertices[] = {
