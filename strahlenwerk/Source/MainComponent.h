@@ -1,19 +1,10 @@
-/*
-  ==============================================================================
-
-	This file was auto-generated!
-
-  ==============================================================================
-*/
-
-#ifndef MAINCOMPONENT_H_INCLUDED
-#define MAINCOMPONENT_H_INCLUDED
+#ifndef MAINCOMPONENT_H
+#define MAINCOMPONENT_H
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "OpenGLComponent.h"
+#include "TopComponent.h"
 
 
-//==============================================================================
 /*
 	This component lives inside our window, and this is where you should put all
 	your controls and content.
@@ -26,19 +17,16 @@ public:
 	~MainContentComponent();
 
 	void resized() override;
-	void childBoundsChanged(Component* child) override;
 
 private:
-	//==============================================================================
-	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
-
-	PropertyPanel panel;
+	TopComponent topComponent;
 	StretchableLayoutResizerBar resizer;
-	OpenGLComponent openGLComponent;
+	Component timeline;
 
-	Value booleanValue;
 	StretchableLayoutManager layout;
+
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 
 
-#endif  // MAINCOMPONENT_H_INCLUDED
+#endif

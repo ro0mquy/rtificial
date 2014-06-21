@@ -14,6 +14,7 @@ class OpenGLComponent : public Component, private OpenGLRenderer {
 		OpenGLContext context;
 		OpenGLShaderProgram program;
 		GLint attribute_coord;
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OpenGLComponent)
 };
 
 #endif
