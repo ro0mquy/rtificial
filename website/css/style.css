@@ -214,8 +214,11 @@ footer a:hover{
 				transform: scale(1.0);
 		opacity: 1.0;
 	}
-	.nick, .profession, .person:hover .nick, .person:hover .profession{
+	.nick, .person:hover .nick{
 		opacity: 1.0;
+	}
+	.profession, .person:hover .profession{
+		opacity: 0.75;
 	}
 
 	.wrapper{
