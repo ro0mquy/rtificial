@@ -1,7 +1,8 @@
 #include "MainComponent.h"
 
 MainContentComponent::MainContentComponent() :
-	resizer(&layout, 1, false) {
+	resizer(&layout, 1, false),
+	components({ &topComponent, &resizer, &timeline }) {
 
 	setSize (800, 600);
 
@@ -9,17 +10,13 @@ MainContentComponent::MainContentComponent() :
 	layout.setItemLayout(1, 8, 8, 8);
 	layout.setItemLayout(2, 200, -1., -.33 );
 
-	addAndMakeVisible(topComponent);
-	addAndMakeVisible(resizer);
-	addAndMakeVisible(timeline);
+	for(Component* component : components) {
+		addAndMakeVisible(*component);
+	}
 
 	resized();
 }
 
-MainContentComponent::~MainContentComponent() {
-}
-
 void MainContentComponent::resized() {
-	Component* components[] = { &topComponent, &resizer, &timeline };
-	layout.layOutComponents(components, 3, 0, 0, getWidth(), getHeight(), true, true);
+	layout.layOutComponents(components.data(), 3, 0, 0, getWidth(), getHeight(), true, true);
 }

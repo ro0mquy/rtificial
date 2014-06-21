@@ -1,20 +1,14 @@
 #ifndef MAINCOMPONENT_H
 #define MAINCOMPONENT_H
 
+#include <array>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "TopComponent.h"
 
-
-/*
-	This component lives inside our window, and this is where you should put all
-	your controls and content.
-*/
 class MainContentComponent   : public Component
 {
 public:
-	//==============================================================================
 	MainContentComponent();
-	~MainContentComponent();
 
 	void resized() override;
 
@@ -22,6 +16,8 @@ private:
 	TopComponent topComponent;
 	StretchableLayoutResizerBar resizer;
 	Component timeline;
+
+	std::array<Component*, 3> components;
 
 	StretchableLayoutManager layout;
 

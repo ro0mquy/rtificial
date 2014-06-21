@@ -1,6 +1,7 @@
 #ifndef TOPCOMPONENT_H
 #define TOPCOMPONENT_H
 
+#include <array>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "OpenGLComponent.h"
 
@@ -14,6 +15,8 @@ class TopComponent : public Component {
 		PropertyPanel panel;
 		StretchableLayoutResizerBar resizer;
 		OpenGLComponent openGLComponent;
+
+		std::array<Component*, 3> components;
 
 		StretchableLayoutManager layout;
 
