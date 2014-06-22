@@ -38,7 +38,7 @@ class strahlschmiedeApplication : public JUCEApplication {
 			public:
 				MainWindow() :
 					DocumentWindow (ProjectInfo::projectName,
-					Colours::lightgrey,
+					Colours::darkgrey,
 					DocumentWindow::allButtons) {
 
 					mainComponent.setLookAndFeel(&lookAndFeel);
