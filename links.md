@@ -28,3 +28,10 @@
 * [Depth of Field and Bokeh with code](http://mynameismjp.wordpress.com/2011/04/19/bokeh-ii-the-sequel/)
 * [Ultra Super Hyper Mega Anti-Aliasing for Champions](http://www.iryoku.com/smaa/)
 * [SIGGRAPH 2013 Course: Physically Based Shading in Theory and Practice](http://blog.selfshadow.com/publications/s2013-shading-course/)
+* Cupe Bücher
+    * [In the Blink of an Eye: A Perspective on Film Editing](http://www.amazon.de/dp/1879505622)
+    * [Grammar of the Shot](http://www.amazon.de/dp/B00EVWHJAM/) (in der Dropbox)
+    * [Grammar of the Edit](http://www.amazon.de/dp/0240526007/) 
+    * [Design for Hackers](http://designforhackers.com/) (in der Dropbox)
+    * Revision 2013, pixtur/still: [Concept, Camera, Composition and Color](https://www.youtube.com/watch?v=sgCmCJWUGAc)
+
