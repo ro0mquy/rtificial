@@ -27,13 +27,13 @@ static const v3d camera_pos = { .x = 0, .y = 0, .z = 0 };
 static const v3d to_light = { 0, F16(1), 0 };
 
 #define num_spheres 2
-static const v3d center_spheres[num_spheres] = {
-	{ .x = F16(1), .y = F16(2), .z = F16(-4) },
-	{ .x = F16(0), .y = F16(-102), .z = F16(-3) },
+static v3d center_spheres[num_spheres] = {
+	{ .x = F16(0), .y = F16(1), .z = F16(-4) },
+	{ .x = F16(0), .y = F16(-502), .z = F16(0) },
 };
 static const fix16_t radius_spheres[num_spheres] = {
 	F16(1),
-	F16(100),
+	F16(500),
 };
 
 static fix16_t fragment_draw(size_t x, size_t y, uint32_t ms) {
@@ -77,15 +77,24 @@ static fix16_t fragment_draw(size_t x, size_t y, uint32_t ms) {
 				v3d_mul_s(&hit_pos, &direction, hit_dist);
 				v3d_add(&hit_pos, &camera_pos, &hit_pos);
 
-				// calculate normal
-				v3d normal;
-				v3d_sub(&normal, &hit_pos, &center);
-				v3d_normalize(&normal, &normal);
+				if (i == 1) {
+					fix16_t board = fix16_floor(fix16_mul(fix16_abs(hit_pos.z), fix16_from_float(.2)));
+					board = fix16_mod(board, fix16_two);
+					out_color = fix16_add(out_color, board);
+				} else {
+					// calculate normal
+					v3d normal;
+					v3d_sub(&normal, &hit_pos, &center);
+					v3d_normalize(&normal, &normal);
 
-				// lambertian lighting
-				fix16_t lambert = v3d_dot(&normal, &to_light);
-				lambert = fix16_clamp(lambert, 0, fix16_one);
-				out_color = fix16_add(out_color, lambert);
+					// lambertian lighting
+					fix16_t lambert = v3d_dot(&normal, &to_light);
+					lambert = fix16_max(lambert, 0);
+					lambert = fix16_mul(lambert, fix16_from_float(.95));
+					lambert = fix16_add(lambert, fix16_from_float(.05));
+					lambert = fix16_min(lambert, fix16_one);
+					out_color = fix16_add(out_color, lambert);
+				}
 			}
 		}
 	}
@@ -145,9 +154,11 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+	center_spheres[0].z = fix16_sub(center_spheres[0].z, fix16_one);
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+	center_spheres[0].z = fix16_add(center_spheres[0].z, fix16_one);
 }
 
 static void click_config_provider(void *context) {
