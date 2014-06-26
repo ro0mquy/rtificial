@@ -23,7 +23,31 @@ header h1{
 	text-align: center;
 	font-size: 50pt;
 	text-shadow: 0 0 15px #000;
+	margin-bottom: 10px;
 }
+.follow-us{
+	opacity: 0.75;
+	text-align: center;
+	margin-bottom: 50px;
+	font-size: 0.9em;
+}
+.follow-us a:link, .follow-us a:visited{
+	text-decoration: none;
+	color: inherit;
+}
+img.twitter-icon{
+	width: 16px;
+	height: 13px;
+	vertical-align: middle;
+	opacity: 0.75;
+}
+.follow-us:hover, .follow-us:hover .twitter-icon{
+	opacity: 1.0;
+}
+.twitter-account{
+	color: #fff;
+}
+
 
 .wrapper{
 	margin: 0 auto;
