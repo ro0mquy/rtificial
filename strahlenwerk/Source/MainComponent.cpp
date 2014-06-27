@@ -2,7 +2,7 @@
 
 MainContentComponent::MainContentComponent() :
 	resizer(&layout, 1, false),
-	components({ &topComponent, &resizer, &timeline }) {
+	components({{ &topComponent, &resizer, &timeline }}) {
 
 	setSize (800, 600);
 

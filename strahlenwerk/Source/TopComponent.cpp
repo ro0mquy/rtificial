@@ -15,7 +15,7 @@ class MakeDemoButton : public ButtonPropertyComponent {
 
 TopComponent::TopComponent() :
 	resizer(&layout, 1, true),
-	components({ &panel, &resizer, &openGLComponent }) {
+	components({{ &panel, &resizer, &openGLComponent }}) {
 
 	Array<PropertyComponent*> properties;
 	properties.add(new BooleanPropertyComponent(booleanValue, "Zustand des Dingses", "Dings aus"));
