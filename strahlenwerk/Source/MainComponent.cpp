@@ -3,8 +3,8 @@
 MainContentComponent::MainContentComponent() :
 	verticalResizer(&verticalLayout, 1, false),
 	horizontalResizer(&horizontalLayout, 1, true),
-	horizontalBoxLayout(horizontalLayout, { &panel, &horizontalResizer, &openGLComponent }),
-	verticalBoxLayout(verticalLayout, { &horizontalBoxLayout, &verticalResizer, &timeline })
+	horizontalBoxLayout(horizontalLayout, {{ &panel, &horizontalResizer, &openGLComponent }}),
+	verticalBoxLayout(verticalLayout, {{ &horizontalBoxLayout, &verticalResizer, &timeline }})
 {
 
 	setSize(800, 600);
@@ -17,8 +17,6 @@ MainContentComponent::MainContentComponent() :
 	verticalLayout.setItemLayout(1, 8, 8, 8);
 	verticalLayout.setItemLayout(2, 200, -1., -.33 );
 
-	verticalBoxLayout.makeVisible();
-	horizontalBoxLayout.makeVisible();
 	addAndMakeVisible(verticalBoxLayout);
 }
 

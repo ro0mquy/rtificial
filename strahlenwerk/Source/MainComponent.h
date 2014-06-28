@@ -24,8 +24,8 @@ private:
 	StretchableLayoutManager verticalLayout;
 	StretchableLayoutManager horizontalLayout;
 
-	BoxLayout<3, true> verticalBoxLayout;
 	BoxLayout<3, false> horizontalBoxLayout;
+	BoxLayout<3, true> verticalBoxLayout;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

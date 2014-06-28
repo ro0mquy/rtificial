@@ -11,11 +11,9 @@ template <int N, bool VERTICAL>
 class BoxLayout : public Component {
 	public:
 		BoxLayout(StretchableLayoutManager& layoutManager, std::array<Component*, N>&& components) :
-			components(components),
-			layoutManager(layoutManager)
-		{}
-
-		void makeVisible() {
+			layoutManager(layoutManager),
+			components(components)
+		{
 			for(Component* component : components) {
 				addAndMakeVisible(*component);
 			}
