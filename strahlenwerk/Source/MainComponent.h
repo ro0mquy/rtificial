@@ -3,7 +3,8 @@
 
 #include <array>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "TopComponent.h"
+#include "BoxLayout.h"
+#include "OpenGLComponent.h"
 
 class MainContentComponent   : public Component
 {
@@ -13,13 +14,18 @@ public:
 	void resized() override;
 
 private:
-	TopComponent topComponent;
-	StretchableLayoutResizerBar resizer;
+	StretchableLayoutResizerBar verticalResizer;
 	Component timeline;
 
-	std::array<Component*, 3> components;
+	PropertyPanel panel;
+	StretchableLayoutResizerBar horizontalResizer;
+	OpenGLComponent openGLComponent;
 
-	StretchableLayoutManager layout;
+	StretchableLayoutManager verticalLayout;
+	StretchableLayoutManager horizontalLayout;
+
+	BoxLayout<3, true> verticalBoxLayout;
+	BoxLayout<3, false> horizontalBoxLayout;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

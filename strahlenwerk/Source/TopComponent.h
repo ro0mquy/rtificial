@@ -4,6 +4,7 @@
 #include <array>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "OpenGLComponent.h"
+#include "BoxLayout.h"
 
 class TopComponent : public Component {
 	public:
@@ -15,10 +16,10 @@ class TopComponent : public Component {
 		PropertyPanel panel;
 		StretchableLayoutResizerBar resizer;
 		OpenGLComponent openGLComponent;
-
-		std::array<Component*, 3> components;
-
 		StretchableLayoutManager layout;
+
+		BoxLayout<3, false> boxLayout;
+
 
 		Value booleanValue;
 

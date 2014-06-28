@@ -5,9 +5,7 @@
               jucerVersion="3.1.0" companyName="rtificial" companyWebsite="http://rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
-      <FILE id="lVaEuk" name="TopComponent.cpp" compile="1" resource="0"
-            file="Source/TopComponent.cpp"/>
-      <FILE id="tcQPHN" name="TopComponent.h" compile="0" resource="0" file="Source/TopComponent.h"/>
+      <FILE id="oLyckP" name="BoxLayout.h" compile="0" resource="0" file="Source/BoxLayout.h"/>
       <FILE id="CHb8Tv" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="LokCeX" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>

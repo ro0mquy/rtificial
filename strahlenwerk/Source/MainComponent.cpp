@@ -1,22 +1,27 @@
 #include "MainComponent.h"
 
 MainContentComponent::MainContentComponent() :
-	resizer(&layout, 1, false),
-	components({{ &topComponent, &resizer, &timeline }}) {
+	verticalResizer(&verticalLayout, 1, false),
+	horizontalResizer(&horizontalLayout, 1, true),
+	horizontalBoxLayout(horizontalLayout, { &panel, &horizontalResizer, &openGLComponent }),
+	verticalBoxLayout(verticalLayout, { &horizontalBoxLayout, &verticalResizer, &timeline })
+{
 
-	setSize (800, 600);
+	setSize(800, 600);
 
-	layout.setItemLayout(0, 200, -1., -.66);
-	layout.setItemLayout(1, 8, 8, 8);
-	layout.setItemLayout(2, 200, -1., -.33 );
+	horizontalLayout.setItemLayout(0, 200, -1., -.4);
+	horizontalLayout.setItemLayout(1, 8, 8, 8);
+	horizontalLayout.setItemLayout(2, 400, -1., -.6);
 
-	for(Component* component : components) {
-		addAndMakeVisible(*component);
-	}
+	verticalLayout.setItemLayout(0, 200, -1., -.66);
+	verticalLayout.setItemLayout(1, 8, 8, 8);
+	verticalLayout.setItemLayout(2, 200, -1., -.33 );
 
-	resized();
+	verticalBoxLayout.makeVisible();
+	horizontalBoxLayout.makeVisible();
+	addAndMakeVisible(verticalBoxLayout);
 }
 
 void MainContentComponent::resized() {
-	layout.layOutComponents(components.data(), 3, 0, 0, getWidth(), getHeight(), true, true);
+	verticalBoxLayout.setBounds(0, 0, getWidth(), getHeight());
 }

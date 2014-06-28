@@ -14,26 +14,19 @@ class MakeDemoButton : public ButtonPropertyComponent {
 };
 
 TopComponent::TopComponent() :
-	resizer(&layout, 1, true),
-	components({{ &panel, &resizer, &openGLComponent }}) {
+	boxLayout(layout, { &panel, &resizer, &openGLComponent }),
+	resizer(&layout, 1, true) {
 
-	Array<PropertyComponent*> properties;
-	properties.add(new BooleanPropertyComponent(booleanValue, "Zustand des Dingses", "Dings aus"));
-	properties.add(new MakeDemoButton());
-	// transfers ownership of properties
-	panel.addProperties(properties);
+	// Array<PropertyComponent*> properties;
+	// properties.add(new BooleanPropertyComponent(booleanValue, "Zustand des Dingses", "Dings aus"));
+	// properties.add(new MakeDemoButton());
+	// // transfers ownership of properties
+	// panel.addSection(properties);
 
-	layout.setItemLayout(0, 200, -1., -.4);
-	layout.setItemLayout(1, 8, 8, 8);
-	layout.setItemLayout(2, 400, -1., -.6);
 
-	for(Component* component : components) {
-		addAndMakeVisible(*component);
-	}
-
-	resized();
+	addAndMakeVisible(boxLayout);
 }
 
 void TopComponent::resized() {
-	layout.layOutComponents(components.data(), 3, 0, 0, getWidth(), getHeight(), false, true);
+	boxLayout.setBounds(0, 0, getWidth(), getHeight());
 }
