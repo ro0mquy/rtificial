@@ -12,6 +12,7 @@ public:
 	MainContentComponent();
 
 	void resized() override;
+	bool keyPressed(const KeyPress& key) override;
 
 private:
 	StretchableLayoutResizerBar verticalResizer;
