@@ -4,9 +4,6 @@
 #include <array>
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include <iostream>
-using namespace std;
-
 template <int N, bool VERTICAL>
 class BoxLayout : public Component {
 	public:
