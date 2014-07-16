@@ -22,7 +22,7 @@ void main(void){
 	// backround grid + middle part
 	color += (   floor(pow(sin((p.x+.05) * 10.* 3.141),2.)+0.01)
 	           + floor(pow(sin((p.y+.05) * 10.* 3.141),2.)+0.01)
-	         ) * (1. - (the_cirle * (1 - rect_mask(p, vec2(.5,.5), vec2(.5,.05)))));
+	         ) * (1. - (the_cirle * (1. - rect_mask(p, vec2(.5,.5), vec2(.5,.05)))));
 
 	// top black/white shit
 	color += vec3(1.) * the_cirle * rect_mask(p, vec2(.15,.9), vec2(.2,.05));
