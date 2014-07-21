@@ -6,29 +6,29 @@
 #include "BoxLayout.h"
 #include "OpenGLComponent.h"
 
-class MainContentComponent   : public Component
+class MainContentComponent : public Component
 {
-public:
-	MainContentComponent();
+	public:
+		MainContentComponent();
 
-	void resized() override;
-	bool keyPressed(const KeyPress& key) override;
+		void resized() override;
+		bool keyPressed(const KeyPress& key) override;
 
-private:
-	StretchableLayoutResizerBar verticalResizer;
-	Component timeline;
+	private:
+		StretchableLayoutResizerBar verticalResizer;
+		Component timeline;
 
-	PropertyPanel panel;
-	StretchableLayoutResizerBar horizontalResizer;
-	OpenGLComponent openGLComponent;
+		PropertyPanel panel;
+		StretchableLayoutResizerBar horizontalResizer;
+		OpenGLComponent openGLComponent;
 
-	StretchableLayoutManager verticalLayout;
-	StretchableLayoutManager horizontalLayout;
+		StretchableLayoutManager verticalLayout;
+		StretchableLayoutManager horizontalLayout;
 
-	BoxLayout<3, false> horizontalBoxLayout;
-	BoxLayout<3, true> verticalBoxLayout;
+		BoxLayout<3, false> horizontalBoxLayout; // <5 für <3
+		BoxLayout<3, true> verticalBoxLayout;
 
-	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)
 };
 
 

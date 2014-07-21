@@ -21,7 +21,7 @@ MainContentComponent::MainContentComponent() :
 }
 
 void MainContentComponent::resized() {
-	verticalBoxLayout.setBounds(0, 0, getWidth(), getHeight());
+	verticalBoxLayout.setBounds(getBounds());
 }
 
 bool MainContentComponent::keyPressed(const KeyPress& key) {

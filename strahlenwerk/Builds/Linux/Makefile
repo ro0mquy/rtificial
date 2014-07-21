@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/Main_90ebc5c2.o \
   $(OBJDIR)/MainComponent_a6ffb4a5.o \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
@@ -82,6 +83,10 @@ strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
+$(OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling MainWindow.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Main_90ebc5c2.o: ../../Source/Main.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Main.cpp"
