@@ -8,6 +8,7 @@
 class OpenGLComponent : public Component, private OpenGLRenderer {
 	public:
 		OpenGLComponent();
+		~OpenGLComponent();
 
 		void newOpenGLContextCreated() override;
 		void openGLContextClosing() override;
