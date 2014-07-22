@@ -13,8 +13,8 @@ MainWindow::MainWindow() :
 			Colours::darkgrey,
 			DocumentWindow::allButtons)
 {
-
-	mainComponent.setLookAndFeel(&lookAndFeel);
+	setLookAndFeel(&lookAndFeel);
+	setMenuBar(this);
 	setContentOwned(&mainComponent, true);
 
 	centreWithSize(getWidth(), getHeight());
@@ -25,9 +25,11 @@ MainWindow::MainWindow() :
 	// let commandManager handle commands and key presses
 	getApplicationCommandManager().registerAllCommandsForTarget(this);
 	addKeyListener(getApplicationCommandManager().getKeyMappings());
+	setApplicationCommandManagerToWatch(&getApplicationCommandManager());
 }
 
 MainWindow::~MainWindow() {
+	setMenuBar(nullptr);
 	applicationCommandManager = nullptr;
 }
 
@@ -91,4 +93,31 @@ bool MainWindow::perform(const InvocationInfo& info) {
 	}
 
 	return true;
+}
+
+// Following functions implements the MenuBarModel interface
+// it provides the content for a menu bar
+
+StringArray MainWindow::getMenuBarNames() {
+	const char* const names[] = { "File", nullptr };
+	return StringArray(names);
+}
+
+// build menus for top level indexes
+PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& menuName) {
+	ApplicationCommandManager* commandManager = &getApplicationCommandManager();
+	PopupMenu menu;
+
+	if (topLevelMenuIndex == 0) {
+		menu.addCommandItem(commandManager, MainWindow::quitProgram);
+	}
+
+	return menu;
+}
+
+// react on menu items that are not handled by the commandManager
+void MainWindow::menuItemSelected(int menuItemID, int topLevelMenuIndex) {
+	if (menuItemID == 23) {
+		// dummy
+	}
 }

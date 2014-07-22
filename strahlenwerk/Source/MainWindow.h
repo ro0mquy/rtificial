@@ -9,7 +9,8 @@
    our MainContentComponent class.
    */
 class MainWindow : public DocumentWindow,
-	public ApplicationCommandTarget
+	public ApplicationCommandTarget,
+	public MenuBarModel
 {
 	public:
 		MainWindow();
@@ -21,6 +22,10 @@ class MainWindow : public DocumentWindow,
 		enum CommandIDs {
 			quitProgram = 0x2300,
 		};
+
+		StringArray getMenuBarNames() override;
+		PopupMenu getMenuForIndex(int topLevelMenuIndex, const String& menuName) override;
+		void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
 
 	private:
 		MainContentComponent mainComponent;
