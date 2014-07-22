@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/Timeline_dfee064a.o \
   $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/Main_90ebc5c2.o \
   $(OBJDIR)/MainComponent_a6ffb4a5.o \
@@ -82,6 +83,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/Timeline_dfee064a.o: ../../Source/Timeline.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Timeline.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp
 	-@mkdir -p $(OBJDIR)

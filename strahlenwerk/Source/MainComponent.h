@@ -1,10 +1,10 @@
 #ifndef MAINCOMPONENT_H
 #define MAINCOMPONENT_H
 
-#include <array>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "BoxLayout.h"
 #include "OpenGLComponent.h"
+#include "Timeline.h"
 
 class MainContentComponent : public Component
 {
@@ -16,7 +16,7 @@ class MainContentComponent : public Component
 
 	private:
 		StretchableLayoutResizerBar verticalResizer;
-		Component timeline;
+		Timeline timeline;
 
 		PropertyPanel panel;
 		StretchableLayoutResizerBar horizontalResizer;
