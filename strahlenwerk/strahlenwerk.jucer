@@ -19,7 +19,7 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-std=c++11">
+    <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-std=c++11 -Wall">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="" isDebug="1" optimisation="1" targetName="strahlenwerk"/>
         <CONFIGURATION name="Release" libraryPath="" isDebug="0" optimisation="3" targetName="strahlenwerk"/>
