@@ -3,6 +3,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MainComponent.h"
+#include "RtificialLookAndFeel.h"
 
 /*
    This class implements the desktop window that contains an instance of
@@ -29,7 +30,7 @@ class MainWindow : public DocumentWindow,
 
 	private:
 		MainContentComponent mainComponent;
-		LookAndFeel_V3 lookAndFeel;
+		RtificialLookAndFeel lookAndFeel;
 
 		ApplicationCommandTarget* getNextCommandTarget() override;
 		void getAllCommands(Array<CommandID>& commands) override;

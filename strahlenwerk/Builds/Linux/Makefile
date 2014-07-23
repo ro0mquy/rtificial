@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
   $(OBJDIR)/TimelineCanvas_60702802.o \
   $(OBJDIR)/Timeline_dfee064a.o \
   $(OBJDIR)/MainWindow_499ac812.o \
@@ -84,6 +85,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/RtificialLookAndFeel_95d2050c.o: ../../Source/RtificialLookAndFeel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling RtificialLookAndFeel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/TimelineCanvas_60702802.o: ../../Source/TimelineCanvas.cpp
 	-@mkdir -p $(OBJDIR)

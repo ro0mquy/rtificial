@@ -6,6 +6,10 @@
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
       <FILE id="VvvrC8" name="TimelineTree.h" compile="0" resource="0" file="Source/TimelineTree.h"/>
+      <FILE id="SrFBU6" name="RtificialLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/RtificialLookAndFeel.cpp"/>
+      <FILE id="Wciucj" name="RtificialLookAndFeel.h" compile="0" resource="0"
+            file="Source/RtificialLookAndFeel.h"/>
       <FILE id="Ra4DB7" name="TimelineCanvas.cpp" compile="1" resource="0"
             file="Source/TimelineCanvas.cpp"/>
       <FILE id="GwW9NB" name="TimelineCanvas.h" compile="0" resource="0"
