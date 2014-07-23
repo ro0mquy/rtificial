@@ -2,32 +2,27 @@
 #define TIMELINE_H
 
 #include "../JuceLibraryCode/JuceHeader.h"
-
-// extend Viewport with a custom callback function
-class ViewportCallback : public Viewport {
-	public:
-		void visibleAreaChanged(const Rectangle<int>& newVisibleArea) override;
-};
-
-class TimelineCanvas : public Component
-{
-	public:
-		TimelineCanvas();
-		void resized() override;
-
-	private:
-		TextButton button;
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineCanvas)
-};
+#include "TimelineCanvas.h"
 
 class Timeline : public Component
 {
 	public:
 		Timeline();
 		void resized() override;
-		void callbackViewportChanged(ViewportCallback* vp, Point<int> position);
 
 	private:
+		// extend Viewport with a custom callback function
+		class ViewportCallback : public Viewport {
+			public:
+				ViewportCallback(Timeline& timelineParent);
+				void visibleAreaChanged(const Rectangle<int>& newVisibleArea) override;
+
+			private:
+				Timeline& timelineParent;
+		};
+
+		void callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position);
+
 		ViewportCallback viewportCanvas;
 		ViewportCallback viewportScenes;
 		ViewportCallback viewportUniforms;

@@ -1,27 +1,26 @@
 #include "Timeline.h"
 
+Timeline::ViewportCallback::ViewportCallback(Timeline& timelineParent) :
+	timelineParent(timelineParent)
+{
+}
+
 // make a callback to Timeline if one of the viewports changed
-void ViewportCallback::visibleAreaChanged(const Rectangle<int>& newVisibleArea) {
-	Timeline* timeline = findParentComponentOfClass<Timeline>();
-	timeline->callbackViewportChanged(this, newVisibleArea.getPosition());
+void Timeline::ViewportCallback::visibleAreaChanged(const Rectangle<int>& newVisibleArea) {
+	timelineParent.callbackViewportChanged(this, newVisibleArea.getPosition());
 };
 
-TimelineCanvas::TimelineCanvas() : button("Hello World!")
-{
-	setSize(1000, 1000);
-	addAndMakeVisible(button);
-}
-
-void TimelineCanvas::resized() {
-	button.setBounds(getLocalBounds().reduced(250));
-}
-
 // functions of the allmighty Timeline class
-Timeline::Timeline()
+Timeline::Timeline() :
+	viewportCanvas(*this),
+	viewportScenes(*this),
+	viewportUniforms(*this)
 {
 	viewportCanvas.setViewedComponent(&componentCanvas, false);
 	viewportScenes.setViewedComponent(&componentScenes, false);
+	viewportScenes.setScrollBarsShown(false, false, false, true);
 	viewportUniforms.setViewedComponent(&componentUniforms, false);
+	viewportUniforms.setScrollBarsShown(false, false, true, false);
 	addAndMakeVisible(viewportCanvas);
 	addAndMakeVisible(viewportScenes);
 	addAndMakeVisible(viewportUniforms);
@@ -36,7 +35,7 @@ void Timeline::resized() {
 
 // gets called when one of the viewports changed
 // syncs the current position between all three viewports
-void Timeline::callbackViewportChanged(ViewportCallback* vp, Point<int> position) {
+void Timeline::callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position) {
 	if (vp == &viewportCanvas) {
 		// X and Y have changed
 		viewportScenes.setViewPosition(
