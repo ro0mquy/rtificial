@@ -22,9 +22,25 @@ Timeline::Timeline() :
 }
 
 void Timeline::resized() {
+	int scenesComponentHeight = 30;
+	int uniformComponenentWidth = 30;
 	Rectangle<int> r(getLocalBounds());
-	viewportScenes.setBounds(r.removeFromTop(30).withTrimmedLeft(30));
-	viewportUniforms.setBounds(r.removeFromLeft(30));
+
+	viewportScenes.setBounds(
+			r.removeFromTop(scenesComponentHeight)
+			.withTrimmedLeft(uniformComponenentWidth)
+		);
+	componentScenes.setSize(
+			componentScenes.getWidth(),
+			scenesComponentHeight
+		);
+
+	viewportUniforms.setBounds(r.removeFromLeft(uniformComponenentWidth));
+	componentUniforms.setSize(
+			uniformComponenentWidth,
+			componentUniforms.getHeight()
+		);
+
 	viewportCanvas.setBounds(r);
 }
 
