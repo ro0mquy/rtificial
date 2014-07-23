@@ -1,9 +1,8 @@
-RewriteEngine On
-RewriteCond %{HTTPS} !=on
-RewriteCond %{ENV:HTTPS} !=on
-RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
-
 AuthType Basic
-AuthName "rtficial hinterzimmer"
-AuthUserFile /var/www/virtual/ps0ke/hinterzimmer.rtficial.org/.htpasswd
+AuthName "rtificial Hinterzimmer"
+AuthUserFile /var/www/virtual/ps0ke/hinterzimmer.rtificial.org/.htpasswd
 Require valid-user
+SetEnvIf Request_URI "(db-irc-notify.cgi)$" allow
+Order allow,deny
+Allow from env=allow
+Satisfy any

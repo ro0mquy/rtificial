@@ -1,0 +1,10 @@
+Options +ExecCGI
+AddHandler cgi-script .cgi
+
+<Files ~ "\.rb$">
+	Order allow,deny
+	Deny from all
+</Files>
+
+RewriteEngine On
+RewriteRule ^/? db-irc-notify.cgi [NC,L]
