@@ -1,21 +1,16 @@
 #include "Timeline.h"
 
-Timeline::ViewportCallback::ViewportCallback(Timeline& timelineParent) :
-	timelineParent(timelineParent)
-{
-}
-
-// make a callback to Timeline if one of the viewports changed
-void Timeline::ViewportCallback::visibleAreaChanged(const Rectangle<int>& newVisibleArea) {
-	timelineParent.callbackViewportChanged(this, newVisibleArea.getPosition());
-};
-
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
 	viewportCanvas(*this),
 	viewportScenes(*this),
-	viewportUniforms(*this)
+	viewportUniforms(*this),
+	componentCanvas(currentTime),
+	componentScenes(currentTime),
+	componentUniforms(currentTime)
 {
+	currentTime = 0;
+
 	viewportCanvas.setViewedComponent(&componentCanvas, false);
 	viewportScenes.setViewedComponent(&componentScenes, false);
 	viewportScenes.setScrollBarsShown(false, false, false, true);
@@ -59,4 +54,28 @@ void Timeline::callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int
 				position.getY()
 				);
 	}
+}
+
+Timeline::ViewportCallback::ViewportCallback(Timeline& timelineParent) :
+	timelineParent(timelineParent)
+{
+}
+
+// make a callback to Timeline if one of the viewports changed
+void Timeline::ViewportCallback::visibleAreaChanged(const Rectangle<int>& newVisibleArea) {
+	timelineParent.callbackViewportChanged(this, newVisibleArea.getPosition());
+};
+
+TimelineScenes::TimelineScenes(Value& timeValue) : currentTime(timeValue)
+{
+}
+
+void TimelineScenes::paint(Graphics& g) {
+}
+
+TimelineUniforms::TimelineUniforms(Value& timeValue) : currentTime(timeValue)
+{
+}
+
+void TimelineUniforms::paint(Graphics& g) {
 }

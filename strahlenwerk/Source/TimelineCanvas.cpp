@@ -1,6 +1,7 @@
 #include "TimelineCanvas.h"
 
-TimelineCanvas::TimelineCanvas() : button("Hello World!")
+TimelineCanvas::TimelineCanvas(Value& timeValue) : button("Hello World!"),
+												   currentTime(timeValue)
 {
 	setSize(1000, 1000);
 	addAndMakeVisible(button);

@@ -4,6 +4,26 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "TimelineCanvas.h"
 
+class TimelineScenes : public Component {
+	public:
+		TimelineScenes(Value& timeValue);
+		void paint(Graphics& g) override;
+
+	private:
+		Value currentTime;
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineScenes)
+};
+
+class TimelineUniforms : public Component {
+	public:
+		TimelineUniforms(Value& timeValue);
+		void paint(Graphics& g) override;
+
+	private:
+		Value currentTime;
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineUniforms)
+};
+
 class Timeline : public Component
 {
 	public:
@@ -27,8 +47,11 @@ class Timeline : public Component
 		ViewportCallback viewportScenes;
 		ViewportCallback viewportUniforms;
 		TimelineCanvas componentCanvas;
-		TimelineCanvas componentScenes;
-		TimelineCanvas componentUniforms;
+		TimelineScenes componentScenes;
+		TimelineUniforms componentUniforms;
+
+		Value currentTime;
+		ValueTree valueTree;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Timeline)
 };
