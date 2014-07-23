@@ -7,6 +7,7 @@
 class TimelineScenes : public Component {
 	public:
 		TimelineScenes(Value& timeValue);
+		void resized() override;
 		void paint(Graphics& g) override;
 
 	private:

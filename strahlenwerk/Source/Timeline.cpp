@@ -9,7 +9,7 @@ Timeline::Timeline() :
 	componentScenes(currentTime),
 	componentUniforms(currentTime)
 {
-	currentTime = 0;
+	currentTime.setValue(50);
 
 	viewportCanvas.setViewedComponent(&componentCanvas, false);
 	viewportScenes.setViewedComponent(&componentScenes, false);
@@ -86,7 +86,28 @@ TimelineScenes::TimelineScenes(Value& timeValue) : currentTime(timeValue)
 {
 }
 
+void TimelineScenes::resized() {
+	setSize(1000, getHeight());
+}
 void TimelineScenes::paint(Graphics& g) {
+	// höhö G-Punkt
+	g.setColour(Colours::white);
+
+	int lineDistance             = 20;
+	int longLineDistance         = 5;
+	float lineHeightFraction     = 0.25;
+	float longLineHeightFraction = 0.5;
+
+	for(int i = 0; i*lineDistance < getWidth(); i++){
+		bool longLine = (i%longLineDistance == 0);
+		g.drawLine(
+				i*lineDistance + 0.5,
+				0,
+				i*lineDistance + 0.5,
+				getHeight()*(longLine ? longLineHeightFraction : lineHeightFraction),
+				1
+			);
+	}
 }
 
 TimelineUniforms::TimelineUniforms(Value& timeValue) : currentTime(timeValue)
