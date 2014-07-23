@@ -63,7 +63,7 @@ if cgi.request_method == 'POST'
 					irc_command = CONFIG[:notice] ? 'NOTICE' : 'PRIVMSG'
 					irc.print "JOIN #{CONFIG[:room]}\r\n" unless CONFIG[:message_without_join]
 
-					irc.print "#{irc_command} #{CONFIG[:room]} :[#{CONFIG[:colors] ? "\x02\x0306" : ''}#{File.basename CONFIG[:directory]}#{CONFIG[:colors] ? "\x03\x02" : ''}] #{CONFIG[:colors] ? "\x02\x0304" : ''}Deleted#{CONFIG[:colors] ? "\x03\x02" : ''}: #{CONFIG[:colors] ? "\x0306" : ''}#{File.basename(entry.first)}#{CONFIG[:colors] ? "\x03" : ''}\r\n"
+					irc.print (("#{irc_command} #{CONFIG[:room]} :[#{CONFIG[:colors] ? "\x02\x0306" : ''}#{File.basename CONFIG[:directory]}#{CONFIG[:colors] ? "\x03\x02" : ''}] #{CONFIG[:colors] ? "\x02\x0304" : ''}Deleted#{CONFIG[:colors] ? "\x03\x02" : ''}: #{CONFIG[:colors] ? "\x0306" : ''}#{File.basename(entry.first)}#{CONFIG[:colors] ? "\x03" : ''}")).delete("\r\n") + "\r\n")
 
 					irc.print "QUIT\r\n"
 					irc.close
@@ -77,6 +77,7 @@ if cgi.request_method == 'POST'
 					info = matching_item.description.match(/In <.+>, (.+) (edited|added|deleted) the \w+ <a target='_blank' href='(.+)'>/).captures
 					who = info[0]
 					who = user_name if who == 'you'
+					who = CGI.unescapeHTML who
 					how = info[1]
 					link = info[2]
 
@@ -89,8 +90,8 @@ if cgi.request_method == 'POST'
 					irc_command = CONFIG[:notice] ? 'NOTICE' : 'PRIVMSG'
 					irc.print "JOIN #{CONFIG[:room]}\r\n" unless CONFIG[:message_without_join]
 
-					irc.print "#{irc_command} #{CONFIG[:room]} :[#{CONFIG[:colors] ? "\x02\x0306" : ''}#{File.basename CONFIG[:directory]}#{CONFIG[:colors] ? "\x03\x02" : ''}] #{who} #{how} #{CONFIG[:colors] ? "\x0306" : ''}#{File.basename(entry[1]['path'])}#{CONFIG[:colors] ? "\x03" : ''}" + (CONFIG[:event_url] ? ": #{CONFIG[:colors] ? "\x1F\x0302" : ''}http://dropbox.com#{link}#{CONFIG[:colors] ? "\x03\x1F" : ''}\r\n" : "\r\n")
-					irc.print "#{irc_command} #{CONFIG[:room]} :#{CONFIG[:colors] ? "\x0306" : ''}#{entry[1]['path']}#{CONFIG[:colors] ? "\x03" : ''} #{CONFIG[:colors] ? "\x02\x0314" : ''}#{entry[1]['size']}#{CONFIG[:colors] ? "\x03\x02" : ''} #{entry[1]['mime_type']}\r\n"
+					irc.print (("#{irc_command} #{CONFIG[:room]} :[#{CONFIG[:colors] ? "\x02\x0306" : ''}#{File.basename CONFIG[:directory]}#{CONFIG[:colors] ? "\x03\x02" : ''}] #{who} #{how} #{CONFIG[:colors] ? "\x0306" : ''}#{File.basename(entry[1]['path'])}#{CONFIG[:colors] ? "\x03" : ''}" + (CONFIG[:event_url] ? ": #{CONFIG[:colors] ? "\x1F\x0302" : ''}http://dropbox.com#{link}#{CONFIG[:colors] ? "\x03\x1F" : ''}" : "")).delete("\r\n") + "\r\n")
+					irc.print (("#{irc_command} #{CONFIG[:room]} :#{CONFIG[:colors] ? "\x0306" : ''}#{entry[1]['path']}#{CONFIG[:colors] ? "\x03" : ''} #{CONFIG[:colors] ? "\x02\x0314" : ''}#{entry[1]['size']}#{CONFIG[:colors] ? "\x03\x02" : ''} #{entry[1]['mime_type']}").delete("\r\n") + "\r\n")
 
 					irc.print "QUIT\r\n"
 					irc.close
