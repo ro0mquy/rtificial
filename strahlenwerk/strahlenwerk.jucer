@@ -6,6 +6,8 @@
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
+        <FILE id="L6skV4" name="Data.cpp" compile="1" resource="0" file="Source/Timeline/Data.cpp"/>
+        <FILE id="R5BiSQ" name="Data.h" compile="0" resource="0" file="Source/Timeline/Data.h"/>
         <FILE id="AiGAGg" name="SequenceViewComponent.cpp" compile="1" resource="0"
               file="Source/Timeline/SequenceViewComponent.cpp"/>
         <FILE id="ibK1ZX" name="SequenceViewComponent.h" compile="0" resource="0"

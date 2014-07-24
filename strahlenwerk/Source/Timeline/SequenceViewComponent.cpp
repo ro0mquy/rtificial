@@ -1,7 +1,9 @@
 #include "SequenceViewComponent.h"
 
-SequenceViewComponent::SequenceViewComponent(Value& timeValue) : button("Hello World!"),
-												   currentTime(timeValue)
+SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
+	button("Hello World!"),
+	currentTime(timeValue),
+	data(_data)
 {
 	setSize(1000, 1000);
 	addAndMakeVisible(button);

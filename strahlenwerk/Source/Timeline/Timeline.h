@@ -3,10 +3,11 @@
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "SequenceViewComponent.h"
+#include "Data.h"
 
 class ScenesBarComponent : public Component {
 	public:
-		ScenesBarComponent(Value& timeValue);
+		ScenesBarComponent(Value& timeValue, Data& _data);
 		void resized() override;
 		void paint(Graphics& g) override;
 
@@ -17,16 +18,18 @@ class ScenesBarComponent : public Component {
 
 	private:
 		Value currentTime;
+		Data& data;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScenesBarComponent)
 };
 
 class UniformsBarComponent : public Component {
 	public:
-		UniformsBarComponent(Value& timeValue);
+		UniformsBarComponent(Value& timeValue, Data& _data);
 		void paint(Graphics& g) override;
 
 	private:
 		Value currentTime;
+		Data& data;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(UniformsBarComponent)
 };
 
@@ -57,7 +60,7 @@ class Timeline : public Component
 		void setupValueTree();
 
 		Value currentTime;
-		ValueTree valueTree;
+		Data data;
 
 		ViewportCallback viewportCanvas;
 		ViewportCallback viewportScenes;

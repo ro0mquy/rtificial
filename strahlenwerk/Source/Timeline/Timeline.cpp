@@ -1,17 +1,16 @@
 #include "Timeline.h"
-#include "TreeIdentifiers.h"
 #include "../RtificialLookAndFeel.h"
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
 	currentTime(50),
-	valueTree(ttId::timelineTree),
+	data(),
 	viewportCanvas(*this),
 	viewportScenes(*this),
 	viewportUniforms(*this),
-	sequenceView(currentTime),
-	scenesBar(currentTime),
-	uniformsBar(currentTime)
+	sequenceView(currentTime, data),
+	scenesBar(currentTime, data),
+	uniformsBar(currentTime, data)
 {
 	viewportCanvas.setViewedComponent(&sequenceView, false);
 	viewportScenes.setViewedComponent(&scenesBar, false);
@@ -21,8 +20,6 @@ Timeline::Timeline() :
 	addAndMakeVisible(viewportCanvas);
 	addAndMakeVisible(viewportScenes);
 	addAndMakeVisible(viewportUniforms);
-
-	setupValueTree();
 }
 
 void Timeline::resized() {
@@ -76,20 +73,9 @@ void Timeline::callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int
 	}
 }
 
-void Timeline::setupValueTree() {
-	ValueTree scenesArray(ttId::scenesArray);
-	for (int i = 0; i < 4; i++) {
-		ValueTree scene(ttId::scene);
-		scene.setProperty(ttId::sceneId, var(i), nullptr);
-		scene.setProperty(ttId::sceneStart, var(60 * i), nullptr);
-		scene.setProperty(ttId::sceneDuration, var(60 * i + 40), nullptr);
-		scene.setProperty(ttId::sceneShaderSource, var(String("glsl") + String(i)), nullptr);
-		scenesArray.addChild(scene, -1, nullptr);
-	}
-	valueTree.addChild(scenesArray, -1, nullptr);
-}
-
-ScenesBarComponent::ScenesBarComponent(Value& timeValue) : currentTime(timeValue)
+ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
+	currentTime(timeValue),
+	data(_data)
 {
 }
 
@@ -128,7 +114,9 @@ void ScenesBarComponent::paint(Graphics& g) {
 	g.drawHorizontalLine(getHeight()-1, 0, getWidth());
 }
 
-UniformsBarComponent::UniformsBarComponent(Value& timeValue) : currentTime(timeValue)
+UniformsBarComponent::UniformsBarComponent(Value& timeValue, Data& _data) :
+	currentTime(timeValue),
+	data(_data)
 {
 }
 
