@@ -5,7 +5,7 @@ Data::Data() :
 	valueTree(ttId::timelineTree)
 {
 	for (int i = 0; i < 4; i++) {
-		addScene(var(i), var(60 * i), var(60 * i + 40), var("glsl" + String(i)));
+		addScene(var(i), var(60 * i), var(10 * i + 10), var("glsl" + String(i)));
 	}
 }
 
@@ -43,4 +43,21 @@ bool Data::addScene(var id, var start, var duration, var shaderSource, int posit
 	scene.setProperty(ttId::sceneShaderSource, shaderSource, nullptr);
 	getScenesArray().addChild(scene, position, &undoManager);
 	return true;
+}
+
+// finds the the end time of the last scene
+int Data::getLastSceneEndTime() {
+	ValueTree scenesArray = getScenesArray();
+	int numChildren = scenesArray.getNumChildren();
+	int maxEndTime = 0;
+
+	for (int i = 0; i < numChildren; i++) {
+		ValueTree scene = scenesArray.getChild(i);
+		int start = scene.getProperty(ttId::sceneStart);
+		int duration = scene.getProperty(ttId::sceneDuration);
+		int end = start + duration;
+		maxEndTime = jmax(maxEndTime, end);
+	}
+
+	return maxEndTime;
 }
