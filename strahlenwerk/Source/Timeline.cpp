@@ -128,15 +128,13 @@ void TimelineScenes::paint(Graphics& g) {
 			);
 	}
 
-<<<<<<< HEAD
 	g.setColour(Colours::red);
 	float x = currentTime.getValue();
 	g.drawLine(x, 0, x, getHeight(), 2);
-=======
+
 	// draw outline
 	g.setColour(findColour(RtificialLookAndFeel::outlineColourId));
 	g.drawHorizontalLine(getHeight()-1, 0, getWidth());
->>>>>>> Added other outlines and colors (no fucking u)
 }
 
 TimelineUniforms::TimelineUniforms(Value& timeValue) : currentTime(timeValue)
