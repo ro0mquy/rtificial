@@ -43,6 +43,7 @@ class Timeline : public Component
 		};
 
 		void callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position);
+		void setupValueTree();
 
 		ViewportCallback viewportCanvas;
 		ViewportCallback viewportScenes;

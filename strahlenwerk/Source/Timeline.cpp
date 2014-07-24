@@ -1,4 +1,5 @@
 #include "Timeline.h"
+#include "TimelineTree.h"
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
@@ -7,7 +8,8 @@ Timeline::Timeline() :
 	viewportUniforms(*this),
 	componentCanvas(currentTime),
 	componentScenes(currentTime),
-	componentUniforms(currentTime)
+	componentUniforms(currentTime),
+	valueTree(ttId::timelineTree)
 {
 	currentTime.setValue(50);
 
@@ -19,6 +21,8 @@ Timeline::Timeline() :
 	addAndMakeVisible(viewportCanvas);
 	addAndMakeVisible(viewportScenes);
 	addAndMakeVisible(viewportUniforms);
+
+	setupValueTree();
 }
 
 void Timeline::resized() {
@@ -70,6 +74,19 @@ void Timeline::callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int
 				position.getY()
 				);
 	}
+}
+
+void Timeline::setupValueTree() {
+	ValueTree scenesArray(ttId::scenesArray);
+	for (int i = 0; i < 4; i++) {
+		ValueTree scene(ttId::scene);
+		scene.setProperty(ttId::sceneId, var(i), nullptr);
+		scene.setProperty(ttId::sceneStart, var(60 * i), nullptr);
+		scene.setProperty(ttId::sceneDuration, var(60 * i + 40), nullptr);
+		scene.setProperty(ttId::sceneShaderSource, var(String("glsl") + String(i)), nullptr);
+		scenesArray.addChild(scene, -1, nullptr);
+	}
+	valueTree.addChild(scenesArray, -1, nullptr);
 }
 
 Timeline::ViewportCallback::ViewportCallback(Timeline& timelineParent) :
