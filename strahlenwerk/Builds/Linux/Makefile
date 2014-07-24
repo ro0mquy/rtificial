@@ -51,9 +51,9 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/SequenceViewComponent_a0963d32.o \
+  $(OBJDIR)/Timeline_d3785850.o \
   $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
-  $(OBJDIR)/TimelineCanvas_60702802.o \
-  $(OBJDIR)/Timeline_dfee064a.o \
   $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/Main_90ebc5c2.o \
   $(OBJDIR)/MainComponent_a6ffb4a5.o \
@@ -86,19 +86,19 @@ strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
+$(OBJDIR)/SequenceViewComponent_a0963d32.o: ../../Source/Timeline/SequenceViewComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SequenceViewComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Timeline_d3785850.o: ../../Source/Timeline/Timeline.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Timeline.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/RtificialLookAndFeel_95d2050c.o: ../../Source/RtificialLookAndFeel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling RtificialLookAndFeel.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/TimelineCanvas_60702802.o: ../../Source/TimelineCanvas.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling TimelineCanvas.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/Timeline_dfee064a.o: ../../Source/Timeline.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Timeline.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp

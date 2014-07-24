@@ -1,6 +1,6 @@
 #include "Timeline.h"
-#include "TimelineTree.h"
-#include "RtificialLookAndFeel.h"
+#include "TreeIdentifiers.h"
+#include "../RtificialLookAndFeel.h"
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
@@ -9,14 +9,14 @@ Timeline::Timeline() :
 	viewportCanvas(*this),
 	viewportScenes(*this),
 	viewportUniforms(*this),
-	componentCanvas(currentTime),
-	componentScenes(currentTime),
-	componentUniforms(currentTime)
+	sequenceView(currentTime),
+	scenesBar(currentTime),
+	uniformsBar(currentTime)
 {
-	viewportCanvas.setViewedComponent(&componentCanvas, false);
-	viewportScenes.setViewedComponent(&componentScenes, false);
+	viewportCanvas.setViewedComponent(&sequenceView, false);
+	viewportScenes.setViewedComponent(&scenesBar, false);
 	viewportScenes.setScrollBarsShown(false, false, false, true);
-	viewportUniforms.setViewedComponent(&componentUniforms, false);
+	viewportUniforms.setViewedComponent(&uniformsBar, false);
 	viewportUniforms.setScrollBarsShown(false, false, true, false);
 	addAndMakeVisible(viewportCanvas);
 	addAndMakeVisible(viewportScenes);
@@ -34,15 +34,15 @@ void Timeline::resized() {
 			r.removeFromTop(scenesComponentHeight)
 			.withTrimmedLeft(uniformComponenentWidth)
 		);
-	componentScenes.setSize(
-			componentScenes.getWidth(),
+	scenesBar.setSize(
+			scenesBar.getWidth(),
 			scenesComponentHeight
 		);
 
 	viewportUniforms.setBounds(r.removeFromLeft(uniformComponenentWidth));
-	componentUniforms.setSize(
+	uniformsBar.setSize(
 			uniformComponenentWidth,
-			componentUniforms.getHeight()
+			uniformsBar.getHeight()
 		);
 
 	viewportCanvas.setBounds(r);
@@ -99,18 +99,18 @@ void Timeline::ViewportCallback::visibleAreaChanged(const Rectangle<int>& newVis
 	timelineParent.callbackViewportChanged(this, newVisibleArea.getPosition());
 };
 
-TimelineScenes::TimelineScenes(Value& timeValue) : currentTime(timeValue)
+ScenesBarComponent::ScenesBarComponent(Value& timeValue) : currentTime(timeValue)
 {
 }
 
-void TimelineScenes::resized() {
+void ScenesBarComponent::resized() {
 	setSize(1000, getHeight());
 }
-void TimelineScenes::paint(Graphics& g) {
+void ScenesBarComponent::paint(Graphics& g) {
 	// höhö G-Punkt
 
 	// draw ticks
-	g.setColour(findColour(TimelineScenes::tickColourId));
+	g.setColour(findColour(ScenesBarComponent::tickColourId));
 
 	int lineDistance             = 20;
 	int longLineDistance         = 5;
@@ -138,9 +138,9 @@ void TimelineScenes::paint(Graphics& g) {
 	g.drawHorizontalLine(getHeight()-1, 0, getWidth());
 }
 
-TimelineUniforms::TimelineUniforms(Value& timeValue) : currentTime(timeValue)
+UniformsBarComponent::UniformsBarComponent(Value& timeValue) : currentTime(timeValue)
 {
 }
 
-void TimelineUniforms::paint(Graphics& g) {
+void UniformsBarComponent::paint(Graphics& g) {
 }

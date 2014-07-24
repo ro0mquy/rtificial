@@ -4,7 +4,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "BoxLayout.h"
 #include "OpenGLComponent.h"
-#include "Timeline.h"
+#include "Timeline/Timeline.h"
 
 class MainContentComponent : public Component
 {

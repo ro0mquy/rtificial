@@ -1,12 +1,12 @@
 #ifndef TIMELINE_H
 #define TIMELINE_H
 
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "TimelineCanvas.h"
+#include "../../JuceLibraryCode/JuceHeader.h"
+#include "SequenceViewComponent.h"
 
-class TimelineScenes : public Component {
+class ScenesBarComponent : public Component {
 	public:
-		TimelineScenes(Value& timeValue);
+		ScenesBarComponent(Value& timeValue);
 		void resized() override;
 		void paint(Graphics& g) override;
 
@@ -17,17 +17,17 @@ class TimelineScenes : public Component {
 
 	private:
 		Value currentTime;
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineScenes)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScenesBarComponent)
 };
 
-class TimelineUniforms : public Component {
+class UniformsBarComponent : public Component {
 	public:
-		TimelineUniforms(Value& timeValue);
+		UniformsBarComponent(Value& timeValue);
 		void paint(Graphics& g) override;
 
 	private:
 		Value currentTime;
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineUniforms)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(UniformsBarComponent)
 };
 
 class Timeline : public Component
@@ -56,9 +56,9 @@ class Timeline : public Component
 		ViewportCallback viewportCanvas;
 		ViewportCallback viewportScenes;
 		ViewportCallback viewportUniforms;
-		TimelineCanvas componentCanvas;
-		TimelineScenes componentScenes;
-		TimelineUniforms componentUniforms;
+		SequenceViewComponent sequenceView;
+		ScenesBarComponent scenesBar;
+		UniformsBarComponent uniformsBar;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Timeline)
 };

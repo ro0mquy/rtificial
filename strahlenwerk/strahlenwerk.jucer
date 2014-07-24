@@ -5,17 +5,20 @@
               jucerVersion="3.1.0" companyName="rtificial" companyWebsite="http://rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
-      <FILE id="VvvrC8" name="TimelineTree.h" compile="0" resource="0" file="Source/TimelineTree.h"/>
+      <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
+        <FILE id="AiGAGg" name="SequenceViewComponent.cpp" compile="1" resource="0"
+              file="Source/Timeline/SequenceViewComponent.cpp"/>
+        <FILE id="ibK1ZX" name="SequenceViewComponent.h" compile="0" resource="0"
+              file="Source/Timeline/SequenceViewComponent.h"/>
+        <FILE id="DSM63p" name="TreeIdentifiers.h" compile="0" resource="0"
+              file="Source/Timeline/TreeIdentifiers.h"/>
+        <FILE id="ifwpB5" name="Timeline.cpp" compile="1" resource="0" file="Source/Timeline/Timeline.cpp"/>
+        <FILE id="cE01V0" name="Timeline.h" compile="0" resource="0" file="Source/Timeline/Timeline.h"/>
+      </GROUP>
       <FILE id="SrFBU6" name="RtificialLookAndFeel.cpp" compile="1" resource="0"
             file="Source/RtificialLookAndFeel.cpp"/>
       <FILE id="Wciucj" name="RtificialLookAndFeel.h" compile="0" resource="0"
             file="Source/RtificialLookAndFeel.h"/>
-      <FILE id="Ra4DB7" name="TimelineCanvas.cpp" compile="1" resource="0"
-            file="Source/TimelineCanvas.cpp"/>
-      <FILE id="GwW9NB" name="TimelineCanvas.h" compile="0" resource="0"
-            file="Source/TimelineCanvas.h"/>
-      <FILE id="uC2HZ3" name="Timeline.cpp" compile="1" resource="0" file="Source/Timeline.cpp"/>
-      <FILE id="piVAw4" name="Timeline.h" compile="0" resource="0" file="Source/Timeline.h"/>
       <FILE id="jzZlkA" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
       <FILE id="RCWYjO" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
       <FILE id="oLyckP" name="BoxLayout.h" compile="0" resource="0" file="Source/BoxLayout.h"/>
