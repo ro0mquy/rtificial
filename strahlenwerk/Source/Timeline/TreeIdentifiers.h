@@ -6,7 +6,7 @@
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 
-namespace ttId {
+namespace treeId {
 	// the main ValueTree object
 	Identifier timelineTree("timelineTree");
 		// the different scenes, that are shown one after another
