@@ -1,4 +1,5 @@
 #include "SequenceViewComponent.h"
+#include "Timeline.h"
 
 SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
 	button("Hello World!"),
@@ -13,3 +14,9 @@ void SequenceViewComponent::resized() {
 	button.setBounds(getLocalBounds().reduced(250));
 }
 
+void SequenceViewComponent::paint(Graphics& g){
+	// draw time marker
+	g.setColour(findColour(ScenesBarComponent::timeMarkerColourId));
+	float x = currentTime.getValue();
+	g.drawLine(x, 0, x, getHeight(), 2);
+}
