@@ -80,7 +80,9 @@ ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
 }
 
 void ScenesBarComponent::resized() {
-	setSize(1000, getHeight());
+	//setSize(jmax(data.getLastSceneEndTime()*5 + 20, getParentComponent()->viewportScenes.getViewWidth()), getHeight());
+	//setSize(jmax(data.getLastSceneEndTime()*5 + 20, getParentWidth()), getHeight());
+	setSize(data.getLastSceneEndTime()*5 + 20, getHeight());
 }
 void ScenesBarComponent::paint(Graphics& g) {
 	// höhö G-Punkt
