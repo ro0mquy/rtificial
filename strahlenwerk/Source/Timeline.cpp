@@ -128,7 +128,8 @@ void TimelineScenes::paint(Graphics& g) {
 			);
 	}
 
-	g.setColour(Colours::red);
+	// draw time marker
+	g.setColour(findColour(TimelineScenes::timeMarkerColourId));
 	float x = currentTime.getValue();
 	g.drawLine(x, 0, x, getHeight(), 2);
 
