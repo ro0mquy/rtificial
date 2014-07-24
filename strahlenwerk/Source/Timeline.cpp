@@ -3,16 +3,15 @@
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
+	currentTime(50),
+	valueTree(ttId::timelineTree),
 	viewportCanvas(*this),
 	viewportScenes(*this),
 	viewportUniforms(*this),
 	componentCanvas(currentTime),
 	componentScenes(currentTime),
-	componentUniforms(currentTime),
-	valueTree(ttId::timelineTree)
+	componentUniforms(currentTime)
 {
-	currentTime.setValue(50);
-
 	viewportCanvas.setViewedComponent(&componentCanvas, false);
 	viewportScenes.setViewedComponent(&componentScenes, false);
 	viewportScenes.setScrollBarsShown(false, false, false, true);
@@ -125,6 +124,10 @@ void TimelineScenes::paint(Graphics& g) {
 				1
 			);
 	}
+
+	g.setColour(Colours::red);
+	float x = currentTime.getValue();
+	g.drawLine(x, 0, x, getHeight(), 2);
 }
 
 TimelineUniforms::TimelineUniforms(Value& timeValue) : currentTime(timeValue)

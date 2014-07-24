@@ -45,15 +45,15 @@ class Timeline : public Component
 		void callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position);
 		void setupValueTree();
 
+		Value currentTime;
+		ValueTree valueTree;
+
 		ViewportCallback viewportCanvas;
 		ViewportCallback viewportScenes;
 		ViewportCallback viewportUniforms;
 		TimelineCanvas componentCanvas;
 		TimelineScenes componentScenes;
 		TimelineUniforms componentUniforms;
-
-		Value currentTime;
-		ValueTree valueTree;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Timeline)
 };
