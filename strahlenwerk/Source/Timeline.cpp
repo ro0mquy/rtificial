@@ -1,5 +1,6 @@
 #include "Timeline.h"
 #include "TimelineTree.h"
+#include "RtificialLookAndFeel.h"
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
@@ -107,7 +108,9 @@ void TimelineScenes::resized() {
 }
 void TimelineScenes::paint(Graphics& g) {
 	// höhö G-Punkt
-	g.setColour(Colours::white);
+
+	// draw ticks
+	g.setColour(findColour(TimelineScenes::tickColourId));
 
 	int lineDistance             = 20;
 	int longLineDistance         = 5;
@@ -125,9 +128,15 @@ void TimelineScenes::paint(Graphics& g) {
 			);
 	}
 
+<<<<<<< HEAD
 	g.setColour(Colours::red);
 	float x = currentTime.getValue();
 	g.drawLine(x, 0, x, getHeight(), 2);
+=======
+	// draw outline
+	g.setColour(findColour(RtificialLookAndFeel::outlineColourId));
+	g.drawHorizontalLine(getHeight()-1, 0, getWidth());
+>>>>>>> Added other outlines and colors (no fucking u)
 }
 
 TimelineUniforms::TimelineUniforms(Value& timeValue) : currentTime(timeValue)

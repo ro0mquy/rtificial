@@ -1,7 +1,11 @@
 #include "RtificialLookAndFeel.h"
+#include "Timeline.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(RtificialLookAndFeel::outlineColourId, Colours::black);
+
+	setColour(TimelineScenes::tickColourId, Colours::white);
+	setColour(TimelineScenes::timeMarkerColourId, Colours::red);
 }
 
 RtificialLookAndFeel::~RtificialLookAndFeel() {}

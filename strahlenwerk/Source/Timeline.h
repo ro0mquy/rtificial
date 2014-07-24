@@ -10,6 +10,11 @@ class TimelineScenes : public Component {
 		void resized() override;
 		void paint(Graphics& g) override;
 
+		enum ColourIds{
+			tickColourId,
+			timeMarkerColourId
+		};
+
 	private:
 		Value currentTime;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineScenes)
