@@ -63,7 +63,7 @@ if cgi.request_method == 'POST'
 					irc_command = CONFIG[:notice] ? 'NOTICE' : 'PRIVMSG'
 					irc.print "JOIN #{CONFIG[:room]}\r\n" unless CONFIG[:message_without_join]
 
-					irc.print (("#{irc_command} #{CONFIG[:room]} :[#{CONFIG[:colors] ? "\x02\x0306" : ''}#{File.basename CONFIG[:directory]}#{CONFIG[:colors] ? "\x03\x02" : ''}] #{CONFIG[:colors] ? "\x02\x0304" : ''}Deleted#{CONFIG[:colors] ? "\x03\x02" : ''}: #{CONFIG[:colors] ? "\x0306" : ''}#{File.basename(entry.first)}#{CONFIG[:colors] ? "\x03" : ''}")).delete("\r\n") + "\r\n")
+					irc.print (("#{irc_command} #{CONFIG[:room]} :[#{CONFIG[:colors] ? "\x02\x0306" : ''}#{File.basename CONFIG[:directory]}#{CONFIG[:colors] ? "\x03\x02" : ''}] #{CONFIG[:colors] ? "\x02\x0304" : ''}Deleted#{CONFIG[:colors] ? "\x03\x02" : ''}: #{CONFIG[:colors] ? "\x0306" : ''}#{File.basename(entry.first)}#{CONFIG[:colors] ? "\x03" : ''}").delete("\r\n") + "\r\n")
 
 					irc.print "QUIT\r\n"
 					irc.close
