@@ -119,7 +119,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 	}
 
 	// draw time marker
-	g.setColour(findColour(TimelineScenes::timeMarkerColourId));
+	g.setColour(findColour(ScenesBarComponent::timeMarkerColourId));
 	float x = currentTime.getValue();
 	g.drawLine(x, 0, x, getHeight(), 2);
 
