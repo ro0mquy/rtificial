@@ -89,16 +89,6 @@ void Timeline::setupValueTree() {
 	valueTree.addChild(scenesArray, -1, nullptr);
 }
 
-Timeline::ViewportCallback::ViewportCallback(Timeline& timelineParent) :
-	timelineParent(timelineParent)
-{
-}
-
-// make a callback to Timeline if one of the viewports changed
-void Timeline::ViewportCallback::visibleAreaChanged(const Rectangle<int>& newVisibleArea) {
-	timelineParent.callbackViewportChanged(this, newVisibleArea.getPosition());
-};
-
 ScenesBarComponent::ScenesBarComponent(Value& timeValue) : currentTime(timeValue)
 {
 }
