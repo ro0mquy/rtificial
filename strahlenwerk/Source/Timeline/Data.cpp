@@ -4,14 +4,43 @@
 Data::Data() :
 	valueTree(ttId::timelineTree)
 {
-	ValueTree scenesArray(ttId::scenesArray);
 	for (int i = 0; i < 4; i++) {
-		ValueTree scene(ttId::scene);
-		scene.setProperty(ttId::sceneId, var(i), nullptr);
-		scene.setProperty(ttId::sceneStart, var(60 * i), nullptr);
-		scene.setProperty(ttId::sceneDuration, var(60 * i + 40), nullptr);
-		scene.setProperty(ttId::sceneShaderSource, var(String("glsl") + String(i)), nullptr);
-		scenesArray.addChild(scene, -1, nullptr);
+		addScene(var(i), var(60 * i), var(60 * i + 40), var("glsl" + String(i)));
 	}
-	valueTree.addChild(scenesArray, -1, nullptr);
+}
+
+// retrieves the scenes array
+ValueTree Data::getScenesArray() {
+	return valueTree.getOrCreateChildWithName(ttId::scenesArray, &undoManager);
+}
+
+// adds a scene to the scenes array at a given position
+// returns whether the scene was added
+// if the ValueTree is not a ttId::scene, it won't get added
+// position defaults to -1 (append to end)
+bool Data::addScene(ValueTree scene, int position) {
+	bool isScene = scene.hasType(ttId::scene);
+	isScene &= scene.hasProperty(ttId::sceneId);
+	isScene &= scene.hasProperty(ttId::sceneStart);
+	isScene &= scene.hasProperty(ttId::sceneDuration);
+	isScene &= scene.hasProperty(ttId::sceneShaderSource);
+
+	if (isScene) {
+		getScenesArray().addChild(scene, -1, &undoManager);
+	}
+	return isScene;
+}
+
+// adds a scene with the given vars at position
+// the scene will always be added
+// returns always true
+// position defaults to -1 (append to end)
+bool Data::addScene(var id, var start, var duration, var shaderSource, int position) {
+	ValueTree scene(ttId::scene);
+	scene.setProperty(ttId::sceneId, id, nullptr);
+	scene.setProperty(ttId::sceneStart, start, nullptr);
+	scene.setProperty(ttId::sceneDuration, duration, nullptr);
+	scene.setProperty(ttId::sceneShaderSource, shaderSource, nullptr);
+	getScenesArray().addChild(scene, position, &undoManager);
+	return true;
 }
