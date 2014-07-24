@@ -11,8 +11,8 @@ class TimelineScenes : public Component {
 		void paint(Graphics& g) override;
 
 		enum ColourIds{
-			tickColourId,
-			timeMarkerColourId
+			tickColourId = 0x2300101,
+			timeMarkerColourId = 0x2300102
 		};
 
 	private:

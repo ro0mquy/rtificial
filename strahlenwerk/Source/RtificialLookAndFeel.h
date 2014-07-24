@@ -10,7 +10,7 @@ class RtificialLookAndFeel : public LookAndFeel_V3
 		~RtificialLookAndFeel();
 
 		enum ColourIds{
-			outlineColourId
+			outlineColourId = 0x2300201
 		};
 
 		void drawStretchableLayoutResizerBar (Graphics& g, int w, int h, bool isVerticalBar, bool isMouseOver, bool isMouseDragging);
