@@ -35,14 +35,17 @@ void Timeline::resized() {
 			scenesBar.getWidth(),
 			scenesComponentHeight
 		);
+	scenesBar.resized();
 
 	viewportUniforms.setBounds(r.removeFromLeft(uniformComponenentWidth));
 	uniformsBar.setSize(
 			uniformComponenentWidth,
 			uniformsBar.getHeight()
 		);
+	uniformsBar.resized();
 
 	viewportCanvas.setBounds(r);
+	sequenceView.resized();
 }
 
 // gets called when one of the viewports changed
@@ -80,10 +83,12 @@ ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
 }
 
 void ScenesBarComponent::resized() {
-	//setSize(jmax(data.getLastSceneEndTime()*5 + 20, getParentComponent()->viewportScenes.getViewWidth()), getHeight());
-	//setSize(jmax(data.getLastSceneEndTime()*5 + 20, getParentWidth()), getHeight());
-	setSize(data.getLastSceneEndTime()*5 + 20, getHeight());
+	Timeline::ViewportCallback* parentViewport = findParentComponentOfClass<Timeline::ViewportCallback>();
+	int viewportWidth = parentViewport->getMaximumVisibleWidth();
+	int componentWidth = jmax(data.getLastSceneEndTime() + 20, viewportWidth);
+	setSize(componentWidth, getHeight());
 }
+
 void ScenesBarComponent::paint(Graphics& g) {
 	// höhö G-Punkt
 
@@ -123,7 +128,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 		String shaderSourceName = scene.getProperty(sceneShaderSource);
 		float cornerSize = 5.0f;
 		float padding = 0;
-		Rectangle<float> sceneRect(start*5+0.5, 0.5+padding, duration*5, getHeight()-1-1-2*padding);
+		Rectangle<float> sceneRect(start+0.5, 0.5+padding, duration, getHeight()-1-1-2*padding);
 
 		g.setColour(findColour(ScenesBarComponent::sceneColourId));
 		g.fillRoundedRectangle(sceneRect, cornerSize);

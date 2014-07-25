@@ -42,7 +42,6 @@ class Timeline : public Component
 		Timeline();
 		void resized() override;
 
-	private:
 		// extend Viewport with a custom callback function
 		class ViewportCallback : public Viewport {
 			public:
@@ -59,6 +58,7 @@ class Timeline : public Component
 				Timeline& timelineParent;
 		};
 
+	private:
 		void callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position);
 		void setupValueTree();
 

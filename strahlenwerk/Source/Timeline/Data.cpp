@@ -5,7 +5,7 @@ Data::Data() :
 	valueTree(treeId::timelineTree)
 {
 	for (int i = 0; i < 4; i++) {
-		addScene(var(i), var(60 * i), var(10 * i + 10), var("glsl" + String(i)));
+		addScene(var(i), var(300 * i), var(50 * (i + 1)), var("glsl" + String(i)));
 	}
 }
 
