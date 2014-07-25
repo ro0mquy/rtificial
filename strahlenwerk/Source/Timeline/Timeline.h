@@ -65,9 +65,9 @@ class Timeline : public Component
 		Value currentTime;
 		Data data;
 
-		ViewportCallback viewportCanvas;
-		ViewportCallback viewportScenes;
-		ViewportCallback viewportUniforms;
+		ViewportCallback viewportSequenceView;
+		ViewportCallback viewportScenesBar;
+		ViewportCallback viewportUniformsBar;
 		SequenceViewComponent sequenceView;
 		ScenesBarComponent scenesBar;
 		UniformsBarComponent uniformsBar;

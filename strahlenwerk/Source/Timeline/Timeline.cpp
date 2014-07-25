@@ -5,72 +5,72 @@
 Timeline::Timeline() :
 	currentTime(50),
 	data(),
-	viewportCanvas(*this),
-	viewportScenes(*this),
-	viewportUniforms(*this),
+	viewportSequenceView(*this),
+	viewportScenesBar(*this),
+	viewportUniformsBar(*this),
 	sequenceView(currentTime, data),
 	scenesBar(currentTime, data),
 	uniformsBar(currentTime, data)
 {
-	viewportCanvas.setViewedComponent(&sequenceView, false);
-	viewportScenes.setViewedComponent(&scenesBar, false);
-	viewportScenes.setScrollBarsShown(false, false, false, true);
-	viewportUniforms.setViewedComponent(&uniformsBar, false);
-	viewportUniforms.setScrollBarsShown(false, false, true, false);
-	addAndMakeVisible(viewportCanvas);
-	addAndMakeVisible(viewportScenes);
-	addAndMakeVisible(viewportUniforms);
+	viewportSequenceView.setViewedComponent(&sequenceView, false);
+	viewportScenesBar.setViewedComponent(&scenesBar, false);
+	viewportScenesBar.setScrollBarsShown(false, false, false, true);
+	viewportUniformsBar.setViewedComponent(&uniformsBar, false);
+	viewportUniformsBar.setScrollBarsShown(false, false, true, false);
+	addAndMakeVisible(viewportSequenceView);
+	addAndMakeVisible(viewportScenesBar);
+	addAndMakeVisible(viewportUniformsBar);
 }
 
 void Timeline::resized() {
-	int scenesComponentHeight = 30;
-	int uniformComponenentWidth = 30;
+	int scenesBarHeight = 30;
+	int uniformsBarWidth = 30;
 	Rectangle<int> r(getLocalBounds());
 
-	viewportScenes.setBounds(
-			r.removeFromTop(scenesComponentHeight)
-			.withTrimmedLeft(uniformComponenentWidth)
+	viewportScenesBar.setBounds(
+			r.removeFromTop(scenesBarHeight)
+			.withTrimmedLeft(uniformsBarWidth)
 		);
 	scenesBar.setSize(
 			scenesBar.getWidth(),
-			scenesComponentHeight
+			scenesBarHeight
 		);
 	scenesBar.resized();
 
-	viewportUniforms.setBounds(r.removeFromLeft(uniformComponenentWidth));
+	viewportUniformsBar.setBounds(r.removeFromLeft(uniformsBarWidth));
 	uniformsBar.setSize(
-			uniformComponenentWidth,
+			uniformsBarWidth,
 			uniformsBar.getHeight()
 		);
 	uniformsBar.resized();
 
-	viewportCanvas.setBounds(r);
+	viewportSequenceView.setBounds(r);
 	sequenceView.resized();
 }
 
 // gets called when one of the viewports changed
 // syncs the current position between all three viewports
 void Timeline::callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position) {
-	if (vp == &viewportCanvas) {
+	if (vp == &viewportSequenceView) {
 		// X and Y have changed
-		viewportScenes.setViewPosition(
+		viewportScenesBar.setViewPosition(
 				position.getX(),
-				viewportScenes.getViewPositionY()
+				viewportScenesBar.getViewPositionY()
 				);
-		viewportUniforms.setViewPosition(
-				viewportUniforms.getViewPositionX(),
+		viewportUniformsBar.setViewPosition(
+				viewportUniformsBar.getViewPositionX(),
 				position.getY()
 				);
-	} else if (vp == &viewportScenes) {
+	} else if (vp == &viewportScenesBar) {
 		// only X has changed
-		viewportCanvas.setViewPosition(
+		viewportSequenceView.setViewPosition(
 				position.getX(),
-				viewportCanvas.getViewPositionY()
+				viewportSequenceView.getViewPositionY()
 				);
-	} else if (vp == &viewportUniforms) {
+	} else if (vp == &viewportUniformsBar) {
 		// only Y has changed
-		viewportCanvas.setViewPosition(
-				viewportCanvas.getViewPositionX(),
+		viewportSequenceView.setViewPosition(
+				viewportSequenceView.getViewPositionX(),
 				position.getY()
 				);
 	}
