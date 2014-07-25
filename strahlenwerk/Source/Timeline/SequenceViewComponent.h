@@ -11,6 +11,10 @@ class SequenceViewComponent : public Component
 		void resized() override;
 		void paint(Graphics& g) override;
 
+		enum ColourIds{
+			timeMarkerColourId = 0x8350102,
+		};
+
 	private:
 		TextButton button;
 		Value currentTime;
