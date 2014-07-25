@@ -6,6 +6,9 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 
 	setColour(ScenesBarComponent::tickColourId, Colours::white);
 	setColour(ScenesBarComponent::timeMarkerColourId, Colours::red);
+	setColour(ScenesBarComponent::sceneOutlineColourId, Colours::yellow);
+	setColour(ScenesBarComponent::sceneColourId, findColour(ScenesBarComponent::sceneOutlineColourId).withAlpha(0.4f));
+	setColour(ScenesBarComponent::sceneTextColourId, Colours::white);
 }
 
 RtificialLookAndFeel::~RtificialLookAndFeel() {}

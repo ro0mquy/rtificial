@@ -13,7 +13,10 @@ class ScenesBarComponent : public Component {
 
 		enum ColourIds{
 			tickColourId = 0x2300101,
-			timeMarkerColourId = 0x2300102
+			timeMarkerColourId = 0x2300102,
+			sceneColourId = 0x2300103,
+			sceneOutlineColourId = 0x2300104,
+			sceneTextColourId = 0x2300105
 		};
 
 	private:

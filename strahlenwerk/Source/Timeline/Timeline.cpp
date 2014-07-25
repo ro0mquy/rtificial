@@ -106,6 +106,35 @@ void ScenesBarComponent::paint(Graphics& g) {
 			);
 	}
 
+	//draw scenes
+	ValueTree scenesArray = data.getScenesArray();
+	int numChildren = scenesArray.getNumChildren();
+
+	for (int i = 0; i < numChildren; i++) {
+		ValueTree scene = scenesArray.getChild(i);
+
+		// hackish, pleace fix using treeId::
+		Identifier sceneStart("sceneStart");
+		Identifier sceneDuration("sceneDuration");
+		Identifier sceneShaderSource("sceneShaderSource");
+
+		int start = scene.getProperty(sceneStart);
+		int duration = scene.getProperty(sceneDuration);
+		String shaderSourceName = scene.getProperty(sceneShaderSource);
+		float cornerSize = 5.0f;
+		float padding = 0;
+		Rectangle<float> sceneRect(start*5+0.5, 0.5+padding, duration*5, getHeight()-1-1-2*padding);
+
+		g.setColour(findColour(ScenesBarComponent::sceneColourId));
+		g.fillRoundedRectangle(sceneRect, cornerSize);
+
+		g.setColour(findColour(ScenesBarComponent::sceneOutlineColourId));
+		g.drawRoundedRectangle(sceneRect, cornerSize, 1);
+
+		g.setColour(findColour(ScenesBarComponent::sceneTextColourId));
+		g.drawText(shaderSourceName, sceneRect, Justification(Justification::centred), true);
+	}
+
 	// draw time marker
 	g.setColour(findColour(ScenesBarComponent::timeMarkerColourId));
 	float x = currentTime.getValue();
