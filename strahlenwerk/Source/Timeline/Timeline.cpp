@@ -83,10 +83,8 @@ ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
 }
 
 void ScenesBarComponent::resized() {
-	Timeline::ViewportCallback* parentViewport = findParentComponentOfClass<Timeline::ViewportCallback>();
-	int viewportWidth = parentViewport->getMaximumVisibleWidth();
-	int componentWidth = jmax(data.getLastSceneEndTime() + 20, viewportWidth);
-	setSize(componentWidth, getHeight());
+	int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());
+	setSize(width, getHeight());
 }
 
 void ScenesBarComponent::paint(Graphics& g) {
