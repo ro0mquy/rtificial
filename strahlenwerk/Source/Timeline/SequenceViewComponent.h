@@ -16,7 +16,6 @@ class SequenceViewComponent : public Component
 		};
 
 	private:
-		TextButton button;
 		Value currentTime;
 		Data& data;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceViewComponent)

@@ -17,6 +17,7 @@ class ScenesBarComponent : public Component {
 			sceneColourId = 0x2300103,
 			sceneOutlineColourId = 0x2300104,
 			sceneTextColourId = 0x2300105
+
 		};
 
 	private:
@@ -30,6 +31,13 @@ class UniformsBarComponent : public Component {
 		UniformsBarComponent(Value& timeValue, Data& _data);
 		void resized() override;
 		void paint(Graphics& g) override;
+
+		enum ColourIds{
+			evenRowColourId = 0x2300301,
+			oddRowColourId = 0x2300302,
+			uniformTextColourId = 0x2300303,
+			seperatorColourId = 0x2300304
+		};
 
 	private:
 		Value currentTime;

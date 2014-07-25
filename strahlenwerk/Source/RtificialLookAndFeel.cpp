@@ -11,6 +11,11 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(ScenesBarComponent::sceneOutlineColourId, Colours::yellow);
 	setColour(ScenesBarComponent::sceneColourId, findColour(ScenesBarComponent::sceneOutlineColourId).withAlpha(0.4f));
 	setColour(ScenesBarComponent::sceneTextColourId, Colours::white);
+
+	setColour(UniformsBarComponent::evenRowColourId, Colours::grey);
+	setColour(UniformsBarComponent::oddRowColourId, Colours::darkgrey);
+	setColour(UniformsBarComponent::uniformTextColourId, Colours::white);
+	setColour(UniformsBarComponent::seperatorColourId, Colours::black);
 }
 
 RtificialLookAndFeel::~RtificialLookAndFeel() {}

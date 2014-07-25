@@ -8,7 +8,7 @@ Data::Data() :
 		addScene(var(i), var(300 * i), var(50 * (i + 1)), var("glsl" + String(i)));
 	}
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 30; i++) {
 		ValueTree uniform(treeId::uniform);
 		uniform.setProperty(treeId::uniformName, var("uniform" + String(9001 + i)), nullptr);
 		getUniformsArray().addChild(uniform, -1, nullptr);

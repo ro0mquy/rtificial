@@ -1,22 +1,31 @@
 #include "SequenceViewComponent.h"
+#include "Timeline.h"
 
 SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
-	button("Hello World!"),
 	currentTime(timeValue),
 	data(_data)
 {
-	addAndMakeVisible(button);
 }
 
 void SequenceViewComponent::resized() {
 	int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());
-	int height = jmax(0 /*insert numUniforms stuff*/, getParentHeight());
+	int height = jmax(data.getUniformsArray().getNumChildren() * 20, getParentHeight());
 	setSize(width, height);
-
-	button.setBounds(getLocalBounds().reduced(50));
 }
 
 void SequenceViewComponent::paint(Graphics& g){
+	ValueTree uniformsArray = data.getUniformsArray();
+	int numChildren = uniformsArray.getNumChildren();
+
+	for(int i = 0; i < numChildren; i++){
+		ValueTree uniform = uniformsArray.getChild(i);
+		Rectangle<float> rect(0, i*20, getWidth(), 20);
+		g.setColour(findColour(i%2 == 0 ? UniformsBarComponent::evenRowColourId : UniformsBarComponent::oddRowColourId));
+		g.fillRect(rect);
+		g.setColour(findColour(UniformsBarComponent::seperatorColourId));
+		g.drawHorizontalLine(i*20+20-1, 0, getWidth());
+	}
+
 	// draw time marker
 	g.setColour(findColour(SequenceViewComponent::timeMarkerColourId));
 	float x = currentTime.getValue();
