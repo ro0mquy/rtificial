@@ -20,6 +20,7 @@ Timeline::Timeline() :
 	addAndMakeVisible(viewportSequenceView);
 	addAndMakeVisible(viewportScenesBar);
 	addAndMakeVisible(viewportUniformsBar);
+	resized();
 }
 
 void Timeline::resized() {
@@ -152,6 +153,11 @@ UniformsBarComponent::UniformsBarComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
 	data(_data)
 {
+}
+
+void UniformsBarComponent::resized() {
+	int height = jmax(0 /*insert numUniforms stuff*/, getParentHeight());
+	setSize(getWidth(), height);
 }
 
 void UniformsBarComponent::paint(Graphics& g) {

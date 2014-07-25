@@ -28,6 +28,7 @@ class ScenesBarComponent : public Component {
 class UniformsBarComponent : public Component {
 	public:
 		UniformsBarComponent(Value& timeValue, Data& _data);
+		void resized() override;
 		void paint(Graphics& g) override;
 
 	private:

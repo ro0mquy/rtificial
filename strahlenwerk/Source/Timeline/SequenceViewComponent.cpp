@@ -5,12 +5,15 @@ SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
 	data(_data)
 {
-	setSize(1000, 1000);
 	addAndMakeVisible(button);
 }
 
 void SequenceViewComponent::resized() {
-	button.setBounds(getLocalBounds().reduced(250));
+	int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());
+	int height = jmax(0 /*insert numUniforms stuff*/, getParentHeight());
+	setSize(width, height);
+
+	button.setBounds(getLocalBounds().reduced(50));
 }
 
 void SequenceViewComponent::paint(Graphics& g){
