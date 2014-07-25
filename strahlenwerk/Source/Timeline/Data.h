@@ -12,6 +12,8 @@ class Data {
 		bool addScene(var id, var start, var duration, var shaderSource, int position = -1);
 		int getLastSceneEndTime();
 
+		ValueTree getUniformsArray();
+
 	private:
 		ValueTree valueTree;
 		UndoManager undoManager;

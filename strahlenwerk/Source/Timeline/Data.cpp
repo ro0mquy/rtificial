@@ -7,6 +7,12 @@ Data::Data() :
 	for (int i = 0; i < 4; i++) {
 		addScene(var(i), var(300 * i), var(50 * (i + 1)), var("glsl" + String(i)));
 	}
+
+	for (int i = 0; i < 5; i++) {
+		ValueTree uniform(treeId::uniform);
+		uniform.setProperty(treeId::uniformName, var("uniform" + String(9001 + i)), nullptr);
+		getUniformsArray().addChild(uniform, -1, nullptr);
+	}
 }
 
 // retrieves the scenes array
@@ -60,4 +66,9 @@ int Data::getLastSceneEndTime() {
 	}
 
 	return maxEndTime;
+}
+
+// retrieves the uniforms array
+ValueTree Data::getUniformsArray() {
+	return valueTree.getOrCreateChildWithName(treeId::uniformsArray, &undoManager);
 }
