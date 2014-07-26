@@ -141,7 +141,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 	g.drawLine(x, 0, x, getHeight(), 2);
 
 	// draw outline
-	g.setColour(findColour(RtificialLookAndFeel::outlineColourId));
+	g.setColour(findColour(ExtRtLAF::outlineColourId));
 	g.drawHorizontalLine(getHeight()-1, 0, getWidth());
 }
 
@@ -175,6 +175,6 @@ void UniformsBarComponent::paint(Graphics& g) {
 	}
 
 	// draw outline
-	g.setColour(findColour(RtificialLookAndFeel::outlineColourId));
+	g.setColour(findColour(ExtRtLAF::outlineColourId));
 	g.drawVerticalLine(getWidth()-1, 0, getHeight());
 }

@@ -30,7 +30,7 @@ class MainWindow : public DocumentWindow,
 
 	private:
 		MainContentComponent mainComponent;
-		RtificialLookAndFeel lookAndFeel;
+		ExtRtLAF lookAndFeel;
 
 		ApplicationCommandTarget* getNextCommandTarget() override;
 		void getAllCommands(Array<CommandID>& commands) override;

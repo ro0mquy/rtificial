@@ -2,9 +2,11 @@
 #include "Timeline/Timeline.h"
 #include "Timeline/SequenceViewComponent.h"
 
-RtificialLookAndFeel::RtificialLookAndFeel() {
-	setColour(RtificialLookAndFeel::outlineColourId, Colours::black);
+ExtRtLAF::ExtRtLAF() {
+	setColour(ExtRtLAF::outlineColourId, Colours::black);
+}
 
+RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(ScenesBarComponent::tickColourId, Colours::white);
 	setColour(ScenesBarComponent::timeMarkerColourId, Colours::red);
 	setColour(SequenceViewComponent::timeMarkerColourId, findColour(ScenesBarComponent::timeMarkerColourId));
@@ -21,14 +23,12 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(UniformsBarComponent::uniformTextColourId, Colours::white);
 }
 
-RtificialLookAndFeel::~RtificialLookAndFeel() {}
-
 void RtificialLookAndFeel::drawStretchableLayoutResizerBar(Graphics& g, int w, int h, bool isVerticalBar, bool isMouseOver, bool isMouseDragging) {
 	if (isMouseOver || isMouseDragging){
-		g.fillAll(findColour(RtificialLookAndFeel::outlineColourId));
+		g.fillAll(findColour(ExtRtLAF::outlineColourId));
 	}
 
-	g.setColour(findColour(RtificialLookAndFeel::outlineColourId));
+	g.setColour(findColour(ExtRtLAF::outlineColourId));
 	if(isVerticalBar){
 		g.drawVerticalLine(0, 0, h);
 		g.drawVerticalLine(w-1, 0, h);
