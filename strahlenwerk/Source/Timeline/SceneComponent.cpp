@@ -13,15 +13,15 @@ void SceneComponent::timerCallback() {
 	stopTimer();
 
 	// set bounds
-	int start = sceneData.getProperty(treeId::sceneStart);
-	int duration = sceneData.getProperty(treeId::sceneDuration);
+	const int start = sceneData.getProperty(treeId::sceneStart);
+	const int duration = sceneData.getProperty(treeId::sceneDuration);
 
-	float padding = 0;
+	const float padding = 0;
 	setBounds(start, padding, duration, getParentHeight() - 2*padding);
 }
 
 void SceneComponent::paint(Graphics& g) {
-	float cornerSize = 5.0;
+	const float cornerSize = 5.0;
 	Rectangle<float> rect = getLocalBounds().toFloat();
 	rect.removeFromTop(.5);
 	rect.removeFromBottom(1.5);
