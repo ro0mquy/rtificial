@@ -1,4 +1,5 @@
 #include "Timeline.h"
+#include "TreeIdentifiers.h"
 #include "../RtificialLookAndFeel.h"
 
 // functions of the allmighty Timeline class
@@ -116,15 +117,10 @@ void ScenesBarComponent::paint(Graphics& g) {
 
 	for (int i = 0; i < numChildren; i++) {
 		ValueTree scene = scenesArray.getChild(i);
+		int start = scene.getProperty(treeId::sceneStart);
+		int duration = scene.getProperty(treeId::sceneDuration);
+		String shaderSourceName = scene.getProperty(treeId::sceneShaderSource);
 
-		// hackish, pleace fix using treeId::
-		Identifier sceneStart("sceneStart");
-		Identifier sceneDuration("sceneDuration");
-		Identifier sceneShaderSource("sceneShaderSource");
-
-		int start = scene.getProperty(sceneStart);
-		int duration = scene.getProperty(sceneDuration);
-		String shaderSourceName = scene.getProperty(sceneShaderSource);
 		float cornerSize = 5.0f;
 		float padding = 0;
 		Rectangle<float> sceneRect(start+0.5, 0.5+padding, duration, getHeight()-1-1-2*padding);
@@ -166,8 +162,7 @@ void UniformsBarComponent::paint(Graphics& g) {
 
 	for(int i = 0; i < numChildren; i++){
 		ValueTree uniform = uniformsArray.getChild(i);
-		Identifier uniformName("uniformName");
-		String name = uniform.getProperty(uniformName);
+		String name = uniform.getProperty(treeId::uniformName);
 
 		Rectangle<float> rect(0, i*20, getWidth(), 20);
 

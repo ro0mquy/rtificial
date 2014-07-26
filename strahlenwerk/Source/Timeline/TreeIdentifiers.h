@@ -8,50 +8,50 @@
 
 namespace treeId {
 	// the main ValueTree object
-	Identifier timelineTree("timelineTree");
+	const Identifier timelineTree("timelineTree");
 		// the different scenes, that are shown one after another
-		Identifier scenesArray("scenesArray");
+		const Identifier scenesArray("scenesArray");
 			// a single scene object, contained in the scenesArray
-			Identifier scene("scene");
+			const Identifier scene("scene");
 				// unique Id
-				Identifier sceneId("sceneId");
+				const Identifier sceneId("sceneId");
 				// the starting time of a scene
-				Identifier sceneStart("sceneStart");
+				const Identifier sceneStart("sceneStart");
 				// how long the scene goes
-				Identifier sceneDuration("sceneDuration");
+				const Identifier sceneDuration("sceneDuration");
 				// the filename of the glsl shader to be used in this scene
 				// (maybe another unique identifier?)
-				Identifier sceneShaderSource("sceneShaderSource");
+				const Identifier sceneShaderSource("sceneShaderSource");
 		// an array with all uniforms from all shaders
-		Identifier uniformsArray("uniformsArray");
+		const Identifier uniformsArray("uniformsArray");
 			// an individual uniform
-			Identifier uniform("uniform");
+			const Identifier uniform("uniform");
 				// the name of the uniform
-				Identifier uniformName("uniformName");
+				const Identifier uniformName("uniformName");
 				// the data type of the uniform (float, vec3, color, ...)
-				Identifier uniformType("uniformType");
+				const Identifier uniformType("uniformType");
 				// standard value that is used when no sequence is present
-				Identifier uniformStandardValue("uniformStandardValue");
+				const Identifier uniformStandardValue("uniformStandardValue");
 				// array of sequences for this uniform
-				Identifier sequencesArray("sequencesArray");
+				const Identifier sequencesArray("sequencesArray");
 					// a single sequence for a uniform
-					Identifier sequence("sequence");
+					const Identifier sequence("sequence");
 						// the sceneId the sequence belongs to
-						Identifier sequenceSceneId("sequenceSceneId");
+						const Identifier sequenceSceneId("sequenceSceneId");
 						// the sequence starting time, relative to the scene starting time
-						Identifier sequenceStart("sequenceStart");
+						const Identifier sequenceStart("sequenceStart");
 						// the sequence duration
-						Identifier sequenceDuration("sequenceDuration");
+						const Identifier sequenceDuration("sequenceDuration");
 						// the method used to interpolate between keyframes
-						Identifier sequenceInterpolation("sequenceInterpolation");
+						const Identifier sequenceInterpolation("sequenceInterpolation");
 						// array of keyframes, there must be at least a start and end frame
-						Identifier keyframesArray("keyframesArray");
+						const Identifier keyframesArray("keyframesArray");
 							// individual keyframe
-							Identifier keyframe("keyframe");
+							const Identifier keyframe("keyframe");
 								// time position, relative to keyframe start
-								Identifier keyframePosition("keyframePosition");
+								const Identifier keyframePosition("keyframePosition");
 								// the value of this keyframe
-								Identifier keyframeValue("keyframeValue");
+								const Identifier keyframeValue("keyframeValue");
 }
 
 #endif // TIMELINETREE_H
