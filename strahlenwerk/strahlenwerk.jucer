@@ -6,6 +6,10 @@
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
+        <FILE id="WKk0eU" name="SceneComponent.cpp" compile="1" resource="0"
+              file="Source/Timeline/SceneComponent.cpp"/>
+        <FILE id="cGETP7" name="SceneComponent.h" compile="0" resource="0"
+              file="Source/Timeline/SceneComponent.h"/>
         <FILE id="y5RKPr" name="ScenesBar.cpp" compile="1" resource="0" file="Source/Timeline/ScenesBar.cpp"/>
         <FILE id="VHnsdr" name="ScenesBar.h" compile="0" resource="0" file="Source/Timeline/ScenesBar.h"/>
         <FILE id="L6skV4" name="Data.cpp" compile="1" resource="0" file="Source/Timeline/Data.cpp"/>
@@ -29,9 +33,11 @@
       <FILE id="CHb8Tv" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="LokCeX" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
+      <FILE id="P4IG3t" name="RtColourIds.h" compile="0" resource="0" file="Source/RtColourIds.h"/>
       <FILE id="kt9k5n" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="ETqG8P" name="OpenGLComponent.cpp" compile="1" resource="0"
             file="Source/OpenGLComponent.cpp"/>
+      <GROUP id="{410C4DA9-C2A6-15C4-09EF-FEAD8E0E0A95}" name="Timeline"/>
       <FILE id="TyU334" name="OpenGLComponent.h" compile="0" resource="0"
             file="Source/OpenGLComponent.h"/>
     </GROUP>
