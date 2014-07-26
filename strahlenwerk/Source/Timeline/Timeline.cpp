@@ -108,6 +108,6 @@ void UniformsBarComponent::paint(Graphics& g) {
 	}
 
 	// draw outline
-	g.setColour(findColour(ExtRtLAF::outlineColourId));
+	g.setColour(findColour(RtColourIds::outlineColourId));
 	g.drawVerticalLine(getWidth()-1, 0, getHeight());
 }
