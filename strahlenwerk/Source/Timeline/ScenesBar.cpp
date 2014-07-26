@@ -10,7 +10,7 @@ ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
 }
 
 void ScenesBarComponent::resized() {
-	int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());
+	const int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());
 	setSize(width, getHeight());
 }
 
@@ -20,13 +20,13 @@ void ScenesBarComponent::paint(Graphics& g) {
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
 
-	int lineDistance             = 20;
-	int longLineDistance         = 5;
-	float lineHeightFraction     = 0.25;
-	float longLineHeightFraction = 0.5;
+	const int lineDistance             = 20;
+	const int longLineDistance         = 5;
+	const float lineHeightFraction     = 0.25;
+	const float longLineHeightFraction = 0.5;
 
 	for(int i = 0; i*lineDistance < getWidth(); i++){
-		bool longLine = (i%longLineDistance == 0);
+		const bool longLine = (i%longLineDistance == 0);
 		g.drawLine(
 				i*lineDistance + 0.5,
 				0,
@@ -38,7 +38,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 
 	// draw time marker
 	g.setColour(findColour(ScenesBarComponent::timeMarkerColourId));
-	float x = currentTime.getValue();
+	const float x = currentTime.getValue();
 	g.drawLine(x, 0, x, getHeight(), 2);
 
 	// draw outline
@@ -49,7 +49,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 void ScenesBarComponent::updateSceneComponents() {
 	sceneComponentsArray.clearQuick(true);
 	ValueTree sceneDatasArray = data.getScenesArray();
-	int numScenes = sceneDatasArray.getNumChildren();
+	const int numScenes = sceneDatasArray.getNumChildren();
 
 	for (int i = 0; i < numScenes; i++) {
 		ValueTree sceneData = sceneDatasArray.getChild(i);

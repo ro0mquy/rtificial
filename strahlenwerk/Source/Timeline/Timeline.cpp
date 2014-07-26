@@ -25,8 +25,8 @@ Timeline::Timeline() :
 }
 
 void Timeline::resized() {
-	int scenesBarHeight = 30;
-	int uniformsBarWidth = 150;
+	const int scenesBarHeight = 30;
+	const int uniformsBarWidth = 150;
 	Rectangle<int> r(getLocalBounds());
 
 	viewportScenesBar.setBounds(
@@ -85,19 +85,19 @@ UniformsBarComponent::UniformsBarComponent(Value& timeValue, Data& _data) :
 }
 
 void UniformsBarComponent::resized() {
-	int height = jmax(data.getUniformsArray().getNumChildren() * 20, getParentHeight());
+	const int height = jmax(data.getUniformsArray().getNumChildren() * 20, getParentHeight());
 	setSize(getWidth(), height);
 }
 
 void UniformsBarComponent::paint(Graphics& g) {
 	ValueTree uniformsArray = data.getUniformsArray();
-	int numChildren = uniformsArray.getNumChildren();
+	const int numChildren = uniformsArray.getNumChildren();
 
 	for(int i = 0; i < numChildren; i++){
 		ValueTree uniform = uniformsArray.getChild(i);
-		String name = uniform.getProperty(treeId::uniformName);
+		const String name = uniform.getProperty(treeId::uniformName);
 
-		Rectangle<float> rect(0, i*20, getWidth(), 20);
+		const Rectangle<float> rect(0, i*20, getWidth(), 20);
 
 		g.setColour(findColour(i%2 == 0 ? UniformsBarComponent::evenRowColourId : UniformsBarComponent::oddRowColourId));
 		g.fillRect(rect);
