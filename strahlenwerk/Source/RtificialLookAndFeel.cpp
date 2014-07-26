@@ -11,9 +11,9 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(ScenesBarComponent::tickColourId, Colours::white);
 	setColour(ScenesBarComponent::timeMarkerColourId, Colours::red);
 	setColour(SequenceViewComponent::timeMarkerColourId, findColour(ScenesBarComponent::timeMarkerColourId));
-	setColour(ScenesBarComponent::sceneOutlineColourId, Colours::yellow);
-	setColour(ScenesBarComponent::sceneColourId, findColour(ScenesBarComponent::sceneOutlineColourId).withAlpha(0.4f));
-	setColour(ScenesBarComponent::sceneTextColourId, Colours::white);
+	setColour(SceneComponent::outlineColourId, Colours::yellow);
+	setColour(SceneComponent::fillColourId, findColour(SceneComponent::outlineColourId).withAlpha(0.4f));
+	setColour(SceneComponent::textColourId, Colours::white);
 
 	setColour(UniformsBarComponent::evenRowColourId, Colours::grey);
 	setColour(SequenceViewComponent::evenRowColourId, findColour(UniformsBarComponent::evenRowColourId));
