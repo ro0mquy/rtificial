@@ -12,7 +12,6 @@ class MainContentComponent : public Component
 		MainContentComponent();
 
 		void resized() override;
-		bool keyPressed(const KeyPress& key) override;
 
 	private:
 		StretchableLayoutResizerBar verticalResizer;
@@ -20,7 +19,8 @@ class MainContentComponent : public Component
 
 		PropertyPanel panel;
 		StretchableLayoutResizerBar horizontalResizer;
-		OpenGLComponent openGLComponent;
+		//OpenGLComponent openGLComponent;
+		Component openGLComponent;
 
 		StretchableLayoutManager verticalLayout;
 		StretchableLayoutManager horizontalLayout;

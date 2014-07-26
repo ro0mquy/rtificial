@@ -23,8 +23,3 @@ MainContentComponent::MainContentComponent() :
 void MainContentComponent::resized() {
 	verticalBoxLayout.setBounds(getLocalBounds());
 }
-
-bool MainContentComponent::keyPressed(const KeyPress& key) {
-	openGLComponent.setFragmentShader("#version 330\nout vec3 color; void main() { color = vec3(1, 0, 0);}");
-	return false;
-}
