@@ -36,3 +36,14 @@ void SceneComponent::paint(Graphics& g) {
 	g.setColour(findColour(SceneComponent::textColourId));
 	g.drawText(shaderSourceName, rect, Justification(Justification::centred), true);
 }
+
+void SceneComponent::mouseDown(const MouseEvent& event) {
+	startDraggingComponent(this, event);
+}
+
+void SceneComponent::mouseDrag(const MouseEvent& event) {
+	ComponentBoundsConstrainer constrainer;
+	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
+	dragComponent(this, event, &constrainer);
+}
+

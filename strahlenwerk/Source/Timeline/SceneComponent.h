@@ -3,10 +3,15 @@
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 
-class SceneComponent : public Component, private Timer {
+class SceneComponent : public Component,
+	private Timer,
+	private ComponentDragger
+{
 	public:
 		SceneComponent(ValueTree _sceneData);
 		void paint(Graphics& g) override;
+		void mouseDown(const MouseEvent& event) override;
+		void mouseDrag(const MouseEvent& event) override;
 		void timerCallback() override;
 
 		enum ColourIds {
