@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/ScenesBar_54824b47.o \
   $(OBJDIR)/Data_92ef9439.o \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
   $(OBJDIR)/Timeline_d3785850.o \
@@ -86,6 +87,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/ScenesBar_54824b47.o: ../../Source/Timeline/ScenesBar.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ScenesBar.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Data_92ef9439.o: ../../Source/Timeline/Data.cpp
 	-@mkdir -p $(OBJDIR)

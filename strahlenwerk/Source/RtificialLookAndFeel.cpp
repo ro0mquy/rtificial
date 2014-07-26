@@ -1,6 +1,7 @@
 #include "RtificialLookAndFeel.h"
 #include "Timeline/Timeline.h"
 #include "Timeline/SequenceViewComponent.h"
+#include "Timeline/ScenesBar.h"
 
 ExtRtLAF::ExtRtLAF() {
 	setColour(ExtRtLAF::outlineColourId, Colours::black);
