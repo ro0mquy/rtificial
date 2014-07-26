@@ -13,9 +13,12 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(ScenesBarComponent::sceneTextColourId, Colours::white);
 
 	setColour(UniformsBarComponent::evenRowColourId, Colours::grey);
+	setColour(SequenceViewComponent::evenRowColourId, findColour(UniformsBarComponent::evenRowColourId));
 	setColour(UniformsBarComponent::oddRowColourId, Colours::darkgrey);
-	setColour(UniformsBarComponent::uniformTextColourId, Colours::white);
+	setColour(SequenceViewComponent::oddRowColourId, findColour(UniformsBarComponent::oddRowColourId));
 	setColour(UniformsBarComponent::seperatorColourId, Colours::black);
+	setColour(SequenceViewComponent::seperatorColourId, findColour(UniformsBarComponent::seperatorColourId));
+	setColour(UniformsBarComponent::uniformTextColourId, Colours::white);
 }
 
 RtificialLookAndFeel::~RtificialLookAndFeel() {}

@@ -1,5 +1,4 @@
 #include "SequenceViewComponent.h"
-#include "Timeline.h"
 
 SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
@@ -20,9 +19,9 @@ void SequenceViewComponent::paint(Graphics& g){
 	for(int i = 0; i < numChildren; i++){
 		ValueTree uniform = uniformsArray.getChild(i);
 		Rectangle<float> rect(0, i*20, getWidth(), 20);
-		g.setColour(findColour(i%2 == 0 ? UniformsBarComponent::evenRowColourId : UniformsBarComponent::oddRowColourId));
+		g.setColour(findColour(i%2 == 0 ? SequenceViewComponent::evenRowColourId : SequenceViewComponent::oddRowColourId));
 		g.fillRect(rect);
-		g.setColour(findColour(UniformsBarComponent::seperatorColourId));
+		g.setColour(findColour(SequenceViewComponent::seperatorColourId));
 		g.drawHorizontalLine(i*20+20-1, 0, getWidth());
 	}
 

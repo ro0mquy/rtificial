@@ -13,6 +13,9 @@ class SequenceViewComponent : public Component
 
 		enum ColourIds{
 			timeMarkerColourId = 0x8350102,
+			evenRowColourId = 0x2300301,
+			oddRowColourId = 0x2300302,
+			seperatorColourId = 0x2300304,
 		};
 
 	private:
