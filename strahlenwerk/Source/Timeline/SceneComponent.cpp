@@ -4,6 +4,10 @@
 SceneComponent::SceneComponent(ValueTree _sceneData) :
 	sceneData(_sceneData)
 {
+	// don't drag over the component edges
+	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
+	constrainer.setGridWidth(20);
+
 	// start timer, so the bounds get set,
 	// when this component was added to the ScenesBarComponent
 	startTimer(0);
@@ -42,8 +46,6 @@ void SceneComponent::mouseDown(const MouseEvent& event) {
 }
 
 void SceneComponent::mouseDrag(const MouseEvent& event) {
-	ComponentBoundsConstrainer constrainer;
-	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
 	dragComponent(this, event, &constrainer);
 }
 

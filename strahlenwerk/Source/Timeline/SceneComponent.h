@@ -2,6 +2,7 @@
 #define SCENECOMPONENT_H
 
 #include "../../JuceLibraryCode/JuceHeader.h"
+#include "SnapToGridConstrainer.h"
 
 class SceneComponent : public Component,
 	private Timer,
@@ -22,6 +23,7 @@ class SceneComponent : public Component,
 
 	private:
 		ValueTree sceneData;
+		SnapToGridConstrainer constrainer;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SceneComponent)
 };
 
