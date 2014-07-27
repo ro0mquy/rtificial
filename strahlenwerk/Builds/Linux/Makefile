@@ -62,6 +62,7 @@ OBJECTS := \
   $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/Main_90ebc5c2.o \
   $(OBJDIR)/MainComponent_a6ffb4a5.o \
+  $(OBJDIR)/Renderer_d34861cc.o \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
   $(OBJDIR)/juce_audio_basics_832d1cec.o \
   $(OBJDIR)/juce_audio_devices_f204e6aa.o \
@@ -144,6 +145,11 @@ $(OBJDIR)/Main_90ebc5c2.o: ../../Source/Main.cpp
 $(OBJDIR)/MainComponent_a6ffb4a5.o: ../../Source/MainComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling MainComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Renderer_d34861cc.o: ../../Source/Renderer.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Renderer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/OpenGLComponent_fe08fa6f.o: ../../Source/OpenGLComponent.cpp

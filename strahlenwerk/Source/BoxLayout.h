@@ -16,6 +16,10 @@ class BoxLayout : public Component {
 			}
 		}
 
+		~BoxLayout() {
+			removeAllChildren();
+		}
+
 		void resized() override {
 			layoutManager.layOutComponents(components.data(), N, 0, 0, getWidth(), getHeight(), VERTICAL, true);
 		}

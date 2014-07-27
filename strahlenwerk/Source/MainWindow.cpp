@@ -29,8 +29,8 @@ MainWindow::MainWindow() :
 }
 
 MainWindow::~MainWindow() {
-	setMenuBar(nullptr);
 	applicationCommandManager = nullptr;
+	setMenuBar(nullptr);
 }
 
 void MainWindow::closeButtonPressed() {

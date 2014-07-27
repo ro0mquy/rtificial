@@ -43,11 +43,12 @@
       <FILE id="CHb8Tv" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="LokCeX" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
+      <FILE id="SkmHDQ" name="Renderer.cpp" compile="1" resource="0" file="Source/Renderer.cpp"/>
+      <FILE id="vkHWw8" name="Renderer.h" compile="0" resource="0" file="Source/Renderer.h"/>
       <FILE id="P4IG3t" name="RtColourIds.h" compile="0" resource="0" file="Source/RtColourIds.h"/>
       <FILE id="kt9k5n" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="ETqG8P" name="OpenGLComponent.cpp" compile="1" resource="0"
             file="Source/OpenGLComponent.cpp"/>
-      <GROUP id="{410C4DA9-C2A6-15C4-09EF-FEAD8E0E0A95}" name="Timeline"/>
       <FILE id="TyU334" name="OpenGLComponent.h" compile="0" resource="0"
             file="Source/OpenGLComponent.h"/>
     </GROUP>
