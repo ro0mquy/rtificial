@@ -31,14 +31,14 @@ void SequenceViewComponent::paint(Graphics& g){
 		g.setColour(findColour(SequenceViewComponent::seperatorColourId));
 		g.drawHorizontalLine(i*rowHeight+rowHeight-1, 0, getWidth());
 
-		// mark unactive areas
+		// mark inactive areas
 		for (int j = 0; j < numScenes; j++) {
 			ValueTree scene = scenesArray.getChild(j);
 			if (!uniformActiveForScene(uniform, scene)) {
 				const int start = scene.getProperty(treeId::sceneStart);
 				const int duration = scene.getProperty(treeId::sceneDuration);
 				const Rectangle<float> rectangle(start, i*rowHeight, duration, rowHeight);
-				g.setColour(findColour(SequenceViewComponent::unactiveAreaColourId));
+				g.setColour(findColour(SequenceViewComponent::inactiveAreaColourId));
 				g.fillRect(rectangle);
 			}
 		}

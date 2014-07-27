@@ -16,7 +16,7 @@ class SequenceViewComponent : public Component
 			evenRowColourId = 0x2300301,
 			oddRowColourId = 0x2300302,
 			seperatorColourId = 0x2300304,
-			unactiveAreaColourId = 0x2300305,
+			inactiveAreaColourId = 0x2300305,
 		};
 
 	private:
