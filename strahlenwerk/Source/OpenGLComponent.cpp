@@ -1,8 +1,12 @@
+#include "MainWindow.h"
+
 #include "OpenGLComponent.h"
 
 OpenGLComponent::OpenGLComponent() :
 	renderer(context)
 {
+	MainWindow::getApplicationCommandManager().addListener(this);
+
 	context.setRenderer(&renderer);
 	context.attachTo(*this);
 	//context.setContinuousRepainting(true);
@@ -12,4 +16,13 @@ OpenGLComponent::OpenGLComponent() :
 
 OpenGLComponent::~OpenGLComponent() {
 	context.detach();
+}
+
+void OpenGLComponent::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
+	if(info.commandID == MainWindow::quitProgram) {
+		context.detach();
+	}
+}
+
+void OpenGLComponent::applicationCommandListChanged() {
 }

@@ -19,8 +19,7 @@ class MainContentComponent : public Component
 
 		PropertyPanel panel;
 		StretchableLayoutResizerBar horizontalResizer;
-		//OpenGLComponent openGLComponent;
-		Component openGLComponent;
+		OpenGLComponent openGLComponent;
 
 		StretchableLayoutManager verticalLayout;
 		StretchableLayoutManager horizontalLayout;
