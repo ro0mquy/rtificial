@@ -8,7 +8,7 @@ ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
 	updateSceneComponents();
 }
 
-void ScenesBarComponent::resized() {
+void ScenesBarComponent::updateSize() {
 	const int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());
 	setSize(width, getHeight());
 }

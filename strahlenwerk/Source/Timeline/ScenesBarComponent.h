@@ -8,7 +8,7 @@
 class ScenesBarComponent : public Component {
 	public:
 		ScenesBarComponent(Value& timeValue, Data& _data);
-		void resized() override;
+		void updateSize();
 		void paint(Graphics& g) override;
 		void updateSceneComponents();
 

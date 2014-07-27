@@ -6,7 +6,7 @@ SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
 {
 }
 
-void SequenceViewComponent::resized() {
+void SequenceViewComponent::updateSize() {
 	const int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());
 	const int height = jmax(data.getUniformsArray().getNumChildren() * 20, getParentHeight());
 	setSize(width, height);

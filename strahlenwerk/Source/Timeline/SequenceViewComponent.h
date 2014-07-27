@@ -8,7 +8,7 @@ class SequenceViewComponent : public Component
 {
 	public:
 		SequenceViewComponent(Value& timeValue, Data& _data);
-		void resized() override;
+		void updateSize();
 		void paint(Graphics& g) override;
 
 		enum ColourIds{

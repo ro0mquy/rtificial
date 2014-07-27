@@ -8,7 +8,7 @@ UniformsBarComponent::UniformsBarComponent(Value& timeValue, Data& _data) :
 {
 }
 
-void UniformsBarComponent::resized() {
+void UniformsBarComponent::updateSize() {
 	const int height = jmax(data.getUniformsArray().getNumChildren() * 20, getParentHeight());
 	setSize(getWidth(), height);
 }

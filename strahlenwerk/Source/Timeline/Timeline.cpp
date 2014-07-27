@@ -35,17 +35,17 @@ void Timeline::resized() {
 			scenesBar.getWidth(),
 			scenesBarHeight
 		);
-	scenesBar.resized();
+	scenesBar.updateSize();
 
 	viewportUniformsBar.setBounds(r.removeFromLeft(uniformsBarWidth));
 	uniformsBar.setSize(
 			uniformsBarWidth,
 			uniformsBar.getHeight()
 		);
-	uniformsBar.resized();
+	uniformsBar.updateSize();
 
 	viewportSequenceView.setBounds(r);
-	sequenceView.resized();
+	sequenceView.updateSize();
 }
 
 // gets called when one of the viewports changed

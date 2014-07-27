@@ -7,7 +7,7 @@
 class UniformsBarComponent : public Component {
 	public:
 		UniformsBarComponent(Value& timeValue, Data& _data);
-		void resized() override;
+		void updateSize();
 		void paint(Graphics& g) override;
 
 		enum ColourIds{
