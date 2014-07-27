@@ -1,5 +1,5 @@
-#ifndef SCENESBAR_H
-#define SCENESBAR_H
+#ifndef SCENESBARCOMPONENT_H
+#define SCENESBARCOMPONENT_H
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "Data.h"
@@ -24,4 +24,4 @@ class ScenesBarComponent : public Component {
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScenesBarComponent)
 };
 
-#endif // SCENESBAR_H
+#endif // SCENESBARCOMPONENT_H

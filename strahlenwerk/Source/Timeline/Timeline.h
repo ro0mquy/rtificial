@@ -3,7 +3,7 @@
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "SequenceViewComponent.h"
-#include "ScenesBar.h"
+#include "ScenesBarComponent.h"
 #include "Data.h"
 
 class UniformsBarComponent : public Component {

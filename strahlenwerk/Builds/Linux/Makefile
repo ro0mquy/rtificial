@@ -53,7 +53,7 @@ endif
 OBJECTS := \
   $(OBJDIR)/SceneComponent_2e62f260.o \
   $(OBJDIR)/SnapToGridConstrainer_30f5e134.o \
-  $(OBJDIR)/ScenesBar_54824b47.o \
+  $(OBJDIR)/ScenesBarComponent_9e1694c0.o \
   $(OBJDIR)/Data_92ef9439.o \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
   $(OBJDIR)/Timeline_d3785850.o \
@@ -100,9 +100,9 @@ $(OBJDIR)/SnapToGridConstrainer_30f5e134.o: ../../Source/Timeline/SnapToGridCons
 	@echo "Compiling SnapToGridConstrainer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/ScenesBar_54824b47.o: ../../Source/Timeline/ScenesBar.cpp
+$(OBJDIR)/ScenesBarComponent_9e1694c0.o: ../../Source/Timeline/ScenesBarComponent.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ScenesBar.cpp"
+	@echo "Compiling ScenesBarComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Data_92ef9439.o: ../../Source/Timeline/Data.cpp

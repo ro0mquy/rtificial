@@ -14,8 +14,10 @@
               file="Source/Timeline/SnapToGridConstrainer.cpp"/>
         <FILE id="xTdKiY" name="SnapToGridConstrainer.h" compile="0" resource="0"
               file="Source/Timeline/SnapToGridConstrainer.h"/>
-        <FILE id="y5RKPr" name="ScenesBar.cpp" compile="1" resource="0" file="Source/Timeline/ScenesBar.cpp"/>
-        <FILE id="VHnsdr" name="ScenesBar.h" compile="0" resource="0" file="Source/Timeline/ScenesBar.h"/>
+        <FILE id="y5RKPr" name="ScenesBarComponent.cpp" compile="1" resource="0"
+              file="Source/Timeline/ScenesBarComponent.cpp"/>
+        <FILE id="VHnsdr" name="ScenesBarComponent.h" compile="0" resource="0"
+              file="Source/Timeline/ScenesBarComponent.h"/>
         <FILE id="L6skV4" name="Data.cpp" compile="1" resource="0" file="Source/Timeline/Data.cpp"/>
         <FILE id="R5BiSQ" name="Data.h" compile="0" resource="0" file="Source/Timeline/Data.h"/>
         <FILE id="AiGAGg" name="SequenceViewComponent.cpp" compile="1" resource="0"

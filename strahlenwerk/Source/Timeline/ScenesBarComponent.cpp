@@ -1,4 +1,4 @@
-#include "ScenesBar.h"
+#include "ScenesBarComponent.h"
 #include "../RtificialLookAndFeel.h"
 
 ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
