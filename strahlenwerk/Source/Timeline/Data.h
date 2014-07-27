@@ -16,6 +16,10 @@ class Data {
 		bool addUniform(ValueTree uniform, int position = -1);
 		bool addUniform(var name, var type, int position = -1);
 
+		ValueTree getSequencesArray(ValueTree uniform);
+		bool addSequence(ValueTree uniform, ValueTree sequence, int position = -1);
+		bool addSequence(ValueTree uniform, var sceneId, var start, var duration, var interpolation, int position = -1);
+
 	private:
 		ValueTree valueTree;
 		UndoManager undoManager;

@@ -71,7 +71,7 @@ ValueTree Data::getUniformsArray() {
 	return valueTree.getOrCreateChildWithName(treeId::uniformsArray, &undoManager);
 }
 
-// adds a uniform to the scenes array at a given position
+// adds a uniform to the uniforms array at a given position
 // returns whether the uniform was added
 // if the ValueTree is not a treeId::uniform, it won't get added
 // position defaults to -1 (append to end)
@@ -95,5 +95,41 @@ bool Data::addUniform(var name, var type, int position) {
 	uniform.setProperty(treeId::uniformName, name, nullptr);
 	uniform.setProperty(treeId::uniformType, type, nullptr);
 	getUniformsArray().addChild(uniform, position, &undoManager);
+	return true;
+}
+
+// retrieves the sequences array for a given uniform
+ValueTree Data::getSequencesArray(ValueTree uniform) {
+	return uniform.getOrCreateChildWithName(treeId::sequencesArray, &undoManager);
+}
+
+// adds a sequence to the sequences array of a uniform at a given position
+// returns whether the sequence was added
+// if the ValueTree is not a treeId::sequence, it won't get added
+// position defaults to -1 (append to end)
+bool Data::addSequence(ValueTree uniform, ValueTree sequence, int position) {
+	bool isSequence = sequence.hasType(treeId::sequence);
+	isSequence &= sequence.hasProperty(treeId::sequenceSceneId);
+	isSequence &= sequence.hasProperty(treeId::sequenceStart);
+	isSequence &= sequence.hasProperty(treeId::sequenceDuration);
+	isSequence &= sequence.hasProperty(treeId::sequenceInterpolation);
+
+	if (isSequence) {
+		getSequencesArray(uniform).addChild(sequence, position, &undoManager);
+	}
+	return isSequence;
+}
+
+// adds a sequence with the given vars to a uniform at position
+// the sequence will always be added
+// returns always true
+// position defaults to -1 (append to end)
+bool Data::addSequence(ValueTree uniform, var sceneId, var start, var duration, var interpolation, int position) {
+	ValueTree sequence(treeId::sequence);
+	sequence.setProperty(treeId::sequenceSceneId, sceneId, nullptr);
+	sequence.setProperty(treeId::sequenceStart, start, nullptr);
+	sequence.setProperty(treeId::sequenceDuration, duration, nullptr);
+	sequence.setProperty(treeId::sequenceInterpolation, interpolation, nullptr);
+	getSequencesArray(uniform).addChild(sequence, position, &undoManager);
 	return true;
 }
