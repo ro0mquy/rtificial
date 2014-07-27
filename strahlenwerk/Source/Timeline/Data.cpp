@@ -9,9 +9,7 @@ Data::Data() :
 	}
 
 	for (int i = 0; i < 30; i++) {
-		ValueTree uniform(treeId::uniform);
-		uniform.setProperty(treeId::uniformName, var("uniform" + String(9001 + i)), nullptr);
-		getUniformsArray().addChild(uniform, -1, nullptr);
+		addUniform(var("uniform" + String(9001 + i)), var(i%2 == 0 ? "color" : "float"));
 	}
 }
 
@@ -32,7 +30,7 @@ bool Data::addScene(ValueTree scene, int position) {
 	isScene &= scene.hasProperty(treeId::sceneShaderSource);
 
 	if (isScene) {
-		getScenesArray().addChild(scene, -1, &undoManager);
+		getScenesArray().addChild(scene, position, &undoManager);
 	}
 	return isScene;
 }
@@ -71,4 +69,31 @@ int Data::getLastSceneEndTime() {
 // retrieves the uniforms array
 ValueTree Data::getUniformsArray() {
 	return valueTree.getOrCreateChildWithName(treeId::uniformsArray, &undoManager);
+}
+
+// adds a uniform to the scenes array at a given position
+// returns whether the uniform was added
+// if the ValueTree is not a treeId::uniform, it won't get added
+// position defaults to -1 (append to end)
+bool Data::addUniform(ValueTree uniform, int position) {
+	bool isUniform = uniform.hasType(treeId::uniform);
+	isUniform &= uniform.hasProperty(treeId::uniformName);
+	isUniform &= uniform.hasProperty(treeId::uniformType);
+
+	if (isUniform) {
+		getUniformsArray().addChild(uniform, position, &undoManager);
+	}
+	return isUniform;
+}
+
+// adds a uniform with the given vars at position
+// the uniform will always be added
+// returns always true
+// position defaults to -1 (append to end)
+bool Data::addUniform(var name, var type, int position) {
+	ValueTree uniform(treeId::uniform);
+	uniform.setProperty(treeId::uniformName, name, nullptr);
+	uniform.setProperty(treeId::uniformType, type, nullptr);
+	getUniformsArray().addChild(uniform, position, &undoManager);
+	return true;
 }

@@ -13,6 +13,8 @@ class Data {
 		int getLastSceneEndTime();
 
 		ValueTree getUniformsArray();
+		bool addUniform(ValueTree uniform, int position = -1);
+		bool addUniform(var name, var type, int position = -1);
 
 	private:
 		ValueTree valueTree;
