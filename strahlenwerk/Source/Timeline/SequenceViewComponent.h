@@ -16,9 +16,12 @@ class SequenceViewComponent : public Component
 			evenRowColourId = 0x2300301,
 			oddRowColourId = 0x2300302,
 			seperatorColourId = 0x2300304,
+			unactiveAreaColourId = 0x2300305,
 		};
 
 	private:
+		bool uniformActiveForScene(ValueTree uniform, ValueTree scene);
+
 		Value currentTime;
 		Data& data;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceViewComponent)

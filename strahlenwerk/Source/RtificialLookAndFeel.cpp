@@ -18,6 +18,9 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(UniformsBarComponent::seperatorColourId, Colours::black);
 	setColour(SequenceViewComponent::seperatorColourId, findColour(UniformsBarComponent::seperatorColourId));
 	setColour(UniformsBarComponent::uniformTextColourId, Colours::white);
+
+	setColour(SequenceViewComponent::unactiveAreaColourId, Colours::black.withAlpha(0.4f));
+
 	setColour(RtColourIds::outlineColourId, Colours::black);
 }
 

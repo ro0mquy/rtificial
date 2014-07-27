@@ -1,4 +1,5 @@
 #include "SequenceViewComponent.h"
+#include "TreeIdentifiers.h"
 
 SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
@@ -13,20 +14,46 @@ void SequenceViewComponent::updateSize() {
 }
 
 void SequenceViewComponent::paint(Graphics& g){
-	ValueTree uniformsArray = data.getUniformsArray();
-	const int numChildren = uniformsArray.getNumChildren();
+	const int rowHeight = 20;
 
-	for(int i = 0; i < numChildren; i++){
+	ValueTree uniformsArray = data.getUniformsArray();
+	const int numUniforms = uniformsArray.getNumChildren();
+
+	ValueTree scenesArray = data.getScenesArray();
+	const int numScenes = scenesArray.getNumChildren();
+
+	for(int i = 0; i < numUniforms; i++){
+		// draw rows
 		ValueTree uniform = uniformsArray.getChild(i);
-		const Rectangle<float> rect(0, i*20, getWidth(), 20);
+		const Rectangle<float> rect(0, i*rowHeight, getWidth(), rowHeight);
 		g.setColour(findColour(i%2 == 0 ? SequenceViewComponent::evenRowColourId : SequenceViewComponent::oddRowColourId));
 		g.fillRect(rect);
 		g.setColour(findColour(SequenceViewComponent::seperatorColourId));
-		g.drawHorizontalLine(i*20+20-1, 0, getWidth());
+		g.drawHorizontalLine(i*rowHeight+rowHeight-1, 0, getWidth());
+
+		// mark unactive areas
+		for (int j = 0; j < numScenes; j++) {
+			ValueTree scene = scenesArray.getChild(j);
+			if (!uniformActiveForScene(uniform, scene)) {
+				const int start = scene.getProperty(treeId::sceneStart);
+				const int duration = scene.getProperty(treeId::sceneDuration);
+				const Rectangle<float> rectangle(start, i*rowHeight, duration, rowHeight);
+				g.setColour(findColour(SequenceViewComponent::unactiveAreaColourId));
+				g.fillRect(rectangle);
+			}
+		}
 	}
 
 	// draw time marker
 	g.setColour(findColour(SequenceViewComponent::timeMarkerColourId));
 	const float x = currentTime.getValue();
 	g.drawLine(x, 0, x, getHeight(), 2);
+}
+
+bool SequenceViewComponent::uniformActiveForScene(ValueTree uniform, ValueTree scene) {
+	// dummy functionality, replace with real lookup
+	const String uniformName = uniform.getProperty(treeId::uniformName);
+	const String sceneShaderSource = scene.getProperty(treeId::sceneShaderSource);
+	const int64 hash = uniformName.hashCode() + sceneShaderSource.hashCode();
+	return hash % 2 != 0;
 }

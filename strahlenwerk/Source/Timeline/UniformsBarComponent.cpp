@@ -14,6 +14,7 @@ void UniformsBarComponent::updateSize() {
 }
 
 void UniformsBarComponent::paint(Graphics& g) {
+	const int rowHeight = 20;
 	ValueTree uniformsArray = data.getUniformsArray();
 	const int numChildren = uniformsArray.getNumChildren();
 
@@ -21,12 +22,12 @@ void UniformsBarComponent::paint(Graphics& g) {
 		ValueTree uniform = uniformsArray.getChild(i);
 		const String name = uniform.getProperty(treeId::uniformName);
 
-		const Rectangle<float> rect(0, i*20, getWidth(), 20);
+		const Rectangle<float> rect(0, i*rowHeight, getWidth(), rowHeight);
 
 		g.setColour(findColour(i%2 == 0 ? UniformsBarComponent::evenRowColourId : UniformsBarComponent::oddRowColourId));
 		g.fillRect(rect);
 		g.setColour(findColour(UniformsBarComponent::seperatorColourId));
-		g.drawHorizontalLine(i*20+20-1, 0, getWidth());
+		g.drawHorizontalLine(i*rowHeight+rowHeight-1, 0, getWidth());
 		g.setColour(findColour(UniformsBarComponent::uniformTextColourId));
 		g.drawText(name, rect.withLeft(3), Justification(Justification::centredLeft), true);
 	}

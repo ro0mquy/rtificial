@@ -5,11 +5,11 @@ Data::Data() :
 	valueTree(treeId::timelineTree)
 {
 	for (int i = 0; i < 4; i++) {
-		addScene(var(i), var(300 * i), var(50 * (i + 1)), var("glsl" + String(i)));
+		addScene(var(i), var(300 * i), var(50 * (i + 1)), var(String(i) + String(41 * i) + ".glsl"));
 	}
 
 	for (int i = 0; i < 30; i++) {
-		addUniform(var("uniform" + String(9001 + i)), var(i%2 == 0 ? "color" : "float"));
+		addUniform(var("uniform" + String(i) + String(97 * i)), var(i%2 == 0 ? "color" : "float"));
 	}
 }
 
