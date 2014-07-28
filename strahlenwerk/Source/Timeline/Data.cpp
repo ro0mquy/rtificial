@@ -52,18 +52,37 @@ bool Data::addScene(var id, var start, var duration, var shaderSource, int posit
 // finds the the end time of the last scene
 int Data::getLastSceneEndTime() {
 	ValueTree scenesArray = getScenesArray();
-	int numChildren = scenesArray.getNumChildren();
+	const int numChildren = scenesArray.getNumChildren();
 	int maxEndTime = 0;
 
 	for (int i = 0; i < numChildren; i++) {
 		ValueTree scene = scenesArray.getChild(i);
-		int start = scene.getProperty(treeId::sceneStart);
-		int duration = scene.getProperty(treeId::sceneDuration);
-		int end = start + duration;
+		const int start = scene.getProperty(treeId::sceneStart);
+		const int duration = scene.getProperty(treeId::sceneDuration);
+		const int end = start + duration;
 		maxEndTime = jmax(maxEndTime, end);
 	}
 
 	return maxEndTime;
+}
+
+ValueTree Data::getSceneForTime(const int time) {
+	ValueTree scenesArray = getScenesArray();
+	const int numScenes = scenesArray.getNumChildren();
+	int smallestDistance = INT_MAX;
+	int bestScene = 0;
+
+	for (int i = 0; i < numScenes; i++) {
+		ValueTree scene = scenesArray.getChild(i);
+		const int start = scene.getProperty(treeId::sceneStart);
+		const int distance = time - start;
+		if (isPositiveAndBelow(distance, smallestDistance)) {
+			smallestDistance = distance;
+			bestScene = i;
+		}
+	}
+
+	return scenesArray.getChild(bestScene);
 }
 
 // retrieves the uniforms array
