@@ -3,6 +3,7 @@
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "Data.h"
+#include "SequenceComponent.h"
 
 class SequenceViewComponent : public Component
 {
@@ -10,6 +11,7 @@ class SequenceViewComponent : public Component
 		SequenceViewComponent(Value& timeValue, Data& _data);
 		void updateSize();
 		void paint(Graphics& g) override;
+		void updateSequenceComponents();
 
 		enum ColourIds{
 			timeMarkerColourId = 0x8350102,
@@ -17,7 +19,6 @@ class SequenceViewComponent : public Component
 			oddRowColourId = 0x2300302,
 			seperatorColourId = 0x2300304,
 			inactiveAreaColourId = 0x2300305,
-			sequenceFillColourID = 0x2300306,
 		};
 
 	private:
@@ -25,6 +26,7 @@ class SequenceViewComponent : public Component
 
 		Value currentTime;
 		Data& data;
+		OwnedArray<SequenceComponent> sequenceComponentsArray;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceViewComponent)
 };
 

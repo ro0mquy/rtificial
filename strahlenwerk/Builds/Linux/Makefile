@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/SequenceComponent_10a22e57.o \
   $(OBJDIR)/UniformsBarComponent_d6185a18.o \
   $(OBJDIR)/SceneComponent_2e62f260.o \
   $(OBJDIR)/SnapToGridConstrainer_30f5e134.o \
@@ -91,6 +92,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/SequenceComponent_10a22e57.o: ../../Source/Timeline/SequenceComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SequenceComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/UniformsBarComponent_d6185a18.o: ../../Source/Timeline/UniformsBarComponent.cpp
 	-@mkdir -p $(OBJDIR)

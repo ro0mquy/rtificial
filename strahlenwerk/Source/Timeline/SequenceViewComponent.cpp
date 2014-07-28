@@ -5,6 +5,7 @@ SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
 	data(_data)
 {
+	updateSequenceComponents();
 }
 
 void SequenceViewComponent::updateSize() {
@@ -15,7 +16,6 @@ void SequenceViewComponent::updateSize() {
 
 void SequenceViewComponent::paint(Graphics& g){
 	const int rowHeight = 20;
-	const float cornerSize = 5.0;
 
 	ValueTree uniformsArray = data.getUniformsArray();
 	const int numUniforms = uniformsArray.getNumChildren();
@@ -43,23 +43,6 @@ void SequenceViewComponent::paint(Graphics& g){
 				g.fillRect(rectangle);
 			}
 		}
-
-		// draw sequences
-		ValueTree sequencesArray = data.getSequencesArray(uniform);
-		const int numSequences = sequencesArray.getNumChildren();
-
-		for (int k = 0; k < numSequences; k++) {
-			ValueTree sequence = sequencesArray.getChild(k);
-			const var sceneId = sequence.getProperty(treeId::sequenceSceneId);
-			ValueTree sceneForSequence = scenesArray.getChildWithProperty(treeId::sceneId, sceneId);
-			const int sceneStart = sceneForSequence.getProperty(treeId::sceneStart);
-			const int sequenceStart = sequence.getProperty(treeId::sequenceStart);
-			const int sequenceDuration = sequence.getProperty(treeId::sequenceDuration);
-			const int absoluteStart = sceneStart + sequenceStart;
-			const Rectangle<float> seqRect(absoluteStart, i*rowHeight, sequenceDuration, rowHeight);
-			g.setColour(findColour(SequenceViewComponent::sequenceFillColourID));
-			g.fillRoundedRectangle(seqRect, cornerSize);
-		}
 	}
 
 	// draw time marker
@@ -74,4 +57,24 @@ bool SequenceViewComponent::uniformActiveForScene(ValueTree uniform, ValueTree s
 	const String sceneShaderSource = scene.getProperty(treeId::sceneShaderSource);
 	const int64 hash = uniformName.hashCode() + sceneShaderSource.hashCode();
 	return hash % 2 != 0;
+}
+
+void SequenceViewComponent::updateSequenceComponents() {
+	const int rowHeight = 20;
+	sequenceComponentsArray.clearQuick(true);
+	ValueTree uniformsArray = data.getUniformsArray();
+	const int numUniforms = uniformsArray.getNumChildren();
+
+	for (int i = 0; i < numUniforms; i++) {
+		ValueTree uniform = uniformsArray.getChild(i);
+		ValueTree sequencesArray = data.getSequencesArray(uniform);
+		const int numSequences = sequencesArray.getNumChildren();
+
+		for (int j = 0; j < numSequences; j++) {
+			ValueTree sequenceData = sequencesArray.getChild(j);
+			SequenceComponent* sequenceComponent = new SequenceComponent(sequenceData, data, i*rowHeight, rowHeight);
+			addAndMakeVisible(sequenceComponent);
+			sequenceComponentsArray.add(sequenceComponent);
+		}
+	}
 }
