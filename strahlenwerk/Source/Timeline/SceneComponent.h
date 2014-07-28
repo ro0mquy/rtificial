@@ -14,6 +14,7 @@ class SceneComponent : public Component,
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 		void timerCallback() override;
+		void moved() override;
 
 		enum ColourIds {
 			fillColourId = 0x2300103,

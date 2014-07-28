@@ -49,3 +49,6 @@ void SceneComponent::mouseDrag(const MouseEvent& event) {
 	dragComponent(this, event, &constrainer);
 }
 
+void SceneComponent::moved() {
+	sceneData.setProperty(treeId::sceneStart, var(getX()), nullptr);
+}
