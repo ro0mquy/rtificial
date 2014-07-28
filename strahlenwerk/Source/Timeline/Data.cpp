@@ -66,6 +66,7 @@ int Data::getLastSceneEndTime() {
 	return maxEndTime;
 }
 
+// returns the active or last active scene for a timepoint
 ValueTree Data::getSceneForTime(const int time) {
 	ValueTree scenesArray = getScenesArray();
 	const int numScenes = scenesArray.getNumChildren();
