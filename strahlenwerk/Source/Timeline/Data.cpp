@@ -10,6 +10,14 @@ Data::Data() :
 
 	for (int i = 0; i < 30; i++) {
 		addUniform(var("uniform" + String(i) + String(97 * i)), var(i%2 == 0 ? "color" : "float"));
+
+		for (int j = 0; j <= (37*i % 4); j++) {
+			const int start = (j + (97*i % 10)) * 100;
+			var duration = var(50);
+			var sceneId = getSceneForTime(start).getProperty(treeId::sceneId);
+			var interpolation = var("linear");
+			addSequence(getUniformsArray().getChild(i), sceneId, start, duration, interpolation);
+		}
 	}
 }
 

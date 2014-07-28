@@ -15,6 +15,7 @@ void SequenceViewComponent::updateSize() {
 
 void SequenceViewComponent::paint(Graphics& g){
 	const int rowHeight = 20;
+	const float cornerSize = 5.0;
 
 	ValueTree uniformsArray = data.getUniformsArray();
 	const int numUniforms = uniformsArray.getNumChildren();
@@ -41,6 +42,23 @@ void SequenceViewComponent::paint(Graphics& g){
 				g.setColour(findColour(SequenceViewComponent::inactiveAreaColourId));
 				g.fillRect(rectangle);
 			}
+		}
+
+		// draw sequences
+		ValueTree sequencesArray = data.getSequencesArray(uniform);
+		const int numSequences = sequencesArray.getNumChildren();
+
+		for (int k = 0; k < numSequences; k++) {
+			ValueTree sequence = sequencesArray.getChild(k);
+			const var sceneId = sequence.getProperty(treeId::sequenceSceneId);
+			ValueTree sceneForSequence = scenesArray.getChildWithProperty(treeId::sceneId, sceneId);
+			const int sceneStart = sceneForSequence.getProperty(treeId::sceneStart);
+			const int sequenceStart = sequence.getProperty(treeId::sequenceStart);
+			const int sequenceDuration = sequence.getProperty(treeId::sequenceDuration);
+			const int absoluteStart = sceneStart + sequenceStart;
+			const Rectangle<float> seqRect(absoluteStart, i*rowHeight, sequenceDuration, rowHeight);
+			g.setColour(findColour(SequenceViewComponent::sequenceFillColourID));
+			g.fillRoundedRectangle(seqRect, cornerSize);
 		}
 	}
 
