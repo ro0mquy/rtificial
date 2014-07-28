@@ -4,13 +4,17 @@
 #include "Timeline/ScenesBarComponent.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
+	// ScenesBarComponent
 	setColour(ScenesBarComponent::tickColourId, Colours::white);
 	setColour(ScenesBarComponent::timeMarkerColourId, Colours::red);
 	setColour(SequenceViewComponent::timeMarkerColourId, findColour(ScenesBarComponent::timeMarkerColourId));
+
+	// SceneComponent
 	setColour(SceneComponent::outlineColourId, Colours::yellow);
 	setColour(SceneComponent::fillColourId, findColour(SceneComponent::outlineColourId).withAlpha(0.4f));
 	setColour(SceneComponent::textColourId, Colours::white);
 
+	// UniformsBarComponent
 	setColour(UniformsBarComponent::evenRowColourId, Colours::grey);
 	setColour(SequenceViewComponent::evenRowColourId, findColour(UniformsBarComponent::evenRowColourId));
 	setColour(UniformsBarComponent::oddRowColourId, Colours::darkgrey);
@@ -19,11 +23,14 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(SequenceViewComponent::seperatorColourId, findColour(UniformsBarComponent::seperatorColourId));
 	setColour(UniformsBarComponent::uniformTextColourId, Colours::white);
 
+	// SequenceViewComponent
 	setColour(SequenceViewComponent::inactiveAreaColourId, Colours::black.withAlpha(0.4f));
 
+	// SequenceComponent
 	setColour(SequenceComponent::outlineColourId, Colours::red);
 	setColour(SequenceComponent::fillColourId, findColour(SequenceComponent::outlineColourId).withAlpha(0.4f));
 
+	// RtColourIds
 	setColour(RtColourIds::outlineColourId, Colours::black);
 }
 
