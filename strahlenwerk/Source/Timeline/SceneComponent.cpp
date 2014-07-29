@@ -8,6 +8,8 @@ SceneComponent::SceneComponent(ValueTree _sceneData) :
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
 	constrainer.setGridWidth(20);
 
+	setMouseCursor(MouseCursor(MouseCursor::StandardCursorType::DraggingHandCursor));
+
 	// start timer, so the bounds get set,
 	// when this component was added to the ScenesBarComponent
 	startTimer(0);
