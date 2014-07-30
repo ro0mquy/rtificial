@@ -31,7 +31,8 @@
 * Cupe Bücher
     * [In the Blink of an Eye: A Perspective on Film Editing](http://www.amazon.de/dp/1879505622)
     * [Grammar of the Shot](http://www.amazon.de/dp/B00EVWHJAM/) (in der Dropbox)
-    * [Grammar of the Edit](http://www.amazon.de/dp/0240526007/) 
+    * [Grammar of the Edit](http://www.amazon.de/dp/0240526007/)
     * [Design for Hackers](http://designforhackers.com/) (in der Dropbox)
     * Revision 2013, pixtur/still: [Concept, Camera, Composition and Color](https://www.youtube.com/watch?v=sgCmCJWUGAc)
 * [Bezier Kurven zum anfassen](https://pomax.github.io/bezierinfo/)
+* [Colorspace Transformationen, Lab und LCh is what you want](http://www.brucelindbloom.com/index.html?Math.html)
