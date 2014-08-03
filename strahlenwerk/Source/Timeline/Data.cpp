@@ -12,14 +12,12 @@ Data::Data() :
 		addUniform(var("uniform" + String(i) + String(97 * i)), var(i%2 == 0 ? "color" : "float"));
 
 		for (int j = 0; j <= (37*i % 4); j++) {
+			ValueTree sequence(treeId::sequence);
 			const int absoluteStart = (j + (97*i % 10)) * 100;
-			var duration = var(50);
-			ValueTree sceneForSequence = getSceneForTime(absoluteStart);
-			const int sceneStart = sceneForSequence.getProperty(treeId::sceneStart);
-			var relativeStart = absoluteStart - sceneStart;
-			var sceneId = sceneForSequence.getProperty(treeId::sceneId);
-			var interpolation = var("linear");
-			addSequence(getUniformsArray().getChild(i), sceneId, relativeStart, duration, interpolation);
+			setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
+			sequence.setProperty(treeId::sequenceDuration, var(50), nullptr);
+			sequence.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
+			addSequence(getUniformsArray().getChild(i), sequence);
 		}
 	}
 }
@@ -181,4 +179,16 @@ bool Data::addSequence(ValueTree uniform, var sceneId, var start, var duration, 
 	sequence.setProperty(treeId::sequenceInterpolation, interpolation, nullptr);
 	getSequencesArray(uniform).addChild(sequence, position, &undoManager);
 	return true;
+}
+
+// sets the sceneId and relative start time of a sequence for a given absolute start time
+void Data::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart) {
+			ValueTree sceneForSequence = getSceneForTime(absoluteStart);
+			var sceneId = sceneForSequence.getProperty(treeId::sceneId);
+
+			const int sceneStart = sceneForSequence.getProperty(treeId::sceneStart);
+			var relativeStart = absoluteStart - sceneStart;
+
+			sequence.setProperty(treeId::sequenceSceneId, sceneId, &undoManager);
+			sequence.setProperty(treeId::sequenceStart, relativeStart, &undoManager);
 }

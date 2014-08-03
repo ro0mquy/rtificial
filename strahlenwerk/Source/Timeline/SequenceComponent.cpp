@@ -6,14 +6,12 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, Data& _data, int y
 	data(_data)
 {
 	// initialize the value pointing to the start time of the scene this sequence belongs to
-	const var sceneId = sequenceData.getProperty(treeId::sequenceSceneId);
-	ValueTree sceneForSequence = data.getScenesArray().getChildWithProperty(treeId::sceneId, sceneId);
-	sceneStartValue.referTo(sceneForSequence.getPropertyAsValue(treeId::sceneStart, nullptr));
+	updateSceneStartValueRefer();
 	sceneStartValue.addListener(this);
 
 	// set the initial y-coordinate and height
-	setBounds(0, y, 0, height);
 	updateBounds();
+	setBounds(getBounds().withY(y).withHeight(height));
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
@@ -32,6 +30,13 @@ void SequenceComponent::updateBounds() {
 	bounds.setX(absoluteStart);
 	bounds.setWidth(sequenceDuration);
 	setBounds(bounds);
+}
+
+// update the value sceneStartValue refers to
+void SequenceComponent::updateSceneStartValueRefer() {
+	const var sceneId = sequenceData.getProperty(treeId::sequenceSceneId);
+	ValueTree sceneForSequence = data.getScenesArray().getChildWithProperty(treeId::sceneId, sceneId);
+	sceneStartValue.referTo(sceneForSequence.getPropertyAsValue(treeId::sceneStart, nullptr));
 }
 
 int SequenceComponent::getAbsoluteStart() {
@@ -59,4 +64,10 @@ void SequenceComponent::mouseDown(const MouseEvent& event) {
 
 void SequenceComponent::mouseDrag(const MouseEvent& event) {
 	dragComponent(this, event, &constrainer);
+}
+
+void SequenceComponent::moved() {
+	// update the sceneId and relativ start time
+	data.setSequencePropertiesForAbsoluteStart(sequenceData, getX());
+	updateSceneStartValueRefer();
 }
