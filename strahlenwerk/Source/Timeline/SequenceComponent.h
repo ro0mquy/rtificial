@@ -3,15 +3,19 @@
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "Data.h"
+#include "SnapToGridConstrainer.h"
 
 class SequenceComponent :
 	public Component,
+	private ComponentDragger,
 	private Value::Listener
 {
 	public:
 		SequenceComponent(ValueTree _sequenceData, Data& _data, int y, int height);
 		void paint(Graphics& g) override;
 		void valueChanged(Value& /*value*/) override;
+		void mouseDown(const MouseEvent& event) override;
+		void mouseDrag(const MouseEvent& event) override;
 
 		void updateBounds();
 		int getAbsoluteStart();
@@ -25,6 +29,7 @@ class SequenceComponent :
 		ValueTree sequenceData;
 		Data& data;
 		Value sceneStartValue;
+		SnapToGridConstrainer constrainer;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceComponent)
 };

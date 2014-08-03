@@ -14,6 +14,10 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, Data& _data, int y
 	// set the initial y-coordinate and height
 	setBounds(0, y, 0, height);
 	updateBounds();
+
+	// don't drag over the parent's edges
+	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
+	constrainer.setGridWidth(20);
 }
 
 void SequenceComponent::valueChanged(Value& /*value*/) {
@@ -47,4 +51,12 @@ void SequenceComponent::paint(Graphics& g) {
 
 	g.setColour(findColour(SequenceComponent::outlineColourId));
 	g.drawRoundedRectangle(seqRect, cornerSize, 1);
+}
+
+void SequenceComponent::mouseDown(const MouseEvent& event) {
+	startDraggingComponent(this, event);
+}
+
+void SequenceComponent::mouseDrag(const MouseEvent& event) {
+	dragComponent(this, event, &constrainer);
 }
