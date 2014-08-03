@@ -5,7 +5,7 @@ Data::Data() :
 	valueTree(treeId::timelineTree)
 {
 	for (int i = 0; i < 4; i++) {
-		addScene(var(i), var(300 * i), var(50 * (i + 1)), var(String(i) + String(41 * i) + ".glsl"));
+		addScene(var(i+1), var(300 * i), var(50 * (i + 1)), var(String(i) + String(41 * i) + ".glsl"));
 	}
 
 	for (int i = 0; i < 30; i++) {
@@ -81,6 +81,8 @@ int Data::getLastSceneEndTime() {
 ValueTree Data::getSceneForTime(const int time) {
 	ValueTree scenesArray = getScenesArray();
 	const int numScenes = scenesArray.getNumChildren();
+	/*
+	// matches if the time is inside the scene and also if after the end
 	int smallestDistance = INT_MAX;
 	int bestScene = 0;
 
@@ -95,6 +97,22 @@ ValueTree Data::getSceneForTime(const int time) {
 	}
 
 	return scenesArray.getChild(bestScene);
+	// */
+
+	//*
+	// matches only if inside scene
+	for (int i = 0; i < numScenes; i++) {
+		ValueTree scene = scenesArray.getChild(i);
+		const int start = scene.getProperty(treeId::sceneStart);
+		const int duration = scene.getProperty(treeId::sceneDuration);
+		const int distance = time - start;
+		if (isPositiveAndBelow(distance, duration)) {
+			return scene;
+		}
+	}
+	// return invalid tree
+	return ValueTree();
+	// */
 }
 
 // retrieves the uniforms array
