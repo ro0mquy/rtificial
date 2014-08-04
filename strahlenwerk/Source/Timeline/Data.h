@@ -20,7 +20,7 @@ class Data {
 		ValueTree getSequencesArray(ValueTree uniform);
 		bool addSequence(ValueTree uniform, ValueTree sequence, int position = -1);
 		bool addSequence(ValueTree uniform, var sceneId, var start, var duration, var interpolation, int position = -1);
-		void setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
+		bool setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
 
 	private:
 		ValueTree valueTree;

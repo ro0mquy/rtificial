@@ -17,6 +17,7 @@ class SequenceComponent :
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 		void moved() override;
+		void resized() override;
 
 		void updateBounds();
 		void updateSceneStartValueRefer();
@@ -32,6 +33,7 @@ class SequenceComponent :
 		Data& data;
 		Value sceneStartValue;
 		SnapToGridConstrainer constrainer;
+		ResizableBorderComponent resizableBorder;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceComponent)
 };

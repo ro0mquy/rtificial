@@ -3,7 +3,8 @@
 
 SequenceComponent::SequenceComponent(ValueTree _sequenceData, Data& _data, int y, int height) :
 	sequenceData(_sequenceData),
-	data(_data)
+	data(_data),
+	resizableBorder(this, &constrainer)
 {
 	// initialize the value pointing to the start time of the scene this sequence belongs to
 	updateSceneStartValueRefer();
@@ -16,6 +17,11 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, Data& _data, int y
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
 	constrainer.setGridWidth(20);
+	constrainer.setMinimumWidth(20);
+
+	// add a border resizer that allows resizing only on the left and right
+	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
+	addAndMakeVisible(resizableBorder);
 }
 
 void SequenceComponent::valueChanged(Value& /*value*/) {
@@ -68,6 +74,13 @@ void SequenceComponent::mouseDrag(const MouseEvent& event) {
 
 void SequenceComponent::moved() {
 	// update the sceneId and relativ start time
-	data.setSequencePropertiesForAbsoluteStart(sequenceData, getX());
-	updateSceneStartValueRefer();
+	bool sequenceSceneIdChanged = data.setSequencePropertiesForAbsoluteStart(sequenceData, getX());
+	if (sequenceSceneIdChanged) {
+		updateSceneStartValueRefer();
+	}
+}
+
+void SequenceComponent::resized() {
+	resizableBorder.setBounds(getLocalBounds());
+	sequenceData.setProperty(treeId::sequenceDuration, var(getWidth()), nullptr);
 }

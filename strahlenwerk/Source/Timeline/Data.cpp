@@ -182,13 +182,20 @@ bool Data::addSequence(ValueTree uniform, var sceneId, var start, var duration, 
 }
 
 // sets the sceneId and relative start time of a sequence for a given absolute start time
-void Data::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart) {
+// return true when the scene for this sequence is a new one, false otherwise
+bool Data::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart) {
 			ValueTree sceneForSequence = getSceneForTime(absoluteStart);
 			var sceneId = sceneForSequence.getProperty(treeId::sceneId);
 
 			const int sceneStart = sceneForSequence.getProperty(treeId::sceneStart);
 			var relativeStart = absoluteStart - sceneStart;
 
-			sequence.setProperty(treeId::sequenceSceneId, sceneId, &undoManager);
 			sequence.setProperty(treeId::sequenceStart, relativeStart, &undoManager);
+
+			var oldSceneId = sequence.getProperty(treeId::sequenceSceneId);
+			bool sceneIdChanged = !oldSceneId.equals(sceneId);
+			if (sceneIdChanged) {
+				sequence.setProperty(treeId::sequenceSceneId, sceneId, &undoManager);
+			}
+			return sceneIdChanged;
 }
