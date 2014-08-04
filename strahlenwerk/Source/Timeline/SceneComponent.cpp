@@ -2,11 +2,17 @@
 #include "SceneComponent.h"
 
 SceneComponent::SceneComponent(ValueTree _sceneData) :
-	sceneData(_sceneData)
+	sceneData(_sceneData),
+	resizableBorder(this, &constrainer)
 {
 	// don't drag over the component edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
 	constrainer.setGridWidth(20);
+	constrainer.setMinimumWidth(20);
+
+	// add a border resizer that allows resizing only on the left and right
+	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
+	addAndMakeVisible(resizableBorder);
 
 	setMouseCursor(MouseCursor(MouseCursor::StandardCursorType::DraggingHandCursor));
 
@@ -53,4 +59,9 @@ void SceneComponent::mouseDrag(const MouseEvent& event) {
 
 void SceneComponent::moved() {
 	sceneData.setProperty(treeId::sceneStart, var(getX()), nullptr);
+}
+
+void SceneComponent::resized() {
+	resizableBorder.setBounds(getLocalBounds());
+	sceneData.setProperty(treeId::sceneDuration, var(getWidth()), nullptr);
 }

@@ -15,6 +15,7 @@ class SceneComponent : public Component,
 		void mouseDrag(const MouseEvent& event) override;
 		void timerCallback() override;
 		void moved() override;
+		void resized() override;
 
 		enum ColourIds {
 			fillColourId = 0x2300103,
@@ -25,6 +26,7 @@ class SceneComponent : public Component,
 	private:
 		ValueTree sceneData;
 		SnapToGridConstrainer constrainer;
+		ResizableBorderComponent resizableBorder;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SceneComponent)
 };
 

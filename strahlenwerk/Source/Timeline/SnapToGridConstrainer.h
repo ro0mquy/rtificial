@@ -8,6 +8,7 @@ class SnapToGridConstrainer : public ComponentBoundsConstrainer {
 	public:
 		SnapToGridConstrainer();
 		void setGridWidth(const int width);
+		int snapValueToGrid(int value);
 		void checkBounds (Rectangle<int>& bounds,
 				const Rectangle<int>& old,
 				const Rectangle<int>& limits,
