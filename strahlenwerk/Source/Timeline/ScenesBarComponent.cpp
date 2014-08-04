@@ -1,9 +1,11 @@
 #include "ScenesBarComponent.h"
+#include "TreeIdentifiers.h"
 #include "../RtificialLookAndFeel.h"
 
 ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
-	data(_data)
+	data(_data),
+	newSceneData(treeId::scene)
 {
 	updateSceneComponents();
 }
@@ -56,4 +58,35 @@ void ScenesBarComponent::updateSceneComponents() {
 		addAndMakeVisible(sceneComponent);
 		sceneComponentsArray.add(sceneComponent);
 	}
+}
+
+void ScenesBarComponent::mouseDown(const MouseEvent& event) {
+	newSceneData.setProperty(treeId::sceneId, var(23), nullptr);
+	newSceneData.setProperty(treeId::sceneShaderSource, var("dummy.glsl"), nullptr);
+	newSceneData.setProperty(treeId::sceneStart, var(event.getMouseDownX()), nullptr);
+	newSceneData.setProperty(treeId::sceneDuration, var(0), nullptr);
+
+	newSceneComponent = new SceneComponent(newSceneData);
+	newSceneComponent->setVisible(false);
+	addChildComponent(newSceneComponent);
+}
+
+void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
+	const int minDragDistance = 20;
+
+	const int dragStart = event.getMouseDownX();
+	const int dragDistance = event.getDistanceFromDragStartX();
+	const int absoluteDragDistance = abs(dragDistance);
+	const int start = dragStart + jmin(0, dragDistance); // subtract distance if negative
+
+	newSceneComponent->setVisible(absoluteDragDistance >= minDragDistance);
+
+	newSceneData.setProperty(treeId::sceneStart, var(start), nullptr);
+	newSceneData.setProperty(treeId::sceneDuration, var(absoluteDragDistance), nullptr);
+	newSceneComponent->updateBounds();
+}
+
+void ScenesBarComponent::mouseUp(const MouseEvent& event) {
+	delete newSceneComponent;
+	newSceneData.removeAllProperties(nullptr);
 }

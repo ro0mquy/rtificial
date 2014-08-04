@@ -24,8 +24,10 @@ SceneComponent::SceneComponent(ValueTree _sceneData) :
 
 void SceneComponent::timerCallback() {
 	stopTimer();
+	updateBounds();
+}
 
-	// set bounds
+void SceneComponent::updateBounds() {
 	const int start = sceneData.getProperty(treeId::sceneStart);
 	const int duration = sceneData.getProperty(treeId::sceneDuration);
 

@@ -17,6 +17,8 @@ class SceneComponent : public Component,
 		void moved() override;
 		void resized() override;
 
+		void updateBounds();
+
 		enum ColourIds {
 			fillColourId = 0x2300103,
 			outlineColourId = 0x2300104,

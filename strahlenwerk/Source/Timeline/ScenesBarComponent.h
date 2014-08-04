@@ -12,6 +12,10 @@ class ScenesBarComponent : public Component {
 		void paint(Graphics& g) override;
 		void updateSceneComponents();
 
+		void mouseDown(const MouseEvent& event) override;
+		void mouseDrag(const MouseEvent& event) override;
+		void mouseUp(const MouseEvent& event) override;
+
 		enum ColourIds{
 			tickColourId = 0x2300101,
 			timeMarkerColourId = 0x2300102,
@@ -21,6 +25,10 @@ class ScenesBarComponent : public Component {
 		Value currentTime;
 		Data& data;
 		OwnedArray<SceneComponent> sceneComponentsArray;
+
+		ValueTree newSceneData;
+		SceneComponent* newSceneComponent;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScenesBarComponent)
 };
 
