@@ -4,8 +4,7 @@
 
 ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
-	data(_data),
-	newSceneData(treeId::scene)
+	data(_data)
 {
 	updateSceneComponents();
 }
@@ -61,6 +60,7 @@ void ScenesBarComponent::updateSceneComponents() {
 }
 
 void ScenesBarComponent::mouseDown(const MouseEvent& event) {
+	newSceneData = ValueTree(treeId::scene);
 	newSceneData.setProperty(treeId::sceneId, var(23), nullptr);
 	newSceneData.setProperty(treeId::sceneShaderSource, var("dummy.glsl"), nullptr);
 	newSceneData.setProperty(treeId::sceneStart, var(event.getMouseDownX()), nullptr);
@@ -90,6 +90,12 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 }
 
 void ScenesBarComponent::mouseUp(const MouseEvent& event) {
-	delete newSceneComponent;
-	newSceneData.removeAllProperties(nullptr);
+	if (int(newSceneData.getProperty(treeId::sceneDuration)) == 0) {
+		delete newSceneComponent;
+	} else {
+		sceneComponentsArray.add(newSceneComponent);
+		data.addScene(newSceneData);
+	}
+	newSceneComponent = nullptr;
+	newSceneData = ValueTree();
 }
