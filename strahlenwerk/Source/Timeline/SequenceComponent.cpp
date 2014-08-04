@@ -1,5 +1,6 @@
 #include "SequenceComponent.h"
 #include "TreeIdentifiers.h"
+#include "Timeline.h"
 
 SequenceComponent::SequenceComponent(ValueTree _sequenceData, Data& _data, int y, int height) :
 	sequenceData(_sequenceData),
@@ -65,11 +66,18 @@ void SequenceComponent::paint(Graphics& g) {
 }
 
 void SequenceComponent::mouseDown(const MouseEvent& event) {
+	beginDragAutoRepeat(100); // time between drag events
 	startDraggingComponent(this, event);
 }
 
 void SequenceComponent::mouseDrag(const MouseEvent& event) {
 	dragComponent(this, event, &constrainer);
+
+	// scroll viewport if necessary
+	Timeline::ViewportCallback* parentViewport = findParentComponentOfClass<Timeline::ViewportCallback>();
+	const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
+	Point<int> currentPos = viewportEvent.getPosition();
+	parentViewport->autoScroll(currentPos.getX(), currentPos.getY(), 20, 5);
 }
 
 void SequenceComponent::moved() {

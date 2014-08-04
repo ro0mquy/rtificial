@@ -1,5 +1,6 @@
-#include "TreeIdentifiers.h"
 #include "SceneComponent.h"
+#include "TreeIdentifiers.h"
+#include "Timeline.h"
 
 SceneComponent::SceneComponent(ValueTree _sceneData) :
 	sceneData(_sceneData),
@@ -50,11 +51,18 @@ void SceneComponent::paint(Graphics& g) {
 }
 
 void SceneComponent::mouseDown(const MouseEvent& event) {
+	beginDragAutoRepeat(100); // time between drag events
 	startDraggingComponent(this, event);
 }
 
 void SceneComponent::mouseDrag(const MouseEvent& event) {
 	dragComponent(this, event, &constrainer);
+
+	// scroll viewport if necessary
+	Timeline::ViewportCallback* parentViewport = findParentComponentOfClass<Timeline::ViewportCallback>();
+	const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
+	Point<int> currentPos = viewportEvent.getPosition();
+	parentViewport->autoScroll(currentPos.getX(), currentPos.getY(), 20, 5);
 }
 
 void SceneComponent::moved() {
