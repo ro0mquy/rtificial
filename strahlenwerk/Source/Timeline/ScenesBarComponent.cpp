@@ -68,21 +68,24 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 
 	newSceneComponent = new SceneComponent(newSceneData);
 	newSceneComponent->setVisible(false);
-	addChildComponent(newSceneComponent);
+	addAndMakeVisible(newSceneComponent);
 }
 
 void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
-	const int minDragDistance = 20;
+	const int gridWidth = 20;
 
-	const int dragStart = event.getMouseDownX();
-	const int dragDistance = event.getDistanceFromDragStartX();
-	const int absoluteDragDistance = abs(dragDistance);
-	const int start = dragStart + jmin(0, dragDistance); // subtract distance if negative
+	const int mouseDown = event.getMouseDownX();
+	const int mouseDownGrid = roundFloatToInt(float(mouseDown) / float(gridWidth)) * gridWidth;
 
-	newSceneComponent->setVisible(absoluteDragDistance >= minDragDistance);
+	const int mousePos = event.getPosition().getX();
+	const int mousePosGrid = roundFloatToInt(float(mousePos) / float(gridWidth)) * gridWidth;
 
-	newSceneData.setProperty(treeId::sceneStart, var(start), nullptr);
-	newSceneData.setProperty(treeId::sceneDuration, var(absoluteDragDistance), nullptr);
+	const int distanceGrid = mousePosGrid - mouseDownGrid;
+	const int absDistanceGrid = abs(distanceGrid);
+	const int startGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
+
+	newSceneData.setProperty(treeId::sceneStart, var(startGrid), nullptr);
+	newSceneData.setProperty(treeId::sceneDuration, var(absDistanceGrid), nullptr);
 	newSceneComponent->updateBounds();
 }
 
