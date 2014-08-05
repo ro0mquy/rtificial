@@ -1,6 +1,7 @@
 #include "SceneShader.h"
 
 #include <sstream>
+#include <regex>
 
 SceneShader::SceneShader(OpenGLContext& context) :
 	context(context),
@@ -16,6 +17,16 @@ void SceneShader::load(std::ifstream& in) {
 }
 
 void SceneShader::load(std::string source) {
+	const std::regex uniformRegex(R"regex([ \t]*uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
+
+	std::sregex_iterator it(source.begin(), source.end(), uniformRegex);
+	const std::sregex_iterator end;
+	for(; it != end; ++it) {
+		const auto& match = *it;
+		const auto& type = match[1];
+		const auto& name = match[2];
+	}
+
 	fragmentSourceLock.lock();
 	sourceChanged = true;
 	fragmentSource = source;
