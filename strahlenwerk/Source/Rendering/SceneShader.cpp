@@ -53,7 +53,7 @@ void SceneShader::load(std::string source, UniformManager& uniformManager) {
 
 	// this could be more efficient
 	size_t offset = 0;
-	for(auto& match : matches) {
+	for(const auto& match : matches) {
 		const auto locationString = "layout(location = " + std::to_string(match.second) + ") ";
 		source.insert(match.first + offset, locationString);
 		offset += locationString.size();
