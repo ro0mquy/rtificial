@@ -52,6 +52,8 @@ endif
 
 OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
+  $(OBJDIR)/Uniform_96b281f2.o \
+  $(OBJDIR)/UniformManager_63433de5.o \
   $(OBJDIR)/SequenceComponent_10a22e57.o \
   $(OBJDIR)/UniformsBarComponent_d6185a18.o \
   $(OBJDIR)/SceneComponent_2e62f260.o \
@@ -97,6 +99,16 @@ strip:
 $(OBJDIR)/SceneShader_b92468cf.o: ../../Source/Rendering/SceneShader.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling SceneShader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Uniform.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling UniformManager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SequenceComponent_10a22e57.o: ../../Source/Timeline/SequenceComponent.cpp

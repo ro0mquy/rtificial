@@ -6,11 +6,13 @@
 #include <mutex>
 #include <string>
 
+#include "UniformManager.h"
+
 class SceneShader {
 	public:
 		SceneShader(OpenGLContext& context);
-		void load(std::ifstream& in);
-		void load(std::string source);
+		void load(std::ifstream& in, UniformManager& uniformManager);
+		void load(std::string source, UniformManager& uniformManager);
 		void draw();
 
 	private:

@@ -15,6 +15,7 @@ class Renderer : public OpenGLRenderer {
 	private:
 		OpenGLContext& context;
 		SceneShader defaultShader;
+		UniformManager uniformManager;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Renderer)
 };
