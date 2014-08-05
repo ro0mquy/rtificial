@@ -2,6 +2,8 @@
 
 #include <sstream>
 #include <regex>
+#include <vector>
+#include <utility>
 
 SceneShader::SceneShader(OpenGLContext& context) :
 	context(context),
@@ -22,6 +24,7 @@ void SceneShader::load(std::string source, UniformManager& uniformManager) {
 
 	std::sregex_iterator it(source.begin(), source.end(), uniformRegex);
 	const std::sregex_iterator end;
+	std::vector<std::pair<size_t, int>> matches;
 	for(; it != end; ++it) {
 		const auto& match = *it;
 		const auto& typeString = match[1];
@@ -45,6 +48,15 @@ void SceneShader::load(std::string source, UniformManager& uniformManager) {
 			std::cerr << "Uniform with same name but different type exists: " << name << std::endl;
 		}
 		activeUniforms.insert(id);
+		matches.emplace_back(match.position(), id);
+	}
+
+	// this could be more efficient
+	size_t offset = 0;
+	for(auto& match : matches) {
+		const auto locationString = "layout(location = " + std::to_string(match.second) + ") ";
+		source.insert(match.first + offset, locationString);
+		offset += locationString.size();
 	}
 
 	fragmentSourceLock.lock();
