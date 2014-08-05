@@ -5,6 +5,10 @@
               jucerVersion="3.1.0" companyName="rtificial" companyWebsite="http://rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
+      <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
+        <FILE id="kOIf97" name="SceneShader.cpp" compile="1" resource="0" file="Source/Rendering/SceneShader.cpp"/>
+        <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
+      </GROUP>
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
         <FILE id="q6A5Cf" name="SequenceComponent.cpp" compile="1" resource="0"
               file="Source/Timeline/SequenceComponent.cpp"/>

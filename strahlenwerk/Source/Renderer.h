@@ -1,9 +1,8 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <string>
-#include <mutex>
 #include <juce>
+#include "Rendering/SceneShader.h"
 
 class Renderer : public OpenGLRenderer {
 	public:
@@ -13,17 +12,9 @@ class Renderer : public OpenGLRenderer {
 		void openGLContextClosing() override;
 		void renderOpenGL() override;
 
-		void setFragmentShader(std::string&& source);
-
 	private:
-		void recompile();
-
 		OpenGLContext& context;
-		OpenGLShaderProgram program;
-		GLint attribute_coord;
-		std::mutex fragmentSourceLock;
-		std::string fragmentSource;
-		bool sourceChanged;
+		SceneShader defaultShader;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Renderer)
 };
