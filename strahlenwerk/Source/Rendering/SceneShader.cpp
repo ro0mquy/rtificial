@@ -17,6 +17,7 @@ void SceneShader::load(std::ifstream& in, UniformManager& uniformManager) {
 }
 
 void SceneShader::load(std::string source, UniformManager& uniformManager) {
+	activeUniforms.clear();
 	const std::regex uniformRegex(R"regex([ \t]*uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
 
 	std::sregex_iterator it(source.begin(), source.end(), uniformRegex);
@@ -43,6 +44,7 @@ void SceneShader::load(std::string source, UniformManager& uniformManager) {
 		if(id == -1) {
 			std::cerr << "Uniform with same name but different type exists: " << name << std::endl;
 		}
+		activeUniforms.insert(id);
 	}
 
 	fragmentSourceLock.lock();
@@ -75,6 +77,10 @@ void SceneShader::draw() {
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	context.extensions.glDisableVertexAttribArray(attributeCoord);
 
+}
+
+bool SceneShader::isUniformActive(int id) {
+	return activeUniforms.find(id) != activeUniforms.end();
 }
 
 /**
