@@ -20,7 +20,7 @@ int UniformManager::registerUniform(const std::string& name, UniformType type) {
 	}
 }
 
-const Uniform* UniformManager::getUniform(const std::string& name) {
+const Uniform* UniformManager::getUniform(const std::string& name) const {
 	const auto it = uniforms.find(name);
 	if(it == uniforms.end()) {
 		return nullptr;
