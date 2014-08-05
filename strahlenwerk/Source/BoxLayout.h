@@ -2,7 +2,7 @@
 #define BOXLAYOUT_H
 
 #include <array>
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 
 template <int N, bool VERTICAL>
 class BoxLayout : public Component {

@@ -1,7 +1,7 @@
 #ifndef SNAPTOGRIDCONSTRAINER_H
 #define SNAPTOGRIDCONSTRAINER_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 
 // all hail the tab completion
 class SnapToGridConstrainer : public ComponentBoundsConstrainer {

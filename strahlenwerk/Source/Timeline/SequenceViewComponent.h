@@ -1,7 +1,7 @@
 #ifndef SEQUENCEVIEWCOMPONENT_H
 #define SEQUENCEVIEWCOMPONENT_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "Data.h"
 #include "SequenceComponent.h"
 

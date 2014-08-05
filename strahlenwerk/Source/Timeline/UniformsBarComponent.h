@@ -1,7 +1,7 @@
 #ifndef UNIFORMSBARCOMPONENT_H
 #define UNIFORMSBARCOMPONENT_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "Data.h"
 
 class UniformsBarComponent : public Component {

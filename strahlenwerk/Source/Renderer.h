@@ -3,7 +3,7 @@
 
 #include <string>
 #include <mutex>
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 
 class Renderer : public OpenGLRenderer {
 	public:

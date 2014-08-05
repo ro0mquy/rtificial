@@ -1,7 +1,7 @@
 #ifndef SCENECOMPONENT_H
 #define SCENECOMPONENT_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "SnapToGridConstrainer.h"
 
 class SceneComponent : public Component,

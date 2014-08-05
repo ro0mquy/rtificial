@@ -1,7 +1,7 @@
 #ifndef DATA_H
 #define DATA_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 
 class Data {
 	public:

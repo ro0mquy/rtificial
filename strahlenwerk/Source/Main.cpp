@@ -1,4 +1,4 @@
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "MainWindow.h"
 
 class strahlenwerkApplication : public JUCEApplication {

@@ -1,7 +1,7 @@
 #ifndef MAINCOMPONENT_H
 #define MAINCOMPONENT_H
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "BoxLayout.h"
 #include "OpenGLComponent.h"
 #include "Timeline/Timeline.h"

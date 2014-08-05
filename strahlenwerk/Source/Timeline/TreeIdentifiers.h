@@ -4,7 +4,7 @@
 #ifndef TIMELINETREE_H
 #define TIMELINETREE_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 
 namespace treeId {
 	// the main ValueTree object

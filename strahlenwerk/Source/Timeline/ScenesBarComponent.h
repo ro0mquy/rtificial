@@ -1,7 +1,7 @@
 #ifndef SCENESBARCOMPONENT_H
 #define SCENESBARCOMPONENT_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "Data.h"
 #include "SceneComponent.h"
 

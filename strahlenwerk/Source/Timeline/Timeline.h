@@ -1,7 +1,7 @@
 #ifndef TIMELINE_H
 #define TIMELINE_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "SequenceViewComponent.h"
 #include "ScenesBarComponent.h"
 #include "UniformsBarComponent.h"

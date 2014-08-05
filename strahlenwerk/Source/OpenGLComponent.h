@@ -1,7 +1,7 @@
 #ifndef OPENGLCOMPONENT_H
 #define OPENGLCOMPONENT_H
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 
 #include "Renderer.h"
 

@@ -1,7 +1,7 @@
 #ifndef SEQUENCECOMPONENT_H
 #define SEQUENCECOMPONENT_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "Data.h"
 #include "SnapToGridConstrainer.h"
 

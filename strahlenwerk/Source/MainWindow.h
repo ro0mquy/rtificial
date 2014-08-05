@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "MainComponent.h"
 #include "RtificialLookAndFeel.h"
 

@@ -1,7 +1,7 @@
 #ifndef RTIFICIALLOOKANDFEEL_H
 #define RTIFICIALLOOKANDFEEL_H
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <juce>
 #include "RtColourIds.h"
 
 class RtificialLookAndFeel : public LookAndFeel_V3
