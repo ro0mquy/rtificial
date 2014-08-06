@@ -10,7 +10,7 @@ class UniformManager {
 	public:
 		UniformManager();
 
-		int registerUniform(const std::string& name, UniformType type);
+		const Uniform* registerUniform(const std::string& name, UniformType type);
 		const Uniform* getUniform(const std::string& name) const;
 		void reset();
 

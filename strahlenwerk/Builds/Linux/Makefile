@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/Shader_cfe69b71.o \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
@@ -95,6 +96,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/Shader_cfe69b71.o: ../../Source/Rendering/Shader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Shader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SceneShader_b92468cf.o: ../../Source/Rendering/SceneShader.cpp
 	-@mkdir -p $(OBJDIR)

@@ -6,17 +6,22 @@ UniformManager::UniformManager() :
 	idCounter(LOWEST_ID)
 {}
 
-int UniformManager::registerUniform(const std::string& name, UniformType type) {
+const Uniform* UniformManager::registerUniform(const std::string& name, UniformType type) {
 	const Uniform* existing = getUniform(name);
 	if(existing != nullptr) {
 		if(existing->type == type) {
-			return existing->id;
+			return existing;
 		} else {
-			return -1;
+			return nullptr;
 		}
 	} else {
-		uniforms.insert({name, Uniform(idCounter, type)});
-		return idCounter++;
+		const auto result = uniforms.emplace(name, Uniform(idCounter, type));
+		idCounter++;
+		if(result.second) {
+			return &(result.first->second);
+		} else {
+			return nullptr;
+		}
 	}
 }
 

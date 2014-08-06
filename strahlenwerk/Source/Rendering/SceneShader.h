@@ -2,32 +2,21 @@
 #define SCENESHADER_H
 
 #include <juce>
-#include <fstream>
-#include <mutex>
 #include <string>
 #include <unordered_set>
 
-#include "UniformManager.h"
+#include "Shader.h"
 
-class SceneShader {
+class SceneShader : public Shader {
 	public:
-		SceneShader(OpenGLContext& context);
-		void load(std::ifstream& in, UniformManager& uniformManager);
-		void load(std::string source, UniformManager& uniformManager);
-		void draw();
+		using Shader::Shader;
 		bool isUniformActive(int id);
 
 	private:
-		void recompile();
+		void onBeforeLoad() override;
+		void onUniformLoad(const std::string& name, const Uniform& uniform) override;
 
-		std::mutex fragmentSourceLock;
-		std::string fragmentSource;
-		bool sourceChanged = false;
 		std::unordered_set<int> activeUniforms;
-
-		OpenGLContext& context;
-		OpenGLShaderProgram program;
-		GLint attributeCoord;
 };
 
 #endif

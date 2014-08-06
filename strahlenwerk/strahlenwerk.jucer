@@ -6,6 +6,8 @@
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
+        <FILE id="wPqDDK" name="Shader.cpp" compile="1" resource="0" file="Source/Rendering/Shader.cpp"/>
+        <FILE id="nByUmg" name="Shader.h" compile="0" resource="0" file="Source/Rendering/Shader.h"/>
         <FILE id="JmyfvV" name="UniformType.h" compile="0" resource="0" file="Source/Rendering/UniformType.h"/>
         <FILE id="kOIf97" name="SceneShader.cpp" compile="1" resource="0" file="Source/Rendering/SceneShader.cpp"/>
         <FILE id="xWlp4q" name="Uniform.cpp" compile="1" resource="0" file="Source/Rendering/Uniform.cpp"/>
