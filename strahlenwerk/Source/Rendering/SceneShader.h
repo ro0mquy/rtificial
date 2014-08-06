@@ -1,7 +1,6 @@
 #ifndef SCENESHADER_H
 #define SCENESHADER_H
 
-#include <juce>
 #include <string>
 #include <unordered_set>
 

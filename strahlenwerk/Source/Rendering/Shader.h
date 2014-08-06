@@ -5,7 +5,6 @@
 #include <fstream>
 #include <mutex>
 #include <string>
-#include <unordered_set>
 
 #include "UniformManager.h"
 
