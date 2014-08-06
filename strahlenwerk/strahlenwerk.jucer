@@ -6,6 +6,10 @@
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
+        <FILE id="l7mor6" name="PostprocPipeline.cpp" compile="1" resource="0"
+              file="Source/Rendering/PostprocPipeline.cpp"/>
+        <FILE id="bwz8p3" name="PostprocPipeline.h" compile="0" resource="0"
+              file="Source/Rendering/PostprocPipeline.h"/>
         <FILE id="jhBscx" name="PostprocShader.cpp" compile="1" resource="0"
               file="Source/Rendering/PostprocShader.cpp"/>
         <FILE id="dHGUBU" name="PostprocShader.h" compile="0" resource="0"

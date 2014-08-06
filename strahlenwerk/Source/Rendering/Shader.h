@@ -11,6 +11,7 @@
 class Shader {
 	public:
 		Shader(OpenGLContext& context);
+
 		void load(std::ifstream& in, UniformManager& uniformManager);
 		void load(std::string source, UniformManager& uniformManager);
 		void draw();

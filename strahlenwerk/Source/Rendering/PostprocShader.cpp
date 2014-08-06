@@ -4,6 +4,14 @@
 #include <vector>
 #include <utility>
 
+const std::unordered_map<std::string, int>& PostprocShader::getInputs() const {
+	return inputs;
+}
+
+const std::unordered_map<std::string, int>& PostprocShader::getOutputs() const {
+	return outputs;
+}
+
 void PostprocShader::onBeforeLoad() {
 	inputs.clear();
 	outputs.clear();
@@ -17,7 +25,7 @@ void PostprocShader::onSourceProcessed(std::string& source) {
 		const auto& match = *it;
 		const auto& name = match[1];
 		const int components = toComponents(match[2]);
-		inputs.emplace_back(name, components);
+		inputs.emplace(name, components);
 	}
 
 	const std::regex outputRegex(R"regex(out[ \t]+(float|vec[234])[ \t]+(\w+)[ \t]*;)regex");
@@ -25,7 +33,7 @@ void PostprocShader::onSourceProcessed(std::string& source) {
 		const auto& match = *it;
 		const auto& name = match[2];
 		const int components = toComponents(match[1]);
-		outputs.emplace_back(name, components);
+		outputs.emplace(name, components);
 	}
 }
 

@@ -4,6 +4,7 @@
 #include <regex>
 #include <vector>
 #include <utility>
+#include <algorithm>
 
 Shader::Shader(OpenGLContext& context) :
 	context(context),
