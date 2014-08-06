@@ -19,12 +19,11 @@ void Shader::load(std::ifstream& in, UniformManager& uniformManager) {
 }
 
 void Shader::load(std::string source, UniformManager& uniformManager) {
-	const std::regex uniformRegex(R"regex([ \t]*uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
+	const std::regex uniformRegex(R"regex(uniform[ \t]+(vec[234]|float|sampler2D)[ \t]+(\w+)[ \t]*;)regex");
 
-	std::sregex_iterator it(source.begin(), source.end(), uniformRegex);
 	const std::sregex_iterator end;
 	std::vector<std::pair<size_t, int>> matches;
-	for(; it != end; ++it) {
+	for(std::sregex_iterator it(source.begin(), source.end(), uniformRegex); it != end; ++it) {
 		const auto& match = *it;
 		const auto& typeString = match[1];
 		const auto& name = match[2];
@@ -41,6 +40,8 @@ void Shader::load(std::string source, UniformManager& uniformManager) {
 		}
 		else if(typeString == "vec4") {
 			type = UniformType::VEC4;
+		} else if(typeString == "sampler2D") {
+			type = UniformType::SAMPLER2D;
 		}
 		const Uniform* uniform = uniformManager.registerUniform(name, type);
 		if(uniform == nullptr) {
@@ -58,6 +59,8 @@ void Shader::load(std::string source, UniformManager& uniformManager) {
 		source.insert(match.first + offset, locationString);
 		offset += locationString.size();
 	}
+
+	onSourceProcessed(source);
 
 	fragmentSourceLock.lock();
 	sourceChanged = true;
@@ -110,4 +113,7 @@ void Shader::onBeforeLoad() {
 }
 
 void Shader::onUniformLoad(const std::string& name, const Uniform& uniform) {
+}
+
+void Shader::onSourceProcessed(std::string& source) {
 }

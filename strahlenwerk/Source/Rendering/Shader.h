@@ -19,6 +19,7 @@ class Shader {
 		void recompile();
 		virtual void onBeforeLoad();
 		virtual void onUniformLoad(const std::string& name, const Uniform& uniform);
+		virtual void onSourceProcessed(std::string& source);
 
 		std::mutex fragmentSourceLock;
 		std::string fragmentSource;

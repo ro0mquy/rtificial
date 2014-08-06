@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/PostprocShader_df5d2107.o \
   $(OBJDIR)/Shader_cfe69b71.o \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
@@ -96,6 +97,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/PostprocShader_df5d2107.o: ../../Source/Rendering/PostprocShader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling PostprocShader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Shader_cfe69b71.o: ../../Source/Rendering/Shader.cpp
 	-@mkdir -p $(OBJDIR)
