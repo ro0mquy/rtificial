@@ -6,7 +6,7 @@ UniformManager::UniformManager() :
 	idCounter(LOWEST_ID)
 {}
 
-const Uniform* UniformManager::registerUniform(const std::string& name, UniformType type) {
+const Uniform* UniformManager::registerUniform(std::string name, UniformType type) {
 	const Uniform* existing = getUniform(name);
 	if(existing != nullptr) {
 		if(existing->type == type) {
