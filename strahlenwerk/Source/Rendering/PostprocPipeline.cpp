@@ -1,4 +1,6 @@
 #include <regex>
+#include <queue>
+#include <stack>
 
 #include "PostprocPipeline.h"
 
@@ -11,11 +13,11 @@ void PostprocPipeline::loadShaders(OpenGLContext& context) {
 	shaders.emplace_back(new PostprocShader(context));
 	shaders.back()->load("out vec3 color; void main() {}", manager);
 	shaders.emplace_back(new PostprocShader(context));
-	shaders.back()->load("uniform sampler2D color; // vec2\n void main() {}", manager);
+	shaders.back()->load("uniform sampler2D color; // vec3\n void main() {}", manager);
 }
 
-std::vector<std::pair<int, int>> PostprocPipeline::loadMapping(const std::string& mappingSource) {
-	std::vector<std::pair<int, int>> edges;
+std::vector<std::vector<int>> PostprocPipeline::loadMapping(const std::string& mappingSource) {
+	std::vector<std::vector<int>> edges(shaders.size());
 	const std::regex edgeRegex(R"regex((\w+)\.(\w+)[ \t]+(\w+)\.(\w+)\n)regex");
 	const std::sregex_iterator end;
 	for(std::sregex_iterator it(mappingSource.begin(), mappingSource.end(), edgeRegex); it != end; ++it) {
@@ -58,10 +60,47 @@ std::vector<std::pair<int, int>> PostprocPipeline::loadMapping(const std::string
 			continue;
 		}
 
-		edges.emplace_back(outputId->second, inputId->second);
+		// insert inverse edge
+		edges[inputId->second].push_back(outputId->second);
 	}
 	return edges;
 }
 
-void PostprocPipeline::createOrder(const std::vector<std::pair<int, int>>& mapping) {
+std::vector<int> PostprocPipeline::createOrder(const std::vector<std::vector<int>>& mapping) {
+	std::vector<int> outdegree(shaders.size(), 0);
+
+	// calculate indegree of the from output reachable subgraph using DFS
+	// note that we are working on the inverse graph, so this actually is the outdegree
+	std::stack<int> s;
+	s.push(1);
+	while(!s.empty()) {
+		const int node = s.top();
+		s.pop();
+		for(int origin : mapping[node]) {
+			if(outdegree[origin]++ == 0) {
+				// node is unvisited
+				s.push(origin);
+			}
+		}
+	}
+
+	// shaders[1] is output node, so outdegree should be 0
+	// TODO assertions!
+
+	std::vector<int> order;
+	std::queue<int> q;
+	q.push(1);
+	while(!q.empty()) {
+		const int node = q.front();
+		q.pop();
+		order.push_back(node);
+		for(int origin : mapping[node]) {
+			if(--outdegree[origin] == 0) {
+				q.push(origin);
+			}
+		}
+	}
+
+	std::reverse(order.begin(), order.end());
+	return order;
 }
