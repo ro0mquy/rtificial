@@ -48,7 +48,7 @@ std::vector<std::vector<int>> PostprocPipeline::loadMapping(const std::string& m
 		const auto& inputShader = shaders[inputId->second];
 		const auto& inputs = inputShader->getInputs();
 		const auto& input = inputs.find(inputName);
-		if(output == outputs.end()) {
+		if(input == inputs.end()) {
 			std::cerr << "Shader " << inputShaderName << " has no input named " << inputName << std::endl;
 			continue;
 		}
