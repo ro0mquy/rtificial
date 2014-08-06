@@ -75,7 +75,7 @@ int Data::getLastSceneEndTime() {
 	return maxEndTime;
 }
 
-// returns the active or last active scene for a timepoint
+// returns the active scene for a timepoint
 ValueTree Data::getSceneForTime(const int time) {
 	ValueTree scenesArray = getScenesArray();
 	const int numScenes = scenesArray.getNumChildren();
@@ -111,6 +111,20 @@ ValueTree Data::getSceneForTime(const int time) {
 	// return invalid tree
 	return ValueTree();
 	// */
+}
+
+// returns a scene Id that is currently not used
+int Data::getNewSceneId() {
+	int biggestId = 99; // some room for $stuff
+	ValueTree scenesArray = getScenesArray();
+	const int numScenes = scenesArray.getNumChildren();
+
+	for (int i = 0; i < numScenes; i++) {
+		ValueTree scene = scenesArray.getChild(i);
+		const int currentId = scene.getProperty(treeId::sceneId);
+		biggestId = jmax(biggestId, currentId);
+	}
+	return biggestId + 1;
 }
 
 // retrieves the uniforms array

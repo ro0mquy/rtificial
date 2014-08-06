@@ -61,7 +61,7 @@ void ScenesBarComponent::updateSceneComponents() {
 
 void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 	newSceneData = ValueTree(treeId::scene);
-	newSceneData.setProperty(treeId::sceneId, var(23), nullptr);
+	newSceneData.setProperty(treeId::sceneId, var(data.getNewSceneId()), nullptr);
 	newSceneData.setProperty(treeId::sceneShaderSource, var("dummy.glsl"), nullptr);
 	newSceneData.setProperty(treeId::sceneStart, var(event.getMouseDownX()), nullptr);
 	newSceneData.setProperty(treeId::sceneDuration, var(0), nullptr);

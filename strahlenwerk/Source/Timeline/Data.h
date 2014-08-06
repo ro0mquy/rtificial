@@ -12,6 +12,7 @@ class Data {
 		bool addScene(var id, var start, var duration, var shaderSource, int position = -1);
 		int getLastSceneEndTime();
 		ValueTree getSceneForTime(const int time);
+		int getNewSceneId();
 
 		ValueTree getUniformsArray();
 		bool addUniform(ValueTree uniform, int position = -1);
