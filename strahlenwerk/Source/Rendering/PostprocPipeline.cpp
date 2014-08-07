@@ -104,3 +104,33 @@ std::vector<int> PostprocPipeline::createOrder(const std::vector<std::vector<int
 	std::reverse(order.begin(), order.end());
 	return order;
 }
+
+void PostprocPipeline::createFBO(OpenGLContext& context, PostprocShader& shader) {
+	const auto& ext = context.extensions;
+
+	GLuint fbo;
+	ext.glGenFramebuffers(1, &fbo);
+
+	const auto& outputs = shader.getOutputs();
+	const int n = outputs.size();
+	GLuint textures[n];
+	GLenum drawBuffers[n];
+	glGenTextures(n, textures);
+
+	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+	const int WIDTH = 1920, HEIGHT = 1080;
+	for(int i = 0; i < n; i++) {
+		glBindTexture(GL_TEXTURE_2D, textures[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+		ext.glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, textures[i], 0);
+		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
+	}
+
+	// ext.glDrawBuffers(n, drawBuffers);
+	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+	ext.glDeleteFramebuffers(1, &fbo);
+}
