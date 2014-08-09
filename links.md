@@ -37,3 +37,4 @@
 * [Bezier Kurven zum anfassen](https://pomax.github.io/bezierinfo/)
 * [Colorspace Transformationen, Lab und LCh is what you want](http://www.brucelindbloom.com/index.html?Math.html)
 * [OpenGL Multi-Context 'Fact' Sheet](http://blog.gvnott.com/some-usefull-facts-about-multipul-opengl-contexts/)
+* [readings on physically based rendering](http://interplayoflight.wordpress.com/2013/12/30/readings-on-physically-based-rendering/)
