@@ -8,13 +8,17 @@
 
 class UniformManager {
 	public:
-		UniformManager();
+		static UniformManager& Instance();
 
 		const Uniform* registerUniform(std::string name, UniformType type);
 		const Uniform* getUniform(const std::string& name) const;
 		void reset();
 
 	private:
+		UniformManager();
+		UniformManager(const UniformManager &) = delete;
+		UniformManager& operator=(const UniformManager&) = delete;
+
 		std::unordered_map<std::string, Uniform> uniforms;
 		int idCounter;
 };

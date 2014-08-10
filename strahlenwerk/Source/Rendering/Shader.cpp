@@ -12,14 +12,14 @@ Shader::Shader(OpenGLContext& context) :
 {
 }
 
-void Shader::load(std::ifstream& in, UniformManager& uniformManager) {
+void Shader::load(std::ifstream& in) {
 	std::ostringstream contents;
 	contents << in.rdbuf();
 	in.close();
-	return load(contents.str(), uniformManager);
+	return load(contents.str());
 }
 
-void Shader::load(std::string source, UniformManager& uniformManager) {
+void Shader::load(std::string source) {
 	const std::regex uniformRegex(R"regex(uniform[ \t]+(vec[234]|float|sampler2D)[ \t]+(\w+)[ \t]*;)regex");
 
 	const std::sregex_iterator end;
@@ -44,7 +44,7 @@ void Shader::load(std::string source, UniformManager& uniformManager) {
 		} else if(typeString == "sampler2D") {
 			type = UniformType::SAMPLER2D;
 		}
-		const Uniform* uniform = uniformManager.registerUniform(name, type);
+		const Uniform* uniform = registerUniform(name, type);
 		if(uniform == nullptr) {
 			std::cerr << "Uniform with same name but different type exists: " << name << std::endl;
 		} else {
@@ -93,6 +93,10 @@ void Shader::draw() {
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	context.extensions.glDisableVertexAttribArray(attributeCoord);
 
+}
+
+const Uniform* Shader::registerUniform(std::string name, UniformType type) {
+	return UniformManager::Instance().registerUniform(name, type);
 }
 
 /**

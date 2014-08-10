@@ -4,7 +4,13 @@ const int LOWEST_ID = 10; // reserve some ids
 
 UniformManager::UniformManager() :
 	idCounter(LOWEST_ID)
-{}
+{
+}
+
+UniformManager& UniformManager::Instance() {
+	static UniformManager uniformManager;
+	return uniformManager;
+}
 
 const Uniform* UniformManager::registerUniform(std::string name, UniformType type) {
 	const Uniform* existing = getUniform(name);

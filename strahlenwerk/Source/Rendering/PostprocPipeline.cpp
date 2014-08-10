@@ -9,11 +9,10 @@ void PostprocPipeline::loadShaders(OpenGLContext& context) {
 	shaderIds.emplace("input", 0);
 	shaderIds.emplace("output", 1);
 
-	UniformManager manager; // dummy
 	shaders.emplace_back(new PostprocShader(context));
-	shaders.back()->load("out vec3 color; void main() {}", manager);
+	shaders.back()->load("out vec3 color; void main() {}");
 	shaders.emplace_back(new PostprocShader(context));
-	shaders.back()->load("uniform sampler2D color; // vec3\n void main() {}", manager);
+	shaders.back()->load("uniform sampler2D color; // vec3\n void main() {}");
 }
 
 std::vector<std::vector<int>> PostprocPipeline::loadMapping(const std::string& mappingSource) {

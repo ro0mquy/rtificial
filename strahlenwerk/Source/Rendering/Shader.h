@@ -12,9 +12,12 @@ class Shader {
 	public:
 		Shader(OpenGLContext& context);
 
-		void load(std::ifstream& in, UniformManager& uniformManager);
-		void load(std::string source, UniformManager& uniformManager);
+		void load(std::ifstream& in);
+		void load(std::string source);
 		void draw();
+
+	protected:
+		const Uniform* registerUniform(std::string name, UniformType type);
 
 	private:
 		void recompile();
