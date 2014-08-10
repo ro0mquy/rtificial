@@ -440,4 +440,24 @@ float vignette(float intensity) {
 	return one_minus_intesity + intensity * 16. * position.x *position.y * (1. - position.x) * (-1. - position.y);
 }
 
+
+// light, normal, view, roughness, specular color (F0)
+vec3 specular(vec3 L, vec3 N, vec3 V, float r, vec3 c) {
+	vec3 H = .5 * (L + V);
+	float NdotL = dot(N, L);
+	float NdotV = dot(N, V);
+	float NdotH = dot(N, H);
+
+	float alpha2 = r * r;
+	alpha2 *= alpha2;
+	float stuff = NdotH * NdotH * (alpha2 - 1.) + 1.;
+
+	float r1 = r + 1.;
+	float k = r1 * r1 / 8.;
+
+	float VdotH = dot(V, H);
+	vec3 F = c + (1. - c) * exp2((-5.55473 * VdotH - 6.98316) * VdotH);
+	return F * (alpha2 / (4. * mix(NdotL, 1., k) * mix(NdotV, 1., k) * 3.14 * stuff * stuff));
+}
+
 #line 1
