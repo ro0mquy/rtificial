@@ -128,7 +128,9 @@ void PostprocPipeline::createFBO(OpenGLContext& context, PostprocShader& shader)
 	const int WIDTH = 1920, HEIGHT = 1080;
 	for(int i = 0; i < n; i++) {
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+		// GL_RGB and GL_FLOAT are actually not needed, these are just sane
+		// parameters in case we actually would transfer data
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, WIDTH, HEIGHT, 0, GL_RGB, GL_FLOAT, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
