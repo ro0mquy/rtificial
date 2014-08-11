@@ -20,7 +20,7 @@ void Shader::load(std::ifstream& in) {
 }
 
 void Shader::load(std::string source) {
-	const std::regex uniformRegex(R"regex(uniform[ \t]+(vec[234]|float|sampler2D)[ \t]+(\w+)[ \t]*;)regex");
+	const std::regex uniformRegex(R"regex(uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
 
 	const std::sregex_iterator end;
 	std::vector<std::pair<size_t, int>> matches;
@@ -41,8 +41,6 @@ void Shader::load(std::string source) {
 		}
 		else if(typeString == "vec4") {
 			type = UniformType::VEC4;
-		} else if(typeString == "sampler2D") {
-			type = UniformType::SAMPLER2D;
 		}
 		const Uniform* uniform = registerUniform(name, type);
 		if(uniform == nullptr) {
