@@ -57,6 +57,15 @@ std::vector<std::vector<int>> PostprocPipeline::loadMapping(const std::string& m
 			continue;
 		}
 
+		// get index of output in output shader
+		if(input->bindingId != -1) {
+			std::cerr << inputShaderName << "." << inputName << " has multiple outputs assigned!" << std::endl;
+			continue;
+		}
+		// store output shader local output id temporarily as bindingId
+		inputShader->setInputBindingId(input - &inputShader->getInputs()[0],
+				output - &outputShader->getOutputs()[0]);
+
 		// insert inverse edge
 		edges[inputId->second].push_back(outputId->second);
 	}
@@ -140,4 +149,26 @@ void PostprocPipeline::createFBO(OpenGLContext& context, PostprocShader& shader)
 	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
 	ext.glDeleteFramebuffers(1, &fbo);
+}
+
+void PostprocPipeline::connectStages(std::vector<int> order, const std::vector<std::vector<int>>& mapping) {
+	int nextBindingId = 0;
+	for(const int shaderId : order) {
+		auto& shader = shaders[shaderId];
+		auto& outputs = shader->getOutputs();
+		for(int i = 0; i < outputs.size(); i++) {
+			shader->setOutputBindingId(i, nextBindingId++);
+		}
+
+		auto& inputs = shader->getInputs();
+		// implicit assertion of this loop:
+		// shader->getInputs()[i] corresponds to mapping[shaderId][id]
+		// TODO verify order matches and that each input has something attached to it
+		for(int i = 0; i < inputs.size(); i++) {
+			// replace output local output id with global binding id
+			const int outputShaderId = mapping[shaderId][i];
+			// holy shit, hope this works
+			shader->setInputBindingId(i, shaders[outputShaderId]->getOutputs()[inputs[i].bindingId].bindingId);
+		}
+	}
 }

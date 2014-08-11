@@ -13,7 +13,7 @@ const std::vector<Output>& PostprocShader::getOutputs() const {
 }
 
 template<class T>
-static const T* findConnector(const std::vector<T>& vec, std::string name) {
+static const T* findConnector(const std::vector<T>& vec, const std::string& name) {
 	const auto result = std::find_if(vec.begin(), vec.end(), [name] (const T& e) { return e.name == name; });
 	if(result == vec.end()) {
 		return nullptr;
@@ -22,12 +22,20 @@ static const T* findConnector(const std::vector<T>& vec, std::string name) {
 	}
 }
 
-const Input* PostprocShader::findInput(std::string name) {
+const Input* PostprocShader::findInput(const std::string& name) {
 	return findConnector(inputs, name);
 }
 
-const Output* PostprocShader::findOutput(std::string name) {
+const Output* PostprocShader::findOutput(const std::string& name) {
 	return findConnector(outputs, name);
+}
+
+void PostprocShader::setInputBindingId(int index, int id) {
+	inputs[index].bindingId = id;
+}
+
+void PostprocShader::setOutputBindingId(int index, int id) {
+	outputs[index].bindingId = id;
 }
 
 void PostprocShader::onBeforeLoad() {

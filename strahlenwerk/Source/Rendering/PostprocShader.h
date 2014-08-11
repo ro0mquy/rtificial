@@ -8,6 +8,7 @@
 struct Connector {
 	std::string name;
 	int components;
+	int bindingId = -1;
 
 	Connector(std::string name, int components) :
 		name(name), components(components) {}
@@ -27,8 +28,11 @@ class PostprocShader : public Shader {
 
 		const std::vector<Input>& getInputs() const;
 		const std::vector<Output>& getOutputs() const;
-		const Input* findInput(std::string name);
-		const Output* findOutput(std::string name);
+		const Input* findInput(const std::string& name);
+		const Output* findOutput(const std::string& name);
+
+		void setInputBindingId(int index, int id);
+		void setOutputBindingId(int index, int id);
 
 	private:
 		void onBeforeLoad() override;
