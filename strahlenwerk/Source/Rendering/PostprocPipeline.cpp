@@ -138,7 +138,7 @@ void PostprocPipeline::createFBO(OpenGLContext& context, PostprocShader& shader)
 		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
 	}
 
-	// ext.glDrawBuffers(n, drawBuffers);
+	ext.glDrawBuffers(n, drawBuffers);
 	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
 	ext.glDeleteFramebuffers(1, &fbo);
