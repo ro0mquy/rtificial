@@ -4,12 +4,30 @@
 #include <vector>
 #include <utility>
 
-const std::unordered_map<std::string, int>& PostprocShader::getInputs() const {
+const std::vector<Input>& PostprocShader::getInputs() const {
 	return inputs;
 }
 
-const std::unordered_map<std::string, int>& PostprocShader::getOutputs() const {
+const std::vector<Output>& PostprocShader::getOutputs() const {
 	return outputs;
+}
+
+template<class T>
+static const T* findConnector(const std::vector<T>& vec, std::string name) {
+	const auto result = std::find_if(vec.begin(), vec.end(), [name] (const T& e) { return e.name == name; });
+	if(result == vec.end()) {
+		return nullptr;
+	} else {
+		return &(*result);
+	}
+}
+
+const Input* PostprocShader::findInput(std::string name) {
+	return findConnector(inputs, name);
+}
+
+const Output* PostprocShader::findOutput(std::string name) {
+	return findConnector(outputs, name);
 }
 
 void PostprocShader::onBeforeLoad() {
@@ -25,16 +43,20 @@ void PostprocShader::onSourceProcessed(std::string& source) {
 		const auto& match = *it;
 		const auto& name = match[1];
 		const int components = toComponents(match[2]);
-		inputs.emplace(name, components);
+		inputs.emplace_back(name, components);
 	}
 
+	std::vector<std::pair<size_t, int>> outputPositions;
 	const std::regex outputRegex(R"regex(out[ \t]+(float|vec[234])[ \t]+(\w+)[ \t]*;)regex");
 	for(std::sregex_iterator it(source.begin(), source.end(), outputRegex); it != end; ++it) {
 		const auto& match = *it;
 		const auto& name = match[2];
 		const int components = toComponents(match[1]);
-		outputs.emplace(name, components);
+		outputs.emplace_back(name, components);
+		outputPositions.emplace_back(match.position(), outputPositions.size());
 	}
+
+	insertLocations(source, outputPositions);
 }
 
 int PostprocShader::toComponents(const std::string& identifier) {

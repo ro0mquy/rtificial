@@ -51,13 +51,7 @@ void Shader::load(std::string source) {
 		}
 	}
 
-	// this could be more efficient
-	size_t offset = 0;
-	for(const auto& match : matches) {
-		const auto locationString = "layout(location = " + std::to_string(match.second) + ") ";
-		source.insert(match.first + offset, locationString);
-		offset += locationString.size();
-	}
+	insertLocations(source, matches);
 
 	onSourceProcessed(source);
 
@@ -95,6 +89,16 @@ void Shader::draw() {
 
 const Uniform* Shader::registerUniform(std::string name, UniformType type) {
 	return UniformManager::Instance().registerUniform(name, type);
+}
+
+void Shader::insertLocations(std::string& source, const std::vector<std::pair<size_t, int>>& locations) {
+	// this could be more efficient
+	size_t offset = 0;
+	for(const auto& location : locations) {
+		const auto locationString = "layout(location = " + std::to_string(location.second) + ") ";
+		source.insert(location.first + offset, locationString);
+		offset += locationString.size();
+	}
 }
 
 /**

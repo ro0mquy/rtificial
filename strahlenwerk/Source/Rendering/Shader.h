@@ -18,6 +18,7 @@ class Shader {
 
 	protected:
 		const Uniform* registerUniform(std::string name, UniformType type);
+		void insertLocations(std::string& source, const std::vector<std::pair<size_t, int>>& locations);
 
 	private:
 		void recompile();

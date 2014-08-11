@@ -38,21 +38,19 @@ std::vector<std::vector<int>> PostprocPipeline::loadMapping(const std::string& m
 		}
 
 		const auto& outputShader = shaders[outputId->second];
-		const auto& outputs = outputShader->getOutputs();
-		const auto& output = outputs.find(outputName);
-		if(output == outputs.end()) {
+		const Output* output = outputShader->findOutput(outputName);
+		if(output == nullptr) {
 			std::cerr << "Shader " << outputShaderName << " has no output named " << outputName << std::endl;
 			continue;
 		}
 		const auto& inputShader = shaders[inputId->second];
-		const auto& inputs = inputShader->getInputs();
-		const auto& input = inputs.find(inputName);
-		if(input == inputs.end()) {
+		const Input* input = inputShader->findInput(inputName);
+		if(input == nullptr) {
 			std::cerr << "Shader " << inputShaderName << " has no input named " << inputName << std::endl;
 			continue;
 		}
 
-		if(input->second != output->second) {
+		if(input->components != output->components) {
 			std::cerr << outputShaderName << "." << outputName << " and "
 				<< inputShaderName << "." << inputName
 				<< " don't have a matching number of components!" << std::endl;
