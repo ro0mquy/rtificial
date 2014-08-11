@@ -55,10 +55,10 @@ void Shader::load(std::string source) {
 
 	onSourceProcessed(source);
 
-	fragmentSourceLock.lock();
-	sourceChanged = true;
-	fragmentSource = source;
-	fragmentSourceLock.unlock();
+
+	modifySource([source] (std::string& origSource) {
+		origSource = source;
+	});
 }
 
 /**

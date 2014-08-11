@@ -20,6 +20,14 @@ class Shader {
 		const Uniform* registerUniform(std::string name, UniformType type);
 		void insertLocations(std::string& source, const std::vector<std::pair<size_t, int>>& locations);
 
+		template <class Processor>
+		void modifySource(Processor processor) {
+			fragmentSourceLock.lock();
+			processor(fragmentSource);
+			sourceChanged = true;
+			fragmentSourceLock.unlock();
+		}
+
 	private:
 		void recompile();
 		virtual void onBeforeLoad();

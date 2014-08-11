@@ -34,6 +34,8 @@ class PostprocShader : public Shader {
 		void setInputBindingId(int index, int id);
 		void setOutputBindingId(int index, int id);
 
+		void insertBindings(const std::vector<int>& positions);
+
 	private:
 		void onBeforeLoad() override;
 		void onSourceProcessed(std::string& source) override;

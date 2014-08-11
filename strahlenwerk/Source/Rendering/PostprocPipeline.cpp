@@ -151,7 +151,7 @@ void PostprocPipeline::createFBO(OpenGLContext& context, PostprocShader& shader)
 	ext.glDeleteFramebuffers(1, &fbo);
 }
 
-void PostprocPipeline::connectStages(std::vector<int> order, const std::vector<std::vector<int>>& mapping) {
+void PostprocPipeline::connectStages(const std::vector<int>& order, const std::vector<std::vector<int>>& mapping) {
 	int nextBindingId = 0;
 	for(const int shaderId : order) {
 		auto& shader = shaders[shaderId];
@@ -170,5 +170,12 @@ void PostprocPipeline::connectStages(std::vector<int> order, const std::vector<s
 			// holy shit, hope this works
 			shader->setInputBindingId(i, shaders[outputShaderId]->getOutputs()[inputs[i].bindingId].bindingId);
 		}
+	}
+}
+
+void PostprocPipeline::insertBindings(const std::vector<int>& order, const std::vector<std::vector<int>>& inputPositions) {
+	for(const int shaderId : order) {
+		// TODO verify assumption that position in inputPositions corresponds to shaderId
+		shaders[shaderId]->insertBindings(inputPositions[shaderId]);
 	}
 }

@@ -38,6 +38,17 @@ void PostprocShader::setOutputBindingId(int index, int id) {
 	outputs[index].bindingId = id;
 }
 
+void PostprocShader::insertBindings(const std::vector<int>& positions) {
+	modifySource([this, positions] (std::string& source) {
+		size_t offset = 0;
+		for(int i = 0; i < inputs.size(); i++) {
+			const auto bindingString = "layout(binding = " + std::to_string(inputs[i].bindingId) + ") ";
+			source.insert(positions[i] + offset, bindingString);
+			offset += bindingString.size();
+		}
+	});
+}
+
 void PostprocShader::onBeforeLoad() {
 	inputs.clear();
 	outputs.clear();
