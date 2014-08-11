@@ -72,7 +72,9 @@ std::vector<int> PostprocPipeline::createOrder(const std::vector<std::vector<int
 	// note that we are working on the inverse graph, so this actually is the outdegree
 	std::stack<int> s;
 	s.push(1);
+	int nodeCounter = 0;
 	while(!s.empty()) {
+		nodeCounter++;
 		const int node = s.top();
 		s.pop();
 		for(int origin : mapping[node]) {
@@ -90,6 +92,7 @@ std::vector<int> PostprocPipeline::createOrder(const std::vector<std::vector<int
 	std::queue<int> q;
 	q.push(1);
 	while(!q.empty()) {
+		nodeCounter--;
 		const int node = q.front();
 		q.pop();
 		order.push_back(node);
@@ -98,6 +101,11 @@ std::vector<int> PostprocPipeline::createOrder(const std::vector<std::vector<int
 				q.push(origin);
 			}
 		}
+	}
+
+	if(nodeCounter > 0) {
+		// error - cycle detected TODO
+		std::cerr << "Cyclic dependency in postprocessing detected" << std::endl;
 	}
 
 	std::reverse(order.begin(), order.end());
