@@ -37,6 +37,8 @@ class PostprocShader : public Shader {
 
 		void insertBindings(const std::vector<int>& positions);
 
+		void bindFBO();
+
 	private:
 		void onBeforeLoad() override;
 		void onSourceProcessed(std::string& source) override;

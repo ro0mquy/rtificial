@@ -53,6 +53,10 @@ void PostprocShader::insertBindings(const std::vector<int>& positions) {
 	});
 }
 
+void PostprocShader::bindFBO() {
+	context.extensions.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+}
+
 void PostprocShader::onBeforeLoad() {
 	inputs.clear();
 	outputs.clear();

@@ -7,8 +7,12 @@
 #include <memory>
 
 #include "PostprocShader.h"
+#include "SceneShader.h"
 
 class PostprocPipeline {
+	public:
+		void render(SceneShader& shader);
+
 	private:
 		void loadShaders(OpenGLContext& context);
 		std::vector<std::vector<int>> loadMapping(const std::string& mappingSource);
