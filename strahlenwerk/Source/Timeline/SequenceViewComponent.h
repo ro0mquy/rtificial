@@ -13,6 +13,10 @@ class SequenceViewComponent : public Component
 		void paint(Graphics& g) override;
 		void updateSequenceComponents();
 
+		void mouseDown(const MouseEvent& event) override;
+		void mouseDrag(const MouseEvent& event) override;
+		void mouseUp(const MouseEvent& event) override;
+
 		enum ColourIds{
 			timeMarkerColourId = 0x8350102,
 			evenRowColourId = 0x2300301,
@@ -27,6 +31,10 @@ class SequenceViewComponent : public Component
 		Value currentTime;
 		Data& data;
 		OwnedArray<SequenceComponent> sequenceComponentsArray;
+
+		ValueTree newSequenceData;
+		SequenceComponent* newSequenceComponent;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceViewComponent)
 };
 

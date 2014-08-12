@@ -78,3 +78,58 @@ void SequenceViewComponent::updateSequenceComponents() {
 		}
 	}
 }
+
+void SequenceViewComponent::mouseDown(const MouseEvent& event) {
+	const int absoluteStart = event.getMouseDownX();
+	ValueTree scene = data.getSceneForTime(absoluteStart);
+	const int relativeStart = absoluteStart - int(scene.getProperty(treeId::sceneStart));
+
+	newSequenceData = ValueTree(treeId::sequence);
+	newSequenceData.setProperty(treeId::sequenceSceneId, scene.getProperty(treeId::sceneId), nullptr);
+	newSequenceData.setProperty(treeId::sequenceStart, var(relativeStart), nullptr);
+	newSequenceData.setProperty(treeId::sequenceDuration, var(0), nullptr);
+	newSequenceData.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
+
+	const int rowHeight = 20;
+	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
+	newSequenceComponent = new SequenceComponent(newSequenceData, data, numUniform * rowHeight, rowHeight);
+	addAndMakeVisible(newSequenceComponent);
+}
+
+void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
+	const int gridWidth = 20;
+
+	const int mouseDown = event.getMouseDownX();
+	const int mouseDownGrid = roundFloatToInt(float(mouseDown) / float(gridWidth)) * gridWidth;
+
+	const int mousePos = event.getPosition().getX();
+	const int mousePosGrid = roundFloatToInt(float(mousePos) / float(gridWidth)) * gridWidth;
+
+	const int distanceGrid = mousePosGrid - mouseDownGrid;
+	const int absDistanceGrid = abs(distanceGrid);
+
+	const int absoluteStartGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
+	ValueTree scene = data.getSceneForTime(absoluteStartGrid);
+	const int relativeStartGrid = absoluteStartGrid - int(scene.getProperty(treeId::sceneStart));
+
+	newSequenceData.setProperty(treeId::sequenceSceneId, scene.getProperty(treeId::sceneId), nullptr);
+	newSequenceData.setProperty(treeId::sequenceStart, var(relativeStartGrid), nullptr);
+	newSequenceData.setProperty(treeId::sequenceDuration, var(absDistanceGrid), nullptr);
+	newSequenceComponent->updateSceneStartValueRefer();
+	newSequenceComponent->updateBounds();
+}
+
+void SequenceViewComponent::mouseUp(const MouseEvent& event) {
+	if (int(newSequenceData.getProperty(treeId::sequenceDuration)) == 0) {
+		delete newSequenceComponent;
+	} else {
+		sequenceComponentsArray.add(newSequenceComponent);
+
+		const int rowHeight = 20;
+		const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
+		ValueTree uniform = data.getUniformsArray().getChild(numUniform);
+		data.addSequence(uniform, newSequenceData);
+	}
+	newSequenceComponent = nullptr;
+	newSequenceData = ValueTree();
+}
