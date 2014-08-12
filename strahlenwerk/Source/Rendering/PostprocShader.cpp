@@ -4,6 +4,10 @@
 #include <vector>
 #include <utility>
 
+PostprocShader::~PostprocShader() {
+	deleteFBO();
+}
+
 const std::vector<Input>& PostprocShader::getInputs() const {
 	return inputs;
 }
@@ -92,25 +96,45 @@ int PostprocShader::toComponents(const std::string& identifier) {
 	}
 }
 
-void PostprocShader::createFBO(OpenGLContext& context) {
+void PostprocShader::createFBO(int width, int height) {
+	deleteFBO();
 	const auto& ext = context.extensions;
-
-	GLuint fbo;
 	ext.glGenFramebuffers(1, &fbo);
 
 	const auto& outputs = getOutputs();
 	const int n = outputs.size();
-	GLuint textures[n];
 	GLenum drawBuffers[n];
-	glGenTextures(n, textures);
+	textures.resize(n);
+	glGenTextures(n, &textures[0]);
 
 	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-	const int WIDTH = 1920, HEIGHT = 1080;
 	for(int i = 0; i < n; i++) {
+		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
 		// GL_RGB and GL_FLOAT are actually not needed, these are just sane
 		// parameters in case we actually would transfer data
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, WIDTH, HEIGHT, 0, GL_RGB, GL_FLOAT, 0);
+		GLint internalFormat;
+		GLenum format;
+		switch(outputs[i].components) {
+			case 1:
+				internalFormat = GL_R16F;
+				format = GL_RED;
+				break;
+			case 2:
+				internalFormat = GL_RG16F;
+				format = GL_RG;
+				break;
+			case 3:
+				internalFormat = GL_RGB16F;
+				format = GL_RGB;
+				break;
+			case 4:
+			default:
+				internalFormat = GL_RGBA16F;
+				format = GL_RGBA;
+				break;
+		}
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_FLOAT, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
@@ -118,8 +142,11 @@ void PostprocShader::createFBO(OpenGLContext& context) {
 		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
 	}
 
-	ext.glDrawBuffers(n, drawBuffers);
 	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	ext.glDrawBuffers(n, drawBuffers);
+}
 
-	ext.glDeleteFramebuffers(1, &fbo);
+void PostprocShader::deleteFBO() {
+	glDeleteTextures(textures.size(), &textures[0]);
+	context.extensions.glDeleteFramebuffers(1, &fbo);
 }

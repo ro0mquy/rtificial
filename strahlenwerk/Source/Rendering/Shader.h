@@ -11,6 +11,7 @@
 class Shader {
 	public:
 		Shader(OpenGLContext& context);
+		virtual ~Shader();
 
 		void load(std::ifstream& in);
 		void load(std::string source);
@@ -28,6 +29,8 @@ class Shader {
 			fragmentSourceLock.unlock();
 		}
 
+		OpenGLContext& context;
+
 	private:
 		void recompile();
 		virtual void onBeforeLoad();
@@ -38,7 +41,6 @@ class Shader {
 		std::string fragmentSource;
 		bool sourceChanged = false;
 
-		OpenGLContext& context;
 		OpenGLShaderProgram program;
 		GLint attributeCoord;
 };

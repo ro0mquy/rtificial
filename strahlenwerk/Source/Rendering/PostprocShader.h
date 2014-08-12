@@ -25,6 +25,7 @@ struct Output : public Connector {
 class PostprocShader : public Shader {
 	public:
 		using Shader::Shader;
+		~PostprocShader();
 
 		const std::vector<Input>& getInputs() const;
 		const std::vector<Output>& getOutputs() const;
@@ -42,10 +43,13 @@ class PostprocShader : public Shader {
 
 		static int toComponents(const std::string& identifier);
 
-		void createFBO(OpenGLContext& context);
+		void createFBO(int width, int height);
+		void deleteFBO();
 
 		std::vector<Input> inputs;
 		std::vector<Output> outputs;
+		std::vector<GLuint> textures;
+		GLuint fbo = 0;
 };
 
 #endif

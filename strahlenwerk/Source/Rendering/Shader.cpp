@@ -12,6 +12,9 @@ Shader::Shader(OpenGLContext& context) :
 {
 }
 
+Shader::~Shader() {
+}
+
 void Shader::load(std::ifstream& in) {
 	std::ostringstream contents;
 	contents << in.rdbuf();
