@@ -60,14 +60,14 @@ void ScenesBarComponent::updateSceneComponents() {
 }
 
 void ScenesBarComponent::mouseDown(const MouseEvent& event) {
+	const int sceneId = data.getNewSceneId();
 	newSceneData = ValueTree(treeId::scene);
-	newSceneData.setProperty(treeId::sceneId, var(data.getNewSceneId()), nullptr);
-	newSceneData.setProperty(treeId::sceneShaderSource, var("dummy.glsl"), nullptr);
+	newSceneData.setProperty(treeId::sceneId, var(sceneId), nullptr);
+	newSceneData.setProperty(treeId::sceneShaderSource, var("dummy" + String(sceneId) + ".glsl"), nullptr);
 	newSceneData.setProperty(treeId::sceneStart, var(event.getMouseDownX()), nullptr);
 	newSceneData.setProperty(treeId::sceneDuration, var(0), nullptr);
 
 	newSceneComponent = new SceneComponent(newSceneData);
-	newSceneComponent->setVisible(false);
 	addAndMakeVisible(newSceneComponent);
 }
 
