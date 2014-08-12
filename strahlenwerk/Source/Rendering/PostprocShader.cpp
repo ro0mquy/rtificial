@@ -91,3 +91,35 @@ int PostprocShader::toComponents(const std::string& identifier) {
 		return 0;
 	}
 }
+
+void PostprocShader::createFBO(OpenGLContext& context) {
+	const auto& ext = context.extensions;
+
+	GLuint fbo;
+	ext.glGenFramebuffers(1, &fbo);
+
+	const auto& outputs = getOutputs();
+	const int n = outputs.size();
+	GLuint textures[n];
+	GLenum drawBuffers[n];
+	glGenTextures(n, textures);
+
+	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+	const int WIDTH = 1920, HEIGHT = 1080;
+	for(int i = 0; i < n; i++) {
+		glBindTexture(GL_TEXTURE_2D, textures[i]);
+		// GL_RGB and GL_FLOAT are actually not needed, these are just sane
+		// parameters in case we actually would transfer data
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, WIDTH, HEIGHT, 0, GL_RGB, GL_FLOAT, 0);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+		ext.glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, textures[i], 0);
+		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
+	}
+
+	ext.glDrawBuffers(n, drawBuffers);
+	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+	ext.glDeleteFramebuffers(1, &fbo);
+}

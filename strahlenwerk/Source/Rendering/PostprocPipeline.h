@@ -13,7 +13,6 @@ class PostprocPipeline {
 		void loadShaders(OpenGLContext& context);
 		std::vector<std::vector<int>> loadMapping(const std::string& mappingSource);
 		std::vector<int> createOrder(const std::vector<std::vector<int>>& mapping);
-		void createFBO(OpenGLContext& context, PostprocShader& shader);
 		void connectStages(const std::vector<int>& order, const std::vector<std::vector<int>>& mapping);
 		void insertBindings(const std::vector<int>& order, const std::vector<std::vector<int>>& inputPositions);
 

@@ -42,6 +42,8 @@ class PostprocShader : public Shader {
 
 		static int toComponents(const std::string& identifier);
 
+		void createFBO(OpenGLContext& context);
+
 		std::vector<Input> inputs;
 		std::vector<Output> outputs;
 };
