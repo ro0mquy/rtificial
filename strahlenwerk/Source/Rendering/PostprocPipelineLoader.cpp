@@ -4,7 +4,29 @@
 
 #include "PostprocPipelineLoader.h"
 
-void PostprocPipelineLoader::loadShaders(OpenGLContext& context) {
+std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(OpenGLContext& context) {
+	auto shaderIds = loadShaders(context);
+
+	// TODO somehow retrieve mapping source
+	const std::string mappingSource = "";
+
+	auto mapping = loadMapping(shaderIds, mappingSource);
+	auto order = createOrder(mapping);
+	connectStages(order, mapping);
+	std::vector<std::vector<int>> inputPositions; // TODO
+	insertBindings(order, inputPositions);
+
+	std::vector<std::unique_ptr<PostprocShader>> shadersInOrder;
+	shadersInOrder.resize(order.size());
+	for(int i = 0; i < order.size(); i++) {
+		shadersInOrder[i] = std::move(shaders[order[i]]);
+	}
+	return shadersInOrder;
+}
+
+std::unordered_map<std::string, int> PostprocPipelineLoader::loadShaders(OpenGLContext& context) {
+	std::unordered_map<std::string, int> shaderIds;
+
 	shaderIds.clear();
 	shaderIds.emplace("input", 0);
 	shaderIds.emplace("output", 1);
@@ -13,9 +35,12 @@ void PostprocPipelineLoader::loadShaders(OpenGLContext& context) {
 	shaders.back()->load("out vec3 color; void main() {}");
 	shaders.emplace_back(new PostprocShader(context));
 	shaders.back()->load("uniform sampler2D color; // vec3\n void main() {}");
+	// TODO probably should load some usefule shaders here
+
+	return shaderIds;
 }
 
-std::vector<std::vector<int>> PostprocPipelineLoader::loadMapping(const std::string& mappingSource) {
+std::vector<std::vector<int>> PostprocPipelineLoader::loadMapping(const std::unordered_map<std::string, int>& shaderIds, const std::string& mappingSource) {
 	std::vector<std::vector<int>> edges(shaders.size());
 	const std::regex edgeRegex(R"regex((\w+)\.(\w+)[ \t]+(\w+)\.(\w+)\n)regex");
 	const std::sregex_iterator end;
