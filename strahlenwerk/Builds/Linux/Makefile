@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
   $(OBJDIR)/PostprocShader_df5d2107.o \
   $(OBJDIR)/Shader_cfe69b71.o \
@@ -98,6 +99,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/PostprocPipelineLoader_51edf977.o: ../../Source/Rendering/PostprocPipelineLoader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling PostprocPipelineLoader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/PostprocPipeline_473f2604.o: ../../Source/Rendering/PostprocPipeline.cpp
 	-@mkdir -p $(OBJDIR)
