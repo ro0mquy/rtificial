@@ -4,8 +4,6 @@
 
 #include "PostprocPipelineLoader.h"
 
-// TODO check for input-completeness
-
 std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(OpenGLContext& context) {
 	auto shaderIds = loadShaders(context);
 
@@ -138,6 +136,15 @@ std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vect
 	if(nodeCounter > 0) {
 		// error - cycle detected TODO
 		std::cerr << "Cyclic dependency in postprocessing detected" << std::endl;
+	}
+
+	for(const int shaderId : order) {
+		const auto& inputs = shaders[shaderId]->getInputs();
+		const auto& unboundInput = [] (const Input& input) { return input.bindingId == -1; };
+		if(std::any_of(inputs.begin(), inputs.end(), unboundInput)) {
+			// error - not all inputs bound TODO
+			std::cerr << "Input has no output assigned" << std::endl;
+		}
 	}
 
 	std::reverse(order.begin(), order.end());
