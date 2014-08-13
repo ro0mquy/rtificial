@@ -18,6 +18,10 @@
               file="Source/Rendering/PostprocShader.cpp"/>
         <FILE id="dHGUBU" name="PostprocShader.h" compile="0" resource="0"
               file="Source/Rendering/PostprocShader.h"/>
+        <FILE id="ysGZB3" name="ProjectFileLoader.cpp" compile="1" resource="0"
+              file="Source/Rendering/ProjectFileLoader.cpp"/>
+        <FILE id="PUL64C" name="ProjectFileLoader.h" compile="0" resource="0"
+              file="Source/Rendering/ProjectFileLoader.h"/>
         <FILE id="wPqDDK" name="Shader.cpp" compile="1" resource="0" file="Source/Rendering/Shader.cpp"/>
         <FILE id="nByUmg" name="Shader.h" compile="0" resource="0" file="Source/Rendering/Shader.h"/>
         <FILE id="JmyfvV" name="UniformType.h" compile="0" resource="0" file="Source/Rendering/UniformType.h"/>
