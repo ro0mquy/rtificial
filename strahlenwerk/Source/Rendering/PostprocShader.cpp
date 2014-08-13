@@ -1,6 +1,5 @@
 #include "PostprocShader.h"
 
-#include <regex>
 #include <vector>
 #include <utility>
 
@@ -42,8 +41,14 @@ void PostprocShader::setOutputBindingId(int index, int id) {
 	outputs[index].bindingId = id;
 }
 
-void PostprocShader::insertBindings(const std::vector<int>& positions) {
-	modifySource([this, positions] (std::string& source) {
+void PostprocShader::insertBindings() {
+	modifySource([this] (std::string& source) {
+		std::vector<int> positions;
+		const std::sregex_iterator end;
+		for(std::sregex_iterator it(source.begin(), source.end(), inputRegex); it != end; ++it) {
+			positions.push_back(it->position());
+		}
+
 		size_t offset = 0;
 		for(int i = 0; i < inputs.size(); i++) {
 			const auto bindingString = "layout(binding = " + std::to_string(inputs[i].bindingId) + ") ";
@@ -65,7 +70,6 @@ void PostprocShader::onBeforeLoad() {
 void PostprocShader::onSourceProcessed(std::string& source) {
 	const std::sregex_iterator end;
 
-	const std::regex inputRegex(R"regex(uniform[ \t]+sampler2D[ \t]+(\w+)[ \t]*;[ \t]*//[ \t]*(float|vec[234]))regex");
 	for(std::sregex_iterator it(source.begin(), source.end(), inputRegex); it != end; ++it) {
 		const auto& match = *it;
 		const auto& name = match[1];

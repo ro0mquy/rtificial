@@ -4,6 +4,8 @@
 
 #include "PostprocPipelineLoader.h"
 
+// TODO check for input-completeness
+
 std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(OpenGLContext& context) {
 	auto shaderIds = loadShaders(context);
 
@@ -13,8 +15,6 @@ std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(OpenGL
 	auto mapping = loadMapping(shaderIds, mappingSource);
 	auto order = createOrder(mapping);
 	connectStages(order, mapping);
-	std::vector<std::vector<int>> inputPositions; // TODO
-	insertBindings(order, inputPositions);
 
 	std::vector<std::unique_ptr<PostprocShader>> shadersInOrder;
 	shadersInOrder.resize(order.size());
@@ -164,11 +164,8 @@ void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const 
 			shader->setInputBindingId(i, shaders[outputShaderId]->getOutputs()[inputs[i].bindingId].bindingId);
 		}
 	}
-}
-
-void PostprocPipelineLoader::insertBindings(const std::vector<int>& order, const std::vector<std::vector<int>>& inputPositions) {
 	for(const int shaderId : order) {
 		// TODO verify assumption that position in inputPositions corresponds to shaderId
-		shaders[shaderId]->insertBindings(inputPositions[shaderId]);
+		shaders[shaderId]->insertBindings();
 	}
 }

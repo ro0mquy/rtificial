@@ -2,6 +2,7 @@
 #define POSTPROCSHADER_H
 
 #include <vector>
+#include <regex>
 
 #include "Shader.h"
 
@@ -35,7 +36,7 @@ class PostprocShader : public Shader {
 		void setInputBindingId(int index, int id);
 		void setOutputBindingId(int index, int id);
 
-		void insertBindings(const std::vector<int>& positions);
+		void insertBindings();
 
 		void bindFBO();
 
@@ -52,6 +53,7 @@ class PostprocShader : public Shader {
 		std::vector<Output> outputs;
 		std::vector<GLuint> textures;
 		GLuint fbo = 0;
+		const std::regex inputRegex = std::regex(R"regex(uniform[ \t]+sampler2D[ \t]+(\w+)[ \t]*;[ \t]*//[ \t]*(float|vec[234]))regex");
 };
 
 #endif
