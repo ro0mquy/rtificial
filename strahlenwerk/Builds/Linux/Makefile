@@ -51,10 +51,10 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/ProjectFileLoader_a9547609.o \
   $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
   $(OBJDIR)/PostprocShader_df5d2107.o \
-  $(OBJDIR)/ProjectFileLoader_80cbd7a6.o \
   $(OBJDIR)/Shader_cfe69b71.o \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
@@ -101,6 +101,11 @@ strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
+$(OBJDIR)/ProjectFileLoader_a9547609.o: ../../Source/ProjectFileLoader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ProjectFileLoader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/PostprocPipelineLoader_51edf977.o: ../../Source/Rendering/PostprocPipelineLoader.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling PostprocPipelineLoader.cpp"
@@ -114,11 +119,6 @@ $(OBJDIR)/PostprocPipeline_473f2604.o: ../../Source/Rendering/PostprocPipeline.c
 $(OBJDIR)/PostprocShader_df5d2107.o: ../../Source/Rendering/PostprocShader.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling PostprocShader.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/ProjectFileLoader_80cbd7a6.o: ../../Source/Rendering/ProjectFileLoader.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ProjectFileLoader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Shader_cfe69b71.o: ../../Source/Rendering/Shader.cpp

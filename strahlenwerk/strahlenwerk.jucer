@@ -5,6 +5,10 @@
               jucerVersion="3.1.0" companyName="rtificial" companyWebsite="http://rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
+      <FILE id="AZyKvH" name="ProjectFileLoader.cpp" compile="1" resource="0"
+            file="Source/ProjectFileLoader.cpp"/>
+      <FILE id="w1wQ4d" name="ProjectFileLoader.h" compile="0" resource="0"
+            file="Source/ProjectFileLoader.h"/>
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
         <FILE id="fbU4Ku" name="PostprocPipelineLoader.cpp" compile="1" resource="0"
               file="Source/Rendering/PostprocPipelineLoader.cpp"/>
@@ -18,10 +22,6 @@
               file="Source/Rendering/PostprocShader.cpp"/>
         <FILE id="dHGUBU" name="PostprocShader.h" compile="0" resource="0"
               file="Source/Rendering/PostprocShader.h"/>
-        <FILE id="ysGZB3" name="ProjectFileLoader.cpp" compile="1" resource="0"
-              file="Source/Rendering/ProjectFileLoader.cpp"/>
-        <FILE id="PUL64C" name="ProjectFileLoader.h" compile="0" resource="0"
-              file="Source/Rendering/ProjectFileLoader.h"/>
         <FILE id="wPqDDK" name="Shader.cpp" compile="1" resource="0" file="Source/Rendering/Shader.cpp"/>
         <FILE id="nByUmg" name="Shader.h" compile="0" resource="0" file="Source/Rendering/Shader.h"/>
         <FILE id="JmyfvV" name="UniformType.h" compile="0" resource="0" file="Source/Rendering/UniformType.h"/>
