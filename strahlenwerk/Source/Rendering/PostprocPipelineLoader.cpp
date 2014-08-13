@@ -4,17 +4,24 @@
 
 #include "PostprocPipelineLoader.h"
 
-std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(OpenGLContext& context) {
-	auto shaderIds = loadShaders(context);
+// TODO: improve error logging
 
-	// TODO somehow retrieve mapping source
-	const std::string mappingSource = "";
+std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(
+		OpenGLContext& context,
+		const std::string& mappingSource,
+		const std::vector<std::pair<std::string, std::string>>& shaderSources)
+{
+	auto shaderIds = loadShaders(context, shaderSources);
+
 
 	auto mapping = loadMapping(shaderIds, mappingSource);
 	auto order = createOrder(mapping);
+	std::vector<std::unique_ptr<PostprocShader>> shadersInOrder;
+	if(order.empty()) {
+		return shadersInOrder;
+	}
 	connectStages(order, mapping);
 
-	std::vector<std::unique_ptr<PostprocShader>> shadersInOrder;
 	shadersInOrder.resize(order.size());
 	for(int i = 0; i < order.size(); i++) {
 		shadersInOrder[i] = std::move(shaders[order[i]]);
@@ -22,18 +29,27 @@ std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(OpenGL
 	return shadersInOrder;
 }
 
-std::unordered_map<std::string, int> PostprocPipelineLoader::loadShaders(OpenGLContext& context) {
+std::unordered_map<std::string, int> PostprocPipelineLoader::loadShaders(
+		OpenGLContext& context,
+		const std::vector<std::pair<std::string, std::string>>& shaderSources)
+{
 	std::unordered_map<std::string, int> shaderIds;
 
 	shaderIds.clear();
 	shaderIds.emplace("input", 0);
 	shaderIds.emplace("output", 1);
 
+	shaders.clear();
 	shaders.emplace_back(new PostprocShader(context));
 	shaders.back()->load("out vec3 color; void main() {}");
 	shaders.emplace_back(new PostprocShader(context));
 	shaders.back()->load("uniform sampler2D color; // vec3\n void main() {}");
-	// TODO probably should load some usefule shaders here
+
+	for(const auto& p : shaderSources) {
+		shaderIds.emplace(p.first, shaders.size());
+		shaders.emplace_back(new PostprocShader(context));
+		shaders.back()->load(p.second);
+	}
 
 	return shaderIds;
 }
@@ -134,16 +150,18 @@ std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vect
 	}
 
 	if(nodeCounter > 0) {
-		// error - cycle detected TODO
+		// error - cycle detected
 		std::cerr << "Cyclic dependency in postprocessing detected" << std::endl;
+		order.clear();
 	}
 
 	for(const int shaderId : order) {
 		const auto& inputs = shaders[shaderId]->getInputs();
 		const auto& unboundInput = [] (const Input& input) { return input.bindingId == -1; };
 		if(std::any_of(inputs.begin(), inputs.end(), unboundInput)) {
-			// error - not all inputs bound TODO
+			// error - not all inputs bound
 			std::cerr << "Input has no output assigned" << std::endl;
+			order.clear();
 		}
 	}
 
@@ -163,7 +181,7 @@ void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const 
 		auto& inputs = shader->getInputs();
 		// implicit assertion of this loop:
 		// shader->getInputs()[i] corresponds to mapping[shaderId][id]
-		// TODO verify order matches and that each input has something attached to it
+		// TODO verify order matches
 		for(int i = 0; i < inputs.size(); i++) {
 			// replace output local output id with global binding id
 			const int outputShaderId = mapping[shaderId][i];
