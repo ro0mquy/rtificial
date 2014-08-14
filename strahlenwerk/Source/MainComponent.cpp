@@ -3,7 +3,7 @@
 MainContentComponent::MainContentComponent() :
 	verticalResizer(&verticalLayout, 1, false),
 	horizontalResizer(&horizontalLayout, 1, true),
-	horizontalBoxLayout(horizontalLayout, {{ &panel, &horizontalResizer, &openGLComponent }}),
+	horizontalBoxLayout(horizontalLayout, {{ &colorPicker, &horizontalResizer, &openGLComponent }}),
 	verticalBoxLayout(verticalLayout, {{ &horizontalBoxLayout, &verticalResizer, &timeline }})
 {
 
