@@ -1,6 +1,6 @@
-#include "LabColorPicker.h"
+#include "LabColorSpaceView.h"
 
-LabColorPicker::LabColorPicker() :
+LabColorSpaceView::LabColorSpaceView() :
 	edge(4),
 	L(50.)
 {
@@ -8,7 +8,7 @@ LabColorPicker::LabColorPicker() :
 	setMouseCursor(MouseCursor::CrosshairCursor);
 }
 
-void LabColorPicker::paint(Graphics& g) {
+void LabColorSpaceView::paint(Graphics& g) {
 	if(colors.isNull()) {
 		const int width = getWidth();
 		const int height = getHeight();
@@ -22,7 +22,6 @@ void LabColorPicker::paint(Graphics& g) {
 			for(int x = 0; x < width; x++) {
 				const float a = (x / ( float) width * 2. - 1.) * 120.;
 				const auto rgb = XYZ2RGB(Lab2XYZ(Vector3D<float>(L, a, b)));
-				//std::cout << rgb.x << " " << rgb.y << " " << rgb.z << std::endl;
 				if(rgb.x < 0. || rgb.x > 1. || rgb.y < 0. || rgb.y > 1. || rgb.z < 0. || rgb.z > 1.) {
 					pixels.setPixelColour(x, y, black);
 				} else {
@@ -42,31 +41,37 @@ void LabColorPicker::paint(Graphics& g) {
 		false);
 }
 
-void LabColorPicker::resized() {
+void LabColorSpaceView::resized() {
 	colors = Image::null;
 	updateMarker();
 }
 
-void LabColorPicker::mouseDown(const MouseEvent& e) {
+void LabColorSpaceView::mouseDown(const MouseEvent& e) {
 	mouseDrag(e);
 }
 
-void LabColorPicker::mouseDrag(const MouseEvent& e) {
+void LabColorSpaceView::mouseDrag(const MouseEvent& e) {
 	a = ((e.x - edge) / (float) (getWidth() - edge * 2) * 2. - 1.) * 120.;
 	b = (1. - 2. * (e.y - edge) / (float) (getHeight() - edge * 2)) * 120.;
 	updateMarker();
 }
 
-void LabColorPicker::updateMarker() {
+void LabColorSpaceView::setL(float _L) {
+	L = _L;
+	colors = Image::null;
+	repaint();
+	updateMarker();
+}
+
+void LabColorSpaceView::updateMarker() {
 	marker.setBounds(
 		roundToInt((getWidth() - edge * 2) * (a/240. + .5)),
 		roundToInt((getHeight() - edge * 2) * (.5 - b/240.)),
 		edge * 2, edge * 2
 	);
-
 }
 
-Vector3D<float> LabColorPicker::Lab2XYZ(Vector3D<float> Lab) noexcept {
+Vector3D<float> LabColorSpaceView::Lab2XYZ(Vector3D<float> Lab) noexcept {
 	const float fy = (Lab.x + 16.)/116.;
 	const float fz = fy - Lab.z/200.;
 	const float fx = Lab.y/500. + fy;
@@ -93,7 +98,7 @@ Vector3D<float> LabColorPicker::Lab2XYZ(Vector3D<float> Lab) noexcept {
 	);
 }
 
-Vector3D<float> LabColorPicker::XYZ2RGB(Vector3D<float> XYZ) noexcept {
+Vector3D<float> LabColorSpaceView::XYZ2RGB(Vector3D<float> XYZ) noexcept {
 	return Vector3D<float>(
 		  3.2404542 * XYZ.x + -1.5371385 * XYZ.y + -0.4985314 * XYZ.z,
 		 -0.9692660 * XYZ.x +  1.8760108 * XYZ.y +  0.0415560 * XYZ.z,
@@ -101,7 +106,7 @@ Vector3D<float> LabColorPicker::XYZ2RGB(Vector3D<float> XYZ) noexcept {
 	);
 }
 
-Vector3D<float> LabColorPicker::RGB2SRGB(Vector3D<float> RGB) noexcept {
+Vector3D<float> LabColorSpaceView::RGB2SRGB(Vector3D<float> RGB) noexcept {
 	const float a = .055;
 	return Vector3D<float>(
 		RGB.x <= 0.0031308f ? 12.92 * RGB.x : (1. + a) * pow(RGB.x, 1./2.4) - a,

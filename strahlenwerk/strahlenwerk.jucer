@@ -5,14 +5,20 @@
               jucerVersion="3.1.0" companyName="rtificial" companyWebsite="http://rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
-      <FILE id="YwPCAq" name="ColorSpaceMarker.cpp" compile="1" resource="0"
-            file="Source/ColorSpaceMarker.cpp"/>
-      <FILE id="yBHD7h" name="ColorSpaceMarker.h" compile="0" resource="0"
-            file="Source/ColorSpaceMarker.h"/>
-      <FILE id="kLYLc7" name="LabColorPicker.cpp" compile="1" resource="0"
-            file="Source/LabColorPicker.cpp"/>
-      <FILE id="E5jowU" name="LabColorPicker.h" compile="0" resource="0"
-            file="Source/LabColorPicker.h"/>
+      <GROUP id="{9C99C7A8-0996-8168-C568-0719FAFA83A9}" name="ColorPicker">
+        <FILE id="z3X0Ic" name="ColorSpaceMarker.cpp" compile="1" resource="0"
+              file="Source/ColorPicker/ColorSpaceMarker.cpp"/>
+        <FILE id="Rs48v2" name="ColorSpaceMarker.h" compile="0" resource="0"
+              file="Source/ColorPicker/ColorSpaceMarker.h"/>
+        <FILE id="mlOzUi" name="LabColorPicker.cpp" compile="1" resource="0"
+              file="Source/ColorPicker/LabColorPicker.cpp"/>
+        <FILE id="iwrAXB" name="LabColorPicker.h" compile="0" resource="0"
+              file="Source/ColorPicker/LabColorPicker.h"/>
+        <FILE id="sw6ylR" name="LabColorSpaceView.cpp" compile="1" resource="0"
+              file="Source/ColorPicker/LabColorSpaceView.cpp"/>
+        <FILE id="nYTv9B" name="LabColorSpaceView.h" compile="0" resource="0"
+              file="Source/ColorPicker/LabColorSpaceView.h"/>
+      </GROUP>
       <FILE id="AZyKvH" name="ProjectFileLoader.cpp" compile="1" resource="0"
             file="Source/ProjectFileLoader.cpp"/>
       <FILE id="w1wQ4d" name="ProjectFileLoader.h" compile="0" resource="0"

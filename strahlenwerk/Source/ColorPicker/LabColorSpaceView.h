@@ -1,18 +1,19 @@
-#ifndef LABCOLORPICKER_H
-#define LABCOLORPICKER_H
+#ifndef LABCOLORSPACEVIEW_H
+#define LABCOLORSPACEVIEW_H
 
 #include <juce>
 
 #include "ColorSpaceMarker.h"
 
-class LabColorPicker : public Component {
+class LabColorSpaceView : public Component {
 	public:
-		LabColorPicker();
+		LabColorSpaceView();
 
 		void paint(Graphics& g) override;
 		void resized() override;
 		void mouseDown(const MouseEvent& e) override;
 		void mouseDrag(const MouseEvent& e) override;
+		void setL(float L);
 
 	private:
 		void updateMarker();

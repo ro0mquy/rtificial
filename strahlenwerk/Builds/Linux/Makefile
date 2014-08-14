@@ -51,8 +51,9 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
-  $(OBJDIR)/ColorSpaceMarker_b19a4186.o \
-  $(OBJDIR)/LabColorPicker_72acb38d.o \
+  $(OBJDIR)/ColorSpaceMarker_454a1924.o \
+  $(OBJDIR)/LabColorPicker_2909daab.o \
+  $(OBJDIR)/LabColorSpaceView_bf2be298.o \
   $(OBJDIR)/ProjectFileLoader_a9547609.o \
   $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
@@ -103,14 +104,19 @@ strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
-$(OBJDIR)/ColorSpaceMarker_b19a4186.o: ../../Source/ColorSpaceMarker.cpp
+$(OBJDIR)/ColorSpaceMarker_454a1924.o: ../../Source/ColorPicker/ColorSpaceMarker.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ColorSpaceMarker.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/LabColorPicker_72acb38d.o: ../../Source/LabColorPicker.cpp
+$(OBJDIR)/LabColorPicker_2909daab.o: ../../Source/ColorPicker/LabColorPicker.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling LabColorPicker.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/LabColorSpaceView_bf2be298.o: ../../Source/ColorPicker/LabColorSpaceView.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling LabColorSpaceView.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/ProjectFileLoader_a9547609.o: ../../Source/ProjectFileLoader.cpp
