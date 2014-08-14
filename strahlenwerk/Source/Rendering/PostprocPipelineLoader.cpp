@@ -26,6 +26,7 @@ std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(
 	for(int i = 0; i < order.size(); i++) {
 		shadersInOrder[i] = std::move(shaders[order[i]]);
 	}
+	shadersInOrder.back()->setDefaultFBO();
 	return shadersInOrder;
 }
 

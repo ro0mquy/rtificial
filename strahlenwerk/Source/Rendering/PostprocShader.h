@@ -39,11 +39,13 @@ class PostprocShader : public Shader {
 		void insertBindings();
 
 		void bindFBO();
+		void setDefaultFBO();
 
 	private:
 		void onBeforeLoad() override;
 		void onSourceProcessed(std::string& source) override;
 		void onBeforeDraw() override;
+		void onAfterDraw() override;
 
 		static int toComponents(const std::string& identifier);
 
@@ -54,6 +56,7 @@ class PostprocShader : public Shader {
 		std::vector<Output> outputs;
 		std::vector<GLuint> textures;
 		GLuint fbo = 0;
+		bool fbo_created = false;
 		const std::regex inputRegex = std::regex(R"regex(uniform[ \t]+sampler2D[ \t]+(\w+)[ \t]*;[ \t]*//[ \t]*(float|vec[234]))regex");
 };
 

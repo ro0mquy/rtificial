@@ -59,7 +59,17 @@ void PostprocShader::insertBindings() {
 }
 
 void PostprocShader::bindFBO() {
+	// TODO use the right size
+
+	if(!fbo_created) {
+		createFBO(800, 600);
+	}
 	context.extensions.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+	glViewport(0, 0, 800, 600);
+}
+
+void PostprocShader::setDefaultFBO() {
+	fbo_created = true;
 }
 
 void PostprocShader::onBeforeLoad() {
@@ -91,7 +101,17 @@ void PostprocShader::onSourceProcessed(std::string& source) {
 }
 
 void PostprocShader::onBeforeDraw() {
-	// TODO create FBO
+	for(const auto& output : outputs) {
+		glActiveTexture(GL_TEXTURE0 + output.bindingId);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+}
+
+void PostprocShader::onAfterDraw() {
+	for(int i = 0; i < outputs.size(); i++) {
+		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
+		glBindTexture(GL_TEXTURE_2D, textures[i]);
+	}
 }
 
 int PostprocShader::toComponents(const std::string& identifier) {
@@ -154,13 +174,14 @@ void PostprocShader::createFBO(int width, int height) {
 		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
 	}
 
-	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 	ext.glDrawBuffers(n, drawBuffers);
+	fbo_created = true;
 }
 
 void PostprocShader::deleteFBO() {
-	glDeleteTextures(textures.size(), &textures[0]);
-	if(fbo != 0) {
+	if(fbo_created && fbo != 0) {
+		glDeleteTextures(textures.size(), &textures[0]);
 		context.extensions.glDeleteFramebuffers(1, &fbo);
+		fbo_created = false;
 	}
 }

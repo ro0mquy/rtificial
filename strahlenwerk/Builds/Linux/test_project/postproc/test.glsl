@@ -6,6 +6,8 @@ uniform sampler2D foo; // vec3
 out vec3 bar;
 
 void main() {
-	bar = texture2D(foo, vec2(.5, .5)).rgb;
+	vec2 c = tc;
+	c.x += sin(tc.y * 50.) * .01;
+	bar = texture2D(foo, c).rgb;
 	//bar = vec3(tc, 0.);
 }

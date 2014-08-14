@@ -1,1 +1,2 @@
-input.color output.color
+input.color test.foo
+test.bar output.color
