@@ -1,5 +1,13 @@
 #include "LabColorPicker.h"
 
+LabColorPicker::LabColorPicker() :
+	edge(4),
+	L(50.)
+{
+	addAndMakeVisible(marker);
+	setMouseCursor(MouseCursor::CrosshairCursor);
+}
+
 void LabColorPicker::paint(Graphics& g) {
 	if(colors.isNull()) {
 		const int width = getWidth();
@@ -7,7 +15,6 @@ void LabColorPicker::paint(Graphics& g) {
 		colors = Image(Image::RGB, width, height, false);
 
 		Image::BitmapData pixels(colors, Image::BitmapData::writeOnly);
-		const float L = 50.;
 		const auto black = Colour(0., 0., 0.);
 		for(int y = 0; y < height; y++) {
 			const float b = (1. - y / ( float) height * 2.) * 120.;
@@ -26,7 +33,6 @@ void LabColorPicker::paint(Graphics& g) {
 		}
 	}
 
-	const int edge = 4;
 	g.setOpacity(1.0);
 	g.drawImageTransformed(colors,
 		RectanglePlacement(RectanglePlacement::stretchToFit)
@@ -38,6 +44,26 @@ void LabColorPicker::paint(Graphics& g) {
 
 void LabColorPicker::resized() {
 	colors = Image::null;
+	updateMarker();
+}
+
+void LabColorPicker::mouseDown(const MouseEvent& e) {
+	mouseDrag(e);
+}
+
+void LabColorPicker::mouseDrag(const MouseEvent& e) {
+	a = ((e.x - edge) / (float) (getWidth() - edge * 2) * 2. - 1.) * 120.;
+	b = (1. - 2. * (e.y - edge) / (float) (getHeight() - edge * 2)) * 120.;
+	updateMarker();
+}
+
+void LabColorPicker::updateMarker() {
+	marker.setBounds(
+		roundToInt((getWidth() - edge * 2) * (a/240. + .5)),
+		roundToInt((getHeight() - edge * 2) * (.5 - b/240.)),
+		edge * 2, edge * 2
+	);
+
 }
 
 Vector3D<float> LabColorPicker::Lab2XYZ(Vector3D<float> Lab) noexcept {

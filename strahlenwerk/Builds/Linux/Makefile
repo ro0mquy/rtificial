@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/ColorSpaceMarker_b19a4186.o \
   $(OBJDIR)/LabColorPicker_72acb38d.o \
   $(OBJDIR)/ProjectFileLoader_a9547609.o \
   $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
@@ -101,6 +102,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/ColorSpaceMarker_b19a4186.o: ../../Source/ColorSpaceMarker.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ColorSpaceMarker.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/LabColorPicker_72acb38d.o: ../../Source/LabColorPicker.cpp
 	-@mkdir -p $(OBJDIR)
