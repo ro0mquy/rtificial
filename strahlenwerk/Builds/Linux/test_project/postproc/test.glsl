@@ -7,7 +7,7 @@ out vec3 bar;
 
 void main() {
 	vec2 c = tc;
-	c.x += sin(tc.y * 50.) * .01;
+	c += sin(tc.yx * 50.) * .01;
 	bar = texture2D(foo, c).rgb;
 	//bar = vec3(tc, 0.);
 }
