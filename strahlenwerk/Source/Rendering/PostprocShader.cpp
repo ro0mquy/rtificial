@@ -90,6 +90,10 @@ void PostprocShader::onSourceProcessed(std::string& source) {
 	insertLocations(source, outputPositions);
 }
 
+void PostprocShader::onBeforeDraw() {
+	// TODO create FBO
+}
+
 int PostprocShader::toComponents(const std::string& identifier) {
 	if(identifier == "float") {
 		return 1;
@@ -156,5 +160,7 @@ void PostprocShader::createFBO(int width, int height) {
 
 void PostprocShader::deleteFBO() {
 	glDeleteTextures(textures.size(), &textures[0]);
-	context.extensions.glDeleteFramebuffers(1, &fbo);
+	if(fbo != 0) {
+		context.extensions.glDeleteFramebuffers(1, &fbo);
+	}
 }

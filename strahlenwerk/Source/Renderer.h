@@ -3,6 +3,7 @@
 
 #include <juce>
 #include "Rendering/SceneShader.h"
+#include "Rendering/PostprocPipeline.h"
 
 class Renderer : public OpenGLRenderer {
 	public:
@@ -15,6 +16,7 @@ class Renderer : public OpenGLRenderer {
 	private:
 		OpenGLContext& context;
 		SceneShader defaultShader;
+		PostprocPipeline postproc;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Renderer)
 };

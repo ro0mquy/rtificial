@@ -9,6 +9,7 @@
 
 class PostprocPipeline {
 	public:
+		void setShaders(std::vector<std::unique_ptr<PostprocShader>> shaders);
 		void render(SceneShader& shader);
 
 	private:

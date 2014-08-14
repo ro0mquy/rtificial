@@ -68,6 +68,8 @@ void Shader::load(std::string source) {
  * Only call this from the OpenGL thread!
  */
 void Shader::draw() {
+	onBeforeDraw();
+
 	fragmentSourceLock.lock();
 	if(sourceChanged) {
 		recompile();
@@ -109,7 +111,7 @@ void Shader::insertLocations(std::string& source, const std::vector<std::pair<si
  */
 void Shader::recompile() {
 	program.release();
-	program.addVertexShader("#version 120\nattribute vec2 c;\nvoid main() { gl_Position = vec4(c, 0., 1.); }");
+	program.addVertexShader("#version 330\nin vec2 c;\nout vec2 tc;\nvoid main() { tc = 2.*c - 1.;\ngl_Position = vec4(c, 0., 1.); }");
 	program.addFragmentShader(fragmentSource);
 	program.link();
 
@@ -126,4 +128,7 @@ void Shader::onUniformLoad(const std::string& name, const Uniform& uniform) {
 }
 
 void Shader::onSourceProcessed(std::string& source) {
+}
+
+void Shader::onBeforeDraw() {
 }

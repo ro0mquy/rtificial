@@ -41,9 +41,9 @@ std::unordered_map<std::string, int> PostprocPipelineLoader::loadShaders(
 
 	shaders.clear();
 	shaders.emplace_back(new PostprocShader(context));
-	shaders.back()->load("out vec3 color; void main() {}");
+	shaders.back()->load("#version 330\nout vec3 color;\n void main() {}");
 	shaders.emplace_back(new PostprocShader(context));
-	shaders.back()->load("uniform sampler2D color; // vec3\n void main() {}");
+	shaders.back()->load("#version 330\nuniform sampler2D color; // vec3\n void main() {}");
 
 	for(const auto& p : shaderSources) {
 		shaderIds.emplace(p.first, shaders.size());

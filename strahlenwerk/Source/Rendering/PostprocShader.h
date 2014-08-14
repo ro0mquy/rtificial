@@ -43,6 +43,7 @@ class PostprocShader : public Shader {
 	private:
 		void onBeforeLoad() override;
 		void onSourceProcessed(std::string& source) override;
+		void onBeforeDraw() override;
 
 		static int toComponents(const std::string& identifier);
 
