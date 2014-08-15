@@ -115,14 +115,14 @@ void Shader::insertLocations(std::string& source, const std::vector<std::pair<si
  */
 void Shader::recompile() {
 	program.release();
-	const bool vertexOk = program.addVertexShader("#version 330\nfoo;in vec2 c;\nout vec2 tc;\nvoid main() { tc = c * .5 + .5;\ngl_Position = vec4(c, 0., 1.); }");
+	const bool vertexOk = program.addVertexShader("#version 330\nin vec2 c;\nout vec2 tc;\nvoid main() { tc = c * .5 + .5;\ngl_Position = vec4(c, 0., 1.); }");
 	// TODO better logging
 	if(!vertexOk) {
-		std::cerr << program.getLastError() << std::endl;
+		std::cerr << "Vertex error: " << program.getLastError() << std::endl;
 	}
 	const bool fragmentOk = program.addFragmentShader(fragmentSource);
 	if(!fragmentOk) {
-		std::cerr << program.getLastError() << std::endl;
+		std::cerr << "Fragment error: " << program.getLastError() << std::endl;
 	}
 	if(vertexOk && fragmentOk) {
 		program.link();
