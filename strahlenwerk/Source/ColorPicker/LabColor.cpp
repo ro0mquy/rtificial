@@ -6,8 +6,11 @@ LabColor::LabColor(float L, float a, float b) :
 }
 
 Colour LabColor::getSRGBColor() const {
-	const auto srgb = Lab2SRGB(Vector3D<float>(L, a, b));
-	return Colour(srgb.x * 255, srgb.y * 255, srgb.z * 255);
+	return toColour(RGB2SRGB(invalidToBlack(XYZ2RGB(Lab2XYZ(Vector3D<float>(L, a, b))))));
+}
+
+Colour LabColor::getLinearRGBColor() const {
+	return toColour(invalidToBlack(XYZ2RGB(Lab2XYZ(Vector3D<float>(L, a, b)))));
 }
 
 Vector3D<float> LabColor::Lab2XYZ(Vector3D<float> Lab) noexcept {
@@ -54,11 +57,13 @@ Vector3D<float> LabColor::RGB2SRGB(Vector3D<float> RGB) noexcept {
 	);
 }
 
-Vector3D<float> LabColor::Lab2SRGB(Vector3D<float> Lab) noexcept {
-	const auto rgb = XYZ2RGB(Lab2XYZ(Vector3D<float>(Lab.x, Lab.y, Lab.z)));
-	if(rgb.x < 0. || rgb.x > 1. || rgb.y < 0. || rgb.y > 1. || rgb.z < 0. || rgb.z > 1.) {
+Vector3D<float> LabColor::invalidToBlack(Vector3D<float> RGB) noexcept {
+	if(RGB.x < 0. || RGB.x > 1. || RGB.y < 0. || RGB.y > 1. || RGB.z < 0. || RGB.z > 1.) {
 		return Vector3D<float>(0., 0., 0.);
 	} else {
-		return RGB2SRGB(rgb);
+		return RGB;
 	}
+}
+Colour LabColor::toColour(Vector3D<float> color) noexcept {
+	return Colour(color.x * 255, color.y * 255, color.z * 255);
 }
