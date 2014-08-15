@@ -38,3 +38,9 @@
 * [Colorspace Transformationen, Lab und LCh is what you want](http://www.brucelindbloom.com/index.html?Math.html)
 * [OpenGL Multi-Context 'Fact' Sheet](http://blog.gvnott.com/some-usefull-facts-about-multipul-opengl-contexts/)
 * [readings on physically based rendering](http://interplayoflight.wordpress.com/2013/12/30/readings-on-physically-based-rendering/)
+* Polygon Pi Anatomy of a modern renderer
+    * [Bokeh Depth Of Field](http://www.polygonpi.com/?p=752)
+    * [High Dynamic Range (part 1)](http://www.polygonpi.com/?p=1006)
+    * [High Dynamic Range (part 2)](http://www.polygonpi.com/?p=1074)
+    * [High Dynamic Range (part 3)](http://www.polygonpi.com/?p=1112)
+    * [A depth of field implementation](http://www.polygonpi.com/?p=867)
