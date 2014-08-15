@@ -52,6 +52,7 @@ endif
 
 OBJECTS := \
   $(OBJDIR)/ColorSpaceMarker_454a1924.o \
+  $(OBJDIR)/LabColor_145742fd.o \
   $(OBJDIR)/LabColorPicker_2909daab.o \
   $(OBJDIR)/LabColorSpaceView_bf2be298.o \
   $(OBJDIR)/ProjectFileLoader_a9547609.o \
@@ -107,6 +108,11 @@ strip:
 $(OBJDIR)/ColorSpaceMarker_454a1924.o: ../../Source/ColorPicker/ColorSpaceMarker.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ColorSpaceMarker.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/LabColor_145742fd.o: ../../Source/ColorPicker/LabColor.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling LabColor.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/LabColorPicker_2909daab.o: ../../Source/ColorPicker/LabColorPicker.cpp

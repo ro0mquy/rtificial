@@ -6,10 +6,14 @@
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
       <GROUP id="{9C99C7A8-0996-8168-C568-0719FAFA83A9}" name="ColorPicker">
+        <FILE id="OAn06F" name="ColorChangedListener.h" compile="0" resource="0"
+              file="Source/ColorPicker/ColorChangedListener.h"/>
         <FILE id="z3X0Ic" name="ColorSpaceMarker.cpp" compile="1" resource="0"
               file="Source/ColorPicker/ColorSpaceMarker.cpp"/>
         <FILE id="Rs48v2" name="ColorSpaceMarker.h" compile="0" resource="0"
               file="Source/ColorPicker/ColorSpaceMarker.h"/>
+        <FILE id="tIv1g2" name="LabColor.cpp" compile="1" resource="0" file="Source/ColorPicker/LabColor.cpp"/>
+        <FILE id="NY5EPp" name="LabColor.h" compile="0" resource="0" file="Source/ColorPicker/LabColor.h"/>
         <FILE id="mlOzUi" name="LabColorPicker.cpp" compile="1" resource="0"
               file="Source/ColorPicker/LabColorPicker.cpp"/>
         <FILE id="iwrAXB" name="LabColorPicker.h" compile="0" resource="0"
