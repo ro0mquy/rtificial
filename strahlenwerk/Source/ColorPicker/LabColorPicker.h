@@ -9,6 +9,7 @@
 class LabColorPicker :
 	public Component,
 	public ColorChangedListener,
+	public ChangeBroadcaster,
 	private SliderListener
 {
 	public:
@@ -22,11 +23,14 @@ class LabColorPicker :
 		void updateL(float L) override;
 		void updateAB(float a, float b) override;
 
+		const LabColor& getColor() const;
+		void setColor(LabColor color);
+
 	private:
+		LabColor color;
+
 		LabColorSpaceView colorSpace;
 		Slider slider;
-
-		LabColor color;
 };
 
 #endif

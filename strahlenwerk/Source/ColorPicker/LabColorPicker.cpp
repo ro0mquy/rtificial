@@ -33,6 +33,7 @@ void LabColorPicker::updateL(float L) {
 	color.L = L;
 	colorSpace.onLChanged();
 	repaint();
+	sendChangeMessage();
 }
 
 void LabColorPicker::updateAB(float a, float b) {
@@ -40,4 +41,13 @@ void LabColorPicker::updateAB(float a, float b) {
 	color.b = b;
 	colorSpace.onABChanged();
 	repaint();
+	sendChangeMessage();
+}
+
+const LabColor& LabColorPicker::getColor() const {
+	return color;
+}
+
+void LabColorPicker::setColor(LabColor _color) {
+	color = _color;
 }
