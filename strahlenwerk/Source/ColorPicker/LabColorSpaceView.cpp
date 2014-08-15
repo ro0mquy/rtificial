@@ -1,5 +1,7 @@
 #include "LabColorSpaceView.h"
 
+const float LabColorSpaceView::abRange = 110.;
+
 LabColorSpaceView::LabColorSpaceView(ColorChangedListener& listener, const LabColor& color) :
 	edge(4),
 	color(color),
@@ -17,10 +19,10 @@ void LabColorSpaceView::paint(Graphics& g) {
 
 		Image::BitmapData pixels(colors, Image::BitmapData::writeOnly);
 		for(int y = 0; y < height; y++) {
-			const float b = (1. - y / ( float) height * 2.) * 120.;
+			const float b = (1. - y / ( float) height * 2.) * abRange;
 
 			for(int x = 0; x < width; x++) {
-				const float a = (x / ( float) width * 2. - 1.) * 120.;
+				const float a = (x / ( float) width * 2. - 1.) * abRange;
 				pixels.setPixelColour(x, y, LabColor(color.L, a, b).getSRGBColor());
 			}
 		}
@@ -45,8 +47,8 @@ void LabColorSpaceView::mouseDown(const MouseEvent& e) {
 }
 
 void LabColorSpaceView::mouseDrag(const MouseEvent& e) {
-	const float a = ((e.x - edge) / (float) (getWidth() - edge * 2) * 2. - 1.) * 120.;
-	const float b = (1. - 2. * (e.y - edge) / (float) (getHeight() - edge * 2)) * 120.;
+	const float a = ((e.x - edge) / (float) (getWidth() - edge * 2) * 2. - 1.) * abRange;
+	const float b = (1. - 2. * (e.y - edge) / (float) (getHeight() - edge * 2)) * abRange;
 	listener.updateAB(a, b);
 }
 
@@ -63,8 +65,8 @@ void LabColorSpaceView::onABChanged() {
 
 void LabColorSpaceView::updateMarker() {
 	marker.setBounds(
-		roundToInt((getWidth() - edge * 2) * (color.a/240. + .5)),
-		roundToInt((getHeight() - edge * 2) * (.5 - color.b/240.)),
+		roundToInt((getWidth() - edge * 2) * (color.a/abRange * .5 + .5)),
+		roundToInt((getHeight() - edge * 2) * (.5 - color.b/abRange * .5)),
 		edge * 2, edge * 2
 	);
 }

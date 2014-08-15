@@ -29,6 +29,8 @@ class LabColorSpaceView : public Component {
 		const LabColor& color;
 
 		ColorChangedListener& listener;
+
+		static const float abRange;
 };
 
 #endif
