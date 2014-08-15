@@ -42,6 +42,7 @@ class Shader {
 		std::mutex fragmentSourceLock;
 		std::string fragmentSource;
 		bool sourceChanged = false;
+		bool shaderOk = false;
 
 		OpenGLShaderProgram program;
 		GLint attributeCoord;
