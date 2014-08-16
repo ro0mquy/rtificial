@@ -4,6 +4,7 @@ LabColorPropertyComponent::LabColorPropertyComponent(const String& name) :
 	PropertyComponent(name)
 {
 	dummy.addMouseListener(this, false);
+	dummy.setMouseCursor(MouseCursor::PointingHandCursor);
 	addAndMakeVisible(dummy);
 }
 
