@@ -29,7 +29,7 @@ void LabColorPicker::paint(Graphics& g) {
 }
 
 void LabColorPicker::resized() {
-	const int sliderHeight = 30;
+	const int sliderHeight = 24;
 	const int colorHeight = 30;
 	colorSpace.setBounds(0, colorHeight, getWidth(), getHeight() - 4 * sliderHeight - colorHeight);
 	lSlider.setBounds(0, getHeight() - 4 * sliderHeight, getWidth(), sliderHeight);

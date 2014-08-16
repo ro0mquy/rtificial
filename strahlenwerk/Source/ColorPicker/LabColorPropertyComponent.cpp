@@ -21,7 +21,7 @@ void LabColorPropertyComponent::paint(Graphics& g) {
 void LabColorPropertyComponent::mouseUp(const MouseEvent &event) {
 	if(event.originalComponent == &dummy) {
 		LabColorPicker* popupPicker = new LabColorPicker();
-		popupPicker->setSize(300, 360);
+		popupPicker->setSize(300, 426);
 
 		CallOutBox::launchAsynchronously(popupPicker, dummy.getScreenBounds().withWidth(4), nullptr);
 	}
