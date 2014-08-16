@@ -5,7 +5,10 @@
 
 #include "LabColorPicker.h"
 
-class LabColorPropertyComponent : public PropertyComponent {
+class LabColorPropertyComponent :
+	public PropertyComponent,
+	private ChangeListener
+{
 	public:
 		LabColorPropertyComponent(const String& name);
 
@@ -13,9 +16,11 @@ class LabColorPropertyComponent : public PropertyComponent {
 		void paint(Graphics& g) override;
 
 		void mouseUp(const MouseEvent &event) override;
+		void changeListenerCallback(ChangeBroadcaster* source);
 
 	private:
-		LabColorPicker picker;
+		LabColorPicker* picker;
+		LabColor color;
 		Component dummy;
 };
 #endif
