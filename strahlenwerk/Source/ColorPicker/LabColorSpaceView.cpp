@@ -62,6 +62,11 @@ void LabColorSpaceView::onABChanged() {
 	updateMarker();
 }
 
+void LabColorSpaceView::onColorChanged() {
+	colors = Image::null;
+	repaint();
+	updateMarker();
+}
 
 void LabColorSpaceView::updateMarker() {
 	marker.setBounds(

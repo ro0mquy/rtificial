@@ -17,6 +17,7 @@ class LabColorSpaceView : public Component {
 		void mouseDrag(const MouseEvent& e) override;
 		void onLChanged();
 		void onABChanged();
+		void onColorChanged();
 
 
 	private:

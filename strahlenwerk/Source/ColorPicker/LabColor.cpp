@@ -14,7 +14,6 @@ LabColor::LabColor(Vector3D<float> Lab) : LabColor(Lab.x, Lab.y, Lab.z)
 }
 
 LabColor::LabColor(Colour linearRGB) : LabColor(XYZ2Lab(RGB2XYZ(fromColour(linearRGB)))) {
-
 }
 
 Colour LabColor::getSRGBColor() const {

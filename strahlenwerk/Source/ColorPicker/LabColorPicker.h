@@ -27,10 +27,15 @@ class LabColorPicker :
 		void setColor(LabColor color);
 
 	private:
+		void updateRGBSliders();
+
 		LabColor color;
 
 		LabColorSpaceView colorSpace;
-		Slider slider;
+		Slider lSlider;
+		Slider rSlider;
+		Slider gSlider;
+		Slider bSlider;
 };
 
 #endif
