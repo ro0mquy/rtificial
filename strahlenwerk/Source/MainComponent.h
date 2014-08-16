@@ -18,7 +18,7 @@ class MainContentComponent : public Component
 		StretchableLayoutResizerBar verticalResizer;
 		Timeline timeline;
 
-		LabColorPicker colorPicker;
+		PropertyPanel panel;
 		StretchableLayoutResizerBar horizontalResizer;
 		OpenGLComponent openGLComponent;
 
