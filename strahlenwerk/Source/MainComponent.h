@@ -5,7 +5,6 @@
 #include "BoxLayout.h"
 #include "OpenGLComponent.h"
 #include "Timeline/Timeline.h"
-#include "ColorPicker/LabColorPicker.h"
 
 class MainContentComponent : public Component
 {

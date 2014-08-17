@@ -16,12 +16,36 @@ LabColor::LabColor(Vector3D<float> Lab) : LabColor(Lab.x, Lab.y, Lab.z)
 LabColor::LabColor(Colour linearRGB) : LabColor(XYZ2Lab(RGB2XYZ(fromColour(linearRGB)))) {
 }
 
+LabColor::LabColor(const LabColor& other) :
+	L(other.L),
+	a(other.a),
+	b(other.b)
+{
+}
+
+void LabColor::setColor(const LabColor& other) {
+	L = other.L.getValue();
+	a = other.a.getValue();
+	b = other.b.getValue();
+}
+
+LabColor& LabColor::operator=(const LabColor& other) {
+	setColor(other);
+	return *this;
+}
+
+void LabColor::addListenerForLab(Value::Listener* listener) {
+	L.addListener(listener);
+	a.addListener(listener);
+	b.addListener(listener);
+}
+
 Colour LabColor::getSRGBColor() const {
-	return toColour(RGB2SRGB(invalidToBlack(XYZ2RGB(Lab2XYZ(Vector3D<float>(L, a, b))))));
+	return toColour(RGB2SRGB(invalidToBlack(XYZ2RGB(Lab2XYZ(Vector3D<float>(L.getValue(), a.getValue(), b.getValue()))))));
 }
 
 Colour LabColor::getLinearRGBColor() const {
-	return toColour(invalidToBlack(XYZ2RGB(Lab2XYZ(Vector3D<float>(L, a, b)))));
+	return toColour(invalidToBlack(XYZ2RGB(Lab2XYZ(Vector3D<float>(L.getValue(), a.getValue(), b.getValue())))));
 }
 
 Vector3D<float> LabColor::Lab2XYZ(Vector3D<float> Lab) noexcept {

@@ -3,11 +3,11 @@
 
 #include <juce>
 
-#include "LabColorPicker.h"
+#include "LabColor.h"
 
 class LabColorPropertyComponent :
 	public PropertyComponent,
-	private ChangeListener
+	private Value::Listener
 {
 	public:
 		LabColorPropertyComponent(const String& name);
@@ -16,10 +16,9 @@ class LabColorPropertyComponent :
 		void paint(Graphics& g) override;
 
 		void mouseUp(const MouseEvent &event) override;
-		void changeListenerCallback(ChangeBroadcaster* source);
+		void valueChanged(Value& value) override;
 
 	private:
-		LabColorPicker* picker;
 		LabColor color;
 		Component dummy;
 };

@@ -4,32 +4,28 @@
 #include <juce>
 
 #include "ColorSpaceMarker.h"
-#include "ColorChangedListener.h"
 #include "LabColor.h"
 
-class LabColorSpaceView : public Component {
+class LabColorSpaceView :
+	public Component,
+	private Value::Listener
+{
 	public:
-		LabColorSpaceView(ColorChangedListener& listener, const LabColor& color);
+		LabColorSpaceView(const LabColor& color_);
 
 		void paint(Graphics& g) override;
 		void resized() override;
 		void mouseDown(const MouseEvent& e) override;
 		void mouseDrag(const MouseEvent& e) override;
-		void onLChanged();
-		void onABChanged();
-		void onColorChanged();
-
+		void valueChanged(Value& value) override;
 
 	private:
-		void updateMarker();
+		void updateMarkerPosition();
 
 		Image colors;
-		ColorSpaceMarker marker;
 		int edge;
-
-		const LabColor& color;
-
-		ColorChangedListener& listener;
+		LabColor color;
+		ColorSpaceMarker marker;
 
 		static const float abRange;
 };

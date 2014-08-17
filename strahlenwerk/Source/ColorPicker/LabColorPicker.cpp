@@ -1,18 +1,18 @@
 #include "LabColorPicker.h"
 
 LabColorPicker::LabColorPicker() :
-	color(50., 0., 0.),
-	colorSpace(*this, color)
+	LabColorPicker(LabColor(50., 0., 0.))
 {
-	addAndMakeVisible(colorSpace);
-	addAndMakeVisible(lSlider);
-	addAndMakeVisible(rSlider);
-	addAndMakeVisible(gSlider);
-	addAndMakeVisible(bSlider);
+}
+
+LabColorPicker::LabColorPicker(const LabColor& color_) :
+	color(color_),
+	colorSpace(color)
+{
+	color.addListenerForLab(this);
 
 	lSlider.setRange(0, 100);
-	lSlider.setValue(50.);
-	lSlider.addListener(this);
+	lSlider.getValueObject().referTo(color.L);
 
 	rSlider.setRange(0, 1);
 	gSlider.setRange(0, 1);
@@ -20,6 +20,12 @@ LabColorPicker::LabColorPicker() :
 	rSlider.addListener(this);
 	gSlider.addListener(this);
 	bSlider.addListener(this);
+
+	addAndMakeVisible(colorSpace);
+	addAndMakeVisible(lSlider);
+	addAndMakeVisible(rSlider);
+	addAndMakeVisible(gSlider);
+	addAndMakeVisible(bSlider);
 }
 
 void LabColorPicker::paint(Graphics& g) {
@@ -31,40 +37,24 @@ void LabColorPicker::paint(Graphics& g) {
 void LabColorPicker::resized() {
 	const int sliderHeight = 24;
 	const int colorHeight = 30;
-	colorSpace.setBounds(0, colorHeight, getWidth(), getHeight() - 4 * sliderHeight - colorHeight);
-	lSlider.setBounds(0, getHeight() - 4 * sliderHeight, getWidth(), sliderHeight);
-	rSlider.setBounds(0, getHeight() - 3 * sliderHeight, getWidth(), sliderHeight);
-	gSlider.setBounds(0, getHeight() - 2 * sliderHeight, getWidth(), sliderHeight);
-	bSlider.setBounds(0, getHeight() - 1 * sliderHeight, getWidth(), sliderHeight);
+
+	Rectangle<int> bounds = getLocalBounds();
+	bounds.removeFromTop(colorHeight);
+	bSlider.setBounds(bounds.removeFromBottom(sliderHeight));
+	gSlider.setBounds(bounds.removeFromBottom(sliderHeight));
+	rSlider.setBounds(bounds.removeFromBottom(sliderHeight));
+	lSlider.setBounds(bounds.removeFromBottom(sliderHeight));
+	colorSpace.setBounds(bounds);
 }
 
 void LabColorPicker::sliderValueChanged(Slider* slider) {
-	if(slider == &lSlider) {
-		updateL(slider->getValue());
-	} else if(slider == &rSlider || slider == &gSlider || slider == &bSlider) {
-		color = LabColor(Colour::fromFloatRGBA(rSlider.getValue(), gSlider.getValue(), bSlider.getValue(), 1.));
-		lSlider.setValue(color.L, NotificationType::dontSendNotification);
-		repaint();
-		colorSpace.onColorChanged();
-		sendChangeMessage();
-	}
+	color = LabColor(Colour::fromFloatRGBA(rSlider.getValue(), gSlider.getValue(), bSlider.getValue(), 1.));
+	repaint();
 }
 
-void LabColorPicker::updateL(float L) {
-	color.L = L;
-	colorSpace.onLChanged();
+void LabColorPicker::valueChanged(Value& value) {
 	updateRGBSliders();
 	repaint();
-	sendChangeMessage();
-}
-
-void LabColorPicker::updateAB(float a, float b) {
-	color.a = a;
-	color.b = b;
-	colorSpace.onABChanged();
-	updateRGBSliders();
-	repaint();
-	sendChangeMessage();
 }
 
 const LabColor& LabColorPicker::getColor() const {
@@ -74,10 +64,7 @@ const LabColor& LabColorPicker::getColor() const {
 void LabColorPicker::setColor(LabColor _color) {
 	color = _color;
 	updateRGBSliders();
-	lSlider.setValue(color.L);
-	colorSpace.onLChanged();
 	repaint();
-	sendChangeMessage();
 }
 
 void LabColorPicker::updateRGBSliders() {

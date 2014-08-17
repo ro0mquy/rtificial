@@ -2,12 +2,15 @@
 
 const float LabColorSpaceView::abRange = 110.;
 
-LabColorSpaceView::LabColorSpaceView(ColorChangedListener& listener, const LabColor& color) :
+LabColorSpaceView::LabColorSpaceView(const LabColor& color_) :
 	edge(4),
-	color(color),
-	listener(listener)
+	color(color_)
 {
+	color.addListenerForLab(this);
+
+	marker.setSize(2 * edge, 2 * edge);
 	addAndMakeVisible(marker);
+
 	setMouseCursor(MouseCursor::CrosshairCursor);
 }
 
@@ -23,7 +26,7 @@ void LabColorSpaceView::paint(Graphics& g) {
 
 			for(int x = 0; x < width; x++) {
 				const float a = (x / ( float) width * 2. - 1.) * abRange;
-				pixels.setPixelColour(x, y, LabColor(color.L, a, b).getSRGBColor());
+				pixels.setPixelColour(x, y, LabColor(color.L.getValue(), a, b).getSRGBColor());
 			}
 		}
 	}
@@ -39,7 +42,7 @@ void LabColorSpaceView::paint(Graphics& g) {
 
 void LabColorSpaceView::resized() {
 	colors = Image::null;
-	updateMarker();
+	updateMarkerPosition();
 }
 
 void LabColorSpaceView::mouseDown(const MouseEvent& e) {
@@ -47,31 +50,28 @@ void LabColorSpaceView::mouseDown(const MouseEvent& e) {
 }
 
 void LabColorSpaceView::mouseDrag(const MouseEvent& e) {
+	// manual maker update
+	marker.setCentrePosition(e.x, e.y);
+
 	const float a = ((e.x - edge) / (float) (getWidth() - edge * 2) * 2. - 1.) * abRange;
 	const float b = (1. - 2. * (e.y - edge) / (float) (getHeight() - edge * 2)) * abRange;
-	listener.updateAB(a, b);
+	color.a = a;
+	color.b = b;
 }
 
-void LabColorSpaceView::onLChanged() {
-	colors = Image::null;
-	repaint();
-	updateMarker();
+void LabColorSpaceView::updateMarkerPosition() {
+	marker.setCentrePosition(
+			roundFloatToInt((getWidth())  * ( float(color.a.getValue()) / abRange * .5 + .5)),
+			roundFloatToInt((getHeight()) * (-float(color.b.getValue()) / abRange * .5 + .5))
+			);
 }
 
-void LabColorSpaceView::onABChanged() {
-	updateMarker();
-}
-
-void LabColorSpaceView::onColorChanged() {
-	colors = Image::null;
-	repaint();
-	updateMarker();
-}
-
-void LabColorSpaceView::updateMarker() {
-	marker.setBounds(
-		roundToInt((getWidth() - edge * 2) * (color.a/abRange * .5 + .5)),
-		roundToInt((getHeight() - edge * 2) * (.5 - color.b/abRange * .5)),
-		edge * 2, edge * 2
-	);
+void LabColorSpaceView::valueChanged(Value& value) {
+	if (value.refersToSameSourceAs(color.L)) {
+		// L changed
+		colors = Image::null;
+	} else if (value.refersToSameSourceAs(color.a) || value.refersToSameSourceAs(color.b)) {
+		// a or b changed
+		updateMarkerPosition();
+	}
 }

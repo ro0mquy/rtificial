@@ -1,9 +1,12 @@
 #include "LabColorPropertyComponent.h"
+#include "LabColorPicker.h"
 
 LabColorPropertyComponent::LabColorPropertyComponent(const String& name) :
 	PropertyComponent(name),
 	color(50., 0., 0.)
 {
+	color.addListenerForLab(this);
+
 	dummy.addMouseListener(this, false);
 	dummy.setMouseCursor(MouseCursor::PointingHandCursor);
 	addAndMakeVisible(dummy);
@@ -18,22 +21,15 @@ void LabColorPropertyComponent::paint(Graphics& g) {
 	g.fillRect(dummy.getBounds());
 }
 
-
 void LabColorPropertyComponent::mouseUp(const MouseEvent &event) {
 	if(event.originalComponent == &dummy) {
-		LabColorPicker* popupPicker = new LabColorPicker();
+		LabColorPicker* popupPicker = new LabColorPicker(color);
 		popupPicker->setSize(300, 426);
-		popupPicker->setColor(color);
-		popupPicker->addChangeListener(this);
-		picker = popupPicker;
 
 		CallOutBox::launchAsynchronously(popupPicker, dummy.getScreenBounds().withWidth(4), nullptr);
 	}
 }
 
-void LabColorPropertyComponent::changeListenerCallback(ChangeBroadcaster* source) {
-	if(source == picker) {
-		color = picker->getColor();
-		repaint();
-	}
+void LabColorPropertyComponent::valueChanged(Value& value) {
+	repaint();
 }

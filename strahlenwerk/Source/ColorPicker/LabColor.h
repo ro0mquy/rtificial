@@ -8,11 +8,17 @@ class LabColor{
 		LabColor(float L, float a, float b);
 		LabColor(Vector3D<float> Lab);
 		LabColor(Colour linearRGB);
+		LabColor(const LabColor& other);
+
+		void setColor(const LabColor& other);
+		LabColor& operator=(const LabColor& other);
+
+		void addListenerForLab(Value::Listener* listener);
 
 		Colour getSRGBColor() const;
 		Colour getLinearRGBColor() const;
 
-		float L, a, b;
+		Value L, a, b;
 
 	private:
 		static Vector3D<float> Lab2XYZ(Vector3D<float> Lab) noexcept;
