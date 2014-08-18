@@ -15,12 +15,12 @@ LabColorSpaceView::LabColorSpaceView(const LabColor& color_) :
 }
 
 void LabColorSpaceView::paint(Graphics& g) {
-	if(colors.isNull()) {
+	if(bufferedSpaceView.isNull()) {
 		const int width = getWidth();
 		const int height = getHeight();
-		colors = Image(Image::RGB, width, height, false);
+		bufferedSpaceView = Image(Image::RGB, width, height, false);
 
-		Image::BitmapData pixels(colors, Image::BitmapData::writeOnly);
+		Image::BitmapData pixels(bufferedSpaceView, Image::BitmapData::writeOnly);
 		for(int y = 0; y < height; y++) {
 			const float b = -(y / float(height) * 2. - 1.) * abRange;
 
@@ -32,16 +32,16 @@ void LabColorSpaceView::paint(Graphics& g) {
 	}
 
 	g.setOpacity(1.0);
-	g.drawImageTransformed(colors,
+	g.drawImageTransformed(bufferedSpaceView,
 		RectanglePlacement(RectanglePlacement::stretchToFit)
 			.getTransformToFit(
-				colors.getBounds().toFloat(), getLocalBounds().toFloat()
+				bufferedSpaceView.getBounds().toFloat(), getLocalBounds().toFloat()
 			),
 		false);
 }
 
 void LabColorSpaceView::resized() {
-	colors = Image::null;
+	bufferedSpaceView = Image::null;
 	updateMarkerPosition();
 }
 
@@ -73,7 +73,7 @@ void LabColorSpaceView::updateMarkerPosition() {
 void LabColorSpaceView::valueChanged(Value& value) {
 	if (value.refersToSameSourceAs(color.L)) {
 		// L changed
-		colors = Image::null;
+		bufferedSpaceView = Image::null;
 	} else if (value.refersToSameSourceAs(color.a) || value.refersToSameSourceAs(color.b)) {
 		// a or b changed
 		updateMarkerPosition();

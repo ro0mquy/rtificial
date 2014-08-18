@@ -23,7 +23,7 @@ class LabColorSpaceView :
 	private:
 		void updateMarkerPosition();
 
-		Image colors;
+		Image bufferedSpaceView;
 		LabColor color;
 		ColorSpaceMarker marker;
 
