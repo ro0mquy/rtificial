@@ -12,6 +12,7 @@ LabColorSpaceView::LabColorSpaceView(const LabColor& color_) :
 	addAndMakeVisible(marker);
 
 	setMouseCursor(MouseCursor::CrosshairCursor);
+	setOpaque(true);
 }
 
 void LabColorSpaceView::paint(Graphics& g) {
@@ -26,7 +27,13 @@ void LabColorSpaceView::paint(Graphics& g) {
 
 			for(int x = 0; x < width; x++) {
 				const float a = (x / float(width) * 2. - 1.) * abRange;
-				pixels.setPixelColour(x, y, LabColor(color.L.getValue(), a, b).getSRGBColor());
+				Colour c = LabColor(color.L.getValue(), a, b).getSRGBColor();
+				const float amountDarker = (
+						c.getRed() == 0 || c.getRed() == 255 ||
+						c.getGreen() == 0 || c.getGreen() == 255 ||
+						c.getBlue() == 0 || c.getBlue() == 255
+						) ? .1 : .0;
+				pixels.setPixelColour(x, y, c.darker(amountDarker));
 			}
 		}
 	}

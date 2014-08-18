@@ -41,11 +41,23 @@ void LabColor::addListenerForLab(Value::Listener* listener) {
 }
 
 Colour LabColor::getSRGBColor() const {
-	return toColour(RGB2SRGB(invalidToBlack(XYZ2RGB(Lab2XYZ(Vector3D<float>(L.getValue(), a.getValue(), b.getValue()))))));
+	return toColour(RGB2SRGB(clampToValid(XYZ2RGB(Lab2XYZ(getVector3D())))));
 }
 
 Colour LabColor::getLinearRGBColor() const {
-	return toColour(invalidToBlack(XYZ2RGB(Lab2XYZ(Vector3D<float>(L.getValue(), a.getValue(), b.getValue())))));
+	return toColour(clampToValid(XYZ2RGB(Lab2XYZ(getVector3D()))));
+}
+
+LabColor LabColor::getClampedLabColor() const {
+	return LabColor(XYZ2Lab(RGB2XYZ(clampToValid(XYZ2RGB(Lab2XYZ(getVector3D()))))));
+}
+
+Vector3D<float> LabColor::getVector3D() const {
+	return Vector3D<float>(
+			L.getValue(),
+			a.getValue(),
+			b.getValue()
+			);
 }
 
 Vector3D<float> LabColor::Lab2XYZ(Vector3D<float> Lab) noexcept {
@@ -121,6 +133,14 @@ Vector3D<float> LabColor::invalidToBlack(Vector3D<float> RGB) noexcept {
 		return RGB;
 	}
 }
+
+Vector3D<float> LabColor::clampToValid(Vector3D<float> RGB) noexcept {
+	RGB.x = jmin(1.f, jmax(0.f, RGB.x));
+	RGB.y = jmin(1.f, jmax(0.f, RGB.y));
+	RGB.z = jmin(1.f, jmax(0.f, RGB.z));
+	return RGB;
+}
+
 Colour LabColor::toColour(Vector3D<float> color) noexcept {
 	return Colour(color.x * 255, color.y * 255, color.z * 255);
 }
