@@ -61,6 +61,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 	// this returns the set of all commands that this target can perform..
 	const CommandID ids[] = {
 		MainWindow::quitProgram,
+		MainWindow::openProject,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -75,6 +76,9 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.setInfo("Quit!", "Shuts down all the Beam Factory!", programCategory, 0);
 			result.addDefaultKeypress (KeyPress::escapeKey, ModifierKeys::noModifiers);
 			break;
+		case MainWindow::openProject:
+			result.setInfo("Open Project", "Open a strahlenwerk project", programCategory, 0);
+			break;
 
 		default:
 			break;
@@ -86,6 +90,10 @@ bool MainWindow::perform(const InvocationInfo& info) {
 	switch (info.commandID) {
 		case MainWindow::quitProgram:
 			JUCEApplication::getInstance()->quit();
+			break;
+
+		case MainWindow::openProject:
+			doOpenProject();
 			break;
 
 		default:
@@ -109,6 +117,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& menuN
 	PopupMenu menu;
 
 	if (topLevelMenuIndex == 0) {
+		menu.addCommandItem(commandManager, MainWindow::openProject);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
 	}
 
@@ -120,4 +129,9 @@ void MainWindow::menuItemSelected(int menuItemID, int topLevelMenuIndex) {
 	if (menuItemID == 23) {
 		// dummy
 	}
+}
+
+void MainWindow::doOpenProject() {
+	FileChooser fileChooser("Entscheide dich gefaelligst!");
+	fileChooser.browseForDirectory();
 }
