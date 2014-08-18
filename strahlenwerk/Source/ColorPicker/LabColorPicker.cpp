@@ -44,7 +44,10 @@ void LabColorPicker::resized() {
 	gSlider.setBounds(bounds.removeFromBottom(sliderHeight));
 	rSlider.setBounds(bounds.removeFromBottom(sliderHeight));
 	lSlider.setBounds(bounds.removeFromBottom(sliderHeight));
-	colorSpace.setBounds(bounds);
+
+	// make colorSpace quadratic
+	colorSpace.setSize(1, 1);
+	colorSpace.setBoundsToFit(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight(), Justification(Justification::centred), false);
 }
 
 void LabColorPicker::sliderValueChanged(Slider* slider) {
