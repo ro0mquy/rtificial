@@ -24,7 +24,6 @@ class LabColorSpaceView :
 		void updateMarkerPosition();
 
 		Image colors;
-		int edge;
 		LabColor color;
 		ColorSpaceMarker marker;
 

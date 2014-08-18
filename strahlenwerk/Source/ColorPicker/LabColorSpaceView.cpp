@@ -3,12 +3,12 @@
 const float LabColorSpaceView::abRange = 110.;
 
 LabColorSpaceView::LabColorSpaceView(const LabColor& color_) :
-	edge(4),
 	color(color_)
 {
 	color.addListenerForLab(this);
 
-	marker.setSize(2 * edge, 2 * edge);
+	const int markerSideLength = 12;
+	marker.setSize(markerSideLength, markerSideLength);
 	addAndMakeVisible(marker);
 
 	setMouseCursor(MouseCursor::CrosshairCursor);
@@ -22,10 +22,10 @@ void LabColorSpaceView::paint(Graphics& g) {
 
 		Image::BitmapData pixels(colors, Image::BitmapData::writeOnly);
 		for(int y = 0; y < height; y++) {
-			const float b = (1. - y / ( float) height * 2.) * abRange;
+			const float b = -(y / float(height) * 2. - 1.) * abRange;
 
 			for(int x = 0; x < width; x++) {
-				const float a = (x / ( float) width * 2. - 1.) * abRange;
+				const float a = (x / float(width) * 2. - 1.) * abRange;
 				pixels.setPixelColour(x, y, LabColor(color.L.getValue(), a, b).getSRGBColor());
 			}
 		}
@@ -35,7 +35,7 @@ void LabColorSpaceView::paint(Graphics& g) {
 	g.drawImageTransformed(colors,
 		RectanglePlacement(RectanglePlacement::stretchToFit)
 			.getTransformToFit(
-				colors.getBounds().toFloat(), getLocalBounds().reduced(edge).toFloat()
+				colors.getBounds().toFloat(), getLocalBounds().toFloat()
 			),
 		false);
 }
@@ -51,11 +51,10 @@ void LabColorSpaceView::mouseDown(const MouseEvent& e) {
 }
 
 void LabColorSpaceView::mouseDrag(const MouseEvent& e) {
-	// manual maker update
-	marker.setCentrePosition(e.x, e.y);
-
-	const float a = ((e.x - edge) / (float) (getWidth() - edge * 2) * 2. - 1.) * abRange;
-	const float b = (1. - 2. * (e.y - edge) / (float) (getHeight() - edge * 2)) * abRange;
+	const float x = e.position.x;
+	const float y = e.position.y;
+	const float a =  (x / float(getWidth())  * 2. - 1.) * abRange;
+	const float b = -(y / float(getHeight()) * 2. - 1.) * abRange;
 	color.a = a;
 	color.b = b;
 }
