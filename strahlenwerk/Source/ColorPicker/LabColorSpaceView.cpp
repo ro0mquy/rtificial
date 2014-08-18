@@ -46,6 +46,7 @@ void LabColorSpaceView::resized() {
 }
 
 void LabColorSpaceView::mouseDown(const MouseEvent& e) {
+	setMouseCursor(MouseCursor::NoCursor);
 	mouseDrag(e);
 }
 
@@ -57,6 +58,10 @@ void LabColorSpaceView::mouseDrag(const MouseEvent& e) {
 	const float b = (1. - 2. * (e.y - edge) / (float) (getHeight() - edge * 2)) * abRange;
 	color.a = a;
 	color.b = b;
+}
+
+void LabColorSpaceView::mouseUp(const MouseEvent& e) {
+	setMouseCursor(MouseCursor::CrosshairCursor);
 }
 
 void LabColorSpaceView::updateMarkerPosition() {
