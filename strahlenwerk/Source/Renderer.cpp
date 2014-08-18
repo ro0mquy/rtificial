@@ -31,7 +31,12 @@ Renderer::Renderer(OpenGLContext& context) :
 		shaderSources.emplace_back(match[1], loadFile(filename));
 	}
 	PostprocPipelineLoader loader;
-	postproc.setShaders(loader.load(context, mappingSource, shaderSources));
+	auto shaders = loader.load(context, mappingSource, shaderSources);
+	if(!shaders.empty()) {
+		postproc.setShaders(std::move(shaders));
+	} else {
+		std::cerr << "No shaders loaded" << std::endl;
+	}
 }
 
 void Renderer::newOpenGLContextCreated() {
