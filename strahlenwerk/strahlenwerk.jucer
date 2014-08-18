@@ -11,8 +11,6 @@
               resource="0" file="Source/ColorPicker/LabColorPropertyComponent.cpp"/>
         <FILE id="pEid38" name="LabColorPropertyComponent.h" compile="0" resource="0"
               file="Source/ColorPicker/LabColorPropertyComponent.h"/>
-        <FILE id="OAn06F" name="ColorChangedListener.h" compile="0" resource="0"
-              file="Source/ColorPicker/ColorChangedListener.h"/>
         <FILE id="z3X0Ic" name="ColorSpaceMarker.cpp" compile="1" resource="0"
               file="Source/ColorPicker/ColorSpaceMarker.cpp"/>
         <FILE id="Rs48v2" name="ColorSpaceMarker.h" compile="0" resource="0"
