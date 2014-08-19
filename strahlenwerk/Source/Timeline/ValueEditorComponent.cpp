@@ -3,10 +3,21 @@
 
 class BoolEditorComponent : public Component {
 	public:
-		BoolEditorComponent() {
+		BoolEditorComponent(Value boolState_) :
+			boolState(boolState_)
+		{
+			button.getToggleStateValue().referTo(boolState);
+			addAndMakeVisible(button);
+		}
+
+		void resized() override {
+			button.setBounds(getLocalBounds());
 		}
 
 	private:
+		Value boolState;
+		ToggleButton button;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BoolEditorComponent)
 };
 
@@ -51,7 +62,8 @@ ValueEditorComponent::ValueEditorComponent(ValueTree valueData_) :
 {
 	String valueType = valueData.getProperty(treeId::valueType);
 	if (valueType.equalsIgnoreCase("bool")) {
-		specificTypeEditor = new BoolEditorComponent();
+		Value boolState = valueData.getChildWithName(treeId::valueBool).getPropertyAsValue(treeId::valueBoolState, nullptr);
+		specificTypeEditor = new BoolEditorComponent(boolState);
 	} else if (valueType.equalsIgnoreCase("float")) {
 		specificTypeEditor = new FloatEditorComponent();
 	} else if (valueType.equalsIgnoreCase("vec2")) {
@@ -61,7 +73,7 @@ ValueEditorComponent::ValueEditorComponent(ValueTree valueData_) :
 	} else if (valueType.equalsIgnoreCase("color")) {
 		specificTypeEditor = new ColorEditorComponent();
 	} else {
-		specificTypeEditor = new BoolEditorComponent();
+		specificTypeEditor = new Component();
 	}
 
 	addAndMakeVisible(specificTypeEditor);
