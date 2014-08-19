@@ -46,10 +46,33 @@ class FloatEditorComponent : public Component {
 
 class Vec2EditorComponent : public Component {
 	public:
-		Vec2EditorComponent() {
+		Vec2EditorComponent(Value floatX_, Value floatY_) :
+			floatX(floatX_),
+			floatY(floatY_),
+			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
+			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft)
+		{
+			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderX.setRange(-1., 1., .001);
+			sliderY.setRange(-1., 1., .001);
+			sliderX.getValueObject().referTo(floatX);
+			sliderY.getValueObject().referTo(floatY);
+			addAndMakeVisible(sliderX);
+			addAndMakeVisible(sliderY);
+		}
+
+		void resized() override {
+			sliderX.setBoundsRelative(0., 0., 1., .5);
+			sliderY.setBoundsRelative(0., .5, 1., .5);
 		}
 
 	private:
+		Value floatX;
+		Value floatY;
+		Slider sliderX;
+		Slider sliderY;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec2EditorComponent)
 };
 
@@ -82,7 +105,9 @@ ValueEditorComponent::ValueEditorComponent(ValueTree valueData_) :
 		Value floatX = valueData.getChildWithName(treeId::valueFloat).getPropertyAsValue(treeId::valueFloatX, nullptr);
 		specificTypeEditor = new FloatEditorComponent(floatX);
 	} else if (valueType.equalsIgnoreCase("vec2")) {
-		specificTypeEditor = new Vec2EditorComponent();
+		Value floatX = valueData.getChildWithName(treeId::valueVec2).getPropertyAsValue(treeId::valueVec2X, nullptr);
+		Value floatY = valueData.getChildWithName(treeId::valueVec2).getPropertyAsValue(treeId::valueVec2Y, nullptr);
+		specificTypeEditor = new Vec2EditorComponent(floatX, floatY);
 	} else if (valueType.equalsIgnoreCase("vec3")) {
 		specificTypeEditor = new Vec3EditorComponent();
 	} else if (valueType.equalsIgnoreCase("color")) {
