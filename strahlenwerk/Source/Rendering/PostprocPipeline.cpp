@@ -1,5 +1,10 @@
 #include "PostprocPipeline.h"
 
+#include "SceneShader.h"
+#include "PostprocShader.h"
+
+PostprocPipeline::~PostprocPipeline() = default;
+
 void PostprocPipeline::setShaders(std::vector<std::unique_ptr<PostprocShader>> _shaders) {
 	shaders = std::move(_shaders);
 }

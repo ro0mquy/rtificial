@@ -2,12 +2,15 @@
 #define SCENESBARCOMPONENT_H
 
 #include <juce>
-#include "Data.h"
-#include "SceneComponent.h"
+
+class Data;
+class SceneComponent;
 
 class ScenesBarComponent : public Component {
 	public:
 		ScenesBarComponent(Value& timeValue, Data& _data);
+		~ScenesBarComponent();
+
 		void updateSize();
 		void paint(Graphics& g) override;
 		void updateSceneComponents();

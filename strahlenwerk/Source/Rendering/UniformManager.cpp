@@ -1,5 +1,6 @@
 #include "UniformManager.h"
 
+#include "Uniform.h"
 
 UniformManager::UniformManager()
 {

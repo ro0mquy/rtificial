@@ -2,6 +2,8 @@
 #include "Timeline/Timeline.h"
 #include "Timeline/SequenceViewComponent.h"
 #include "Timeline/ScenesBarComponent.h"
+#include "Timeline/SceneComponent.h"
+#include "Timeline/SequenceComponent.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
 	// ScenesBarComponent

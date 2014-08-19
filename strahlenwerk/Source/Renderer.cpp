@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "ProjectFileLoader.h"
 #include "Rendering/PostprocPipelineLoader.h"
+#include "Rendering/PostprocShader.h"
 
 static std::string loadFile(const std::string& path) {
 	std::ifstream in(path);

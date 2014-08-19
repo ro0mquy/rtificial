@@ -1,5 +1,8 @@
 #include "SequenceViewComponent.h"
+
 #include "TreeIdentifiers.h"
+#include "SequenceComponent.h"
+#include "Data.h"
 
 SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
@@ -7,6 +10,8 @@ SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
 {
 	updateSequenceComponents();
 }
+
+SequenceViewComponent::~SequenceViewComponent() = default;
 
 void SequenceViewComponent::updateSize() {
 	const int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());

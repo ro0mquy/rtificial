@@ -3,8 +3,11 @@
 #include <stack>
 
 #include "PostprocPipelineLoader.h"
+#include "PostprocShader.h"
 
 // TODO: improve error logging
+
+PostprocPipelineLoader::~PostprocPipelineLoader() = default;
 
 std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(
 		OpenGLContext& context,

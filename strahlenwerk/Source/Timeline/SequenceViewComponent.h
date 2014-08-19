@@ -2,13 +2,16 @@
 #define SEQUENCEVIEWCOMPONENT_H
 
 #include <juce>
-#include "Data.h"
-#include "SequenceComponent.h"
+
+class Data;
+class SequenceComponent;
 
 class SequenceViewComponent : public Component
 {
 	public:
 		SequenceViewComponent(Value& timeValue, Data& _data);
+		~SequenceViewComponent();
+
 		void updateSize();
 		void paint(Graphics& g) override;
 		void updateSequenceComponents();

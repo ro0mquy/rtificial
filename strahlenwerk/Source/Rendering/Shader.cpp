@@ -6,6 +6,10 @@
 #include <utility>
 #include <algorithm>
 
+#include "UniformManager.h"
+#include "UniformType.h"
+#include "Uniform.h"
+
 Shader::Shader(OpenGLContext& context) :
 	context(context),
 	program(context)

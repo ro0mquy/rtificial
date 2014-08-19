@@ -2,7 +2,8 @@
 #define UNIFORMSBARCOMPONENT_H
 
 #include <juce>
-#include "Data.h"
+
+class Data;
 
 class UniformsBarComponent : public Component {
 	public:

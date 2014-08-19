@@ -6,7 +6,8 @@
 #include <vector>
 #include <memory>
 
-#include "Uniform.h"
+struct Uniform;
+enum class UniformType;
 
 class UniformManager {
 	public:

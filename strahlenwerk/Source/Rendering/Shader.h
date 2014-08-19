@@ -6,7 +6,8 @@
 #include <mutex>
 #include <string>
 
-#include "UniformManager.h"
+struct Uniform;
+enum class UniformType;
 
 class Shader {
 	public:

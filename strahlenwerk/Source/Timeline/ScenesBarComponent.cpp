@@ -1,6 +1,9 @@
 #include "ScenesBarComponent.h"
+
 #include "TreeIdentifiers.h"
 #include "../RtificialLookAndFeel.h"
+#include "Data.h"
+#include "SceneComponent.h"
 
 ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
@@ -8,6 +11,8 @@ ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
 {
 	updateSceneComponents();
 }
+
+ScenesBarComponent::~ScenesBarComponent() = default;
 
 void ScenesBarComponent::updateSize() {
 	const int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());

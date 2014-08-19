@@ -1,5 +1,7 @@
 #include "SceneShader.h"
 
+#include "Uniform.h"
+
 bool SceneShader::isUniformActive(int id) {
 	return activeUniforms.find(id) != activeUniforms.end();
 }

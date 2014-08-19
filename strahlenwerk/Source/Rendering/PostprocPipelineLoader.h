@@ -6,11 +6,14 @@
 #include <vector>
 #include <memory>
 #include <utility>
+#include <juce>
 
-#include "PostprocShader.h"
+class PostprocShader;
 
 class PostprocPipelineLoader {
 	public:
+		~PostprocPipelineLoader();
+
 		std::vector<std::unique_ptr<PostprocShader>> load(
 			OpenGLContext& context,
 			const std::string& mappingSource,

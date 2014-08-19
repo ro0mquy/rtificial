@@ -1,7 +1,9 @@
 #include "UniformsBarComponent.h"
+
 #include "TreeIdentifiers.h"
 #include "ValueEditorComponent.h"
 #include "../RtColourIds.h"
+#include "Data.h"
 
 UniformsBarComponent::UniformsBarComponent(Value& timeValue, Data& _data) :
 	currentTime(timeValue),
