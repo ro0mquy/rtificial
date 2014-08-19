@@ -13,8 +13,8 @@ void PostprocPipeline::render(SceneShader& shader) {
 		shaders[0]->bindFBO();
 		shader.draw();
 	}
-	for(int i = 0; i < shaders.size() - 2; i++) {
-		shaders[i+1]->bindFBO();
+	for(int i = 1; i < shaders.size() - 2; i++) {
+		shaders[i]->bindFBO();
 		shaders[i]->draw();
 	}
 	glEnable(GL_FRAMEBUFFER_SRGB);

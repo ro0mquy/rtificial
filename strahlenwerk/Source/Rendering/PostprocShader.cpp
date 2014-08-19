@@ -108,7 +108,7 @@ void PostprocShader::onBeforeDraw() {
 }
 
 void PostprocShader::onAfterDraw() {
-	for(int i = 0; i < outputs.size(); i++) {
+	for(int i = 0; i < textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
 	}
