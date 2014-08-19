@@ -12,10 +12,12 @@ void PostprocPipeline::render(SceneShader& shader) {
 	if(shaders.size() > 2) {
 		shaders[0]->bindFBO();
 		shader.draw();
+		shaders[0]->unbindFBO();
 	}
 	for(int i = 1; i < shaders.size() - 2; i++) {
 		shaders[i]->bindFBO();
 		shaders[i]->draw();
+		shaders[i]->unbindFBO();
 	}
 	glEnable(GL_FRAMEBUFFER_SRGB);
 	// bind default framebuffer again

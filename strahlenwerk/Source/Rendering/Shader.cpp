@@ -95,8 +95,6 @@ void Shader::draw() {
 	context.extensions.glVertexAttribPointer(attributeCoord, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	context.extensions.glDisableVertexAttribArray(attributeCoord);
-
-	onAfterDraw();
 }
 
 const std::vector<const Uniform*>& Shader::getUniforms() const {
@@ -154,7 +152,4 @@ void Shader::onSourceProcessed(std::string& source) {
 }
 
 void Shader::onBeforeDraw() {
-}
-
-void Shader::onAfterDraw() {
 }

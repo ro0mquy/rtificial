@@ -39,13 +39,13 @@ class PostprocShader : public Shader {
 		void insertBindings();
 
 		void bindFBO();
+		void unbindFBO();
 		void setDefaultFBO();
 
 	private:
 		void onBeforeLoad() override;
 		void onSourceProcessed(std::string& source) override;
 		void onBeforeDraw() override;
-		void onAfterDraw() override;
 
 		static int toComponents(const std::string& identifier);
 

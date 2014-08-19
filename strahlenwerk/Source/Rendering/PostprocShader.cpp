@@ -68,6 +68,13 @@ void PostprocShader::bindFBO() {
 	glViewport(0, 0, 800, 600);
 }
 
+void PostprocShader::unbindFBO() {
+	for(int i = 0; i < textures.size(); i++) {
+		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
+		glBindTexture(GL_TEXTURE_2D, textures[i]);
+	}
+}
+
 void PostprocShader::setDefaultFBO() {
 	fbo_created = true;
 }
@@ -104,13 +111,6 @@ void PostprocShader::onBeforeDraw() {
 	for(const auto& output : outputs) {
 		glActiveTexture(GL_TEXTURE0 + output.bindingId);
 		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-}
-
-void PostprocShader::onAfterDraw() {
-	for(int i = 0; i < textures.size(); i++) {
-		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
-		glBindTexture(GL_TEXTURE_2D, textures[i]);
 	}
 }
 
