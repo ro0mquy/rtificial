@@ -78,10 +78,42 @@ class Vec2EditorComponent : public Component {
 
 class Vec3EditorComponent : public Component {
 	public:
-		Vec3EditorComponent() {
+		Vec3EditorComponent(Value floatX_, Value floatY_, Value floatZ_) :
+			floatX(floatX_),
+			floatY(floatY_),
+			floatZ(floatZ_),
+			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
+			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft),
+			sliderZ(Slider::IncDecButtons, Slider::TextBoxLeft)
+		{
+			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderZ.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderX.setRange(-1., 1., .001);
+			sliderY.setRange(-1., 1., .001);
+			sliderZ.setRange(-1., 1., .001);
+			sliderX.getValueObject().referTo(floatX);
+			sliderY.getValueObject().referTo(floatY);
+			sliderZ.getValueObject().referTo(floatZ);
+			addAndMakeVisible(sliderX);
+			addAndMakeVisible(sliderY);
+			addAndMakeVisible(sliderZ);
+		}
+
+		void resized() override {
+			sliderX.setBoundsRelative(0., 0./3., 1., 1./3.);
+			sliderY.setBoundsRelative(0., 1./3., 1., 1./3.);
+			sliderZ.setBoundsRelative(0., 2./3., 1., 1./3.);
 		}
 
 	private:
+		Value floatX;
+		Value floatY;
+		Value floatZ;
+		Slider sliderX;
+		Slider sliderY;
+		Slider sliderZ;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec3EditorComponent)
 };
 
@@ -109,7 +141,10 @@ ValueEditorComponent::ValueEditorComponent(ValueTree valueData_) :
 		Value floatY = valueData.getChildWithName(treeId::valueVec2).getPropertyAsValue(treeId::valueVec2Y, nullptr);
 		specificTypeEditor = new Vec2EditorComponent(floatX, floatY);
 	} else if (valueType.equalsIgnoreCase("vec3")) {
-		specificTypeEditor = new Vec3EditorComponent();
+		Value floatX = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3X, nullptr);
+		Value floatY = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3Y, nullptr);
+		Value floatZ = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3Z, nullptr);
+		specificTypeEditor = new Vec3EditorComponent(floatX, floatY, floatZ);
 	} else if (valueType.equalsIgnoreCase("color")) {
 		specificTypeEditor = new ColorEditorComponent();
 	} else {
