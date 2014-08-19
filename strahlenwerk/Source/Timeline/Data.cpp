@@ -140,6 +140,7 @@ bool Data::addUniform(ValueTree uniform, int position) {
 	bool isUniform = uniform.hasType(treeId::uniform);
 	isUniform &= uniform.hasProperty(treeId::uniformName);
 	isUniform &= uniform.hasProperty(treeId::uniformType);
+	isUniform &= uniform.getChildWithName(treeId::uniformStandardValue).isValid();
 
 	if (isUniform) {
 		getUniformsArray().addChild(uniform, position, &undoManager);
@@ -155,6 +156,7 @@ bool Data::addUniform(var name, var type, int position) {
 	ValueTree uniform(treeId::uniform);
 	uniform.setProperty(treeId::uniformName, name, nullptr);
 	uniform.setProperty(treeId::uniformType, type, nullptr);
+	initializeValue(uniform.getOrCreateChildWithName(treeId::uniformStandardValue, nullptr), type);
 	getUniformsArray().addChild(uniform, position, &undoManager);
 	return true;
 }
@@ -212,4 +214,40 @@ bool Data::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absolut
 				sequence.setProperty(treeId::sequenceSceneId, sceneId, &undoManager);
 			}
 			return sceneIdChanged;
+}
+
+// initialize a value with the specified type inside valueData
+// return false when valueData was already initialized or the type is unknown
+bool Data::initializeValue(ValueTree valueData, var type) {
+	if (valueData.hasProperty(treeId::valueType)) {
+		// value is already populated
+		return false;
+	}
+	valueData.setProperty(treeId::valueType, type, &undoManager);
+
+	String valueType = type;
+	if (valueType.equalsIgnoreCase("bool")) {
+		valueData.getOrCreateChildWithName(treeId::valueBool, &undoManager)
+			.setProperty(treeId::valueBoolState, var(false), &undoManager);
+	} else if (valueType.equalsIgnoreCase("float")) {
+		valueData.getOrCreateChildWithName(treeId::valueFloat, &undoManager)
+			.setProperty(treeId::valueFloatX, var(0.), &undoManager);
+	} else if (valueType.equalsIgnoreCase("vec2")) {
+		valueData.getOrCreateChildWithName(treeId::valueVec2, &undoManager)
+			.setProperty(treeId::valueVec2X, var(0.), &undoManager)
+			.setProperty(treeId::valueVec2Y, var(0.), &undoManager);
+	} else if (valueType.equalsIgnoreCase("vec3")) {
+		valueData.getOrCreateChildWithName(treeId::valueVec3, &undoManager)
+			.setProperty(treeId::valueVec3X, var(0.), &undoManager)
+			.setProperty(treeId::valueVec3Y, var(0.), &undoManager)
+			.setProperty(treeId::valueVec3Z, var(0.), &undoManager);
+	} else if (valueType.equalsIgnoreCase("color")) {
+		valueData.getOrCreateChildWithName(treeId::valueColor, &undoManager)
+			.setProperty(treeId::valueColorR, var(0.), &undoManager)
+			.setProperty(treeId::valueColorG, var(0.), &undoManager)
+			.setProperty(treeId::valueColorB, var(0.), &undoManager);
+	} else {
+		return false;
+	}
+	return true;
 }
