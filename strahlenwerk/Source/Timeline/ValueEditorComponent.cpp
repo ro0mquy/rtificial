@@ -23,10 +23,24 @@ class BoolEditorComponent : public Component {
 
 class FloatEditorComponent : public Component {
 	public:
-		FloatEditorComponent() {
+		FloatEditorComponent(Value floatX_) :
+			floatX(floatX_),
+			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft)
+		{
+			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderX.setRange(-1., 1., .001);
+			sliderX.getValueObject().referTo(floatX);
+			addAndMakeVisible(sliderX);
+		}
+
+		void resized() override {
+			sliderX.setBounds(getLocalBounds());
 		}
 
 	private:
+		Value floatX;
+		Slider sliderX;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FloatEditorComponent)
 };
 
@@ -65,7 +79,8 @@ ValueEditorComponent::ValueEditorComponent(ValueTree valueData_) :
 		Value boolState = valueData.getChildWithName(treeId::valueBool).getPropertyAsValue(treeId::valueBoolState, nullptr);
 		specificTypeEditor = new BoolEditorComponent(boolState);
 	} else if (valueType.equalsIgnoreCase("float")) {
-		specificTypeEditor = new FloatEditorComponent();
+		Value floatX = valueData.getChildWithName(treeId::valueFloat).getPropertyAsValue(treeId::valueFloatX, nullptr);
+		specificTypeEditor = new FloatEditorComponent(floatX);
 	} else if (valueType.equalsIgnoreCase("vec2")) {
 		specificTypeEditor = new Vec2EditorComponent();
 	} else if (valueType.equalsIgnoreCase("vec3")) {
