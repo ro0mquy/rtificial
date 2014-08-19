@@ -23,6 +23,8 @@ void Shader::load(std::ifstream& in) {
 }
 
 void Shader::load(std::string source) {
+	uniforms.clear();
+
 	const std::regex uniformRegex(R"regex(uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
 
 	const std::sregex_iterator end;
@@ -51,6 +53,7 @@ void Shader::load(std::string source) {
 		} else {
 			matches.emplace_back(match.position(), uniform->id);
 			onUniformLoad(name, *uniform);
+			uniforms.push_back(uniform);
 		}
 	}
 
@@ -94,6 +97,10 @@ void Shader::draw() {
 	context.extensions.glDisableVertexAttribArray(attributeCoord);
 
 	onAfterDraw();
+}
+
+const std::vector<const Uniform*>& Shader::getUniforms() const {
+	return uniforms;
 }
 
 const Uniform* Shader::registerUniform(std::string name, UniformType type) {

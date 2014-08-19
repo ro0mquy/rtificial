@@ -16,6 +16,7 @@ class Shader {
 		void load(std::ifstream& in);
 		void load(std::string source);
 		void draw();
+		const std::vector<const Uniform*>& getUniforms() const;
 
 	protected:
 		const Uniform* registerUniform(std::string name, UniformType type);
@@ -46,6 +47,8 @@ class Shader {
 
 		OpenGLShaderProgram program;
 		GLint attributeCoord;
+
+		std::vector<const Uniform*> uniforms;
 };
 
 #endif

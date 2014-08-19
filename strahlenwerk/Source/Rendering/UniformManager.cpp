@@ -1,9 +1,7 @@
 #include "UniformManager.h"
 
-const int LOWEST_ID = 10; // reserve some ids
 
-UniformManager::UniformManager() :
-	idCounter(LOWEST_ID)
+UniformManager::UniformManager()
 {
 }
 
@@ -21,26 +19,26 @@ const Uniform* UniformManager::registerUniform(std::string name, UniformType typ
 			return nullptr;
 		}
 	} else {
-		const auto result = uniforms.emplace(name, Uniform(idCounter, type));
-		idCounter++;
-		if(result.second) {
-			return &(result.first->second);
-		} else {
-			return nullptr;
-		}
+		uniforms.emplace_back(uniforms.size(), type);
+		uniformLookup.emplace(name, uniforms.back());
+		return &uniforms.back();
 	}
 }
 
 const Uniform* UniformManager::getUniform(const std::string& name) const {
-	const auto it = uniforms.find(name);
-	if(it == uniforms.end()) {
+	const auto it = uniformLookup.find(name);
+	if(it == uniformLookup.end()) {
 		return nullptr;
 	} else {
-		return &(it->second);
+		return &it->second;
 	}
 }
 
+const Uniform* UniformManager::getUniform(int id) const {
+	return &uniforms[id];
+}
+
 void UniformManager::reset() {
-	idCounter = LOWEST_ID;
 	uniforms.clear();
+	uniformLookup.clear();
 }

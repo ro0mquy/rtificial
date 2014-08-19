@@ -3,6 +3,8 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
+#include <memory>
 
 #include "Uniform.h"
 
@@ -12,6 +14,7 @@ class UniformManager {
 
 		const Uniform* registerUniform(std::string name, UniformType type);
 		const Uniform* getUniform(const std::string& name) const;
+		const Uniform* getUniform(int id) const;
 		void reset();
 
 	private:
@@ -19,8 +22,8 @@ class UniformManager {
 		UniformManager(const UniformManager &) = delete;
 		UniformManager& operator=(const UniformManager&) = delete;
 
-		std::unordered_map<std::string, Uniform> uniforms;
-		int idCounter;
+		std::unordered_map<std::string, const Uniform&> uniformLookup;
+		std::vector<Uniform> uniforms;
 };
 
 #endif
