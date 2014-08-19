@@ -45,7 +45,7 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 	if (!valueData.isValid()) return;
 
 	ValueEditorComponent* valueEditor = new ValueEditorComponent(valueData);
-	valueEditor->setSize(200, 200);
+	valueEditor->setSize(200, 25);
 
 	const Rectangle<int> rect(0, numUniform * rowHeight, getWidth(), rowHeight);
 	CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);

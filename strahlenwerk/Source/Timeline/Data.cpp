@@ -9,7 +9,7 @@ Data::Data() :
 	}
 
 	for (int i = 0; i < 30; i++) {
-		addUniform(var("uniform" + String(i) + String(97 * i)), var(i%2 == 0 ? "color" : "float"));
+		addUniform(var("uniform" + String(i) + String(97 * i)), var(i%2 == 0 ? "bool" : "float"));
 
 		for (int j = 0; j <= (37*i % 4); j++) {
 			ValueTree sequence(treeId::sequence);
