@@ -9,6 +9,7 @@ class UniformsBarComponent : public Component {
 		UniformsBarComponent(Value& timeValue, Data& _data);
 		void updateSize();
 		void paint(Graphics& g) override;
+		void mouseUp(const MouseEvent& event) override;
 
 		enum ColourIds{
 			evenRowColourId = 0x2300301,

@@ -64,6 +64,7 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/ValueEditorComponent_1390aa6e.o \
   $(OBJDIR)/SequenceComponent_10a22e57.o \
   $(OBJDIR)/UniformsBarComponent_d6185a18.o \
   $(OBJDIR)/SceneComponent_2e62f260.o \
@@ -169,6 +170,11 @@ $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
 $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling UniformManager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ValueEditorComponent_1390aa6e.o: ../../Source/Timeline/ValueEditorComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ValueEditorComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SequenceComponent_10a22e57.o: ../../Source/Timeline/SequenceComponent.cpp

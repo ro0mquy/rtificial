@@ -30,7 +30,7 @@ namespace treeId {
 				const Identifier uniformName("uniformName");
 				// the data type of the uniform (float, vec3, color, ...)
 				const Identifier uniformType("uniformType");
-				// standard value that is used when no sequence is present
+				// standard value that is used when no sequence is present, see keyframeValue for content
 				const Identifier uniformStandardValue("uniformStandardValue");
 				// array of sequences for this uniform
 				const Identifier sequencesArray("sequencesArray");
@@ -52,6 +52,24 @@ namespace treeId {
 								const Identifier keyframePosition("keyframePosition");
 								// the value of this keyframe
 								const Identifier keyframeValue("keyframeValue");
+									// the data type, must be the same as the one of the uniform
+									const Identifier valueType("valueType");
+									// the keyframe holds one of the following values
+									const Identifier valueBool("valueBool");
+										const Identifier valueBoolState("valueBoolState");
+									const Identifier valueFloat("valueFloat");
+										const Identifier valueFloatX("valueFloatX");
+									const Identifier valueVec2("valueVec2");
+										const Identifier valueVec2X("valueVec2X");
+										const Identifier valueVec2Y("valueVec2Y");
+									const Identifier valueVec3("valueVec3");
+										const Identifier valueVec3X("valueVec3X");
+										const Identifier valueVec3Y("valueVec3Y");
+										const Identifier valueVec3Z("valueVec3Z");
+									const Identifier valueColor("valueColor");
+										const Identifier valueColorR("valueColorR");
+										const Identifier valueColorG("valueColorG");
+										const Identifier valueColorB("valueColorB");
 }
 
 #endif // TIMELINETREE_H

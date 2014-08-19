@@ -1,5 +1,6 @@
 #include "UniformsBarComponent.h"
 #include "TreeIdentifiers.h"
+#include "ValueEditorComponent.h"
 #include "../RtColourIds.h"
 
 UniformsBarComponent::UniformsBarComponent(Value& timeValue, Data& _data) :
@@ -18,7 +19,7 @@ void UniformsBarComponent::paint(Graphics& g) {
 	ValueTree uniformsArray = data.getUniformsArray();
 	const int numChildren = uniformsArray.getNumChildren();
 
-	for(int i = 0; i < numChildren; i++){
+	for(int i = 0; i < numChildren; i++) {
 		ValueTree uniform = uniformsArray.getChild(i);
 		const String name = uniform.getProperty(treeId::uniformName);
 
@@ -35,4 +36,17 @@ void UniformsBarComponent::paint(Graphics& g) {
 	// draw outline
 	g.setColour(findColour(RtColourIds::outlineColourId));
 	g.drawVerticalLine(getWidth()-1, 0, getHeight());
+}
+
+void UniformsBarComponent::mouseUp(const MouseEvent& event) {
+	const int rowHeight = 20;
+	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
+	ValueTree valueData = data.getUniformsArray().getChild(numUniform).getChildWithName(treeId::uniformStandardValue);
+	if (!valueData.isValid()) return;
+
+	ValueEditorComponent* valueEditor = new ValueEditorComponent(valueData);
+	valueEditor->setSize(200, 200);
+
+	const Rectangle<int> rect(0, numUniform * rowHeight, getWidth(), rowHeight);
+	CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
 }
