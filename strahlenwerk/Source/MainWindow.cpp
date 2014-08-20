@@ -62,6 +62,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 	const CommandID ids[] = {
 		MainWindow::quitProgram,
 		MainWindow::openProject,
+		MainWindow::reload,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -74,12 +75,15 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 	switch (commandID) {
 		case MainWindow::quitProgram:
 			result.setInfo("Quit!", "Shuts down all the Beam Factory!", programCategory, 0);
-			result.addDefaultKeypress (KeyPress::escapeKey, ModifierKeys::noModifiers);
+			result.addDefaultKeypress(KeyPress::escapeKey, ModifierKeys::noModifiers);
 			break;
 		case MainWindow::openProject:
 			result.setInfo("Open Project", "Open a strahlenwerk project", programCategory, 0);
 			break;
-
+		case MainWindow::reload:
+			result.setInfo("Reload", "Reload everything", programCategory, 0);
+			result.addDefaultKeypress('r', ModifierKeys::noModifiers);
+			break;
 		default:
 			break;
 	}
@@ -94,6 +98,10 @@ bool MainWindow::perform(const InvocationInfo& info) {
 
 		case MainWindow::openProject:
 			doOpenProject();
+			break;
+
+		case MainWindow::reload:
+			doReload();
 			break;
 
 		default:
@@ -118,6 +126,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& menuN
 
 	if (topLevelMenuIndex == 0) {
 		menu.addCommandItem(commandManager, MainWindow::openProject);
+		menu.addCommandItem(commandManager, MainWindow::reload);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
 	}
 
@@ -134,4 +143,7 @@ void MainWindow::menuItemSelected(int menuItemID, int topLevelMenuIndex) {
 void MainWindow::doOpenProject() {
 	FileChooser fileChooser("Entscheide dich gefaelligst!");
 	fileChooser.browseForDirectory();
+}
+
+void MainWindow::doReload() {
 }
