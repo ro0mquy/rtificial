@@ -75,9 +75,9 @@ OBJECTS := \
   $(OBJDIR)/Timeline_d3785850.o \
   $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
   $(OBJDIR)/MainWindow_499ac812.o \
-  $(OBJDIR)/Main_90ebc5c2.o \
   $(OBJDIR)/MainComponent_a6ffb4a5.o \
   $(OBJDIR)/Renderer_d34861cc.o \
+  $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
   $(OBJDIR)/juce_audio_basics_832d1cec.o \
   $(OBJDIR)/juce_audio_devices_f204e6aa.o \
@@ -227,11 +227,6 @@ $(OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp
 	@echo "Compiling MainWindow.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/Main_90ebc5c2.o: ../../Source/Main.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Main.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/MainComponent_a6ffb4a5.o: ../../Source/MainComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling MainComponent.cpp"
@@ -240,6 +235,11 @@ $(OBJDIR)/MainComponent_a6ffb4a5.o: ../../Source/MainComponent.cpp
 $(OBJDIR)/Renderer_d34861cc.o: ../../Source/Renderer.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Renderer.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/StrahlenwerkApplication_a618e10d.o: ../../Source/StrahlenwerkApplication.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling StrahlenwerkApplication.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/OpenGLComponent_fe08fa6f.o: ../../Source/OpenGLComponent.cpp

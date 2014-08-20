@@ -95,15 +95,19 @@
             file="Source/RtificialLookAndFeel.cpp"/>
       <FILE id="Wciucj" name="RtificialLookAndFeel.h" compile="0" resource="0"
             file="Source/RtificialLookAndFeel.h"/>
+      <FILE id="vbIlO2" name="Project.h" compile="0" resource="0" file="Source/Project.h"/>
       <FILE id="jzZlkA" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
       <FILE id="RCWYjO" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
       <FILE id="oLyckP" name="BoxLayout.h" compile="0" resource="0" file="Source/BoxLayout.h"/>
-      <FILE id="CHb8Tv" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="LokCeX" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="SkmHDQ" name="Renderer.cpp" compile="1" resource="0" file="Source/Renderer.cpp"/>
       <FILE id="vkHWw8" name="Renderer.h" compile="0" resource="0" file="Source/Renderer.h"/>
       <FILE id="P4IG3t" name="RtColourIds.h" compile="0" resource="0" file="Source/RtColourIds.h"/>
+      <FILE id="UVEyS3" name="StrahlenwerkApplication.cpp" compile="1" resource="0"
+            file="Source/StrahlenwerkApplication.cpp"/>
+      <FILE id="ucF2Fs" name="StrahlenwerkApplication.h" compile="0" resource="0"
+            file="Source/StrahlenwerkApplication.h"/>
       <FILE id="kt9k5n" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="ETqG8P" name="OpenGLComponent.cpp" compile="1" resource="0"
             file="Source/OpenGLComponent.cpp"/>
