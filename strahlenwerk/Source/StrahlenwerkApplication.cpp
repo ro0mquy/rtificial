@@ -35,4 +35,12 @@ void StrahlenwerkApplication::anotherInstanceStarted(const String& commandLine) 
 	// the other instance's command-line arguments were.
 }
 
+Project& StrahlenwerkApplication::getProject() {
+	return project;
+}
+
+StrahlenwerkApplication* StrahlenwerkApplication::getInstance() {
+	return static_cast<StrahlenwerkApplication*>(JUCEApplication::getInstance());
+}
+
 START_JUCE_APPLICATION(StrahlenwerkApplication)

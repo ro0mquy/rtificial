@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/Project_cc5166fa.o \
   $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o \
   $(OBJDIR)/ColorSpaceMarker_454a1924.o \
   $(OBJDIR)/LabColor_145742fd.o \
@@ -106,6 +107,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/Project_cc5166fa.o: ../../Source/Project.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Project.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o: ../../Source/ColorPicker/LabColorPropertyComponent.cpp
 	-@mkdir -p $(OBJDIR)
