@@ -6,6 +6,7 @@
 #include <vector>
 
 class PostprocShader;
+class SceneShader;
 class PostprocPipeline;
 
 class Project {
@@ -20,6 +21,10 @@ class Project {
 
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
+		std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> loadSceneShaders();
+		std::vector<std::pair<std::string, std::string>> listShaderSources(std::vector<std::string> files);
+
+		static std::string loadFile(const std::string& path);
 
 		std::shared_ptr<PostprocPipeline> postproc;
 		ChangeBroadcaster postprocChangeBroadcaster;
