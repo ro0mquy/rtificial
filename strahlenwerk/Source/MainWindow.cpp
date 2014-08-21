@@ -1,5 +1,7 @@
 #include "MainWindow.h"
 
+#include "StrahlenwerkApplication.h"
+
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()
 static ScopedPointer<ApplicationCommandManager> applicationCommandManager;
@@ -146,4 +148,5 @@ void MainWindow::doOpenProject() {
 }
 
 void MainWindow::doReload() {
+	StrahlenwerkApplication::getInstance()->getProject().triggerPostprocReload();
 }

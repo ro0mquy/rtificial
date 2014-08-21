@@ -31,3 +31,15 @@ std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders(OpenGL
 	PostprocPipelineLoader loader;
 	return loader.load(context, mappingSource, shaderSources);
 }
+
+void Project::registerPostprocListener(ChangeListener* listener) {
+	postprocChangeBroadcaster.addChangeListener(listener);
+}
+
+void Project::unregisterPostprocListener(ChangeListener* listener) {
+	postprocChangeBroadcaster.removeChangeListener(listener);
+}
+
+void Project::triggerPostprocReload() {
+	postprocChangeBroadcaster.sendChangeMessage();
+}
