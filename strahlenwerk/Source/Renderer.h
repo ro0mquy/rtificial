@@ -2,8 +2,11 @@
 #define RENDERER_H
 
 #include <juce>
+#include <memory>
+
 #include "Rendering/SceneShader.h"
-#include "Rendering/PostprocPipeline.h"
+
+class PostprocPipeline;
 
 class Renderer :
 	public OpenGLRenderer,
@@ -21,7 +24,8 @@ class Renderer :
 	private:
 		OpenGLContext& context;
 		SceneShader defaultShader;
-		PostprocPipeline postproc;
+		std::shared_ptr<PostprocPipeline> postproc;
+		std::mutex postprocMutex;
 
 		void reloadPostproc();
 

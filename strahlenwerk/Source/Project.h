@@ -6,18 +6,24 @@
 #include <vector>
 
 class PostprocShader;
+class PostprocPipeline;
 
 class Project {
 	public:
 		~Project();
 
-		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders(OpenGLContext& context);
 		void registerPostprocListener(ChangeListener* listener);
 		void unregisterPostprocListener(ChangeListener* listener);
 		void triggerPostprocReload();
+		void contextChanged(OpenGLContext& context);
+		std::shared_ptr<PostprocPipeline> getPostproc();
 
 	private:
+		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
+
+		std::shared_ptr<PostprocPipeline> postproc;
 		ChangeBroadcaster postprocChangeBroadcaster;
+		OpenGLContext* context;
 };
 
 #endif

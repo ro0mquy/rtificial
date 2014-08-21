@@ -1,6 +1,9 @@
 #include "StrahlenwerkApplication.h"
 
 #include "MainWindow.h"
+#include "Rendering/PostprocShader.h"
+
+StrahlenwerkApplication::~StrahlenwerkApplication() = default;
 
 const String StrahlenwerkApplication::getApplicationName() {
 	return ProjectInfo::projectName;

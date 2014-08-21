@@ -8,6 +8,8 @@ class MainWindow;
 
 class StrahlenwerkApplication : public JUCEApplication {
 	public:
+		~StrahlenwerkApplication();
+
 		const String getApplicationName() override;
 		const String getApplicationVersion() override;
 		bool moreThanOneInstanceAllowed() override;
