@@ -152,5 +152,5 @@ void MainWindow::doOpenProject() {
 }
 
 void MainWindow::doReload() {
-	StrahlenwerkApplication::getInstance()->getProject().triggerPostprocReload();
+	StrahlenwerkApplication::getInstance()->getProject().reload();
 }

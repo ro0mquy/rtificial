@@ -5,12 +5,13 @@
 #include <memory>
 
 #include "Rendering/SceneShader.h"
+#include "ProjectListener.h"
 
 class PostprocPipeline;
 
 class Renderer :
 	public OpenGLRenderer,
-	private ChangeListener
+	private ProjectListener
 {
 	public:
 		Renderer(OpenGLContext& context);
@@ -19,7 +20,8 @@ class Renderer :
 		void newOpenGLContextCreated() override;
 		void openGLContextClosing() override;
 		void renderOpenGL() override;
-		void changeListenerCallback(ChangeBroadcaster* source) override;
+		void postprocChanged() override;
+		void scenesChanged() override;
 		void setSize(int width, int height);
 
 	private:

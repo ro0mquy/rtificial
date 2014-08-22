@@ -26,12 +26,12 @@ Renderer::Renderer(OpenGLContext& context) :
 	postprocMutex.unlock();
 
 	auto& project = StrahlenwerkApplication::getInstance()->getProject();
-	project.registerPostprocListener(this);
+	project.registerListener(this);
 	project.contextChanged(context);
 }
 
 Renderer::~Renderer() {
-	StrahlenwerkApplication::getInstance()->getProject().unregisterPostprocListener(this);
+	StrahlenwerkApplication::getInstance()->getProject().unregisterListener(this);
 }
 
 void Renderer::newOpenGLContextCreated() {
@@ -46,8 +46,11 @@ void Renderer::renderOpenGL() {
 	postprocMutex.unlock();
 }
 
-void Renderer::changeListenerCallback(ChangeBroadcaster* source) {
+void Renderer::postprocChanged() {
 	reloadPostproc();
+}
+
+void Renderer::scenesChanged() {
 }
 
 void Renderer::setSize(int _width, int _height) {

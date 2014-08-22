@@ -9,6 +9,7 @@
 #include "Rendering/SceneShader.h"
 #include "StrahlenwerkApplication.h"
 #include "PropertyNames.h"
+#include "ProjectListener.h"
 
 Project::Project(const std::string& dir) : loader(dir)
 {
@@ -16,15 +17,23 @@ Project::Project(const std::string& dir) : loader(dir)
 
 Project::~Project() = default;
 
-void Project::registerPostprocListener(ChangeListener* listener) {
-	postprocChangeBroadcaster.addChangeListener(listener);
+void Project::registerListener(ProjectListener* listener) {
+	listeners.push_back(listener);
 }
 
-void Project::unregisterPostprocListener(ChangeListener* listener) {
-	postprocChangeBroadcaster.removeChangeListener(listener);
+void Project::unregisterListener(ProjectListener* listener) {
+	const auto pos = std::find(listeners.begin(), listeners.end(), listener);
+	if(pos != listeners.end()) {
+		listeners.erase(pos);
+	}
 }
 
-void Project::triggerPostprocReload() {
+void Project::reload() {
+	reloadPostproc();
+	reloadScenes();
+}
+
+void Project::reloadPostproc() {
 	auto shaders = loadPostprocShaders();
 	if(!shaders.empty()) {
 		postproc = std::unique_ptr<PostprocPipeline>(new PostprocPipeline());
@@ -32,12 +41,21 @@ void Project::triggerPostprocReload() {
 	} else {
 		std::cerr << "No shaders loaded" << std::endl;
 	}
-	postprocChangeBroadcaster.sendChangeMessage();
+	postprocChanged();
+}
+
+void Project::reloadScenes() {
+	auto shaders = loadSceneShaders();
+	if(!shaders.empty()) {
+	} else {
+		std::cerr << "No shaders loaded" << std::endl;
+	}
+	scenesChanged();
 }
 
 void Project::contextChanged(OpenGLContext& _context) {
 	context = &_context;
-	triggerPostprocReload();
+	reload();
 }
 
 std::unique_ptr<PostprocPipeline> Project::getPostproc() {
@@ -47,7 +65,7 @@ std::unique_ptr<PostprocPipeline> Project::getPostproc() {
 void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
 	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::PROJECT_DIR, var(dir));
-	triggerPostprocReload();
+	reload();
 }
 
 std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
@@ -76,6 +94,18 @@ std::vector<std::pair<std::string, std::string>> Project::listShaderSources(cons
 		);
 	}
 	return shaderSources;
+}
+
+void Project::postprocChanged() {
+	for(auto listener : listeners) {
+		listener->postprocChanged();
+	}
+}
+
+void Project::scenesChanged() {
+	for(auto listener : listeners) {
+		listener->scenesChanged();
+	}
 }
 
 std::string Project::loadFile(const std::string& path) {
