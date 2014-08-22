@@ -16,8 +16,8 @@ class ProjectFileLoader {
 	private:
 		static std::vector<File> listFiles(const File& dir);
 
-		const File projectDir;
-		const File postprocDir;
-		const File sceneDir;
+		File projectDir;
+		File postprocDir;
+		File sceneDir;
 };
 #endif

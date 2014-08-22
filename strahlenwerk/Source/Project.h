@@ -5,12 +5,15 @@
 #include <memory>
 #include <vector>
 
+#include "ProjectFileLoader.h"
+
 class PostprocShader;
 class SceneShader;
 class PostprocPipeline;
 
 class Project {
 	public:
+		Project(const std::string& dir);
 		~Project();
 
 		void registerPostprocListener(ChangeListener* listener);
@@ -18,6 +21,7 @@ class Project {
 		void triggerPostprocReload();
 		void contextChanged(OpenGLContext& context);
 		std::unique_ptr<PostprocPipeline> getPostproc();
+		void loadDirectory(const std::string& dir);
 
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
@@ -29,6 +33,7 @@ class Project {
 		std::unique_ptr<PostprocPipeline> postproc;
 		ChangeBroadcaster postprocChangeBroadcaster;
 		OpenGLContext* context;
+		ProjectFileLoader loader;
 };
 
 #endif

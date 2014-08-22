@@ -24,7 +24,7 @@ class StrahlenwerkApplication : public JUCEApplication {
 
 	private:
 		ScopedPointer<MainWindow> mainWindow;
-		Project project;
+		ScopedPointer<Project> project;
 };
 
 #endif

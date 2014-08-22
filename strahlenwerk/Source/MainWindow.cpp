@@ -145,9 +145,8 @@ void MainWindow::menuItemSelected(int menuItemID, int topLevelMenuIndex) {
 void MainWindow::doOpenProject() {
 	FileChooser fileChooser("Entscheide dich gefaelligst!");
 	if(fileChooser.browseForDirectory()) {
-		std::cout << fileChooser.getResult().getFullPathName() << std::endl;
-	} else {
-		std::cout << "no file chosen" << std::endl;
+		auto path = fileChooser.getResult().getFullPathName().toStdString();
+		StrahlenwerkApplication::getInstance()->getProject().loadDirectory(path);
 	}
 }
 

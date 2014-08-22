@@ -19,12 +19,14 @@ bool StrahlenwerkApplication::moreThanOneInstanceAllowed() {
 }
 
 void StrahlenwerkApplication::initialise(const String& commandLine) {
+	project = new Project("./");
 	mainWindow = new MainWindow();
 }
 
 void StrahlenwerkApplication::shutdown() {
 	// Add your application's shutdown code here..
 	mainWindow = nullptr; // (deletes our window)
+	project = nullptr;
 }
 
 void StrahlenwerkApplication::systemRequestedQuit()  {
@@ -40,7 +42,7 @@ void StrahlenwerkApplication::anotherInstanceStarted(const String& commandLine) 
 }
 
 Project& StrahlenwerkApplication::getProject() {
-	return project;
+	return *project;
 }
 
 StrahlenwerkApplication* StrahlenwerkApplication::getInstance() {

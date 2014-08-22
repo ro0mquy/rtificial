@@ -3,11 +3,14 @@
 #include <regex>
 #include <fstream>
 
-#include "ProjectFileLoader.h"
 #include "Rendering/PostprocPipelineLoader.h"
 #include "Rendering/PostprocShader.h"
 #include "Rendering/PostprocPipeline.h"
 #include "Rendering/SceneShader.h"
+
+Project::Project(const std::string& dir) : loader(dir)
+{
+}
 
 Project::~Project() = default;
 
@@ -39,19 +42,20 @@ std::unique_ptr<PostprocPipeline> Project::getPostproc() {
 	return std::move(postproc);
 }
 
-std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
-	ProjectFileLoader projectLoader("./test_project"); // TODO
+void Project::loadDirectory(const std::string& dir) {
+	loader = ProjectFileLoader(dir);
+	triggerPostprocReload();
+}
 
-	std::string mappingSource = loadFile(projectLoader.getMappingFilePath());
-	auto shaderSources = listShaderSources(projectLoader.listPostprocFiles());
+std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
+	std::string mappingSource = loadFile(loader.getMappingFilePath());
+	auto shaderSources = listShaderSources(loader.listPostprocFiles());
 	PostprocPipelineLoader loader;
 	return loader.load(*context, mappingSource, shaderSources);
 }
 
 std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> Project::loadSceneShaders() {
-	ProjectFileLoader projectLoader("./test_project"); // TODO
-
-	auto shaderSources = listShaderSources(projectLoader.listSceneFiles());
+	auto shaderSources = listShaderSources(loader.listSceneFiles());
 	std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> shaders;
 	for(auto& shader : shaderSources) {
 		shaders.emplace_back(shader.first, std::unique_ptr<SceneShader>(new SceneShader(*context)));
