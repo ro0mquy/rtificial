@@ -10,6 +10,7 @@
 #include "StrahlenwerkApplication.h"
 #include "PropertyNames.h"
 #include "ProjectListener.h"
+#include "Rendering/Scenes.h"
 
 Project::Project(const std::string& dir) : loader(dir)
 {
@@ -47,6 +48,7 @@ void Project::reloadPostproc() {
 void Project::reloadScenes() {
 	auto shaders = loadSceneShaders();
 	if(!shaders.empty()) {
+		scenes = std::unique_ptr<Scenes>(new Scenes(std::move(shaders)));
 	} else {
 		std::cerr << "No shaders loaded" << std::endl;
 	}
@@ -60,6 +62,10 @@ void Project::contextChanged(OpenGLContext& _context) {
 
 std::unique_ptr<PostprocPipeline> Project::getPostproc() {
 	return std::move(postproc);
+}
+
+std::unique_ptr<Scenes> Project::getScenes() {
+	return std::move(scenes);
 }
 
 void Project::loadDirectory(const std::string& dir) {

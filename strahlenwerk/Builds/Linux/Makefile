@@ -58,6 +58,7 @@ OBJECTS := \
   $(OBJDIR)/LabColorPicker_2909daab.o \
   $(OBJDIR)/LabColorSpaceView_bf2be298.o \
   $(OBJDIR)/ProjectFileLoader_a9547609.o \
+  $(OBJDIR)/Scenes_9b218bf3.o \
   $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
   $(OBJDIR)/PostprocShader_df5d2107.o \
@@ -142,6 +143,11 @@ $(OBJDIR)/LabColorSpaceView_bf2be298.o: ../../Source/ColorPicker/LabColorSpaceVi
 $(OBJDIR)/ProjectFileLoader_a9547609.o: ../../Source/ProjectFileLoader.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ProjectFileLoader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Scenes_9b218bf3.o: ../../Source/Rendering/Scenes.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Scenes.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/PostprocPipelineLoader_51edf977.o: ../../Source/Rendering/PostprocPipelineLoader.cpp

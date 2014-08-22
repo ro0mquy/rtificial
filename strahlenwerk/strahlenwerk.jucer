@@ -36,6 +36,8 @@
       <FILE id="w1wQ4d" name="ProjectFileLoader.h" compile="0" resource="0"
             file="Source/ProjectFileLoader.h"/>
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
+        <FILE id="HoNJcz" name="Scenes.cpp" compile="1" resource="0" file="Source/Rendering/Scenes.cpp"/>
+        <FILE id="iDoI0A" name="Scenes.h" compile="0" resource="0" file="Source/Rendering/Scenes.h"/>
         <FILE id="a6SDMx" name="DefaultShader.h" compile="0" resource="0" file="Source/Rendering/DefaultShader.h"/>
         <FILE id="ac46aX" name="glcorearb.h" compile="0" resource="0" file="Source/Rendering/glcorearb.h"/>
         <FILE id="fbU4Ku" name="PostprocPipelineLoader.cpp" compile="1" resource="0"

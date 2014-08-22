@@ -11,6 +11,7 @@ class PostprocShader;
 class SceneShader;
 class PostprocPipeline;
 class ProjectListener;
+class Scenes;
 
 class Project {
 	public:
@@ -24,6 +25,7 @@ class Project {
 		void reloadScenes();
 		void contextChanged(OpenGLContext& context);
 		std::unique_ptr<PostprocPipeline> getPostproc();
+		std::unique_ptr<Scenes> getScenes();
 		void loadDirectory(const std::string& dir);
 
 	private:
@@ -36,6 +38,7 @@ class Project {
 		static std::string loadFile(const std::string& path);
 
 		std::unique_ptr<PostprocPipeline> postproc;
+		std::unique_ptr<Scenes> scenes;
 		std::vector<ProjectListener*> listeners;
 		OpenGLContext* context;
 		ProjectFileLoader loader;

@@ -8,6 +8,7 @@
 #include "ProjectListener.h"
 
 class PostprocPipeline;
+class Scenes;
 
 class Renderer :
 	public OpenGLRenderer,
@@ -29,10 +30,12 @@ class Renderer :
 		SceneShader defaultShader;
 		std::unique_ptr<PostprocPipeline> defaultPostproc;
 		std::unique_ptr<PostprocPipeline> postproc;
-		std::mutex postprocMutex;
+		std::unique_ptr<Scenes> scenes;
+		std::mutex renderMutex;
 		int width, height;
 
 		void reloadPostproc();
+		void reloadScenes();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Renderer)
 };

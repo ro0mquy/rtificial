@@ -10,6 +10,7 @@
 #include "Rendering/PostprocPipelineLoader.h"
 #include "Project.h"
 #include "Rendering/DefaultShader.h"
+#include "Rendering/Scenes.h"
 
 Renderer::Renderer(OpenGLContext& context) :
 	context(context),
@@ -21,9 +22,9 @@ Renderer::Renderer(OpenGLContext& context) :
 	defaultShader.load(defaultShaderSource);
 	PostprocPipelineLoader loader;
 	defaultPostproc->setShaders(loader.load(context, "input.color output.color\n", {}));
-	postprocMutex.lock();
+	renderMutex.lock();
 	postproc = std::move(defaultPostproc);
-	postprocMutex.unlock();
+	renderMutex.unlock();
 
 	auto& project = StrahlenwerkApplication::getInstance()->getProject();
 	project.registerListener(this);
@@ -41,9 +42,13 @@ void Renderer::openGLContextClosing() {
 }
 
 void Renderer::renderOpenGL() {
-	postprocMutex.lock();
-	postproc->render(defaultShader, width, height);
-	postprocMutex.unlock();
+	renderMutex.lock();
+	if(scenes == nullptr) {
+		postproc->render(defaultShader, width, height);
+	} else {
+		postproc->render(scenes->getShader(0), width, height);
+	}
+	renderMutex.unlock();
 }
 
 void Renderer::postprocChanged() {
@@ -51,18 +56,19 @@ void Renderer::postprocChanged() {
 }
 
 void Renderer::scenesChanged() {
+	reloadScenes();
 }
 
 void Renderer::setSize(int _width, int _height) {
-	postprocMutex.lock();
+	renderMutex.lock();
 	width = _width;
 	height = _height;
-	postprocMutex.unlock();
+	renderMutex.unlock();
 }
 
 void Renderer::reloadPostproc() {
 	auto newPostproc = StrahlenwerkApplication::getInstance()->getProject().getPostproc();
-	postprocMutex.lock();
+	renderMutex.lock();
 	if(newPostproc != nullptr) {
 		if(defaultPostproc == nullptr) {
 			defaultPostproc = std::move(postproc);
@@ -73,6 +79,14 @@ void Renderer::reloadPostproc() {
 			postproc = std::move(defaultPostproc);
 		}
 	}
-	postprocMutex.unlock();
+	renderMutex.unlock();
+	context.triggerRepaint();
+}
+
+void Renderer::reloadScenes() {
+	auto newScenes = StrahlenwerkApplication::getInstance()->getProject().getScenes();
+	renderMutex.lock();
+	scenes = std::move(newScenes);
+	renderMutex.unlock();
 	context.triggerRepaint();
 }
