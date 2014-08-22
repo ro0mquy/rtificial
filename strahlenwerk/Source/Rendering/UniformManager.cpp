@@ -20,7 +20,7 @@ const Uniform* UniformManager::registerUniform(std::string name, UniformType typ
 			return nullptr;
 		}
 	} else {
-		uniforms.emplace_back(uniforms.size(), type);
+		uniforms.emplace_back(uniforms.size() + RESERVED, type);
 		uniformLookup.emplace(name, uniforms.back());
 		return &uniforms.back();
 	}
@@ -36,7 +36,7 @@ const Uniform* UniformManager::getUniform(const std::string& name) const {
 }
 
 const Uniform* UniformManager::getUniform(int id) const {
-	return &uniforms[id];
+	return &uniforms[id - RESERVED];
 }
 
 void UniformManager::reset() {

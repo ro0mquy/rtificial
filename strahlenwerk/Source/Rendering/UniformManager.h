@@ -25,6 +25,8 @@ class UniformManager {
 
 		std::unordered_map<std::string, const Uniform&> uniformLookup;
 		std::vector<Uniform> uniforms;
+
+		static const int RESERVED = 1;
 };
 
 #endif

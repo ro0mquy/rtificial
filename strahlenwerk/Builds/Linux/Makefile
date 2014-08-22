@@ -80,6 +80,7 @@ OBJECTS := \
   $(OBJDIR)/Renderer_d34861cc.o \
   $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
+  $(OBJDIR)/BinaryData_ce4232d4.o \
   $(OBJDIR)/juce_audio_basics_832d1cec.o \
   $(OBJDIR)/juce_audio_devices_f204e6aa.o \
   $(OBJDIR)/juce_audio_formats_2086304a.o \
@@ -251,6 +252,11 @@ $(OBJDIR)/StrahlenwerkApplication_a618e10d.o: ../../Source/StrahlenwerkApplicati
 $(OBJDIR)/OpenGLComponent_fe08fa6f.o: ../../Source/OpenGLComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling OpenGLComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling BinaryData.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_832d1cec.o: ../../juce_modules/juce_audio_basics/juce_audio_basics.cpp

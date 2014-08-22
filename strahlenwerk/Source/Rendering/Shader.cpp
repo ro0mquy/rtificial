@@ -29,7 +29,7 @@ void Shader::load(std::ifstream& in) {
 void Shader::load(std::string source) {
 	uniforms.clear();
 
-	const std::regex uniformRegex(R"regex(uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
+	const std::regex uniformRegex(R"regex((^|\n)[ \t]uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
 
 	const std::sregex_iterator end;
 	std::vector<std::pair<size_t, int>> matches;
@@ -97,6 +97,7 @@ void Shader::draw(int width, int height) {
 		 1.0, -1.0,
 	};
 	context.extensions.glVertexAttribPointer(attributeCoord, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
+	context.extensions.glUniform2f(0, width, height);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	context.extensions.glDisableVertexAttribArray(attributeCoord);
 }

@@ -6,6 +6,8 @@
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
+      <FILE id="t84HiX" name="juce" compile="0" resource="1" file="Source/juce"/>
+      <FILE id="H0wOnu" name="PropertyNames.h" compile="0" resource="0" file="Source/PropertyNames.h"/>
       <FILE id="cUPUj8" name="Project.cpp" compile="1" resource="0" file="Source/Project.cpp"/>
       <GROUP id="{9C99C7A8-0996-8168-C568-0719FAFA83A9}" name="ColorPicker">
         <FILE id="vnJdlh" name="LabColorPropertyComponent.cpp" compile="1"
@@ -32,6 +34,8 @@
       <FILE id="w1wQ4d" name="ProjectFileLoader.h" compile="0" resource="0"
             file="Source/ProjectFileLoader.h"/>
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
+        <FILE id="a6SDMx" name="DefaultShader.h" compile="0" resource="0" file="Source/Rendering/DefaultShader.h"/>
+        <FILE id="ac46aX" name="glcorearb.h" compile="0" resource="0" file="Source/Rendering/glcorearb.h"/>
         <FILE id="fbU4Ku" name="PostprocPipelineLoader.cpp" compile="1" resource="0"
               file="Source/Rendering/PostprocPipelineLoader.cpp"/>
         <FILE id="ssUGvM" name="PostprocPipelineLoader.h" compile="0" resource="0"
