@@ -24,7 +24,8 @@ class Renderer :
 	private:
 		OpenGLContext& context;
 		SceneShader defaultShader;
-		std::shared_ptr<PostprocPipeline> postproc;
+		std::unique_ptr<PostprocPipeline> defaultPostproc;
+		std::unique_ptr<PostprocPipeline> postproc;
 		std::mutex postprocMutex;
 
 		void reloadPostproc();

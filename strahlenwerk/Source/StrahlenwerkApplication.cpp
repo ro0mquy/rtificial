@@ -2,6 +2,7 @@
 
 #include "MainWindow.h"
 #include "Rendering/PostprocShader.h"
+#include "Rendering/PostprocPipeline.h"
 
 StrahlenwerkApplication::~StrahlenwerkApplication() = default;
 

@@ -17,7 +17,7 @@ class Project {
 		void unregisterPostprocListener(ChangeListener* listener);
 		void triggerPostprocReload();
 		void contextChanged(OpenGLContext& context);
-		std::shared_ptr<PostprocPipeline> getPostproc();
+		std::unique_ptr<PostprocPipeline> getPostproc();
 
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
@@ -26,7 +26,7 @@ class Project {
 
 		static std::string loadFile(const std::string& path);
 
-		std::shared_ptr<PostprocPipeline> postproc;
+		std::unique_ptr<PostprocPipeline> postproc;
 		ChangeBroadcaster postprocChangeBroadcaster;
 		OpenGLContext* context;
 };

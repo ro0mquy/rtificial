@@ -22,7 +22,7 @@ void Project::unregisterPostprocListener(ChangeListener* listener) {
 void Project::triggerPostprocReload() {
 	auto shaders = loadPostprocShaders();
 	if(!shaders.empty()) {
-		postproc = std::make_shared<PostprocPipeline>();
+		postproc = std::unique_ptr<PostprocPipeline>(new PostprocPipeline());
 		postproc->setShaders(std::move(shaders));
 	} else {
 		std::cerr << "No shaders loaded" << std::endl;
@@ -35,8 +35,8 @@ void Project::contextChanged(OpenGLContext& _context) {
 	triggerPostprocReload();
 }
 
-std::shared_ptr<PostprocPipeline> Project::getPostproc() {
-	return postproc;
+std::unique_ptr<PostprocPipeline> Project::getPostproc() {
+	return std::move(postproc);
 }
 
 std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
