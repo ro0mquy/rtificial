@@ -60,13 +60,13 @@ std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> Project::loadS
 	return shaders;
 }
 
-std::vector<std::pair<std::string, std::string>> Project::listShaderSources(std::vector<std::string> files) {
+std::vector<std::pair<std::string, std::string>> Project::listShaderSources(const std::vector<File>& files) {
 	std::vector<std::pair<std::string, std::string>> shaderSources;
-	std::regex nameRegex("^.*/(\\w+)\\.glsl$"); // TODO
-	std::smatch match;
-	for(const auto& filename : files) {
-		std::regex_match(filename, match, nameRegex);
-		shaderSources.emplace_back(match[1], loadFile(filename));
+	for(const auto& file : files) {
+		shaderSources.emplace_back(
+			file.getFileNameWithoutExtension().toStdString(),
+			loadFile(file.getFullPathName().toStdString())
+		);
 	}
 	return shaderSources;
 }

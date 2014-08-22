@@ -9,11 +9,11 @@ ProjectFileLoader::ProjectFileLoader(std::string projectRoot) :
 {
 }
 
-std::vector<std::string> ProjectFileLoader::listPostprocFiles() {
+std::vector<File> ProjectFileLoader::listPostprocFiles() {
 	return listFiles(postprocDir);
 }
 
-std::vector<std::string> ProjectFileLoader::listSceneFiles() {
+std::vector<File> ProjectFileLoader::listSceneFiles() {
 	return listFiles(sceneDir);
 }
 
@@ -21,12 +21,14 @@ std::string ProjectFileLoader::getMappingFilePath() {
 	return projectDir.getChildFile("mapping.txt").getFullPathName().toStdString();
 }
 
-std::vector<std::string> ProjectFileLoader::listFiles(const File& dir) {
+std::vector<File> ProjectFileLoader::listFiles(const File& dir) {
 	Array<File> results;
 	dir.findChildFiles(results, dir.findFiles, false);
-	std::vector<std::string> paths;
+	std::vector<File> files;
 	for(const auto& file : results) {
-		paths.emplace_back(file.getFullPathName().toStdString());
+		if(file.hasFileExtension("glsl")) {
+			files.push_back(file);
+		}
 	}
-	return paths;
+	return files;
 }

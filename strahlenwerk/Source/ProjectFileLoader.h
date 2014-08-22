@@ -9,12 +9,12 @@ class ProjectFileLoader {
 	public:
 		ProjectFileLoader(std::string projectRoot);
 
-		std::vector<std::string> listPostprocFiles();
-		std::vector<std::string> listSceneFiles();
+		std::vector<File> listPostprocFiles();
+		std::vector<File> listSceneFiles();
 		std::string getMappingFilePath();
 
 	private:
-		static std::vector<std::string> listFiles(const File& dir);
+		static std::vector<File> listFiles(const File& dir);
 
 		const File projectDir;
 		const File postprocDir;

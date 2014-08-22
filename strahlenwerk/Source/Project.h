@@ -22,7 +22,7 @@ class Project {
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
 		std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> loadSceneShaders();
-		std::vector<std::pair<std::string, std::string>> listShaderSources(std::vector<std::string> files);
+		std::vector<std::pair<std::string, std::string>> listShaderSources(const std::vector<File>& files);
 
 		static std::string loadFile(const std::string& path);
 
