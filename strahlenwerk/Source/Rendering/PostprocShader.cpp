@@ -58,14 +58,12 @@ void PostprocShader::insertBindings() {
 	});
 }
 
-void PostprocShader::bindFBO() {
-	// TODO use the right size
-
-	if(!fbo_created) {
-		createFBO(800, 600);
+void PostprocShader::bindFBO(int width, int height) {
+	if(!fbo_created || (width != createdWidth) || (height != createdHeight)) {
+		createFBO(width, height);
 	}
 	context.extensions.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, width, height);
 }
 
 void PostprocShader::unbindFBO() {
@@ -76,7 +74,7 @@ void PostprocShader::unbindFBO() {
 }
 
 void PostprocShader::setDefaultFBO() {
-	fbo_created = true;
+	dont_create = true;
 }
 
 void PostprocShader::onBeforeLoad() {
@@ -129,7 +127,10 @@ int PostprocShader::toComponents(const std::string& identifier) {
 }
 
 void PostprocShader::createFBO(int width, int height) {
+	if(dont_create) return;
 	deleteFBO();
+	createdWidth = width;
+	createdHeight = height;
 	const auto& ext = context.extensions;
 	ext.glGenFramebuffers(1, &fbo);
 

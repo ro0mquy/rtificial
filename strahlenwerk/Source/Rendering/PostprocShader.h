@@ -38,7 +38,7 @@ class PostprocShader : public Shader {
 
 		void insertBindings();
 
-		void bindFBO();
+		void bindFBO(int width, int height);
 		void unbindFBO();
 		void setDefaultFBO();
 
@@ -57,6 +57,8 @@ class PostprocShader : public Shader {
 		std::vector<GLuint> textures;
 		GLuint fbo = 0;
 		bool fbo_created = false;
+		bool dont_create = false;
+		int createdWidth, createdHeight;
 		const std::regex inputRegex = std::regex(R"regex(uniform[ \t]+sampler2D[ \t]+(\w+)[ \t]*;[ \t]*//[ \t]*(float|vec[234]))regex");
 };
 

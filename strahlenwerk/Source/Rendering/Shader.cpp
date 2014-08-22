@@ -74,7 +74,7 @@ void Shader::load(std::string source) {
 /**
  * Only call this from the OpenGL thread!
  */
-void Shader::draw() {
+void Shader::draw(int width, int height) {
 	onBeforeDraw();
 
 	fragmentSourceLock.lock();

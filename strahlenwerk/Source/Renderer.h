@@ -20,6 +20,7 @@ class Renderer :
 		void openGLContextClosing() override;
 		void renderOpenGL() override;
 		void changeListenerCallback(ChangeBroadcaster* source) override;
+		void setSize(int width, int height);
 
 	private:
 		OpenGLContext& context;
@@ -27,6 +28,7 @@ class Renderer :
 		std::unique_ptr<PostprocPipeline> defaultPostproc;
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::mutex postprocMutex;
+		int width, height;
 
 		void reloadPostproc();
 

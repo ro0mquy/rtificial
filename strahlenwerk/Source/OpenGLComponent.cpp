@@ -25,6 +25,7 @@ OpenGLComponent::~OpenGLComponent() {
 
 void OpenGLComponent::resized() {
 	fixedAspectRatioComponent.setBoundsToFit(0, 0, getWidth(), getHeight(), Justification(Justification::centred), false);
+	renderer.setSize(fixedAspectRatioComponent.getWidth(), fixedAspectRatioComponent.getHeight());
 }
 
 void OpenGLComponent::paint(Graphics& g) {

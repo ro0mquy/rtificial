@@ -16,7 +16,7 @@ class Shader {
 
 		void load(std::ifstream& in);
 		void load(std::string source);
-		void draw();
+		void draw(int widht, int height);
 		const std::vector<const Uniform*>& getUniforms() const;
 
 	protected:
