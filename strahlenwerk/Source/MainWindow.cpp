@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 
 #include "StrahlenwerkApplication.h"
+#include "Project.h"
 
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()

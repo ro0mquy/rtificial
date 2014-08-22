@@ -2,9 +2,9 @@
 #define STRAHLENWERKAPPLICATION_H
 
 #include <juce>
-#include "Project.h"
 
 class MainWindow;
+class Project;
 
 class StrahlenwerkApplication : public JUCEApplication {
 	public:
@@ -19,12 +19,14 @@ class StrahlenwerkApplication : public JUCEApplication {
 		void anotherInstanceStarted(const String& commandLine) override;
 
 		Project& getProject();
+		PropertySet& getProperties();
 
 		static StrahlenwerkApplication* getInstance();
 
 	private:
 		ScopedPointer<MainWindow> mainWindow;
 		ScopedPointer<Project> project;
+		ScopedPointer<PropertiesFile> properties;
 };
 
 #endif

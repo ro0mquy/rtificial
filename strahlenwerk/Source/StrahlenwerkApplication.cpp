@@ -3,6 +3,8 @@
 #include "MainWindow.h"
 #include "Rendering/PostprocShader.h"
 #include "Rendering/PostprocPipeline.h"
+#include "Project.h"
+#include "PropertyNames.h"
 
 StrahlenwerkApplication::~StrahlenwerkApplication() = default;
 
@@ -15,11 +17,17 @@ const String StrahlenwerkApplication::getApplicationVersion() {
 }
 
 bool StrahlenwerkApplication::moreThanOneInstanceAllowed() {
-	return true;
+	return false;
 }
 
 void StrahlenwerkApplication::initialise(const String& commandLine) {
-	project = new Project("./");
+	PropertiesFile::Options options;
+	options.applicationName = getApplicationName();
+	options.filenameSuffix = ".settings";
+	options.osxLibrarySubFolder = "Application Support";
+	properties = new PropertiesFile(options);
+
+	project = new Project(properties->getValue(PropertyNames::PROJECT_DIR, "./").toStdString());
 	mainWindow = new MainWindow();
 }
 
@@ -27,6 +35,7 @@ void StrahlenwerkApplication::shutdown() {
 	// Add your application's shutdown code here..
 	mainWindow = nullptr; // (deletes our window)
 	project = nullptr;
+	properties = nullptr;
 }
 
 void StrahlenwerkApplication::systemRequestedQuit()  {
@@ -43,6 +52,10 @@ void StrahlenwerkApplication::anotherInstanceStarted(const String& commandLine) 
 
 Project& StrahlenwerkApplication::getProject() {
 	return *project;
+}
+
+PropertySet& StrahlenwerkApplication::getProperties() {
+	return *properties;
 }
 
 StrahlenwerkApplication* StrahlenwerkApplication::getInstance() {

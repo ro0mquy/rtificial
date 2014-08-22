@@ -8,6 +8,7 @@
 #include "StrahlenwerkApplication.h"
 #include "Rendering/PostprocPipeline.h"
 #include "Rendering/PostprocPipelineLoader.h"
+#include "Project.h"
 
 Renderer::Renderer(OpenGLContext& context) :
 	context(context),

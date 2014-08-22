@@ -7,6 +7,8 @@
 #include "Rendering/PostprocShader.h"
 #include "Rendering/PostprocPipeline.h"
 #include "Rendering/SceneShader.h"
+#include "StrahlenwerkApplication.h"
+#include "PropertyNames.h"
 
 Project::Project(const std::string& dir) : loader(dir)
 {
@@ -44,6 +46,7 @@ std::unique_ptr<PostprocPipeline> Project::getPostproc() {
 
 void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
+	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::PROJECT_DIR, var(dir));
 	triggerPostprocReload();
 }
 
