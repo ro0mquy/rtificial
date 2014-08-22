@@ -1,7 +1,11 @@
+#define GL_GLEXT_PROTOTYPES
+#include "glcorearb.h"
+
 #include "PostprocShader.h"
 
 #include <vector>
 #include <utility>
+
 
 PostprocShader::~PostprocShader() {
 	deleteFBO();
@@ -175,7 +179,8 @@ void PostprocShader::createFBO(int width, int height) {
 		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
 	}
 
-	ext.glDrawBuffers(n, drawBuffers);
+	// TODO
+	glDrawBuffers(n, drawBuffers);
 	fbo_created = true;
 }
 
