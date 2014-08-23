@@ -41,6 +41,7 @@ class Project : private efsw::FileWatchListener {
 		std::vector<std::pair<std::string, std::string>> listShaderSources(const std::vector<File>& files);
 		void postprocChanged();
 		void scenesChanged();
+		void watchFiles(const std::string& dir);
 
 		static std::string loadFile(const std::string& path);
 
@@ -50,7 +51,7 @@ class Project : private efsw::FileWatchListener {
 		OpenGLContext* context;
 		ProjectFileLoader loader;
 		FileWatchMessageThreadListener fileListener;
-		efsw::FileWatcher fileWatcher;
+		std::unique_ptr<efsw::FileWatcher> fileWatcher;
 
 };
 

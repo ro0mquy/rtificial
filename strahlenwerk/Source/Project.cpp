@@ -16,7 +16,7 @@ Project::Project(const std::string& dir) :
 	loader(dir),
 	fileListener(*this)
 {
-	fileWatcher.watch();
+	watchFiles(dir);
 }
 
 Project::~Project() = default;
@@ -73,6 +73,7 @@ std::unique_ptr<Scenes> Project::getScenes() {
 
 void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
+	watchFiles(dir);
 	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::PROJECT_DIR, var(dir));
 	reload();
 }
@@ -84,6 +85,8 @@ void Project::handleFileAction(
 		efsw::Action action,
 		std::string oldFilename)
 {
+	// TODO smarter reloading
+	reload();
 }
 
 std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
@@ -124,6 +127,12 @@ void Project::scenesChanged() {
 	for(auto listener : listeners) {
 		listener->scenesChanged();
 	}
+}
+
+void Project::watchFiles(const std::string& dir) {
+	fileWatcher = std::unique_ptr<efsw::FileWatcher>(new efsw::FileWatcher);
+	fileWatcher->addWatch(dir, &fileListener, true);
+	fileWatcher->watch();
 }
 
 std::string Project::loadFile(const std::string& path) {

@@ -13,6 +13,9 @@ class ProjectFileLoader {
 		std::vector<File> listSceneFiles();
 		std::string getMappingFilePath();
 
+		const File& getSceneDir() const;
+		const File& getPostprocDir() const;
+
 	private:
 		static std::vector<File> listFiles(const File& dir);
 

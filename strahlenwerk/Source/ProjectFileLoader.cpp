@@ -21,6 +21,14 @@ std::string ProjectFileLoader::getMappingFilePath() {
 	return projectDir.getChildFile("mapping.txt").getFullPathName().toStdString();
 }
 
+const File& ProjectFileLoader::getSceneDir() const {
+	return sceneDir;
+}
+
+const File& ProjectFileLoader::getPostprocDir() const {
+	return postprocDir;
+}
+
 std::vector<File> ProjectFileLoader::listFiles(const File& dir) {
 	Array<File> results;
 	dir.findChildFiles(results, dir.findFiles, false);
