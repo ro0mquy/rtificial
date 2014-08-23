@@ -14,23 +14,23 @@ void PostprocPipeline::render(SceneShader& shader, int width, int height) {
 		return;
 	}
 
-	if(shaders.size() > 2) {
+	if(shaders.size() > 1) {
 		shaders[0]->bindFBO(width, height);
 		shader.draw(width, height);
 		shaders[0]->unbindFBO();
 	}
-	for(int i = 1; i < shaders.size() - 2; i++) {
+	for(int i = 1; i < shaders.size() - 1; i++) {
 		shaders[i]->bindFBO(width, height);
 		shaders[i]->draw(width, height);
 		shaders[i]->unbindFBO();
 	}
 	glEnable(GL_FRAMEBUFFER_SRGB);
 	// bind default framebuffer again
-	// TODO bind the default FBO without accessing the shaders array
-	shaders[shaders.size() - 1]->bindFBO(width, height);
-	if(shaders.size() > 2) {
+	OpenGLContext::getCurrentContext()->extensions.glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, width, height);
+	if(shaders.size() > 1) {
 		// this works becaue the last drawn shader has only one output (which should have location = 0)
-		shaders[shaders.size() - 2]->draw(width, height);
+		shaders[shaders.size() - 1]->draw(width, height);
 	} else {
 		shader.draw(width, height);
 	}

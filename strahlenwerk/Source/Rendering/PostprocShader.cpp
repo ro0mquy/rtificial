@@ -77,10 +77,6 @@ void PostprocShader::unbindFBO() {
 	}
 }
 
-void PostprocShader::setDefaultFBO() {
-	dont_create = true;
-}
-
 void PostprocShader::onBeforeLoad() {
 	inputs.clear();
 	outputs.clear();
@@ -131,7 +127,6 @@ int PostprocShader::toComponents(const std::string& identifier) {
 }
 
 void PostprocShader::createFBO(int width, int height) {
-	if(dont_create) return;
 	deleteFBO();
 	createdWidth = width;
 	createdHeight = height;
