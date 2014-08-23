@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/FileWatchMessageThreadListener_eea44c5b.o \
   $(OBJDIR)/Project_cc5166fa.o \
   $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o \
   $(OBJDIR)/ColorSpaceMarker_454a1924.o \
@@ -109,6 +110,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/FileWatchMessageThreadListener_eea44c5b.o: ../../Source/FileWatchMessageThreadListener.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling FileWatchMessageThreadListener.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Project_cc5166fa.o: ../../Source/Project.cpp
 	-@mkdir -p $(OBJDIR)

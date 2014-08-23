@@ -12,8 +12,11 @@
 #include "ProjectListener.h"
 #include "Rendering/Scenes.h"
 
-Project::Project(const std::string& dir) : loader(dir)
+Project::Project(const std::string& dir) :
+	loader(dir),
+	fileListener(*this)
 {
+	fileWatcher.watch();
 }
 
 Project::~Project() = default;
@@ -72,6 +75,15 @@ void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
 	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::PROJECT_DIR, var(dir));
 	reload();
+}
+
+void Project::handleFileAction(
+		efsw::WatchID watchid,
+		const std::string& dir,
+		const std::string& filename,
+		efsw::Action action,
+		std::string oldFilename)
+{
 }
 
 std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
