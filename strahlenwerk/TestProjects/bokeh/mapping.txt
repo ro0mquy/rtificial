@@ -1,0 +1,4 @@
+input.color bokeh_pass1.color
+bokeh_pass1.both bokeh_pass2.both
+bokeh_pass1.upwards bokeh_pass2.upwards
+bokeh_pass2.color output.color
