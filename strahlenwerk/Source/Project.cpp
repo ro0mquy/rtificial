@@ -85,12 +85,19 @@ void Project::handleFileAction(
 		efsw::Action action,
 		std::string oldFilename)
 {
-	// TODO smarter reloading
-	reload();
+	const auto changedFile = File(dir + filename);
+	if(   (changedFile.getParentDirectory() == loader.getPostprocDir() && changedFile.hasFileExtension("glsl"))
+	   || (File(dir + filename) == loader.getMappingFile())
+	) {
+		reloadPostproc();
+	} else if(changedFile.getParentDirectory() == loader.getSceneDir() && changedFile.hasFileExtension("glsl")) {
+		// TODO find a way for reloading only changed scenes
+		reloadScenes();
+	}
 }
 
 std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
-	std::string mappingSource = loadFile(loader.getMappingFilePath());
+	std::string mappingSource = loadFile(loader.getMappingFile().getFullPathName().toStdString());
 	auto shaderSources = listShaderSources(loader.listPostprocFiles());
 	PostprocPipelineLoader loader;
 	return loader.load(*context, mappingSource, shaderSources);
