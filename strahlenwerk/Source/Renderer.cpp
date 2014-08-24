@@ -43,6 +43,8 @@ void Renderer::openGLContextClosing() {
 
 void Renderer::renderOpenGL() {
 	renderMutex.lock();
+	scenesDeletionQueue.clear();
+	postprocDeletionQueue.clear();
 	if(scenes == nullptr) {
 		postproc->render(defaultShader, width, height);
 	} else {
@@ -72,6 +74,8 @@ void Renderer::reloadPostproc() {
 	if(newPostproc != nullptr) {
 		if(defaultPostproc == nullptr) {
 			defaultPostproc = std::move(postproc);
+		} else {
+			postprocDeletionQueue.push_back(std::move(postproc));
 		}
 		postproc = std::move(newPostproc);
 	} else {
@@ -86,6 +90,7 @@ void Renderer::reloadPostproc() {
 void Renderer::reloadScenes() {
 	auto newScenes = StrahlenwerkApplication::getInstance()->getProject().getScenes();
 	renderMutex.lock();
+	scenesDeletionQueue.push_back(std::move(scenes));
 	scenes = std::move(newScenes);
 	renderMutex.unlock();
 	context.triggerRepaint();

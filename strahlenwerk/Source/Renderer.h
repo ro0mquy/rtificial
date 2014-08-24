@@ -33,6 +33,8 @@ class Renderer :
 		std::unique_ptr<Scenes> scenes;
 		std::mutex renderMutex;
 		int width, height;
+		std::vector<std::unique_ptr<PostprocPipeline>> postprocDeletionQueue;
+		std::vector<std::unique_ptr<Scenes>> scenesDeletionQueue;
 
 		void reloadPostproc();
 		void reloadScenes();
