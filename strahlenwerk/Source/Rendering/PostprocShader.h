@@ -57,7 +57,7 @@ class PostprocShader : public Shader {
 		GLuint fbo = 0;
 		bool fbo_created = false;
 		int createdWidth, createdHeight;
-		const std::regex inputRegex = std::regex(R"regex(uniform[ \t]+sampler2D[ \t]+(\w+)[ \t]*;[ \t]*//[ \t]*(float|vec[234]))regex");
+		const std::regex inputRegex = std::regex(R"regex((^|\n)[ \t]*uniform[ \t]+sampler2D[ \t]+(\w+)[ \t]*;[ \t]*//[ \t]*(float|vec[234]))regex");
 };
 
 #endif

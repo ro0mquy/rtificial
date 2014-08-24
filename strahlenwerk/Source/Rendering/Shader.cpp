@@ -29,14 +29,14 @@ void Shader::load(std::ifstream& in) {
 void Shader::load(std::string source) {
 	uniforms.clear();
 
-	const std::regex uniformRegex(R"regex((^|\n)[ \t]uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
+	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
 
 	const std::sregex_iterator end;
 	std::vector<std::pair<size_t, int>> matches;
 	for(std::sregex_iterator it(source.begin(), source.end(), uniformRegex); it != end; ++it) {
 		const auto& match = *it;
-		const auto& typeString = match[1];
-		const auto& name = match[2];
+		const auto& typeString = match[2];
+		const auto& name = match[3];
 
 		UniformType type = UniformType::FLOAT;
 		if(typeString == "float") {
@@ -116,6 +116,10 @@ void Shader::insertLocations(std::string& source, const std::vector<std::pair<si
 	size_t offset = 0;
 	for(const auto& location : locations) {
 		const auto locationString = "layout(location = " + std::to_string(location.second) + ") ";
+		if(source[location.first + offset] == '\n') {
+			// insert after newline
+			offset++;
+		}
 		source.insert(location.first + offset, locationString);
 		offset += locationString.size();
 	}

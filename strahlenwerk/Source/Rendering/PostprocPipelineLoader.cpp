@@ -60,14 +60,14 @@ std::unordered_map<std::string, int> PostprocPipelineLoader::loadShaders(
 
 std::vector<std::vector<int>> PostprocPipelineLoader::loadMapping(const std::unordered_map<std::string, int>& shaderIds, const std::string& mappingSource) {
 	std::vector<std::vector<int>> edges(shaders.size());
-	const std::regex edgeRegex(R"regex((\w+)\.(\w+)[ \t]+(\w+)\.(\w+)\n)regex");
+	const std::regex edgeRegex(R"regex((^|\n)[ \t]*(\w+)\.(\w+)[ \t]+(\w+)\.(\w+))regex");
 	const std::sregex_iterator end;
 	for(std::sregex_iterator it(mappingSource.begin(), mappingSource.end(), edgeRegex); it != end; ++it) {
 		const auto& match = *it;
-		const auto& outputShaderName = match[1];
-		const auto& inputShaderName  = match[3];
-		const auto& outputName = match[2];
-		const auto& inputName  = match[4];
+		const auto& outputShaderName = match[2];
+		const auto& inputShaderName  = match[4];
+		const auto& outputName = match[3];
+		const auto& inputName  = match[5];
 
 		const auto outputId = shaderIds.find(outputShaderName);
 		if(outputId == shaderIds.end()) {

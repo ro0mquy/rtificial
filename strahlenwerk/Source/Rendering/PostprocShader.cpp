@@ -56,6 +56,10 @@ void PostprocShader::insertBindings() {
 		size_t offset = 0;
 		for(int i = 0; i < inputs.size(); i++) {
 			const auto bindingString = "layout(binding = " + std::to_string(inputs[i].bindingId) + ") ";
+			if(source[positions[i] + offset] == '\n') {
+				// insert after newline
+				offset++;
+			}
 			source.insert(positions[i] + offset, bindingString);
 			offset += bindingString.size();
 		}
@@ -87,17 +91,17 @@ void PostprocShader::onSourceProcessed(std::string& source) {
 
 	for(std::sregex_iterator it(source.begin(), source.end(), inputRegex); it != end; ++it) {
 		const auto& match = *it;
-		const auto& name = match[1];
-		const int components = toComponents(match[2]);
+		const auto& name = match[2];
+		const int components = toComponents(match[3]);
 		inputs.emplace_back(name, components);
 	}
 
 	std::vector<std::pair<size_t, int>> outputPositions;
-	const std::regex outputRegex(R"regex(out[ \t]+(float|vec[234])[ \t]+(\w+)[ \t]*;)regex");
+	const std::regex outputRegex(R"regex((^|\n)[ \t]*out[ \t]+(float|vec[234])[ \t]+(\w+)[ \t]*;)regex");
 	for(std::sregex_iterator it(source.begin(), source.end(), outputRegex); it != end; ++it) {
 		const auto& match = *it;
-		const auto& name = match[2];
-		const int components = toComponents(match[1]);
+		const auto& name = match[3];
+		const int components = toComponents(match[2]);
 		outputs.emplace_back(name, components);
 		outputPositions.emplace_back(match.position(), outputPositions.size());
 	}
