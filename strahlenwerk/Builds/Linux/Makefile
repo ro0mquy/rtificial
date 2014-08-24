@@ -51,14 +51,14 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
-  $(OBJDIR)/FileWatchMessageThreadListener_eea44c5b.o \
-  $(OBJDIR)/Project_cc5166fa.o \
+  $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o \
+  $(OBJDIR)/Project_dae16ce4.o \
+  $(OBJDIR)/ProjectFileLoader_546d9f73.o \
   $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o \
   $(OBJDIR)/ColorSpaceMarker_454a1924.o \
   $(OBJDIR)/LabColor_145742fd.o \
   $(OBJDIR)/LabColorPicker_2909daab.o \
   $(OBJDIR)/LabColorSpaceView_bf2be298.o \
-  $(OBJDIR)/ProjectFileLoader_a9547609.o \
   $(OBJDIR)/Scenes_9b218bf3.o \
   $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
@@ -111,14 +111,19 @@ strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
-$(OBJDIR)/FileWatchMessageThreadListener_eea44c5b.o: ../../Source/FileWatchMessageThreadListener.cpp
+$(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o: ../../Source/Project/FileWatchMessageThreadListener.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling FileWatchMessageThreadListener.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/Project_cc5166fa.o: ../../Source/Project.cpp
+$(OBJDIR)/Project_dae16ce4.o: ../../Source/Project/Project.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Project.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ProjectFileLoader_546d9f73.o: ../../Source/Project/ProjectFileLoader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ProjectFileLoader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o: ../../Source/ColorPicker/LabColorPropertyComponent.cpp
@@ -144,11 +149,6 @@ $(OBJDIR)/LabColorPicker_2909daab.o: ../../Source/ColorPicker/LabColorPicker.cpp
 $(OBJDIR)/LabColorSpaceView_bf2be298.o: ../../Source/ColorPicker/LabColorSpaceView.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling LabColorSpaceView.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/ProjectFileLoader_a9547609.o: ../../Source/ProjectFileLoader.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ProjectFileLoader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Scenes_9b218bf3.o: ../../Source/Rendering/Scenes.cpp

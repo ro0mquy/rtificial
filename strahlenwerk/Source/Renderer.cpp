@@ -8,7 +8,7 @@
 #include "StrahlenwerkApplication.h"
 #include "Rendering/PostprocPipeline.h"
 #include "Rendering/PostprocPipelineLoader.h"
-#include "Project.h"
+#include "Project/Project.h"
 #include "Rendering/DefaultShader.h"
 #include "Rendering/Scenes.h"
 

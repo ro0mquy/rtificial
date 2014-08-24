@@ -6,15 +6,22 @@
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
-      <FILE id="EFEtZZ" name="FileWatchMessageThreadListener.cpp" compile="1"
-            resource="0" file="Source/FileWatchMessageThreadListener.cpp"/>
-      <FILE id="RcvlpA" name="FileWatchMessageThreadListener.h" compile="0"
-            resource="0" file="Source/FileWatchMessageThreadListener.h"/>
-      <FILE id="h8nvne" name="ProjectListener.h" compile="0" resource="0"
-            file="Source/ProjectListener.h"/>
+      <GROUP id="{2F8C8947-A000-8782-DCEE-325B39EF8569}" name="Project">
+        <FILE id="Cwvro6" name="FileWatchMessageThreadListener.cpp" compile="1"
+              resource="0" file="Source/Project/FileWatchMessageThreadListener.cpp"/>
+        <FILE id="uvrfMS" name="FileWatchMessageThreadListener.h" compile="0"
+              resource="0" file="Source/Project/FileWatchMessageThreadListener.h"/>
+        <FILE id="CAaVEs" name="Project.cpp" compile="1" resource="0" file="Source/Project/Project.cpp"/>
+        <FILE id="RBYdRB" name="Project.h" compile="0" resource="0" file="Source/Project/Project.h"/>
+        <FILE id="xSeEwC" name="ProjectFileLoader.cpp" compile="1" resource="0"
+              file="Source/Project/ProjectFileLoader.cpp"/>
+        <FILE id="mLNBl0" name="ProjectFileLoader.h" compile="0" resource="0"
+              file="Source/Project/ProjectFileLoader.h"/>
+        <FILE id="K9ZyLm" name="ProjectListener.h" compile="0" resource="0"
+              file="Source/Project/ProjectListener.h"/>
+      </GROUP>
       <FILE id="t84HiX" name="juce" compile="0" resource="1" file="Source/juce"/>
       <FILE id="H0wOnu" name="PropertyNames.h" compile="0" resource="0" file="Source/PropertyNames.h"/>
-      <FILE id="cUPUj8" name="Project.cpp" compile="1" resource="0" file="Source/Project.cpp"/>
       <GROUP id="{9C99C7A8-0996-8168-C568-0719FAFA83A9}" name="ColorPicker">
         <FILE id="vnJdlh" name="LabColorPropertyComponent.cpp" compile="1"
               resource="0" file="Source/ColorPicker/LabColorPropertyComponent.cpp"/>
@@ -35,10 +42,6 @@
         <FILE id="nYTv9B" name="LabColorSpaceView.h" compile="0" resource="0"
               file="Source/ColorPicker/LabColorSpaceView.h"/>
       </GROUP>
-      <FILE id="AZyKvH" name="ProjectFileLoader.cpp" compile="1" resource="0"
-            file="Source/ProjectFileLoader.cpp"/>
-      <FILE id="w1wQ4d" name="ProjectFileLoader.h" compile="0" resource="0"
-            file="Source/ProjectFileLoader.h"/>
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
         <FILE id="HoNJcz" name="Scenes.cpp" compile="1" resource="0" file="Source/Rendering/Scenes.cpp"/>
         <FILE id="iDoI0A" name="Scenes.h" compile="0" resource="0" file="Source/Rendering/Scenes.h"/>
