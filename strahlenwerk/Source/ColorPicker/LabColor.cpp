@@ -40,16 +40,24 @@ void LabColor::addListenerForLab(Value::Listener* listener) {
 	b.addListener(listener);
 }
 
-Colour LabColor::getSRGBColor() const {
-	return toColour(RGB2SRGB(clampToValid(XYZ2RGB(Lab2XYZ(getVector3D())))));
+Vector3D<float> LabColor::getLinearRGBVector3D() const {
+	return clampToValid(XYZ2RGB(Lab2XYZ(getVector3D())));
+}
+
+Vector3D<float> LabColor::getSRGBVector3D() const {
+	return RGB2SRGB(getLinearRGBVector3D());
 }
 
 Colour LabColor::getLinearRGBColor() const {
-	return toColour(clampToValid(XYZ2RGB(Lab2XYZ(getVector3D()))));
+	return toColour(getLinearRGBVector3D());
+}
+
+Colour LabColor::getSRGBColor() const {
+	return toColour(getSRGBVector3D());
 }
 
 LabColor LabColor::getClampedLabColor() const {
-	return LabColor(XYZ2Lab(RGB2XYZ(clampToValid(XYZ2RGB(Lab2XYZ(getVector3D()))))));
+	return LabColor(XYZ2Lab(RGB2XYZ(getLinearRGBVector3D())));
 }
 
 Vector3D<float> LabColor::getVector3D() const {
@@ -147,4 +155,8 @@ Colour LabColor::toColour(Vector3D<float> color) noexcept {
 
 Vector3D<float> LabColor::fromColour(Colour color) noexcept {
 	return Vector3D<float>(color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue());
+}
+
+LabColor LabColor::getLabColorFromFloatRGB(float r, float g, float b) {
+	return LabColor(XYZ2Lab(RGB2XYZ(Vector3D<float>(r, g, b))));
 }

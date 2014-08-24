@@ -15,9 +15,13 @@ class LabColor{
 
 		void addListenerForLab(Value::Listener* listener);
 
-		Colour getSRGBColor() const;
+		Vector3D<float> getLinearRGBVector3D() const;
+		Vector3D<float> getSRGBVector3D() const;
 		Colour getLinearRGBColor() const;
+		Colour getSRGBColor() const;
 		LabColor getClampedLabColor() const;
+
+		static LabColor getLabColorFromFloatRGB(float r, float g, float b);
 
 		Value L, a, b;
 

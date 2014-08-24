@@ -1,5 +1,7 @@
 #include "ValueEditorComponent.h"
 #include "TreeIdentifiers.h"
+#include "../ColorPicker/LabColor.h"
+#include "../ColorPicker/LabColorPicker.h"
 
 class BoolEditorComponent : public Component {
 	public:
@@ -117,12 +119,44 @@ class Vec3EditorComponent : public Component {
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec3EditorComponent)
 };
 
-class ColorEditorComponent : public Component {
+class ColorEditorComponent : public Component,
+							 private Value::Listener
+{
 	public:
-		ColorEditorComponent() {
+		ColorEditorComponent(Value colorR_, Value colorG_, Value colorB_) :
+			colorR(colorR_),
+			colorG(colorG_),
+			colorB(colorB_),
+			colorLab(LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue()))
+		{
+			colorLab.addListenerForLab(this);
+		}
+
+		void paint(Graphics& g) override {
+			g.fillAll(colorLab.getSRGBColor());
+		}
+
+		void mouseUp(const MouseEvent &event) override {
+			LabColorPicker* popupPicker = new LabColorPicker(colorLab);
+			popupPicker->setSize(300, 426);
+
+			CallOutBox::launchAsynchronously(popupPicker, getScreenBounds(), nullptr);
+		}
+
+		void valueChanged(Value& value) {
+			Vector3D<float> vectorLab = colorLab.getLinearRGBVector3D();
+			colorR = vectorLab.x;
+			colorG = vectorLab.y;
+			colorB = vectorLab.z;
+			repaint();
 		}
 
 	private:
+		Value colorR;
+		Value colorG;
+		Value colorB;
+		LabColor colorLab;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ColorEditorComponent)
 };
 
@@ -146,7 +180,10 @@ ValueEditorComponent::ValueEditorComponent(ValueTree valueData_) :
 		Value floatZ = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3Z, nullptr);
 		specificTypeEditor = new Vec3EditorComponent(floatX, floatY, floatZ);
 	} else if (valueType.equalsIgnoreCase("color")) {
-		specificTypeEditor = new ColorEditorComponent();
+		Value colorR = valueData.getChildWithName(treeId::valueColor).getPropertyAsValue(treeId::valueColorR, nullptr);
+		Value colorG = valueData.getChildWithName(treeId::valueColor).getPropertyAsValue(treeId::valueColorG, nullptr);
+		Value colorB = valueData.getChildWithName(treeId::valueColor).getPropertyAsValue(treeId::valueColorB, nullptr);
+		specificTypeEditor = new ColorEditorComponent(colorR, colorG, colorB);
 	} else {
 		specificTypeEditor = new Component();
 	}
