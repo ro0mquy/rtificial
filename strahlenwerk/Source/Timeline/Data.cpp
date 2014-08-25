@@ -1,6 +1,16 @@
 #include "Data.h"
 #include "TreeIdentifiers.h"
 
+// comparator for keyframes in the keyframes array of a sequence
+struct KeyframesComparator {
+	int compareElements (const ValueTree& first, const ValueTree& second) const {
+		int firstPosition = first.getProperty(treeId::keyframePosition);
+		int secondPosition = second.getProperty(treeId::keyframePosition);
+		return firstPosition - secondPosition;
+	}
+};
+static KeyframesComparator keyframesComparator;
+
 Data::Data() :
 	valueTree(treeId::timelineTree)
 {
@@ -17,6 +27,8 @@ Data::Data() :
 			setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
 			sequence.setProperty(treeId::sequenceDuration, var(50), nullptr);
 			sequence.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
+			initializeKeyframesArray(sequence);
+			addKeyframe(sequence, var((j+1) * 10));
 			addSequence(getUniformsArray().getChild(i), sequence);
 		}
 	}
@@ -176,6 +188,7 @@ bool Data::addSequence(ValueTree uniform, ValueTree sequence, int position) {
 	isSequence &= sequence.hasProperty(treeId::sequenceStart);
 	isSequence &= sequence.hasProperty(treeId::sequenceDuration);
 	isSequence &= sequence.hasProperty(treeId::sequenceInterpolation);
+	isSequence &= sequence.getChildWithName(treeId::keyframesArray).getNumChildren() >= 2;
 
 	if (isSequence) {
 		getSequencesArray(uniform).addChild(sequence, position, &undoManager);
@@ -193,6 +206,7 @@ bool Data::addSequence(ValueTree uniform, var sceneId, var start, var duration, 
 	sequence.setProperty(treeId::sequenceStart, start, nullptr);
 	sequence.setProperty(treeId::sequenceDuration, duration, nullptr);
 	sequence.setProperty(treeId::sequenceInterpolation, interpolation, nullptr);
+	initializeKeyframesArray(sequence);
 	getSequencesArray(uniform).addChild(sequence, position, &undoManager);
 	return true;
 }
@@ -214,6 +228,64 @@ bool Data::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absolut
 				sequence.setProperty(treeId::sequenceSceneId, sceneId, &undoManager);
 			}
 			return sceneIdChanged;
+}
+
+// returns the keyframes array for a sequence
+ValueTree Data::getKeyframesArray(ValueTree sequence) {
+	return sequence.getOrCreateChildWithName(treeId::keyframesArray, &undoManager);
+}
+
+// initialize the keyframesArray of the sequence
+// creates the start and end keyframe
+// return whether the sequence was properly initialized
+bool Data::initializeKeyframesArray(ValueTree sequence) {
+	if (!sequence.hasProperty(treeId::sequenceDuration)) {
+		// sequence is not initialized
+		return false;
+	}
+
+	var relativeEndTime = sequence.getProperty(treeId::sequenceDuration);
+	addKeyframe(sequence, var(0));
+	addKeyframe(sequence, relativeEndTime);
+
+	return true;
+}
+
+// adds a keyframe to the keyframes array of a sequence at the right position
+// returns whether the sequence was added
+// if the ValueTree is not a treeId::keyframe, it won't get added
+bool Data::addKeyframe(ValueTree sequence, ValueTree keyframe) {
+	bool isKeyframe = keyframe.hasType(treeId::keyframe);
+	isKeyframe &= keyframe.hasProperty(treeId::keyframePosition);
+
+	var uniformType = sequence.getParent().getParent().getProperty(treeId::uniformType);
+	var keyframeValueType = keyframe.getChildWithName(treeId::keyframeValue).getProperty(treeId::valueType);
+	isKeyframe &= uniformType.equals(keyframeValueType);
+
+	if (isKeyframe) {
+		ValueTree keyframesArray = getKeyframesArray(sequence);
+		keyframesArray.addChild(keyframe, -1, &undoManager);
+		keyframesArray.sort<KeyframesComparator>(keyframesComparator, &undoManager, true);
+	}
+	return isKeyframe;
+}
+
+// adds a keyframe with the given time position to a sequence at the right position
+// the keyframe will always be added
+// returns always true
+bool Data::addKeyframe(ValueTree sequence, var keyframePosition) {
+	ValueTree keyframe(treeId::keyframe);
+	keyframe.setProperty(treeId::keyframePosition, keyframePosition, nullptr);
+
+	ValueTree keyframeValue(treeId::keyframeValue);
+	var uniformType = sequence.getParent().getParent().getProperty(treeId::uniformType);
+	initializeValue(keyframeValue, uniformType);
+	keyframe.addChild(keyframeValue, -1, nullptr);
+
+	ValueTree keyframesArray = getKeyframesArray(sequence);
+	keyframesArray.addChild(keyframe, -1, &undoManager);
+	keyframesArray.sort<KeyframesComparator>(keyframesComparator, &undoManager, true);
+	return true;
 }
 
 // initialize a value with the specified type inside valueData

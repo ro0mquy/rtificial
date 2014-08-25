@@ -23,6 +23,11 @@ class Data {
 		bool addSequence(ValueTree uniform, var sceneId, var start, var duration, var interpolation, int position = -1);
 		bool setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
 
+		ValueTree getKeyframesArray(ValueTree sequence);
+		bool initializeKeyframesArray(ValueTree sequence);
+		bool addKeyframe(ValueTree sequence, ValueTree keyframe);
+		bool addKeyframe(ValueTree sequence, var keyframePosition);
+
 		bool initializeValue(ValueTree valueData, var type);
 
 	private:
