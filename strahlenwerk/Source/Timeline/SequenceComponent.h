@@ -4,6 +4,7 @@
 #include <juce>
 #include "Data.h"
 #include "SnapToGridConstrainer.h"
+#include "KeyframeComponent.h"
 
 class SequenceComponent :
 	public Component,
@@ -21,6 +22,7 @@ class SequenceComponent :
 
 		void updateBounds();
 		void updateSceneStartValueRefer();
+		void updateKeyframeComponents();
 		int getAbsoluteStart();
 
 		enum ColourIds {
@@ -34,6 +36,7 @@ class SequenceComponent :
 		Value sceneStartValue;
 		SnapToGridConstrainer constrainer;
 		ResizableBorderComponent resizableBorder;
+		OwnedArray<KeyframeComponent> keyframeComponentsArray;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceComponent)
 };

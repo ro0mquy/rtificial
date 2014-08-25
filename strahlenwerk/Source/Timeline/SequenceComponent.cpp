@@ -24,6 +24,9 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, Data& _data, int y
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
 	addAndMakeVisible(resizableBorder);
+
+	// add keyframe components
+	updateKeyframeComponents();
 }
 
 void SequenceComponent::valueChanged(Value& /*value*/) {
@@ -45,6 +48,21 @@ void SequenceComponent::updateSceneStartValueRefer() {
 	const var sceneId = sequenceData.getProperty(treeId::sequenceSceneId);
 	ValueTree sceneForSequence = data.getScenesArray().getChildWithProperty(treeId::sceneId, sceneId);
 	sceneStartValue.referTo(sceneForSequence.getPropertyAsValue(treeId::sceneStart, nullptr));
+}
+
+void SequenceComponent::updateKeyframeComponents() {
+	keyframeComponentsArray.clearQuick(true);
+	ValueTree keyframeDatasArray = data.getKeyframesArray(sequenceData);
+	const int numKeyframes = keyframeDatasArray.getNumChildren();
+
+	// don't create a component for first and last keyframe
+	for (int i = 1; i < numKeyframes - 1; i++) {
+		ValueTree keyframeData = keyframeDatasArray.getChild(i);
+		KeyframeComponent* keyframeComponent = new KeyframeComponent(keyframeData);
+		addAndMakeVisible(keyframeComponent);
+		keyframeComponent->updateBounds();
+		keyframeComponentsArray.add(keyframeComponent);
+	}
 }
 
 int SequenceComponent::getAbsoluteStart() {

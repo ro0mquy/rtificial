@@ -70,6 +70,10 @@
         <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
       </GROUP>
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
+        <FILE id="qaPfWo" name="KeyframeComponent.cpp" compile="1" resource="0"
+              file="Source/Timeline/KeyframeComponent.cpp"/>
+        <FILE id="M3qMEw" name="KeyframeComponent.h" compile="0" resource="0"
+              file="Source/Timeline/KeyframeComponent.h"/>
         <FILE id="BlstJV" name="ValueEditorPropertyComponent.cpp" compile="1"
               resource="0" file="Source/Timeline/ValueEditorPropertyComponent.cpp"/>
         <FILE id="Ku7pWO" name="ValueEditorPropertyComponent.h" compile="0"

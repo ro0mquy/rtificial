@@ -1,9 +1,11 @@
 #include "RtificialLookAndFeel.h"
-#include "Timeline/Timeline.h"
-#include "Timeline/SequenceViewComponent.h"
 #include "Timeline/ScenesBarComponent.h"
 #include "Timeline/SceneComponent.h"
+#include "Timeline/UniformsBarComponent.h"
+#include "Timeline/SequenceViewComponent.h"
 #include "Timeline/SequenceComponent.h"
+#include "Timeline/KeyframeComponent.h"
+#include "RtColourIds.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
 	// ScenesBarComponent
@@ -31,6 +33,9 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	// SequenceComponent
 	setColour(SequenceComponent::outlineColourId, Colours::red);
 	setColour(SequenceComponent::fillColourId, findColour(SequenceComponent::outlineColourId).withAlpha(0.4f));
+
+	// KeyframeComponent
+	setColour(KeyframeComponent::fillColourId, Colours::steelblue);
 
 	// RtColourIds
 	setColour(RtColourIds::outlineColourId, Colours::black);
