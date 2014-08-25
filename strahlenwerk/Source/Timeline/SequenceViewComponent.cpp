@@ -3,10 +3,11 @@
 #include "TreeIdentifiers.h"
 #include "SequenceComponent.h"
 #include "Data.h"
+#include "../StrahlenwerkApplication.h"
 
-SequenceViewComponent::SequenceViewComponent(Value& timeValue, Data& _data) :
+SequenceViewComponent::SequenceViewComponent(Value& timeValue) :
 	currentTime(timeValue),
-	data(_data)
+	data(StrahlenwerkApplication::getInstance()->getTimelineData())
 {
 	updateSequenceComponents();
 }
@@ -79,7 +80,7 @@ void SequenceViewComponent::updateSequenceComponents() {
 
 		for (int j = 0; j < numSequences; j++) {
 			ValueTree sequenceData = sequencesArray.getChild(j);
-			SequenceComponent* sequenceComponent = new SequenceComponent(sequenceData, data, i*rowHeight, rowHeight);
+			SequenceComponent* sequenceComponent = new SequenceComponent(sequenceData, i*rowHeight, rowHeight);
 			addAndMakeVisible(sequenceComponent);
 			sequenceComponentsArray.add(sequenceComponent);
 		}
@@ -99,7 +100,7 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 
 	const int rowHeight = 20;
 	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
-	newSequenceComponent = new SequenceComponent(newSequenceData, data, numUniform * rowHeight, rowHeight);
+	newSequenceComponent = new SequenceComponent(newSequenceData, numUniform * rowHeight, rowHeight);
 	addAndMakeVisible(newSequenceComponent);
 }
 

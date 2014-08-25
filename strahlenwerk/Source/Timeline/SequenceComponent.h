@@ -2,9 +2,10 @@
 #define SEQUENCECOMPONENT_H
 
 #include <juce>
-#include "Data.h"
 #include "SnapToGridConstrainer.h"
 #include "KeyframeComponent.h"
+
+class Data;
 
 class SequenceComponent :
 	public Component,
@@ -12,7 +13,7 @@ class SequenceComponent :
 	private Value::Listener
 {
 	public:
-		SequenceComponent(ValueTree _sequenceData, Data& _data, int y, int height);
+		SequenceComponent(ValueTree _sequenceData, int y, int height);
 		void paint(Graphics& g) override;
 		void valueChanged(Value& /*value*/) override;
 		void mouseDown(const MouseEvent& event) override;

@@ -3,10 +3,9 @@
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
 	currentTime(40),
-	data(),
-	sequenceView(currentTime, data),
-	scenesBar(currentTime, data),
-	uniformsBar(currentTime, data)
+	sequenceView(currentTime),
+	scenesBar(currentTime),
+	uniformsBar(currentTime)
 {
 	viewportSequenceView.setViewedComponent(&sequenceView, false);
 	viewportScenesBar.setViewedComponent(&scenesBar, false);

@@ -27,7 +27,6 @@ class Timeline : public Component
 		void setupValueTree();
 
 		Value currentTime;
-		Data data;
 
 		ViewportCallback viewportSequenceView;
 		ViewportCallback viewportScenesBar;

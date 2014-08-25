@@ -4,10 +4,11 @@
 #include "ValueEditorPropertyComponent.h"
 #include "../RtColourIds.h"
 #include "Data.h"
+#include "../StrahlenwerkApplication.h"
 
-UniformsBarComponent::UniformsBarComponent(Value& timeValue, Data& _data) :
+UniformsBarComponent::UniformsBarComponent(Value& timeValue) :
 	currentTime(timeValue),
-	data(_data)
+	data(StrahlenwerkApplication::getInstance()->getTimelineData())
 {
 }
 

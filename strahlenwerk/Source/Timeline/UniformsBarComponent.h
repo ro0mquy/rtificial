@@ -7,7 +7,7 @@ class Data;
 
 class UniformsBarComponent : public Component {
 	public:
-		UniformsBarComponent(Value& timeValue, Data& _data);
+		UniformsBarComponent(Value& timeValue);
 		void updateSize();
 		void paint(Graphics& g) override;
 		void mouseUp(const MouseEvent& event) override;

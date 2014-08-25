@@ -9,7 +9,7 @@ class SequenceComponent;
 class SequenceViewComponent : public Component
 {
 	public:
-		SequenceViewComponent(Value& timeValue, Data& _data);
+		SequenceViewComponent(Value& timeValue);
 		~SequenceViewComponent();
 
 		void updateSize();

@@ -3,11 +3,12 @@
 #include "TreeIdentifiers.h"
 #include "../RtificialLookAndFeel.h"
 #include "Data.h"
+#include "../StrahlenwerkApplication.h"
 #include "SceneComponent.h"
 
-ScenesBarComponent::ScenesBarComponent(Value& timeValue, Data& _data) :
+ScenesBarComponent::ScenesBarComponent(Value& timeValue) :
 	currentTime(timeValue),
-	data(_data)
+	data(StrahlenwerkApplication::getInstance()->getTimelineData())
 {
 	updateSceneComponents();
 }

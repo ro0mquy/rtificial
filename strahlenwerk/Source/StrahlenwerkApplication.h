@@ -5,6 +5,7 @@
 
 class MainWindow;
 class Project;
+class Data;
 
 class StrahlenwerkApplication : public JUCEApplication {
 	public:
@@ -20,6 +21,7 @@ class StrahlenwerkApplication : public JUCEApplication {
 
 		Project& getProject();
 		PropertySet& getProperties();
+		Data& getTimelineData();
 
 		static StrahlenwerkApplication* getInstance();
 
@@ -27,6 +29,7 @@ class StrahlenwerkApplication : public JUCEApplication {
 		ScopedPointer<MainWindow> mainWindow;
 		ScopedPointer<Project> project;
 		ScopedPointer<PropertiesFile> properties;
+		ScopedPointer<Data> timelineData;
 };
 
 #endif
