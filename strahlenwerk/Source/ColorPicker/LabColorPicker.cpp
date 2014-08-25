@@ -10,6 +10,7 @@ LabColorPicker::LabColorPicker(const LabColor& color_) :
 	colorSpace(color)
 {
 	color.addListenerForLab(this);
+	updateRGBSliders();
 
 	lSlider.setRange(0, 100);
 	lSlider.getValueObject().referTo(color.L);
