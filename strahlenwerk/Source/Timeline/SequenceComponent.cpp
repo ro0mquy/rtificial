@@ -85,7 +85,7 @@ void SequenceComponent::paint(Graphics& g) {
 }
 
 void SequenceComponent::mouseDown(const MouseEvent& event) {
-	beginDragAutoRepeat(100); // time between drag events
+	beginDragAutoRepeat(10); // time between drag events
 	startDraggingComponent(this, event);
 }
 
@@ -96,7 +96,8 @@ void SequenceComponent::mouseDrag(const MouseEvent& event) {
 	Timeline::ViewportCallback* parentViewport = findParentComponentOfClass<Timeline::ViewportCallback>();
 	const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
 	Point<int> currentPos = viewportEvent.getPosition();
-	parentViewport->autoScroll(currentPos.getX(), currentPos.getY(), 20, 5);
+	// scroll only X- not Y-Direction, so set it to something > 20
+	parentViewport->autoScroll(currentPos.getX(), 21, 20, 5);
 }
 
 void SequenceComponent::moved() {
