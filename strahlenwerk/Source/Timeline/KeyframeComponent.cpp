@@ -4,6 +4,9 @@
 KeyframeComponent::KeyframeComponent(ValueTree keyframeData_) :
 	keyframeData(keyframeData_)
 {
+	// don't drag over the parent's edges
+	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
+	constrainer.setGridWidth(20);
 }
 
 void KeyframeComponent::updateBounds() {
@@ -20,4 +23,14 @@ void KeyframeComponent::paint(Graphics& g) {
 
 	g.setColour(findColour(fillColourId));
 	g.fillRect(keyRect);
+}
+
+void KeyframeComponent::mouseDown(const MouseEvent& event) {
+	startDraggingComponent(this, event);
+}
+
+void KeyframeComponent::mouseDrag(const MouseEvent& event) {
+	dragComponent(this, event, &constrainer);
+	// center keyframe on grid
+	setTopLeftPosition(getPosition() - Point<int>(getWidth() / 2, 0));
 }
