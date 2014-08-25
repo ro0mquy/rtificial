@@ -110,5 +110,10 @@ void SequenceComponent::moved() {
 
 void SequenceComponent::resized() {
 	resizableBorder.setBounds(getLocalBounds());
-	sequenceData.setProperty(treeId::sequenceDuration, var(getWidth()), nullptr);
+	const var duration = getWidth();
+	sequenceData.setProperty(treeId::sequenceDuration, duration, nullptr);
+
+	ValueTree keyframesArray = data.getKeyframesArray(sequenceData);
+	ValueTree lastKeyframe = keyframesArray.getChild(keyframesArray.getNumChildren() - 1);
+	lastKeyframe.setProperty(treeId::keyframePosition, duration, nullptr);
 }
