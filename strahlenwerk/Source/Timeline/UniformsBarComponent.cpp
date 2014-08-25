@@ -1,7 +1,7 @@
 #include "UniformsBarComponent.h"
 
 #include "TreeIdentifiers.h"
-#include "ValueEditorComponent.h"
+#include "ValueEditorPropertyComponent.h"
 #include "../RtColourIds.h"
 #include "Data.h"
 
@@ -41,13 +41,17 @@ void UniformsBarComponent::paint(Graphics& g) {
 }
 
 void UniformsBarComponent::mouseUp(const MouseEvent& event) {
+	const int editorWidth = 300;
 	const int rowHeight = 20;
+
 	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
-	ValueTree valueData = data.getUniformsArray().getChild(numUniform).getChildWithName(treeId::uniformStandardValue);
+	ValueTree uniformData = data.getUniformsArray().getChild(numUniform);
+	const String uniformName = uniformData.getProperty(treeId::uniformName);
+	ValueTree valueData = uniformData.getChildWithName(treeId::uniformStandardValue);
 	if (!valueData.isValid()) return;
 
-	ValueEditorComponent* valueEditor = new ValueEditorComponent(valueData);
-	valueEditor->setSize(200, 25);
+	PropertyComponent* valueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(uniformName, valueData);
+	valueEditor->setSize(editorWidth, valueEditor->getPreferredHeight());
 
 	const Rectangle<int> rect(0, numUniform * rowHeight, getWidth(), rowHeight);
 	CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);

@@ -1,31 +1,29 @@
-#include "ValueEditorComponent.h"
+#include "ValueEditorPropertyComponent.h"
 #include "TreeIdentifiers.h"
 #include "../ColorPicker/LabColor.h"
 #include "../ColorPicker/LabColorPicker.h"
 
-class BoolEditorComponent : public Component {
+class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
-		BoolEditorComponent(Value boolState_) :
+		BoolEditorPropertyComponent(const String& name, Value boolState_) :
+			ValueEditorPropertyComponent(name, 1),
 			boolState(boolState_)
 		{
 			button.getToggleStateValue().referTo(boolState);
 			addAndMakeVisible(button);
 		}
 
-		void resized() override {
-			button.setBounds(getLocalBounds());
-		}
-
 	private:
 		Value boolState;
 		ToggleButton button;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BoolEditorComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BoolEditorPropertyComponent)
 };
 
-class FloatEditorComponent : public Component {
+class FloatEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
-		FloatEditorComponent(Value floatX_) :
+		FloatEditorPropertyComponent(const String& name, Value floatX_) :
+			ValueEditorPropertyComponent(name, 1),
 			floatX(floatX_),
 			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft)
 		{
@@ -35,20 +33,17 @@ class FloatEditorComponent : public Component {
 			addAndMakeVisible(sliderX);
 		}
 
-		void resized() override {
-			sliderX.setBounds(getLocalBounds());
-		}
-
 	private:
 		Value floatX;
 		Slider sliderX;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FloatEditorComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FloatEditorPropertyComponent)
 };
 
-class Vec2EditorComponent : public Component {
+class Vec2EditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
-		Vec2EditorComponent(Value floatX_, Value floatY_) :
+		Vec2EditorPropertyComponent(const String& name, Value floatX_, Value floatY_) :
+			ValueEditorPropertyComponent(name, 2),
 			floatX(floatX_),
 			floatY(floatY_),
 			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
@@ -64,23 +59,19 @@ class Vec2EditorComponent : public Component {
 			addAndMakeVisible(sliderY);
 		}
 
-		void resized() override {
-			sliderX.setBoundsRelative(0., 0., 1., .5);
-			sliderY.setBoundsRelative(0., .5, 1., .5);
-		}
-
 	private:
 		Value floatX;
 		Value floatY;
 		Slider sliderX;
 		Slider sliderY;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec2EditorComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec2EditorPropertyComponent)
 };
 
-class Vec3EditorComponent : public Component {
+class Vec3EditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
-		Vec3EditorComponent(Value floatX_, Value floatY_, Value floatZ_) :
+		Vec3EditorPropertyComponent(const String& name, Value floatX_, Value floatY_, Value floatZ_) :
+			ValueEditorPropertyComponent(name, 3),
 			floatX(floatX_),
 			floatY(floatY_),
 			floatZ(floatZ_),
@@ -102,12 +93,6 @@ class Vec3EditorComponent : public Component {
 			addAndMakeVisible(sliderZ);
 		}
 
-		void resized() override {
-			sliderX.setBoundsRelative(0., 0./3., 1., 1./3.);
-			sliderY.setBoundsRelative(0., 1./3., 1., 1./3.);
-			sliderZ.setBoundsRelative(0., 2./3., 1., 1./3.);
-		}
-
 	private:
 		Value floatX;
 		Value floatY;
@@ -116,14 +101,15 @@ class Vec3EditorComponent : public Component {
 		Slider sliderY;
 		Slider sliderZ;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec3EditorComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec3EditorPropertyComponent)
 };
 
-class ColorEditorComponent : public Component,
-							 private Value::Listener
+class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
+	private Value::Listener
 {
 	public:
-		ColorEditorComponent(Value colorR_, Value colorG_, Value colorB_) :
+		ColorEditorPropertyComponent(const String& name, Value colorR_, Value colorG_, Value colorB_) :
+			ValueEditorPropertyComponent(name, 1),
 			colorR(colorR_),
 			colorG(colorG_),
 			colorB(colorB_),
@@ -133,7 +119,9 @@ class ColorEditorComponent : public Component,
 		}
 
 		void paint(Graphics& g) override {
-			g.fillAll(colorLab.getSRGBColor());
+			ValueEditorPropertyComponent::paint(g);
+			g.setColour(colorLab.getSRGBColor());
+			g.fillRect(getLookAndFeel().getPropertyComponentContentPosition(*this));
 		}
 
 		void mouseUp(const MouseEvent &event) override {
@@ -157,40 +145,48 @@ class ColorEditorComponent : public Component,
 		Value colorB;
 		LabColor colorLab;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ColorEditorComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ColorEditorPropertyComponent)
 };
 
-ValueEditorComponent::ValueEditorComponent(ValueTree valueData_) :
-	valueData(valueData_)
+ValueEditorPropertyComponent::ValueEditorPropertyComponent(const String& propertyName, int numberOfRows) :
+	PropertyComponent(propertyName, numberOfRows * 25)
 {
+}
+
+void ValueEditorPropertyComponent::refresh() {
+}
+
+void ValueEditorPropertyComponent::resized() {
+	const int numChildren = getNumChildComponents();
+	Rectangle<int> contentBounds = getLookAndFeel().getPropertyComponentContentPosition(*this);
+	int childHeight = float(contentBounds.getHeight()) / numChildren;
+	for (int i = 0; i < numChildren; i++) {
+		getChildComponent(i)->setBounds(contentBounds.removeFromTop(childHeight));
+	}
+}
+
+PropertyComponent* ValueEditorPropertyComponent::newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData) {
 	String valueType = valueData.getProperty(treeId::valueType);
 	if (valueType.equalsIgnoreCase("bool")) {
 		Value boolState = valueData.getChildWithName(treeId::valueBool).getPropertyAsValue(treeId::valueBoolState, nullptr);
-		specificTypeEditor = new BoolEditorComponent(boolState);
+		return new BoolEditorPropertyComponent(propertyName, boolState);
 	} else if (valueType.equalsIgnoreCase("float")) {
 		Value floatX = valueData.getChildWithName(treeId::valueFloat).getPropertyAsValue(treeId::valueFloatX, nullptr);
-		specificTypeEditor = new FloatEditorComponent(floatX);
+		return new FloatEditorPropertyComponent(propertyName, floatX);
 	} else if (valueType.equalsIgnoreCase("vec2")) {
 		Value floatX = valueData.getChildWithName(treeId::valueVec2).getPropertyAsValue(treeId::valueVec2X, nullptr);
 		Value floatY = valueData.getChildWithName(treeId::valueVec2).getPropertyAsValue(treeId::valueVec2Y, nullptr);
-		specificTypeEditor = new Vec2EditorComponent(floatX, floatY);
+		return new Vec2EditorPropertyComponent(propertyName, floatX, floatY);
 	} else if (valueType.equalsIgnoreCase("vec3")) {
 		Value floatX = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3X, nullptr);
 		Value floatY = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3Y, nullptr);
 		Value floatZ = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3Z, nullptr);
-		specificTypeEditor = new Vec3EditorComponent(floatX, floatY, floatZ);
+		return new Vec3EditorPropertyComponent(propertyName, floatX, floatY, floatZ);
 	} else if (valueType.equalsIgnoreCase("color")) {
 		Value colorR = valueData.getChildWithName(treeId::valueColor).getPropertyAsValue(treeId::valueColorR, nullptr);
 		Value colorG = valueData.getChildWithName(treeId::valueColor).getPropertyAsValue(treeId::valueColorG, nullptr);
 		Value colorB = valueData.getChildWithName(treeId::valueColor).getPropertyAsValue(treeId::valueColorB, nullptr);
-		specificTypeEditor = new ColorEditorComponent(colorR, colorG, colorB);
-	} else {
-		specificTypeEditor = new Component();
+		return new ColorEditorPropertyComponent(propertyName, colorR, colorG, colorB);
 	}
-
-	addAndMakeVisible(specificTypeEditor);
-}
-
-void ValueEditorComponent::resized() {
-	specificTypeEditor->setBounds(getLocalBounds());
+	return new TextPropertyComponent(Value(), propertyName, 30, false);
 }
