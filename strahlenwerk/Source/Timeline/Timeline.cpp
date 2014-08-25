@@ -4,9 +4,6 @@
 Timeline::Timeline() :
 	currentTime(40),
 	data(),
-	viewportSequenceView(*this),
-	viewportScenesBar(*this),
-	viewportUniformsBar(*this),
 	sequenceView(currentTime, data),
 	scenesBar(currentTime, data),
 	uniformsBar(currentTime, data)

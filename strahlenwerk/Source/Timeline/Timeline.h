@@ -15,18 +15,11 @@ class Timeline : public Component
 
 		// extend Viewport with a custom callback function
 		class ViewportCallback : public Viewport {
-			public:
-				ViewportCallback(Timeline& _timelineParent) :
-					timelineParent(_timelineParent) {}
-
 				// make a callback to Timeline if one of the viewports changed
 				void visibleAreaChanged(const Rectangle<int>& newVisibleArea) override {
-					timelineParent.callbackViewportChanged(this, newVisibleArea.getPosition());
+					Timeline* timelineParent = findParentComponentOfClass<Timeline>();
+					timelineParent->callbackViewportChanged(this, newVisibleArea.getPosition());
 				}
-
-
-			private:
-				Timeline& timelineParent;
 		};
 
 	private:
