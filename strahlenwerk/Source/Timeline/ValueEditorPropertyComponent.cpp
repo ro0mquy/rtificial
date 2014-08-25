@@ -125,10 +125,13 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 		}
 
 		void mouseUp(const MouseEvent &event) override {
+			const Rectangle<int> contentBounds = getLookAndFeel().getPropertyComponentContentPosition(*this);
+			if (!contentBounds.contains(event.getPosition())) return;
+
 			LabColorPicker* popupPicker = new LabColorPicker(colorLab);
 			popupPicker->setSize(300, 426);
 
-			CallOutBox::launchAsynchronously(popupPicker, getScreenBounds(), nullptr);
+			CallOutBox::launchAsynchronously(popupPicker, localAreaToGlobal(contentBounds), nullptr);
 		}
 
 		void valueChanged(Value& value) {
