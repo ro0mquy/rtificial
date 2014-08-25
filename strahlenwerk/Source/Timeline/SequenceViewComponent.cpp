@@ -49,7 +49,9 @@ void SequenceViewComponent::paint(Graphics& g){
 			}
 		}
 	}
+}
 
+void SequenceViewComponent::paintOverChildren(Graphics& g) {
 	// draw time marker
 	g.setColour(findColour(SequenceViewComponent::timeMarkerColourId));
 	const float x = currentTime.getValue();

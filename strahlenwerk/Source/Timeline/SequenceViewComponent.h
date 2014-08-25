@@ -14,6 +14,7 @@ class SequenceViewComponent : public Component
 
 		void updateSize();
 		void paint(Graphics& g) override;
+		void paintOverChildren(Graphics& g) override;
 		void updateSequenceComponents();
 
 		void mouseDown(const MouseEvent& event) override;

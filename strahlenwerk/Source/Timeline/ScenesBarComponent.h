@@ -13,6 +13,7 @@ class ScenesBarComponent : public Component {
 
 		void updateSize();
 		void paint(Graphics& g) override;
+		void paintOverChildren(Graphics& g) override;
 		void updateSceneComponents();
 
 		void mouseDown(const MouseEvent& event) override;

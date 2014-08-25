@@ -41,14 +41,16 @@ void ScenesBarComponent::paint(Graphics& g) {
 			);
 	}
 
+	// draw outline
+	g.setColour(findColour(RtColourIds::outlineColourId));
+	g.drawHorizontalLine(getHeight()-1, 0, getWidth());
+}
+
+void ScenesBarComponent::paintOverChildren(Graphics& g) {
 	// draw time marker
 	g.setColour(findColour(ScenesBarComponent::timeMarkerColourId));
 	const float x = currentTime.getValue();
 	g.drawLine(x, 0, x, getHeight(), 2);
-
-	// draw outline
-	g.setColour(findColour(RtColourIds::outlineColourId));
-	g.drawHorizontalLine(getHeight()-1, 0, getWidth());
 }
 
 void ScenesBarComponent::updateSceneComponents() {

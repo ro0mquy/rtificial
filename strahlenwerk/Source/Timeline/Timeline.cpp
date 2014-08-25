@@ -2,7 +2,7 @@
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
-	currentTime(50),
+	currentTime(40),
 	data(),
 	viewportSequenceView(*this),
 	viewportScenesBar(*this),
