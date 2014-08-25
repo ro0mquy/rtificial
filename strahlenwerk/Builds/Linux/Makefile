@@ -76,12 +76,12 @@ OBJECTS := \
   $(OBJDIR)/Data_92ef9439.o \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
   $(OBJDIR)/Timeline_d3785850.o \
-  $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
+  $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
   $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/MainComponent_a6ffb4a5.o \
-  $(OBJDIR)/Renderer_d34861cc.o \
-  $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
+  $(OBJDIR)/Renderer_d34861cc.o \
+  $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
   $(OBJDIR)/BinaryData_ce4232d4.o \
   $(OBJDIR)/juce_audio_basics_832d1cec.o \
   $(OBJDIR)/juce_audio_devices_f204e6aa.o \
@@ -236,9 +236,9 @@ $(OBJDIR)/Timeline_d3785850.o: ../../Source/Timeline/Timeline.cpp
 	@echo "Compiling Timeline.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/RtificialLookAndFeel_95d2050c.o: ../../Source/RtificialLookAndFeel.cpp
+$(OBJDIR)/StrahlenwerkApplication_a618e10d.o: ../../Source/StrahlenwerkApplication.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling RtificialLookAndFeel.cpp"
+	@echo "Compiling StrahlenwerkApplication.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp
@@ -251,19 +251,19 @@ $(OBJDIR)/MainComponent_a6ffb4a5.o: ../../Source/MainComponent.cpp
 	@echo "Compiling MainComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/OpenGLComponent_fe08fa6f.o: ../../Source/OpenGLComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling OpenGLComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/Renderer_d34861cc.o: ../../Source/Renderer.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Renderer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/StrahlenwerkApplication_a618e10d.o: ../../Source/StrahlenwerkApplication.cpp
+$(OBJDIR)/RtificialLookAndFeel_95d2050c.o: ../../Source/RtificialLookAndFeel.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling StrahlenwerkApplication.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/OpenGLComponent_fe08fa6f.o: ../../Source/OpenGLComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling OpenGLComponent.cpp"
+	@echo "Compiling RtificialLookAndFeel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp
