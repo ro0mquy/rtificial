@@ -34,3 +34,8 @@ void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 	// center keyframe on grid
 	setTopLeftPosition(getPosition() - Point<int>(getWidth() / 2, 0));
 }
+
+void KeyframeComponent::moved() {
+	const int centerX = getX() + getWidth() / 2;
+	keyframeData.setProperty(treeId::keyframePosition, var(centerX), nullptr);
+}

@@ -14,6 +14,7 @@ class KeyframeComponent :
 		void paint(Graphics& g) override;
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
+		void moved() override;
 
 		void updateBounds();
 
