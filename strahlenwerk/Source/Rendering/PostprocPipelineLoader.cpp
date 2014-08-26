@@ -136,7 +136,7 @@ std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vect
 	}
 
 	// shaders[1] is output node, so outdegree should be 0
-	// TODO assertions!
+	jassert(outdegree[1] == 0);
 
 	std::vector<int> order;
 	std::queue<int> q;
@@ -194,7 +194,6 @@ void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const 
 		}
 	}
 	for(const int shaderId : order) {
-		// TODO verify assumption that position in inputPositions corresponds to shaderId
 		shaders[shaderId]->insertBindings();
 	}
 }

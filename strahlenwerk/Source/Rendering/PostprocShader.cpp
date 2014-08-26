@@ -178,7 +178,6 @@ void PostprocShader::createFBO(int width, int height) {
 		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
 	}
 
-	// TODO
 	glDrawBuffers(n, drawBuffers);
 	fbo_created = true;
 }
