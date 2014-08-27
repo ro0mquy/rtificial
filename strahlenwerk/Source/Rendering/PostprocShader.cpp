@@ -46,24 +46,22 @@ void PostprocShader::setOutputBindingId(int index, int id) {
 }
 
 void PostprocShader::insertBindings() {
-	modifySource([this] (std::string& source) {
-		std::vector<int> positions;
-		const std::sregex_iterator end;
-		for(std::sregex_iterator it(source.begin(), source.end(), inputRegex); it != end; ++it) {
-			positions.push_back(it->position());
-		}
+	std::vector<int> positions;
+	const std::sregex_iterator end;
+	for(std::sregex_iterator it(fragmentSource.begin(), fragmentSource.end(), inputRegex); it != end; ++it) {
+		positions.push_back(it->position());
+	}
 
-		size_t offset = 0;
-		for(int i = 0; i < inputs.size(); i++) {
-			const auto bindingString = "layout(binding = " + std::to_string(inputs[i].bindingId) + ") ";
-			if(source[positions[i] + offset] == '\n') {
-				// insert after newline
-				offset++;
-			}
-			source.insert(positions[i] + offset, bindingString);
-			offset += bindingString.size();
+	size_t offset = 0;
+	for(int i = 0; i < inputs.size(); i++) {
+		const auto bindingString = "layout(binding = " + std::to_string(inputs[i].bindingId) + ") ";
+		if(fragmentSource[positions[i] + offset] == '\n') {
+			// insert after newline
+			offset++;
 		}
-	});
+		fragmentSource.insert(positions[i] + offset, bindingString);
+		offset += bindingString.size();
+	}
 }
 
 void PostprocShader::bindFBO(int width, int height) {
@@ -86,10 +84,10 @@ void PostprocShader::onBeforeLoad() {
 	outputs.clear();
 }
 
-void PostprocShader::onSourceProcessed(std::string& source) {
+void PostprocShader::onSourceProcessed() {
 	const std::sregex_iterator end;
 
-	for(std::sregex_iterator it(source.begin(), source.end(), inputRegex); it != end; ++it) {
+	for(std::sregex_iterator it(fragmentSource.begin(), fragmentSource.end(), inputRegex); it != end; ++it) {
 		const auto& match = *it;
 		const auto& name = match[2];
 		const int components = toComponents(match[3]);
@@ -98,7 +96,7 @@ void PostprocShader::onSourceProcessed(std::string& source) {
 
 	std::vector<std::pair<size_t, int>> outputPositions;
 	const std::regex outputRegex(R"regex((^|\n)[ \t]*out[ \t]+(float|vec[234])[ \t]+(\w+)[ \t]*;)regex");
-	for(std::sregex_iterator it(source.begin(), source.end(), outputRegex); it != end; ++it) {
+	for(std::sregex_iterator it(fragmentSource.begin(), fragmentSource.end(), outputRegex); it != end; ++it) {
 		const auto& match = *it;
 		const auto& name = match[3];
 		const int components = toComponents(match[2]);
@@ -106,7 +104,7 @@ void PostprocShader::onSourceProcessed(std::string& source) {
 		outputPositions.emplace_back(match.position(), outputPositions.size());
 	}
 
-	insertLocations(source, outputPositions);
+	insertLocations(outputPositions);
 }
 
 void PostprocShader::onBeforeDraw() {

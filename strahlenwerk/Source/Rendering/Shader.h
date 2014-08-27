@@ -14,34 +14,24 @@ class Shader {
 		Shader(OpenGLContext& context);
 		virtual ~Shader();
 
-		void load(std::ifstream& in);
 		void load(std::string source);
 		void draw(int widht, int height);
 		const std::vector<const Uniform*>& getUniforms() const;
 
 	protected:
 		const Uniform* registerUniform(std::string name, UniformType type);
-		void insertLocations(std::string& source, const std::vector<std::pair<size_t, int>>& locations);
-
-		template <class Processor>
-		void modifySource(Processor processor) {
-			fragmentSourceLock.lock();
-			processor(fragmentSource);
-			sourceChanged = true;
-			fragmentSourceLock.unlock();
-		}
+		void insertLocations(const std::vector<std::pair<size_t, int>>& locations);
 
 		OpenGLContext& context;
+		std::string fragmentSource;
 
 	private:
 		void recompile();
 		virtual void onBeforeLoad();
 		virtual void onUniformLoad(const std::string& name, const Uniform& uniform);
-		virtual void onSourceProcessed(std::string& source);
+		virtual void onSourceProcessed();
 		virtual void onBeforeDraw();
 
-		std::mutex fragmentSourceLock;
-		std::string fragmentSource;
 		bool sourceChanged = false;
 		bool shaderOk = false;
 

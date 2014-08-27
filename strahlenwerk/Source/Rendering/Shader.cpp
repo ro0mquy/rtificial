@@ -19,13 +19,6 @@ Shader::Shader(OpenGLContext& context) :
 Shader::~Shader() {
 }
 
-void Shader::load(std::ifstream& in) {
-	std::ostringstream contents;
-	contents << in.rdbuf();
-	in.close();
-	return load(contents.str());
-}
-
 void Shader::load(std::string source) {
 	uniforms.clear();
 
@@ -60,15 +53,12 @@ void Shader::load(std::string source) {
 			uniforms.push_back(uniform);
 		}
 	}
+	fragmentSource = source;
+	insertLocations(matches);
 
-	insertLocations(source, matches);
+	onSourceProcessed();
 
-	onSourceProcessed(source);
-
-
-	modifySource([source] (std::string& origSource) {
-		origSource = source;
-	});
+	sourceChanged = true;
 }
 
 /**
@@ -77,11 +67,9 @@ void Shader::load(std::string source) {
 void Shader::draw(int width, int height) {
 	onBeforeDraw();
 
-	fragmentSourceLock.lock();
 	if(sourceChanged) {
 		recompile();
 	}
-	fragmentSourceLock.unlock();
 	if(!shaderOk) {
 		return;
 	}
@@ -111,16 +99,16 @@ const Uniform* Shader::registerUniform(std::string name, UniformType type) {
 	return UniformManager::Instance().registerUniform(name, type);
 }
 
-void Shader::insertLocations(std::string& source, const std::vector<std::pair<size_t, int>>& locations) {
+void Shader::insertLocations(const std::vector<std::pair<size_t, int>>& locations) {
 	// this could be more efficient
 	size_t offset = 0;
 	for(const auto& location : locations) {
 		const auto locationString = "layout(location = " + std::to_string(location.second) + ") ";
-		if(source[location.first + offset] == '\n') {
+		if(fragmentSource[location.first + offset] == '\n') {
 			// insert after newline
 			offset++;
 		}
-		source.insert(location.first + offset, locationString);
+		fragmentSource.insert(location.first + offset, locationString);
 		offset += locationString.size();
 	}
 }
@@ -158,7 +146,7 @@ void Shader::onBeforeLoad() {
 void Shader::onUniformLoad(const std::string& name, const Uniform& uniform) {
 }
 
-void Shader::onSourceProcessed(std::string& source) {
+void Shader::onSourceProcessed() {
 }
 
 void Shader::onBeforeDraw() {
