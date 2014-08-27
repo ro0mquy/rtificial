@@ -39,6 +39,11 @@ void Renderer::newOpenGLContextCreated() {
 }
 
 void Renderer::openGLContextClosing() {
+	scenesDeletionQueue.push_back(std::move(scenes));
+	postprocDeletionQueue.push_back(std::move(defaultPostproc));
+	postprocDeletionQueue.push_back(std::move(postproc));
+	scenesDeletionQueue.clear();
+	postprocDeletionQueue.clear();
 }
 
 void Renderer::renderOpenGL() {
