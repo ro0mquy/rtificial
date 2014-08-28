@@ -71,6 +71,10 @@ std::unique_ptr<Scenes> Project::getScenes() {
 	return std::move(scenes);
 }
 
+Data& Project::getTimelineData() {
+	return timelineData;
+}
+
 void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
 	watchFiles(dir);

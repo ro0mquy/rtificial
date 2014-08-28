@@ -6,7 +6,7 @@
 #include "../StrahlenwerkApplication.h"
 
 SequenceViewComponent::SequenceViewComponent() :
-	data(StrahlenwerkApplication::getInstance()->getTimelineData())
+	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData())
 {
 	updateSequenceComponents();
 }

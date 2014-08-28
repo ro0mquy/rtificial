@@ -4,7 +4,7 @@
 #include "TreeIdentifiers.h"
 
 Interpolator::Interpolator() :
-	data(StrahlenwerkApplication::getInstance()->getTimelineData()),
+	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData()),
 	uniformStatesArray(treeId::uniformStatesArray)
 {
 	updateAllUniformStates();

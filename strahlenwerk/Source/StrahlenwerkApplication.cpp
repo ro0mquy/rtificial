@@ -29,7 +29,6 @@ void StrahlenwerkApplication::initialise(const String& commandLine) {
 	properties = new PropertiesFile(options);
 
 	project = new Project(properties->getValue(PropertyNames::PROJECT_DIR, "./").toStdString());
-	timelineData = new Data();
 	mainWindow = new MainWindow();
 }
 
@@ -58,10 +57,6 @@ Project& StrahlenwerkApplication::getProject() {
 
 PropertySet& StrahlenwerkApplication::getProperties() {
 	return *properties;
-}
-
-Data& StrahlenwerkApplication::getTimelineData() {
-	return *timelineData;
 }
 
 StrahlenwerkApplication* StrahlenwerkApplication::getInstance() {

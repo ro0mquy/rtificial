@@ -7,6 +7,7 @@
 
 #include "ProjectFileLoader.h"
 #include "FileWatchMessageThreadListener.h"
+#include "Timeline/Data.h"
 
 class PostprocShader;
 class SceneShader;
@@ -27,6 +28,7 @@ class Project : private efsw::FileWatchListener {
 		void contextChanged(OpenGLContext& context);
 		std::unique_ptr<PostprocPipeline> getPostproc();
 		std::unique_ptr<Scenes> getScenes();
+		Data& getTimelineData();
 		void loadDirectory(const std::string& dir);
 		void handleFileAction(
 				efsw::WatchID watchid,
@@ -47,6 +49,7 @@ class Project : private efsw::FileWatchListener {
 
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes> scenes;
+		Data timelineData;
 		std::vector<ProjectListener*> listeners;
 		OpenGLContext* context;
 		ProjectFileLoader loader;

@@ -7,7 +7,7 @@
 
 SequenceComponent::SequenceComponent(ValueTree _sequenceData, int y, int height) :
 	sequenceData(_sequenceData),
-	data(StrahlenwerkApplication::getInstance()->getTimelineData()),
+	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData()),
 	resizableBorder(this, &constrainer)
 {
 	// initialize the value pointing to the start time of the scene this sequence belongs to

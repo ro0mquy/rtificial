@@ -7,7 +7,7 @@
 #include "SceneComponent.h"
 
 ScenesBarComponent::ScenesBarComponent() :
-	data(StrahlenwerkApplication::getInstance()->getTimelineData())
+	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData())
 {
 	updateSceneComponents();
 }

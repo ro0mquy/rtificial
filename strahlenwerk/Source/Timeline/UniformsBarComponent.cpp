@@ -7,7 +7,7 @@
 #include "../StrahlenwerkApplication.h"
 
 UniformsBarComponent::UniformsBarComponent() :
-	data(StrahlenwerkApplication::getInstance()->getTimelineData())
+	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData())
 {
 }
 
