@@ -1,7 +1,6 @@
 #include "Project.h"
 
 #include <regex>
-#include <fstream>
 
 #include "Rendering/PostprocPipelineLoader.h"
 #include "Rendering/PostprocShader.h"
@@ -109,7 +108,7 @@ void Project::handleFileAction(
 }
 
 std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
-	std::string mappingSource = loadFile(loader.getMappingFile().getFullPathName().toStdString());
+	std::string mappingSource = loader.loadFile(loader.getMappingFile().getFullPathName().toStdString());
 	auto shaderSources = listShaderSources(loader.listPostprocFiles());
 	PostprocPipelineLoader loader;
 	return loader.load(*context, mappingSource, shaderSources);
@@ -130,7 +129,7 @@ std::vector<std::pair<std::string, std::string>> Project::listShaderSources(cons
 	for(const auto& file : files) {
 		shaderSources.emplace_back(
 			file.getFileNameWithoutExtension().toStdString(),
-			loadFile(file.getFullPathName().toStdString())
+			loader.loadFile(file.getFullPathName().toStdString())
 		);
 	}
 	return shaderSources;
@@ -180,10 +179,3 @@ void Project::addUniforms(const Shader& shader) {
 	}
 }
 
-std::string Project::loadFile(const std::string& path) {
-	std::ifstream in(path);
-	std::ostringstream contents;
-	contents << in.rdbuf();
-	in.close();
-	return contents.str();
-}

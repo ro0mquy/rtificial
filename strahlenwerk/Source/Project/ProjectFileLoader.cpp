@@ -1,5 +1,8 @@
 #include "ProjectFileLoader.h"
 
+#include <sstream>
+#include <fstream>
+
 // TODO error handling
 
 ProjectFileLoader::ProjectFileLoader(std::string projectRoot) :
@@ -27,6 +30,14 @@ const File& ProjectFileLoader::getSceneDir() const {
 
 const File& ProjectFileLoader::getPostprocDir() const {
 	return postprocDir;
+}
+
+std::string ProjectFileLoader::loadFile(const std::string& path) {
+	std::ifstream in(path);
+	std::ostringstream contents;
+	contents << in.rdbuf();
+	in.close();
+	return contents.str();
 }
 
 std::vector<File> ProjectFileLoader::listFiles(const File& dir) {

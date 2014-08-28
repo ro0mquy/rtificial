@@ -47,8 +47,6 @@ class Project : private efsw::FileWatchListener {
 		void watchFiles(const std::string& dir);
 		void addUniforms(const Shader& shader);
 
-		static std::string loadFile(const std::string& path);
-
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes> scenes;
 		Data timelineData;
