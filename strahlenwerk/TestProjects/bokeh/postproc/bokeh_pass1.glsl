@@ -1,5 +1,8 @@
 #version 430
 
+// hier kommt der include!
+#include "test.glsl"
+
 layout(location = 0) uniform vec2 res;
 uniform sampler2D color; // vec3
 
@@ -10,7 +13,6 @@ out vec3 both;
 
 void main() {
 	vec2 pixelSize = 1./res;
-	int n = 10;
 	vec3 up_accum = vec3(0.);
 	vec3 down_left_accum = vec3(0.);
 	vec2 down_left = vec2(cos(radians(30.)), sin(radians(30.)));

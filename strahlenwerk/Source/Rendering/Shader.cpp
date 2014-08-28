@@ -9,6 +9,7 @@
 #include "UniformManager.h"
 #include "UniformType.h"
 #include "Uniform.h"
+#include "StrahlenwerkApplication.h"
 
 Shader::Shader(OpenGLContext& context) :
 	context(context),
@@ -22,11 +23,15 @@ Shader::~Shader() {
 void Shader::load(std::string source) {
 	uniforms.clear();
 
-	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
+	fragmentSource = source;
 
+	applyIncludes();
+
+	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
 	const std::sregex_iterator end;
+
 	std::vector<std::pair<size_t, int>> matches;
-	for(std::sregex_iterator it(source.begin(), source.end(), uniformRegex); it != end; ++it) {
+	for(std::sregex_iterator it(fragmentSource.begin(), fragmentSource.end(), uniformRegex); it != end; ++it) {
 		const auto& match = *it;
 		const auto& typeString = match[2];
 		const auto& name = match[3];
@@ -53,7 +58,6 @@ void Shader::load(std::string source) {
 			uniforms.push_back(uniform);
 		}
 	}
-	fragmentSource = source;
 	insertLocations(matches);
 
 	onSourceProcessed();
@@ -138,6 +142,32 @@ void Shader::recompile() {
 	}
 
 	sourceChanged = false;
+}
+
+void Shader::applyIncludes() {
+	const std::regex includeRegex(R"regex((^|\n)#include "(\w+.glsl)")regex");
+	const std::sregex_iterator end;
+
+	std::vector<std::smatch> includeMatches;
+	for(std::sregex_iterator it(fragmentSource.begin(), fragmentSource.end(), includeRegex); it != end; ++it) {
+		includeMatches.push_back(*it);
+	}
+
+	size_t offset = 0;
+	const auto& loader = StrahlenwerkApplication::getInstance()->getProject().getLoader();
+	for(const auto& match : includeMatches) {
+		const auto includeFile = loader.getIncludeDir().getChildFile(String(match[2]));
+		std::string included;
+		if(includeFile.exists()) {
+			included = loader.loadFile(includeFile.getFullPathName().toStdString());
+		} else {
+			// TODO
+			std::cerr << "Include file " << match[2] << " not found!" << std::endl;
+		}
+		const std::string replacement = match[1].str() + included;
+		fragmentSource.replace(match.position() + offset, match.length(), replacement);
+		offset += replacement.length() - match.length();
+	}
 }
 
 void Shader::onBeforeLoad() {

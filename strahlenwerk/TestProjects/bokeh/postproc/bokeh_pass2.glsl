@@ -1,5 +1,7 @@
 #version 430
 
+#include "test.glsl"
+
 layout(location = 0) uniform vec2 res;
 uniform sampler2D upwards; // vec3
 uniform sampler2D both; // vec3
@@ -9,7 +11,6 @@ out vec3 color;
 in vec2 tc;
 
 void main() {
-	int n = 10;
 	vec2 down_left = vec2(cos(radians(30.)), sin(radians(30.)));
 	vec2 down_right = vec2(cos(radians(150.)), sin(radians(150.)));
 	vec3 left_accum = vec3(0.);

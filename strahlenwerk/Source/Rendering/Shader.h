@@ -27,6 +27,8 @@ class Shader {
 
 	private:
 		void recompile();
+		void applyIncludes();
+
 		virtual void onBeforeLoad();
 		virtual void onUniformLoad(const std::string& name, const Uniform& uniform);
 		virtual void onSourceProcessed();

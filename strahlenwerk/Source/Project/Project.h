@@ -31,6 +31,8 @@ class Project : private efsw::FileWatchListener {
 		std::unique_ptr<Scenes> getScenes();
 		Data& getTimelineData();
 		void loadDirectory(const std::string& dir);
+		const ProjectFileLoader& getLoader() const;
+
 		void handleFileAction(
 				efsw::WatchID watchid,
 				const std::string& dir,

@@ -89,6 +89,10 @@ void Project::loadDirectory(const std::string& dir) {
 	reload();
 }
 
+const ProjectFileLoader& Project::getLoader() const {
+	return loader;
+}
+
 void Project::handleFileAction(
 		efsw::WatchID watchid,
 		const std::string& dir,
