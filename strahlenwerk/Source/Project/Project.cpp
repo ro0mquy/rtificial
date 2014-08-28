@@ -108,6 +108,8 @@ void Project::handleFileAction(
 	} else if(changedFile.getParentDirectory() == loader.getSceneDir() && changedFile.hasFileExtension("glsl")) {
 		// TODO find a way for reloading only changed scenes
 		reloadScenes();
+	} else if(changedFile.getParentDirectory() == loader.getIncludeDir() && changedFile.hasFileExtension("glsl")) {
+		reload();
 	}
 }
 
