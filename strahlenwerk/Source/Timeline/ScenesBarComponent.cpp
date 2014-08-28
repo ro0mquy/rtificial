@@ -6,8 +6,7 @@
 #include "../StrahlenwerkApplication.h"
 #include "SceneComponent.h"
 
-ScenesBarComponent::ScenesBarComponent(Value& timeValue) :
-	currentTime(timeValue),
+ScenesBarComponent::ScenesBarComponent() :
 	data(StrahlenwerkApplication::getInstance()->getTimelineData())
 {
 	updateSceneComponents();
@@ -50,7 +49,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 void ScenesBarComponent::paintOverChildren(Graphics& g) {
 	// draw time marker
 	g.setColour(findColour(ScenesBarComponent::timeMarkerColourId));
-	const float x = currentTime.getValue();
+	const float x = data.currentTime.getValue();
 	g.drawLine(x, 0, x, getHeight(), 2);
 }
 

@@ -1,11 +1,7 @@
 #include "Timeline.h"
 
 // functions of the allmighty Timeline class
-Timeline::Timeline() :
-	currentTime(40),
-	sequenceView(currentTime),
-	scenesBar(currentTime),
-	uniformsBar(currentTime)
+Timeline::Timeline()
 {
 	viewportSequenceView.setViewedComponent(&sequenceView, false);
 	viewportScenesBar.setViewedComponent(&scenesBar, false);

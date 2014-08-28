@@ -8,7 +8,7 @@ class SceneComponent;
 
 class ScenesBarComponent : public Component {
 	public:
-		ScenesBarComponent(Value& timeValue);
+		ScenesBarComponent();
 		~ScenesBarComponent();
 
 		void updateSize();
@@ -26,7 +26,6 @@ class ScenesBarComponent : public Component {
 		};
 
 	private:
-		Value currentTime;
 		Data& data;
 		OwnedArray<SceneComponent> sceneComponentsArray;
 

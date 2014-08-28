@@ -30,6 +30,8 @@ class Data {
 
 		bool initializeValue(ValueTree valueData, var type);
 
+		Value currentTime;
+
 	private:
 		ValueTree valueTree;
 		UndoManager undoManager;

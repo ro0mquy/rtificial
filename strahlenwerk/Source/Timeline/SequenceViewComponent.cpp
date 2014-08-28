@@ -5,8 +5,7 @@
 #include "Data.h"
 #include "../StrahlenwerkApplication.h"
 
-SequenceViewComponent::SequenceViewComponent(Value& timeValue) :
-	currentTime(timeValue),
+SequenceViewComponent::SequenceViewComponent() :
 	data(StrahlenwerkApplication::getInstance()->getTimelineData())
 {
 	updateSequenceComponents();
@@ -55,7 +54,7 @@ void SequenceViewComponent::paint(Graphics& g){
 void SequenceViewComponent::paintOverChildren(Graphics& g) {
 	// draw time marker
 	g.setColour(findColour(SequenceViewComponent::timeMarkerColourId));
-	const float x = currentTime.getValue();
+	const float x = data.currentTime.getValue();
 	g.drawLine(x, 0, x, getHeight(), 2);
 }
 

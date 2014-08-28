@@ -26,8 +26,6 @@ class Timeline : public Component
 		void callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position);
 		void setupValueTree();
 
-		Value currentTime;
-
 		ViewportCallback viewportSequenceView;
 		ViewportCallback viewportScenesBar;
 		ViewportCallback viewportUniformsBar;

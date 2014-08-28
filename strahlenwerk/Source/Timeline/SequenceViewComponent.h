@@ -9,7 +9,7 @@ class SequenceComponent;
 class SequenceViewComponent : public Component
 {
 	public:
-		SequenceViewComponent(Value& timeValue);
+		SequenceViewComponent();
 		~SequenceViewComponent();
 
 		void updateSize();
@@ -32,7 +32,6 @@ class SequenceViewComponent : public Component
 	private:
 		bool uniformActiveForScene(ValueTree uniform, ValueTree scene);
 
-		Value currentTime;
 		Data& data;
 		OwnedArray<SequenceComponent> sequenceComponentsArray;
 

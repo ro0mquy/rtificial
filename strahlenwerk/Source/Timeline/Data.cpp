@@ -12,6 +12,7 @@ struct KeyframesComparator {
 static KeyframesComparator keyframesComparator;
 
 Data::Data() :
+	currentTime(40),
 	valueTree(treeId::timelineTree)
 {
 	for (int i = 0; i < 4; i++) {

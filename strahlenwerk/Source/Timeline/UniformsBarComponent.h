@@ -7,7 +7,7 @@ class Data;
 
 class UniformsBarComponent : public Component {
 	public:
-		UniformsBarComponent(Value& timeValue);
+		UniformsBarComponent();
 		void updateSize();
 		void paint(Graphics& g) override;
 		void mouseUp(const MouseEvent& event) override;
@@ -20,7 +20,6 @@ class UniformsBarComponent : public Component {
 		};
 
 	private:
-		Value currentTime;
 		Data& data;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(UniformsBarComponent)
 };

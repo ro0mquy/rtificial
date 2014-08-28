@@ -6,8 +6,7 @@
 #include "Data.h"
 #include "../StrahlenwerkApplication.h"
 
-UniformsBarComponent::UniformsBarComponent(Value& timeValue) :
-	currentTime(timeValue),
+UniformsBarComponent::UniformsBarComponent() :
 	data(StrahlenwerkApplication::getInstance()->getTimelineData())
 {
 }
