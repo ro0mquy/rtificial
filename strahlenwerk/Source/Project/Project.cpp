@@ -11,6 +11,8 @@
 #include "PropertyNames.h"
 #include "ProjectListener.h"
 #include "Rendering/Scenes.h"
+#include "Rendering/Shader.h"
+#include "Rendering/Uniform.h"
 
 Project::Project(const std::string& dir) :
 	loader(dir),
@@ -39,6 +41,9 @@ void Project::reload() {
 
 void Project::reloadPostproc() {
 	auto shaders = loadPostprocShaders();
+	for(auto& shader : shaders) {
+		addUniforms(*shader);
+	}
 	if(!shaders.empty()) {
 		postproc = std::unique_ptr<PostprocPipeline>(new PostprocPipeline());
 		postproc->setShaders(std::move(shaders));
@@ -50,6 +55,9 @@ void Project::reloadPostproc() {
 
 void Project::reloadScenes() {
 	auto shaders = loadSceneShaders();
+	for(auto& p : shaders) {
+		addUniforms(*p.second);
+	}
 	if(!shaders.empty()) {
 		scenes = std::unique_ptr<Scenes>(new Scenes(std::move(shaders)));
 	} else {
@@ -144,6 +152,32 @@ void Project::watchFiles(const std::string& dir) {
 	fileWatcher = std::unique_ptr<efsw::FileWatcher>(new efsw::FileWatcher);
 	fileWatcher->addWatch(dir, &fileListener, true);
 	fileWatcher->watch();
+}
+
+void Project::addUniforms(const Shader& shader) {
+	auto uniformsArray = timelineData.getUniformsArray();
+	for(auto uniform : shader.getUniforms()) {
+		// TODO handle same uniform with different type
+		if(!timelineData.getUniform(var(uniform->name)).isValid()) {
+			var type;
+			// TODO
+			switch(uniform->type) {
+				case UniformType::FLOAT:
+					type = var("float");
+					break;
+				case UniformType::VEC2:
+					type = var("vec2");
+					break;
+				case UniformType::VEC3:
+					type = var("vec3");
+					break;
+				case UniformType::VEC4:
+					type = var("vec4");
+					break;
+			}
+			timelineData.addUniform(var(uniform->name), type);
+		}
+	}
 }
 
 std::string Project::loadFile(const std::string& path) {

@@ -14,6 +14,7 @@ class SceneShader;
 class PostprocPipeline;
 class ProjectListener;
 class Scenes;
+class Shader;
 
 class Project : private efsw::FileWatchListener {
 	public:
@@ -44,6 +45,7 @@ class Project : private efsw::FileWatchListener {
 		void postprocChanged();
 		void scenesChanged();
 		void watchFiles(const std::string& dir);
+		void addUniforms(const Shader& shader);
 
 		static std::string loadFile(const std::string& path);
 

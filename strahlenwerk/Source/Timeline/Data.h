@@ -17,6 +17,7 @@ class Data {
 		ValueTree getUniformsArray();
 		bool addUniform(ValueTree uniform, int position = -1);
 		bool addUniform(var name, var type, int position = -1);
+		ValueTree getUniform(const var& name);
 
 		ValueTree getSequencesArray(ValueTree uniform);
 		bool addSequence(ValueTree uniform, ValueTree sequence, int position = -1);

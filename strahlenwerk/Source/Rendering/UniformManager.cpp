@@ -20,7 +20,7 @@ const Uniform* UniformManager::registerUniform(std::string name, UniformType typ
 			return nullptr;
 		}
 	} else {
-		uniforms.emplace_back(uniforms.size() + RESERVED, type);
+		uniforms.emplace_back(uniforms.size() + RESERVED, name, type);
 		uniformLookup.emplace(name, uniforms.back());
 		return &uniforms.back();
 	}

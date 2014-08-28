@@ -174,6 +174,10 @@ bool Data::addUniform(var name, var type, int position) {
 	return true;
 }
 
+ValueTree Data::getUniform(const var& name) {
+	return getUniformsArray().getChildWithProperty(treeId::uniformName, name);
+}
+
 // retrieves the sequences array for a given uniform
 ValueTree Data::getSequencesArray(ValueTree uniform) {
 	return uniform.getOrCreateChildWithName(treeId::sequencesArray, &undoManager);
