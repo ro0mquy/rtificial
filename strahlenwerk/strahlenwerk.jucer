@@ -70,6 +70,9 @@
         <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
       </GROUP>
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
+        <FILE id="x9o48o" name="Interpolator.cpp" compile="1" resource="0"
+              file="Source/Timeline/Interpolator.cpp"/>
+        <FILE id="NaJFSu" name="Interpolator.h" compile="0" resource="0" file="Source/Timeline/Interpolator.h"/>
         <FILE id="qaPfWo" name="KeyframeComponent.cpp" compile="1" resource="0"
               file="Source/Timeline/KeyframeComponent.cpp"/>
         <FILE id="M3qMEw" name="KeyframeComponent.h" compile="0" resource="0"
