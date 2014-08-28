@@ -30,8 +30,10 @@ namespace treeId {
 				const Identifier uniformName("uniformName");
 				// the data type of the uniform (float, vec3, color, ...)
 				const Identifier uniformType("uniformType");
-				// standard value that is used when no sequence is present, see keyframeValue for content
+				// standard value that is used when no sequence is present
 				const Identifier uniformStandardValue("uniformStandardValue");
+					// value data, see keyframeValue for content
+					// ...
 				// array of sequences for this uniform
 				const Identifier sequencesArray("sequencesArray");
 					// a single sequence for a uniform
@@ -70,6 +72,20 @@ namespace treeId {
 										const Identifier valueColorR("valueColorR");
 										const Identifier valueColorG("valueColorG");
 										const Identifier valueColorB("valueColorB");
+
+	// layout for tree holding the current state of every uniform
+	const Identifier uniformStatesArray("uniformStatesArray");
+		// every uniform as a child
+		const Identifier uniformState("uniformState");
+			// the name of the uniform, same as in timelineTree
+			//const Identifier uniformName("uniformName");
+			// the current value of the uniform
+			const Identifier uniformValue("uniformValue");
+				// value data, see keyframeValue for content
+				// ...
+			// is a keyframe at the current time
+			const Identifier uniformOnKeyframe("uniformOnKeyframe");
+
 }
 
 #endif // TIMELINETREE_H
