@@ -5,6 +5,7 @@
 #include "BoxLayout.h"
 #include "OpenGLComponent.h"
 #include "Timeline/Timeline.h"
+#include "Sidebar/Sidebar.h"
 
 class MainContentComponent : public Component
 {
@@ -17,7 +18,7 @@ class MainContentComponent : public Component
 		StretchableLayoutResizerBar verticalResizer;
 		Timeline timeline;
 
-		PropertyPanel panel;
+		Sidebar sidebar;
 		StretchableLayoutResizerBar horizontalResizer;
 		OpenGLComponent openGLComponent;
 

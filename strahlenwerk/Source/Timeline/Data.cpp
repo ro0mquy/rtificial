@@ -13,7 +13,8 @@ static KeyframesComparator keyframesComparator;
 
 Data::Data() :
 	currentTime(40),
-	valueTree(treeId::timelineTree)
+	valueTree(treeId::timelineTree),
+	interpolator(*this)
 {
 	for (int i = 0; i < 4; i++) {
 		addScene(var(i+1), var(300 * i), var(50 * (i + 1)), var(String(i) + String(41 * i) + ".glsl"));
@@ -33,6 +34,12 @@ Data::Data() :
 			addSequence(getUniformsArray().getChild(i), sequence);
 		}
 	}
+
+	interpolator.updateAllUniformStates();
+}
+
+Interpolator& Data::getInterpolator() {
+	return interpolator;
 }
 
 // retrieves the scenes array

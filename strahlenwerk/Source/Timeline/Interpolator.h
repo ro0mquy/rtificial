@@ -7,8 +7,9 @@ class Data;
 
 class Interpolator {
 	public:
-		Interpolator();
+		Interpolator(Data& data_);
 
+		ValueTree getUniformStatesArray();
 		void updateUniformState(ValueTree uniformData);
 		void updateUniformState(const var& name);
 		void updateAllUniformStates();
@@ -16,6 +17,7 @@ class Interpolator {
 	private:
 		Data& data;
 		ValueTree uniformStatesArray;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Interpolator)
 };
 

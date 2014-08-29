@@ -6,6 +6,10 @@
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
+      <GROUP id="{404891A8-3B49-932E-BF9F-4C13EB6EC98C}" name="Sidebar">
+        <FILE id="HgQiIA" name="Sidebar.cpp" compile="1" resource="0" file="Source/Sidebar/Sidebar.cpp"/>
+        <FILE id="YGLoPF" name="Sidebar.h" compile="0" resource="0" file="Source/Sidebar/Sidebar.h"/>
+      </GROUP>
       <GROUP id="{2F8C8947-A000-8782-DCEE-325B39EF8569}" name="Project">
         <FILE id="Cwvro6" name="FileWatchMessageThreadListener.cpp" compile="1"
               resource="0" file="Source/Project/FileWatchMessageThreadListener.cpp"/>

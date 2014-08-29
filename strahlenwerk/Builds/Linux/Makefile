@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/Sidebar_eccfc76a.o \
   $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o \
   $(OBJDIR)/Project_dae16ce4.o \
   $(OBJDIR)/ProjectFileLoader_546d9f73.o \
@@ -112,6 +113,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/Sidebar_eccfc76a.o: ../../Source/Sidebar/Sidebar.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Sidebar.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o: ../../Source/Project/FileWatchMessageThreadListener.cpp
 	-@mkdir -p $(OBJDIR)

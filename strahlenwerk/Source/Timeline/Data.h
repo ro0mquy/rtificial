@@ -2,10 +2,13 @@
 #define DATA_H
 
 #include <juce>
+#include "Interpolator.h"
 
 class Data {
 	public:
 		Data();
+
+		Interpolator& getInterpolator();
 
 		ValueTree getScenesArray();
 		bool addScene(ValueTree scene, int position = -1);
@@ -36,6 +39,7 @@ class Data {
 	private:
 		ValueTree valueTree;
 		UndoManager undoManager;
+		Interpolator interpolator;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Data)
 };

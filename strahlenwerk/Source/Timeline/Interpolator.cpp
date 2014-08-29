@@ -3,11 +3,14 @@
 #include "Data.h"
 #include "TreeIdentifiers.h"
 
-Interpolator::Interpolator() :
-	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData()),
+Interpolator::Interpolator(Data& data_) :
+	data(data_),
 	uniformStatesArray(treeId::uniformStatesArray)
 {
-	updateAllUniformStates();
+}
+
+ValueTree Interpolator::getUniformStatesArray() {
+	return uniformStatesArray;
 }
 
 static bool calculateInterpolatedValue(ValueTree value, ValueTree sequence, const int relativeCurrentTime) {
@@ -17,6 +20,17 @@ static bool calculateInterpolatedValue(ValueTree value, ValueTree sequence, cons
 void Interpolator::updateUniformState(ValueTree uniformData) {
 	if (!uniformData.isValid()) return;
 	const var uniformName = uniformData.getProperty(treeId::uniformName);
+
+	ValueTree uniformState = uniformStatesArray.getChildWithProperty(treeId::uniformName, uniformName);
+	if (!uniformState.isValid()) {
+		uniformState = ValueTree(treeId::uniformState);
+		uniformState.setProperty(treeId::uniformName, uniformName, nullptr);
+		ValueTree valueState = uniformState.getOrCreateChildWithName(treeId::uniformValue, nullptr);
+		const var uniformType = uniformData.getProperty(treeId::uniformType);
+		data.initializeValue(valueState, uniformType);
+		uniformStatesArray.addChild(uniformState, -1, nullptr);
+	}
+	ValueTree valueState = uniformState.getChildWithName(treeId::uniformValue);
 
 	ValueTree sequencesArray = data.getSequencesArray(uniformData);
 	const int numSequences = sequencesArray.getNumChildren();
@@ -34,24 +48,16 @@ void Interpolator::updateUniformState(ValueTree uniformData) {
 			continue;
 		}
 
-		ValueTree uniformState = uniformStatesArray.getChildWithProperty(treeId::uniformName, uniformName);
-
-		if (!uniformState.isValid()) {
-			uniformState = ValueTree(treeId::uniformState);
-			uniformState.setProperty(treeId::uniformName, uniformName, nullptr);
-			ValueTree valueState = uniformState.getOrCreateChildWithName(treeId::uniformValue, nullptr);
-			const var uniformType = uniformData.getProperty(treeId::uniformType);
-			data.initializeValue(valueState, uniformType);
-			uniformStatesArray.addChild(uniformState, -1, nullptr);
-		}
-
-		ValueTree stateValue = uniformState.getChildWithName(treeId::uniformValue);
-		bool isOnKeyframe = calculateInterpolatedValue(stateValue, sequence, relativeCurrentTime);
-
+		bool isOnKeyframe = calculateInterpolatedValue(valueState, sequence, relativeCurrentTime);
 		uniformState.setProperty(treeId::uniformOnKeyframe, var(isOnKeyframe), nullptr);
-
 		return;
 	}
+
+	// no sequence at current time, use standard value
+	ValueTree uniformStandardValue = uniformData.getChildWithName(treeId::uniformStandardValue);
+	valueState.copyPropertiesFrom(uniformStandardValue, nullptr);
+	valueState.getChild(0).copyPropertiesFrom(uniformStandardValue.getChild(0), nullptr);
+	uniformState.setProperty(treeId::uniformOnKeyframe, var(false), nullptr);
 }
 
 void Interpolator::updateUniformState(const var& name) {
