@@ -96,6 +96,7 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	newSequenceData.setProperty(treeId::sequenceStart, var(relativeStart), nullptr);
 	newSequenceData.setProperty(treeId::sequenceDuration, var(0), nullptr);
 	newSequenceData.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
+	data.initializeKeyframesArray(newSequenceData);
 
 	const int rowHeight = 20;
 	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
