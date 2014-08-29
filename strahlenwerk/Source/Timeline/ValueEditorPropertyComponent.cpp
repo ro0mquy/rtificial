@@ -138,10 +138,6 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 		}
 
 		void valueChanged(Value& value) {
-			if(value == colorR || value == colorG || value == colorB) {
-				// ignore if this class changed the value
-				return;
-			}
 			if (value.refersToSameSourceAs(colorR) ||
 					value.refersToSameSourceAs(colorG) ||
 					value.refersToSameSourceAs(colorB)) {
