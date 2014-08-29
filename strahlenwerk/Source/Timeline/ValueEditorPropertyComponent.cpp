@@ -115,6 +115,9 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 			colorB(colorB_),
 			colorLab(LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue()))
 		{
+			colorR.addListener(this);
+			colorG.addListener(this);
+			colorB.addListener(this);
 			colorLab.addListenerForLab(this);
 		}
 
@@ -135,10 +138,16 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 		}
 
 		void valueChanged(Value& value) {
-			Vector3D<float> vectorLab = colorLab.getLinearRGBVector3D();
-			colorR = vectorLab.x;
-			colorG = vectorLab.y;
-			colorB = vectorLab.z;
+			if (value.refersToSameSourceAs(colorR) ||
+					value.refersToSameSourceAs(colorG) ||
+					value.refersToSameSourceAs(colorB)) {
+				colorLab = LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue());
+			} else {
+				Vector3D<float> vectorLab = colorLab.getLinearRGBVector3D();
+				colorR = vectorLab.x;
+				colorG = vectorLab.y;
+				colorB = vectorLab.z;
+			}
 			repaint();
 		}
 
