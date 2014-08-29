@@ -36,10 +36,15 @@ Data::Data() :
 	}
 
 	interpolator.updateAllUniformStates();
+	addListenerToTree(&interpolator);
 }
 
 Interpolator& Data::getInterpolator() {
 	return interpolator;
+}
+
+void Data::addListenerToTree(ValueTree::Listener* listener) {
+	valueTree.addListener(listener);
 }
 
 // retrieves the scenes array

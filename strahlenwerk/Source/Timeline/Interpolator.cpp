@@ -73,3 +73,22 @@ void Interpolator::updateAllUniformStates() {
 		updateUniformState(uniformData);
 	}
 }
+
+void Interpolator::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+	ValueTree value = parentTree.getParent();
+	if (value.hasType(treeId::uniformStandardValue)) {
+		updateUniformState(value.getParent());
+	}
+}
+
+void Interpolator::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+}
+
+void Interpolator::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+}
+
+void Interpolator::valueTreeChildOrderChanged(ValueTree& parentTree) {
+}
+
+void Interpolator::valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) {
+}

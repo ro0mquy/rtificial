@@ -5,7 +5,9 @@
 
 class Data;
 
-class Interpolator {
+class Interpolator :
+	public ValueTree::Listener
+{
 	public:
 		Interpolator(Data& data_);
 
@@ -13,6 +15,13 @@ class Interpolator {
 		void updateUniformState(ValueTree uniformData);
 		void updateUniformState(const var& name);
 		void updateAllUniformStates();
+
+		// ValueTree::Listener callbacks
+        void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
+        void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
+        void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
+        void valueTreeChildOrderChanged(ValueTree& parentTree) override;
+        void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
 	private:
 		Data& data;
