@@ -34,7 +34,7 @@ class Data {
 		bool addKeyframe(ValueTree sequence, ValueTree keyframe);
 		bool addKeyframe(ValueTree sequence, var keyframePosition);
 
-		bool initializeValue(ValueTree valueData, var type);
+		bool initializeValue(ValueTree valueData, String valueType);
 
 		Value currentTime;
 

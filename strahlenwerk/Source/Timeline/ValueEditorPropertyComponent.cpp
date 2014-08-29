@@ -169,27 +169,26 @@ void ValueEditorPropertyComponent::resized() {
 }
 
 PropertyComponent* ValueEditorPropertyComponent::newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData) {
-	String valueType = valueData.getProperty(treeId::valueType);
-	if (valueType.equalsIgnoreCase("bool")) {
-		Value boolState = valueData.getChildWithName(treeId::valueBool).getPropertyAsValue(treeId::valueBoolState, nullptr);
+	if (valueData.hasProperty(treeId::valueBoolState)) {
+		Value boolState = valueData.getPropertyAsValue(treeId::valueBoolState, nullptr);
 		return new BoolEditorPropertyComponent(propertyName, boolState);
-	} else if (valueType.equalsIgnoreCase("float")) {
-		Value floatX = valueData.getChildWithName(treeId::valueFloat).getPropertyAsValue(treeId::valueFloatX, nullptr);
+	} else if (valueData.hasProperty(treeId::valueFloatX)) {
+		Value floatX = valueData.getPropertyAsValue(treeId::valueFloatX, nullptr);
 		return new FloatEditorPropertyComponent(propertyName, floatX);
-	} else if (valueType.equalsIgnoreCase("vec2")) {
-		Value floatX = valueData.getChildWithName(treeId::valueVec2).getPropertyAsValue(treeId::valueVec2X, nullptr);
-		Value floatY = valueData.getChildWithName(treeId::valueVec2).getPropertyAsValue(treeId::valueVec2Y, nullptr);
+	} else if (valueData.hasProperty(treeId::valueVec2X)) {
+		Value floatX = valueData.getPropertyAsValue(treeId::valueVec2X, nullptr);
+		Value floatY = valueData.getPropertyAsValue(treeId::valueVec2Y, nullptr);
 		return new Vec2EditorPropertyComponent(propertyName, floatX, floatY);
-	} else if (valueType.equalsIgnoreCase("vec3")) {
-		Value floatX = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3X, nullptr);
-		Value floatY = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3Y, nullptr);
-		Value floatZ = valueData.getChildWithName(treeId::valueVec3).getPropertyAsValue(treeId::valueVec3Z, nullptr);
+	} else if (valueData.hasProperty(treeId::valueVec3X)) {
+		Value floatX = valueData.getPropertyAsValue(treeId::valueVec3X, nullptr);
+		Value floatY = valueData.getPropertyAsValue(treeId::valueVec3Y, nullptr);
+		Value floatZ = valueData.getPropertyAsValue(treeId::valueVec3Z, nullptr);
 		return new Vec3EditorPropertyComponent(propertyName, floatX, floatY, floatZ);
-	} else if (valueType.equalsIgnoreCase("color")) {
-		Value colorR = valueData.getChildWithName(treeId::valueColor).getPropertyAsValue(treeId::valueColorR, nullptr);
-		Value colorG = valueData.getChildWithName(treeId::valueColor).getPropertyAsValue(treeId::valueColorG, nullptr);
-		Value colorB = valueData.getChildWithName(treeId::valueColor).getPropertyAsValue(treeId::valueColorB, nullptr);
+	} else if (valueData.hasProperty(treeId::valueColorR)) {
+		Value colorR = valueData.getPropertyAsValue(treeId::valueColorR, nullptr);
+		Value colorG = valueData.getPropertyAsValue(treeId::valueColorG, nullptr);
+		Value colorB = valueData.getPropertyAsValue(treeId::valueColorB, nullptr);
 		return new ColorEditorPropertyComponent(propertyName, colorR, colorG, colorB);
 	}
-	return new TextPropertyComponent(Value(), propertyName, 30, false);
+	return new TextPropertyComponent(Value(propertyName), propertyName, 30, false);
 }

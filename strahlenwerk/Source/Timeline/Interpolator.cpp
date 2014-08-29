@@ -56,8 +56,8 @@ void Interpolator::updateUniformState(ValueTree uniformData) {
 	// no sequence at current time, use standard value
 	ValueTree uniformStandardValue = uniformData.getChildWithName(treeId::uniformStandardValue);
 	valueState.copyPropertiesFrom(uniformStandardValue, nullptr);
-	valueState.getChild(0).copyPropertiesFrom(uniformStandardValue.getChild(0), nullptr);
 	uniformState.setProperty(treeId::uniformOnKeyframe, var(false), nullptr);
+	return;
 }
 
 void Interpolator::updateUniformState(const var& name) {
@@ -75,9 +75,8 @@ void Interpolator::updateAllUniformStates() {
 }
 
 void Interpolator::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
-	ValueTree value = parentTree.getParent();
-	if (value.hasType(treeId::uniformStandardValue)) {
-		updateUniformState(value.getParent());
+	if (parentTree.hasType(treeId::uniformStandardValue)) {
+		updateUniformState(parentTree.getParent());
 	}
 }
 

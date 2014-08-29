@@ -54,24 +54,24 @@ namespace treeId {
 								const Identifier keyframePosition("keyframePosition");
 								// the value of this keyframe
 								const Identifier keyframeValue("keyframeValue");
+									// the value holds a set of properties, depending on it's type
 									// the data type, must be the same as the one of the uniform
-									const Identifier valueType("valueType");
-									// the keyframe holds one of the following values
-									const Identifier valueBool("valueBool");
-										const Identifier valueBoolState("valueBoolState");
-									const Identifier valueFloat("valueFloat");
-										const Identifier valueFloatX("valueFloatX");
-									const Identifier valueVec2("valueVec2");
-										const Identifier valueVec2X("valueVec2X");
-										const Identifier valueVec2Y("valueVec2Y");
-									const Identifier valueVec3("valueVec3");
-										const Identifier valueVec3X("valueVec3X");
-										const Identifier valueVec3Y("valueVec3Y");
-										const Identifier valueVec3Z("valueVec3Z");
-									const Identifier valueColor("valueColor");
-										const Identifier valueColorR("valueColorR");
-										const Identifier valueColorG("valueColorG");
-										const Identifier valueColorB("valueColorB");
+									// the value types are:
+									// bool
+									const Identifier valueBoolState("valueBoolState");
+									// float
+									const Identifier valueFloatX("valueFloatX");
+									// vec2
+									const Identifier valueVec2X("valueVec2X");
+									const Identifier valueVec2Y("valueVec2Y");
+									// vec3
+									const Identifier valueVec3X("valueVec3X");
+									const Identifier valueVec3Y("valueVec3Y");
+									const Identifier valueVec3Z("valueVec3Z");
+									// color
+									const Identifier valueColorR("valueColorR");
+									const Identifier valueColorG("valueColorG");
+									const Identifier valueColorB("valueColorB");
 
 	// layout for tree holding the current state of every uniform
 	const Identifier uniformStatesArray("uniformStatesArray");

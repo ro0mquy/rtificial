@@ -186,6 +186,7 @@ bool Data::addUniform(var name, var type, int position) {
 	return true;
 }
 
+// returns the uniform with the given name
 ValueTree Data::getUniform(const var& name) {
 	return getUniformsArray().getChildWithProperty(treeId::uniformName, name);
 }
@@ -275,9 +276,21 @@ bool Data::addKeyframe(ValueTree sequence, ValueTree keyframe) {
 	bool isKeyframe = keyframe.hasType(treeId::keyframe);
 	isKeyframe &= keyframe.hasProperty(treeId::keyframePosition);
 
-	var uniformType = sequence.getParent().getParent().getProperty(treeId::uniformType);
-	var keyframeValueType = keyframe.getChildWithName(treeId::keyframeValue).getProperty(treeId::valueType);
-	isKeyframe &= uniformType.equals(keyframeValueType);
+	ValueTree keyframeValue = keyframe.getChildWithName(treeId::keyframeValue);
+	String uniformType = sequence.getParent().getParent().getProperty(treeId::uniformType);
+	if (keyframeValue.hasProperty(treeId::valueBoolState)) {
+		isKeyframe &= uniformType.equalsIgnoreCase("bool");
+	} else if (keyframeValue.hasProperty(treeId::valueFloatX)) {
+		isKeyframe &= uniformType.equalsIgnoreCase("float");
+	} else if (keyframeValue.hasProperty(treeId::valueVec2X)) {
+		isKeyframe &= uniformType.equalsIgnoreCase("vec2");
+	} else if (keyframeValue.hasProperty(treeId::valueVec3X)) {
+		isKeyframe &= uniformType.equalsIgnoreCase("vec3");
+	} else if (keyframeValue.hasProperty(treeId::valueColorR)) {
+		isKeyframe &= uniformType.equalsIgnoreCase("color");
+	} else {
+		isKeyframe = false;
+	}
 
 	if (isKeyframe) {
 		ValueTree keyframesArray = getKeyframesArray(sequence);
@@ -307,31 +320,29 @@ bool Data::addKeyframe(ValueTree sequence, var keyframePosition) {
 
 // initialize a value with the specified type inside valueData
 // return false when valueData was already initialized or the type is unknown
-bool Data::initializeValue(ValueTree valueData, var type) {
-	if (valueData.hasProperty(treeId::valueType)) {
+bool Data::initializeValue(ValueTree valueData, String valueType) {
+	if (valueData.getNumProperties() != 0) {
 		// value is already populated
 		return false;
 	}
-	valueData.setProperty(treeId::valueType, type, &undoManager);
 
-	String valueType = type;
 	if (valueType.equalsIgnoreCase("bool")) {
-		valueData.getOrCreateChildWithName(treeId::valueBool, &undoManager)
+		valueData
 			.setProperty(treeId::valueBoolState, var(false), &undoManager);
 	} else if (valueType.equalsIgnoreCase("float")) {
-		valueData.getOrCreateChildWithName(treeId::valueFloat, &undoManager)
+		valueData
 			.setProperty(treeId::valueFloatX, var(0.), &undoManager);
 	} else if (valueType.equalsIgnoreCase("vec2")) {
-		valueData.getOrCreateChildWithName(treeId::valueVec2, &undoManager)
+		valueData
 			.setProperty(treeId::valueVec2X, var(0.), &undoManager)
 			.setProperty(treeId::valueVec2Y, var(0.), &undoManager);
 	} else if (valueType.equalsIgnoreCase("vec3")) {
-		valueData.getOrCreateChildWithName(treeId::valueVec3, &undoManager)
+		valueData
 			.setProperty(treeId::valueVec3X, var(0.), &undoManager)
 			.setProperty(treeId::valueVec3Y, var(0.), &undoManager)
 			.setProperty(treeId::valueVec3Z, var(0.), &undoManager);
 	} else if (valueType.equalsIgnoreCase("color")) {
-		valueData.getOrCreateChildWithName(treeId::valueColor, &undoManager)
+		valueData
 			.setProperty(treeId::valueColorR, var(0.), &undoManager)
 			.setProperty(treeId::valueColorG, var(0.), &undoManager)
 			.setProperty(treeId::valueColorB, var(0.), &undoManager);
