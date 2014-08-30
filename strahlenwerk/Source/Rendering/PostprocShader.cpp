@@ -121,6 +121,10 @@ void PostprocShader::onBeforeDraw() {
 		glActiveTexture(GL_TEXTURE0 + output.bindingId);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+	for(const auto& input : inputs) {
+		glActiveTexture(GL_TEXTURE0 + input.bindingId);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, input.lod);
+	}
 }
 
 int PostprocShader::toComponents(const std::string& identifier) {
