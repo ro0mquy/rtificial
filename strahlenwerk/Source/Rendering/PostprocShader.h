@@ -16,10 +16,16 @@ struct Connector {
 };
 
 struct Input : public Connector {
-	using Connector::Connector;
+	int lod;
+
+	Input(std::string name, int components, int lod) :
+		Connector(name, components),
+		lod(lod) {}
 };
 
 struct Output : public Connector {
+	int maxLod = 0;
+
 	using Connector::Connector;
 };
 
@@ -35,6 +41,7 @@ class PostprocShader : public Shader {
 
 		void setInputBindingId(int index, int id);
 		void setOutputBindingId(int index, int id);
+		void setOutputMaxLod(int index, int maxLod);
 
 		void insertBindings();
 
@@ -57,7 +64,7 @@ class PostprocShader : public Shader {
 		GLuint fbo = 0;
 		bool fbo_created = false;
 		int createdWidth, createdHeight;
-		const std::regex inputRegex = std::regex(R"regex((^|\n)[ \t]*uniform[ \t]+sampler2D[ \t]+(\w+)[ \t]*;[ \t]*//[ \t]*(float|vec[234]))regex");
+		const std::regex inputRegex = std::regex(R"regex((^|\n)[ \t]*uniform[ \t]+sampler2D[ \t]+(\w+)[ \t]*;[ \t]*//[ \t]*(float|vec[234])[ \t]*(level\(([0-9]+)\))?)regex");
 };
 
 #endif

@@ -45,6 +45,10 @@ void PostprocShader::setOutputBindingId(int index, int id) {
 	outputs[index].bindingId = id;
 }
 
+void PostprocShader::setOutputMaxLod(int index, int maxLod) {
+	outputs[index].maxLod = maxLod;
+}
+
 void PostprocShader::insertBindings() {
 	std::vector<int> positions;
 	const std::sregex_iterator end;
@@ -91,7 +95,9 @@ void PostprocShader::onSourceProcessed() {
 		const auto& match = *it;
 		const auto& name = match[2];
 		const int components = toComponents(match[3]);
-		inputs.emplace_back(name, components);
+		const std::string levelString = match[5];
+		const int level = levelString.empty() ? 0 : std::stoi(levelString);
+		inputs.emplace_back(name, components, level);
 	}
 
 	std::vector<std::pair<size_t, int>> outputPositions;

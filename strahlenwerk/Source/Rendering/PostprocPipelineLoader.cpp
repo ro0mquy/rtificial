@@ -174,12 +174,14 @@ std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vect
 }
 
 void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const std::vector<std::vector<int>>& mapping) {
-	int nextBindingId = 0;
+	std::vector<int> maxLod;
 	for(const int shaderId : order) {
 		auto& shader = shaders[shaderId];
 		auto& outputs = shader->getOutputs();
 		for(int i = 0; i < outputs.size(); i++) {
-			shader->setOutputBindingId(i, nextBindingId++);
+			const int nextBindingId = maxLod.size();
+			shader->setOutputBindingId(i, nextBindingId);
+			maxLod.push_back(0);
 		}
 
 		auto& inputs = shader->getInputs();
@@ -189,8 +191,19 @@ void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const 
 		for(int i = 0; i < inputs.size(); i++) {
 			// replace output local output id with global binding id
 			const int outputShaderId = mapping[shaderId][i];
-			// holy shit, hope this works
-			shader->setInputBindingId(i, shaders[outputShaderId]->getOutputs()[inputs[i].bindingId].bindingId);
+			const int outputId = inputs[i].bindingId;
+			const int outputBindingId = shaders[outputShaderId]->getOutputs()[outputId].bindingId;
+			shader->setInputBindingId(i, outputBindingId);
+
+			maxLod[outputBindingId] = std::max(maxLod[outputBindingId], inputs[i].lod);
+		}
+	}
+	for(const int shaderId : order) {
+		auto& shader = shaders[shaderId];
+		auto& outputs = shader->getOutputs();
+		for(int i = 0; i < outputs.size(); i++) {
+			shader->setOutputMaxLod(i, maxLod[outputs[i].bindingId]);
+			std::cout << outputs[i].bindingId << ": " << maxLod[outputs[i].bindingId] << std::endl;
 		}
 	}
 	for(const int shaderId : order) {
