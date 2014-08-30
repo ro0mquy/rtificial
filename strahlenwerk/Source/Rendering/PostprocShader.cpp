@@ -80,6 +80,9 @@ void PostprocShader::unbindFBO() {
 	for(int i = 0; i < textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
+		if(outputs[i].maxLod > 0) {
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
 	}
 }
 
@@ -175,8 +178,14 @@ void PostprocShader::createFBO(int width, int height) {
 				break;
 		}
 		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_FLOAT, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		if(outputs[i].maxLod > 0) {
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, outputs[i].maxLod);
+			glGenerateMipmap(GL_TEXTURE_2D); // allocate mipmap memory
+		} else {
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		}
 
 		ext.glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, textures[i], 0);
 		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;

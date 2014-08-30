@@ -203,7 +203,6 @@ void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const 
 		auto& outputs = shader->getOutputs();
 		for(int i = 0; i < outputs.size(); i++) {
 			shader->setOutputMaxLod(i, maxLod[outputs[i].bindingId]);
-			std::cout << outputs[i].bindingId << ": " << maxLod[outputs[i].bindingId] << std::endl;
 		}
 	}
 	for(const int shaderId : order) {
