@@ -42,6 +42,7 @@ class PostprocShader : public Shader {
 		void setInputBindingId(int index, int id);
 		void setOutputBindingId(int index, int id);
 		void setOutputMaxLod(int index, int maxLod);
+		void decreaseInputLod(int index, int lod);
 
 		void insertBindings();
 
@@ -49,6 +50,7 @@ class PostprocShader : public Shader {
 		void unbindFBO();
 		int getCreatedWidth() const;
 		int getCreatedHeight() const;
+		int getOutputLod() const;
 
 	private:
 		void onBeforeLoad() override;

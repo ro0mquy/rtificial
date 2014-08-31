@@ -49,6 +49,10 @@ void PostprocShader::setOutputMaxLod(int index, int maxLod) {
 	outputs[index].maxLod = maxLod;
 }
 
+void PostprocShader::decreaseInputLod(int index, int lod) {
+	inputs[index].lod = std::max(0, inputs[index].lod - lod);
+}
+
 void PostprocShader::insertBindings() {
 	std::vector<int> positions;
 	const std::sregex_iterator end;
@@ -97,6 +101,10 @@ int PostprocShader::getCreatedHeight() const {
 	return createdHeight;
 }
 
+int PostprocShader::getOutputLod() const {
+	return outputLod;
+}
+
 void PostprocShader::onBeforeLoad() {
 	inputs.clear();
 	outputs.clear();
@@ -142,7 +150,7 @@ void PostprocShader::onBeforeDraw() {
 	}
 	for(const auto& input : inputs) {
 		glActiveTexture(GL_TEXTURE0 + input.bindingId);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, std::max(0, input.lod - outputLod));
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, input.lod);
 	}
 }
 

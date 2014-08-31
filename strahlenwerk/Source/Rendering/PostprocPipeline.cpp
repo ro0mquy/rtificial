@@ -21,7 +21,7 @@ void PostprocPipeline::render(SceneShader& shader, int width, int height) {
 	}
 	for(int i = 1; i < shaders.size() - 1; i++) {
 		shaders[i]->bindFBO(width, height);
-		shaders[i]->draw(width, height);
+		shaders[i]->draw(shaders[i]->getCreatedWidth(), shaders[i]->getCreatedHeight());
 		shaders[i]->unbindFBO();
 	}
 	glEnable(GL_FRAMEBUFFER_SRGB);
