@@ -23,13 +23,13 @@ class PostprocPipelineLoader {
 		std::unordered_map<std::string, int> loadShaders(
 				OpenGLContext& context,
 				const std::vector<std::pair<std::string, std::string>>& shaderSources);
-		std::vector<std::vector<int>> loadMapping(
+		std::vector<std::vector<std::pair<int, int>>> loadMapping(
 				const std::unordered_map<std::string,int>& shaderIds,
 				const std::string& mappingSource);
-		std::vector<int> createOrder(const std::vector<std::vector<int>>& mapping);
+		std::vector<int> createOrder(const std::vector<std::vector<std::pair<int, int>>>& mapping);
 		void connectStages(
 				const std::vector<int>& order,
-				const std::vector<std::vector<int>>& mapping);
+				const std::vector<std::vector<std::pair<int, int>>>& mapping);
 
 		std::vector<std::unique_ptr<PostprocShader>> shaders;
 

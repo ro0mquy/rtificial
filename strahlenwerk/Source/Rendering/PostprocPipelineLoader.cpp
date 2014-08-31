@@ -58,8 +58,8 @@ std::unordered_map<std::string, int> PostprocPipelineLoader::loadShaders(
 	return shaderIds;
 }
 
-std::vector<std::vector<int>> PostprocPipelineLoader::loadMapping(const std::unordered_map<std::string, int>& shaderIds, const std::string& mappingSource) {
-	std::vector<std::vector<int>> edges(shaders.size());
+std::vector<std::vector<std::pair<int, int>>> PostprocPipelineLoader::loadMapping(const std::unordered_map<std::string, int>& shaderIds, const std::string& mappingSource) {
+	std::vector<std::vector<std::pair<int, int>>> edges(shaders.size());
 	const std::regex edgeRegex(R"regex((^|\n)[ \t]*(\w+)\.(\w+)[ \t]+(\w+)\.(\w+))regex");
 	const std::sregex_iterator end;
 	for(std::sregex_iterator it(mappingSource.begin(), mappingSource.end(), edgeRegex); it != end; ++it) {
@@ -110,12 +110,12 @@ std::vector<std::vector<int>> PostprocPipelineLoader::loadMapping(const std::uno
 				output - &outputShader->getOutputs()[0]);
 
 		// insert inverse edge
-		edges[inputId->second].push_back(outputId->second);
+		edges[inputId->second].emplace_back(outputId->second, input - &inputShader->getInputs()[0]);
 	}
 	return edges;
 }
 
-std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vector<int>>& mapping) {
+std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vector<std::pair<int, int>>>& mapping) {
 	std::vector<int> outdegree(shaders.size(), 0);
 
 	// calculate indegree of the from output reachable subgraph using DFS
@@ -127,7 +127,8 @@ std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vect
 		nodeCounter++;
 		const int node = s.top();
 		s.pop();
-		for(int origin : mapping[node]) {
+		for(const auto p : mapping[node]) {
+			const int origin = p.first;
 			if(outdegree[origin]++ == 0) {
 				// node is unvisited
 				s.push(origin);
@@ -146,7 +147,8 @@ std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vect
 		const int node = q.front();
 		q.pop();
 		order.push_back(node);
-		for(int origin : mapping[node]) {
+		for(const auto p : mapping[node]) {
+			const int origin = p.first;
 			if(--outdegree[origin] == 0) {
 				q.push(origin);
 			}
@@ -173,7 +175,7 @@ std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vect
 	return order;
 }
 
-void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const std::vector<std::vector<int>>& mapping) {
+void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const std::vector<std::vector<std::pair<int, int>>>& mapping) {
 	std::vector<int> maxLod;
 	std::vector<int> outLods;
 	for(const int shaderId : order) {
@@ -187,18 +189,17 @@ void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const 
 		}
 
 		auto& inputs = shader->getInputs();
-		// implicit assertion of this loop:
-		// shader->getInputs()[i] corresponds to mapping[shaderId][id] FIXME
-		// TODO verify order matches
 		for(int i = 0; i < inputs.size(); i++) {
-			// replace output local output id with global binding id
-			const int outputShaderId = mapping[shaderId][i];
-			const int outputId = inputs[i].bindingId;
-			const int outputBindingId = shaders[outputShaderId]->getOutputs()[outputId].bindingId;
-			shader->setInputBindingId(i, outputBindingId);
-			shader->decreaseInputLod(i, outLods[outputBindingId]);
+			const int outputShaderId = mapping[shaderId][i].first;
+			const int inputId = mapping[shaderId][i].second;
+			const int outputId = inputs[inputId].bindingId;
 
-			maxLod[outputBindingId] = std::max(maxLod[outputBindingId], inputs[i].lod);
+			// replace output local output id with global binding id
+			const int outputBindingId = shaders[outputShaderId]->getOutputs()[outputId].bindingId;
+			shader->setInputBindingId(inputId, outputBindingId);
+			shader->decreaseInputLod(inputId, outLods[outputBindingId]);
+
+			maxLod[outputBindingId] = std::max(maxLod[outputBindingId], inputs[inputId].lod);
 		}
 	}
 	for(const int shaderId : order) {
