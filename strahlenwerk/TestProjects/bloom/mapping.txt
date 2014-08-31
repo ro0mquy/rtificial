@@ -1,0 +1,11 @@
+input.color half_vert.color
+input.color quart_vert.color
+input.color eighth_vert.color
+input.color blend.orig_color
+half_vert.out_color half_horiz.color
+half_horiz.out_color blend.half_color
+quart_vert.out_color quart_horiz.color
+quart_horiz.out_color blend.quart_color
+eighth_vert.out_color eighth_horiz.color
+eighth_horiz.out_color blend.eighth_color
+blend.out_color output.color
