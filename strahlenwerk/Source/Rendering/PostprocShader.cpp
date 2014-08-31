@@ -69,6 +69,9 @@ void PostprocShader::insertBindings() {
 }
 
 void PostprocShader::bindFBO(int width, int height) {
+	const int factor = std::exp2(outputLod);
+	width /= factor;
+	height /= factor;
 	if(!fbo_created || (width != createdWidth) || (height != createdHeight)) {
 		createFBO(width, height);
 	}
@@ -80,10 +83,18 @@ void PostprocShader::unbindFBO() {
 	for(int i = 0; i < textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
-		if(outputs[i].maxLod > 0) {
+		if(outputs[i].maxLod - outputLod > 0) {
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 	}
+}
+
+int PostprocShader::getCreatedWidth() const {
+	return createdWidth;
+}
+
+int PostprocShader::getCreatedHeight() const {
+	return createdHeight;
 }
 
 void PostprocShader::onBeforeLoad() {
@@ -113,6 +124,14 @@ void PostprocShader::onSourceProcessed() {
 		outputPositions.emplace_back(match.position(), outputPositions.size());
 	}
 
+	const std::regex outputLevelRegex(R"regex((^|\n)[ \t]*//[ \t]*level\(([0-9]+)\))regex");
+	std::smatch outputLevelMatch;
+	if(std::regex_search(fragmentSource, outputLevelMatch, outputLevelRegex)) {
+		outputLod = std::stoi(outputLevelMatch[2]);
+	} else {
+		outputLod = 0;
+	}
+
 	insertLocations(outputPositions);
 }
 
@@ -123,7 +142,7 @@ void PostprocShader::onBeforeDraw() {
 	}
 	for(const auto& input : inputs) {
 		glActiveTexture(GL_TEXTURE0 + input.bindingId);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, input.lod);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, std::max(0, input.lod - outputLod));
 	}
 }
 
@@ -183,9 +202,9 @@ void PostprocShader::createFBO(int width, int height) {
 		}
 		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_FLOAT, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		if(outputs[i].maxLod > 0) {
+		if(outputs[i].maxLod - outputLod > 0) {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, outputs[i].maxLod);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, outputs[i].maxLod - outputLod);
 			glGenerateMipmap(GL_TEXTURE_2D); // allocate mipmap memory
 		} else {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

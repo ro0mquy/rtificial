@@ -16,7 +16,7 @@ void PostprocPipeline::render(SceneShader& shader, int width, int height) {
 
 	if(shaders.size() > 1) {
 		shaders[0]->bindFBO(width, height);
-		shader.draw(width, height);
+		shader.draw(shaders[0]->getCreatedWidth(), shaders[0]->getCreatedHeight());
 		shaders[0]->unbindFBO();
 	}
 	for(int i = 1; i < shaders.size() - 1; i++) {
