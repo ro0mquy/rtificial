@@ -36,7 +36,7 @@ class SequenceViewComponent : public Component
 		OwnedArray<SequenceComponent> sequenceComponentsArray;
 
 		ValueTree newSequenceData;
-		SequenceComponent* newSequenceComponent;
+		ScopedPointer<SequenceComponent> newSequenceComponent;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceViewComponent)
 };

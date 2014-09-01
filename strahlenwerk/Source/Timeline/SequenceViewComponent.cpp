@@ -95,10 +95,12 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	newSequenceData.setProperty(treeId::sequenceStart, var(relativeStart), nullptr);
 	newSequenceData.setProperty(treeId::sequenceDuration, var(0), nullptr);
 	newSequenceData.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
-	data.initializeKeyframesArray(newSequenceData);
 
 	const int rowHeight = 20;
 	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
+	ValueTree uniform = data.getUniformsArray().getChild(numUniform);
+	data.addSequence(uniform, newSequenceData);
+
 	newSequenceComponent = new SequenceComponent(newSequenceData, numUniform * rowHeight, rowHeight);
 	addAndMakeVisible(newSequenceComponent);
 }
@@ -128,15 +130,10 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 
 void SequenceViewComponent::mouseUp(const MouseEvent& event) {
 	if (int(newSequenceData.getProperty(treeId::sequenceDuration)) == 0) {
-		delete newSequenceComponent;
+		newSequenceComponent = nullptr;
+		newSequenceData.getParent().removeChild(newSequenceData, nullptr);
 	} else {
-		sequenceComponentsArray.add(newSequenceComponent);
-
-		const int rowHeight = 20;
-		const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
-		ValueTree uniform = data.getUniformsArray().getChild(numUniform);
-		data.addSequence(uniform, newSequenceData);
+		sequenceComponentsArray.add(newSequenceComponent.release());
 	}
-	newSequenceComponent = nullptr;
 	newSequenceData = ValueTree();
 }
