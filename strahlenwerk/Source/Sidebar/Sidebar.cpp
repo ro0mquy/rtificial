@@ -8,6 +8,7 @@ Sidebar::Sidebar() :
 	data(TimelineData::getTimelineData())
 {
 	updateProperties();
+	data.addListenerToTree(this);
 }
 
 void Sidebar::updateProperties() {
@@ -30,4 +31,24 @@ void Sidebar::updateProperties() {
 		properties.add(newEditor);
 	}
 	addProperties(properties);
+}
+
+// ValueTree::Listener callbacks
+void Sidebar::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+	updateProperties();
+}
+
+void Sidebar::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+	updateProperties();
+}
+
+void Sidebar::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+	updateProperties();
+}
+
+void Sidebar::valueTreeChildOrderChanged(ValueTree& parentTree) {
+	updateProperties();
+}
+
+void Sidebar::valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) {
 }
