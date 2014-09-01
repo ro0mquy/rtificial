@@ -21,10 +21,11 @@ std::pair<ValueTree, bool> Interpolator::getUniformState(ValueTree uniformData) 
 		ValueTree scene = data.getScenesArray().getChildWithProperty(treeId::sceneId, sceneId);
 
 		const int sceneStartTime = scene.getProperty(treeId::sceneStart);
-		const int sceneDuration = scene.getProperty(treeId::sceneDuration);
-		const int relativeCurrentTime = int(data.currentTime.getValue()) - sceneStartTime;
+		const int sequenceStartTime = sequence.getProperty(treeId::sequenceStart);
+		const int sequenceDuration = sequence.getProperty(treeId::sequenceDuration);
+		const int relativeCurrentTime = int(data.currentTime.getValue()) - sceneStartTime - sequenceStartTime;
 
-		if (!isPositiveAndBelow(relativeCurrentTime, sceneDuration)) {
+		if (!isPositiveAndNotGreaterThan(relativeCurrentTime, sequenceDuration)) {
 			// currentTime is not in this sequence
 			continue;
 		}
