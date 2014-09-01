@@ -3,6 +3,8 @@
 
 #include <juce>
 
+class TimelineData;
+
 class Sidebar :
 	public PropertyPanel
 {
@@ -10,7 +12,7 @@ class Sidebar :
 		Sidebar();
 
 	private:
-		ValueTree uniformStatesArray;
+		TimelineData& data;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Sidebar)
 };

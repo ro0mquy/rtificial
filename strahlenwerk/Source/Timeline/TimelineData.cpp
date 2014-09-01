@@ -1,7 +1,6 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include <StrahlenwerkApplication.h>
-//#include <Project/Project.h>
 
 // comparator for keyframes in the keyframes array of a sequence
 struct KeyframesComparator {
@@ -31,14 +30,10 @@ TimelineData::TimelineData() :
 			setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
 			sequence.setProperty(treeId::sequenceDuration, var(50), nullptr);
 			sequence.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
-			initializeKeyframesArray(sequence);
 			addKeyframe(sequence, var((j+1) * 10));
 			addSequence(getUniformsArray().getChild(i), sequence);
 		}
 	}
-
-	interpolator.updateAllUniformStates();
-	addListenerToTree(&interpolator);
 }
 
 TimelineData& TimelineData::getTimelineData() {
@@ -203,6 +198,7 @@ ValueTree TimelineData::getSequencesArray(ValueTree uniform) {
 }
 
 // adds a sequence to the sequences array of a uniform at a given position
+// initializes the keyframes array
 // returns whether the sequence was added
 // if the ValueTree is not a treeId::sequence, it won't get added
 // position defaults to -1 (append to end)
@@ -212,10 +208,10 @@ bool TimelineData::addSequence(ValueTree uniform, ValueTree sequence, int positi
 	isSequence &= sequence.hasProperty(treeId::sequenceStart);
 	isSequence &= sequence.hasProperty(treeId::sequenceDuration);
 	isSequence &= sequence.hasProperty(treeId::sequenceInterpolation);
-	isSequence &= sequence.getChildWithName(treeId::keyframesArray).getNumChildren() >= 2;
 
 	if (isSequence) {
 		getSequencesArray(uniform).addChild(sequence, position, &undoManager);
+		initializeKeyframesArray(sequence);
 	}
 	return isSequence;
 }
@@ -230,8 +226,8 @@ bool TimelineData::addSequence(ValueTree uniform, var sceneId, var start, var du
 	sequence.setProperty(treeId::sequenceStart, start, nullptr);
 	sequence.setProperty(treeId::sequenceDuration, duration, nullptr);
 	sequence.setProperty(treeId::sequenceInterpolation, interpolation, nullptr);
-	initializeKeyframesArray(sequence);
 	getSequencesArray(uniform).addChild(sequence, position, &undoManager);
+	initializeKeyframesArray(sequence);
 	return true;
 }
 

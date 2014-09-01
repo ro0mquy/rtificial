@@ -11,10 +11,8 @@ class Interpolator :
 	public:
 		Interpolator(TimelineData& data_);
 
-		ValueTree getUniformStatesArray();
-		void updateUniformState(ValueTree uniformData);
-		void updateUniformState(const var& name);
-		void updateAllUniformStates();
+		std::pair<ValueTree, bool> getUniformState(ValueTree uniformData);
+		std::pair<ValueTree, bool> getUniformState(const var& name);
 
 		// ValueTree::Listener callbacks
         void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
@@ -24,8 +22,9 @@ class Interpolator :
         void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
 	private:
+		std::pair<ValueTree, bool> calculateInterpolatedValue(ValueTree sequence, const int relativeCurrentTime);
+
 		TimelineData& data;
-		ValueTree uniformStatesArray;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Interpolator)
 };
