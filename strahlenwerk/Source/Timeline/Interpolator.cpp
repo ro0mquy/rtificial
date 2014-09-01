@@ -48,19 +48,3 @@ std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree se
 	const bool isOnKeyframe = true;
 	return std::pair<ValueTree, bool>(uniformStateValue, isOnKeyframe);
 }
-
-
-void Interpolator::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
-}
-
-void Interpolator::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
-}
-
-void Interpolator::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
-}
-
-void Interpolator::valueTreeChildOrderChanged(ValueTree& parentTree) {
-}
-
-void Interpolator::valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) {
-}
