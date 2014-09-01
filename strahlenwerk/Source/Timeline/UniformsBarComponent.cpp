@@ -8,10 +8,12 @@
 UniformsBarComponent::UniformsBarComponent() :
 	data(TimelineData::getTimelineData())
 {
+	data.addListenerToTree(this);
 }
 
 void UniformsBarComponent::updateSize() {
-	const int height = jmax(data.getUniformsArray().getNumChildren() * 20, getParentHeight());
+	const int rowHeight = 20;
+	const int height = jmax(data.getUniformsArray().getNumChildren() * rowHeight, getParentHeight());
 	setSize(getWidth(), height);
 }
 
@@ -54,4 +56,23 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 
 	const Rectangle<int> rect(0, numUniform * rowHeight, getWidth(), rowHeight);
 	CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
+}
+
+void UniformsBarComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+}
+
+void UniformsBarComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+	if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
+		updateSize();
+		repaint();
+	}
+}
+
+void UniformsBarComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+}
+
+void UniformsBarComponent::valueTreeChildOrderChanged(ValueTree& parentTree) {
+}
+
+void UniformsBarComponent::valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) {
 }

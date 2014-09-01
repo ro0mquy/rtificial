@@ -5,12 +5,22 @@
 
 class TimelineData;
 
-class UniformsBarComponent : public Component {
+class UniformsBarComponent :
+	public Component,
+	private ValueTree::Listener
+{
 	public:
 		UniformsBarComponent();
 		void updateSize();
 		void paint(Graphics& g) override;
 		void mouseUp(const MouseEvent& event) override;
+
+		// ValueTree::Listener callbacks
+        void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
+        void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
+        void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
+        void valueTreeChildOrderChanged(ValueTree& parentTree) override;
+        void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
 		enum ColourIds{
 			evenRowColourId = 0x2300301,
