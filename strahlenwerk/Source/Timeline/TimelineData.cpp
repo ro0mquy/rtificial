@@ -257,6 +257,7 @@ ValueTree TimelineData::getKeyframesArray(ValueTree sequence) {
 
 // initialize the keyframesArray of the sequence
 // creates the start and end keyframe
+// sequence must already be added
 // return whether the sequence was properly initialized
 bool TimelineData::initializeKeyframesArray(ValueTree sequence) {
 	if (!sequence.hasProperty(treeId::sequenceDuration)) {
@@ -273,6 +274,7 @@ bool TimelineData::initializeKeyframesArray(ValueTree sequence) {
 
 // adds a keyframe to the keyframes array of a sequence at the right position
 // returns whether the sequence was added
+// sequence must already be added
 // if the ValueTree is not a treeId::keyframe, it won't get added
 bool TimelineData::addKeyframe(ValueTree sequence, ValueTree keyframe) {
 	bool isKeyframe = keyframe.hasType(treeId::keyframe);
@@ -303,6 +305,7 @@ bool TimelineData::addKeyframe(ValueTree sequence, ValueTree keyframe) {
 }
 
 // adds a keyframe with the given time position to a sequence at the right position
+// sequence must already be added
 // the keyframe will always be added
 // returns always true
 bool TimelineData::addKeyframe(ValueTree sequence, var keyframePosition) {
