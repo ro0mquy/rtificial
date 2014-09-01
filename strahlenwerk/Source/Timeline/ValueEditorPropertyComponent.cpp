@@ -128,6 +128,8 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 		}
 
 		void mouseUp(const MouseEvent &event) override {
+			if (!isEnabled()) return;
+
 			const Rectangle<int> contentBounds = getLookAndFeel().getPropertyComponentContentPosition(*this);
 			if (!contentBounds.contains(event.getPosition())) return;
 
