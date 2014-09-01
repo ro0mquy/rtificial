@@ -7,6 +7,11 @@
 Sidebar::Sidebar() :
 	data(TimelineData::getTimelineData())
 {
+	updateProperties();
+}
+
+void Sidebar::updateProperties() {
+	clear();
 	Interpolator& interpolator = data.getInterpolator();
 	Array<PropertyComponent*> properties;
 

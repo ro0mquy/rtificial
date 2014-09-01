@@ -11,6 +11,8 @@ class Sidebar :
 	public:
 		Sidebar();
 
+		void updateProperties();
+
 	private:
 		TimelineData& data;
 
