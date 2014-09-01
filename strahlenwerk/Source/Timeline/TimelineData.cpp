@@ -1,5 +1,7 @@
-#include "Data.h"
+#include "TimelineData.h"
 #include "TreeIdentifiers.h"
+#include <StrahlenwerkApplication.h>
+//#include <Project/Project.h>
 
 // comparator for keyframes in the keyframes array of a sequence
 struct KeyframesComparator {
@@ -11,7 +13,7 @@ struct KeyframesComparator {
 };
 static KeyframesComparator keyframesComparator;
 
-Data::Data() :
+TimelineData::TimelineData() :
 	currentTime(40),
 	valueTree(treeId::timelineTree),
 	interpolator(*this)
@@ -39,16 +41,20 @@ Data::Data() :
 	addListenerToTree(&interpolator);
 }
 
-Interpolator& Data::getInterpolator() {
+TimelineData& TimelineData::getTimelineData() {
+	return StrahlenwerkApplication::getInstance()->getProject().getTimelineData();
+}
+
+Interpolator& TimelineData::getInterpolator() {
 	return interpolator;
 }
 
-void Data::addListenerToTree(ValueTree::Listener* listener) {
+void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
 	valueTree.addListener(listener);
 }
 
 // retrieves the scenes array
-ValueTree Data::getScenesArray() {
+ValueTree TimelineData::getScenesArray() {
 	return valueTree.getOrCreateChildWithName(treeId::scenesArray, &undoManager);
 }
 
@@ -56,7 +62,7 @@ ValueTree Data::getScenesArray() {
 // returns whether the scene was added
 // if the ValueTree is not a treeId::scene, it won't get added
 // position defaults to -1 (append to end)
-bool Data::addScene(ValueTree scene, int position) {
+bool TimelineData::addScene(ValueTree scene, int position) {
 	bool isScene = scene.hasType(treeId::scene);
 	isScene &= scene.hasProperty(treeId::sceneId);
 	isScene &= scene.hasProperty(treeId::sceneStart);
@@ -73,7 +79,7 @@ bool Data::addScene(ValueTree scene, int position) {
 // the scene will always be added
 // returns always true
 // position defaults to -1 (append to end)
-bool Data::addScene(var id, var start, var duration, var shaderSource, int position) {
+bool TimelineData::addScene(var id, var start, var duration, var shaderSource, int position) {
 	ValueTree scene(treeId::scene);
 	scene.setProperty(treeId::sceneId, id, nullptr);
 	scene.setProperty(treeId::sceneStart, start, nullptr);
@@ -84,7 +90,7 @@ bool Data::addScene(var id, var start, var duration, var shaderSource, int posit
 }
 
 // finds the the end time of the last scene
-int Data::getLastSceneEndTime() {
+int TimelineData::getLastSceneEndTime() {
 	ValueTree scenesArray = getScenesArray();
 	const int numChildren = scenesArray.getNumChildren();
 	int maxEndTime = 0;
@@ -101,7 +107,7 @@ int Data::getLastSceneEndTime() {
 }
 
 // returns the active scene for a timepoint
-ValueTree Data::getSceneForTime(const int time) {
+ValueTree TimelineData::getSceneForTime(const int time) {
 	ValueTree scenesArray = getScenesArray();
 	const int numScenes = scenesArray.getNumChildren();
 	/*
@@ -139,7 +145,7 @@ ValueTree Data::getSceneForTime(const int time) {
 }
 
 // returns a scene Id that is currently not used
-int Data::getNewSceneId() {
+int TimelineData::getNewSceneId() {
 	int biggestId = 99; // some room for $stuff
 	ValueTree scenesArray = getScenesArray();
 	const int numScenes = scenesArray.getNumChildren();
@@ -153,7 +159,7 @@ int Data::getNewSceneId() {
 }
 
 // retrieves the uniforms array
-ValueTree Data::getUniformsArray() {
+ValueTree TimelineData::getUniformsArray() {
 	return valueTree.getOrCreateChildWithName(treeId::uniformsArray, &undoManager);
 }
 
@@ -161,7 +167,7 @@ ValueTree Data::getUniformsArray() {
 // returns whether the uniform was added
 // if the ValueTree is not a treeId::uniform, it won't get added
 // position defaults to -1 (append to end)
-bool Data::addUniform(ValueTree uniform, int position) {
+bool TimelineData::addUniform(ValueTree uniform, int position) {
 	bool isUniform = uniform.hasType(treeId::uniform);
 	isUniform &= uniform.hasProperty(treeId::uniformName);
 	isUniform &= uniform.hasProperty(treeId::uniformType);
@@ -177,7 +183,7 @@ bool Data::addUniform(ValueTree uniform, int position) {
 // the uniform will always be added
 // returns always true
 // position defaults to -1 (append to end)
-bool Data::addUniform(var name, var type, int position) {
+bool TimelineData::addUniform(var name, var type, int position) {
 	ValueTree uniform(treeId::uniform);
 	uniform.setProperty(treeId::uniformName, name, nullptr);
 	uniform.setProperty(treeId::uniformType, type, nullptr);
@@ -187,12 +193,12 @@ bool Data::addUniform(var name, var type, int position) {
 }
 
 // returns the uniform with the given name
-ValueTree Data::getUniform(const var& name) {
+ValueTree TimelineData::getUniform(const var& name) {
 	return getUniformsArray().getChildWithProperty(treeId::uniformName, name);
 }
 
 // retrieves the sequences array for a given uniform
-ValueTree Data::getSequencesArray(ValueTree uniform) {
+ValueTree TimelineData::getSequencesArray(ValueTree uniform) {
 	return uniform.getOrCreateChildWithName(treeId::sequencesArray, &undoManager);
 }
 
@@ -200,7 +206,7 @@ ValueTree Data::getSequencesArray(ValueTree uniform) {
 // returns whether the sequence was added
 // if the ValueTree is not a treeId::sequence, it won't get added
 // position defaults to -1 (append to end)
-bool Data::addSequence(ValueTree uniform, ValueTree sequence, int position) {
+bool TimelineData::addSequence(ValueTree uniform, ValueTree sequence, int position) {
 	bool isSequence = sequence.hasType(treeId::sequence);
 	isSequence &= sequence.hasProperty(treeId::sequenceSceneId);
 	isSequence &= sequence.hasProperty(treeId::sequenceStart);
@@ -218,7 +224,7 @@ bool Data::addSequence(ValueTree uniform, ValueTree sequence, int position) {
 // the sequence will always be added
 // returns always true
 // position defaults to -1 (append to end)
-bool Data::addSequence(ValueTree uniform, var sceneId, var start, var duration, var interpolation, int position) {
+bool TimelineData::addSequence(ValueTree uniform, var sceneId, var start, var duration, var interpolation, int position) {
 	ValueTree sequence(treeId::sequence);
 	sequence.setProperty(treeId::sequenceSceneId, sceneId, nullptr);
 	sequence.setProperty(treeId::sequenceStart, start, nullptr);
@@ -231,7 +237,7 @@ bool Data::addSequence(ValueTree uniform, var sceneId, var start, var duration, 
 
 // sets the sceneId and relative start time of a sequence for a given absolute start time
 // return true when the scene for this sequence is a new one, false otherwise
-bool Data::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart) {
+bool TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart) {
 			ValueTree sceneForSequence = getSceneForTime(absoluteStart);
 			var sceneId = sceneForSequence.getProperty(treeId::sceneId);
 
@@ -249,14 +255,14 @@ bool Data::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absolut
 }
 
 // returns the keyframes array for a sequence
-ValueTree Data::getKeyframesArray(ValueTree sequence) {
+ValueTree TimelineData::getKeyframesArray(ValueTree sequence) {
 	return sequence.getOrCreateChildWithName(treeId::keyframesArray, &undoManager);
 }
 
 // initialize the keyframesArray of the sequence
 // creates the start and end keyframe
 // return whether the sequence was properly initialized
-bool Data::initializeKeyframesArray(ValueTree sequence) {
+bool TimelineData::initializeKeyframesArray(ValueTree sequence) {
 	if (!sequence.hasProperty(treeId::sequenceDuration)) {
 		// sequence is not initialized
 		return false;
@@ -272,7 +278,7 @@ bool Data::initializeKeyframesArray(ValueTree sequence) {
 // adds a keyframe to the keyframes array of a sequence at the right position
 // returns whether the sequence was added
 // if the ValueTree is not a treeId::keyframe, it won't get added
-bool Data::addKeyframe(ValueTree sequence, ValueTree keyframe) {
+bool TimelineData::addKeyframe(ValueTree sequence, ValueTree keyframe) {
 	bool isKeyframe = keyframe.hasType(treeId::keyframe);
 	isKeyframe &= keyframe.hasProperty(treeId::keyframePosition);
 
@@ -303,7 +309,7 @@ bool Data::addKeyframe(ValueTree sequence, ValueTree keyframe) {
 // adds a keyframe with the given time position to a sequence at the right position
 // the keyframe will always be added
 // returns always true
-bool Data::addKeyframe(ValueTree sequence, var keyframePosition) {
+bool TimelineData::addKeyframe(ValueTree sequence, var keyframePosition) {
 	ValueTree keyframe(treeId::keyframe);
 	keyframe.setProperty(treeId::keyframePosition, keyframePosition, nullptr);
 
@@ -320,7 +326,7 @@ bool Data::addKeyframe(ValueTree sequence, var keyframePosition) {
 
 // initialize a value with the specified type inside valueData
 // return false when valueData was already initialized or the type is unknown
-bool Data::initializeValue(ValueTree valueData, String valueType) {
+bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 	if (valueData.getNumProperties() != 0) {
 		// value is already populated
 		return false;

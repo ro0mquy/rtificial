@@ -5,7 +5,7 @@
 #include "SnapToGridConstrainer.h"
 #include "KeyframeComponent.h"
 
-class Data;
+class TimelineData;
 
 class SequenceComponent :
 	public Component,
@@ -33,7 +33,7 @@ class SequenceComponent :
 
 	private:
 		ValueTree sequenceData;
-		Data& data;
+		TimelineData& data;
 		Value sceneStartValue;
 		SnapToGridConstrainer constrainer;
 		ResizableBorderComponent resizableBorder;

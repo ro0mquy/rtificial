@@ -2,12 +2,11 @@
 
 #include "TreeIdentifiers.h"
 #include "Timeline.h"
-#include "Data.h"
-#include "../StrahlenwerkApplication.h"
+#include "TimelineData.h"
 
 SequenceComponent::SequenceComponent(ValueTree _sequenceData, int y, int height) :
 	sequenceData(_sequenceData),
-	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData()),
+	data(TimelineData::getTimelineData()),
 	resizableBorder(this, &constrainer)
 {
 	// initialize the value pointing to the start time of the scene this sequence belongs to

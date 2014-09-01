@@ -105,8 +105,9 @@
               file="Source/Timeline/ScenesBarComponent.cpp"/>
         <FILE id="VHnsdr" name="ScenesBarComponent.h" compile="0" resource="0"
               file="Source/Timeline/ScenesBarComponent.h"/>
-        <FILE id="L6skV4" name="Data.cpp" compile="1" resource="0" file="Source/Timeline/Data.cpp"/>
-        <FILE id="R5BiSQ" name="Data.h" compile="0" resource="0" file="Source/Timeline/Data.h"/>
+        <FILE id="L6skV4" name="TimelineData.cpp" compile="1" resource="0"
+              file="Source/Timeline/TimelineData.cpp"/>
+        <FILE id="R5BiSQ" name="TimelineData.h" compile="0" resource="0" file="Source/Timeline/TimelineData.h"/>
         <FILE id="AiGAGg" name="SequenceViewComponent.cpp" compile="1" resource="0"
               file="Source/Timeline/SequenceViewComponent.cpp"/>
         <FILE id="ibK1ZX" name="SequenceViewComponent.h" compile="0" resource="0"

@@ -1,9 +1,9 @@
 #include "Interpolator.h"
 #include "../StrahlenwerkApplication.h"
-#include "Data.h"
+#include "TimelineData.h"
 #include "TreeIdentifiers.h"
 
-Interpolator::Interpolator(Data& data_) :
+Interpolator::Interpolator(TimelineData& data_) :
 	data(data_),
 	uniformStatesArray(treeId::uniformStatesArray)
 {

@@ -5,7 +5,6 @@
 #include "SequenceViewComponent.h"
 #include "ScenesBarComponent.h"
 #include "UniformsBarComponent.h"
-#include "Data.h"
 
 class Timeline : public Component
 {

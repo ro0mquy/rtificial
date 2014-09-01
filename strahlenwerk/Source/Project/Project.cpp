@@ -78,7 +78,7 @@ std::unique_ptr<Scenes> Project::getScenes() {
 	return std::move(scenes);
 }
 
-Data& Project::getTimelineData() {
+TimelineData& Project::getTimelineData() {
 	return timelineData;
 }
 

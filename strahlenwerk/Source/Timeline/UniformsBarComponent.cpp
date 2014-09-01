@@ -3,11 +3,10 @@
 #include "TreeIdentifiers.h"
 #include "ValueEditorPropertyComponent.h"
 #include "../RtColourIds.h"
-#include "Data.h"
-#include "../StrahlenwerkApplication.h"
+#include "TimelineData.h"
 
 UniformsBarComponent::UniformsBarComponent() :
-	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData())
+	data(TimelineData::getTimelineData())
 {
 }
 

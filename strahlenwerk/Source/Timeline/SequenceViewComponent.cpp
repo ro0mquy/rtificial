@@ -2,11 +2,10 @@
 
 #include "TreeIdentifiers.h"
 #include "SequenceComponent.h"
-#include "Data.h"
-#include "../StrahlenwerkApplication.h"
+#include "TimelineData.h"
 
 SequenceViewComponent::SequenceViewComponent() :
-	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData())
+	data(TimelineData::getTimelineData())
 {
 	updateSequenceComponents();
 }

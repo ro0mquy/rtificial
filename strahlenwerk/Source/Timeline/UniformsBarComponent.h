@@ -3,7 +3,7 @@
 
 #include <juce>
 
-class Data;
+class TimelineData;
 
 class UniformsBarComponent : public Component {
 	public:
@@ -20,7 +20,7 @@ class UniformsBarComponent : public Component {
 		};
 
 	private:
-		Data& data;
+		TimelineData& data;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(UniformsBarComponent)
 };
 

@@ -76,7 +76,7 @@ OBJECTS := \
   $(OBJDIR)/SceneComponent_2e62f260.o \
   $(OBJDIR)/SnapToGridConstrainer_30f5e134.o \
   $(OBJDIR)/ScenesBarComponent_9e1694c0.o \
-  $(OBJDIR)/Data_92ef9439.o \
+  $(OBJDIR)/TimelineData_bd97819a.o \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
   $(OBJDIR)/Timeline_d3785850.o \
   $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
@@ -239,9 +239,9 @@ $(OBJDIR)/ScenesBarComponent_9e1694c0.o: ../../Source/Timeline/ScenesBarComponen
 	@echo "Compiling ScenesBarComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/Data_92ef9439.o: ../../Source/Timeline/Data.cpp
+$(OBJDIR)/TimelineData_bd97819a.o: ../../Source/Timeline/TimelineData.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Data.cpp"
+	@echo "Compiling TimelineData.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SequenceViewComponent_a0963d32.o: ../../Source/Timeline/SequenceViewComponent.cpp

@@ -3,7 +3,7 @@
 
 #include <juce>
 
-class Data;
+class TimelineData;
 class SceneComponent;
 
 class ScenesBarComponent : public Component {
@@ -26,7 +26,7 @@ class ScenesBarComponent : public Component {
 		};
 
 	private:
-		Data& data;
+		TimelineData& data;
 		OwnedArray<SceneComponent> sceneComponentsArray;
 
 		ValueTree newSceneData;

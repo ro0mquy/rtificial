@@ -1,13 +1,14 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef TIMELINEDATA_H
+#define TIMELINEDATA_H
 
 #include <juce>
 #include "Interpolator.h"
 
-class Data {
+class TimelineData {
 	public:
-		Data();
+		TimelineData();
 
+		static TimelineData& getTimelineData();
 		Interpolator& getInterpolator();
 
 		void addListenerToTree(ValueTree::Listener* listener);
@@ -43,7 +44,7 @@ class Data {
 		UndoManager undoManager;
 		Interpolator interpolator;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Data)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineData)
 };
 
-#endif // DATA_H
+#endif // TIMELINEDATA_H

@@ -2,12 +2,11 @@
 
 #include "TreeIdentifiers.h"
 #include "../RtificialLookAndFeel.h"
-#include "Data.h"
-#include "../StrahlenwerkApplication.h"
+#include "TimelineData.h"
 #include "SceneComponent.h"
 
 ScenesBarComponent::ScenesBarComponent() :
-	data(StrahlenwerkApplication::getInstance()->getProject().getTimelineData())
+	data(TimelineData::getTimelineData())
 {
 	updateSceneComponents();
 }

@@ -3,7 +3,7 @@
 
 #include <juce>
 
-class Data;
+class TimelineData;
 class SequenceComponent;
 
 class SequenceViewComponent : public Component
@@ -32,7 +32,7 @@ class SequenceViewComponent : public Component
 	private:
 		bool uniformActiveForScene(ValueTree uniform, ValueTree scene);
 
-		Data& data;
+		TimelineData& data;
 		OwnedArray<SequenceComponent> sequenceComponentsArray;
 
 		ValueTree newSequenceData;

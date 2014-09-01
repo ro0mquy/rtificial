@@ -3,13 +3,13 @@
 
 #include <juce>
 
-class Data;
+class TimelineData;
 
 class Interpolator :
 	public ValueTree::Listener
 {
 	public:
-		Interpolator(Data& data_);
+		Interpolator(TimelineData& data_);
 
 		ValueTree getUniformStatesArray();
 		void updateUniformState(ValueTree uniformData);
@@ -24,7 +24,7 @@ class Interpolator :
         void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
 	private:
-		Data& data;
+		TimelineData& data;
 		ValueTree uniformStatesArray;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Interpolator)
