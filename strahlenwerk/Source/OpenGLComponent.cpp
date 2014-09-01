@@ -15,7 +15,7 @@ OpenGLComponent::OpenGLComponent() :
 
 	context.setRenderer(&renderer);
 	context.attachTo(fixedAspectRatioComponent);
-	//context.setContinuousRepainting(true);
+	context.setContinuousRepainting(true);
 
 }
 
