@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <juce>
-#include "MainComponent.h"
+#include "MainContentComponent.h"
 #include "RtificialLookAndFeel.h"
 
 /*
@@ -31,7 +31,7 @@ class MainWindow : public DocumentWindow,
 		void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
 
 	private:
-		MainContentComponent mainComponent;
+		MainContentComponent mainContentComponent;
 		RtificialLookAndFeel lookAndFeel;
 
 		ApplicationCommandTarget* getNextCommandTarget() override;

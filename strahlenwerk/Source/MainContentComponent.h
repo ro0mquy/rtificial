@@ -1,5 +1,5 @@
-#ifndef MAINCOMPONENT_H
-#define MAINCOMPONENT_H
+#ifndef MAINCONTENTCOMPONENT_H
+#define MAINCONTENTCOMPONENT_H
 
 #include <juce>
 #include "BoxLayout.h"
@@ -32,4 +32,4 @@ class MainContentComponent : public Component
 };
 
 
-#endif
+#endif // MAINCONTENTCOMPONENT_H

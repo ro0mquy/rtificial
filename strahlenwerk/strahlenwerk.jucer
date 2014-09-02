@@ -125,9 +125,10 @@
       <FILE id="H0wOnu" name="PropertyNames.h" compile="0" resource="0" file="Source/PropertyNames.h"/>
       <FILE id="jzZlkA" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
       <FILE id="RCWYjO" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
-      <FILE id="LokCeX" name="MainComponent.cpp" compile="1" resource="0"
-            file="Source/MainComponent.cpp"/>
-      <FILE id="kt9k5n" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="LokCeX" name="MainContentComponent.cpp" compile="1" resource="0"
+            file="Source/MainContentComponent.cpp"/>
+      <FILE id="kt9k5n" name="MainContentComponent.h" compile="0" resource="0"
+            file="Source/MainContentComponent.h"/>
       <FILE id="oLyckP" name="BoxLayout.h" compile="0" resource="0" file="Source/BoxLayout.h"/>
       <FILE id="ETqG8P" name="OpenGLComponent.cpp" compile="1" resource="0"
             file="Source/OpenGLComponent.cpp"/>

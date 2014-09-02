@@ -18,7 +18,7 @@ MainWindow::MainWindow() :
 {
 	setLookAndFeel(&lookAndFeel);
 	setMenuBar(this);
-	setContentOwned(&mainComponent, true);
+	setContentOwned(&mainContentComponent, true);
 
 	centreWithSize(getWidth(), getHeight());
 	setVisible(true);

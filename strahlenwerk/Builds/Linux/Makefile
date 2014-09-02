@@ -81,7 +81,7 @@ OBJECTS := \
   $(OBJDIR)/Timeline_d3785850.o \
   $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
   $(OBJDIR)/MainWindow_499ac812.o \
-  $(OBJDIR)/MainComponent_a6ffb4a5.o \
+  $(OBJDIR)/MainContentComponent_19da5e66.o \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
   $(OBJDIR)/Renderer_d34861cc.o \
   $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
@@ -264,9 +264,9 @@ $(OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp
 	@echo "Compiling MainWindow.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/MainComponent_a6ffb4a5.o: ../../Source/MainComponent.cpp
+$(OBJDIR)/MainContentComponent_19da5e66.o: ../../Source/MainContentComponent.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling MainComponent.cpp"
+	@echo "Compiling MainContentComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/OpenGLComponent_fe08fa6f.o: ../../Source/OpenGLComponent.cpp

@@ -1,4 +1,4 @@
-#include "MainComponent.h"
+#include "MainContentComponent.h"
 
 MainContentComponent::MainContentComponent() :
 	verticalResizer(&verticalLayout, 1, false),
