@@ -30,7 +30,7 @@ void Shader::load(std::string source) {
 
 	applyIncludes();
 
-	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;)regex");
+	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;[ \t]*(// (color))?)regex");
 	const std::sregex_iterator end;
 
 	std::vector<std::pair<size_t, int>> matches;
@@ -47,7 +47,11 @@ void Shader::load(std::string source) {
 			type = UniformType::VEC2;
 		}
 		else if(typeString == "vec3") {
-			type = UniformType::VEC3;
+			if(match[5] == "color") {
+				type = UniformType::COLOR;
+			} else {
+				type = UniformType::VEC3;
+			}
 		}
 		else if(typeString == "vec4") {
 			type = UniformType::VEC4;
@@ -215,16 +219,14 @@ void Shader::loadUniformValues() {
 					context.extensions.glUniform3f(location, vec3X, vec3Y, vec3Z);
 				}
 				break;
-			/* no color in UniformType
 			case UniformType::COLOR:
 				{
-					const float colorR = value.getProperty(treeId::valuecolorR);
-					const float colorG = value.getProperty(treeId::valuecolorG);
-					const float colorB = value.getProperty(treeId::valuecolorB);
+					const float colorR = value.getProperty(treeId::valueColorR);
+					const float colorG = value.getProperty(treeId::valueColorG);
+					const float colorB = value.getProperty(treeId::valueColorB);
 					context.extensions.glUniform3f(location, colorR, colorG, colorB);
 				}
 				break;
-			*/
 			case UniformType::VEC4:
 				// no vec4 in TimelineData
 				{

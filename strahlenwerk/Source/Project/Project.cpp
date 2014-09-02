@@ -179,6 +179,9 @@ void Project::addUniforms(const Shader& shader) {
 				case UniformType::VEC3:
 					type = var("vec3");
 					break;
+				case UniformType::COLOR:
+					type = var("color");
+					break;
 				case UniformType::VEC4:
 					type = var("vec4");
 					break;
