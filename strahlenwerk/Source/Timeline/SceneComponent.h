@@ -13,6 +13,7 @@ class SceneComponent : public Component,
 		void paint(Graphics& g) override;
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
+		void mouseUp(const MouseEvent& event) override;
 		void timerCallback() override;
 		void moved() override;
 		void resized() override;

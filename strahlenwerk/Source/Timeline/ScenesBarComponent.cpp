@@ -65,6 +65,10 @@ void ScenesBarComponent::updateSceneComponents() {
 	}
 }
 
+void ScenesBarComponent::removeSceneComponent(const SceneComponent* toBeDeleted) {
+	sceneComponentsArray.removeObject(toBeDeleted);
+}
+
 void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 	const int sceneId = data.getNewSceneId();
 	newSceneData = ValueTree(treeId::scene);

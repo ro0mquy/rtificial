@@ -1,6 +1,7 @@
 #include "SceneComponent.h"
 #include "TreeIdentifiers.h"
 #include "Timeline.h"
+#include "ScenesBarComponent.h"
 
 SceneComponent::SceneComponent(ValueTree _sceneData) :
 	sceneData(_sceneData),
@@ -66,6 +67,27 @@ void SceneComponent::mouseDrag(const MouseEvent& event) {
 	Point<int> currentPos = viewportEvent.getPosition();
 	// scroll only X- not Y-Direction, so set it to something > 20
 	parentViewport->autoScroll(currentPos.getX(), 21, 20, 5);
+}
+
+void SceneComponent::mouseUp(const MouseEvent& event) {
+	if (!event.mouseWasClicked()) {
+		return;
+	}
+
+	const ModifierKeys& mods = event.mods;
+	if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
+		AlertWindow reallyDeleteWindow("Scene", "Delete this Scene for Ever and Ever", AlertWindow::WarningIcon);
+		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
+		reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
+
+		const int returnedChoice = reallyDeleteWindow.runModalLoop();
+		if (returnedChoice != 1) {
+			return;
+		}
+
+		sceneData.getParent().removeChild(sceneData, nullptr);
+		findParentComponentOfClass<ScenesBarComponent>()->removeSceneComponent(this);
+	}
 }
 
 void SceneComponent::moved() {

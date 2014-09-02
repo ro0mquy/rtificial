@@ -15,6 +15,7 @@ class ScenesBarComponent : public Component {
 		void paint(Graphics& g) override;
 		void paintOverChildren(Graphics& g) override;
 		void updateSceneComponents();
+		void removeSceneComponent(const SceneComponent* toBeDeleted);
 
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
