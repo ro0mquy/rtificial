@@ -85,6 +85,10 @@ void SequenceViewComponent::updateSequenceComponents() {
 	}
 }
 
+void SequenceViewComponent::removeSequenceComponent(const SequenceComponent* toBeDeleted) {
+	sequenceComponentsArray.removeObject(toBeDeleted);
+}
+
 void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	const int absoluteStart = event.getMouseDownX();
 	ValueTree scene = data.getSceneForTime(absoluteStart);

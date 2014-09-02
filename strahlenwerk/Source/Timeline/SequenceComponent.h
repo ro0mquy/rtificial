@@ -26,7 +26,7 @@ class SequenceComponent :
 		void updateSceneStartValueRefer();
 		void updateKeyframeComponents();
 		int getAbsoluteStart();
-		void deleteKeyframeComponent(const KeyframeComponent* toBeDeleted);
+		void removeKeyframeComponent(const KeyframeComponent* toBeDeleted);
 
 		enum ColourIds {
 			fillColourId = 0x4934001,

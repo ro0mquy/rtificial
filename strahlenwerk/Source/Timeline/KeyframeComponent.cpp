@@ -44,7 +44,7 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& mods = event.mods;
 	if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
 		keyframeData.getParent().removeChild(keyframeData, nullptr);
-		findParentComponentOfClass<SequenceComponent>()->deleteKeyframeComponent(this);
+		findParentComponentOfClass<SequenceComponent>()->removeKeyframeComponent(this);
 	}
 }
 

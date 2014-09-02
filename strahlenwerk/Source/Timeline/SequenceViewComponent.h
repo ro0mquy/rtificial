@@ -16,6 +16,7 @@ class SequenceViewComponent : public Component
 		void paint(Graphics& g) override;
 		void paintOverChildren(Graphics& g) override;
 		void updateSequenceComponents();
+		void removeSequenceComponent(const SequenceComponent* toBeDeleted);
 
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;

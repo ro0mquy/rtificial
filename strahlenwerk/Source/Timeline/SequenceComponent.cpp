@@ -4,6 +4,7 @@
 #include "Timeline.h"
 #include "TimelineData.h"
 #include "KeyframeComponent.h"
+#include "SequenceViewComponent.h"
 
 SequenceComponent::SequenceComponent(ValueTree _sequenceData, int y, int height) :
 	sequenceData(_sequenceData),
@@ -73,7 +74,7 @@ int SequenceComponent::getAbsoluteStart() {
 	return sceneStart + sequenceStart;
 }
 
-void SequenceComponent::deleteKeyframeComponent(const KeyframeComponent* toBeDeleted) {
+void SequenceComponent::removeKeyframeComponent(const KeyframeComponent* toBeDeleted) {
 	keyframeComponentsArray.removeObject(toBeDeleted);
 }
 
@@ -115,24 +116,32 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		return;
 	}
 
-	const int gridWidth = 20;
+	const ModifierKeys& mods = event.mods;
 
-	const int mouseDown = event.getMouseDownX();
-	const int mouseDownGrid = roundFloatToInt(float(mouseDown) / float(gridWidth)) * gridWidth;
+	if (mods.isLeftButtonDown()) {
+		// add keyframe
+		const int gridWidth = 20;
 
-	const int sequenceDuration = sequenceData.getProperty(treeId::sequenceDuration);
-	if (mouseDownGrid == 0 || mouseDownGrid == sequenceDuration) {
-		// don't set keyframe at start or end
-		return;
+		const int mouseDown = event.getMouseDownX();
+		const int mouseDownGrid = roundFloatToInt(float(mouseDown) / float(gridWidth)) * gridWidth;
+
+		const int sequenceDuration = sequenceData.getProperty(treeId::sequenceDuration);
+		if (mouseDownGrid == 0 || mouseDownGrid == sequenceDuration) {
+			// don't set keyframe at start or end
+			return;
+		}
+
+		data.addKeyframe(sequenceData, var(mouseDownGrid));
+		ValueTree keyframeData = data.getKeyframesArray(sequenceData).getChildWithProperty(treeId::keyframePosition, var(mouseDownGrid));
+
+		KeyframeComponent* keyframeComponent = new KeyframeComponent(keyframeData);
+		addAndMakeVisible(keyframeComponent);
+		keyframeComponent->updateBounds();
+		keyframeComponentsArray.add(keyframeComponent);
+	} else if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
+		sequenceData.getParent().removeChild(sequenceData, nullptr);
+		findParentComponentOfClass<SequenceViewComponent>()->removeSequenceComponent(this);
 	}
-
-	data.addKeyframe(sequenceData, var(mouseDownGrid));
-	ValueTree keyframeData = data.getKeyframesArray(sequenceData).getChildWithProperty(treeId::keyframePosition, var(mouseDownGrid));
-
-	KeyframeComponent* keyframeComponent = new KeyframeComponent(keyframeData);
-	addAndMakeVisible(keyframeComponent);
-	keyframeComponent->updateBounds();
-	keyframeComponentsArray.add(keyframeComponent);
 }
 
 void SequenceComponent::moved() {
