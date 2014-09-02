@@ -23,3 +23,7 @@ MainContentComponent::MainContentComponent() :
 void MainContentComponent::resized() {
 	verticalBoxLayout.setBounds(getLocalBounds());
 }
+
+Timeline& MainContentComponent::getTimeline() {
+	return timeline;
+}

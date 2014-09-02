@@ -43,6 +43,10 @@ void MainWindow::closeButtonPressed() {
 	getApplicationCommandManager().invokeDirectly(MainWindow::quitProgram, false);
 }
 
+MainContentComponent& MainWindow::getMainContentComponent() {
+	return mainContentComponent;
+}
+
 ApplicationCommandManager& MainWindow::getApplicationCommandManager() {
 	if (applicationCommandManager == nullptr) {
 		applicationCommandManager = new ApplicationCommandManager();

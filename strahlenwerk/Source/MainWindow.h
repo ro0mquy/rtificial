@@ -19,6 +19,7 @@ class MainWindow : public DocumentWindow,
 		void closeButtonPressed();
 
 		static ApplicationCommandManager& getApplicationCommandManager();
+		MainContentComponent& getMainContentComponent();
 
 		enum CommandIDs {
 			quitProgram = 0x2300,

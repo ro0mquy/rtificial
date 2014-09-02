@@ -5,12 +5,15 @@
 #include "SequenceViewComponent.h"
 #include "ScenesBarComponent.h"
 #include "UniformsBarComponent.h"
+#include "Zoom.h"
 
 class Timeline : public Component
 {
 	public:
 		Timeline();
 		void resized() override;
+
+		Zoom& getZoom();
 
 		// extend Viewport with a custom callback function
 		class ViewportCallback : public Viewport {
@@ -23,7 +26,8 @@ class Timeline : public Component
 
 	private:
 		void callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position);
-		void setupValueTree();
+
+		Zoom zoom;
 
 		ViewportCallback viewportSequenceView;
 		ViewportCallback viewportScenesBar;

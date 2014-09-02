@@ -68,6 +68,7 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/Zoom_5d018be2.o \
   $(OBJDIR)/Interpolator_e73f9cd6.o \
   $(OBJDIR)/KeyframeComponent_bb6b78ca.o \
   $(OBJDIR)/ValueEditorPropertyComponent_c62ae299.o \
@@ -197,6 +198,11 @@ $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
 $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling UniformManager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Zoom_5d018be2.o: ../../Source/Timeline/Zoom.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Zoom.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Interpolator_e73f9cd6.o: ../../Source/Timeline/Interpolator.cpp

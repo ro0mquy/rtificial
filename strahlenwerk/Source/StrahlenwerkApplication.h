@@ -18,6 +18,7 @@ class StrahlenwerkApplication : public JUCEApplication {
 		void systemRequestedQuit() override;
 		void anotherInstanceStarted(const String& commandLine) override;
 
+		MainWindow& getMainWindow();
 		Project& getProject();
 		PropertySet& getProperties();
 

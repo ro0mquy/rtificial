@@ -14,6 +14,8 @@ class MainContentComponent : public Component
 
 		void resized() override;
 
+		Timeline& getTimeline();
+
 	private:
 		StretchableLayoutResizerBar verticalResizer;
 		Timeline timeline;

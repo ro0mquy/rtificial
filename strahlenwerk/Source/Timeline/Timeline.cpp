@@ -11,7 +11,6 @@ Timeline::Timeline()
 	addAndMakeVisible(viewportSequenceView);
 	addAndMakeVisible(viewportScenesBar);
 	addAndMakeVisible(viewportUniformsBar);
-	resized();
 }
 
 void Timeline::resized() {
@@ -38,6 +37,10 @@ void Timeline::resized() {
 
 	viewportSequenceView.setBounds(r);
 	sequenceView.updateSize();
+}
+
+Zoom& Timeline::getZoom() {
+	return zoom;
 }
 
 // gets called when one of the viewports changed

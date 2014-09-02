@@ -49,6 +49,10 @@ void StrahlenwerkApplication::anotherInstanceStarted(const String& commandLine) 
 	// the other instance's command-line arguments were.
 }
 
+MainWindow& StrahlenwerkApplication::getMainWindow() {
+	return *mainWindow;
+}
+
 Project& StrahlenwerkApplication::getProject() {
 	return *project;
 }
