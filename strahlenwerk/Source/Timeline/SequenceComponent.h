@@ -18,6 +18,7 @@ class SequenceComponent :
 		void valueChanged(Value& /*value*/) override;
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
+		void mouseUp(const MouseEvent& event) override;
 		void moved() override;
 		void resized() override;
 

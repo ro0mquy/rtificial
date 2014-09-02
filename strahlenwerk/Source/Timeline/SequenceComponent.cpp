@@ -91,6 +91,10 @@ void SequenceComponent::mouseDown(const MouseEvent& event) {
 }
 
 void SequenceComponent::mouseDrag(const MouseEvent& event) {
+	if (event.mouseWasClicked()) {
+		return;
+	}
+
 	dragComponent(this, event, &constrainer);
 
 	// scroll viewport if necessary
@@ -99,6 +103,31 @@ void SequenceComponent::mouseDrag(const MouseEvent& event) {
 	Point<int> currentPos = viewportEvent.getPosition();
 	// scroll only X- not Y-Direction, so set it to something > 20
 	parentViewport->autoScroll(currentPos.getX(), 21, 20, 5);
+}
+
+void SequenceComponent::mouseUp(const MouseEvent& event) {
+	if (!event.mouseWasClicked()) {
+		return;
+	}
+
+	const int gridWidth = 20;
+
+	const int mouseDown = event.getMouseDownX();
+	const int mouseDownGrid = roundFloatToInt(float(mouseDown) / float(gridWidth)) * gridWidth;
+
+	const int sequenceDuration = sequenceData.getProperty(treeId::sequenceDuration);
+	if (mouseDownGrid == 0 || mouseDownGrid == sequenceDuration) {
+		// don't set keyframe at start or end
+		return;
+	}
+
+	data.addKeyframe(sequenceData, var(mouseDownGrid));
+	ValueTree keyframeData = data.getKeyframesArray(sequenceData).getChildWithProperty(treeId::keyframePosition, var(mouseDownGrid));
+
+	KeyframeComponent* keyframeComponent = new KeyframeComponent(keyframeData);
+	addAndMakeVisible(keyframeComponent);
+	keyframeComponent->updateBounds();
+	keyframeComponentsArray.add(keyframeComponent);
 }
 
 void SequenceComponent::moved() {
