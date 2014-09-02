@@ -14,7 +14,7 @@
 
 Renderer::Renderer(OpenGLContext& context) :
 	context(context),
-	defaultShader(context),
+	defaultShader(context, "default"),
 	defaultPostproc(new PostprocPipeline),
 	width(0),
 	height(0)

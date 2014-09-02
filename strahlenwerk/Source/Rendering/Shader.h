@@ -11,12 +11,13 @@ enum class UniformType;
 
 class Shader {
 	public:
-		Shader(OpenGLContext& context);
+		Shader(OpenGLContext& context, std::string name);
 		virtual ~Shader();
 
 		void load(std::string source);
 		void draw(int widht, int height);
 		const std::vector<int>& getUniformIds() const;
+		const std::string& getName() const;
 
 	protected:
 		const Uniform* registerUniform(std::string name, UniformType type);
@@ -42,6 +43,7 @@ class Shader {
 		GLint attributeCoord;
 
 		std::vector<int> uniformIds;
+		std::string name;
 };
 
 #endif

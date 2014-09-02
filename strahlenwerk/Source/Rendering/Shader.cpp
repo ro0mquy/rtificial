@@ -14,9 +14,10 @@
 #include <Timeline/Interpolator.h>
 #include <Timeline/TreeIdentifiers.h>
 
-Shader::Shader(OpenGLContext& context) :
+Shader::Shader(OpenGLContext& context, std::string name) :
 	context(context),
-	program(context)
+	program(context),
+	name(name)
 {
 }
 
@@ -105,6 +106,10 @@ void Shader::draw(int width, int height) {
 
 const std::vector<int>& Shader::getUniformIds() const {
 	return uniformIds;
+}
+
+const std::string& Shader::getName() const {
+	return name;
 }
 
 const Uniform* Shader::registerUniform(std::string name, UniformType type) {

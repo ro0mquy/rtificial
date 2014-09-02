@@ -125,7 +125,7 @@ std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> Project::loadS
 	auto shaderSources = listShaderSources(loader.listSceneFiles());
 	std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> shaders;
 	for(auto& shader : shaderSources) {
-		shaders.emplace_back(shader.first, std::unique_ptr<SceneShader>(new SceneShader(*context)));
+		shaders.emplace_back(shader.first, std::unique_ptr<SceneShader>(new SceneShader(*context, shader.first)));
 		shaders.back().second->load(shader.second);
 	}
 	return shaders;
