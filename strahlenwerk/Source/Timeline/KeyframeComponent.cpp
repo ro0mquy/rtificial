@@ -43,6 +43,15 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 
 	const ModifierKeys& mods = event.mods;
 	if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
+		AlertWindow reallyDeleteWindow("Keyframe", "Delete this Keyframe for Ever and Ever", AlertWindow::WarningIcon);
+		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
+		reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
+
+		const int returnedChoice = reallyDeleteWindow.runModalLoop();
+		if (returnedChoice != 1) {
+			return;
+		}
+
 		keyframeData.getParent().removeChild(keyframeData, nullptr);
 		findParentComponentOfClass<SequenceComponent>()->removeKeyframeComponent(this);
 	}

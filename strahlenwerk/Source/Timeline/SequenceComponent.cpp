@@ -139,6 +139,15 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		keyframeComponent->updateBounds();
 		keyframeComponentsArray.add(keyframeComponent);
 	} else if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
+		AlertWindow reallyDeleteWindow("Sequence",  "Delete this Sequence for Ever and Ever", AlertWindow::WarningIcon);
+		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
+		reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
+
+		const int returnedChoice = reallyDeleteWindow.runModalLoop();
+		if (returnedChoice != 1) {
+			return;
+		}
+
 		sequenceData.getParent().removeChild(sequenceData, nullptr);
 		findParentComponentOfClass<SequenceViewComponent>()->removeSequenceComponent(this);
 	}
