@@ -3,6 +3,7 @@
 #include "TreeIdentifiers.h"
 #include "Timeline.h"
 #include "TimelineData.h"
+#include "KeyframeComponent.h"
 
 SequenceComponent::SequenceComponent(ValueTree _sequenceData, int y, int height) :
 	sequenceData(_sequenceData),
@@ -70,6 +71,10 @@ int SequenceComponent::getAbsoluteStart() {
 	const int sceneStart = sceneStartValue.getValue();
 	const int sequenceStart = sequenceData.getProperty(treeId::sequenceStart);
 	return sceneStart + sequenceStart;
+}
+
+void SequenceComponent::deleteKeyframeComponent(const KeyframeComponent* toBeDeleted) {
+	keyframeComponentsArray.removeObject(toBeDeleted);
 }
 
 void SequenceComponent::paint(Graphics& g) {

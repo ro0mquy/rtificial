@@ -1,5 +1,6 @@
 #include "KeyframeComponent.h"
 #include "TreeIdentifiers.h"
+#include "SequenceComponent.h"
 
 KeyframeComponent::KeyframeComponent(ValueTree keyframeData_) :
 	keyframeData(keyframeData_)
@@ -33,6 +34,18 @@ void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 	dragComponent(this, event, &constrainer);
 	// center keyframe on grid
 	setTopLeftPosition(getPosition() - Point<int>(getWidth() / 2, 0));
+}
+
+void KeyframeComponent::mouseUp(const MouseEvent& event) {
+	if (!event.mouseWasClicked()) {
+		return;
+	}
+
+	const ModifierKeys& mods = event.mods;
+	if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
+		keyframeData.getParent().removeChild(keyframeData, nullptr);
+		findParentComponentOfClass<SequenceComponent>()->deleteKeyframeComponent(this);
+	}
 }
 
 void KeyframeComponent::moved() {

@@ -3,9 +3,9 @@
 
 #include <juce>
 #include "SnapToGridConstrainer.h"
-#include "KeyframeComponent.h"
 
 class TimelineData;
+class KeyframeComponent;
 
 class SequenceComponent :
 	public Component,
@@ -26,6 +26,7 @@ class SequenceComponent :
 		void updateSceneStartValueRefer();
 		void updateKeyframeComponents();
 		int getAbsoluteStart();
+		void deleteKeyframeComponent(const KeyframeComponent* toBeDeleted);
 
 		enum ColourIds {
 			fillColourId = 0x4934001,
