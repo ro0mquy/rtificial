@@ -12,6 +12,7 @@
 #include "Rendering/Scenes.h"
 #include "Rendering/Shader.h"
 #include "Rendering/Uniform.h"
+#include "Rendering/UniformManager.h"
 
 Project::Project(const std::string& dir) :
 	loader(dir),
@@ -161,7 +162,9 @@ void Project::watchFiles(const std::string& dir) {
 
 void Project::addUniforms(const Shader& shader) {
 	auto uniformsArray = timelineData.getUniformsArray();
-	for(auto uniform : shader.getUniforms()) {
+	const auto& uniformManager = UniformManager::Instance();
+	for(const int uniformId : shader.getUniformIds()) {
+		const Uniform* uniform = uniformManager.getUniform(uniformId);
 		// TODO handle same uniform with different type
 		if(!timelineData.getUniform(var(uniform->name)).isValid()) {
 			var type;

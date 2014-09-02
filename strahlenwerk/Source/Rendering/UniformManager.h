@@ -23,7 +23,7 @@ class UniformManager {
 		UniformManager(const UniformManager &) = delete;
 		UniformManager& operator=(const UniformManager&) = delete;
 
-		std::unordered_map<std::string, const Uniform&> uniformLookup;
+		std::unordered_map<std::string, int> uniformLookup;
 		std::vector<Uniform> uniforms;
 
 		static const int RESERVED = 1;

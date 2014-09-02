@@ -24,7 +24,7 @@ Shader::~Shader() {
 }
 
 void Shader::load(std::string source) {
-	uniforms.clear();
+	uniformIds.clear();
 
 	fragmentSource = source;
 
@@ -58,7 +58,7 @@ void Shader::load(std::string source) {
 		} else {
 			matches.emplace_back(match.position(), uniform->id);
 			onUniformLoad(name, *uniform);
-			uniforms.push_back(uniform);
+			uniformIds.push_back(uniform->id);
 		}
 	}
 	insertLocations(matches);
@@ -99,8 +99,8 @@ void Shader::draw(int width, int height) {
 	context.extensions.glDisableVertexAttribArray(attributeCoord);
 }
 
-const std::vector<const Uniform*>& Shader::getUniforms() const {
-	return uniforms;
+const std::vector<int>& Shader::getUniformIds() const {
+	return uniformIds;
 }
 
 const Uniform* Shader::registerUniform(std::string name, UniformType type) {
@@ -179,7 +179,9 @@ void Shader::applyIncludes() {
  */
 void Shader::loadUniformValues() {
 	Interpolator& interpolator = TimelineData::getTimelineData().getInterpolator();
-	for (auto uniform : uniforms) {
+	const auto& uniformManager = UniformManager::Instance();
+	for (const int uniformId : uniformIds) {
+		const Uniform* uniform = uniformManager.getUniform(uniformId);
 		// TODO: locking
 		const int location = uniform->id;
 		ValueTree value = interpolator.getUniformState(var(uniform->name)).first;
