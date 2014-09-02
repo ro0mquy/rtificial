@@ -1,6 +1,9 @@
 #ifndef POSTPROCPIPELINE_H
 #define POSTPROCPIPELINE_H
 
+#define GL_GLEXT_PROTOTYPES
+#include "glcorearb.h"
+
 #include <vector>
 #include <memory>
 
@@ -16,6 +19,7 @@ class PostprocPipeline {
 
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> shaders;
+		std::vector<GLuint> queries;
 };
 
 #endif
