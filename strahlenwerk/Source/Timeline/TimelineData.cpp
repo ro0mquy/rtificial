@@ -118,6 +118,30 @@ ValueTree TimelineData::addSceneUnchecked(ValueTree scene, int position) {
 	return scene;
 }
 
+// sets the id for the given scene
+void TimelineData::setSceneId(ValueTree scene, var id) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	scene.setProperty(treeId::sceneId, id, &undoManager);
+}
+
+// sets the start time for the given scene
+void TimelineData::setSceneStart(ValueTree scene, var start) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	scene.setProperty(treeId::sceneStart, start, &undoManager);
+}
+
+// sets the duration for the given scene
+void TimelineData::setSceneDuration(ValueTree scene, var duration) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	scene.setProperty(treeId::sceneDuration, duration, &undoManager);
+}
+
+// sets the shaderSource for the given scene
+void TimelineData::setSceneShaderSource(ValueTree scene, var shaderSource) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	scene.setProperty(treeId::sceneShaderSource, shaderSource, &undoManager);
+}
+
 // finds the the end time of the last scene
 int TimelineData::getLastSceneEndTime() {
 	ValueTree scenesArray = getScenesArray();
@@ -186,6 +210,7 @@ int TimelineData::getNewSceneId() {
 	}
 	return biggestId + 1;
 }
+
 
 // retrieves the uniforms array
 ValueTree TimelineData::getUniformsArray() {

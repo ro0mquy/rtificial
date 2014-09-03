@@ -101,8 +101,8 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 	const int absDistanceGrid = abs(distanceGrid);
 	const int startGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
 
-	newSceneData.setProperty(treeId::sceneStart, var(startGrid), nullptr);
-	newSceneData.setProperty(treeId::sceneDuration, var(absDistanceGrid), nullptr);
+	data.setSceneStart(newSceneData, startGrid);
+	data.setSceneDuration(newSceneData, absDistanceGrid);
 	newSceneComponent->updateBounds();
 }
 
