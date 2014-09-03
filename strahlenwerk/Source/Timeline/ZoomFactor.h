@@ -15,6 +15,9 @@ class ZoomFactor {
 		ZoomFactor& operator*=(const float zoomLevelFactor);
 		ZoomFactor& operator/=(const float zoomLevelDivisor);
 
+		float timeToPixels(const float time);
+		float pixelsToTime(const float pixels);
+
 		class Listener {
 			public:
 				virtual void zoomFactorChanged(ZoomFactor& zoomFactorThatHasChanged) = 0;

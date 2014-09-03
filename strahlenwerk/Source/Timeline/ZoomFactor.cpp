@@ -13,11 +13,11 @@ ZoomFactor& ZoomFactor::getZoomFactor() {
 	return StrahlenwerkApplication::getInstance()->getMainWindow().getMainContentComponent().getTimeline().getZoomFactor();
 }
 
+// multiply with ZoomFactor to convert time into pixels
+// divide with ZoomFactor to convert pixels into time
 ZoomFactor::operator float() {
-	zoomMutex.lock();
-	const float tmpZoomFactor = zoomLevel;
-	zoomMutex.unlock();
-	return tmpZoomFactor;
+	std::lock_guard<std::mutex> lock(zoomMutex);
+	return zoomLevel;
 }
 
 ZoomFactor& ZoomFactor::operator=(const float newZoomLevel) {
@@ -34,6 +34,14 @@ ZoomFactor& ZoomFactor::operator*=(const float zoomLevelFactor) {
 
 ZoomFactor& ZoomFactor::operator/=(const float zoomLevelDivisor) {
 	return operator=(zoomLevel / zoomLevelDivisor);
+}
+
+float ZoomFactor::timeToPixels(const float time) {
+	return time * *this;
+}
+
+float ZoomFactor::pixelsToTime(const float pixels) {
+	return pixels / *this;
 }
 
 void ZoomFactor::addListener(Listener* const listener) {
