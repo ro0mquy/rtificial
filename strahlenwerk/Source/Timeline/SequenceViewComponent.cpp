@@ -3,6 +3,7 @@
 #include "TreeIdentifiers.h"
 #include "SequenceComponent.h"
 #include "TimelineData.h"
+#include "KeyframeComponent.h"
 
 SequenceViewComponent::SequenceViewComponent() :
 	data(TimelineData::getTimelineData())
