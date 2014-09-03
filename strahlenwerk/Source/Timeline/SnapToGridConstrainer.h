@@ -3,12 +3,14 @@
 
 #include <juce>
 
+class ZoomFactor;
+
 // all hail the tab completion
 class SnapToGridConstrainer : public ComponentBoundsConstrainer {
 	public:
 		SnapToGridConstrainer();
 		void setGridWidth(const int width);
-		int snapValueToGrid(int value);
+		int snapValueToGrid(const float value);
 		void checkBounds (Rectangle<int>& bounds,
 				const Rectangle<int>& old,
 				const Rectangle<int>& limits,

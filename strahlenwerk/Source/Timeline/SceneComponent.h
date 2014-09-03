@@ -3,13 +3,14 @@
 
 #include <juce>
 #include "SnapToGridConstrainer.h"
+#include "ZoomFactor.h"
 
 class TimelineData;
-class ZoomFactor;
 
 class SceneComponent :
 	public Component,
-	private ComponentDragger
+	private ComponentDragger,
+	private ZoomFactor::Listener
 {
 	public:
 		SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_);
@@ -20,6 +21,7 @@ class SceneComponent :
 		void moved() override;
 		void resized() override;
 		void parentHierarchyChanged() override;
+		void zoomFactorChanged(ZoomFactor&) override;
 
 		void updateBounds();
 

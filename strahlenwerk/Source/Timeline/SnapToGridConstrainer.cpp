@@ -1,4 +1,5 @@
 #include "SnapToGridConstrainer.h"
+#include "ZoomFactor.h"
 
 SnapToGridConstrainer::SnapToGridConstrainer() :
 	gridWidth(1)
@@ -9,8 +10,9 @@ void SnapToGridConstrainer::setGridWidth(const int width) {
 	gridWidth = width;
 }
 
-int SnapToGridConstrainer::snapValueToGrid(int value) {
-	const float posOnGrid = float(value) / float(gridWidth);
+// snaps values that are in time units
+int SnapToGridConstrainer::snapValueToGrid(const float value) {
+	const float posOnGrid = value / float(gridWidth);
 	const int newRoundedPos = roundFloatToInt(posOnGrid) * gridWidth;
 	return newRoundedPos;
 }
@@ -32,16 +34,18 @@ void SnapToGridConstrainer::checkBounds (Rectangle<int>& bounds,
 			isStretchingBottom,
 			isStretchingRight);
 
+	ZoomFactor& zoomFactor = ZoomFactor::getZoomFactor();
+
 	// snap to grid
 	if (isStretchingLeft) {
-		const int newLeft = snapValueToGrid(bounds.getX());
-		bounds.setLeft(newLeft);
+		const int newLeft = snapValueToGrid(bounds.getX() / zoomFactor);
+		bounds.setLeft(newLeft * zoomFactor);
 	} else if (isStretchingRight) {
-		const int newRight = snapValueToGrid(bounds.getRight());
-		bounds.setRight(newRight);
+		const int newRight = snapValueToGrid(bounds.getRight() / zoomFactor);
+		bounds.setRight(newRight * zoomFactor);
 	} else { // dragging
-		const int newX = snapValueToGrid(bounds.getX());
-		bounds.setX(newX);
+		const int newX = snapValueToGrid(bounds.getX() / zoomFactor);
+		bounds.setX(newX * zoomFactor);
 	}
 
 	// don't change Y coordinate
