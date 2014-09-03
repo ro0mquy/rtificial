@@ -2,12 +2,16 @@
 #include "TreeIdentifiers.h"
 #include "Timeline.h"
 #include "ScenesBarComponent.h"
+#include "TimelineData.h"
+#include "ZoomFactor.h"
 
-SceneComponent::SceneComponent(ValueTree _sceneData) :
+SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	sceneData(_sceneData),
+	data(TimelineData::getTimelineData()),
+	zoomFactor(zoomFactor_),
 	resizableBorder(this, &constrainer)
 {
-	// don't drag over the component edges
+	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
 	constrainer.setGridWidth(20);
 	constrainer.setMinimumWidth(20);
@@ -17,20 +21,11 @@ SceneComponent::SceneComponent(ValueTree _sceneData) :
 	addAndMakeVisible(resizableBorder);
 
 	setMouseCursor(MouseCursor(MouseCursor::StandardCursorType::DraggingHandCursor));
-
-	// start timer, so the bounds get set,
-	// when this component was added to the ScenesBarComponent
-	startTimer(0);
-}
-
-void SceneComponent::timerCallback() {
-	stopTimer();
-	updateBounds();
 }
 
 void SceneComponent::updateBounds() {
-	const int start = sceneData.getProperty(treeId::sceneStart);
-	const int duration = sceneData.getProperty(treeId::sceneDuration);
+	const float start = (float) data.getSceneStart(sceneData) * zoomFactor;
+	const float duration = (float) data.getSceneDuration(sceneData) * zoomFactor;
 
 	const float padding = 0;
 	setBounds(start, padding, duration, getParentHeight() - 2*padding);
@@ -97,4 +92,8 @@ void SceneComponent::moved() {
 void SceneComponent::resized() {
 	resizableBorder.setBounds(getLocalBounds());
 	sceneData.setProperty(treeId::sceneDuration, var(getWidth()), nullptr);
+}
+
+void SceneComponent::parentHierarchyChanged() {
+	updateBounds();
 }

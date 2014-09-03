@@ -68,7 +68,7 @@ void ScenesBarComponent::updateSceneComponents() {
 
 	for (int i = 0; i < numScenes; i++) {
 		ValueTree sceneData = data.getScene(i);
-		SceneComponent* sceneComponent = new SceneComponent(sceneData);
+		SceneComponent* sceneComponent = new SceneComponent(sceneData, zoomFactor);
 		addAndMakeVisible(sceneComponent);
 		sceneComponentsArray.add(sceneComponent);
 	}
@@ -84,7 +84,7 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 	var sceneShaderSource = "dummy" + String(data.getNewSceneId()) + ".glsl";
 	newSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
 
-	newSceneComponent = new SceneComponent(newSceneData);
+	newSceneComponent = new SceneComponent(newSceneData, zoomFactor);
 	addAndMakeVisible(newSceneComponent);
 }
 

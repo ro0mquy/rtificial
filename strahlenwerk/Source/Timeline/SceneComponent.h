@@ -4,19 +4,22 @@
 #include <juce>
 #include "SnapToGridConstrainer.h"
 
-class SceneComponent : public Component,
-	private Timer,
+class TimelineData;
+class ZoomFactor;
+
+class SceneComponent :
+	public Component,
 	private ComponentDragger
 {
 	public:
-		SceneComponent(ValueTree _sceneData);
+		SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_);
 		void paint(Graphics& g) override;
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
-		void timerCallback() override;
 		void moved() override;
 		void resized() override;
+		void parentHierarchyChanged() override;
 
 		void updateBounds();
 
@@ -28,6 +31,9 @@ class SceneComponent : public Component,
 
 	private:
 		ValueTree sceneData;
+		TimelineData& data;
+		ZoomFactor& zoomFactor;
+
 		SnapToGridConstrainer constrainer;
 		ResizableBorderComponent resizableBorder;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SceneComponent)
