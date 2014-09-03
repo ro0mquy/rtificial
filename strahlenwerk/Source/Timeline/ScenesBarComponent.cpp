@@ -109,7 +109,7 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	if (0 == int(data.getSceneDuration(newSceneData))) {
 		newSceneComponent = nullptr;
-		// delete newSceneData
+		data.removeScene(newSceneData);
 	} else {
 		sceneComponentsArray.add(newSceneComponent.release());
 	}

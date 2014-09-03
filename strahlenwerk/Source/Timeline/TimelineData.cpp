@@ -122,6 +122,12 @@ ValueTree TimelineData::addSceneUnchecked(ValueTree scene, int position) {
 	return scene;
 }
 
+// removes a scene from the scenes array
+void TimelineData::removeScene(ValueTree scene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	getScenesArray().removeChild(scene, &undoManager);
+}
+
 
 // gets the id of a scene
 var TimelineData::getSceneId(ValueTree scene) {

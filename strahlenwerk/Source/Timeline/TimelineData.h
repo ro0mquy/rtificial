@@ -26,6 +26,7 @@ class TimelineData {
 		ValueTree addScene(ValueTree scene, int position = -1);
 		ValueTree addScene(var start, var duration, var shaderSource, int position = -1);
 		ValueTree addSceneUnchecked(ValueTree scene, int position = -1);
+		void removeScene(ValueTree scene);
 
 		var getSceneId(ValueTree scene);
 		var getSceneStart(ValueTree scene);
