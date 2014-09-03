@@ -1,7 +1,8 @@
 #include "Timeline.h"
 
 // functions of the allmighty Timeline class
-Timeline::Timeline()
+Timeline::Timeline() :
+	scenesBar(zoomFactor)
 {
 	viewportSequenceView.setViewedComponent(&sequenceView, false);
 	viewportScenesBar.setViewedComponent(&scenesBar, false);
@@ -22,10 +23,6 @@ void Timeline::resized() {
 			r.removeFromTop(scenesBarHeight)
 			.withTrimmedLeft(uniformsBarWidth)
 		);
-	scenesBar.setSize(
-			scenesBar.getWidth(),
-			scenesBarHeight
-		);
 	scenesBar.updateSize();
 
 	viewportUniformsBar.setBounds(r.removeFromLeft(uniformsBarWidth));
@@ -39,8 +36,16 @@ void Timeline::resized() {
 	sequenceView.updateSize();
 }
 
-Zoom& Timeline::getZoom() {
-	return zoom;
+void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) {
+	if (!event.mods.isCtrlDown()) {
+		Component::mouseWheelMove(event, wheel);
+	}
+
+	zoomFactor *= exp(wheel.deltaY);
+}
+
+ZoomFactor& Timeline::getZoomFactor() {
+	return zoomFactor;
 }
 
 // gets called when one of the viewports changed

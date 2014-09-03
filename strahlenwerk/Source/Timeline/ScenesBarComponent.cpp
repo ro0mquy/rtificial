@@ -4,9 +4,11 @@
 #include "../RtificialLookAndFeel.h"
 #include "TimelineData.h"
 #include "SceneComponent.h"
+#include "ZoomFactor.h"
 
-ScenesBarComponent::ScenesBarComponent() :
-	data(TimelineData::getTimelineData())
+ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
+	data(TimelineData::getTimelineData()),
+	zoomFactor(zoomFactor_)
 {
 	updateSceneComponents();
 }
@@ -14,8 +16,15 @@ ScenesBarComponent::ScenesBarComponent() :
 ScenesBarComponent::~ScenesBarComponent() = default;
 
 void ScenesBarComponent::updateSize() {
-	const int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());
-	setSize(width, getHeight());
+	const int paddingAfterLastScene = 20;
+	const int endTime = data.getLastSceneEndTime() * zoomFactor;
+
+	const Viewport* parentViewport = findParentComponentOfClass<Viewport>();
+	const int viewportWidth = parentViewport->getMaximumVisibleWidth();
+	const int viewportHeight = parentViewport->getMaximumVisibleHeight();
+
+	const int width = jmax(endTime + paddingAfterLastScene, viewportWidth);
+	setSize(width, viewportHeight);
 }
 
 void ScenesBarComponent::paint(Graphics& g) {

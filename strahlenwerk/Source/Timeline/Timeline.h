@@ -5,15 +5,16 @@
 #include "SequenceViewComponent.h"
 #include "ScenesBarComponent.h"
 #include "UniformsBarComponent.h"
-#include "Zoom.h"
+#include "ZoomFactor.h"
 
 class Timeline : public Component
 {
 	public:
 		Timeline();
 		void resized() override;
+		void mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) override;
 
-		Zoom& getZoom();
+		ZoomFactor& getZoomFactor();
 
 		// extend Viewport with a custom callback function
 		class ViewportCallback : public Viewport {
@@ -27,7 +28,7 @@ class Timeline : public Component
 	private:
 		void callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position);
 
-		Zoom zoom;
+		ZoomFactor zoomFactor;
 
 		ViewportCallback viewportSequenceView;
 		ViewportCallback viewportScenesBar;

@@ -1,5 +1,6 @@
 #include "SequenceViewComponent.h"
 
+#include <cmath>
 #include "TreeIdentifiers.h"
 #include "SequenceComponent.h"
 #include "TimelineData.h"

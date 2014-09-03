@@ -4,11 +4,12 @@
 #include <juce>
 
 class TimelineData;
+class ZoomFactor;
 class SceneComponent;
 
 class ScenesBarComponent : public Component {
 	public:
-		ScenesBarComponent();
+		ScenesBarComponent(ZoomFactor& zoomFactor_);
 		~ScenesBarComponent();
 
 		void updateSize();
@@ -28,6 +29,7 @@ class ScenesBarComponent : public Component {
 
 	private:
 		TimelineData& data;
+		ZoomFactor& zoomFactor;
 		OwnedArray<SceneComponent> sceneComponentsArray;
 
 		ValueTree newSceneData;
