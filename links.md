@@ -44,3 +44,4 @@
     * [High Dynamic Range (part 2)](http://www.polygonpi.com/?p=1074)
     * [High Dynamic Range (part 3)](http://www.polygonpi.com/?p=1112)
     * [A depth of field implementation](http://www.polygonpi.com/?p=867)
+* [Funktionstabelle für Dualzahlen (Seite 13)](http://iel2.engr.ucdavis.edu/publication/journal/j_EC1.pdf)
