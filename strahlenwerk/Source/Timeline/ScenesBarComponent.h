@@ -2,12 +2,15 @@
 #define SCENESBARCOMPONENT_H
 
 #include <juce>
+#include "ZoomFactor.h"
 
 class TimelineData;
-class ZoomFactor;
 class SceneComponent;
 
-class ScenesBarComponent : public Component {
+class ScenesBarComponent :
+	public Component,
+	private ZoomFactor::Listener
+{
 	public:
 		ScenesBarComponent(ZoomFactor& zoomFactor_);
 		~ScenesBarComponent();
@@ -21,6 +24,8 @@ class ScenesBarComponent : public Component {
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
+
+		void zoomFactorChanged(ZoomFactor&) override;
 
 		enum ColourIds{
 			tickColourId = 0x2300101,

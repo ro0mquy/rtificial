@@ -24,19 +24,22 @@ ZoomFactor& ZoomFactor::operator=(const float newZoomLevel) {
 	zoomMutex.lock();
 	zoomLevel = newZoomLevel;
 	zoomMutex.unlock();
+	listeners.call(&ZoomFactor::Listener::zoomFactorChanged, *this);
 	return *this;
 }
 
 ZoomFactor& ZoomFactor::operator*=(const float zoomLevelFactor) {
-	zoomMutex.lock();
-	zoomLevel *= zoomLevelFactor;
-	zoomMutex.unlock();
-	return *this;
+	return operator=(zoomLevel * zoomLevelFactor);
 }
 
 ZoomFactor& ZoomFactor::operator/=(const float zoomLevelDivisor) {
-	zoomMutex.lock();
-	zoomLevel /= zoomLevelDivisor;
-	zoomMutex.unlock();
-	return *this;
+	return operator=(zoomLevel / zoomLevelDivisor);
+}
+
+void ZoomFactor::addListener(Listener* const listener) {
+	listeners.add(listener);
+}
+
+void ZoomFactor::removeListener(Listener* const listener) {
+	listeners.remove(listener);
 }

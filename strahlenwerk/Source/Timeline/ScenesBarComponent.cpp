@@ -4,12 +4,12 @@
 #include "../RtificialLookAndFeel.h"
 #include "TimelineData.h"
 #include "SceneComponent.h"
-#include "ZoomFactor.h"
 
 ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
 	zoomFactor(zoomFactor_)
 {
+	zoomFactor.addListener(this);
 	updateSceneComponents();
 }
 
@@ -33,8 +33,8 @@ void ScenesBarComponent::paint(Graphics& g) {
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
 
-	const int lineDistance             = 20;
-	const int longLineDistance         = 5;
+	const int lineDistance             = 20 * zoomFactor;
+	const int longLineDistance         = 4;
 	const float lineHeightFraction     = 0.25;
 	const float longLineHeightFraction = 0.5;
 
@@ -117,4 +117,8 @@ void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	}
 	newSceneComponent = nullptr;
 	newSceneData = ValueTree();
+}
+
+void ScenesBarComponent::zoomFactorChanged(ZoomFactor&) {
+	updateSize();
 }
