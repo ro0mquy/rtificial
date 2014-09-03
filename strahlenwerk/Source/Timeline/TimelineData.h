@@ -42,6 +42,7 @@ class TimelineData {
 		ValueTree getSceneForTime(const int time);
 		int getNewSceneId();
 
+
 		ValueTree getUniformsArray();
 		bool addUniform(ValueTree uniform, int position = -1);
 		bool addUniform(var name, var type, int position = -1);

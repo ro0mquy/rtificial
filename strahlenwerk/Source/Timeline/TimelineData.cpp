@@ -181,14 +181,13 @@ void TimelineData::setSceneShaderSource(ValueTree scene, var shaderSource) {
 
 // finds the the end time of the last scene
 int TimelineData::getLastSceneEndTime() {
-	ValueTree scenesArray = getScenesArray();
-	const int numChildren = scenesArray.getNumChildren();
+	const int numScenes = getNumScenes();
 	int maxEndTime = 0;
 
-	for (int i = 0; i < numChildren; i++) {
-		ValueTree scene = scenesArray.getChild(i);
-		const int start = scene.getProperty(treeId::sceneStart);
-		const int duration = scene.getProperty(treeId::sceneDuration);
+	for (int i = 0; i < numScenes; i++) {
+		ValueTree scene = getScene(i);
+		const int start = getSceneStart(scene);
+		const int duration = getSceneDuration(scene);
 		const int end = start + duration;
 		maxEndTime = jmax(maxEndTime, end);
 	}
@@ -197,10 +196,11 @@ int TimelineData::getLastSceneEndTime() {
 }
 
 // returns the active scene for a timepoint
+// a invalid tree is returned if there is none
 ValueTree TimelineData::getSceneForTime(const int time) {
-	ValueTree scenesArray = getScenesArray();
-	const int numScenes = scenesArray.getNumChildren();
+	const int numScenes = getNumScenes();
 	/*
+	// needs convertion to new TimelineData functions
 	// matches if the time is inside the scene and also if after the end
 	int smallestDistance = INT_MAX;
 	int bestScene = 0;
@@ -221,9 +221,9 @@ ValueTree TimelineData::getSceneForTime(const int time) {
 	//*
 	// matches only if inside scene
 	for (int i = 0; i < numScenes; i++) {
-		ValueTree scene = scenesArray.getChild(i);
-		const int start = scene.getProperty(treeId::sceneStart);
-		const int duration = scene.getProperty(treeId::sceneDuration);
+		ValueTree scene = getScene(i);
+		const int start = getSceneStart(scene);
+		const int duration = getSceneDuration(scene);
 		const int distance = time - start;
 		if (isPositiveAndBelow(distance, duration)) {
 			return scene;
@@ -237,16 +237,17 @@ ValueTree TimelineData::getSceneForTime(const int time) {
 // returns a scene Id that is currently not used
 int TimelineData::getNewSceneId() {
 	int biggestId = 99; // some room for $stuff
-	ValueTree scenesArray = getScenesArray();
-	const int numScenes = scenesArray.getNumChildren();
+	const int numScenes = getNumScenes();
 
 	for (int i = 0; i < numScenes; i++) {
-		ValueTree scene = scenesArray.getChild(i);
-		const int currentId = scene.getProperty(treeId::sceneId);
+		ValueTree scene = getScene(i);
+		const int currentId = getSceneId(scene);
 		biggestId = jmax(biggestId, currentId);
 	}
+	// we need a unused id, so increment by one;
 	return biggestId + 1;
 }
+
 
 
 // retrieves the uniforms array
