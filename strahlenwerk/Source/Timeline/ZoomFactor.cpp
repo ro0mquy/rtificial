@@ -22,26 +22,50 @@ ZoomFactor::operator float() {
 
 ZoomFactor& ZoomFactor::operator=(const float newZoomLevel) {
 	zoomMutex.lock();
-	zoomLevel = newZoomLevel;
+	const float oldZoomLevel = zoomLevel;
+	zoomLevel = jmax(newZoomLevel, .1f); // without max() there will be dragons
+	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
-	listeners.call(&ZoomFactor::Listener::zoomFactorChanged, *this);
+	if (tmpZoomLevel != oldZoomLevel) {
+		listeners.call(&ZoomFactor::Listener::zoomFactorChanged, *this);
+	}
 	return *this;
 }
 
 ZoomFactor& ZoomFactor::operator*=(const float zoomLevelFactor) {
-	return operator=(zoomLevel * zoomLevelFactor);
+	zoomMutex.lock();
+	const float oldZoomLevel = zoomLevel;
+	zoomLevel *= zoomLevelFactor;
+	zoomLevel = jmax(zoomLevel, .1f); // without max() there will be dragons
+	const float tmpZoomLevel = zoomLevel;
+	zoomMutex.unlock();
+	if (tmpZoomLevel != oldZoomLevel) {
+		listeners.call(&ZoomFactor::Listener::zoomFactorChanged, *this);
+	}
+	return *this;
 }
 
 ZoomFactor& ZoomFactor::operator/=(const float zoomLevelDivisor) {
-	return operator=(zoomLevel / zoomLevelDivisor);
+	zoomMutex.lock();
+	const float oldZoomLevel = zoomLevel;
+	zoomLevel /= zoomLevelDivisor;
+	zoomLevel = jmax(zoomLevel, .1f); // without max() there will be dragons
+	const float tmpZoomLevel = zoomLevel;
+	zoomMutex.unlock();
+	if (tmpZoomLevel != oldZoomLevel) {
+		listeners.call(&ZoomFactor::Listener::zoomFactorChanged, *this);
+	}
+	return *this;
 }
 
 float ZoomFactor::timeToPixels(const float time) {
-	return time * *this;
+	std::lock_guard<std::mutex> lock(zoomMutex);
+	return time * zoomLevel;
 }
 
 float ZoomFactor::pixelsToTime(const float pixels) {
-	return pixels / *this;
+	std::lock_guard<std::mutex> lock(zoomMutex);
+	return pixels / zoomLevel;
 }
 
 void ZoomFactor::addListener(Listener* const listener) {
