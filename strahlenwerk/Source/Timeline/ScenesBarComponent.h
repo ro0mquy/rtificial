@@ -38,7 +38,7 @@ class ScenesBarComponent :
 		OwnedArray<SceneComponent> sceneComponentsArray;
 
 		ValueTree newSceneData;
-		SceneComponent* newSceneComponent;
+		ScopedPointer<SceneComponent> newSceneComponent;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScenesBarComponent)
 };

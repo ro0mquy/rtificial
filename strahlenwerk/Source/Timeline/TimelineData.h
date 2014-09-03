@@ -1,6 +1,7 @@
 #ifndef TIMELINEDATA_H
 #define TIMELINEDATA_H
 
+#include <mutex>
 #include <juce>
 #include "Interpolator.h"
 
@@ -8,14 +9,24 @@ class TimelineData {
 	public:
 		TimelineData();
 
+
+		// misc functions
 		static TimelineData& getTimelineData();
 		Interpolator& getInterpolator();
 
 		void addListenerToTree(ValueTree::Listener* listener);
 
+
+		// scene related stuff
 		ValueTree getScenesArray();
-		bool addScene(ValueTree scene, int position = -1);
-		bool addScene(var id, var start, var duration, var shaderSource, int position = -1);
+		int getNumScenes();
+
+		ValueTree getScene(const int nthScene);
+		bool isScene(ValueTree scene);
+		ValueTree addScene(ValueTree scene, int position = -1);
+		ValueTree addScene(var start, var duration, var shaderSource, int position = -1);
+		ValueTree addSceneUnchecked(ValueTree scene, int position = -1);
+
 		int getLastSceneEndTime();
 		ValueTree getSceneForTime(const int time);
 		int getNewSceneId();
@@ -43,6 +54,8 @@ class TimelineData {
 		ValueTree valueTree;
 		UndoManager undoManager;
 		Interpolator interpolator;
+
+		std::recursive_mutex treeMutex;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineData)
 };

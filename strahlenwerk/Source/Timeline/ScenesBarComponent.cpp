@@ -16,7 +16,7 @@ ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 ScenesBarComponent::~ScenesBarComponent() = default;
 
 void ScenesBarComponent::updateSize() {
-	const int paddingAfterLastScene = 20;
+	const int paddingAfterLastScene = 300;
 	const int endTime = data.getLastSceneEndTime() * zoomFactor;
 
 	const Viewport* parentViewport = findParentComponentOfClass<Viewport>();
@@ -33,7 +33,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
 
-	const int lineDistance             = 20 * zoomFactor;
+	const float lineDistance           = 20 * zoomFactor;
 	const int longLineDistance         = 4;
 	const float lineHeightFraction     = 0.25;
 	const float longLineHeightFraction = 0.5;
@@ -56,18 +56,18 @@ void ScenesBarComponent::paint(Graphics& g) {
 
 void ScenesBarComponent::paintOverChildren(Graphics& g) {
 	// draw time marker
+	const float timeMarkerLineWidth = 2.;
 	g.setColour(findColour(ScenesBarComponent::timeMarkerColourId));
-	const float x = data.currentTime.getValue();
-	g.drawLine(x, 0, x, getHeight(), 2);
+	const float x = (float) data.currentTime.getValue() * zoomFactor;
+	g.drawLine(x, 0, x, getHeight(), timeMarkerLineWidth);
 }
 
 void ScenesBarComponent::updateSceneComponents() {
 	sceneComponentsArray.clearQuick(true);
-	ValueTree sceneDatasArray = data.getScenesArray();
-	const int numScenes = sceneDatasArray.getNumChildren();
+	const int numScenes = data.getNumScenes();
 
 	for (int i = 0; i < numScenes; i++) {
-		ValueTree sceneData = sceneDatasArray.getChild(i);
+		ValueTree sceneData = data.getScene(i);
 		SceneComponent* sceneComponent = new SceneComponent(sceneData);
 		addAndMakeVisible(sceneComponent);
 		sceneComponentsArray.add(sceneComponent);
@@ -79,25 +79,23 @@ void ScenesBarComponent::removeSceneComponent(const SceneComponent* toBeDeleted)
 }
 
 void ScenesBarComponent::mouseDown(const MouseEvent& event) {
-	const int sceneId = data.getNewSceneId();
-	newSceneData = ValueTree(treeId::scene);
-	newSceneData.setProperty(treeId::sceneId, var(sceneId), nullptr);
-	newSceneData.setProperty(treeId::sceneShaderSource, var("dummy" + String(sceneId) + ".glsl"), nullptr);
-	newSceneData.setProperty(treeId::sceneStart, var(event.getMouseDownX()), nullptr);
-	newSceneData.setProperty(treeId::sceneDuration, var(0), nullptr);
+	var sceneStart = event.getMouseDownX() / zoomFactor;
+	var sceneDuration = 0;
+	var sceneShaderSource = "dummy" + String(data.getNewSceneId()) + ".glsl";
+	newSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
 
 	newSceneComponent = new SceneComponent(newSceneData);
 	addAndMakeVisible(newSceneComponent);
 }
 
 void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
-	const int gridWidth = 20;
+	const int gridWidth = 20; // time units
 
-	const int mouseDown = event.getMouseDownX();
-	const int mouseDownGrid = roundFloatToInt(float(mouseDown) / float(gridWidth)) * gridWidth;
+	const float mouseDown = event.getMouseDownX() / zoomFactor;
+	const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
 
-	const int mousePos = event.getPosition().getX();
-	const int mousePosGrid = roundFloatToInt(float(mousePos) / float(gridWidth)) * gridWidth;
+	const float mousePos = event.x / zoomFactor;
+	const int mousePosGrid = roundFloatToInt(mousePos / float(gridWidth)) * gridWidth;
 
 	const int distanceGrid = mousePosGrid - mouseDownGrid;
 	const int absDistanceGrid = abs(distanceGrid);
@@ -110,15 +108,15 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 
 void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	if (int(newSceneData.getProperty(treeId::sceneDuration)) == 0) {
-		delete newSceneComponent;
+		newSceneComponent = nullptr;
+		// delete newSceneData
 	} else {
-		sceneComponentsArray.add(newSceneComponent);
-		data.addScene(newSceneData);
+		sceneComponentsArray.add(newSceneComponent.release());
 	}
-	newSceneComponent = nullptr;
 	newSceneData = ValueTree();
 }
 
 void ScenesBarComponent::zoomFactorChanged(ZoomFactor&) {
 	updateSize();
+	repaint();
 }

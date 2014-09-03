@@ -12,13 +12,14 @@ struct KeyframesComparator {
 };
 static KeyframesComparator keyframesComparator;
 
+
 TimelineData::TimelineData() :
 	currentTime(40),
 	valueTree(treeId::timelineTree),
 	interpolator(*this)
 {
 	for (int i = 0; i < 4; i++) {
-		addScene(var(i+1), var(300 * i), var(50 * (i + 1)), var(String(i) + String(41 * i) + ".glsl"));
+		addScene(var(300 * i), var(50 * (i + 1)), var(String(i) + String(41 * i) + ".glsl"));
 	}
 
 	for (int i = 0; i < 30; i++) {
@@ -36,6 +37,7 @@ TimelineData::TimelineData() :
 	}
 }
 
+
 TimelineData& TimelineData::getTimelineData() {
 	return StrahlenwerkApplication::getInstance()->getProject().getTimelineData();
 }
@@ -45,43 +47,75 @@ Interpolator& TimelineData::getInterpolator() {
 }
 
 void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	valueTree.addListener(listener);
 }
 
+
 // retrieves the scenes array
 ValueTree TimelineData::getScenesArray() {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return valueTree.getOrCreateChildWithName(treeId::scenesArray, &undoManager);
 }
 
-// adds a scene to the scenes array at a given position
-// returns whether the scene was added
-// if the ValueTree is not a treeId::scene, it won't get added
-// position defaults to -1 (append to end)
-bool TimelineData::addScene(ValueTree scene, int position) {
+// returns the number of total scenes
+int TimelineData::getNumScenes() {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getScenesArray().getNumChildren();
+}
+
+// gets the scene with index nthScene
+// returns invalid ValueTree if out of bounds
+ValueTree TimelineData::getScene(const int nthScene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getScenesArray().getChild(nthScene);
+}
+
+// checks whether the given valueTree is a scene
+bool TimelineData::isScene(ValueTree scene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	bool isScene = scene.hasType(treeId::scene);
 	isScene &= scene.hasProperty(treeId::sceneId);
 	isScene &= scene.hasProperty(treeId::sceneStart);
 	isScene &= scene.hasProperty(treeId::sceneDuration);
 	isScene &= scene.hasProperty(treeId::sceneShaderSource);
-
-	if (isScene) {
-		getScenesArray().addChild(scene, position, &undoManager);
-	}
 	return isScene;
+}
+
+// adds a scene to the scenes array at a given position
+// returns the scene
+// if the ValueTree is not a scene, it won't get added
+// position defaults to -1 (append to end)
+ValueTree TimelineData::addScene(ValueTree scene, int position) {
+	if (isScene(scene)) {
+		addSceneUnchecked(scene, position);
+	}
+	return scene;
 }
 
 // adds a scene with the given vars at position
 // the scene will always be added
-// returns always true
+// returns the assembled scene ValueTree
 // position defaults to -1 (append to end)
-bool TimelineData::addScene(var id, var start, var duration, var shaderSource, int position) {
+ValueTree TimelineData::addScene(var start, var duration, var shaderSource, int position) {
+	var id = getNewSceneId();
 	ValueTree scene(treeId::scene);
 	scene.setProperty(treeId::sceneId, id, nullptr);
 	scene.setProperty(treeId::sceneStart, start, nullptr);
 	scene.setProperty(treeId::sceneDuration, duration, nullptr);
 	scene.setProperty(treeId::sceneShaderSource, shaderSource, nullptr);
+	addSceneUnchecked(scene, position);
+	return scene;
+}
+
+// adds a scene to the scenes array
+// returns the scene again
+// doesn't perform any checking (you should use addScene(ValueTree))
+// position defaults to -1 (append to end)
+ValueTree TimelineData::addSceneUnchecked(ValueTree scene, int position) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	getScenesArray().addChild(scene, position, &undoManager);
-	return true;
+	return scene;
 }
 
 // finds the the end time of the last scene
