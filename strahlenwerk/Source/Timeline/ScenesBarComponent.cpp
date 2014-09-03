@@ -107,7 +107,7 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 }
 
 void ScenesBarComponent::mouseUp(const MouseEvent& event) {
-	if (int(newSceneData.getProperty(treeId::sceneDuration)) == 0) {
+	if (0 == int(data.getSceneDuration(newSceneData))) {
 		newSceneComponent = nullptr;
 		// delete newSceneData
 	} else {

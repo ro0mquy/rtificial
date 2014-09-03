@@ -27,6 +27,11 @@ class TimelineData {
 		ValueTree addScene(var start, var duration, var shaderSource, int position = -1);
 		ValueTree addSceneUnchecked(ValueTree scene, int position = -1);
 
+		var getSceneId(ValueTree scene);
+		var getSceneStart(ValueTree scene);
+		var getSceneDuration(ValueTree scene);
+		var getSceneShaderSource(ValueTree scene);
+
 		void setSceneId(ValueTree scene, var id);
 		void setSceneStart(ValueTree scene, var start);
 		void setSceneDuration(ValueTree scene, var duration);

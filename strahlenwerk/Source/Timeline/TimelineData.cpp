@@ -13,6 +13,7 @@ struct KeyframesComparator {
 static KeyframesComparator keyframesComparator;
 
 
+
 TimelineData::TimelineData() :
 	currentTime(40),
 	valueTree(treeId::timelineTree),
@@ -38,6 +39,7 @@ TimelineData::TimelineData() :
 }
 
 
+
 TimelineData& TimelineData::getTimelineData() {
 	return StrahlenwerkApplication::getInstance()->getProject().getTimelineData();
 }
@@ -52,6 +54,7 @@ void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
 }
 
 
+
 // retrieves the scenes array
 ValueTree TimelineData::getScenesArray() {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
@@ -63,6 +66,7 @@ int TimelineData::getNumScenes() {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return getScenesArray().getNumChildren();
 }
+
 
 // gets the scene with index nthScene
 // returns invalid ValueTree if out of bounds
@@ -118,6 +122,32 @@ ValueTree TimelineData::addSceneUnchecked(ValueTree scene, int position) {
 	return scene;
 }
 
+
+// gets the id of a scene
+var TimelineData::getSceneId(ValueTree scene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return scene.getProperty(treeId::sceneId);
+}
+
+// gets the start time of a scene
+var TimelineData::getSceneStart(ValueTree scene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return scene.getProperty(treeId::sceneStart);
+}
+
+// gets the duration of a scene
+var TimelineData::getSceneDuration(ValueTree scene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return scene.getProperty(treeId::sceneDuration);
+}
+
+// gets the shaderSource of a scene
+var TimelineData::getSceneShaderSource(ValueTree scene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return scene.getProperty(treeId::sceneShaderSource);
+}
+
+
 // sets the id for the given scene
 void TimelineData::setSceneId(ValueTree scene, var id) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
@@ -141,6 +171,7 @@ void TimelineData::setSceneShaderSource(ValueTree scene, var shaderSource) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	scene.setProperty(treeId::sceneShaderSource, shaderSource, &undoManager);
 }
+
 
 // finds the the end time of the last scene
 int TimelineData::getLastSceneEndTime() {
