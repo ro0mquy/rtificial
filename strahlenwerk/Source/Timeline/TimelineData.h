@@ -49,8 +49,10 @@ class TimelineData {
 
 		ValueTree getUniform(const int nthUniform);
 		ValueTree getUniform(const var& name);
-		bool addUniform(ValueTree uniform, int position = -1);
-		bool addUniform(var name, var type, int position = -1);
+		bool isUniform(ValueTree uniform);
+		ValueTree addUniform(ValueTree uniform, int position = -1);
+		ValueTree addUniform(var name, var type, int position = -1);
+		ValueTree addUniformUnchecked(ValueTree uniform, int position);
 
 		ValueTree getSequencesArray(ValueTree uniform);
 		bool addSequence(ValueTree uniform, ValueTree sequence, int position = -1);

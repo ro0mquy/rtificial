@@ -20,11 +20,11 @@ TimelineData::TimelineData() :
 	interpolator(*this)
 {
 	for (int i = 0; i < 4; i++) {
-		addScene(var(300 * i), var(50 * (i + 1)), var(String(i) + String(41 * i) + ".glsl"));
+		addScene(300 * i, 50 * (i + 1), String(i) + String(41 * i) + ".glsl");
 	}
 
 	for (int i = 0; i < 30; i++) {
-		addUniform(var("uniform" + String(i) + String(97 * i)), var(i%2 == 0 ? "color" : "vec3"));
+		ValueTree uniform = addUniform("uniform" + String(i) + String(97 * i), i%2 == 0 ? "color" : "vec3");
 
 		for (int j = 0; j <= (37*i % 4); j++) {
 			ValueTree sequence(treeId::sequence);
@@ -33,7 +33,7 @@ TimelineData::TimelineData() :
 			sequence.setProperty(treeId::sequenceDuration, var(50), nullptr);
 			sequence.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
 			addKeyframe(sequence, var((j+1) * 10));
-			addSequence(getUniformsArray().getChild(i), sequence);
+			addSequence(uniform, sequence);
 		}
 	}
 }
@@ -88,17 +88,14 @@ bool TimelineData::isScene(ValueTree scene) {
 
 // adds a scene to the scenes array at a given position
 // returns the scene
-// if the ValueTree is not a scene, it won't get added
 // position defaults to -1 (append to end)
 ValueTree TimelineData::addScene(ValueTree scene, int position) {
-	if (isScene(scene)) {
-		addSceneUnchecked(scene, position);
-	}
+	jassert(isScene(scene));
+	addSceneUnchecked(scene, position);
 	return scene;
 }
 
 // adds a scene with the given vars at position
-// the scene will always be added
 // returns the assembled scene ValueTree
 // position defaults to -1 (append to end)
 ValueTree TimelineData::addScene(var start, var duration, var shaderSource, int position) {
@@ -277,33 +274,45 @@ ValueTree TimelineData::getUniform(const var& name) {
 	return getUniformsArray().getChildWithProperty(treeId::uniformName, name);
 }
 
-// adds a uniform to the uniforms array at a given position
-// returns whether the uniform was added
-// if the ValueTree is not a treeId::uniform, it won't get added
-// position defaults to -1 (append to end)
-bool TimelineData::addUniform(ValueTree uniform, int position) {
+// checks the ValueTree for all requirements to be a uniform
+bool TimelineData::isUniform(ValueTree uniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	bool isUniform = uniform.hasType(treeId::uniform);
 	isUniform &= uniform.hasProperty(treeId::uniformName);
 	isUniform &= uniform.hasProperty(treeId::uniformType);
-	isUniform &= uniform.getChildWithName(treeId::uniformStandardValue).isValid();
-
-	if (isUniform) {
-		getUniformsArray().addChild(uniform, position, &undoManager);
-	}
+	isUniform &= uniform.getChildWithName(treeId::uniformStandardValue).isValid(); // TODO: real checking
 	return isUniform;
 }
 
-// adds a uniform with the given vars at position
-// the uniform will always be added
-// returns always true
+// adds a uniform to the uniforms array at a given position
+// returns the uniform again
 // position defaults to -1 (append to end)
-bool TimelineData::addUniform(var name, var type, int position) {
+ValueTree TimelineData::addUniform(ValueTree uniform, int position) {
+	jassert(isUniform(uniform));
+	addUniformUnchecked(uniform, position);
+	return uniform;
+}
+
+// adds a uniform with the given vars at position
+// returns the assembled uniform
+// position defaults to -1 (append to end)
+ValueTree TimelineData::addUniform(var name, var type, int position) {
 	ValueTree uniform(treeId::uniform);
 	uniform.setProperty(treeId::uniformName, name, nullptr);
-	uniform.setProperty(treeId::uniformType, type, nullptr);
+	uniform.setProperty(treeId::uniformType, type, nullptr); // TODO: check type
 	initializeValue(uniform.getOrCreateChildWithName(treeId::uniformStandardValue, nullptr), type);
+	addUniformUnchecked(uniform, position);
+	return uniform;
+}
+
+// adds a uniform to the uniforms array
+// returns the uniform again
+// doesn't perform any checking (you should use addUniform(ValueTree))
+// position defaults to -1 (append to end)
+ValueTree TimelineData::addUniformUnchecked(ValueTree uniform, int position) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	getUniformsArray().addChild(uniform, position, &undoManager);
-	return true;
+	return uniform;
 }
 
 
