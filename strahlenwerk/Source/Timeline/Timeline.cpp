@@ -26,10 +26,6 @@ void Timeline::resized() {
 	scenesBar.updateSize();
 
 	viewportUniformsBar.setBounds(r.removeFromLeft(uniformsBarWidth));
-	uniformsBar.setSize(
-			uniformsBarWidth,
-			uniformsBar.getHeight()
-		);
 	uniformsBar.updateSize();
 
 	viewportSequenceView.setBounds(r);

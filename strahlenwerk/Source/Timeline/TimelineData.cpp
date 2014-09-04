@@ -252,7 +252,29 @@ int TimelineData::getNewSceneId() {
 
 // retrieves the uniforms array
 ValueTree TimelineData::getUniformsArray() {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return valueTree.getOrCreateChildWithName(treeId::uniformsArray, &undoManager);
+}
+
+// returns the number of total uniforms
+int TimelineData::getNumUniforms() {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getUniformsArray().getNumChildren();
+}
+
+
+// gets the uniform with index nthUniform
+// returns invalid ValueTree if out of bounds
+ValueTree TimelineData::getUniform(const int nthUniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getUniformsArray().getChild(nthUniform);
+}
+
+// returns the uniform with the given name
+// returns invalid ValueTree if no uniforms with the name exists
+ValueTree TimelineData::getUniform(const var& name) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getUniformsArray().getChildWithProperty(treeId::uniformName, name);
 }
 
 // adds a uniform to the uniforms array at a given position
@@ -284,10 +306,6 @@ bool TimelineData::addUniform(var name, var type, int position) {
 	return true;
 }
 
-// returns the uniform with the given name
-ValueTree TimelineData::getUniform(const var& name) {
-	return getUniformsArray().getChildWithProperty(treeId::uniformName, name);
-}
 
 // retrieves the sequences array for a given uniform
 ValueTree TimelineData::getSequencesArray(ValueTree uniform) {

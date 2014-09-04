@@ -13,17 +13,22 @@ UniformsBarComponent::UniformsBarComponent() :
 
 void UniformsBarComponent::updateSize() {
 	const int rowHeight = 20;
-	const int height = jmax(data.getUniformsArray().getNumChildren() * rowHeight, getParentHeight());
-	setSize(getWidth(), height);
+	const int numUniforms = data.getNumUniforms();
+
+	const Viewport* parentViewport = findParentComponentOfClass<Viewport>();
+	const int viewportWidth = parentViewport->getMaximumVisibleWidth();
+	const int viewportHeight = parentViewport->getMaximumVisibleHeight();
+
+	const int height = jmax(numUniforms * rowHeight, viewportHeight);
+	setSize(viewportWidth, height);
 }
 
 void UniformsBarComponent::paint(Graphics& g) {
 	const int rowHeight = 20;
-	ValueTree uniformsArray = data.getUniformsArray();
-	const int numChildren = uniformsArray.getNumChildren();
+	const int numUniforms = data.getNumUniforms();
 
-	for(int i = 0; i < numChildren; i++) {
-		ValueTree uniform = uniformsArray.getChild(i);
+	for(int i = 0; i < numUniforms; i++) {
+		ValueTree uniform = data.getUniform(i);
 		const String name = uniform.getProperty(treeId::uniformName);
 
 		const Rectangle<float> rect(0, i*rowHeight, getWidth(), rowHeight);
