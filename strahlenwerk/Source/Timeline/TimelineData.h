@@ -54,6 +54,15 @@ class TimelineData {
 		ValueTree addUniform(var name, var type, int position = -1);
 		ValueTree addUniformUnchecked(ValueTree uniform, int position);
 
+		var getUniformName(ValueTree uniform);
+		var getUniformType(ValueTree uniform);
+		ValueTree getUniformStandardValue(ValueTree uniform);
+
+		void setUniformName(ValueTree uniform, var name);
+		void setUniformType(ValueTree uniform, var type);
+		void setUniformStandardValue(ValueTree uniform, ValueTree standardValue);
+
+
 		ValueTree getSequencesArray(ValueTree uniform);
 		bool addSequence(ValueTree uniform, ValueTree sequence, int position = -1);
 		bool addSequence(ValueTree uniform, var sceneId, var start, var duration, var interpolation, int position = -1);

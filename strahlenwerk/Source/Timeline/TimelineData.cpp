@@ -300,7 +300,7 @@ ValueTree TimelineData::addUniform(var name, var type, int position) {
 	ValueTree uniform(treeId::uniform);
 	uniform.setProperty(treeId::uniformName, name, nullptr);
 	uniform.setProperty(treeId::uniformType, type, nullptr); // TODO: check type
-	initializeValue(uniform.getOrCreateChildWithName(treeId::uniformStandardValue, nullptr), type);
+	initializeValue(uniform.getOrCreateChildWithName(treeId::uniformStandardValue, nullptr), type); // TODO
 	addUniformUnchecked(uniform, position);
 	return uniform;
 }
@@ -314,6 +314,46 @@ ValueTree TimelineData::addUniformUnchecked(ValueTree uniform, int position) {
 	getUniformsArray().addChild(uniform, position, &undoManager);
 	return uniform;
 }
+
+
+// gets the name of a uniform
+var TimelineData::getUniformName(ValueTree uniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return uniform.getProperty(treeId::uniformName);
+}
+
+// gets the type of a uniform
+var TimelineData::getUniformType(ValueTree uniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return uniform.getProperty(treeId::uniformType);
+}
+
+// gets the standard value for a uniform
+ValueTree TimelineData::getUniformStandardValue(ValueTree uniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return uniform.getOrCreateChildWithName(treeId::uniformStandardValue, &undoManager);
+}
+
+
+// sets the name for the given uniform
+void TimelineData::setUniformName(ValueTree uniform, var name) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	uniform.setProperty(treeId::uniformName, name, &undoManager);
+}
+
+// sets the type for the given uniform
+void TimelineData::setUniformType(ValueTree uniform, var type) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	uniform.setProperty(treeId::uniformType, type, &undoManager);
+}
+
+// sets the standard value for the given uniform
+void TimelineData::setUniformStandardValue(ValueTree uniform, ValueTree standardValue) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	uniform.removeChild(uniform.getChildWithName(treeId::uniformStandardValue), &undoManager);
+	uniform.addChild(standardValue, 0, &undoManager);
+}
+
 
 
 // retrieves the sequences array for a given uniform

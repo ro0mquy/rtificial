@@ -1,9 +1,8 @@
 #include "UniformsBarComponent.h"
 
-#include "TreeIdentifiers.h"
-#include "ValueEditorPropertyComponent.h"
-#include "../RtColourIds.h"
+#include <RtColourIds.h>
 #include "TimelineData.h"
+#include "ValueEditorPropertyComponent.h"
 
 UniformsBarComponent::UniformsBarComponent() :
 	data(TimelineData::getTimelineData())
@@ -29,14 +28,16 @@ void UniformsBarComponent::paint(Graphics& g) {
 
 	for(int i = 0; i < numUniforms; i++) {
 		ValueTree uniform = data.getUniform(i);
-		const String name = uniform.getProperty(treeId::uniformName);
 
 		const Rectangle<float> rect(0, i*rowHeight, getWidth(), rowHeight);
 
 		g.setColour(findColour(i%2 == 0 ? UniformsBarComponent::evenRowColourId : UniformsBarComponent::oddRowColourId));
 		g.fillRect(rect);
+
 		g.setColour(findColour(UniformsBarComponent::seperatorColourId));
 		g.drawHorizontalLine(i*rowHeight+rowHeight-1, 0, getWidth());
+
+		const String name = data.getUniformName(uniform);
 		g.setColour(findColour(UniformsBarComponent::uniformTextColourId));
 		g.drawText(name, rect.withLeft(3), Justification(Justification::centredLeft), true);
 	}
@@ -50,15 +51,16 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 	const int editorWidth = 300;
 	const int rowHeight = 20;
 
-	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
-	ValueTree uniformData = data.getUniformsArray().getChild(numUniform);
-	const String uniformName = uniformData.getProperty(treeId::uniformName);
-	ValueTree valueData = uniformData.getChildWithName(treeId::uniformStandardValue);
-	if (!valueData.isValid()) return;
+	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight)); // floor division
+	ValueTree uniformData = data.getUniform(numUniform);
+	const String uniformName = data.getUniformName(uniformData);
+	ValueTree valueData = data.getUniformStandardValue(uniformData);
+	jassert(valueData.isValid());
 
 	PropertyComponent* valueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(uniformName, valueData);
 	valueEditor->setSize(editorWidth, valueEditor->getPreferredHeight());
 
+	// bounding rectangle of this uniform
 	const Rectangle<int> rect(0, numUniform * rowHeight, getWidth(), rowHeight);
 	CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
 }
@@ -67,7 +69,7 @@ void UniformsBarComponent::valueTreePropertyChanged(ValueTree& parentTree, const
 }
 
 void UniformsBarComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
-	if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
+	if (data.isUniform(childWhichHasBeenAdded)) {
 		updateSize();
 		repaint();
 	}
