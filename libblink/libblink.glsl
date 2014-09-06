@@ -505,13 +505,15 @@ vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
 	float F_dielectric = .04 + (1. - .04) * fresnel_power;
 	vec3 F_metal = material.color + (1. - material.color) * fresnel_power;
 
-	vec3 dielectric_color = .5 * (material.color / PI * NdotL + specular_without_F + F_dielectric);
+	vec3 dielectric_color = .5 * (material.color / PI * NdotL + specular_without_F * F_dielectric);
 	vec3 metal_color = specular_without_F * F_metal;
 	float light_distance = distance(p, light.center);
 	float foo = light_distance / light.radius;
 	foo *= foo;
-	float bar = clamp(1. - foo * foo, 0., 1.);
-	float falloff = bar * bar / (light_distance * light_distance + 1.);
+	foo *= foo;
+	foo = 1. - foo;
+	foo *= foo;
+	float falloff = clamp(foo, 0., 1.) / (light_distance * light_distance + 1.);
 	return mix(dielectric_color, metal_color, material.metallic) * falloff * light.intensity;
 }
 
