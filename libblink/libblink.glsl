@@ -444,7 +444,7 @@ float vignette(float intensity) {
 // light, normal, view, roughness, specular color (F0)
 vec3 specular(vec3 L, vec3 N, vec3 V, float r, vec3 c) {
 	vec3 H = .5 * (L + V);
-	float NdotL = dot(N, L);
+	float NdotL = pdot(N, L);
 	float NdotV = dot(N, V);
 	float NdotH = dot(N, H);
 
@@ -458,6 +458,61 @@ vec3 specular(vec3 L, vec3 N, vec3 V, float r, vec3 c) {
 	float VdotH = dot(V, H);
 	vec3 F = c + (1. - c) * exp2((-5.55473 * VdotH - 6.98316) * VdotH);
 	return F * (alpha2 / (4. * mix(NdotL, 1., k) * mix(NdotV, 1., k) * 3.14 * stuff * stuff));
+}
+
+struct Material {
+	vec3 color;
+	float roughness;
+	float metallic;
+};
+
+struct SphereLight {
+	vec3 center;
+	float radius;
+	float intensity;
+};
+
+vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
+	vec3 L = light.center - p;
+
+	// calculate representative point
+	vec3 r = reflect(-V, N);
+	vec3 centerToRay = dot(L, r) * r - L;
+	vec3 closestPoint = L + centerToRay * clamp(light.radius/length(centerToRay), 0., 1.);
+	vec3 L_spec = normalize(closestPoint);
+
+	// specular
+	float PI = acos(-1.);
+	vec3 H = .5 * (L_spec + V);
+	float NdotH = dot(N, H);
+	float NdotLspec = pdot(N, L_spec);
+	float NdotV = dot(N, V);
+	float alpha = material.roughness * material.roughness;
+	float alpha2 = alpha * alpha;
+	float stuff = NdotH * NdotH * (alpha2 - 1.) + 1.;
+	float k = material.roughness + 1.;
+	k *= k;
+	float specular_without_F = NdotLspec * alpha2 / (4. * mix(NdotLspec, 1., k) * mix(NdotV, 1., k) * PI * stuff * stuff);
+	float alphastrich = clamp(alpha + light.radius * .5 / length(closestPoint), 0., 1.);
+	float spec_norm = alpha2 / (alphastrich * alphastrich);
+	specular_without_F *= spec_norm;
+
+	vec3 Lnorm = normalize(L);
+	float NdotL = pdot(L, N);
+
+	float VdotH = dot(V, H);
+	float fresnel_power = exp2((-5.55473 * VdotH - 6.98316) * VdotH);
+	float F_dielectric = .04 + (1. - .04) * fresnel_power;
+	vec3 F_metal = material.color + (1. - material.color) * fresnel_power;
+
+	vec3 dielectric_color = .5 * (material.color / PI * NdotL + specular_without_F + F_dielectric);
+	vec3 metal_color = specular_without_F * F_metal;
+	float light_distance = distance(p, light.center);
+	float foo = light_distance / light.radius;
+	foo *= foo;
+	float bar = clamp(1. - foo * foo, 0., 1.);
+	float falloff = bar * bar / (light_distance * light_distance + 1.);
+	return mix(dielectric_color, metal_color, material.metallic) * falloff * light.intensity;
 }
 
 #line 1
