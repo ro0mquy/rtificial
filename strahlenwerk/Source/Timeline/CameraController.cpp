@@ -1,11 +1,14 @@
 #include "CameraController.h"
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
+#include "CameraMath.h"
+#include <glm/glm.hpp>
+
+using namespace glm;
 
 CameraController::CameraController() :
 	uniformValue(treeId::uniformStandardValue),
-	lastCallback(Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks())),
-	movementSpeed(.5)
+	lastCallback(Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks()))
 {
 	startTimer(15);
 }
@@ -25,38 +28,47 @@ ValueTree CameraController::getControlledUniformState() {
 void CameraController::timerCallback() {
 	const double tmpLastCallback = lastCallback;
 	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
-	const double dtime = lastCallback - tmpLastCallback;
+	float deltaTime = lastCallback - tmpLastCallback;
 
-	if (KeyPress::isKeyCurrentlyDown('d')) {
-		float vec3X = uniformValue.getProperty(treeId::valueVec3X);
-		vec3X += movementSpeed * dtime;
-		uniformValue.setProperty(treeId::valueVec3X, vec3X, nullptr);
+	if (KeyPress::isKeyCurrentlyDown('w')) {
+		setPosition(CameraMath::positionForward(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
 	}
+	if (KeyPress::isKeyCurrentlyDown('s')) {
+		setPosition(CameraMath::positionBackward(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
+	}
+
 	if (KeyPress::isKeyCurrentlyDown('a')) {
-		float vec3X = uniformValue.getProperty(treeId::valueVec3X);
-		vec3X -= movementSpeed * dtime;
-		uniformValue.setProperty(treeId::valueVec3X, vec3X, nullptr);
+		setPosition(CameraMath::positionLeft(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
+	}
+	if (KeyPress::isKeyCurrentlyDown('d')) {
+		setPosition(CameraMath::positionRight(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
 	}
 
 	if (KeyPress::isKeyCurrentlyDown('e')) {
-		float vec3Y = uniformValue.getProperty(treeId::valueVec3Y);
-		vec3Y += movementSpeed * dtime;
-		uniformValue.setProperty(treeId::valueVec3Y, vec3Y, nullptr);
+		setPosition(CameraMath::positionUp(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
 	}
 	if (KeyPress::isKeyCurrentlyDown('c')) {
-		float vec3Y = uniformValue.getProperty(treeId::valueVec3Y);
-		vec3Y -= movementSpeed * dtime;
-		uniformValue.setProperty(treeId::valueVec3Y, vec3Y, nullptr);
+		setPosition(CameraMath::positionDown(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
 	}
+}
 
-	if (KeyPress::isKeyCurrentlyDown('s')) {
-		float vec3Z = uniformValue.getProperty(treeId::valueVec3Z);
-		vec3Z += movementSpeed * dtime;
-		uniformValue.setProperty(treeId::valueVec3Z, vec3Z, nullptr);
-	}
-	if (KeyPress::isKeyCurrentlyDown('w')) {
-		float vec3Z = uniformValue.getProperty(treeId::valueVec3Z);
-		vec3Z -= movementSpeed * dtime;
-		uniformValue.setProperty(treeId::valueVec3Z, vec3Z, nullptr);
-	}
+vec3 CameraController::getVec3Position() {
+	float x = uniformValue.getProperty(treeId::valueVec3X);
+	float y = uniformValue.getProperty(treeId::valueVec3Y);
+	float z = uniformValue.getProperty(treeId::valueVec3Z);
+	return vec3(x, y, z);
+}
+
+vec3 CameraController::getVec3Direction() {
+	return vec3(0., 0., -1.);
+}
+
+vec3 CameraController::getVec3Up() {
+	return vec3(0., 1., 0.);
+}
+
+void CameraController::setPosition(vec3 newPosition) {
+	uniformValue.setProperty(treeId::valueVec3X, newPosition.x, nullptr);
+	uniformValue.setProperty(treeId::valueVec3Y, newPosition.y, nullptr);
+	uniformValue.setProperty(treeId::valueVec3Z, newPosition.z, nullptr);
 }
