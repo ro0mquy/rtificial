@@ -8,7 +8,7 @@ layout(location = 1) out float luminance;
 void output_color(vec3 color, float dist) {
 	float coc = 0.; // TODO calculate
 	out_color = vec4(color, coc);
-	luminance = 0.; // TODO calculate
+	luminance = log(dot(color, vec3(.2126, .7152, .0722))); // TODO calculate
 }
 
 #line 1

@@ -45,7 +45,7 @@ std::unordered_map<std::string, int> PostprocPipelineLoader::loadShaders(
 
 	shaders.clear();
 	shaders.emplace_back(new PostprocShader(context, "input"));
-	shaders.back()->load("#version 330\nout vec3 color;\n void main() {}");
+	shaders.back()->load("#version 330\nout vec4 color;\nout float luminance;\n void main() {}");
 	shaders.emplace_back(new PostprocShader(context, "output"));
 	shaders.back()->load("#version 330\nuniform sampler2D color; // vec3\n void main() {}");
 
@@ -166,7 +166,7 @@ std::vector<int> PostprocPipelineLoader::createOrder(const std::vector<std::vect
 		const auto& unboundInput = [] (const Input& input) { return input.bindingId == -1; };
 		if(std::any_of(inputs.begin(), inputs.end(), unboundInput)) {
 			// error - not all inputs bound
-			std::cerr << "Input has no output assigned" << std::endl;
+			std::cerr << shaders[shaderId]->getName() << ": " << "Input has no output assigned" << std::endl;
 			order.clear();
 		}
 	}

@@ -175,7 +175,8 @@ void Shader::applyIncludes() {
 			included = loader.loadFile(includeFile.getFullPathName().toStdString());
 		} else {
 			// TODO
-			std::cerr << "Include file " << match[2] << " not found!" << std::endl;
+			std::cerr << getName() << ": Include file " << match[2] << " not found!" << std::endl;
+			continue;
 		}
 		const std::string replacement = match[1].str() + included;
 		fragmentSource.replace(match.position() + offset, match.length(), replacement);
