@@ -68,6 +68,7 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/CameraController_be1bf2b0.o \
   $(OBJDIR)/ZoomFactor_9cf7cc11.o \
   $(OBJDIR)/Interpolator_e73f9cd6.o \
   $(OBJDIR)/KeyframeComponent_bb6b78ca.o \
@@ -198,6 +199,11 @@ $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
 $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling UniformManager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/CameraController_be1bf2b0.o: ../../Source/Timeline/CameraController.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling CameraController.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/ZoomFactor_9cf7cc11.o: ../../Source/Timeline/ZoomFactor.cpp
