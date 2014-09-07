@@ -34,7 +34,7 @@ void main() {
 	col.b = textureLod(color, lens_distort(aspect, k, kcube, tc), 0.).b;
 
 	float vignette_intensity = .7;
-	col *= vignette(gl_FragCoord.xy / res, vignette_intensity);
+	col *= vignette(vignette_intensity, gl_FragCoord.xy / res);
 
 	out_color = col; // TODO apply noise (ein halbes bit)
 }
