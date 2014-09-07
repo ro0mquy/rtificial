@@ -161,26 +161,31 @@ void Shader::applyIncludes() {
 	const std::regex includeRegex(R"regex((^|\n)#include "(\w+.glsl)")regex");
 	const std::sregex_iterator end;
 
-	std::vector<std::smatch> includeMatches;
+	std::vector<std::tuple<std::string, std::string, int, int>> includeMatches;
 	for(std::sregex_iterator it(fragmentSource.begin(), fragmentSource.end(), includeRegex); it != end; ++it) {
-		includeMatches.push_back(*it);
+		const auto& match = *it;
+		includeMatches.emplace_back(match[1], match[2], match.length(), match.position());
 	}
 
-	size_t offset = 0;
+	int offset = 0;
 	const auto& loader = StrahlenwerkApplication::getInstance()->getProject().getLoader();
 	for(const auto& match : includeMatches) {
-		const auto includeFile = loader.getIncludeDir().getChildFile(String(match[2]));
+		const auto newline = std::get<0>(match);
+		const auto filename = std::get<1>(match);
+		const int length = std::get<2>(match);
+		const int position = std::get<3>(match);
+		const auto includeFile = loader.getIncludeDir().getChildFile(String(filename));
 		std::string included;
 		if(includeFile.exists()) {
 			included = loader.loadFile(includeFile.getFullPathName().toStdString());
 		} else {
 			// TODO
-			std::cerr << getName() << ": Include file " << match[2] << " not found!" << std::endl;
+			std::cerr << getName() << ": Include file " << filename << " not found!" << std::endl;
 			continue;
 		}
-		const std::string replacement = match[1].str() + included;
-		fragmentSource.replace(match.position() + offset, match.length(), replacement);
-		offset += replacement.length() - match.length();
+		const std::string replacement = newline + included;
+		fragmentSource.replace(position + offset, length, replacement);
+		offset += int(replacement.length()) - length;
 	}
 }
 
