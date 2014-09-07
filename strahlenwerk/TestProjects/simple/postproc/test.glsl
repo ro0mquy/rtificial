@@ -2,7 +2,7 @@
 
 in vec2 tc;
 
-uniform sampler2D foo; // vec3
+uniform sampler2D foo; // vec4
 out vec3 bar;
 
 void main() {
