@@ -7,5 +7,5 @@ out vec3 out_color;
 // level(4)
 
 void main() {
-	out_color = textureLod(color, tc, 0.).rgb;
+	out_color = gaussian(color, tc, vec2(0., 1.), 1./res, 4.);
 }

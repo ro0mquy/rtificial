@@ -35,7 +35,7 @@ void main() {
 	color = mix(color, bloom, bloom_amount);
 
 	// tonemap
-	float avgLuminance = exp(textureLod(luminance, vec2(.5), 0.).r);
+	float avgLuminance = exp(textureLod(luminance, tc, 0.).r);
 	float key = .5;
 	color *= key / avgLuminance;
 	color = tonemap(color)/tonemap(vec3(W));
