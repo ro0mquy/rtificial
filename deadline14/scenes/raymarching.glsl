@@ -1,4 +1,5 @@
 #include "scene_head.glsl"
+#include "rtificial.glsl"
 
 uniform vec3 camera_position;
 uniform vec3 camera_direction;
@@ -14,13 +15,12 @@ vec3 march(vec3 p, vec3 direction, out int i);
 vec3 calc_normal(vec3 p);
 float sphere(vec3 p, float s);
 vec2 min_material(vec2 a, vec2 b);
-float pdot(vec3 a, vec3 b);
 float phong_norm(vec3 to_light, vec3 normal, vec3 to_view, float exponent);
 float phong(vec3 to_light, vec3 normal, vec3 to_view, float exponent);
 
 vec3 colors[] = vec3[](
-		vec3(.1),
-		vec3(100.8),
+		sphere1_color,
+		sphere2_color,
 		vec3(.03, .0, .0),
 		vec3(1.)
 		);
@@ -35,20 +35,16 @@ void main(void) {
 	if(i < 150) {
 		int material = int(f(hit).y);
 		vec3 normal = calc_normal(hit);
-		mat4x3 to_lights = mat4x3(
-			normalize(vec3(2.1, -.7, 1.4) - hit),
-			normalize(vec3(-2.4, .5, 1.3) - hit),
-			normalize(vec3(2.3, -.4, -1.4) - hit),
-			normalize(vec3(-2.2, .8, -1.7) - hit)
-		);
-		vec4 l = max(normal * to_lights, vec4(0.));
-		color = colors[material];
 
-		color *= dot(l, vec4(.7, .8, .9, .5));
-		color += .3 * vec3(1., 0., 0.) * phong(to_lights[0], normal, -direction, 50.);
-		color += .3 * vec3(0., 1., 0.) * phong(to_lights[1], normal, -direction, 32.);
-		color += .3 * vec3(0., 0., 1.) * phong(to_lights[2], normal, -direction, 40.);
-		color += .3 * vec3(1., 1., 0.) * phong(to_lights[3], normal, -direction, 43.);
+		Material mat;
+		if(material == 0. || material == 1.) {
+			mat = Material(colors[material], 0.7, 1.);
+		} else if(material == 2.) {
+			mat = Material(colors[material], 0.5, 0.);
+		} else if(material == 3.) {
+			mat = Material(colors[material], 1., 0.);
+		}
+		color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
 	}
 
 	output_color(color, 0.);
@@ -104,11 +100,6 @@ float sphere(vec3 p, float s) {
 // hier kommt der witz!
 vec2 min_material(vec2 a, vec2 b) {
 	return mix(a, b, a.x > b.x);
-}
-
-// positive dot product
-float pdot(vec3 a, vec3 b) {
-	return max(0., dot(a, b));
 }
 
 // calculate specular term of phong model

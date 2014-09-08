@@ -31,7 +31,7 @@ void main() {
 	bloom += textureLod(bloom_medium, tc, 0.).rgb;
 	bloom += textureLod(bloom_small, tc, 0.).rgb;
 	bloom /= 3.;
-	float bloom_amount = .1;
+	float bloom_amount = .05;
 	color = mix(color, bloom, bloom_amount);
 
 	// tonemap
