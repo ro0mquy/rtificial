@@ -26,11 +26,11 @@ float vignette(float intensity, vec2 c) {
 void main() {
 	vec3 col;
 	float k = .01;
-	float kcube = .02;
+	float kcube = .03;
 	float aspect = res.x / res.y;
 
-	col.r = textureLod(color, lens_distort(aspect, k * 1.34, kcube, tc), 0.).r;
-	col.g = textureLod(color, lens_distort(aspect, k * 1.27, kcube, tc), 0.).g;
+	col.r = textureLod(color, lens_distort(aspect, k / 1.34, kcube, tc), 0.).r;
+	col.g = textureLod(color, lens_distort(aspect, k / 1.2, kcube, tc), 0.).g;
 	col.b = textureLod(color, lens_distort(aspect, k, kcube, tc), 0.).b;
 
 	float vignette_intensity = .7;
