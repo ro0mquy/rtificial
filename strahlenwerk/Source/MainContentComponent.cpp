@@ -9,9 +9,9 @@ MainContentComponent::MainContentComponent() :
 
 	setSize(800, 600);
 
-	horizontalLayout.setItemLayout(0, 200, -1., -.4);
+	horizontalLayout.setItemLayout(0, 200, -1., -.3);
 	horizontalLayout.setItemLayout(1, 8, 8, 8);
-	horizontalLayout.setItemLayout(2, 400, -1., -.6);
+	horizontalLayout.setItemLayout(2, 400, -1., -.7);
 
 	verticalLayout.setItemLayout(0, 200, -1., -.66);
 	verticalLayout.setItemLayout(1, 8, 8, 8);
