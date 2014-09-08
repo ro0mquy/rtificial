@@ -20,4 +20,5 @@ void main() {
 	//out_color = half_col;
 	//out_color = eighth_col;
 	out_color = mix(orig_col, bloom, .2);
+	out_color = bloom;
 }

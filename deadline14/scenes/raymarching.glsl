@@ -20,7 +20,7 @@ float phong(vec3 to_light, vec3 normal, vec3 to_view, float exponent);
 
 vec3 colors[] = vec3[](
 		vec3(.1),
-		vec3(10.8),
+		vec3(100.8),
 		vec3(.03, .0, .0)
 		);
 
