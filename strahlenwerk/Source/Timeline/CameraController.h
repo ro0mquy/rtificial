@@ -3,6 +3,7 @@
 
 #include <juce>
 #include <glm/fwd.hpp>
+#include "CameraMath.h"
 
 class CameraController :
 	private Timer
@@ -10,9 +11,9 @@ class CameraController :
 	public:
 		CameraController();
 
-		var getUniformNameToBeControlled();
+		bool hasUniformToBeControlled(var& name);
 		bool getUseControlledUniform();
-		ValueTree getControlledUniformState();
+		ValueTree getControlledUniformState(var& name);
 
 		void timerCallback() override;
 
@@ -22,8 +23,11 @@ class CameraController :
 		glm::vec3 getVec3Up();
 
 		void setPosition(glm::vec3 newPosition);
+		void setRotation(CameraMath::Rotation rotation);
 
-		ValueTree uniformValue;
+		ValueTree positionValue;
+		ValueTree directionValue;
+		ValueTree upValue;
 		double lastCallback;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CameraController)

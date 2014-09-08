@@ -3,8 +3,8 @@
 layout(location = 0) uniform vec2 res;
 
 uniform vec3 camera_position;
-vec3 view_direction = vec3(0., 0., -1.);
-vec3 view_up = vec3(0., 1., 0.);
+uniform vec3 camera_direction;
+uniform vec3 camera_up;
 
 uniform vec3 sphere1_color; // color
 uniform vec3 sphere2_color; // color
@@ -70,8 +70,8 @@ vec2 f(vec3 p) {
 
 ///////////////////// legacy libblink code ///////////////////
 mat3 get_camera() {
-	vec3 view_right = cross(view_direction, view_up);
-	return mat3(view_right, view_up, -view_direction);
+	vec3 view_right = cross(camera_direction, camera_up);
+	return mat3(view_right, camera_up, -camera_direction);
 }
 
 vec3 get_direction() {

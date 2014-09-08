@@ -13,12 +13,11 @@ std::pair<ValueTree, bool> Interpolator::getUniformState(ValueTree uniformData) 
 		return std::pair<ValueTree, bool>(ValueTree(), false);
 	}
 
-	if (data.getUniformName(uniformData).equals(
-				cameraController.getUniformNameToBeControlled()
-				) &&
+	var uniformName = data.getUniformName(uniformData);
+	if (cameraController.hasUniformToBeControlled(uniformName) &&
 			cameraController.getUseControlledUniform()
 			) {
-		return std::pair<ValueTree, bool>(cameraController.getControlledUniformState(), false);
+		return std::pair<ValueTree, bool>(cameraController.getControlledUniformState(uniformName), true);
 	}
 
 	ValueTree sequencesArray = data.getSequencesArray(uniformData);

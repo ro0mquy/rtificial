@@ -7,22 +7,38 @@
 using namespace glm;
 
 CameraController::CameraController() :
-	uniformValue(treeId::uniformStandardValue),
+	positionValue(treeId::uniformStandardValue),
+	directionValue(treeId::uniformStandardValue),
+	upValue(treeId::uniformStandardValue),
 	lastCallback(Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks()))
 {
+	directionValue.setProperty(treeId::valueVec3Z, -1., nullptr);
+	upValue.setProperty(treeId::valueVec3Y, 1., nullptr);
+
 	startTimer(15);
 }
 
-var CameraController::getUniformNameToBeControlled() {
-	return var("camera_position");
+bool CameraController::hasUniformToBeControlled(var& name) {
+	String strName = name.toString();
+	return strName == "camera_position" ||
+		strName == "camera_direction" ||
+		strName == "camera_up";
 }
 
 bool CameraController::getUseControlledUniform() {
 	return true;
 }
 
-ValueTree CameraController::getControlledUniformState() {
-	return uniformValue;
+ValueTree CameraController::getControlledUniformState(var& name) {
+	String strName = name.toString();
+	if (strName == "camera_position") {
+		return positionValue;
+	} else if (strName == "camera_direction") {
+		return directionValue;
+	} else if (strName == "camera_up") {
+		return upValue;
+	}
+	return ValueTree();
 }
 
 void CameraController::timerCallback() {
@@ -50,25 +66,64 @@ void CameraController::timerCallback() {
 	if (KeyPress::isKeyCurrentlyDown('c')) {
 		setPosition(CameraMath::positionDown(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
 	}
+
+	if (KeyPress::isKeyCurrentlyDown('i')) {
+		setRotation(CameraMath::rotationUp(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
+	}
+	if (KeyPress::isKeyCurrentlyDown('k')) {
+		setRotation(CameraMath::rotationDown(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
+	}
+
+	if (KeyPress::isKeyCurrentlyDown('j')) {
+		setRotation(CameraMath::rotationLeft(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
+	}
+	if (KeyPress::isKeyCurrentlyDown('l')) {
+		setRotation(CameraMath::rotationRight(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
+	}
+
+	if (KeyPress::isKeyCurrentlyDown('u')) {
+		setRotation(CameraMath::rotationCounterclockwise(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
+	}
+	if (KeyPress::isKeyCurrentlyDown('o')) {
+		setRotation(CameraMath::rotationClockwise(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
+	}
 }
 
 vec3 CameraController::getVec3Position() {
-	float x = uniformValue.getProperty(treeId::valueVec3X);
-	float y = uniformValue.getProperty(treeId::valueVec3Y);
-	float z = uniformValue.getProperty(treeId::valueVec3Z);
+	float x = positionValue.getProperty(treeId::valueVec3X);
+	float y = positionValue.getProperty(treeId::valueVec3Y);
+	float z = positionValue.getProperty(treeId::valueVec3Z);
 	return vec3(x, y, z);
 }
 
 vec3 CameraController::getVec3Direction() {
-	return vec3(0., 0., -1.);
+	float x = directionValue.getProperty(treeId::valueVec3X);
+	float y = directionValue.getProperty(treeId::valueVec3Y);
+	float z = directionValue.getProperty(treeId::valueVec3Z);
+	return vec3(x, y, z);
 }
 
 vec3 CameraController::getVec3Up() {
-	return vec3(0., 1., 0.);
+	float x = upValue.getProperty(treeId::valueVec3X);
+	float y = upValue.getProperty(treeId::valueVec3Y);
+	float z = upValue.getProperty(treeId::valueVec3Z);
+	return vec3(x, y, z);
 }
 
 void CameraController::setPosition(vec3 newPosition) {
-	uniformValue.setProperty(treeId::valueVec3X, newPosition.x, nullptr);
-	uniformValue.setProperty(treeId::valueVec3Y, newPosition.y, nullptr);
-	uniformValue.setProperty(treeId::valueVec3Z, newPosition.z, nullptr);
+	positionValue.setProperty(treeId::valueVec3X, newPosition.x, nullptr);
+	positionValue.setProperty(treeId::valueVec3Y, newPosition.y, nullptr);
+	positionValue.setProperty(treeId::valueVec3Z, newPosition.z, nullptr);
+}
+
+void CameraController::setRotation(CameraMath::Rotation rotation) {
+	vec3 direction = rotation.first;
+	directionValue.setProperty(treeId::valueVec3X, direction.x, nullptr);
+	directionValue.setProperty(treeId::valueVec3Y, direction.y, nullptr);
+	directionValue.setProperty(treeId::valueVec3Z, direction.z, nullptr);
+
+	vec3 up = rotation.second;
+	upValue.setProperty(treeId::valueVec3X, up.x, nullptr);
+	upValue.setProperty(treeId::valueVec3Y, up.y, nullptr);
+	upValue.setProperty(treeId::valueVec3Z, up.z, nullptr);
 }
