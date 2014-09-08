@@ -9,5 +9,5 @@ void main() {
 	vec2 c = gl_FragCoord.xy / res.xy * 2. - 1.;
 	c.x *= res.x / res.y;
 	c = c * .5 + .5;
-	out_color = vec3(step(distance(c, vec2(.5)), .13));
+	out_color = vec3(10. * step(distance(c, vec2(.5)), .13));
 }

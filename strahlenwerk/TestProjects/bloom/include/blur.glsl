@@ -1,7 +1,9 @@
-vec3 gaussian(sampler2D tex, vec2 coords, vec2 dir, vec2 size) {
-	const float N = 10;
+uniform float sigma;
+
+vec3 gaussian(sampler2D tex, vec2 coords, vec2 dir, vec2 size, float sigma_factor) {
+	const float N = 5. / sigma_factor;
 	const float PI = acos(-1.);
-	const float sigma = 2.;
+	const float sigma = 10. * sigma / sigma_factor;
 	float coefficient = 1. / sqrt(2. * PI) * sigma;
 	float g1 = exp(-.5 / (sigma * sigma));
 	float g2 = g1 * g1;
