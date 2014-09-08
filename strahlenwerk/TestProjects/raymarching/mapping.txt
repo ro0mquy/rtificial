@@ -1,2 +1,1 @@
-input.color dummer__vincent.in_color
-dummer__vincent.out_color output.color
+input.color output.color

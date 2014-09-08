@@ -3,7 +3,7 @@
 #include "blur.glsl"
 
 layout(location = 0) uniform vec2 res;
-uniform sampler2D color; // vec4 level(2)
+uniform sampler2D color; // vec3 level(2)
 in vec2 tc;
 out vec3 out_color;
 

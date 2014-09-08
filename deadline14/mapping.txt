@@ -2,6 +2,7 @@ input.color bloom_big_vert.color
 input.color bloom_medium_vert.color
 input.color bloom_small_vert.color
 input.color bokeh_pass1.color
+input.coc bokeh_pass1.coc
 input.luminance tonemap.luminance
 
 bloom_big_vert.out_color bloom_big_horiz.color

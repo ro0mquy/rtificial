@@ -1,7 +1,7 @@
 #version 430
 
 layout(location = 0) uniform vec2 res;
-uniform sampler2D orig_color; // vec4
+uniform sampler2D orig_color; // vec3
 uniform sampler2D half_color; // vec3
 uniform sampler2D quart_color; // vec3 
 uniform sampler2D eighth_color; // vec3
