@@ -2,10 +2,10 @@ vec3 gaussian(sampler2D tex, vec2 coords, vec2 dir, vec2 pixelsize, float scale)
 	scale *= (4. * scale) / (1920. * pixelsize.x);
 	const float N = 7 * scale;
 	const float PI = acos(-1.);
-	const float sigma = 2.85 * scale;
-	float coefficient = 1. / sqrt(2. * PI) * sigma;
-	float g1 = exp(-.5 / (sigma * sigma));
-	float g2 = g1 * g1;
+	const vec3 sigma = 2.65 * scale * vec3(1.34, 1.2, 1.);
+	vec3 coefficient = 1. / sqrt(2. * PI) * sigma;
+	vec3 g1 = exp(-.5 / (sigma * sigma));
+	vec3 g2 = g1 * g1;
 
 	float coefficientSum = coefficient;
 	vec3 avg = textureLod(tex, coords, 0.).rgb * coefficient;
