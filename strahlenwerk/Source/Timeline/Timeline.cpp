@@ -2,6 +2,7 @@
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
+	sequenceView(zoomFactor),
 	scenesBar(zoomFactor)
 {
 	viewportSequenceView.setViewedComponent(&sequenceView, false);

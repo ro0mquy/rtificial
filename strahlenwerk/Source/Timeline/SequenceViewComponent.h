@@ -2,6 +2,7 @@
 #define SEQUENCEVIEWCOMPONENT_H
 
 #include <juce>
+#include "ZoomFactor.h"
 
 class TimelineData;
 class SequenceComponent;
@@ -9,7 +10,7 @@ class SequenceComponent;
 class SequenceViewComponent : public Component
 {
 	public:
-		SequenceViewComponent();
+		SequenceViewComponent(ZoomFactor& zoomFactor_);
 		~SequenceViewComponent();
 
 		void updateSize();
@@ -34,6 +35,7 @@ class SequenceViewComponent : public Component
 		bool uniformActiveForScene(ValueTree uniform, ValueTree scene);
 
 		TimelineData& data;
+		ZoomFactor& zoomFactor;
 		OwnedArray<SequenceComponent> sequenceComponentsArray;
 
 		ValueTree newSequenceData;

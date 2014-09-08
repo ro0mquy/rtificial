@@ -6,8 +6,9 @@
 #include "TimelineData.h"
 #include "KeyframeComponent.h"
 
-SequenceViewComponent::SequenceViewComponent() :
-	data(TimelineData::getTimelineData())
+SequenceViewComponent::SequenceViewComponent(ZoomFactor& zoomFactor_) :
+	data(TimelineData::getTimelineData()),
+	zoomFactor(zoomFactor_)
 {
 	updateSequenceComponents();
 }
@@ -15,8 +16,17 @@ SequenceViewComponent::SequenceViewComponent() :
 SequenceViewComponent::~SequenceViewComponent() = default;
 
 void SequenceViewComponent::updateSize() {
-	const int width = jmax(data.getLastSceneEndTime() + 20, getParentWidth());
-	const int height = jmax(data.getUniformsArray().getNumChildren() * 20, getParentHeight());
+	const int paddingAfterLastScene = 300;
+	const int rowHeight = 20;
+	const int numUniforms = data.getNumUniforms();
+	const int endTime = data.getLastSceneEndTime() * zoomFactor;
+
+	const Viewport* parentViewport = findParentComponentOfClass<Viewport>();
+	const int viewportWidth = parentViewport->getMaximumVisibleWidth();
+	const int viewportHeight = parentViewport->getMaximumVisibleHeight();
+
+	const int width = jmax(endTime + paddingAfterLastScene, viewportWidth);
+	const int height = jmax(numUniforms * rowHeight, viewportHeight);
 	setSize(width, height);
 }
 
