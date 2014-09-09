@@ -46,9 +46,30 @@ float sphere(vec3 p, float s) {
 	return length(p) - s;
 }
 
+// a and b are the endpoints
+// r is the radius if you want some kind of capsule
+float line(vec3 p, vec3 a, vec3 b, float r) {
+	vec3 pa = p - a;
+	vec3 ba = b - a;
+	float h = clamp(dot(pa,ba) / dot(ba,ba), 0., 1. );
+	return length(pa - ba*h) - r;
+}
+
 // hier kommt der witz!
 vec2 min_material(vec2 a, vec2 b) {
 	return mix(a, b, a.x > b.x);
+}
+
+// smooth minimum, k is the difference between the two values for which to smooth (eg. k = 0.1)
+float smin(float a, float b, float k) {
+	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+	return mix(b, a, h) - k * h * (1.0 - h);
+}
+
+// smooth maximum, k is the difference between the two values for which to smooth (eg. k = 0.1)
+float smax(float a, float b, float k) {
+	float h = clamp(0.5 - 0.5 * (b - a) / k, 0.0, 1.0 );
+	return mix(b, a, h) + k * h * (1.0 - h);
 }
 
 struct Material {
