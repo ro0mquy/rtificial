@@ -82,6 +82,25 @@
       <uniformStandardValue valueFloatX="1"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="conic_bobbel_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.411731" valueColorG="0.411731" valueColorB="0.411731"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_smooth_factor" uniformType="float">
+      <uniformStandardValue valueFloatX="1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="k" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_ring_pos" uniformType="float">
+      <uniformStandardValue valueFloatX="0.84"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="time" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+    </uniform>
   </uniformsArray>
   <scenesArray/>
 </timelineTree>

@@ -213,3 +213,10 @@ mat3 rZ(float theta) {
 		0., 0., 1.
 	);
 }
+
+// impulse from iq's website
+// k is the sharpness of the curve
+float impulse(float k, float x) {
+	const float h = k * x;
+	return h * exp(1. - h);
+}
