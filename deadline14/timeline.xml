@@ -35,7 +35,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="vignette_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="0.737"/>
+      <uniformStandardValue valueFloatX="0.774"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_freq" uniformType="float">
@@ -43,7 +43,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="0.006"/>
+      <uniformStandardValue valueFloatX="0.003"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="bloom_amount" uniformType="float">
@@ -100,6 +100,14 @@
     </uniform>
     <uniform uniformName="time" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
+    </uniform>
+    <uniform uniformName="synapse_gap" uniformType="float">
+      <uniformStandardValue valueFloatX="0.051"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.00414072" valueColorG="0.00414073" valueColorB="0.00751664"/>
+      <sequencesArray/>
     </uniform>
   </uniformsArray>
   <scenesArray/>
