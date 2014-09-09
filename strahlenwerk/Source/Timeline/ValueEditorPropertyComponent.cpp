@@ -143,7 +143,7 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 			if (value.refersToSameSourceAs(colorR) ||
 					value.refersToSameSourceAs(colorG) ||
 					value.refersToSameSourceAs(colorB)) {
-				colorLab = LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue());
+				//colorLab = LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue());
 			} else {
 				Vector3D<float> vectorLab = colorLab.getLinearRGBVector3D();
 				colorR = vectorLab.x;
