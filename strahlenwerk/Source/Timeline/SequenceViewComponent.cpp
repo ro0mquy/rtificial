@@ -102,6 +102,13 @@ void SequenceViewComponent::removeSequenceComponent(const SequenceComponent* toB
 }
 
 void SequenceViewComponent::mouseDown(const MouseEvent& event) {
+	const int rowHeight = 20;
+	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
+	if (numUniform >= data.getNumUniforms()) {
+		// click in empty area
+		return;
+	}
+
 	const int absoluteStart = event.getMouseDownX();
 	ValueTree scene = data.getSceneForTime(absoluteStart);
 	const int relativeStart = absoluteStart - int(scene.getProperty(treeId::sceneStart));
@@ -112,8 +119,6 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	newSequenceData.setProperty(treeId::sequenceDuration, var(0), nullptr);
 	newSequenceData.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
 
-	const int rowHeight = 20;
-	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
 	ValueTree uniform = data.getUniformsArray().getChild(numUniform);
 	data.addSequence(uniform, newSequenceData);
 
@@ -122,6 +127,11 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 }
 
 void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
+	if (!newSequenceData.isValid()) {
+		// click in empty area
+		return;
+	}
+
 	const int gridWidth = 20;
 
 	const int mouseDown = event.getMouseDownX();
@@ -145,6 +155,11 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 }
 
 void SequenceViewComponent::mouseUp(const MouseEvent& event) {
+	if (!newSequenceData.isValid()) {
+		// click in empty area
+		return;
+	}
+
 	if (int(newSequenceData.getProperty(treeId::sequenceDuration)) == 0) {
 		newSequenceComponent = nullptr;
 		newSequenceData.getParent().removeChild(newSequenceData, nullptr);
