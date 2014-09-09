@@ -4,6 +4,8 @@ uniform vec3 camera_position;
 uniform vec3 camera_direction;
 uniform vec3 camera_up;
 
+float TAU = 6.28318530718;
+
 // TODO camera FOV
 mat3 get_camera() {
 	vec3 view_right = cross(camera_direction, camera_up);
@@ -53,6 +55,32 @@ float line(vec3 p, vec3 a, vec3 b, float r) {
 	vec3 ba = b - a;
 	float h = clamp(dot(pa,ba) / dot(ba,ba), 0., 1. );
 	return length(pa - ba*h) - r;
+}
+
+float torus(vec3 p, vec2 t) {
+	vec2 q = vec2(length(p.xz) - t.x, p.y);
+	return length(q) - t.y;
+}
+
+float box(vec3 p, vec3 b) {
+	p = abs(p) - b;
+	return max(p.x, max(p.y, p.z));
+}
+
+float box2(vec2 p, vec2 b) {
+	p = abs(p) - b;
+	return max(p.x, p.y);
+}
+
+// more accurate than box(), but slower
+float slowbox(vec3 p, vec3 b) {
+	vec3 d = abs(p) - b;
+	return min(max(d.x, max(d.y, d.z)), 0.) + length(max(d, 0.));
+}
+
+// box with rounded corners, r is radius of corners
+float roundbox(vec3 p, vec3 b, float r) {
+	return slowbox(p, b) - r;
 }
 
 // hier kommt der witz!
@@ -152,5 +180,29 @@ vec3 transv(vec3 p, vec3 v) {
 // z: z
 vec3 trans(vec3 p, float x, float y, float z) {
 	return transv(p, vec3(x, y, z));
+}
+
+mat3 rX(float theta) {
+	return mat3(
+		1., 0., 0.,
+		0., cos(theta), sin(theta),
+		0., -sin(theta), cos(theta)
+	);
+}
+
+mat3 rY(float theta) {
+	return mat3(
+		cos(theta), 0., -sin(theta),
+		0., 1., 0.,
+		sin(theta), 0., cos(theta)
+	);
+}
+
+mat3 rZ(float theta) {
+	return mat3(
+		cos(theta), sin(theta), 0.,
+		-sin(theta), cos(theta), 0.,
+		0., 0., 1.
+	);
 }
 
