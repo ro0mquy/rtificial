@@ -3,6 +3,7 @@
 #line 4
 
 uniform vec3 background_color; // color
+uniform float zapfen_kreise;
 
 void main() {
 	vec3 dir = get_direction();
@@ -14,7 +15,7 @@ void main() {
 
 	vec3 color = vec3(0.);
 	vec3 normal = calc_normal(p);
-	SphereLight light1 = SphereLight(vec3(0., 10., 10.), vec3(1.), 3., 100.);
+	SphereLight light1 = SphereLight(vec3(0., 1000., 10.), vec3(1.), 3., 10000.);
 	Material mat;
 	if(materialId == 1) {
 		mat = Material(vec3(0.), 1., .0);
@@ -22,12 +23,23 @@ void main() {
 		mat = Material(vec3(1.), 0.1, 0.);
 		color += .001 * background_color;
 	} else if(materialId == 2) {
-		mat = Material(vec3(1.), 1., 0.);
+		mat = Material(vec3(0.), 0., 0.);
+		float grid = 1.;
+		vec3 q = p;
+		float theta = radians(5.) * q.y + radians(5.) * zapfen_kreise * 10. * sin(q.x) * cos(q.z);
+		q.xz *= mat2(
+			cos(theta), sin(theta),
+			-sin(theta), cos(theta)
+		);
+		float intensity = 3. * sin(length(q.xz) * .1 -3. *  time) * .5 + .5;
+		q.xz = mod(q.xz, 30.);
+		grid = step(q.x, .5) + step(q.z, .5);
+		color += grid * vec3(1., 0., 0.) * .1 * intensity;
 	}
 	color += apply_light(p, normal, -dir, mat, light1);
 
-	output_color(color, distance(camera_position, p));
-	//output_color(color, 4. + .1);
+	//output_color(color, distance(camera_position, p));
+	output_color(color, 4. + .1);
 }
 
 float boden(vec3 p);

@@ -37,7 +37,7 @@ void main() {
 	bloom += textureLod(bloom_medium, tc, 0.).rgb;
 	bloom += textureLod(bloom_small, tc, 0.).rgb;
 	bloom /= 3.;
-	color = mix(color, bloom, bloom_amount);
+	color = mix(color, bloom, bloom_amount * .01);
 
 	// tonemap
 	float avgLuminance = exp(textureLod(luminance, tc, 0.).r);

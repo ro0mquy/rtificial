@@ -47,7 +47,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="bloom_amount" uniformType="float">
-      <uniformStandardValue valueFloatX="0.005"/>
+      <uniformStandardValue valueFloatX="0.004"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="key" uniformType="float">
@@ -100,6 +100,7 @@
     </uniform>
     <uniform uniformName="time" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray/>
     </uniform>
     <uniform uniformName="synapse_gap" uniformType="float">
       <uniformStandardValue valueFloatX="0.051"/>
@@ -107,6 +108,14 @@
     </uniform>
     <uniform uniformName="synapse_color" uniformType="color">
       <uniformStandardValue valueColorR="0.00414072" valueColorG="0.00414073" valueColorB="0.00751664"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="background_color" uniformType="color">
+      <uniformStandardValue valueColorR="0" valueColorG="0" valueColorB="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_kreise" uniformType="float">
+      <uniformStandardValue valueFloatX="0.061"/>
       <sequencesArray/>
     </uniform>
   </uniformsArray>
