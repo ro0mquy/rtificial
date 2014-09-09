@@ -93,13 +93,17 @@ float cone(vec3 p, vec2 c) {
 
 // hier kommt der witz!
 vec2 min_material(vec2 a, vec2 b) {
-	return mix(a, b, a.x > b.x);
+	return mix(a, b, float(a.x > b.x));
 }
 
 // smooth minimum, k is the difference between the two values for which to smooth (eg. k = 0.1)
 float smin(float a, float b, float k) {
 	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
 	return mix(b, a, h) - k * h * (1.0 - h);
+}
+
+vec2 smin_material(vec2 a, vec2 b, float k) {
+	return vec2(smin(a, b, k), a.x > b.x ? b.y : a.y);
 }
 
 // smooth maximum, k is the difference between the two values for which to smooth (eg. k = 0.1)
