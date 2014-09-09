@@ -5,6 +5,39 @@
 uniform sampler2D color; // vec3
 out vec3 out_color;
 
+float rand(vec2 co){
+	return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+vec2 g(float v) {
+	v *= 2.0 * 3.1415926;
+	return vec2(cos(v), sin(v));
+}
+
+vec2 fade(vec2 t) {
+	return t*t*t*(t*(t*6.0-15.0)+10.0);
+}
+
+float classic_noise(vec2 co) {
+	vec2 c = fract(co);
+	vec2 C = floor(co);
+	vec2 e = vec2(0.0, 1.0);
+
+	vec4 n = vec4(
+		dot(g(rand(C + e.xx)), c - e.xx),
+		dot(g(rand(C + e.xy)), c - e.xy),
+		dot(g(rand(C + e.yx)), c - e.yx),
+		dot(g(rand(C + e.yy)), c - e.yy)
+	);
+
+	vec2 u = fade(c);
+
+	return mix(
+		mix(n[0], n[2], u.x),
+		mix(n[1], n[3], u.x),
+		u.y);
+}
+
 vec2 lens_distort(float aspect, float k, float kcube, vec2 c) {
 	c = c * 2. - 1.;
 	float r2 = (aspect * aspect) * (c.x * c.x) + c.y * c.y;
@@ -36,5 +69,10 @@ void main() {
 	float vignette_intensity = .7;
 	col *= vignette(vignette_intensity, gl_FragCoord.xy / res);
 
-	out_color = col; // TODO apply noise (ein halbes bit)
+	// TODO ordentlicher noise
+	out_color = col + 3./512. * vec3( // so schön weerboß
+			classic_noise(.3  * gl_FragCoord.xy),
+			classic_noise(.3  * gl_FragCoord.xy + 30.),
+			classic_noise(.3  * gl_FragCoord.xy + 70.)
+			);
 }
