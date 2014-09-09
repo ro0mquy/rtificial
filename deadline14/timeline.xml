@@ -66,6 +66,22 @@
       <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="aa" uniformType="float">
+      <uniformStandardValue valueFloatX="1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="bb" uniformType="float">
+      <uniformStandardValue valueFloatX="0.44"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="cc" uniformType="float">
+      <uniformStandardValue valueFloatX="-0.48"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="dd" uniformType="float">
+      <uniformStandardValue valueFloatX="1"/>
+      <sequencesArray/>
+    </uniform>
   </uniformsArray>
   <scenesArray/>
 </timelineTree>

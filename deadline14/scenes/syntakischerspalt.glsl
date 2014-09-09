@@ -1,8 +1,13 @@
 #include "scene_head.glsl"
 #include "rtificial.glsl"
+#line 4
 
 uniform vec3 sphere1_color; // color
 uniform float k; // float
+uniform float aa; // float
+uniform float bb; // float
+uniform float cc; // float
+uniform float dd; // float
 
 vec3 colors[] = vec3[](
 		sphere1_color,
@@ -32,18 +37,23 @@ void main(void) {
 		color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
 	}
 
-	output_color(color, 0.);
+	output_color(color, 4.1);//distance(hit, camera_position));
 }
 
 vec2 f(vec3 p) {
-	vec3 c = vec3(0.);
-	p.z += 5.;
-	p.x -= 1.;
-	float sphere1 = sphere(p, 1.);
-	p.x -= 2.;
-	float sphere2 = sphere(p, 2.);
-	float capsule = line(p, c+vec3(2.,0.,0.), vec3(10.,0.,0.), 1.);
-	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, k), capsule, k), 0.);
+	float domrep_x = 40.;
+	float domrep_z = 40.;
+	vec3 q = domrep(p, domrep_x, 1., domrep_z);
+	q.y = p.y;
+
+	q.z += 5.;
+	q.x += 5.;
+	float sphere1 = sphere(q, 1.);
+	q.x -= 2.;
+	float sphere2 = sphere(q, 2.);
+
+	float capsule = line(q, vec3(2.,0.,0.), vec3(10.,0.,0.), mix(aa, bb, smoothstep(10.*cc, 10*dd, q.x)));
+	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), 0.);
 	vec2 bottom = vec2(p.y + 2., 2.);
 	vec2 bounding = vec2(-sphere(p - camera_position, 50.), 3.);
 	return min_material(synapse, min_material(bottom, bounding));
