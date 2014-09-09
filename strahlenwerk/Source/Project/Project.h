@@ -26,6 +26,7 @@ class Project : private efsw::FileWatchListener {
 		void reload();
 		void reloadPostproc();
 		void reloadScenes();
+		void saveTimelineData();
 		void contextChanged(OpenGLContext& context);
 		std::unique_ptr<PostprocPipeline> getPostproc();
 		std::unique_ptr<Scenes> getScenes();

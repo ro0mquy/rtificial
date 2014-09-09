@@ -57,9 +57,15 @@ Interpolator& TimelineData::getInterpolator() {
 
 void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 	if (dataFile.existsAsFile()) {
-		valueTree = ValueTree::readFromStream(*dataFile.createInputStream());
+		valueTree = ValueTree::fromXml(*XmlDocument::parse(dataFile));
 	} else {
 		valueTree = ValueTree(treeId::timelineTree);
+	}
+}
+
+void TimelineData::writeTimelineDataToFile(const File& dataFile) {
+	if (!valueTree.createXml()->writeToFile(dataFile, "")) {
+		std::cerr << "Couldn't write timeline to file";
 	}
 }
 

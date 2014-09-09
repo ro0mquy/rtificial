@@ -24,7 +24,8 @@ class MainWindow : public DocumentWindow,
 		enum CommandIDs {
 			quitProgram = 0x2300,
 			openProject,
-			reload
+			reload,
+			saveTimeline
 		};
 
 		StringArray getMenuBarNames() override;
@@ -41,6 +42,7 @@ class MainWindow : public DocumentWindow,
 		bool perform(const InvocationInfo& info) override;
 		void doOpenProject();
 		void doReload();
+		void doSaveTimeline();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };

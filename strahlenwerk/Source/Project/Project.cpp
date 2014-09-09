@@ -67,6 +67,10 @@ void Project::reloadScenes() {
 	scenesChanged();
 }
 
+void Project::saveTimelineData() {
+	timelineData.writeTimelineDataToFile(loader.getTimelineDataFile());
+}
+
 void Project::contextChanged(OpenGLContext& _context) {
 	context = &_context;
 	reload();

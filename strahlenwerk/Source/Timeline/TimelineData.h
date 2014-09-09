@@ -16,6 +16,7 @@ class TimelineData {
 		Interpolator& getInterpolator();
 
 		void readTimelineDataFromFile(const File& dataFile);
+		void writeTimelineDataToFile(const File& dataFile);
 		void addListenerToTree(ValueTree::Listener* listener);
 
 

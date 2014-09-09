@@ -70,6 +70,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		MainWindow::quitProgram,
 		MainWindow::openProject,
 		MainWindow::reload,
+		MainWindow::saveTimeline,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -86,10 +87,15 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			break;
 		case MainWindow::openProject:
 			result.setInfo("Open Project", "Open a strahlenwerk project", programCategory, 0);
+			result.addDefaultKeypress('o', ModifierKeys::ctrlModifier);
 			break;
 		case MainWindow::reload:
 			result.setInfo("Reload", "Reload everything", programCategory, 0);
 			result.addDefaultKeypress('r', ModifierKeys::noModifiers);
+			break;
+		case MainWindow::saveTimeline:
+			result.setInfo("Save Timeline", "Save the timeline data to a file", programCategory, 0);
+			result.addDefaultKeypress('s', ModifierKeys::ctrlModifier);
 			break;
 		default:
 			break;
@@ -109,6 +115,10 @@ bool MainWindow::perform(const InvocationInfo& info) {
 
 		case MainWindow::reload:
 			doReload();
+			break;
+
+		case MainWindow::saveTimeline:
+			doSaveTimeline();
 			break;
 
 		default:
@@ -133,6 +143,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& menuN
 
 	if (topLevelMenuIndex == 0) {
 		menu.addCommandItem(commandManager, MainWindow::openProject);
+		menu.addCommandItem(commandManager, MainWindow::saveTimeline);
 		menu.addCommandItem(commandManager, MainWindow::reload);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
 	}
@@ -157,4 +168,8 @@ void MainWindow::doOpenProject() {
 
 void MainWindow::doReload() {
 	StrahlenwerkApplication::getInstance()->getProject().reload();
+}
+
+void MainWindow::doSaveTimeline() {
+	StrahlenwerkApplication::getInstance()->getProject().saveTimelineData();
 }
