@@ -4,7 +4,7 @@
 
 using namespace glm;
 
-static const float movementSpeed = 2.;
+static const float movementSpeed = 5.;
 static const float rotationSpeed = 90.;
 
 CameraMath::CameraMath()

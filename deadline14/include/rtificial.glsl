@@ -4,6 +4,8 @@ uniform vec3 camera_position;
 uniform vec3 camera_direction;
 uniform vec3 camera_up;
 
+uniform float time;
+
 float TAU = 6.28318530718;
 
 // TODO camera FOV
@@ -81,6 +83,12 @@ float slowbox(vec3 p, vec3 b) {
 // box with rounded corners, r is radius of corners
 float roundbox(vec3 p, vec3 b, float r) {
 	return slowbox(p, b) - r;
+}
+
+// c must be normalized
+float cone(vec3 p, vec2 c) {
+	float q = length(p.xy);
+	return dot(c, vec2(q, p.z));
 }
 
 // hier kommt der witz!

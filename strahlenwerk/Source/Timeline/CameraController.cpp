@@ -22,7 +22,8 @@ bool CameraController::hasUniformToBeControlled(var& name) {
 	String strName = name.toString();
 	return strName == "camera_position" ||
 		strName == "camera_direction" ||
-		strName == "camera_up";
+		strName == "camera_up" ||
+		strName == "time";
 }
 
 bool CameraController::getUseControlledUniform() {
@@ -37,6 +38,11 @@ ValueTree CameraController::getControlledUniformState(var& name) {
 		return directionValue;
 	} else if (strName == "camera_up") {
 		return upValue;
+	} else if (strName == "time") {
+		const double timeValue = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
+		ValueTree timeTree(treeId::uniformStandardValue);
+		timeTree.setProperty(treeId::valueFloatX, timeValue, nullptr);
+		return timeTree;
 	}
 	return ValueTree();
 }
