@@ -213,4 +213,3 @@ mat3 rZ(float theta) {
 		0., 0., 1.
 	);
 }
-
