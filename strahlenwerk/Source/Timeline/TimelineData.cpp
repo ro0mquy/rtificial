@@ -57,6 +57,7 @@ Interpolator& TimelineData::getInterpolator() {
 
 void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 	XmlDocument dataXml(dataFile);
+	dataXml.setEmptyTextElementsIgnored(false);
 	XmlElement* dataElement = dataXml.getDocumentElement();
 	if (dataElement == nullptr) {
 		std::cerr << "Failed to parse timeline from file" << std::endl;
@@ -64,6 +65,7 @@ void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 		valueTree = ValueTree(treeId::timelineTree);
 	} else {
 		valueTree = ValueTree::fromXml(*dataElement);
+		delete dataElement;
 	}
 }
 
