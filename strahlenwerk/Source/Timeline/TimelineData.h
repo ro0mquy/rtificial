@@ -7,6 +7,7 @@
 
 class TimelineData {
 	public:
+		TimelineData(const File& dataFile);
 		TimelineData();
 
 
@@ -14,6 +15,7 @@ class TimelineData {
 		static TimelineData& getTimelineData();
 		Interpolator& getInterpolator();
 
+		void readTimelineDataFromFile(const File& dataFile);
 		void addListenerToTree(ValueTree::Listener* listener);
 
 

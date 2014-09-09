@@ -14,6 +14,13 @@ static KeyframesComparator keyframesComparator;
 
 
 
+TimelineData::TimelineData(const File& dataFile) :
+	currentTime(40),
+	interpolator(*this)
+{
+	readTimelineDataFromFile(dataFile);
+}
+
 TimelineData::TimelineData() :
 	currentTime(40),
 	valueTree(treeId::timelineTree),
@@ -46,6 +53,14 @@ TimelineData& TimelineData::getTimelineData() {
 
 Interpolator& TimelineData::getInterpolator() {
 	return interpolator;
+}
+
+void TimelineData::readTimelineDataFromFile(const File& dataFile) {
+	if (dataFile.existsAsFile()) {
+		valueTree = ValueTree::readFromStream(*dataFile.createInputStream());
+	} else {
+		valueTree = ValueTree(treeId::timelineTree);
+	}
 }
 
 void TimelineData::addListenerToTree(ValueTree::Listener* listener) {

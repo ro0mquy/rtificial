@@ -51,10 +51,10 @@ class Project : private efsw::FileWatchListener {
 
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes> scenes;
-		TimelineData timelineData;
 		std::vector<ProjectListener*> listeners;
 		OpenGLContext* context;
 		ProjectFileLoader loader;
+		TimelineData timelineData;
 		FileWatchMessageThreadListener fileListener;
 		std::unique_ptr<efsw::FileWatcher> fileWatcher;
 

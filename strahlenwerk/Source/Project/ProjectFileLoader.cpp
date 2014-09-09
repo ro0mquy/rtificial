@@ -25,6 +25,10 @@ File ProjectFileLoader::getMappingFile() {
 	return projectDir.getChildFile("mapping.txt");
 }
 
+File ProjectFileLoader::getTimelineDataFile() {
+	return projectDir.getChildFile("timeline.xml");
+}
+
 const File& ProjectFileLoader::getSceneDir() const {
 	return sceneDir;
 }

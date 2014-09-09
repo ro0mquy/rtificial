@@ -12,6 +12,7 @@ class ProjectFileLoader {
 		std::vector<File> listPostprocFiles();
 		std::vector<File> listSceneFiles();
 		File getMappingFile();
+		File getTimelineDataFile();
 
 		const File& getSceneDir() const;
 		const File& getPostprocDir() const;

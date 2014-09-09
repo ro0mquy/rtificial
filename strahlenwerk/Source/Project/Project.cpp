@@ -16,6 +16,7 @@
 
 Project::Project(const std::string& dir) :
 	loader(dir),
+	timelineData(loader.getTimelineDataFile()),
 	fileListener(*this)
 {
 	watchFiles(dir);
@@ -87,6 +88,7 @@ void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
 	watchFiles(dir);
 	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::PROJECT_DIR, var(dir));
+	timelineData.readTimelineDataFromFile(loader.getTimelineDataFile());
 	reload();
 }
 
