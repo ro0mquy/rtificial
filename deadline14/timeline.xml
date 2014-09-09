@@ -83,7 +83,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="conic_bobbel_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.411731" valueColorG="0.411731" valueColorB="0.411731"/>
+      <uniformStandardValue valueColorR="0.295822" valueColorG="0.543238" valueColorB="0.380202"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="conic_smooth_factor" uniformType="float">
@@ -116,6 +116,22 @@
     </uniform>
     <uniform uniformName="zapfen_kreise" uniformType="float">
       <uniformStandardValue valueFloatX="0.061"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_ring_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.229901" valueColorG="0.401021" valueColorB="0.0404214"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="manual_time" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_ring_metalic" uniformType="float">
+      <uniformStandardValue valueFloatX="1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_ring_roughness" uniformType="float">
+      <uniformStandardValue valueFloatX="0.528"/>
       <sequencesArray/>
     </uniform>
   </uniformsArray>
