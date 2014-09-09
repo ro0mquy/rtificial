@@ -56,16 +56,20 @@ Interpolator& TimelineData::getInterpolator() {
 }
 
 void TimelineData::readTimelineDataFromFile(const File& dataFile) {
-	if (dataFile.existsAsFile()) {
-		valueTree = ValueTree::fromXml(*XmlDocument::parse(dataFile));
-	} else {
+	XmlDocument dataXml(dataFile);
+	XmlElement* dataElement = dataXml.getDocumentElement();
+	if (dataElement == nullptr) {
+		std::cerr << "Failed to parse timeline from file" << std::endl;
+		std::cerr << dataXml.getLastParseError() << std::endl;
 		valueTree = ValueTree(treeId::timelineTree);
+	} else {
+		valueTree = ValueTree::fromXml(*dataElement);
 	}
 }
 
 void TimelineData::writeTimelineDataToFile(const File& dataFile) {
 	if (!valueTree.createXml()->writeToFile(dataFile, "")) {
-		std::cerr << "Couldn't write timeline to file";
+		std::cerr << "Couldn't write timeline to file" << std::endl;
 	}
 }
 
