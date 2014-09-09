@@ -58,5 +58,9 @@ std::vector<File> ProjectFileLoader::listFiles(const File& dir) {
 			files.push_back(file);
 		}
 	}
+	std::sort(files.begin(), files.end(),
+	[](const File& a, const File& b) -> bool {
+		return a.getFileName() < b.getFileName();
+	});
 	return files;
 }
