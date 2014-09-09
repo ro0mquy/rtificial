@@ -1,5 +1,56 @@
 // fancy functions TODO
 
+uniform vec3 camera_position;
+uniform vec3 camera_direction;
+uniform vec3 camera_up;
+
+// TODO camera FOV
+mat3 get_camera() {
+	vec3 view_right = cross(camera_direction, camera_up);
+	return mat3(view_right, camera_up, -camera_direction);
+}
+
+vec3 get_direction() {
+	return get_camera() * normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y , -1.));
+}
+
+vec2 f(vec3 p);
+
+vec3 march_adv(vec3 p, vec3 direction, out int i, int iterations, float stepsize) {
+	float walked = 0.;
+	for (i=0; i < iterations; i++) {
+		float dist = f(p)[0] * stepsize;
+		p += direction * dist;
+		dist = abs(dist);
+		walked += dist;
+
+		if (dist < .001 * walked) break;
+	}
+	return p;
+}
+
+vec3 march(vec3 p, vec3 direction, out int i) {
+	return march_adv(p, direction, i, 100, 1.);
+}
+
+vec3 calc_normal(vec3 p) {
+	vec2 epilepsilon = vec2(.001, 0.);
+	return normalize(vec3(
+		f(p + epilepsilon.xyy)[0] - f(p - epilepsilon.xyy)[0],
+		f(p + epilepsilon.yxy)[0] - f(p - epilepsilon.yxy)[0],
+		f(p + epilepsilon.yyx)[0] - f(p - epilepsilon.yyx)[0]
+	));
+}
+
+float sphere(vec3 p, float s) {
+	return length(p) - s;
+}
+
+// hier kommt der witz!
+vec2 min_material(vec2 a, vec2 b) {
+	return mix(a, b, a.x > b.x);
+}
+
 struct Material {
 	vec3 color;
 	float roughness;
