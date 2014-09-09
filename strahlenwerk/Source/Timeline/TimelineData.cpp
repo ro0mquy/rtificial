@@ -70,9 +70,11 @@ void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 }
 
 void TimelineData::writeTimelineDataToFile(const File& dataFile) {
-	if (!valueTree.createXml()->writeToFile(dataFile, "")) {
+	XmlElement* xmlElement = valueTree.createXml();
+	if (!xmlElement->writeToFile(dataFile, "")) {
 		std::cerr << "Couldn't write timeline to file" << std::endl;
 	}
+	delete xmlElement;
 }
 
 void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
