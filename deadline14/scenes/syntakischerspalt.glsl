@@ -54,8 +54,8 @@ vec2 f(vec3 p) {
 	q = rY(-TAU*sin(q.x/2.+time*0.2)/50.)*q;
 	float capsule = line(q, vec3(2.,0.,0.), vec3(20.,0.,0.), mix(aa, bb, smoothstep(10.*cc, 10*dd, q.x)));
 
-	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), 0.);
-	vec2 bottom = vec2(p.y + 2., 2.);
-	vec2 bounding = vec2(-sphere(p - camera_position, 50.), 3.);
+	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), MATERIAL_ID_SYNAPSE);
+	vec2 bottom = vec2(p.y + 2., MATERIAL_ID_FLOOR);
+	vec2 bounding = vec2(-sphere(p - camera_position, 50.), MATERIAL_ID_BOUNDING);
 	return min_material(synapse, min_material(bottom, bounding));
 }
