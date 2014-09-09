@@ -26,7 +26,7 @@ void main() {
 		mat = Material(vec3(0.), 0., 0.);
 		float grid = 1.;
 		vec3 q = p;
-		float theta = radians(5.) * q.y + radians(5.) * zapfen_kreise * 10. * sin(q.x) * cos(q.z);
+		float theta = radians(5.) * q.y * sin(time + q.y) + radians(5.) * zapfen_kreise * 10. * sin(q.x + time) * cos(q.z + time * 2.);
 		q.xz *= mat2(
 			cos(theta), sin(theta),
 			-sin(theta), cos(theta)
@@ -46,7 +46,7 @@ float boden(vec3 p);
 float boden_implicit(vec3 p);
 
 vec2 f(vec3 p) {
-	vec2 bounding = vec2(-sphere(p, 200.), 0.);
+	vec2 bounding = vec2(-sphere(camera_position - p, 1000.), 0.);
 
 	float height = 40.; // .5 * height
 	vec3 q = domrepv(p, vec3(50.));
