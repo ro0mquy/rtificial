@@ -46,6 +46,12 @@ void CameraController::timerCallback() {
 	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 	float deltaTime = lastCallback - tmpLastCallback;
 
+	const ModifierKeys modKeys = ModifierKeys::getCurrentModifiers();
+	if (modKeys.isAnyModifierKeyDown()) {
+		// do nothing when modifiers are held down
+		return;
+	}
+
 	if (KeyPress::isKeyCurrentlyDown('w')) {
 		setPosition(CameraMath::positionForward(getVec3Position(), getVec3Direction(), getVec3Up(), deltaTime));
 	}
