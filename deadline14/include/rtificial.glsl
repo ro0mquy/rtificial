@@ -128,3 +128,29 @@ vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
 	float falloff = clamp(foo, 0., 1.) / (square(light_distance) + 1.);
 	return mix(dielectric_color, metal_color, material.metallic) * falloff * light.intensity * light.color * spec_norm;
 }
+
+vec3 domrepv(vec3 p, vec3 c) {
+	return mod(p, c) - .5 * c;
+}
+
+// repeat things
+vec3 domrep(vec3 p, float x, float y, float z) {
+	return domrepv(p, vec3(x, y, z));
+}
+
+// trans*late things - using vectors!!
+// p: point
+// v: translation vector
+vec3 transv(vec3 p, vec3 v) {
+	return p - v;
+}
+
+// trans*late things
+// p: point
+// x: x
+// y: y
+// z: z
+vec3 trans(vec3 p, float x, float y, float z) {
+	return transv(p, vec3(x, y, z));
+}
+
