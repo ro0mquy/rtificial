@@ -8,7 +8,7 @@ vec3 colors[] = vec3[](
 		sphere1_color,
 		sphere2_color,
 		vec3(.03, .0, .0),
-		vec3(1.)
+		vec3(.0)
 		);
 
 void main(void) {
@@ -24,16 +24,18 @@ void main(void) {
 
 		Material mat;
 		if(material == 0. || material == 1.) {
-			mat = Material(colors[material], 0.7, 1.);
+			mat = Material(colors[material], 0.2, 1.);
 		} else if(material == 2.) {
-			mat = Material(colors[material], 0.5, 0.);
+			float size = 2.;
+			float stripes = mod(floor(hit.x / size), 2.);
+			mat = Material(colors[material] * stripes, 0.5, 0.);
 		} else if(material == 3.) {
 			mat = Material(colors[material], 1., 0.);
 		}
 		color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
 	}
 
-	output_color(color, 0.);
+	output_color(color, distance(hit, camera_position));
 }
 
 vec2 f(vec3 p) {
