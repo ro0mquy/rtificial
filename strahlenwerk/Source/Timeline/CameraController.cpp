@@ -39,7 +39,6 @@ ValueTree CameraController::getControlledUniformState(var& name) {
 	} else if (strName == "camera_up") {
 		return upValue;
 	} else if (strName == "time") {
-		const double timeValue = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 		ValueTree timeTree(treeId::uniformStandardValue);
 		timeTree.setProperty(treeId::valueFloatX, timeValue, nullptr);
 		return timeTree;
@@ -51,6 +50,7 @@ void CameraController::timerCallback() {
 	const double tmpLastCallback = lastCallback;
 	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 	float deltaTime = lastCallback - tmpLastCallback;
+	timeValue += deltaTime;
 
 	const ModifierKeys modKeys = ModifierKeys::getCurrentModifiers();
 	if (modKeys.isAnyModifierKeyDown()) {
