@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<timelineTree>
+  <uniformsArray>
+    <uniform uniformName="focus_dist" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="camera_position" uniformType="vec3">
+      <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="camera_direction" uniformType="vec3">
+      <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="camera_up" uniformType="vec3">
+      <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="sphere1_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.0414237" valueColorG="0.0381511" valueColorB="0.220577"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="sphere2_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.21604" valueColorG="0.0233552" valueColorB="0.00721712"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="distort_k" uniformType="float">
+      <uniformStandardValue valueFloatX="0.001"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="distort_kcube" uniformType="float">
+      <uniformStandardValue valueFloatX="0.005"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="vignette_intensity" uniformType="float">
+      <uniformStandardValue valueFloatX="0.737"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="grain_freq" uniformType="float">
+      <uniformStandardValue valueFloatX="0.301"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="grain_intensity" uniformType="float">
+      <uniformStandardValue valueFloatX="0.006"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="bloom_amount" uniformType="float">
+      <uniformStandardValue valueFloatX="0.005"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="key" uniformType="float">
+      <uniformStandardValue valueFloatX="0.5"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="lift" uniformType="color">
+      <uniformStandardValue valueColorR="8.56595e-10" valueColorG="1.67392e-09" valueColorB="0.000158502"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="gamma" uniformType="color">
+      <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="gain" uniformType="color">
+      <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
+      <sequencesArray/>
+    </uniform>
+  </uniformsArray>
+  <scenesArray/>
+</timelineTree>

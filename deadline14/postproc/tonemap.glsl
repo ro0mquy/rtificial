@@ -8,6 +8,12 @@ uniform sampler2D bloom_medium; // vec3
 uniform sampler2D bloom_small; // vec3
 uniform sampler2D dof; // vec3
 
+uniform float bloom_amount;
+uniform float key;
+uniform vec3 lift; // color
+uniform vec3 gamma; // color
+uniform vec3 gain; // color
+
 out vec3 out_color;
 
 float A = 0.15;
@@ -31,19 +37,16 @@ void main() {
 	bloom += textureLod(bloom_medium, tc, 0.).rgb;
 	bloom += textureLod(bloom_small, tc, 0.).rgb;
 	bloom /= 3.;
-	float bloom_amount = .05;
 	color = mix(color, bloom, bloom_amount);
 
 	// tonemap
 	float avgLuminance = exp(textureLod(luminance, tc, 0.).r);
-	float key = .5;
 	color *= key / avgLuminance;
 	color = tonemap(color)/tonemap(vec3(W));
 
+	color = clamp(color, 0., 1.);
+
 	// color grade
-	vec3 lift = vec3(0.);
-	vec3 gamma = vec3(1.);
-	vec3 gain = vec3(1.);
 	color = gain * (color + lift * pow(1. - color, 1./gamma));
 
 	out_color = color;

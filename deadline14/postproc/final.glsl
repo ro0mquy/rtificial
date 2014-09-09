@@ -5,6 +5,12 @@
 uniform sampler2D color; // vec3
 out vec3 out_color;
 
+uniform float distort_k;
+uniform float distort_kcube;
+uniform float vignette_intensity;
+uniform float grain_freq;
+uniform float grain_intensity;
+
 float rand(vec2 co){
 	return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
 }
@@ -58,21 +64,20 @@ float vignette(float intensity, vec2 c) {
 
 void main() {
 	vec3 col;
-	float k = .01;
-	float kcube = .03;
+	float k = distort_k;
+	float kcube = distort_kcube;
 	float aspect = res.x / res.y;
 
 	col.r = textureLod(color, lens_distort(aspect, k * 1.34, kcube, tc), 0.).r;
 	col.g = textureLod(color, lens_distort(aspect, k * 1.2, kcube, tc), 0.).g;
 	col.b = textureLod(color, lens_distort(aspect, k, kcube, tc), 0.).b;
 
-	float vignette_intensity = .7;
 	col *= vignette(vignette_intensity, gl_FragCoord.xy / res);
 
 	// TODO ordentlicher noise
-	out_color = col + 3./512. * vec3( // so schön weerboß
-			classic_noise(.3  * gl_FragCoord.xy),
-			classic_noise(.3  * gl_FragCoord.xy + 30.),
-			classic_noise(.3  * gl_FragCoord.xy + 70.)
+	out_color = col + grain_intensity * vec3( // so schön weerboß
+			classic_noise(1./(10. * grain_freq)  * gl_FragCoord.xy),
+			classic_noise(1./(10. * grain_freq)  * gl_FragCoord.xy + 30.),
+			classic_noise(1./(10. * grain_freq)  * gl_FragCoord.xy + 70.)
 			);
 }
