@@ -52,6 +52,11 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 	const int rowHeight = 20;
 
 	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight)); // floor division
+	if (numUniform >= data.getNumUniforms()) {
+		// clicked on empty area at bottom of UniformsBar
+		return;
+	}
+
 	ValueTree uniformData = data.getUniform(numUniform);
 	const String uniformName = data.getUniformName(uniformData);
 	ValueTree valueData = data.getUniformStandardValue(uniformData);
