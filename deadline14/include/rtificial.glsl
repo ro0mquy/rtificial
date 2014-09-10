@@ -91,6 +91,11 @@ float cone(vec3 p, vec2 c) {
 	return dot(c, vec2(q, p.z));
 }
 
+// n must be normalized
+float plane(vec3 p, vec3 n) {
+	return dot(p, n.xyz);
+}
+
 // hier kommt der witz!
 vec2 min_material(vec2 a, vec2 b) {
 	return mix(a, b, float(a.x > b.x));
