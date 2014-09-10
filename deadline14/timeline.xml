@@ -126,12 +126,8 @@
       <uniformStandardValue valueFloatX="0"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="conic_ring_metalic" uniformType="float">
-      <uniformStandardValue valueFloatX="1"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="conic_ring_roughness" uniformType="float">
-      <uniformStandardValue valueFloatX="0.528"/>
+    <uniform uniformName="conic_ring_intensity" uniformType="float">
+      <uniformStandardValue valueFloatX="0.5"/>
       <sequencesArray/>
     </uniform>
   </uniformsArray>
