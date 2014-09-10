@@ -128,6 +128,8 @@
     </uniform>
     <uniform uniformName="conic_ring_intensity" uniformType="float">
       <uniformStandardValue valueFloatX="0.5"/>
+    <uniform uniformName="lens_dirt" uniformType="float">
+      <uniformStandardValue valueFloatX="0.7"/>
       <sequencesArray/>
     </uniform>
   </uniformsArray>
