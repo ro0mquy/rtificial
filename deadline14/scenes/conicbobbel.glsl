@@ -20,7 +20,7 @@ void main(void) {
 	vec3 direction = get_direction();
 
 	int i;
-	vec3 hit = march(camera_position, direction, i);
+	vec3 hit = march_adv(camera_position, direction, i, 100, 1.);
 
 	vec3 color = vec3(0.);
 	if(i < 150) {
@@ -43,7 +43,7 @@ void main(void) {
 		}
 	}
 
-	output_color(color, 4.01);//distance(hit, camera_position));
+	output_color(color, distance(hit, camera_position));
 }
 
 vec2 f(vec3 p) {
@@ -51,8 +51,19 @@ vec2 f(vec3 p) {
 	float f_bobbel = p.y;
 
 	//float time = 10. * manual_time;
-	vec3 p_cone = trans(p_bobbel, 10. * time, 0., 0.);
-	p_cone.x = mod(p_cone.x, 10.) - 5.;
+
+	vec3 s_domrep = vec3(30, 1., 25.);
+	vec3 p_pre_cone = trans(p_bobbel, 10. * time, 0., 0.);
+	float cell_x = floor(p_pre_cone.x / s_domrep.x) - 100.;
+	float cell_y = floor(p_pre_cone.y / s_domrep.y) - 100.;
+	float cell_z = floor(p_pre_cone.z / s_domrep.z) - 100.;
+	p_pre_cone = trans(p_pre_cone,
+			sin(cell_z * cell_z) * 32.,
+			0.,
+			sin(cell_x * cell_x) * 50.);
+	vec3 p_cone = domrepv(p_pre_cone, s_domrep);
+	p_cone.y = p_pre_cone.y;
+
 	float f_cone = p.y;
 	float line_radius = mix(.0, .5, smoothstep(.3, 2., p_cone.x) + .3 * smoothstep(.9, 0., p_cone.x));
 	f_cone = line(p_cone, vec3(2., 0., 0.), vec3(0., 0., 0.), line_radius);
@@ -81,6 +92,6 @@ vec2 f(vec3 p) {
 	vec2 m_bobbel = smin_material(m_cone, m_ring, conic_smooth_factor);
 
 	vec2 bottom = vec2(p.y + 2., 0.);
-	vec2 bounding = vec2(-sphere(p - camera_position, 50.), 1.);
+	vec2 bounding = vec2(-sphere(p - camera_position, 300.), 1.);
 	return min_material(m_bobbel, min_material(bottom, bounding));
 }
