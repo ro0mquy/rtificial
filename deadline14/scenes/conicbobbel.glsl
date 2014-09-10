@@ -43,7 +43,7 @@ void main(void) {
 		}
 	}
 
-	output_color(color, distance(hit, camera_position));
+	output_color(color, 4.01);//distance(hit, camera_position));
 }
 
 vec2 f(vec3 p) {
@@ -63,6 +63,7 @@ vec2 f(vec3 p) {
 			sin(cell_x * cell_x) * 50.);
 	vec3 p_cone = domrepv(p_pre_cone, s_domrep);
 	p_cone.y = p_pre_cone.y;
+	p_cone = p_bobbel;
 
 	float f_cone = p.y;
 	float line_radius = mix(.0, .5, smoothstep(.3, 2., p_cone.x) + .3 * smoothstep(.9, 0., p_cone.x));
@@ -70,7 +71,18 @@ vec2 f(vec3 p) {
 	vec2 surface_coord = vec2(p_cone.x * 3. + time, atan(p_cone.y, p_cone.z));
 	f_cone -= smoothstep(0., 1., cnoise(surface_coord * 1.5)) * .03;
 
-	float T = 1.;
+	vec3 p_spike = trans(p_cone, 2., 0., 0.);
+	p_spike.yz = vec2(length(p_spike.yz), atan(p_spike.y, p_spike.z) / TAU);
+	vec3 p_pre_spike = p_spike;
+	p_spike = domrep(p_spike, 1., 1., .125);
+	p_spike.xy = p_pre_spike.xy;
+	p_spike.y -= .8;
+	p_spike.z *= 3.2;
+	//p_spike = rZ(TAU * -(p_spike.y + 1.) / 7.)* p_spike;
+	float f_spike = cone(p_spike.xzy, normalize(vec2(7., 1.)));
+	f_cone = smin(f_cone, f_spike, .1);
+
+	float T = 3.;
 	vec3 p_ring = trans(p_cone, 2. - 3. * mod(time, T) / T, 0., 0.);
 	float f_ring = p.y;
 	float ring_radius = 1.5 * impulse(8., mod(time, T) / T);
