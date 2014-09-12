@@ -33,30 +33,26 @@ void SequenceViewComponent::updateSize() {
 void SequenceViewComponent::paint(Graphics& g){
 	const int rowHeight = 20;
 
-	ValueTree uniformsArray = data.getUniformsArray();
-	const int numUniforms = uniformsArray.getNumChildren();
-
-	ValueTree scenesArray = data.getScenesArray();
-	const int numScenes = scenesArray.getNumChildren();
-
+	const int numUniforms = data.getNumUniforms();
+	const int numScenes = data.getNumScenes();
 	for(int i = 0; i < numUniforms; i++){
 		// draw rows
-		ValueTree uniform = uniformsArray.getChild(i);
-		const Rectangle<float> rect(0, i*rowHeight, getWidth(), rowHeight);
+		ValueTree uniform = data.getUniform(i);
+		const Rectangle<float> rectRow(0, i*rowHeight, getWidth(), rowHeight);
 		g.setColour(findColour(i%2 == 0 ? SequenceViewComponent::evenRowColourId : SequenceViewComponent::oddRowColourId));
-		g.fillRect(rect);
+		g.fillRect(rectRow);
 		g.setColour(findColour(SequenceViewComponent::seperatorColourId));
-		g.drawHorizontalLine(i*rowHeight+rowHeight-1, 0, getWidth());
+		g.drawHorizontalLine((i + 1) * rowHeight - 1, 0, getWidth());
 
 		// mark inactive areas
 		for (int j = 0; j < numScenes; j++) {
-			ValueTree scene = scenesArray.getChild(j);
+			ValueTree scene = data.getScene(i);
 			if (!uniformActiveForScene(uniform, scene)) {
-				const int start = scene.getProperty(treeId::sceneStart);
-				const int duration = scene.getProperty(treeId::sceneDuration);
-				const Rectangle<float> rectangle(start, i*rowHeight, duration, rowHeight);
+				const float start = (float) data.getSceneStart(scene) * zoomFactor;
+				const float duration = (float) data.getSceneDuration(scene) * zoomFactor;
+				const Rectangle<float> rectInactiveArea(start, i*rowHeight, duration, rowHeight);
 				g.setColour(findColour(SequenceViewComponent::inactiveAreaColourId));
-				g.fillRect(rectangle);
+				g.fillRect(rectInactiveArea);
 			}
 		}
 	}
