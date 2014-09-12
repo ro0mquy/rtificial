@@ -67,9 +67,9 @@ void SequenceViewComponent::paintOverChildren(Graphics& g) {
 }
 
 bool SequenceViewComponent::uniformActiveForScene(ValueTree uniform, ValueTree scene) {
-	// dummy functionality, replace with real lookup
-	const String uniformName = uniform.getProperty(treeId::uniformName);
-	const String sceneShaderSource = scene.getProperty(treeId::sceneShaderSource);
+	// TODO: dummy functionality, replace with real lookup
+	const String uniformName = data.getUniformName(uniform);
+	const String sceneShaderSource = data.getSceneShaderSource(scene);
 	const int64 hash = uniformName.hashCode() + sceneShaderSource.hashCode();
 	return hash % 2 != 0;
 }
@@ -77,17 +77,15 @@ bool SequenceViewComponent::uniformActiveForScene(ValueTree uniform, ValueTree s
 void SequenceViewComponent::updateSequenceComponents() {
 	const int rowHeight = 20;
 	sequenceComponentsArray.clearQuick(true);
-	ValueTree uniformsArray = data.getUniformsArray();
-	const int numUniforms = uniformsArray.getNumChildren();
+	const int numUniforms = data.getNumUniforms();
 
 	for (int i = 0; i < numUniforms; i++) {
-		ValueTree uniform = uniformsArray.getChild(i);
-		ValueTree sequencesArray = data.getSequencesArray(uniform);
-		const int numSequences = sequencesArray.getNumChildren();
+		ValueTree uniform = data.getUniform(i);
+		const int numSequences = data.getNumSequences(uniform);
 
 		for (int j = 0; j < numSequences; j++) {
-			ValueTree sequenceData = sequencesArray.getChild(j);
-			SequenceComponent* sequenceComponent = new SequenceComponent(sequenceData, i*rowHeight, rowHeight);
+			ValueTree sequenceData = data.getSequence(uniform, j);
+			auto sequenceComponent = new SequenceComponent(sequenceData, i*rowHeight, rowHeight);
 			addAndMakeVisible(sequenceComponent);
 			sequenceComponentsArray.add(sequenceComponent);
 		}
@@ -101,23 +99,16 @@ void SequenceViewComponent::removeSequenceComponent(const SequenceComponent* toB
 void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	const int rowHeight = 20;
 	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
-	if (numUniform >= data.getNumUniforms()) {
+	ValueTree uniform = data.getUniform(numUniform);
+	if (!uniform.isValid()) {
 		// click in empty area
 		return;
 	}
 
 	const int absoluteStart = event.getMouseDownX();
-	ValueTree scene = data.getSceneForTime(absoluteStart);
-	const int relativeStart = absoluteStart - int(scene.getProperty(treeId::sceneStart));
-
-	newSequenceData = ValueTree(treeId::sequence);
-	newSequenceData.setProperty(treeId::sequenceSceneId, scene.getProperty(treeId::sceneId), nullptr);
-	newSequenceData.setProperty(treeId::sequenceStart, var(relativeStart), nullptr);
-	newSequenceData.setProperty(treeId::sequenceDuration, var(0), nullptr);
-	newSequenceData.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
-
-	ValueTree uniform = data.getUniformsArray().getChild(numUniform);
-	data.addSequence(uniform, newSequenceData);
+	var sequenceDuration = 0;
+	var sequenceInterpolation = "linear";
+	newSequenceData = data.addSequence(uniform, absoluteStart, sequenceDuration, sequenceInterpolation);
 
 	newSequenceComponent = new SequenceComponent(newSequenceData, numUniform * rowHeight, rowHeight);
 	addAndMakeVisible(newSequenceComponent);

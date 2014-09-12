@@ -34,13 +34,8 @@ TimelineData::TimelineData() :
 		ValueTree uniform = addUniform("uniform" + String(i) + String(97 * i), i%2 == 0 ? "color" : "vec3");
 
 		for (int j = 0; j <= (37*i % 4); j++) {
-			ValueTree sequence(treeId::sequence);
-			const int absoluteStart = (j + (97*i % 10)) * 100;
-			setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
-			sequence.setProperty(treeId::sequenceDuration, var(50), nullptr);
-			sequence.setProperty(treeId::sequenceInterpolation, var("linear"), nullptr);
+			ValueTree sequence = addSequence(uniform, (j + (97*i % 10)) * 100, 50, "linear");
 			addKeyframe(sequence, var((j+1) * 10));
-			addSequence(uniform, sequence);
 		}
 	}
 }
@@ -223,7 +218,7 @@ int TimelineData::getLastSceneEndTime() {
 
 // returns the active scene for a timepoint
 // a invalid tree is returned if there is none
-ValueTree TimelineData::getSceneForTime(const int time) {
+ValueTree TimelineData::getSceneForTime(const int absoluteTime) {
 	const int numScenes = getNumScenes();
 	/*
 	// needs convertion to new TimelineData functions
@@ -234,7 +229,7 @@ ValueTree TimelineData::getSceneForTime(const int time) {
 	for (int i = 0; i < numScenes; i++) {
 		ValueTree scene = scenesArray.getChild(i);
 		const int start = scene.getProperty(treeId::sceneStart);
-		const int distance = time - start;
+		const int distance = absoluteTime - start;
 		if (isPositiveAndBelow(distance, smallestDistance)) {
 			smallestDistance = distance;
 			bestScene = i;
@@ -250,12 +245,12 @@ ValueTree TimelineData::getSceneForTime(const int time) {
 		ValueTree scene = getScene(i);
 		const int start = getSceneStart(scene);
 		const int duration = getSceneDuration(scene);
-		const int distance = time - start;
+		const int distance = absoluteTime - start;
 		if (isPositiveAndBelow(distance, duration)) {
 			return scene;
 		}
 	}
-	// return invalid tree
+	// in case of no matching scene, return invalid tree
 	return ValueTree();
 	// */
 }
@@ -387,42 +382,74 @@ void TimelineData::setUniformStandardValue(ValueTree uniform, ValueTree standard
 
 // retrieves the sequences array for a given uniform
 ValueTree TimelineData::getSequencesArray(ValueTree uniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return uniform.getOrCreateChildWithName(treeId::sequencesArray, &undoManager);
 }
 
-// adds a sequence to the sequences array of a uniform at a given position
-// initializes the keyframes array
-// returns whether the sequence was added
-// if the ValueTree is not a treeId::sequence, it won't get added
-// position defaults to -1 (append to end)
-bool TimelineData::addSequence(ValueTree uniform, ValueTree sequence, int position) {
+// returns the total number of sequences for a uniform
+int TimelineData::getNumSequences(ValueTree uniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getSequencesArray(uniform).getNumChildren();
+}
+
+
+// gets the sequence with index nthSequence of a uniform
+// returns invalid ValueTree if out of bounds
+ValueTree TimelineData::getSequence(ValueTree uniform, const int nthSequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getSequencesArray(uniform).getChild(nthSequence);
+}
+
+// checks the ValueTree for all requirements to be a sequence
+bool TimelineData::isSequence(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	bool isSequence = sequence.hasType(treeId::sequence);
 	isSequence &= sequence.hasProperty(treeId::sequenceSceneId);
 	isSequence &= sequence.hasProperty(treeId::sequenceStart);
 	isSequence &= sequence.hasProperty(treeId::sequenceDuration);
 	isSequence &= sequence.hasProperty(treeId::sequenceInterpolation);
-
-	if (isSequence) {
-		getSequencesArray(uniform).addChild(sequence, position, &undoManager);
-		initializeKeyframesArray(sequence);
-	}
+	isSequence &= sequence.getChildWithName(treeId::keyframesArray).isValid(); // TODO: check exact type
 	return isSequence;
 }
 
-// adds a sequence with the given vars to a uniform at position
-// the sequence will always be added
-// returns always true
+// adds a sequence to the sequences array of a uniform at a given position
+// don't initializes the keyframes array
+// returns the sequence again
 // position defaults to -1 (append to end)
-bool TimelineData::addSequence(ValueTree uniform, var sceneId, var start, var duration, var interpolation, int position) {
+ValueTree TimelineData::addSequence(ValueTree uniform, ValueTree sequence, int position) {
+	jassert(isSequence(sequence));
+	addSequenceUnchecked(uniform, sequence, position);
+	return sequence;
+}
+
+// adds a sequence with the given vars to a uniform at position
+// returns the assembled sequence
+// position defaults to -1 (append to end)
+ValueTree TimelineData::addSequence(ValueTree uniform, int absoluteStart, var duration, var interpolation, int position) {
+	ValueTree sceneData = getSceneForTime(absoluteStart);
+	var sceneId = getSceneId(sceneData);
+	var relativeStart = absoluteStart - int(getSceneStart(sceneData));
+
 	ValueTree sequence(treeId::sequence);
 	sequence.setProperty(treeId::sequenceSceneId, sceneId, nullptr);
-	sequence.setProperty(treeId::sequenceStart, start, nullptr);
+	sequence.setProperty(treeId::sequenceStart, relativeStart, nullptr);
 	sequence.setProperty(treeId::sequenceDuration, duration, nullptr);
 	sequence.setProperty(treeId::sequenceInterpolation, interpolation, nullptr);
-	getSequencesArray(uniform).addChild(sequence, position, &undoManager);
+	addSequenceUnchecked(uniform, sequence, position);
 	initializeKeyframesArray(sequence);
-	return true;
+	return sequence;
 }
+
+// adds a sequence to the sequences array of a uniform
+// returns the sequence again
+// doesn't perform any checking (you should use addSequence(ValueTree))
+// position defaults to -1 (append to end)
+ValueTree TimelineData::addSequenceUnchecked(ValueTree uniform, ValueTree sequence, int position) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	getSequencesArray(uniform).addChild(sequence, position, &undoManager);
+	return sequence;
+}
+
 
 // sets the sceneId and relative start time of a sequence for a given absolute start time
 // return true when the scene for this sequence is a new one, false otherwise
@@ -442,6 +469,8 @@ bool TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int
 			}
 			return sceneIdChanged;
 }
+
+
 
 // returns the keyframes array for a sequence
 ValueTree TimelineData::getKeyframesArray(ValueTree sequence) {

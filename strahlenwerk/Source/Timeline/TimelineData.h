@@ -66,10 +66,18 @@ class TimelineData {
 		void setUniformStandardValue(ValueTree uniform, ValueTree standardValue);
 
 
+		// sequence stuff
 		ValueTree getSequencesArray(ValueTree uniform);
-		bool addSequence(ValueTree uniform, ValueTree sequence, int position = -1);
-		bool addSequence(ValueTree uniform, var sceneId, var start, var duration, var interpolation, int position = -1);
+		int getNumSequences(ValueTree uniform);
+
+		ValueTree getSequence(ValueTree uniform, const int nthSequence);
+		bool isSequence(ValueTree sequence);
+		ValueTree addSequence(ValueTree uniform, ValueTree sequence, int position = -1);
+		ValueTree addSequence(ValueTree uniform, int absoluteStart, var duration, var interpolation, int position = -1);
+		ValueTree addSequenceUnchecked(ValueTree uniform, ValueTree sequence, int position);
+
 		bool setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
+
 
 		ValueTree getKeyframesArray(ValueTree sequence);
 		bool initializeKeyframesArray(ValueTree sequence);
