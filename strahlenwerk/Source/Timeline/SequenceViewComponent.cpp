@@ -10,6 +10,7 @@ SequenceViewComponent::SequenceViewComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
 	zoomFactor(zoomFactor_)
 {
+	zoomFactor.addListener(this);
 	updateSequenceComponents();
 }
 
@@ -61,7 +62,7 @@ void SequenceViewComponent::paint(Graphics& g){
 void SequenceViewComponent::paintOverChildren(Graphics& g) {
 	// draw time marker
 	g.setColour(findColour(SequenceViewComponent::timeMarkerColourId));
-	const float x = data.currentTime.getValue();
+	const float x = (float) data.currentTime.getValue() * zoomFactor;
 	g.drawLine(x, 0, x, getHeight(), 2);
 }
 
@@ -163,4 +164,9 @@ void SequenceViewComponent::mouseUp(const MouseEvent& event) {
 		sequenceComponentsArray.add(newSequenceComponent.release());
 	}
 	newSequenceData = ValueTree();
+}
+
+void SequenceViewComponent::zoomFactorChanged(ZoomFactor&) {
+	updateSize();
+	repaint();
 }

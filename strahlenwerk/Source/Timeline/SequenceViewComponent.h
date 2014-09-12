@@ -7,7 +7,9 @@
 class TimelineData;
 class SequenceComponent;
 
-class SequenceViewComponent : public Component
+class SequenceViewComponent :
+	public Component,
+	private ZoomFactor::Listener
 {
 	public:
 		SequenceViewComponent(ZoomFactor& zoomFactor_);
@@ -22,6 +24,8 @@ class SequenceViewComponent : public Component
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
+
+		void zoomFactorChanged(ZoomFactor&) override;
 
 		enum ColourIds{
 			timeMarkerColourId = 0x8350102,
