@@ -25,6 +25,7 @@ class TimelineData {
 		int getNumScenes();
 
 		ValueTree getScene(const int nthScene);
+		ValueTree getScene(const var& sceneId);
 		bool isScene(ValueTree scene);
 		ValueTree addScene(ValueTree scene, int position = -1);
 		ValueTree addScene(var start, var duration, var shaderSource, int position = -1);
@@ -88,6 +89,7 @@ class TimelineData {
 		void setSequenceInterpolation(ValueTree sequence, var interpolation);
 
 		void setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
+		int getAbsoluteStartForSequence(ValueTree sequence);
 
 
 		ValueTree getKeyframesArray(ValueTree sequence);

@@ -99,6 +99,13 @@ ValueTree TimelineData::getScene(const int nthScene) {
 	return getScenesArray().getChild(nthScene);
 }
 
+// gets the scene with corresponding sceneId
+// returns invalid ValueTree if no scene matches
+ValueTree TimelineData::getScene(const var& sceneId) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getScenesArray().getChildWithProperty(treeId::sceneId, sceneId);
+}
+
 // checks whether the given valueTree is a scene
 bool TimelineData::isScene(ValueTree scene) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
@@ -512,6 +519,14 @@ void TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int
 			const int sceneStart = getSceneStart(sceneForSequence);
 			var relativeStart = absoluteStart - sceneStart;
 			setSequenceStart(sequence, relativeStart);
+}
+
+// returns the start time of the sequence in absolute time
+// and not relative to the scene start time
+int TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
+	const int sceneStart = getSceneStart(getScene(getSequenceSceneId(sequence)));
+	const int sequenceStart = getSequenceStart(sequence);
+	return sceneStart + sequenceStart;
 }
 
 

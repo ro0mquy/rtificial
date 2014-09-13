@@ -6,14 +6,18 @@
 #include "KeyframeComponent.h"
 #include "SequenceViewComponent.h"
 
-SequenceComponent::SequenceComponent(ValueTree _sequenceData, int y, int height) :
+SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_, int y, int height) :
 	sequenceData(_sequenceData),
 	data(TimelineData::getTimelineData()),
+	zoomFactor(zoomFactor_),
 	resizableBorder(this, &constrainer)
 {
 	// initialize the value pointing to the start time of the scene this sequence belongs to
 	updateSceneStartValueRefer();
 	sceneStartValue.addListener(this);
+
+	// register for zoom factor changes
+	zoomFactor.addListener(this);
 
 	// set the initial y-coordinate and height
 	updateBounds();
@@ -37,12 +41,12 @@ void SequenceComponent::valueChanged(Value& /*value*/) {
 }
 
 void SequenceComponent::updateBounds() {
-	const int absoluteStart = getAbsoluteStart();
-	const int sequenceDuration = sequenceData.getProperty(treeId::sequenceDuration);
+	const float start = (float) data.getAbsoluteStartForSequence(sequenceData) * zoomFactor;
+	const float duration = (float) data.getSequenceDuration(sequenceData) * zoomFactor;
 
 	Rectangle<int> bounds = getBounds();
-	bounds.setX(absoluteStart);
-	bounds.setWidth(sequenceDuration);
+	bounds.setX(start);
+	bounds.setWidth(duration);
 	setBounds(bounds);
 }
 
@@ -66,12 +70,6 @@ void SequenceComponent::updateKeyframeComponents() {
 		keyframeComponent->updateBounds();
 		keyframeComponentsArray.add(keyframeComponent);
 	}
-}
-
-int SequenceComponent::getAbsoluteStart() {
-	const int sceneStart = sceneStartValue.getValue();
-	const int sequenceStart = sequenceData.getProperty(treeId::sequenceStart);
-	return sceneStart + sequenceStart;
 }
 
 void SequenceComponent::removeKeyframeComponent(const KeyframeComponent* toBeDeleted) {
@@ -155,16 +153,22 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 
 void SequenceComponent::moved() {
 	// update the sceneId and relativ start time
-	data.setSequencePropertiesForAbsoluteStart(sequenceData, getX());
+	const int newStart = constrainer.snapValueToGrid(getX() / zoomFactor);
+	data.setSequencePropertiesForAbsoluteStart(sequenceData, newStart);
 	updateSceneStartValueRefer();
 }
 
 void SequenceComponent::resized() {
 	resizableBorder.setBounds(getLocalBounds());
-	const var duration = getWidth();
-	sequenceData.setProperty(treeId::sequenceDuration, duration, nullptr);
+
+	const int newDuration = constrainer.snapValueToGrid(getWidth() / zoomFactor);
+	data.setSequenceDuration(sequenceData, newDuration);
 
 	ValueTree keyframesArray = data.getKeyframesArray(sequenceData);
 	ValueTree lastKeyframe = keyframesArray.getChild(keyframesArray.getNumChildren() - 1);
-	lastKeyframe.setProperty(treeId::keyframePosition, duration, nullptr);
+	lastKeyframe.setProperty(treeId::keyframePosition, newDuration, nullptr);
+}
+
+void SequenceComponent::zoomFactorChanged(ZoomFactor&) {
+	updateBounds();
 }

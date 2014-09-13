@@ -3,6 +3,7 @@
 
 #include <juce>
 #include "SnapToGridConstrainer.h"
+#include "ZoomFactor.h"
 
 class TimelineData;
 class KeyframeComponent;
@@ -10,10 +11,11 @@ class KeyframeComponent;
 class SequenceComponent :
 	public Component,
 	private ComponentDragger,
+	private ZoomFactor::Listener,
 	private Value::Listener
 {
 	public:
-		SequenceComponent(ValueTree _sequenceData, int y, int height);
+		SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_, int y, int height);
 		void paint(Graphics& g) override;
 		void valueChanged(Value& /*value*/) override;
 		void mouseDown(const MouseEvent& event) override;
@@ -21,11 +23,11 @@ class SequenceComponent :
 		void mouseUp(const MouseEvent& event) override;
 		void moved() override;
 		void resized() override;
+		void zoomFactorChanged(ZoomFactor&) override;
 
 		void updateBounds();
 		void updateSceneStartValueRefer();
 		void updateKeyframeComponents();
-		int getAbsoluteStart();
 		void removeKeyframeComponent(const KeyframeComponent* toBeDeleted);
 
 		enum ColourIds {
@@ -36,6 +38,7 @@ class SequenceComponent :
 	private:
 		ValueTree sequenceData;
 		TimelineData& data;
+		ZoomFactor& zoomFactor;
 		Value sceneStartValue;
 		SnapToGridConstrainer constrainer;
 		ResizableBorderComponent resizableBorder;

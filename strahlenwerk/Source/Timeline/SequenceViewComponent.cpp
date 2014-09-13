@@ -84,7 +84,7 @@ void SequenceViewComponent::updateSequenceComponents() {
 
 		for (int j = 0; j < numSequences; j++) {
 			ValueTree sequenceData = data.getSequence(uniform, j);
-			auto sequenceComponent = new SequenceComponent(sequenceData, i*rowHeight, rowHeight);
+			auto sequenceComponent = new SequenceComponent(sequenceData, zoomFactor, i*rowHeight, rowHeight);
 			addAndMakeVisible(sequenceComponent);
 			sequenceComponentsArray.add(sequenceComponent);
 		}
@@ -96,6 +96,7 @@ void SequenceViewComponent::removeSequenceComponent(const SequenceComponent* toB
 }
 
 void SequenceViewComponent::mouseDown(const MouseEvent& event) {
+	const int gridWidth = 20;
 	const int rowHeight = 20;
 	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
 	ValueTree uniform = data.getUniform(numUniform);
@@ -104,12 +105,13 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 		return;
 	}
 
-	const int absoluteStart = event.getMouseDownX() / zoomFactor;
+	const float absoluteStart = event.getMouseDownX() / zoomFactor;
+	const int absoluteStartGrid = roundFloatToInt(absoluteStart / float(gridWidth)) * gridWidth;
 	var sequenceDuration = 0;
 	var sequenceInterpolation = "linear";
-	newSequenceData = data.addSequence(uniform, absoluteStart, sequenceDuration, sequenceInterpolation);
+	newSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
 
-	newSequenceComponent = new SequenceComponent(newSequenceData, numUniform * rowHeight, rowHeight);
+	newSequenceComponent = new SequenceComponent(newSequenceData, zoomFactor, numUniform * rowHeight, rowHeight);
 	addAndMakeVisible(newSequenceComponent);
 }
 
