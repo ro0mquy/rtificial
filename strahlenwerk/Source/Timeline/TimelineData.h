@@ -75,6 +75,7 @@ class TimelineData {
 		ValueTree addSequence(ValueTree uniform, ValueTree sequence, int position = -1);
 		ValueTree addSequence(ValueTree uniform, int absoluteStart, var duration, var interpolation, int position = -1);
 		ValueTree addSequenceUnchecked(ValueTree uniform, ValueTree sequence, int position);
+		void removeSequence(ValueTree sequence);
 
 		var getSequenceSceneId(ValueTree sequence);
 		var getSequenceStart(ValueTree sequence);

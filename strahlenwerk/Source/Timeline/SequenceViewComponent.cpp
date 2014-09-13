@@ -1,7 +1,6 @@
 #include "SequenceViewComponent.h"
 
 #include <cmath>
-#include "TreeIdentifiers.h"
 #include "SequenceComponent.h"
 #include "TimelineData.h"
 #include "KeyframeComponent.h"
@@ -145,11 +144,11 @@ void SequenceViewComponent::mouseUp(const MouseEvent& /*event*/) {
 		return;
 	}
 
-	if (int(newSequenceData.getProperty(treeId::sequenceDuration)) == 0) {
-		newSequenceComponent = nullptr;
-		newSequenceData.getParent().removeChild(newSequenceData, nullptr);
+	if (int(data.getSequenceDuration(newSequenceData)) == 0) {
+		newSequenceComponent = nullptr; // this deletes the component
+		data.removeSequence(newSequenceData);
 	} else {
-		sequenceComponentsArray.add(newSequenceComponent.release());
+		sequenceComponentsArray.add(newSequenceComponent.release()); // release() sets the pointer to nullptr
 	}
 	newSequenceData = ValueTree();
 }

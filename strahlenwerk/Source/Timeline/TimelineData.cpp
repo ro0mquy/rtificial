@@ -445,6 +445,12 @@ ValueTree TimelineData::addSequenceUnchecked(ValueTree uniform, ValueTree sequen
 	return sequence;
 }
 
+// removes a sequence from it's uniform parent
+void TimelineData::removeSequence(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	sequence.getParent().removeChild(sequence, &undoManager);
+}
+
 
 // gets the sceneId of a sequence
 var TimelineData::getSequenceSceneId(ValueTree sequence) {
