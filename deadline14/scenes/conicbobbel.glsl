@@ -67,7 +67,7 @@ vec2 f(vec3 p) {
 			sin(cell_x * cell_x) * 50.);
 	vec3 p_cone = domrepv(p_pre_cone, s_domrep);
 	p_cone.y = p_pre_cone.y; // dont't domrep y
-	//p_cone = p_bobbel; // remove for repetition and movement
+	p_cone = p_bobbel; // remove for repetition and movement
 
 	////// distfunctions for body (some day in the past it was a cone)
 	float l_body = 2.; // length of body
@@ -77,10 +77,6 @@ vec2 f(vec3 p) {
 	float min_radius = .0;
 	float line_radius = mix(min_radius, max_radius, radius_mixer);;
 	float f_cone = line(p_cone, vec3(l_body, 0., 0.), vec3(0., 0., 0.), line_radius);
-
-	////// perlin make some noise!
-	vec2 surface_coord = vec2(p_cone.x * 3. + time, atan(p_cone.y, p_cone.z));
-	f_cone -= smoothstep(0., 1., cnoise(surface_coord * 1.5)) * .03; // smoothstep cuts the lower half of the noise to zero
 
 	////// akward spikes
 	float num_spikes = 8.;
@@ -99,6 +95,10 @@ vec2 f(vec3 p) {
 	//p_spike = rZ(TAU * -(p_spike.y + 1.) / 7.)* p_spike;
 	float f_spike = cone(p_spike.xzy, normalize(vec2(sharpness_spikes, 1.)));
 	f_cone = smin(f_cone, f_spike, .1);
+
+	////// perlin make some noise!
+	vec2 surface_coord = vec2(p_cone.x * 3. + time, atan(p_cone.y, p_cone.z));
+	f_cone -= smoothstep(0., 1., cnoise(surface_coord * 1.5)) * .03; // smoothstep cuts the lower half of the noise to zero
 
 	////// big, bright rings
 	float T = 3.; // duration of one anmation cyclus
