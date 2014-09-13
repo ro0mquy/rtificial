@@ -155,10 +155,8 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 
 void SequenceComponent::moved() {
 	// update the sceneId and relativ start time
-	bool sequenceSceneIdChanged = data.setSequencePropertiesForAbsoluteStart(sequenceData, getX());
-	if (sequenceSceneIdChanged) {
-		updateSceneStartValueRefer();
-	}
+	data.setSequencePropertiesForAbsoluteStart(sequenceData, getX());
+	updateSceneStartValueRefer();
 }
 
 void SequenceComponent::resized() {

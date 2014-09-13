@@ -76,7 +76,17 @@ class TimelineData {
 		ValueTree addSequence(ValueTree uniform, int absoluteStart, var duration, var interpolation, int position = -1);
 		ValueTree addSequenceUnchecked(ValueTree uniform, ValueTree sequence, int position);
 
-		bool setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
+		var getSequenceSceneId(ValueTree sequence);
+		var getSequenceStart(ValueTree sequence);
+		var getSequenceDuration(ValueTree sequence);
+		var getSequenceInterpolation(ValueTree sequence);
+
+		void setSequenceSceneId(ValueTree sequence, var sceneId);
+		void setSequenceStart(ValueTree sequence, var start);
+		void setSequenceDuration(ValueTree sequence, var duration);
+		void setSequenceInterpolation(ValueTree sequence, var interpolation);
+
+		void setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
 
 
 		ValueTree getKeyframesArray(ValueTree sequence);

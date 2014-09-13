@@ -105,7 +105,7 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 		return;
 	}
 
-	const int absoluteStart = event.getMouseDownX();
+	const int absoluteStart = event.getMouseDownX() / zoomFactor;
 	var sequenceDuration = 0;
 	var sequenceInterpolation = "linear";
 	newSequenceData = data.addSequence(uniform, absoluteStart, sequenceDuration, sequenceInterpolation);
@@ -122,22 +122,19 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 
 	const int gridWidth = 20;
 
-	const int mouseDown = event.getMouseDownX();
-	const int mouseDownGrid = roundFloatToInt(float(mouseDown) / float(gridWidth)) * gridWidth;
+	const float mouseDown = event.getMouseDownX() / zoomFactor;
+	const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
 
-	const int mousePos = event.getPosition().getX();
-	const int mousePosGrid = roundFloatToInt(float(mousePos) / float(gridWidth)) * gridWidth;
+	const float mousePos = event.position.getX() / zoomFactor;
+	const int mousePosGrid = roundFloatToInt(mousePos / float(gridWidth)) * gridWidth;
 
 	const int distanceGrid = mousePosGrid - mouseDownGrid;
 	const int absDistanceGrid = abs(distanceGrid);
 
 	const int absoluteStartGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
-	ValueTree scene = data.getSceneForTime(absoluteStartGrid);
-	const int relativeStartGrid = absoluteStartGrid - int(scene.getProperty(treeId::sceneStart));
 
-	newSequenceData.setProperty(treeId::sequenceSceneId, scene.getProperty(treeId::sceneId), nullptr);
-	newSequenceData.setProperty(treeId::sequenceStart, var(relativeStartGrid), nullptr);
-	newSequenceData.setProperty(treeId::sequenceDuration, var(absDistanceGrid), nullptr);
+	data.setSequencePropertiesForAbsoluteStart(newSequenceData, absoluteStartGrid);
+	data.setSequenceDuration(newSequenceData, absDistanceGrid);
 	newSequenceComponent->updateSceneStartValueRefer();
 	newSequenceComponent->updateBounds();
 }

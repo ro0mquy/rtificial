@@ -426,15 +426,10 @@ ValueTree TimelineData::addSequence(ValueTree uniform, ValueTree sequence, int p
 // returns the assembled sequence
 // position defaults to -1 (append to end)
 ValueTree TimelineData::addSequence(ValueTree uniform, int absoluteStart, var duration, var interpolation, int position) {
-	ValueTree sceneData = getSceneForTime(absoluteStart);
-	var sceneId = getSceneId(sceneData);
-	var relativeStart = absoluteStart - int(getSceneStart(sceneData));
-
 	ValueTree sequence(treeId::sequence);
-	sequence.setProperty(treeId::sequenceSceneId, sceneId, nullptr);
-	sequence.setProperty(treeId::sequenceStart, relativeStart, nullptr);
-	sequence.setProperty(treeId::sequenceDuration, duration, nullptr);
-	sequence.setProperty(treeId::sequenceInterpolation, interpolation, nullptr);
+	setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
+	setSequenceDuration(sequence, duration);
+	setSequenceInterpolation(sequence, interpolation);
 	addSequenceUnchecked(uniform, sequence, position);
 	initializeKeyframesArray(sequence);
 	return sequence;
@@ -451,23 +446,66 @@ ValueTree TimelineData::addSequenceUnchecked(ValueTree uniform, ValueTree sequen
 }
 
 
+// gets the sceneId of a sequence
+var TimelineData::getSequenceSceneId(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return sequence.getProperty(treeId::sequenceSceneId);
+}
+
+// gets the start time of a sequence
+var TimelineData::getSequenceStart(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return sequence.getProperty(treeId::sequenceStart);
+}
+
+// gets the duration of a sequence
+var TimelineData::getSequenceDuration(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return sequence.getProperty(treeId::sequenceDuration);
+}
+
+// gets the interpolation method of a sequence
+var TimelineData::getSequenceInterpolation(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return sequence.getProperty(treeId::sequenceInterpolation);
+}
+
+
+// sets the sceneId for the given sequence
+void TimelineData::setSequenceSceneId(ValueTree sequence, var sceneId) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	sequence.setProperty(treeId::sequenceSceneId, sceneId, &undoManager);
+}
+
+// sets the start time for the given sequence
+void TimelineData::setSequenceStart(ValueTree sequence, var start) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	sequence.setProperty(treeId::sequenceStart, start, &undoManager);
+}
+
+// sets the duration for the given sequence
+void TimelineData::setSequenceDuration(ValueTree sequence, var duration) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	sequence.setProperty(treeId::sequenceDuration, duration, &undoManager);
+}
+
+// sets the interpolation method for the given sequence
+void TimelineData::setSequenceInterpolation(ValueTree sequence, var interpolation) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	sequence.setProperty(treeId::sequenceInterpolation, interpolation, &undoManager);
+}
+
+
 // sets the sceneId and relative start time of a sequence for a given absolute start time
 // return true when the scene for this sequence is a new one, false otherwise
-bool TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart) {
+void TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart) {
 			ValueTree sceneForSequence = getSceneForTime(absoluteStart);
-			var sceneId = sceneForSequence.getProperty(treeId::sceneId);
+			var sceneId = getSceneId(sceneForSequence);
+			setSequenceSceneId(sequence, sceneId);
 
-			const int sceneStart = sceneForSequence.getProperty(treeId::sceneStart);
+			const int sceneStart = getSceneStart(sceneForSequence);
 			var relativeStart = absoluteStart - sceneStart;
-
-			sequence.setProperty(treeId::sequenceStart, relativeStart, &undoManager);
-
-			var oldSceneId = sequence.getProperty(treeId::sequenceSceneId);
-			bool sceneIdChanged = !oldSceneId.equals(sceneId);
-			if (sceneIdChanged) {
-				sequence.setProperty(treeId::sequenceSceneId, sceneId, &undoManager);
-			}
-			return sceneIdChanged;
+			setSequenceStart(sequence, relativeStart);
 }
 
 
