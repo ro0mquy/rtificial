@@ -19,7 +19,7 @@ bool StrahlenwerkApplication::moreThanOneInstanceAllowed() {
 	return false;
 }
 
-void StrahlenwerkApplication::initialise(const String& commandLine) {
+void StrahlenwerkApplication::initialise(const String& /*commandLine*/) {
 	PropertiesFile::Options options;
 	options.applicationName = getApplicationName();
 	options.filenameSuffix = ".settings";
@@ -43,7 +43,7 @@ void StrahlenwerkApplication::systemRequestedQuit()  {
 	MainWindow::getApplicationCommandManager().invokeDirectly(MainWindow::quitProgram, false);
 }
 
-void StrahlenwerkApplication::anotherInstanceStarted(const String& commandLine) {
+void StrahlenwerkApplication::anotherInstanceStarted(const String& /*commandLine*/) {
 	// When another instance of the app is launched while this one is running,
 	// this method is invoked, and the commandLine parameter tells you what
 	// the other instance's command-line arguments were.

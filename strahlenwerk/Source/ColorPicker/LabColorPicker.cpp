@@ -51,12 +51,12 @@ void LabColorPicker::resized() {
 	colorSpace.setBoundsToFit(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight(), Justification(Justification::centred), false);
 }
 
-void LabColorPicker::sliderValueChanged(Slider* slider) {
+void LabColorPicker::sliderValueChanged(Slider* /*slider*/) {
 	color = LabColor(Colour::fromFloatRGBA(rSlider.getValue(), gSlider.getValue(), bSlider.getValue(), 1.));
 	repaint();
 }
 
-void LabColorPicker::valueChanged(Value& value) {
+void LabColorPicker::valueChanged(Value& /*value*/) {
 	updateRGBSliders();
 	repaint();
 }

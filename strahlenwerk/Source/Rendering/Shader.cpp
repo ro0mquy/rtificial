@@ -250,7 +250,7 @@ void Shader::loadUniformValues() {
 void Shader::onBeforeLoad() {
 }
 
-void Shader::onUniformLoad(const std::string& name, const Uniform& uniform) {
+void Shader::onUniformLoad(const std::string& /*name*/, const Uniform& /*uniform*/) {
 }
 
 void Shader::onSourceProcessed() {

@@ -61,7 +61,8 @@ void PostprocShader::insertBindings() {
 	}
 
 	size_t offset = 0;
-	for(int i = 0; i < inputs.size(); i++) {
+	const int inputsSize = inputs.size();
+	for(int i = 0; i < inputsSize; i++) {
 		const auto bindingString = "layout(binding = " + std::to_string(inputs[i].bindingId) + ") ";
 		if(fragmentSource[positions[i] + offset] == '\n') {
 			// insert after newline
@@ -84,7 +85,8 @@ void PostprocShader::bindFBO(int width, int height) {
 }
 
 void PostprocShader::unbindFBO() {
-	for(int i = 0; i < textures.size(); i++) {
+	const int texturesSize = textures.size();
+	for(int i = 0; i < texturesSize; i++) {
 		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
 		if(outputs[i].maxLod - outputLod > 0) {

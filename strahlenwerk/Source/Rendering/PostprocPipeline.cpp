@@ -15,7 +15,7 @@ void PostprocPipeline::render(SceneShader& shader, int width, int height) {
 		return;
 	}
 
-	const int requiredQueries = shaders.size(); // number of drawing operations
+	const auto requiredQueries = shaders.size(); // number of drawing operations
 	if(queries.size() != requiredQueries) {
 		if(!queries.empty()) {
 			glDeleteQueries(queries.size(), &queries[0]);
@@ -34,7 +34,8 @@ void PostprocPipeline::render(SceneShader& shader, int width, int height) {
 		glEndQuery(GL_TIME_ELAPSED);
 		shaders[0]->unbindFBO();
 	}
-	for(int i = 1; i < shaders.size() - 1; i++) {
+	const int shadersSize = shaders.size() - 1;
+	for(int i = 1; i < shadersSize; i++) {
 		shaders[i]->bindFBO(width, height);
 		queryNames.push_back(shaders[i]->getName());
 		glBeginQuery(GL_TIME_ELAPSED, queries[queryIndex++]);
@@ -58,7 +59,7 @@ void PostprocPipeline::render(SceneShader& shader, int width, int height) {
 	glEndQuery(GL_TIME_ELAPSED);
 	glDisable(GL_FRAMEBUFFER_SRGB);
 
-	jassert(queryIndex == queries.size());
+	jassert(queryIndex == (int) queries.size());
 	jassert(queryNames.size() == queries.size());
 
 	const bool TIMINGS_ENABLED = false;

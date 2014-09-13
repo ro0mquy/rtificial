@@ -142,7 +142,7 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 	newSequenceComponent->updateBounds();
 }
 
-void SequenceViewComponent::mouseUp(const MouseEvent& event) {
+void SequenceViewComponent::mouseUp(const MouseEvent& /*event*/) {
 	if (!newSequenceData.isValid()) {
 		// click in empty area
 		return;

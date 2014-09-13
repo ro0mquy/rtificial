@@ -66,7 +66,7 @@ void LabColorSpaceView::mouseDrag(const MouseEvent& e) {
 	color.b = b;
 }
 
-void LabColorSpaceView::mouseUp(const MouseEvent& e) {
+void LabColorSpaceView::mouseUp(const MouseEvent& /*e*/) {
 	setMouseCursor(MouseCursor::CrosshairCursor);
 }
 

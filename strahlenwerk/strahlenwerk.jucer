@@ -152,7 +152,7 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-std=c++11 -Wall -I../../Source -I../../Lib/include"
+    <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-std=c++11 -Wall -Wextra -I../../Source -I../../Lib/include"
                 externalLibraries="efsw" extraLinkerFlags="-L../../Lib/lib">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="" isDebug="1" optimisation="1" targetName="strahlenwerk"/>

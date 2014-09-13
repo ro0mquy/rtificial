@@ -26,7 +26,8 @@ std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(
 	connectStages(order, mapping);
 
 	shadersInOrder.resize(order.size());
-	for(int i = 0; i < order.size(); i++) {
+	const int orderSize = order.size();
+	for(int i = 0; i < orderSize; i++) {
 		shadersInOrder[i] = std::move(shaders[order[i]]);
 	}
 	shadersInOrder.pop_back();
@@ -181,7 +182,8 @@ void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const 
 	for(const int shaderId : order) {
 		auto& shader = shaders[shaderId];
 		auto& outputs = shader->getOutputs();
-		for(int i = 0; i < outputs.size(); i++) {
+		const int outputSize = outputs.size();
+		for(int i = 0; i < outputSize; i++) {
 			const int nextBindingId = maxLod.size();
 			shader->setOutputBindingId(i, nextBindingId);
 			maxLod.push_back(0);
@@ -189,7 +191,8 @@ void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const 
 		}
 
 		auto& inputs = shader->getInputs();
-		for(int i = 0; i < inputs.size(); i++) {
+		const int inputsSize = inputs.size();
+		for(int i = 0; i < inputsSize; i++) {
 			const int outputShaderId = mapping[shaderId][i].first;
 			const int inputId = mapping[shaderId][i].second;
 			const int outputId = inputs[inputId].bindingId;
@@ -205,7 +208,8 @@ void PostprocPipelineLoader::connectStages(const std::vector<int>& order, const 
 	for(const int shaderId : order) {
 		auto& shader = shaders[shaderId];
 		auto& outputs = shader->getOutputs();
-		for(int i = 0; i < outputs.size(); i++) {
+		const int outputsSize = outputs.size();
+		for(int i = 0; i < outputsSize; i++) {
 			shader->setOutputMaxLod(i, maxLod[outputs[i].bindingId]);
 		}
 	}

@@ -30,6 +30,6 @@ void LabColorPropertyComponent::mouseUp(const MouseEvent &event) {
 	}
 }
 
-void LabColorPropertyComponent::valueChanged(Value& value) {
+void LabColorPropertyComponent::valueChanged(Value& /*value*/) {
 	repaint();
 }

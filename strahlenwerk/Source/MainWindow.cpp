@@ -137,7 +137,7 @@ StringArray MainWindow::getMenuBarNames() {
 }
 
 // build menus for top level indexes
-PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& menuName) {
+PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*menuName*/) {
 	ApplicationCommandManager* commandManager = &getApplicationCommandManager();
 	PopupMenu menu;
 
@@ -152,7 +152,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& menuN
 }
 
 // react on menu items that are not handled by the commandManager
-void MainWindow::menuItemSelected(int menuItemID, int topLevelMenuIndex) {
+void MainWindow::menuItemSelected(int menuItemID, int /*topLevelMenuIndex*/) {
 	if (menuItemID == 23) {
 		// dummy
 	}

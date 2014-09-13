@@ -47,19 +47,19 @@ vec3 CameraMath::positionRight(vec3 position, vec3 direction, vec3 /*up*/, float
 	return position;
 }
 
-vec3 CameraMath::positionUp(vec3 position, vec3 direction, vec3 /*up*/, float dtime) {
+vec3 CameraMath::positionUp(vec3 position, vec3 /*direction*/, vec3 /*up*/, float dtime) {
 	// always just change the y component
 	position.y += dtime * movementSpeed;
 	return position;
 }
 
-vec3 CameraMath::positionDown(vec3 position, vec3 direction, vec3 /*up*/, float dtime) {
+vec3 CameraMath::positionDown(vec3 position, vec3 /*direction*/, vec3 /*up*/, float dtime) {
 	// always just change the y component
 	position.y -= dtime * movementSpeed;
 	return position;
 }
 
-CameraMath::Rotation CameraMath::rotationUp(vec3 position, vec3 direction, vec3 up, float dtime) {
+CameraMath::Rotation CameraMath::rotationUp(vec3 /*position*/, vec3 direction, vec3 up, float dtime) {
 	// use the cross product of direction and the xz-projection of the direction
 	// (x, y, z) x (x, 0, z) = y * (z, 0, -x)
 	// so the vec3(z, 0, -x) is the a bit simplified direction
@@ -74,7 +74,7 @@ CameraMath::Rotation CameraMath::rotationUp(vec3 position, vec3 direction, vec3 
 	return CameraMath::Rotation(newDirection, newUp);
 }
 
-CameraMath::Rotation CameraMath::rotationDown(vec3 position, vec3 direction, vec3 up, float dtime) {
+CameraMath::Rotation CameraMath::rotationDown(vec3 /*position*/, vec3 direction, vec3 up, float dtime) {
 	// use the cross product of direction and the xz-projection of the direction
 	// (x, y, z) x (x, 0, z) = y * (z, 0, -x)
 	// so the vec3(z, 0, -x) is the a bit simplified direction
@@ -89,7 +89,7 @@ CameraMath::Rotation CameraMath::rotationDown(vec3 position, vec3 direction, vec
 	return CameraMath::Rotation(newDirection, newUp);
 }
 
-CameraMath::Rotation CameraMath::rotationLeft(vec3 position, vec3 direction, vec3 up, float dtime) {
+CameraMath::Rotation CameraMath::rotationLeft(vec3 /*position*/, vec3 direction, vec3 up, float dtime) {
 	const float rotationAngle = dtime * rotationSpeed;
 
 	vec3 newDirection = rotateY(direction, rotationAngle);
@@ -98,7 +98,7 @@ CameraMath::Rotation CameraMath::rotationLeft(vec3 position, vec3 direction, vec
 	return CameraMath::Rotation(newDirection, newUp);
 }
 
-CameraMath::Rotation CameraMath::rotationRight(vec3 position, vec3 direction, vec3 up, float dtime) {
+CameraMath::Rotation CameraMath::rotationRight(vec3 /*position*/, vec3 direction, vec3 up, float dtime) {
 	const float rotationAngle = - dtime * rotationSpeed;
 
 	vec3 newDirection = rotateY(direction, rotationAngle);
@@ -107,13 +107,13 @@ CameraMath::Rotation CameraMath::rotationRight(vec3 position, vec3 direction, ve
 	return CameraMath::Rotation(newDirection, newUp);
 }
 
-CameraMath::Rotation CameraMath::rotationCounterclockwise(vec3 position, vec3 direction, vec3 up, float dtime) {
+CameraMath::Rotation CameraMath::rotationCounterclockwise(vec3 /*position*/, vec3 direction, vec3 up, float dtime) {
 	const float rotationAngle = - dtime * rotationSpeed;
 	vec3 newUp = rotate(up, rotationAngle, direction);
 	return CameraMath::Rotation(direction, newUp);
 }
 
-CameraMath::Rotation CameraMath::rotationClockwise(vec3 position, vec3 direction, vec3 up, float dtime) {
+CameraMath::Rotation CameraMath::rotationClockwise(vec3 /*position*/, vec3 direction, vec3 up, float dtime) {
 	const float rotationAngle = dtime * rotationSpeed;
 	vec3 newUp = rotate(up, rotationAngle, direction);
 	return CameraMath::Rotation(direction, newUp);

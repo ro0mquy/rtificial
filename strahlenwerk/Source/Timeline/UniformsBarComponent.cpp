@@ -70,21 +70,21 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 	CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
 }
 
-void UniformsBarComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+void UniformsBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
 }
 
-void UniformsBarComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+void UniformsBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenAdded) {
 	if (data.isUniform(childWhichHasBeenAdded)) {
 		updateSize();
 		repaint();
 	}
 }
 
-void UniformsBarComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+void UniformsBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
 }
 
-void UniformsBarComponent::valueTreeChildOrderChanged(ValueTree& parentTree) {
+void UniformsBarComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
 }
 
-void UniformsBarComponent::valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) {
+void UniformsBarComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }

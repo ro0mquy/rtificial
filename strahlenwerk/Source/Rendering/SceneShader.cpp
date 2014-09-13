@@ -10,6 +10,6 @@ void SceneShader::onBeforeLoad() {
 	activeUniforms.clear();
 }
 
-void SceneShader::onUniformLoad(const std::string& name, const Uniform& uniform) {
+void SceneShader::onUniformLoad(const std::string& /*name*/, const Uniform& uniform) {
 	activeUniforms.insert(uniform.id);
 }

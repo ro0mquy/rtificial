@@ -34,21 +34,21 @@ void Sidebar::updateProperties() {
 }
 
 // ValueTree::Listener callbacks
-void Sidebar::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+void Sidebar::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
 	updateProperties();
 }
 
-void Sidebar::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+void Sidebar::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenAdded*/) {
 	updateProperties();
 }
 
-void Sidebar::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+void Sidebar::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
 	updateProperties();
 }
 
-void Sidebar::valueTreeChildOrderChanged(ValueTree& parentTree) {
+void Sidebar::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
 	updateProperties();
 }
 
-void Sidebar::valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) {
+void Sidebar::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }

@@ -51,7 +51,7 @@ std::pair<ValueTree, bool> Interpolator::getUniformState(const var& name) {
 	return getUniformState(uniformData);
 }
 
-std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree sequence, const int relativeCurrentTime) {
+std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree sequence, const int /*relativeCurrentTime*/) {
 	ValueTree uniformStateValue = data.getKeyframesArray(sequence).getChild(0).getChildWithName(treeId::keyframeValue);
 	const bool isOnKeyframe = true;
 	return std::pair<ValueTree, bool>(uniformStateValue, isOnKeyframe);
