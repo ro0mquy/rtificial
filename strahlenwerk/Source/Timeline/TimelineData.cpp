@@ -680,6 +680,42 @@ void TimelineData::initializeKeyframesArray(ValueTree sequence) {
 
 
 
+// returns the number of properties in this value
+int TimelineData::getNumValueProperties(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getNumProperties();
+}
+
+// initialize a value with the specified type inside valueData
+// return false when valueData was already initialized or the type is unknown
+bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
+	if (getNumValueProperties(valueData) != 0) {
+		// value is already populated
+		return false;
+	}
+
+	if (valueType == "bool") {
+		setValueBoolState(valueData, false);
+	} else if (valueType == "float") {
+		setValueFloatX(valueData, 0.);
+	} else if (valueType == "vec2") {
+		setValueVec2X(valueData, 0.);
+		setValueVec2Y(valueData, 0.);
+	} else if (valueType == "vec3") {
+		setValueVec3X(valueData, 0.);
+		setValueVec3Y(valueData, 0.);
+		setValueVec3Z(valueData, 0.);
+	} else if (valueType == "color") {
+		setValueColorR(valueData, 0.);
+		setValueColorG(valueData, 0.);
+		setValueColorB(valueData, 0.);
+	} else {
+		return false;
+	}
+	return true;
+}
+
+
 // get boolState of a bool value
 var TimelineData::getValueBoolState(ValueTree value) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
@@ -741,36 +777,63 @@ var TimelineData::getValueColorB(ValueTree value) {
 }
 
 
-// initialize a value with the specified type inside valueData
-// return false when valueData was already initialized or the type is unknown
-bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
-	if (valueData.getNumProperties() != 0) {
-		// value is already populated
-		return false;
-	}
+// TODO: some checking maybe
+// set boolState of a bool value
+void TimelineData::setValueBoolState(ValueTree value, var boolState) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueBoolState, boolState, &undoManager);
+}
 
-	if (valueType == "bool") {
-		valueData
-			.setProperty(treeId::valueBoolState, var(false), &undoManager);
-	} else if (valueType == "float") {
-		valueData
-			.setProperty(treeId::valueFloatX, var(0.), &undoManager);
-	} else if (valueType == "vec2") {
-		valueData
-			.setProperty(treeId::valueVec2X, var(0.), &undoManager)
-			.setProperty(treeId::valueVec2Y, var(0.), &undoManager);
-	} else if (valueType == "vec3") {
-		valueData
-			.setProperty(treeId::valueVec3X, var(0.), &undoManager)
-			.setProperty(treeId::valueVec3Y, var(0.), &undoManager)
-			.setProperty(treeId::valueVec3Z, var(0.), &undoManager);
-	} else if (valueType == "color") {
-		valueData
-			.setProperty(treeId::valueColorR, var(0.), &undoManager)
-			.setProperty(treeId::valueColorG, var(0.), &undoManager)
-			.setProperty(treeId::valueColorB, var(0.), &undoManager);
-	} else {
-		return false;
-	}
-	return true;
+// set floatX of a float value
+void TimelineData::setValueFloatX(ValueTree value, var floatX) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueFloatX, floatX, &undoManager);
+}
+
+// set vec2X of a vec2 value
+void TimelineData::setValueVec2X(ValueTree value, var vec2X) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueVec2X, vec2X, &undoManager);
+}
+
+// set vec2Y of a vec2 value
+void TimelineData::setValueVec2Y(ValueTree value, var vec2Y) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueVec2Y, vec2Y, &undoManager);
+}
+
+// set vec3X of a vec3 value
+void TimelineData::setValueVec3X(ValueTree value, var vec3X) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueVec3X, vec3X, &undoManager);
+}
+
+// set vec3Y of a vec3 value
+void TimelineData::setValueVec3Y(ValueTree value, var vec3Y) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueVec3Y, vec3Y, &undoManager);
+}
+
+// set vec3Z of a vec3 value
+void TimelineData::setValueVec3Z(ValueTree value, var vec3Z) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueVec3Z, vec3Z, &undoManager);
+}
+
+// set colorR of a color value
+void TimelineData::setValueColorR(ValueTree value, var colorR) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueColorR, colorR, &undoManager);
+}
+
+// set colorG of a color value
+void TimelineData::setValueColorG(ValueTree value, var colorG) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueColorG, colorG, &undoManager);
+}
+
+// set colorB of a color value
+void TimelineData::setValueColorB(ValueTree value, var colorB) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueColorB, colorB, &undoManager);
 }

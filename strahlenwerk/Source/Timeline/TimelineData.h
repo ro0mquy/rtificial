@@ -116,6 +116,9 @@ class TimelineData {
 
 
 		// value stuff
+		int getNumValueProperties(ValueTree value);
+		bool initializeValue(ValueTree valueData, String valueType);
+
 		var getValueBoolState(ValueTree value);
 		var getValueFloatX(ValueTree value);
 		var getValueVec2X(ValueTree value);
@@ -127,8 +130,19 @@ class TimelineData {
 		var getValueColorG(ValueTree value);
 		var getValueColorB(ValueTree value);
 
-		bool initializeValue(ValueTree valueData, String valueType);
+		void setValueBoolState(ValueTree value, var boolState);
+		void setValueFloatX(ValueTree value, var floatX);
+		void setValueVec2X(ValueTree value, var vec2X);
+		void setValueVec2Y(ValueTree value, var vec2Y);
+		void setValueVec3X(ValueTree value, var vec3X);
+		void setValueVec3Y(ValueTree value, var vec3Y);
+		void setValueVec3Z(ValueTree value, var vec3Z);
+		void setValueColorR(ValueTree value, var colorR);
+		void setValueColorG(ValueTree value, var colorG);
+		void setValueColorB(ValueTree value, var colorB);
 
+
+		// current time position
 		Value currentTime;
 
 	private:
