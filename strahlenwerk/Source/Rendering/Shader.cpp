@@ -12,7 +12,6 @@
 #include <StrahlenwerkApplication.h>
 #include <Timeline/TimelineData.h>
 #include <Timeline/Interpolator.h>
-#include <Timeline/TreeIdentifiers.h>
 
 Shader::Shader(OpenGLContext& context, std::string name) :
 	context(context),
@@ -193,48 +192,48 @@ void Shader::applyIncludes() {
  * Only call this from the OpenGL thread!
  */
 void Shader::loadUniformValues() {
-	Interpolator& interpolator = TimelineData::getTimelineData().getInterpolator();
+	TimelineData& data = TimelineData::getTimelineData();
+	Interpolator& interpolator = data.getInterpolator();
 	const auto& uniformManager = UniformManager::Instance();
 	for (const int uniformId : uniformIds) {
 		const Uniform* uniform = uniformManager.getUniform(uniformId);
-		// TODO: locking
 		const int location = uniform->id;
 		ValueTree value = interpolator.getCurrentUniformValue(var(uniform->name)).first;
 		switch (uniform->type) {
 			/* no bool in UniformType
 			case UniformType::BOOL:
 				{
-					const float boolState = value.getProperty(treeId::valueBoolState);
+					const float boolState = data.getValueBoolState(value);
 					context.extensions.glUniform1f(location, boolState);
 				}
 				break;
 			*/
 			case UniformType::FLOAT:
 				{
-					const float floatX = value.getProperty(treeId::valueFloatX);
+					const float floatX = data.getValueFloatX(value);
 					context.extensions.glUniform1f(location, floatX);
 				}
 				break;
 			case UniformType::VEC2:
 				{
-					const float vec2X = value.getProperty(treeId::valueVec2X);
-					const float vec2Y = value.getProperty(treeId::valueVec2Y);
+					const float vec2X = data.getValueVec2X(value);
+					const float vec2Y = data.getValueVec2Y(value);
 					context.extensions.glUniform2f(location, vec2X, vec2Y);
 				}
 				break;
 			case UniformType::VEC3:
 				{
-					const float vec3X = value.getProperty(treeId::valueVec3X);
-					const float vec3Y = value.getProperty(treeId::valueVec3Y);
-					const float vec3Z = value.getProperty(treeId::valueVec3Z);
+					const float vec3X = data.getValueVec3X(value);
+					const float vec3Y = data.getValueVec3Y(value);
+					const float vec3Z = data.getValueVec3Z(value);
 					context.extensions.glUniform3f(location, vec3X, vec3Y, vec3Z);
 				}
 				break;
 			case UniformType::COLOR:
 				{
-					const float colorR = value.getProperty(treeId::valueColorR);
-					const float colorG = value.getProperty(treeId::valueColorG);
-					const float colorB = value.getProperty(treeId::valueColorB);
+					const float colorR = data.getValueColorR(value);
+					const float colorG = data.getValueColorG(value);
+					const float colorB = data.getValueColorB(value);
 					context.extensions.glUniform3f(location, colorR, colorG, colorB);
 				}
 				break;

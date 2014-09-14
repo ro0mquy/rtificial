@@ -680,6 +680,67 @@ void TimelineData::initializeKeyframesArray(ValueTree sequence) {
 
 
 
+// get boolState of a bool value
+var TimelineData::getValueBoolState(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueBoolState);
+}
+
+// get floatX of a float value
+var TimelineData::getValueFloatX(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueFloatX);
+}
+
+// get vec2X of a vec2 value
+var TimelineData::getValueVec2X(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueVec2X);
+}
+
+// get vec2Y of a vec2 value
+var TimelineData::getValueVec2Y(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueVec2Y);
+}
+
+// get vec3X of a vec3 value
+var TimelineData::getValueVec3X(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueVec3X);
+}
+
+// get vec3Y of a vec3 value
+var TimelineData::getValueVec3Y(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueVec3Y);
+}
+
+// get vec3Z of a vec3 value
+var TimelineData::getValueVec3Z(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueVec3Z);
+}
+
+// get colorR of a color value
+var TimelineData::getValueColorR(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueColorR);
+}
+
+// get colorG of a color value
+var TimelineData::getValueColorG(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueColorG);
+}
+
+// get colorB of a color value
+var TimelineData::getValueColorB(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueColorB);
+}
+
+
 // initialize a value with the specified type inside valueData
 // return false when valueData was already initialized or the type is unknown
 bool TimelineData::initializeValue(ValueTree valueData, String valueType) {

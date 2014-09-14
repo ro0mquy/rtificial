@@ -116,6 +116,17 @@ class TimelineData {
 
 
 		// value stuff
+		var getValueBoolState(ValueTree value);
+		var getValueFloatX(ValueTree value);
+		var getValueVec2X(ValueTree value);
+		var getValueVec2Y(ValueTree value);
+		var getValueVec3X(ValueTree value);
+		var getValueVec3Y(ValueTree value);
+		var getValueVec3Z(ValueTree value);
+		var getValueColorR(ValueTree value);
+		var getValueColorG(ValueTree value);
+		var getValueColorB(ValueTree value);
+
 		bool initializeValue(ValueTree valueData, String valueType);
 
 		Value currentTime;
