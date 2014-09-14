@@ -633,6 +633,12 @@ ValueTree TimelineData::addKeyframeUnchecked(ValueTree sequence, ValueTree keyfr
 	return keyframe;
 }
 
+// removes a keyframe from it's sequence parent
+void TimelineData::removeKeyframe(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	keyframe.getParent().removeChild(keyframe, &undoManager);
+}
+
 
 // gets the time position of a keyframe
 var TimelineData::getKeyframePosition(ValueTree keyframe) {

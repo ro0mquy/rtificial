@@ -1,10 +1,14 @@
 #include "KeyframeComponent.h"
-#include "TreeIdentifiers.h"
 #include "SequenceComponent.h"
+#include "TimelineData.h"
 
-KeyframeComponent::KeyframeComponent(ValueTree keyframeData_) :
-	keyframeData(keyframeData_)
+KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
+	keyframeData(keyframeData_),
+	data(TimelineData::getTimelineData()),
+	zoomFactor(zoomFactor_)
 {
+	zoomFactor.addListener(this);
+
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
 	constrainer.setGridWidth(20);
@@ -12,7 +16,7 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_) :
 
 void KeyframeComponent::updateBounds() {
 	const int keyframeWidth = 4;
-	const int position = keyframeData.getProperty(treeId::keyframePosition);
+	const int position = (float) data.getKeyframePosition(keyframeData) * zoomFactor;
 	const int height = getParentHeight();
 	setBounds(position - keyframeWidth / 2, 0, keyframeWidth, height);
 }
@@ -33,7 +37,7 @@ void KeyframeComponent::mouseDown(const MouseEvent& event) {
 void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 	dragComponent(this, event, &constrainer);
 	// center keyframe on grid
-	setTopLeftPosition(getPosition() - Point<int>(getWidth() / 2, 0));
+	setTopLeftPosition(getPosition().translated(-getWidth() / 2, 0));
 }
 
 void KeyframeComponent::mouseUp(const MouseEvent& event) {
@@ -43,7 +47,7 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 
 	const ModifierKeys& mods = event.mods;
 	if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
-		AlertWindow reallyDeleteWindow("Keyframe", "Delete this Keyframe for Ever and Ever", AlertWindow::WarningIcon);
+		AlertWindow reallyDeleteWindow("Keyframe", "Delete this Keyframe for a Long Time", AlertWindow::WarningIcon);
 		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
 		reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
 
@@ -52,16 +56,21 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 			return;
 		}
 
-		keyframeData.getParent().removeChild(keyframeData, nullptr);
+		data.removeKeyframe(keyframeData);
 		findParentComponentOfClass<SequenceComponent>()->removeKeyframeComponent(this);
 	}
 }
 
 void KeyframeComponent::moved() {
-	const int centerX = getX() + getWidth() / 2;
-	keyframeData.setProperty(treeId::keyframePosition, var(centerX), nullptr);
+	const float rawCenterX = getBounds().getCentreX() / zoomFactor;
+	const int snappedCenterX = constrainer.snapValueToGrid(rawCenterX);
+	data.setKeyframePosition(keyframeData, snappedCenterX);
 }
 
 void KeyframeComponent::parentHierarchyChanged() {
+	updateBounds();
+}
+
+void KeyframeComponent::zoomFactorChanged(ZoomFactor&) {
 	updateBounds();
 }

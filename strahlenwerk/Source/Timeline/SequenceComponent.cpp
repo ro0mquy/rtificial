@@ -1,6 +1,5 @@
 #include "SequenceComponent.h"
 
-#include "TreeIdentifiers.h"
 #include "TimelineData.h"
 #include "KeyframeComponent.h"
 #include "SequenceViewComponent.h"
@@ -54,7 +53,7 @@ void SequenceComponent::updateSceneStartValueRefer() {
 	const var sceneId = data.getSequenceSceneId(sequenceData);
 	ValueTree sceneForSequence = data.getScene(sceneId);
 	// TODO: remove this sceneStartValue completly or add a get*AsValue function
-	sceneStartValue.referTo(sceneForSequence.getPropertyAsValue(treeId::sceneStart, nullptr));
+	sceneStartValue.referTo(sceneForSequence.getPropertyAsValue("sceneStart", nullptr));
 }
 
 void SequenceComponent::updateKeyframeComponents() {
@@ -64,7 +63,7 @@ void SequenceComponent::updateKeyframeComponents() {
 	// don't create a component for first and last keyframe
 	for (int i = 1; i < numKeyframes - 1; i++) {
 		ValueTree keyframeData = data.getKeyframe(sequenceData, i);
-		auto keyframeComponent = new KeyframeComponent(keyframeData);
+		auto keyframeComponent = new KeyframeComponent(keyframeData, zoomFactor);
 		addAndMakeVisible(keyframeComponent);
 		keyframeComponentsArray.add(keyframeComponent);
 	}
@@ -131,7 +130,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 
 		ValueTree keyframeData = data.addKeyframe(sequenceData, mouseDownGrid);
 
-		auto keyframeComponent = new KeyframeComponent(keyframeData);
+		auto keyframeComponent = new KeyframeComponent(keyframeData, zoomFactor);
 		addAndMakeVisible(keyframeComponent);
 		keyframeComponentsArray.add(keyframeComponent);
 

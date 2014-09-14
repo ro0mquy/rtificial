@@ -104,6 +104,7 @@ class TimelineData {
 		ValueTree addKeyframe(ValueTree sequence, ValueTree keyframe);
 		ValueTree addKeyframe(ValueTree sequence, var keyframePosition);
 		ValueTree addKeyframeUnchecked(ValueTree sequence, ValueTree keyframe);
+		void removeKeyframe(ValueTree keyframe);
 
 		var getKeyframePosition(ValueTree keyframe);
 		ValueTree getKeyframeValue(ValueTree keyframe);
