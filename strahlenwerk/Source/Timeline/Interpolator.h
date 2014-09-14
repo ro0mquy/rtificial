@@ -10,8 +10,8 @@ class Interpolator {
 	public:
 		Interpolator(TimelineData& data_);
 
-		std::pair<ValueTree, bool> getUniformState(ValueTree uniformData);
-		std::pair<ValueTree, bool> getUniformState(const var& name);
+		std::pair<ValueTree, bool> getCurrentUniformValue(ValueTree uniformData);
+		std::pair<ValueTree, bool> getCurrentUniformValue(const var& name);
 
 	private:
 		std::pair<ValueTree, bool> calculateInterpolatedValue(ValueTree sequence, const int relativeCurrentTime);

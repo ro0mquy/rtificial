@@ -199,7 +199,7 @@ void Shader::loadUniformValues() {
 		const Uniform* uniform = uniformManager.getUniform(uniformId);
 		// TODO: locking
 		const int location = uniform->id;
-		ValueTree value = interpolator.getUniformState(var(uniform->name)).first;
+		ValueTree value = interpolator.getCurrentUniformValue(var(uniform->name)).first;
 		switch (uniform->type) {
 			/* no bool in UniformType
 			case UniformType::BOOL:

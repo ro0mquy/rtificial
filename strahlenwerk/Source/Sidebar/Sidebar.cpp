@@ -22,7 +22,7 @@ void Sidebar::updateProperties() {
 		ValueTree uniform = uniformsArray.getChild(i);
 		const String name = uniform.getProperty(treeId::uniformName);
 
-		auto uniformState = interpolator.getUniformState(uniform);
+		auto uniformState = interpolator.getCurrentUniformValue(uniform);
 		ValueTree value = uniformState.first;
 		const bool isOnKeyframe = uniformState.second;
 
