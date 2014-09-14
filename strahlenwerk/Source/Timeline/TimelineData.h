@@ -130,6 +130,17 @@ class TimelineData {
 		var getValueColorG(ValueTree value);
 		var getValueColorB(ValueTree value);
 
+		Value getValueBoolStateAsValue(ValueTree value);
+		Value getValueFloatXAsValue(ValueTree value);
+		Value getValueVec2XAsValue(ValueTree value);
+		Value getValueVec2YAsValue(ValueTree value);
+		Value getValueVec3XAsValue(ValueTree value);
+		Value getValueVec3YAsValue(ValueTree value);
+		Value getValueVec3ZAsValue(ValueTree value);
+		Value getValueColorRAsValue(ValueTree value);
+		Value getValueColorGAsValue(ValueTree value);
+		Value getValueColorBAsValue(ValueTree value);
+
 		void setValueBoolState(ValueTree value, var boolState);
 		void setValueFloatX(ValueTree value, var floatX);
 		void setValueVec2X(ValueTree value, var vec2X);

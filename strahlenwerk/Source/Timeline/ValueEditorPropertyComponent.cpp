@@ -1,7 +1,8 @@
 #include "ValueEditorPropertyComponent.h"
+#include "TimelineData.h"
 #include "TreeIdentifiers.h"
-#include "../ColorPicker/LabColor.h"
-#include "../ColorPicker/LabColorPicker.h"
+#include <ColorPicker/LabColor.h>
+#include <ColorPicker/LabColorPicker.h>
 
 class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
@@ -180,25 +181,26 @@ void ValueEditorPropertyComponent::resized() {
 }
 
 PropertyComponent* ValueEditorPropertyComponent::newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData) {
+	TimelineData& data = TimelineData::getTimelineData();
 	if (valueData.hasProperty(treeId::valueBoolState)) {
-		Value boolState = valueData.getPropertyAsValue(treeId::valueBoolState, nullptr);
+		Value boolState = data.getValueBoolStateAsValue(valueData);
 		return new BoolEditorPropertyComponent(propertyName, boolState);
 	} else if (valueData.hasProperty(treeId::valueFloatX)) {
-		Value floatX = valueData.getPropertyAsValue(treeId::valueFloatX, nullptr);
+		Value floatX = data.getValueFloatXAsValue(valueData);
 		return new FloatEditorPropertyComponent(propertyName, floatX);
 	} else if (valueData.hasProperty(treeId::valueVec2X)) {
-		Value floatX = valueData.getPropertyAsValue(treeId::valueVec2X, nullptr);
-		Value floatY = valueData.getPropertyAsValue(treeId::valueVec2Y, nullptr);
+		Value floatX = data.getValueVec2XAsValue(valueData);
+		Value floatY = data.getValueVec2YAsValue(valueData);
 		return new Vec2EditorPropertyComponent(propertyName, floatX, floatY);
 	} else if (valueData.hasProperty(treeId::valueVec3X)) {
-		Value floatX = valueData.getPropertyAsValue(treeId::valueVec3X, nullptr);
-		Value floatY = valueData.getPropertyAsValue(treeId::valueVec3Y, nullptr);
-		Value floatZ = valueData.getPropertyAsValue(treeId::valueVec3Z, nullptr);
+		Value floatX = data.getValueVec3XAsValue(valueData);
+		Value floatY = data.getValueVec3YAsValue(valueData);
+		Value floatZ = data.getValueVec3ZAsValue(valueData);
 		return new Vec3EditorPropertyComponent(propertyName, floatX, floatY, floatZ);
 	} else if (valueData.hasProperty(treeId::valueColorR)) {
-		Value colorR = valueData.getPropertyAsValue(treeId::valueColorR, nullptr);
-		Value colorG = valueData.getPropertyAsValue(treeId::valueColorG, nullptr);
-		Value colorB = valueData.getPropertyAsValue(treeId::valueColorB, nullptr);
+		Value colorR = data.getValueColorRAsValue(valueData);
+		Value colorG = data.getValueColorGAsValue(valueData);
+		Value colorB = data.getValueColorBAsValue(valueData);
 		return new ColorEditorPropertyComponent(propertyName, colorR, colorG, colorB);
 	}
 	return new TextPropertyComponent(Value(propertyName), propertyName, 30, false);

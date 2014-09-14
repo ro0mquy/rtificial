@@ -777,6 +777,67 @@ var TimelineData::getValueColorB(ValueTree value) {
 }
 
 
+// get boolState of a bool value as a juce::Value
+Value TimelineData::getValueBoolStateAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueBoolState, &undoManager);
+}
+
+// get floatX of a float value as a juce::Value
+Value TimelineData::getValueFloatXAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueFloatX, &undoManager);
+}
+
+// get vec2X of a vec2 value as a juce::Value
+Value TimelineData::getValueVec2XAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueVec2X, &undoManager);
+}
+
+// get vec2Y of a vec2 value as a juce::Value
+Value TimelineData::getValueVec2YAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueVec2Y, &undoManager);
+}
+
+// get vec3X of a vec3 value as a juce::Value
+Value TimelineData::getValueVec3XAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueVec3X, &undoManager);
+}
+
+// get vec3Y of a vec3 value as a juce::Value
+Value TimelineData::getValueVec3YAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueVec3Y, &undoManager);
+}
+
+// get vec3Z of a vec3 value as a juce::Value
+Value TimelineData::getValueVec3ZAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueVec3Z, &undoManager);
+}
+
+// get colorR of a color value as a juce::Value
+Value TimelineData::getValueColorRAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueColorR, &undoManager);
+}
+
+// get colorG of a color value as a juce::Value
+Value TimelineData::getValueColorGAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueColorG, &undoManager);
+}
+
+// get colorB of a color value as a juce::Value
+Value TimelineData::getValueColorBAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueColorB, &undoManager);
+}
+
+
 // TODO: some checking maybe
 // set boolState of a bool value
 void TimelineData::setValueBoolState(ValueTree value, var boolState) {
