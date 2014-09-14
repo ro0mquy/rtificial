@@ -716,6 +716,37 @@ bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 }
 
 
+// checks if the value is of type bool
+bool TimelineData::isValueBool(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.hasProperty(treeId::valueBoolState);
+}
+
+// checks if the value is of type float
+bool TimelineData::isValueFloat(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.hasProperty(treeId::valueFloatX);
+}
+
+// checks if the value is of type vec2
+bool TimelineData::isValueVec2(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.hasProperty(treeId::valueVec2X);
+}
+
+// checks if the value is of type vec3
+bool TimelineData::isValueVec3(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.hasProperty(treeId::valueVec3X);
+}
+
+// checks if the value is of type color
+bool TimelineData::isValueColor(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.hasProperty(treeId::valueColorR);
+}
+
+
 // get boolState of a bool value
 var TimelineData::getValueBoolState(ValueTree value) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);

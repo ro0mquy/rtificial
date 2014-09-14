@@ -119,6 +119,12 @@ class TimelineData {
 		int getNumValueProperties(ValueTree value);
 		bool initializeValue(ValueTree valueData, String valueType);
 
+		bool isValueBool(ValueTree value);
+		bool isValueFloat(ValueTree value);
+		bool isValueVec2(ValueTree value);
+		bool isValueVec3(ValueTree value);
+		bool isValueColor(ValueTree value);
+
 		var getValueBoolState(ValueTree value);
 		var getValueFloatX(ValueTree value);
 		var getValueVec2X(ValueTree value);

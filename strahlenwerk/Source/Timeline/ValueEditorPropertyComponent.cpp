@@ -1,6 +1,5 @@
 #include "ValueEditorPropertyComponent.h"
 #include "TimelineData.h"
-#include "TreeIdentifiers.h"
 #include <ColorPicker/LabColor.h>
 #include <ColorPicker/LabColorPicker.h>
 
@@ -182,22 +181,22 @@ void ValueEditorPropertyComponent::resized() {
 
 PropertyComponent* ValueEditorPropertyComponent::newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData) {
 	TimelineData& data = TimelineData::getTimelineData();
-	if (valueData.hasProperty(treeId::valueBoolState)) {
+	if (data.isValueBool(valueData)) {
 		Value boolState = data.getValueBoolStateAsValue(valueData);
 		return new BoolEditorPropertyComponent(propertyName, boolState);
-	} else if (valueData.hasProperty(treeId::valueFloatX)) {
+	} else if (data.isValueFloat(valueData)) {
 		Value floatX = data.getValueFloatXAsValue(valueData);
 		return new FloatEditorPropertyComponent(propertyName, floatX);
-	} else if (valueData.hasProperty(treeId::valueVec2X)) {
+	} else if (data.isValueVec2(valueData)) {
 		Value floatX = data.getValueVec2XAsValue(valueData);
 		Value floatY = data.getValueVec2YAsValue(valueData);
 		return new Vec2EditorPropertyComponent(propertyName, floatX, floatY);
-	} else if (valueData.hasProperty(treeId::valueVec3X)) {
+	} else if (data.isValueVec3(valueData)) {
 		Value floatX = data.getValueVec3XAsValue(valueData);
 		Value floatY = data.getValueVec3YAsValue(valueData);
 		Value floatZ = data.getValueVec3ZAsValue(valueData);
 		return new Vec3EditorPropertyComponent(propertyName, floatX, floatY, floatZ);
-	} else if (valueData.hasProperty(treeId::valueColorR)) {
+	} else if (data.isValueColor(valueData)) {
 		Value colorR = data.getValueColorRAsValue(valueData);
 		Value colorG = data.getValueColorGAsValue(valueData);
 		Value colorB = data.getValueColorBAsValue(valueData);
