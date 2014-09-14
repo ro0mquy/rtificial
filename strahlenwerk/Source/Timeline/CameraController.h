@@ -28,7 +28,7 @@ class CameraController :
 		ValueTree positionValue;
 		ValueTree directionValue;
 		ValueTree upValue;
-		float timeValue;
+		ValueTree timeValue;
 		double lastCallback;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CameraController)

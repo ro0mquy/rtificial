@@ -10,6 +10,7 @@ CameraController::CameraController() :
 	positionValue(treeId::uniformStandardValue),
 	directionValue(treeId::uniformStandardValue),
 	upValue(treeId::uniformStandardValue),
+	timeValue(treeId::uniformStandardValue),
 	lastCallback(Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks()))
 {
 	directionValue.setProperty(treeId::valueVec3Z, -1., nullptr);
@@ -39,18 +40,17 @@ ValueTree CameraController::getControlledUniformState(var& name) {
 	} else if (strName == "camera_up") {
 		return upValue;
 	} else if (strName == "time") {
-		ValueTree timeTree(treeId::uniformStandardValue);
-		timeTree.setProperty(treeId::valueFloatX, timeValue, nullptr);
-		return timeTree;
+		return timeValue;
 	}
 	return ValueTree();
 }
 
 void CameraController::timerCallback() {
-	const double tmpLastCallback = lastCallback;
+	const double oldLastCallback = lastCallback;
 	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
-	float deltaTime = lastCallback - tmpLastCallback;
-	timeValue += deltaTime;
+	float deltaTime = lastCallback - oldLastCallback;
+	float newTimeValue = (float) timeValue.getProperty(treeId::valueFloatX) + deltaTime;
+	timeValue.setProperty(treeId::valueFloatX, newTimeValue, nullptr);
 
 	const ModifierKeys modKeys = ModifierKeys::getCurrentModifiers();
 	if (modKeys.isAnyModifierKeyDown()) {
