@@ -129,10 +129,9 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 			return;
 		}
 
-		data.addKeyframe(sequenceData, var(mouseDownGrid));
-		ValueTree keyframeData = data.getKeyframesArray(sequenceData).getChildWithProperty(treeId::keyframePosition, var(mouseDownGrid));
+		ValueTree keyframeData = data.addKeyframe(sequenceData, mouseDownGrid);
 
-		KeyframeComponent* keyframeComponent = new KeyframeComponent(keyframeData);
+		auto keyframeComponent = new KeyframeComponent(keyframeData);
 		addAndMakeVisible(keyframeComponent);
 		keyframeComponentsArray.add(keyframeComponent);
 
@@ -164,10 +163,6 @@ void SequenceComponent::resized() {
 
 	const int newDuration = constrainer.snapValueToGrid(getWidth() / zoomFactor);
 	data.setSequenceDuration(sequenceData, newDuration);
-
-	ValueTree keyframesArray = data.getKeyframesArray(sequenceData);
-	ValueTree lastKeyframe = keyframesArray.getChild(keyframesArray.getNumChildren() - 1);
-	lastKeyframe.setProperty(treeId::keyframePosition, newDuration, nullptr);
 }
 
 void SequenceComponent::zoomFactorChanged(ZoomFactor&) {

@@ -2,18 +2,6 @@
 #include "TreeIdentifiers.h"
 #include <StrahlenwerkApplication.h>
 
-// comparator for keyframes in the keyframes array of a sequence
-struct KeyframesComparator {
-	int compareElements (const ValueTree& first, const ValueTree& second) const {
-		int firstPosition = first.getProperty(treeId::keyframePosition);
-		int secondPosition = second.getProperty(treeId::keyframePosition);
-		return firstPosition - secondPosition;
-	}
-};
-static KeyframesComparator keyframesComparator;
-
-
-
 TimelineData::TimelineData(const File& dataFile) :
 	currentTime(40),
 	interpolator(*this)
@@ -75,6 +63,13 @@ void TimelineData::writeTimelineDataToFile(const File& dataFile) {
 void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	valueTree.addListener(listener);
+}
+
+// comparator function for keyframes in the keyframes array of a sequence
+int TimelineData::compareElements(const ValueTree& first, const ValueTree& second) {
+		int firstPosition = getKeyframePosition(first);
+		int secondPosition = getKeyframePosition(second);
+		return firstPosition - secondPosition;
 }
 
 
@@ -311,7 +306,7 @@ bool TimelineData::isUniform(ValueTree uniform) {
 	bool isUniform = uniform.hasType(treeId::uniform);
 	isUniform &= uniform.hasProperty(treeId::uniformName);
 	isUniform &= uniform.hasProperty(treeId::uniformType);
-	isUniform &= uniform.getChildWithName(treeId::uniformStandardValue).isValid(); // TODO: real checking
+	isUniform &= getUniformStandardValue(uniform).isValid(); // TODO: real checking
 	return isUniform;
 }
 
@@ -331,7 +326,7 @@ ValueTree TimelineData::addUniform(var name, var type, int position) {
 	ValueTree uniform(treeId::uniform);
 	setUniformName(uniform, name);
 	setUniformType(uniform, type);
-	initializeValue(getUniformStandardValue(uniform), type);
+	initializeValue(getOrCreateUniformStandardValue(uniform), type);
 	addUniformUnchecked(uniform, position);
 	return uniform;
 }
@@ -362,6 +357,12 @@ var TimelineData::getUniformType(ValueTree uniform) {
 // gets the standard value for a uniform
 ValueTree TimelineData::getUniformStandardValue(ValueTree uniform) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return uniform.getChildWithName(treeId::uniformStandardValue);
+}
+
+// gets or creates the standard value for a uniform
+ValueTree TimelineData::getOrCreateUniformStandardValue(ValueTree uniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return uniform.getOrCreateChildWithName(treeId::uniformStandardValue, &undoManager);
 }
 
@@ -382,7 +383,7 @@ void TimelineData::setUniformType(ValueTree uniform, var type) {
 void TimelineData::setUniformStandardValue(ValueTree uniform, ValueTree standardValue) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	uniform.removeChild(uniform.getChildWithName(treeId::uniformStandardValue), &undoManager);
-	uniform.addChild(standardValue, 0, &undoManager);
+	uniform.addChild(standardValue, 0, &undoManager); // TODO: check for type
 }
 
 
@@ -500,6 +501,15 @@ void TimelineData::setSequenceStart(ValueTree sequence, var start) {
 void TimelineData::setSequenceDuration(ValueTree sequence, var duration) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	sequence.setProperty(treeId::sequenceDuration, duration, &undoManager);
+
+	// also update the time position of the last keyframe
+	const int numKeyframes = getNumKeyframes(sequence);
+	if (numKeyframes < 2) {
+		// keyframes array is not initialized
+		return;
+	}
+	ValueTree lastKeyframe = getKeyframe(sequence, numKeyframes - 1);
+	setKeyframePosition(lastKeyframe, duration);
 }
 
 // sets the interpolation method for the given sequence
@@ -529,6 +539,13 @@ int TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
 	return sceneStart + sequenceStart;
 }
 
+// returns the uniform the sequence belongs to
+// of course the sequence must already be added to one
+ValueTree TimelineData::getSequenceParentUniform(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return sequence.getParent().getParent();
+}
+
 
 
 // returns the keyframes array for a sequence
@@ -544,21 +561,23 @@ int TimelineData::getNumKeyframes(ValueTree sequence) {
 }
 
 
-// gets the skeyframe with index nthKeyframe of a sequence
+// gets the keyframe with index nthKeyframe of a sequence
 // returns invalid ValueTree if out of bounds
 ValueTree TimelineData::getKeyframe(ValueTree sequence, const int nthKeyframe) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return getKeyframesArray(sequence).getChild(nthKeyframe);
 }
 
-// adds a keyframe to the keyframes array of a sequence at the right position
-// returns whether the sequence was added
-// sequence must already be added
-// if the ValueTree is not a treeId::keyframe, it won't get added
-bool TimelineData::addKeyframe(ValueTree sequence, ValueTree keyframe) {
+// checks the ValueTree for all requirements to be a sequence
+bool TimelineData::isKeyframe(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	bool isKeyframe = keyframe.hasType(treeId::keyframe);
 	isKeyframe &= keyframe.hasProperty(treeId::keyframePosition);
+	isKeyframe &= getKeyframeValue(keyframe).isValid();
 
+	/*
+	// TODO: check the uniform against the keyframe type
+	// maybe in own function
 	ValueTree keyframeValue = keyframe.getChildWithName(treeId::keyframeValue);
 	String uniformType = sequence.getParent().getParent().getProperty(treeId::uniformType);
 	if (keyframeValue.hasProperty(treeId::valueBoolState)) {
@@ -574,50 +593,86 @@ bool TimelineData::addKeyframe(ValueTree sequence, ValueTree keyframe) {
 	} else {
 		isKeyframe = false;
 	}
-
-	if (isKeyframe) {
-		ValueTree keyframesArray = getKeyframesArray(sequence);
-		keyframesArray.addChild(keyframe, -1, &undoManager);
-		keyframesArray.sort<KeyframesComparator>(keyframesComparator, &undoManager, true);
-	}
+	*/
 	return isKeyframe;
 }
 
-// adds a keyframe with the given time position to a sequence at the right position
-// sequence must already be added
-// the keyframe will always be added
-// returns always true
-bool TimelineData::addKeyframe(ValueTree sequence, var keyframePosition) {
+// adds a keyframe to the keyframes array of a sequence at a sorted position
+// returns the keyframe again
+// sequence must already be added to a uniform
+ValueTree TimelineData::addKeyframe(ValueTree sequence, ValueTree keyframe) {
+	jassert(isKeyframe(keyframe));
+	addKeyframeUnchecked(sequence, keyframe);
+	return keyframe;
+}
+
+// adds a keyframe with the given time position to a sequence at a sorted position
+// sequence must already be added to a uniform
+// initializes the keyframe with a zero value
+// returns the new keyframe
+ValueTree TimelineData::addKeyframe(ValueTree sequence, var keyframePosition) {
 	ValueTree keyframe(treeId::keyframe);
-	keyframe.setProperty(treeId::keyframePosition, keyframePosition, nullptr);
+	setKeyframePosition(keyframe, keyframePosition);
 
-	ValueTree keyframeValue(treeId::keyframeValue);
-	var uniformType = sequence.getParent().getParent().getProperty(treeId::uniformType);
-	initializeValue(keyframeValue, uniformType);
-	keyframe.addChild(keyframeValue, -1, nullptr);
+	var uniformType = getUniformType(getSequenceParentUniform(sequence));
+	initializeValue(getKeyframeValue(keyframe), uniformType);
 
+	addKeyframeUnchecked(sequence, keyframe);
+	return keyframe;
+}
+
+// adds a keyframe to the keyframes array of a sequence
+// returns the keyframe again
+// doesn't perform any checking (you should use addKeyframe(ValueTree))
+// keyframe gets inserted at a sorted position
+ValueTree TimelineData::addKeyframeUnchecked(ValueTree sequence, ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	ValueTree keyframesArray = getKeyframesArray(sequence);
-	keyframesArray.addChild(keyframe, -1, &undoManager);
-	keyframesArray.sort<KeyframesComparator>(keyframesComparator, &undoManager, true);
-	return true;
+	keyframesArray.addChild(keyframe, -1, nullptr);
+	keyframesArray.sort<TimelineData>(*this, &undoManager, true);
+	return keyframe;
 }
 
-// initialize the keyframesArray of the sequence
+
+// gets the time position of a keyframe
+var TimelineData::getKeyframePosition(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getProperty(treeId::keyframePosition);
+}
+
+// gets the value for a keyframe
+ValueTree TimelineData::getKeyframeValue(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getOrCreateChildWithName(treeId::keyframeValue, &undoManager);
+}
+
+
+// sets the time position for the given keyframe
+void TimelineData::setKeyframePosition(ValueTree keyframe, var position) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	keyframe.setProperty(treeId::keyframePosition, position, &undoManager);
+}
+
+// sets the value for the given keyframe
+void TimelineData::setKeyframeValue(ValueTree keyframe, ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	keyframe.removeChild(keyframe.getChildWithName(treeId::keyframeValue), &undoManager);
+	keyframe.addChild(value, 0, &undoManager); // TODO: check for type
+}
+
+
+// initialize the keyframesArray of a sequence
 // creates the start and end keyframe
-// sequence must already be added
-// return whether the sequence was properly initialized
-bool TimelineData::initializeKeyframesArray(ValueTree sequence) {
-	if (!sequence.hasProperty(treeId::sequenceDuration)) {
-		// sequence is not initialized
-		return false;
-	}
+// sequence must already be added to a uniform
+void TimelineData::initializeKeyframesArray(ValueTree sequence) {
+	jassert(getSequenceParentUniform(sequence).isValid());
 
-	var relativeEndTime = sequence.getProperty(treeId::sequenceDuration);
-	addKeyframe(sequence, var(0));
+	var relativeEndTime = getSequenceDuration(sequence);
+	addKeyframe(sequence, 0);
 	addKeyframe(sequence, relativeEndTime);
-
-	return true;
 }
+
+
 
 // initialize a value with the specified type inside valueData
 // return false when valueData was already initialized or the type is unknown
@@ -627,22 +682,22 @@ bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 		return false;
 	}
 
-	if (valueType.equalsIgnoreCase("bool")) {
+	if (valueType == "bool") {
 		valueData
 			.setProperty(treeId::valueBoolState, var(false), &undoManager);
-	} else if (valueType.equalsIgnoreCase("float")) {
+	} else if (valueType == "float") {
 		valueData
 			.setProperty(treeId::valueFloatX, var(0.), &undoManager);
-	} else if (valueType.equalsIgnoreCase("vec2")) {
+	} else if (valueType == "vec2") {
 		valueData
 			.setProperty(treeId::valueVec2X, var(0.), &undoManager)
 			.setProperty(treeId::valueVec2Y, var(0.), &undoManager);
-	} else if (valueType.equalsIgnoreCase("vec3")) {
+	} else if (valueType == "vec3") {
 		valueData
 			.setProperty(treeId::valueVec3X, var(0.), &undoManager)
 			.setProperty(treeId::valueVec3Y, var(0.), &undoManager)
 			.setProperty(treeId::valueVec3Z, var(0.), &undoManager);
-	} else if (valueType.equalsIgnoreCase("color")) {
+	} else if (valueType == "color") {
 		valueData
 			.setProperty(treeId::valueColorR, var(0.), &undoManager)
 			.setProperty(treeId::valueColorG, var(0.), &undoManager)

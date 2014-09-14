@@ -18,6 +18,7 @@ class TimelineData {
 		void readTimelineDataFromFile(const File& dataFile);
 		void writeTimelineDataToFile(const File& dataFile);
 		void addListenerToTree(ValueTree::Listener* listener);
+		int compareElements(const ValueTree& first, const ValueTree& second);
 
 
 		// scene related stuff
@@ -61,6 +62,7 @@ class TimelineData {
 		var getUniformName(ValueTree uniform);
 		var getUniformType(ValueTree uniform);
 		ValueTree getUniformStandardValue(ValueTree uniform);
+		ValueTree getOrCreateUniformStandardValue(ValueTree uniform);
 
 		void setUniformName(ValueTree uniform, var name);
 		void setUniformType(ValueTree uniform, var type);
@@ -90,6 +92,7 @@ class TimelineData {
 
 		void setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
 		int getAbsoluteStartForSequence(ValueTree sequence);
+		ValueTree getSequenceParentUniform(ValueTree sequence);
 
 
 		// keyframe stuff
@@ -97,11 +100,21 @@ class TimelineData {
 		int getNumKeyframes(ValueTree sequence);
 
 		ValueTree getKeyframe(ValueTree sequence, const int nthKeyframe);
-		bool addKeyframe(ValueTree sequence, ValueTree keyframe);
-		bool addKeyframe(ValueTree sequence, var keyframePosition);
+		bool isKeyframe(ValueTree keyframe);
+		ValueTree addKeyframe(ValueTree sequence, ValueTree keyframe);
+		ValueTree addKeyframe(ValueTree sequence, var keyframePosition);
+		ValueTree addKeyframeUnchecked(ValueTree sequence, ValueTree keyframe);
 
-		bool initializeKeyframesArray(ValueTree sequence);
+		var getKeyframePosition(ValueTree keyframe);
+		ValueTree getKeyframeValue(ValueTree keyframe);
 
+		void setKeyframePosition(ValueTree keyframe, var position);
+		void setKeyframeValue(ValueTree keyframe, ValueTree value);
+
+		void initializeKeyframesArray(ValueTree sequence);
+
+
+		// value stuff
 		bool initializeValue(ValueTree valueData, String valueType);
 
 		Value currentTime;
