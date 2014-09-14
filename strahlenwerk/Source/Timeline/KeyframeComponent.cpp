@@ -61,3 +61,7 @@ void KeyframeComponent::moved() {
 	const int centerX = getX() + getWidth() / 2;
 	keyframeData.setProperty(treeId::keyframePosition, var(centerX), nullptr);
 }
+
+void KeyframeComponent::parentHierarchyChanged() {
+	updateBounds();
+}

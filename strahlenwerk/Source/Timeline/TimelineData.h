@@ -92,10 +92,15 @@ class TimelineData {
 		int getAbsoluteStartForSequence(ValueTree sequence);
 
 
+		// keyframe stuff
 		ValueTree getKeyframesArray(ValueTree sequence);
-		bool initializeKeyframesArray(ValueTree sequence);
+		int getNumKeyframes(ValueTree sequence);
+
+		ValueTree getKeyframe(ValueTree sequence, const int nthKeyframe);
 		bool addKeyframe(ValueTree sequence, ValueTree keyframe);
 		bool addKeyframe(ValueTree sequence, var keyframePosition);
+
+		bool initializeKeyframesArray(ValueTree sequence);
 
 		bool initializeValue(ValueTree valueData, String valueType);
 

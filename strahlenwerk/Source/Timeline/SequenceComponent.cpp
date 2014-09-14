@@ -1,7 +1,6 @@
 #include "SequenceComponent.h"
 
 #include "TreeIdentifiers.h"
-#include "Timeline.h"
 #include "TimelineData.h"
 #include "KeyframeComponent.h"
 #include "SequenceViewComponent.h"
@@ -52,22 +51,21 @@ void SequenceComponent::updateBounds() {
 
 // update the value sceneStartValue refers to
 void SequenceComponent::updateSceneStartValueRefer() {
-	const var sceneId = sequenceData.getProperty(treeId::sequenceSceneId);
-	ValueTree sceneForSequence = data.getScenesArray().getChildWithProperty(treeId::sceneId, sceneId);
+	const var sceneId = data.getSequenceSceneId(sequenceData);
+	ValueTree sceneForSequence = data.getScene(sceneId);
+	// TODO: remove this sceneStartValue completly or add a get*AsValue function
 	sceneStartValue.referTo(sceneForSequence.getPropertyAsValue(treeId::sceneStart, nullptr));
 }
 
 void SequenceComponent::updateKeyframeComponents() {
 	keyframeComponentsArray.clearQuick(true);
-	ValueTree keyframeDatasArray = data.getKeyframesArray(sequenceData);
-	const int numKeyframes = keyframeDatasArray.getNumChildren();
+	const int numKeyframes = data.getNumKeyframes(sequenceData);
 
 	// don't create a component for first and last keyframe
 	for (int i = 1; i < numKeyframes - 1; i++) {
-		ValueTree keyframeData = keyframeDatasArray.getChild(i);
-		KeyframeComponent* keyframeComponent = new KeyframeComponent(keyframeData);
+		ValueTree keyframeData = data.getKeyframe(sequenceData, i);
+		auto keyframeComponent = new KeyframeComponent(keyframeData);
 		addAndMakeVisible(keyframeComponent);
-		keyframeComponent->updateBounds();
 		keyframeComponentsArray.add(keyframeComponent);
 	}
 }
@@ -102,15 +100,17 @@ void SequenceComponent::mouseDrag(const MouseEvent& event) {
 	dragComponent(this, event, &constrainer);
 
 	// scroll viewport if necessary
-	Timeline::ViewportCallback* parentViewport = findParentComponentOfClass<Timeline::ViewportCallback>();
+	Viewport* parentViewport = findParentComponentOfClass<Viewport>();
 	const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
-	Point<int> currentPos = viewportEvent.getPosition();
-	// scroll only X- not Y-Direction, so set it to something > 20
-	parentViewport->autoScroll(currentPos.getX(), 21, 20, 5);
+	// scroll only X- not Y-Direction
+	// current X position gets normally set
+	// current Y position is a constant that is greater than the minimum distance to the border (21 > 20)
+	parentViewport->autoScroll(viewportEvent.x, 21, 20, 5);
 }
 
 void SequenceComponent::mouseUp(const MouseEvent& event) {
 	if (!event.mouseWasClicked()) {
+		// do nothing on drag
 		return;
 	}
 
@@ -120,10 +120,10 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		// add keyframe
 		const int gridWidth = 20;
 
-		const int mouseDown = event.getMouseDownX();
-		const int mouseDownGrid = roundFloatToInt(float(mouseDown) / float(gridWidth)) * gridWidth;
+		const float mouseDown = event.getMouseDownX() * zoomFactor;
+		const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
 
-		const int sequenceDuration = sequenceData.getProperty(treeId::sequenceDuration);
+		const int sequenceDuration = data.getSequenceDuration(sequenceData);
 		if (mouseDownGrid == 0 || mouseDownGrid == sequenceDuration) {
 			// don't set keyframe at start or end
 			return;
@@ -134,10 +134,11 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 
 		KeyframeComponent* keyframeComponent = new KeyframeComponent(keyframeData);
 		addAndMakeVisible(keyframeComponent);
-		keyframeComponent->updateBounds();
 		keyframeComponentsArray.add(keyframeComponent);
+
 	} else if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
-		AlertWindow reallyDeleteWindow("Sequence", L"Delëte this Sequence for Ever and Ever", AlertWindow::WarningIcon);
+		// delete sequence
+		AlertWindow reallyDeleteWindow("Sequence", L"Delëte this Sequence for a Long Time?", AlertWindow::WarningIcon);
 		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
 		reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
 
@@ -146,7 +147,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 			return;
 		}
 
-		sequenceData.getParent().removeChild(sequenceData, nullptr);
+		data.removeSequence(sequenceData);
 		findParentComponentOfClass<SequenceViewComponent>()->removeSequenceComponent(this);
 	}
 }

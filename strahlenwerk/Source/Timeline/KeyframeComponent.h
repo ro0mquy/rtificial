@@ -16,6 +16,7 @@ class KeyframeComponent :
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
 		void moved() override;
+		void parentHierarchyChanged() override;
 
 		void updateBounds();
 

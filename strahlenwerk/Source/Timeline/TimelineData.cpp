@@ -533,24 +533,22 @@ int TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
 
 // returns the keyframes array for a sequence
 ValueTree TimelineData::getKeyframesArray(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return sequence.getOrCreateChildWithName(treeId::keyframesArray, &undoManager);
 }
 
-// initialize the keyframesArray of the sequence
-// creates the start and end keyframe
-// sequence must already be added
-// return whether the sequence was properly initialized
-bool TimelineData::initializeKeyframesArray(ValueTree sequence) {
-	if (!sequence.hasProperty(treeId::sequenceDuration)) {
-		// sequence is not initialized
-		return false;
-	}
+// returns the total number of keyframes for a sequence
+int TimelineData::getNumKeyframes(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getKeyframesArray(sequence).getNumChildren();
+}
 
-	var relativeEndTime = sequence.getProperty(treeId::sequenceDuration);
-	addKeyframe(sequence, var(0));
-	addKeyframe(sequence, relativeEndTime);
 
-	return true;
+// gets the skeyframe with index nthKeyframe of a sequence
+// returns invalid ValueTree if out of bounds
+ValueTree TimelineData::getKeyframe(ValueTree sequence, const int nthKeyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getKeyframesArray(sequence).getChild(nthKeyframe);
 }
 
 // adds a keyframe to the keyframes array of a sequence at the right position
@@ -601,6 +599,23 @@ bool TimelineData::addKeyframe(ValueTree sequence, var keyframePosition) {
 	ValueTree keyframesArray = getKeyframesArray(sequence);
 	keyframesArray.addChild(keyframe, -1, &undoManager);
 	keyframesArray.sort<KeyframesComparator>(keyframesComparator, &undoManager, true);
+	return true;
+}
+
+// initialize the keyframesArray of the sequence
+// creates the start and end keyframe
+// sequence must already be added
+// return whether the sequence was properly initialized
+bool TimelineData::initializeKeyframesArray(ValueTree sequence) {
+	if (!sequence.hasProperty(treeId::sequenceDuration)) {
+		// sequence is not initialized
+		return false;
+	}
+
+	var relativeEndTime = sequence.getProperty(treeId::sequenceDuration);
+	addKeyframe(sequence, var(0));
+	addKeyframe(sequence, relativeEndTime);
+
 	return true;
 }
 
