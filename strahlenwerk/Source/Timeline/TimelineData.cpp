@@ -132,10 +132,10 @@ ValueTree TimelineData::addScene(ValueTree scene, int position) {
 ValueTree TimelineData::addScene(var start, var duration, var shaderSource, int position) {
 	var id = getNewSceneId();
 	ValueTree scene(treeId::scene);
-	scene.setProperty(treeId::sceneId, id, nullptr);
-	scene.setProperty(treeId::sceneStart, start, nullptr);
-	scene.setProperty(treeId::sceneDuration, duration, nullptr);
-	scene.setProperty(treeId::sceneShaderSource, shaderSource, nullptr);
+	setSceneId(scene, id);
+	setSceneStart(scene, start);
+	setSceneDuration(scene, duration);
+	setSceneShaderSource(scene, shaderSource);
 	addSceneUnchecked(scene, position);
 	return scene;
 }
@@ -329,9 +329,9 @@ ValueTree TimelineData::addUniform(ValueTree uniform, int position) {
 // position defaults to -1 (append to end)
 ValueTree TimelineData::addUniform(var name, var type, int position) {
 	ValueTree uniform(treeId::uniform);
-	uniform.setProperty(treeId::uniformName, name, nullptr);
-	uniform.setProperty(treeId::uniformType, type, nullptr); // TODO: check type
-	initializeValue(uniform.getOrCreateChildWithName(treeId::uniformStandardValue, nullptr), type); // TODO
+	setUniformName(uniform, name);
+	setUniformType(uniform, type);
+	initializeValue(getUniformStandardValue(uniform), type);
 	addUniformUnchecked(uniform, position);
 	return uniform;
 }
