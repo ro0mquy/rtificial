@@ -78,14 +78,19 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 
 	const ModifierKeys& mods = event.mods;
 	if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
-		AlertWindow reallyDeleteWindow("Scene", "Delete this Scene for Ever and Ever", AlertWindow::WarningIcon);
+		AlertWindow reallyDeleteWindow("Scene", "Delete this Scene for a Long Time", AlertWindow::WarningIcon);
 		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
 		reallyDeleteWindow.addButton("Maybe", 1, KeyPress('m'));
 		reallyDeleteWindow.addButton("Delete", 2, KeyPress('d'), KeyPress(KeyPress::spaceKey));
 
 		const int returnedChoice = reallyDeleteWindow.runModalLoop();
 		if (returnedChoice != 2) {
-			return;
+			Random random;
+			if (returnedChoice == 1 && random.nextBool()) {
+				// 50% chance to remove the scene
+			} else {
+				return;
+			}
 		}
 
 		data.removeScene(sceneData);
