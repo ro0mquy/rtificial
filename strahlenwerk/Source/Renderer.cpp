@@ -54,7 +54,7 @@ void Renderer::renderOpenGL() {
 	if(scenes == nullptr) {
 		postproc->render(defaultShader, width, height);
 	} else {
-		auto& data = StrahlenwerkApplication::getInstance()->getProject().getTimelineData();
+		auto& data = TimelineData::getTimelineData();
 		const String shaderName = data.getSceneShaderSource(data.getCurrentScene());
 		const int shaderId = scenes->getShaderId(shaderName.toStdString());
 		if(shaderId == -1) {
