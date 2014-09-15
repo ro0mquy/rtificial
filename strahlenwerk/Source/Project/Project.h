@@ -43,7 +43,7 @@ class Project : private efsw::FileWatchListener {
 
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
-		std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> loadSceneShaders();
+		std::vector<std::unique_ptr<SceneShader>> loadSceneShaders();
 		std::vector<std::pair<std::string, std::string>> listShaderSources(const std::vector<File>& files);
 		void postprocChanged();
 		void scenesChanged();

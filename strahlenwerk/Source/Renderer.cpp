@@ -50,10 +50,18 @@ void Renderer::renderOpenGL() {
 	renderMutex.lock();
 	scenesDeletionQueue.clear();
 	postprocDeletionQueue.clear();
+
 	if(scenes == nullptr) {
 		postproc->render(defaultShader, width, height);
 	} else {
-		postproc->render(scenes->getShader(0), width, height);
+		auto& data = StrahlenwerkApplication::getInstance()->getProject().getTimelineData();
+		const String shaderName = data.getSceneShaderSource(data.getCurrentScene());
+		const int shaderId = scenes->getShaderId(shaderName.toStdString());
+		if(shaderId == -1) {
+			postproc->render(defaultShader, width, height);
+		} else {
+			postproc->render(scenes->getShader(shaderId), width, height);
+		}
 	}
 	renderMutex.unlock();
 }

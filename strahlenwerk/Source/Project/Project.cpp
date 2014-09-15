@@ -56,8 +56,8 @@ void Project::reloadPostproc() {
 
 void Project::reloadScenes() {
 	auto shaders = loadSceneShaders();
-	for(auto& p : shaders) {
-		addUniforms(*p.second);
+	for(const auto& shader : shaders) {
+		addUniforms(*shader);
 	}
 	if(!shaders.empty()) {
 		scenes = std::unique_ptr<Scenes>(new Scenes(std::move(shaders)));
@@ -127,12 +127,12 @@ std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
 	return loader.load(*context, mappingSource, shaderSources);
 }
 
-std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> Project::loadSceneShaders() {
+std::vector<std::unique_ptr<SceneShader>> Project::loadSceneShaders() {
 	auto shaderSources = listShaderSources(loader.listSceneFiles());
-	std::vector<std::pair<std::string, std::unique_ptr<SceneShader>>> shaders;
+	std::vector<std::unique_ptr<SceneShader>> shaders;
 	for(auto& shader : shaderSources) {
-		shaders.emplace_back(shader.first, std::unique_ptr<SceneShader>(new SceneShader(*context, shader.first)));
-		shaders.back().second->load(shader.second);
+		shaders.emplace_back(new SceneShader(*context, shader.first));
+		shaders.back()->load(shader.second);
 	}
 	return shaders;
 }
