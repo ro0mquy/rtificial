@@ -4,7 +4,7 @@
 
 uniform float pyramid_h; // float
 uniform float pyramid_s; // float
-uniform float aa; // float
+uniform float pyramid_animation; // float
 
 Material materials[] = Material[](
 	Material(vec3(.1, .1, .1), .5, 0.),
@@ -60,18 +60,20 @@ vec2 f(vec3 p) {
 	vec3 q = rY(TAU * 0.05 * time) * p;
 	q = trans(q, 0., 1.*sin(0.75 * time), 0.);
 
-	q = trans(q, 0.,12.,0.);
-	float pyr = pyramid(q, 10. * pyramid_s, 10. * pyramid_h);
+	float h = 4. * pyramid_animation;
+	vec3 qq = trans(q, 0.,12 - h,0.);
+	float pyr = pyramid(qq, 10. * pyramid_s, 10. * pyramid_h);
 	vec2 pyramid1 = vec2(pyr, MATERIAL_ID_PYRAMID);
 
-	q = trans(q, 0.,-12.,0.);
 	q = rX(TAU * .5) * q;
 	pyr = pyramid(q, 10. * pyramid_s, 10. * pyramid_h);
 	vec2 pyramid2 = vec2(pyr, MATERIAL_ID_PYRAMID);
 
 	q = trans(q, 0., -10.* pyramid_h - .75, 0.);
 	float cube = box(q, vec3(.75,.75,.75));
-	vec2 schalter_cube = vec2(cube, MATERIAL_ID_CUBE);
+	float d = .5 + smoothstep(.5, .75, pyramid_animation)* 5.5;
+	float torus = torus(q, vec2(.5 + d, .5));
+	vec2 schalter_cube = vec2(mix(cube, torus, smoothstep(.5, .75, pyramid_animation)), MATERIAL_ID_CUBE);
 
 	vec2 bottom = vec2(p.y + 2., MATERIAL_ID_FLOOR);
 	vec2 bounding = vec2(-sphere(p - camera_position, 50.), MATERIAL_ID_BOUNDING);
