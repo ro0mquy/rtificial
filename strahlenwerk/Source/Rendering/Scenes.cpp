@@ -2,12 +2,13 @@
 
 #include "SceneShader.h"
 
-Scenes::Scenes(std::vector<std::unique_ptr<SceneShader>> shaders) :
-	shaders(std::move(shaders))
+Scenes::Scenes(std::vector<std::unique_ptr<SceneShader>> _shaders) :
+	shaders(std::move(_shaders))
 {
 	int i = 0;
 	for(const auto& shader : shaders) {
 		shaderLookup.emplace(shader->getName(), i);
+		i++;
 	}
 }
 
