@@ -128,9 +128,18 @@
     </uniform>
     <uniform uniformName="conic_ring_intensity" uniformType="float">
       <uniformStandardValue valueFloatX="0.5"/>
+      <sequencesArray/>
     </uniform>
     <uniform uniformName="lens_dirt" uniformType="float">
       <uniformStandardValue valueFloatX="0.7"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="pyramid_h" uniformType="float">
+      <uniformStandardValue valueFloatX="0.427"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="pyramid_s" uniformType="float">
+      <uniformStandardValue valueFloatX="0.545"/>
       <sequencesArray/>
     </uniform>
   </uniformsArray>
