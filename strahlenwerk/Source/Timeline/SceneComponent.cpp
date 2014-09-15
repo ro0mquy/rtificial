@@ -10,6 +10,11 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 {
 	const int gridWidth = 20;
 
+	addAndMakeVisible(shaderSourceLabel);
+	Value shaderSourceValue = data.getSceneShaderSourceAsValue(sceneData);
+	shaderSourceLabel.getTextValue().referTo(shaderSourceValue);
+	shaderSourceLabel.setEditable(false, true, false);
+
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
 	constrainer.setGridWidth(gridWidth);
@@ -104,6 +109,7 @@ void SceneComponent::moved() {
 }
 
 void SceneComponent::resized() {
+	shaderSourceLabel.setBounds(getLocalBounds());
 	resizableBorder.setBounds(getLocalBounds());
 	const int newDuration = constrainer.snapValueToGrid(getWidth() / zoomFactor);
 	data.setSceneDuration(sceneData, newDuration);

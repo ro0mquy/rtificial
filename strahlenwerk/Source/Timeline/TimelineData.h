@@ -38,6 +38,8 @@ class TimelineData {
 		var getSceneDuration(ValueTree scene);
 		var getSceneShaderSource(ValueTree scene);
 
+		Value getSceneShaderSourceAsValue(ValueTree scene);
+
 		void setSceneId(ValueTree scene, var id);
 		void setSceneStart(ValueTree scene, var start);
 		void setSceneDuration(ValueTree scene, var duration);

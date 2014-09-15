@@ -177,6 +177,13 @@ var TimelineData::getSceneShaderSource(ValueTree scene) {
 }
 
 
+// gets the shaderSource of a scene as a value
+Value TimelineData::getSceneShaderSourceAsValue(ValueTree scene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return scene.getPropertyAsValue(treeId::sceneShaderSource, &undoManager);
+}
+
+
 // sets the id for the given scene
 void TimelineData::setSceneId(ValueTree scene, var id) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);

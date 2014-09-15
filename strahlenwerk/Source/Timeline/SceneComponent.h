@@ -36,6 +36,7 @@ class SceneComponent :
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
 
+		Label shaderSourceLabel;
 		SnapToGridConstrainer constrainer;
 		ResizableBorderComponent resizableBorder;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SceneComponent)
