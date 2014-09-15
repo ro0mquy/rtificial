@@ -45,6 +45,7 @@ class TimelineData {
 
 		int getLastSceneEndTime();
 		ValueTree getSceneForTime(const int time);
+		ValueTree getCurrentScene();
 		int getNewSceneId();
 
 

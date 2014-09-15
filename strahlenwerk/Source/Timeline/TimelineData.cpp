@@ -257,6 +257,11 @@ ValueTree TimelineData::getSceneForTime(const int absoluteTime) {
 	// */
 }
 
+// returns the scene that should be displayed at the current time
+ValueTree TimelineData::getCurrentScene() {
+	return getSceneForTime(currentTime.getValue());
+}
+
 // returns a scene Id that is currently not used
 int TimelineData::getNewSceneId() {
 	int biggestId = 99; // some room for $stuff
