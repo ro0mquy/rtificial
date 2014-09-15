@@ -9,12 +9,14 @@ uniform float aa; // float
 Material materials[] = Material[](
 	Material(vec3(.1, .1, .1), .5, 0.),
 	Material(vec3(1.), .5, 0.),
-	Material(vec3(.1,.3,.1), 1., 0.)
+	Material(vec3(.1,.3,.1), 1., 0.),
+	Material(vec3(.7, .3, .2), 1., 0.)
 );
 
 #define MATERIAL_ID_FLOOR 0.
 #define MATERIAL_ID_BOUNDING 1.
 #define MATERIAL_ID_PYRAMID 2.
+#define MATERIAL_ID_CUBE 3.
 
 float pyramid(vec3 p, float s, float h);
 
@@ -58,16 +60,20 @@ vec2 f(vec3 p) {
 	vec3 q = rY(TAU * 0.05 * time) * p;
 	q = trans(q, 0., 1.*sin(0.75 * time), 0.);
 
-	q = trans(q, 0.,10.,0.);
+	q = trans(q, 0.,12.,0.);
 	float pyr = pyramid(q, 10. * pyramid_s, 10. * pyramid_h);
 	vec2 pyramid1 = vec2(pyr, MATERIAL_ID_PYRAMID);
 
-	q = trans(q, 0.,-10.,0.);
+	q = trans(q, 0.,-12.,0.);
 	q = rX(TAU * .5) * q;
 	pyr = pyramid(q, 10. * pyramid_s, 10. * pyramid_h);
 	vec2 pyramid2 = vec2(pyr, MATERIAL_ID_PYRAMID);
 
+	q = trans(q, 0., -10.* pyramid_h - .75, 0.);
+	float cube = box(q, vec3(.75,.75,.75));
+	vec2 schalter_cube = vec2(cube, MATERIAL_ID_CUBE);
+
 	vec2 bottom = vec2(p.y + 2., MATERIAL_ID_FLOOR);
 	vec2 bounding = vec2(-sphere(p - camera_position, 50.), MATERIAL_ID_BOUNDING);
-	return min_material(min_material(pyramid1, pyramid2), min_material(bottom, bounding));
+	return min_material(min_material(schalter_cube, min_material(pyramid1, pyramid2)), min_material(bottom, bounding));
 }
