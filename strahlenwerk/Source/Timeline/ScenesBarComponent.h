@@ -2,14 +2,16 @@
 #define SCENESBARCOMPONENT_H
 
 #include <juce>
+#include "MouseCallbackClasses.h"
 #include "ZoomFactor.h"
 
 class TimelineData;
 class SceneComponent;
 
 class ScenesBarComponent :
-	public Component,
-	private ZoomFactor::Listener
+	public McbComponent,
+	private ZoomFactor::Listener,
+	private Value::Listener
 {
 	public:
 		ScenesBarComponent(ZoomFactor& zoomFactor_);
@@ -26,6 +28,7 @@ class ScenesBarComponent :
 		void mouseUp(const MouseEvent& event) override;
 
 		void zoomFactorChanged(ZoomFactor&) override;
+		void valueChanged(Value& value) override;
 
 		enum ColourIds{
 			tickColourId = 0x2300101,

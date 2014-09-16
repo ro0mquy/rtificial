@@ -9,6 +9,7 @@ ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	zoomFactor(zoomFactor_)
 {
 	zoomFactor.addListener(this);
+	data.currentTime.addListener(this);
 	updateSceneComponents();
 }
 
@@ -78,44 +79,64 @@ void ScenesBarComponent::removeSceneComponent(const SceneComponent* toBeDeleted)
 }
 
 void ScenesBarComponent::mouseDown(const MouseEvent& event) {
-	var sceneStart = event.getMouseDownX() / zoomFactor;
-	var sceneDuration = 0;
-	var sceneShaderSource = "dummy" + String(data.getNewSceneId()) + ".glsl";
-	newSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
+	const ModifierKeys& m = event.mods;
+	if (m.isLeftButtonDown() && m.isCommandDown()) {
+		var sceneStart = event.getMouseDownX() / zoomFactor;
+		var sceneDuration = 0;
+		var sceneShaderSource = "dummy" + String(data.getNewSceneId()) + ".glsl";
+		newSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
 
-	newSceneComponent = new SceneComponent(newSceneData, zoomFactor);
-	addAndMakeVisible(newSceneComponent);
+		newSceneComponent = new SceneComponent(newSceneData, zoomFactor);
+		addAndMakeVisible(newSceneComponent);
+	} else {
+		McbComponent::mouseDown(event);
+	}
 }
 
 void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
-	const int gridWidth = 20; // time units
+	// invalid data happens on no left click or no command down
+	if (newSceneData.isValid()) {
+		const int gridWidth = 20; // time units
 
-	const float mouseDown = event.getMouseDownX() / zoomFactor;
-	const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
+		const float mouseDown = event.getMouseDownX() / zoomFactor;
+		const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
 
-	const float mousePos = event.x / zoomFactor;
-	const int mousePosGrid = roundFloatToInt(mousePos / float(gridWidth)) * gridWidth;
+		const float mousePos = event.x / zoomFactor;
+		const int mousePosGrid = roundFloatToInt(mousePos / float(gridWidth)) * gridWidth;
 
-	const int distanceGrid = mousePosGrid - mouseDownGrid;
-	const int absDistanceGrid = abs(distanceGrid);
-	const int startGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
+		const int distanceGrid = mousePosGrid - mouseDownGrid;
+		const int absDistanceGrid = abs(distanceGrid);
+		const int startGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
 
-	data.setSceneStart(newSceneData, startGrid);
-	data.setSceneDuration(newSceneData, absDistanceGrid);
-	newSceneComponent->updateBounds();
+		data.setSceneStart(newSceneData, startGrid);
+		data.setSceneDuration(newSceneData, absDistanceGrid);
+		newSceneComponent->updateBounds();
+	} else {
+		McbComponent::mouseDrag(event);
+	}
 }
 
-void ScenesBarComponent::mouseUp(const MouseEvent& /*event*/) {
-	if (0 == int(data.getSceneDuration(newSceneData))) {
-		newSceneComponent = nullptr;
-		data.removeScene(newSceneData);
+void ScenesBarComponent::mouseUp(const MouseEvent& event) {
+	// invalid data happens on no left click or no command down
+	if (newSceneData.isValid()) {
+		if (0 == int(data.getSceneDuration(newSceneData))) {
+			newSceneComponent = nullptr;
+			data.removeScene(newSceneData);
+		} else {
+			sceneComponentsArray.add(newSceneComponent.release());
+		}
+		newSceneData = ValueTree();
 	} else {
-		sceneComponentsArray.add(newSceneComponent.release());
+		McbComponent::mouseUp(event);
 	}
-	newSceneData = ValueTree();
 }
 
 void ScenesBarComponent::zoomFactorChanged(ZoomFactor&) {
 	updateSize();
+	repaint();
+}
+
+void ScenesBarComponent::valueChanged(Value& /*value*/) {
+	// currentTime changed
 	repaint();
 }
