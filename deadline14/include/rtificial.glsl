@@ -148,6 +148,8 @@ vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
 	vec3 closestPoint = L + centerToRay * clamp(light.radius/length(centerToRay), 0., 1.);
 	vec3 L_spec = normalize(closestPoint);
 
+	float light_distance = distance(p, light.center);
+
 	// specular
 	float PI = acos(-1.);
 	vec3 H = .5 * (L_spec + V);
@@ -158,7 +160,7 @@ vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
 	float alpha2 = square(alpha);
 	float k = square(material.roughness + 1.);
 	float specular_without_F = NdotL * alpha2 / (4. * mix(NdotL, 1., k) * mix(NdotV, 1., k) * PI * square(square(NdotH) * (alpha2 - 1.) + 1.));
-	float alphastrich = clamp(alpha + light.radius * .5 / length(closestPoint), 0., 1.);
+	float alphastrich = clamp(alpha + light.radius * .5 / light_distance, 0., 1.);
 	float spec_norm = alpha2 / (alphastrich * alphastrich);
 
 	float VdotH = dot(V, H);
@@ -168,7 +170,6 @@ vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
 
 	vec3 dielectric_color = .5 * (material.color / PI * NdotL + specular_without_F * F_dielectric);
 	vec3 metal_color = specular_without_F * F_metal;
-	float light_distance = distance(p, closestPoint);
 	float foo = square(1. - square(square(light_distance / light.radius)));
 	float falloff = clamp(foo, 0., 1.) / (square(light_distance) + 1.);
 	return mix(dielectric_color, metal_color, material.metallic) * falloff * light.intensity * light.color * spec_norm;
