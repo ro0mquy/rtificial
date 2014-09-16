@@ -142,6 +142,16 @@
       <uniformStandardValue valueFloatX="0.545"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="pyramid_animation" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray/>
+    </uniform>
   </uniformsArray>
-  <scenesArray/>
+  <scenesArray>
+    <scene sceneId="100" sceneStart="0" sceneDuration="160" sceneShaderSource="schalter"/>
+    <scene sceneId="101" sceneStart="160" sceneDuration="160" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="102" sceneStart="320" sceneDuration="160" sceneShaderSource="zapfen"/>
+    <scene sceneId="103" sceneStart="480" sceneDuration="160" sceneShaderSource="syntakischerspalt"/>
+    <scene sceneId="104" sceneStart="640" sceneDuration="160" sceneShaderSource="raymarching"/>
+  </scenesArray>
 </timelineTree>
