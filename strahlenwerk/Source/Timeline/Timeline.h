@@ -6,6 +6,7 @@
 #include "ScenesBarComponent.h"
 #include "UniformsBarComponent.h"
 #include "ZoomFactor.h"
+#include "SnapToGridConstrainer.h"
 
 class Timeline : public Component
 {
@@ -31,6 +32,7 @@ class Timeline : public Component
 		void callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position);
 
 		ZoomFactor zoomFactor;
+		SnapToGridConstrainer constrainer;
 
 		ViewportCallback viewportSequenceView;
 		ViewportCallback viewportScenesBar;

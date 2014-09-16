@@ -14,6 +14,8 @@ Timeline::Timeline() :
 	addAndMakeVisible(viewportSequenceView);
 	addAndMakeVisible(viewportScenesBar);
 	addAndMakeVisible(viewportUniformsBar);
+
+	constrainer.setGridWidth(20);
 }
 
 void Timeline::resized() {
@@ -61,7 +63,8 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 	if (!isInUniBar && m.isLeftButtonDown() && !m.isAnyModifierKeyDown()) {
 		const MouseEvent eventSeqView = event.getEventRelativeTo(&sequenceView);
 		auto& data = TimelineData::getTimelineData();
-		data.currentTime = jmax(eventSeqView.x, 0) / zoomFactor;
+		const float newTime = jmax(eventSeqView.x, 0) / zoomFactor;
+		data.currentTime = constrainer.snapValueToGrid(newTime);
 	} else {
 		Component::mouseDrag(event);
 	}
