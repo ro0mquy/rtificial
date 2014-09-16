@@ -101,63 +101,61 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	const int rowHeight = 20;
 	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
 	ValueTree uniform = data.getUniform(numUniform);
-	if (!uniform.isValid()) {
-		// click in empty area
-		return;
+
+	// uniform is invalid if click was in empty area
+	const ModifierKeys& m = event.mods;
+	if (m.isLeftButtonDown() && m.isCommandDown() && uniform.isValid()) {
+		const float absoluteStart = event.getMouseDownX() / zoomFactor;
+		const int absoluteStartGrid = roundFloatToInt(absoluteStart / float(gridWidth)) * gridWidth;
+		var sequenceDuration = 0;
+		var sequenceInterpolation = "linear";
+		newSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
+
+		newSequenceComponent = new SequenceComponent(newSequenceData, zoomFactor, numUniform * rowHeight, rowHeight);
+		addAndMakeVisible(newSequenceComponent);
+	} else {
+		McbComponent::mouseDown(event);
 	}
-
-	const float absoluteStart = event.getMouseDownX() / zoomFactor;
-	const int absoluteStartGrid = roundFloatToInt(absoluteStart / float(gridWidth)) * gridWidth;
-	var sequenceDuration = 0;
-	var sequenceInterpolation = "linear";
-	newSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
-
-	newSequenceComponent = new SequenceComponent(newSequenceData, zoomFactor, numUniform * rowHeight, rowHeight);
-	addAndMakeVisible(newSequenceComponent);
-
-	McbComponent::mouseDown(event);
 }
 
 void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
-	if (!newSequenceData.isValid()) {
-		// click in empty area
-		return;
+	// invalid data happens on click in empty area, no left click or no command down
+	if (newSequenceData.isValid()) {
+		const int gridWidth = 20;
+
+		const float mouseDown = event.getMouseDownX() / zoomFactor;
+		const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
+
+		const float mousePos = event.position.getX() / zoomFactor;
+		const int mousePosGrid = roundFloatToInt(mousePos / float(gridWidth)) * gridWidth;
+
+		const int distanceGrid = mousePosGrid - mouseDownGrid;
+		const int absDistanceGrid = abs(distanceGrid);
+
+		const int absoluteStartGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
+
+		data.setSequencePropertiesForAbsoluteStart(newSequenceData, absoluteStartGrid);
+		data.setSequenceDuration(newSequenceData, absDistanceGrid);
+		newSequenceComponent->updateSceneStartValueRefer();
+		newSequenceComponent->updateBounds();
+	} else {
+		McbComponent::mouseDrag(event);
 	}
-
-	const int gridWidth = 20;
-
-	const float mouseDown = event.getMouseDownX() / zoomFactor;
-	const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
-
-	const float mousePos = event.position.getX() / zoomFactor;
-	const int mousePosGrid = roundFloatToInt(mousePos / float(gridWidth)) * gridWidth;
-
-	const int distanceGrid = mousePosGrid - mouseDownGrid;
-	const int absDistanceGrid = abs(distanceGrid);
-
-	const int absoluteStartGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
-
-	data.setSequencePropertiesForAbsoluteStart(newSequenceData, absoluteStartGrid);
-	data.setSequenceDuration(newSequenceData, absDistanceGrid);
-	newSequenceComponent->updateSceneStartValueRefer();
-	newSequenceComponent->updateBounds();
-
-	McbComponent::mouseDrag(event);
 }
 
-void SequenceViewComponent::mouseUp(const MouseEvent& /*event*/) {
-	if (!newSequenceData.isValid()) {
-		// click in empty area
-		return;
-	}
-
-	if (int(data.getSequenceDuration(newSequenceData)) == 0) {
-		newSequenceComponent = nullptr; // this deletes the component
-		data.removeSequence(newSequenceData);
+void SequenceViewComponent::mouseUp(const MouseEvent& event) {
+	// invalid data happens on click in empty area, no left click or no command down
+	if (newSequenceData.isValid()) {
+		if (int(data.getSequenceDuration(newSequenceData)) == 0) {
+			newSequenceComponent = nullptr; // this deletes the component
+			data.removeSequence(newSequenceData);
+		} else {
+			sequenceComponentsArray.add(newSequenceComponent.release()); // release() sets the pointer to nullptr
+		}
+		newSequenceData = ValueTree();
 	} else {
-		sequenceComponentsArray.add(newSequenceComponent.release()); // release() sets the pointer to nullptr
+		McbComponent::mouseUp(event);
 	}
-	newSequenceData = ValueTree();
 }
 
 void SequenceViewComponent::zoomFactorChanged(ZoomFactor&) {
@@ -166,5 +164,6 @@ void SequenceViewComponent::zoomFactorChanged(ZoomFactor&) {
 }
 
 void SequenceViewComponent::valueChanged(Value& /*value*/) {
+	// currentTime changed
 	repaint();
 }
