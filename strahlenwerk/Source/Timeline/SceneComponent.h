@@ -9,7 +9,7 @@
 class TimelineData;
 
 class SceneComponent :
-	public Component,
+	public McbComponent,
 	private ComponentDragger,
 	private ZoomFactor::Listener
 {

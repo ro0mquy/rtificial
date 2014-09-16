@@ -54,33 +54,35 @@ void SceneComponent::paint(Graphics& g) {
 }
 
 void SceneComponent::mouseDown(const MouseEvent& event) {
-	beginDragAutoRepeat(10); // time between drag events
-	startDraggingComponent(this, event);
+	const ModifierKeys& m = event.mods;
+	if (m.isLeftButtonDown() && m.isCommandDown()) {
+		beginDragAutoRepeat(10); // time between drag events
+		startDraggingComponent(this, event);
+	} else {
+		McbComponent::mouseDown(event);
+	}
 }
 
 void SceneComponent::mouseDrag(const MouseEvent& event) {
-	if (event.mouseWasClicked()) {
-		return;
+	const ModifierKeys& m = event.mods;
+	if (!event.mouseWasClicked() && m.isLeftButtonDown() && m.isCommandDown()) {
+		dragComponent(this, event, &constrainer);
+
+		// scroll viewport if necessary
+		Viewport* parentViewport = findParentComponentOfClass<Viewport>();
+		const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
+		// scroll only X- not Y-Direction
+		// current X position gets normally set
+		// current Y position is a constant that is greater than the minimum distance to the border (21 > 20)
+		parentViewport->autoScroll(viewportEvent.x, 21, 20, 5);
+	} else {
+		McbComponent::mouseDrag(event);
 	}
-
-	dragComponent(this, event, &constrainer);
-
-	// scroll viewport if necessary
-	Viewport* parentViewport = findParentComponentOfClass<Viewport>();
-	const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
-	// scroll only X- not Y-Direction
-	// current X position gets normally set
-	// current Y position is a constant that is greater than the minimum distance to the border (21 > 20)
-	parentViewport->autoScroll(viewportEvent.x, 21, 20, 5);
 }
 
 void SceneComponent::mouseUp(const MouseEvent& event) {
-	if (!event.mouseWasClicked()) {
-		return;
-	}
-
-	const ModifierKeys& mods = event.mods;
-	if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
+	const ModifierKeys& m = event.mods;
+	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
 		AlertWindow reallyDeleteWindow("Scene", "Delete this Scene for a Long Time", AlertWindow::WarningIcon);
 		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
 		reallyDeleteWindow.addButton("Maybe", 1, KeyPress('m'));
@@ -98,6 +100,8 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 
 		data.removeScene(sceneData);
 		findParentComponentOfClass<ScenesBarComponent>()->removeSceneComponent(this);
+	} else {
+		McbComponent::mouseUp(event);
 	}
 }
 

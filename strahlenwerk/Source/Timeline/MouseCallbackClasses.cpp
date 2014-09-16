@@ -221,7 +221,8 @@ void McbLabel::mouseMove(const MouseEvent& e) {
 
 // action in here
 void McbLabel::mouseDoubleClick(const MouseEvent& e) {
-    if (isEditableOnDoubleClick() && ! e.mods.isPopupMenu()) {
+    //if (isEditableOnDoubleClick() && ! e.mods.isPopupMenu()) {
+    if (isEditableOnDoubleClick() && e.mods.isLeftButtonDown() && e.mods.isCommandDown()) {
         showEditor();
 	} else {
 		for (Component* parent = getParentComponent();
