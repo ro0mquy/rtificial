@@ -4,11 +4,12 @@
 #include <juce>
 #include "SnapToGridConstrainer.h"
 #include "ZoomFactor.h"
+#include "MouseCallbackClasses.h"
 
 class TimelineData;
 
 class KeyframeComponent :
-	public Component,
+	public McbComponent,
 	private ComponentDragger,
 	private ZoomFactor::Listener
 {

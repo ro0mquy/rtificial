@@ -87,66 +87,70 @@ void SequenceComponent::paint(Graphics& g) {
 }
 
 void SequenceComponent::mouseDown(const MouseEvent& event) {
-	beginDragAutoRepeat(10); // time between drag events
-	startDraggingComponent(this, event);
+	const ModifierKeys& m = event.mods;
+	if (m.isLeftButtonDown() && m.isCommandDown()) {
+		beginDragAutoRepeat(10); // time between drag events
+		startDraggingComponent(this, event);
+	} else {
+		McbComponent::mouseDown(event);
+	}
 }
 
 void SequenceComponent::mouseDrag(const MouseEvent& event) {
-	if (event.mouseWasClicked()) {
-		return;
+	const ModifierKeys& m = event.mods;
+	if (!event.mouseWasClicked() && m.isLeftButtonDown() && m.isCommandDown()) {
+		dragComponent(this, event, &constrainer);
+
+		// scroll viewport if necessary
+		Viewport* parentViewport = findParentComponentOfClass<Viewport>();
+		const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
+		// scroll only X- not Y-Direction
+		// current X position gets normally set
+		// current Y position is a constant that is greater than the minimum distance to the border (21 > 20)
+		parentViewport->autoScroll(viewportEvent.x, 21, 20, 5);
+	} else {
+		McbComponent::mouseDrag(event);
 	}
-
-	dragComponent(this, event, &constrainer);
-
-	// scroll viewport if necessary
-	Viewport* parentViewport = findParentComponentOfClass<Viewport>();
-	const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
-	// scroll only X- not Y-Direction
-	// current X position gets normally set
-	// current Y position is a constant that is greater than the minimum distance to the border (21 > 20)
-	parentViewport->autoScroll(viewportEvent.x, 21, 20, 5);
 }
 
 void SequenceComponent::mouseUp(const MouseEvent& event) {
-	if (!event.mouseWasClicked()) {
-		// do nothing on drag
-		return;
-	}
+	const ModifierKeys& m = event.mods;
+	if (event.mouseWasClicked() && m.isCommandDown() && (m.isLeftButtonDown() || m.isMiddleButtonDown())) {
+		if (m.isLeftButtonDown()) {
+			// add keyframe
+			const int gridWidth = 20;
 
-	const ModifierKeys& mods = event.mods;
+			const float mouseDown = event.getMouseDownX() * zoomFactor;
+			const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
 
-	if (mods.isLeftButtonDown()) {
-		// add keyframe
-		const int gridWidth = 20;
+			const int sequenceDuration = data.getSequenceDuration(sequenceData);
+			if (mouseDownGrid == 0 || mouseDownGrid == sequenceDuration) {
+				// don't set keyframe at start or end
+				return;
+			}
 
-		const float mouseDown = event.getMouseDownX() * zoomFactor;
-		const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
+			ValueTree keyframeData = data.addKeyframe(sequenceData, mouseDownGrid);
 
-		const int sequenceDuration = data.getSequenceDuration(sequenceData);
-		if (mouseDownGrid == 0 || mouseDownGrid == sequenceDuration) {
-			// don't set keyframe at start or end
-			return;
+			auto keyframeComponent = new KeyframeComponent(keyframeData, zoomFactor);
+			addAndMakeVisible(keyframeComponent);
+			keyframeComponentsArray.add(keyframeComponent);
+
+		} else if (m.isMiddleButtonDown()) {
+			// delete sequence
+			AlertWindow reallyDeleteWindow("Sequence", L"Delëte this Sequence for a Long Time?", AlertWindow::WarningIcon);
+			reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
+			reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
+
+			const int returnedChoice = reallyDeleteWindow.runModalLoop();
+			if (returnedChoice != 1) {
+				return;
+			}
+
+			data.removeSequence(sequenceData);
+			findParentComponentOfClass<SequenceViewComponent>()->removeSequenceComponent(this);
 		}
-
-		ValueTree keyframeData = data.addKeyframe(sequenceData, mouseDownGrid);
-
-		auto keyframeComponent = new KeyframeComponent(keyframeData, zoomFactor);
-		addAndMakeVisible(keyframeComponent);
-		keyframeComponentsArray.add(keyframeComponent);
-
-	} else if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
-		// delete sequence
-		AlertWindow reallyDeleteWindow("Sequence", L"Delëte this Sequence for a Long Time?", AlertWindow::WarningIcon);
-		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
-		reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
-
-		const int returnedChoice = reallyDeleteWindow.runModalLoop();
-		if (returnedChoice != 1) {
-			return;
-		}
-
-		data.removeSequence(sequenceData);
-		findParentComponentOfClass<SequenceViewComponent>()->removeSequenceComponent(this);
+	} else {
+		McbComponent::mouseUp(event);
 	}
 }
 

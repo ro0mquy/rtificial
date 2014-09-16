@@ -31,22 +31,28 @@ void KeyframeComponent::paint(Graphics& g) {
 }
 
 void KeyframeComponent::mouseDown(const MouseEvent& event) {
-	startDraggingComponent(this, event);
+	const ModifierKeys& m = event.mods;
+	if (m.isLeftButtonDown() && m.isCommandDown()) {
+		startDraggingComponent(this, event);
+	} else {
+		McbComponent::mouseDown(event);
+	}
 }
 
 void KeyframeComponent::mouseDrag(const MouseEvent& event) {
-	dragComponent(this, event, &constrainer);
-	// center keyframe on grid
-	setTopLeftPosition(getPosition().translated(-getWidth() / 2, 0));
+	const ModifierKeys& m = event.mods;
+	if (!event.mouseWasClicked() && m.isLeftButtonDown() && m.isCommandDown()) {
+		dragComponent(this, event, &constrainer);
+		// center keyframe on grid
+		setTopLeftPosition(getPosition().translated(-getWidth() / 2, 0));
+	} else {
+		McbComponent::mouseDrag(event);
+	}
 }
 
 void KeyframeComponent::mouseUp(const MouseEvent& event) {
-	if (!event.mouseWasClicked()) {
-		return;
-	}
-
-	const ModifierKeys& mods = event.mods;
-	if (mods.isMiddleButtonDown() && mods.isCtrlDown()) {
+	const ModifierKeys& m = event.mods;
+	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
 		AlertWindow reallyDeleteWindow("Keyframe", "Delete this Keyframe for a Long Time", AlertWindow::WarningIcon);
 		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
 		reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
@@ -58,6 +64,8 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 
 		data.removeKeyframe(keyframeData);
 		findParentComponentOfClass<SequenceComponent>()->removeKeyframeComponent(this);
+	} else {
+		McbComponent::mouseUp(event);
 	}
 }
 
