@@ -175,6 +175,10 @@ vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
 	return mix(dielectric_color, metal_color, material.metallic) * falloff * light.intensity * light.color * spec_norm;
 }
 
+vec3 emit_light(vec3 N, vec3 V, vec3 color, float intensity) {
+	return color * intensity * pdot(N, V);
+}
+
 vec3 domrepv(vec3 p, vec3 c) {
 	return mod(p, c) - .5 * c;
 }
