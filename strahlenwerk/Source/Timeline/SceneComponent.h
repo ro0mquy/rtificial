@@ -4,6 +4,7 @@
 #include <juce>
 #include "SnapToGridConstrainer.h"
 #include "ZoomFactor.h"
+#include "MouseCallbackClasses.h"
 
 class TimelineData;
 
@@ -36,7 +37,7 @@ class SceneComponent :
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
 
-		Label shaderSourceLabel;
+		McbLabel shaderSourceLabel;
 		SnapToGridConstrainer constrainer;
 		ResizableBorderComponent resizableBorder;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SceneComponent)

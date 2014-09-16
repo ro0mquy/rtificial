@@ -74,6 +74,10 @@
         <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
       </GROUP>
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
+        <FILE id="VrNo2o" name="MouseCallbackClasses.cpp" compile="1" resource="0"
+              file="Source/Timeline/MouseCallbackClasses.cpp"/>
+        <FILE id="CZ4PL1" name="MouseCallbackClasses.h" compile="0" resource="0"
+              file="Source/Timeline/MouseCallbackClasses.h"/>
         <FILE id="SqLxqZ" name="CameraMath.cpp" compile="1" resource="0" file="Source/Timeline/CameraMath.cpp"/>
         <FILE id="il7nWq" name="CameraMath.h" compile="0" resource="0" file="Source/Timeline/CameraMath.h"/>
         <FILE id="c5KgXu" name="CameraController.cpp" compile="1" resource="0"

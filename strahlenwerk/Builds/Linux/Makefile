@@ -68,6 +68,7 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/MouseCallbackClasses_88049c4b.o \
   $(OBJDIR)/CameraMath_ba81f35c.o \
   $(OBJDIR)/CameraController_be1bf2b0.o \
   $(OBJDIR)/ZoomFactor_9cf7cc11.o \
@@ -200,6 +201,11 @@ $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
 $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling UniformManager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/MouseCallbackClasses_88049c4b.o: ../../Source/Timeline/MouseCallbackClasses.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling MouseCallbackClasses.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/CameraMath_ba81f35c.o: ../../Source/Timeline/CameraMath.cpp

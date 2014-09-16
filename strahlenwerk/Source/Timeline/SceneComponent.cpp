@@ -10,10 +10,12 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 {
 	const int gridWidth = 20;
 
-	addAndMakeVisible(shaderSourceLabel);
 	Value shaderSourceValue = data.getSceneShaderSourceAsValue(sceneData);
 	shaderSourceLabel.getTextValue().referTo(shaderSourceValue);
 	shaderSourceLabel.setEditable(false, true, false);
+	shaderSourceLabel.setJustificationType(Justification::centred);
+	//shaderSourceLabel.setColour(Label::textColourId, findColour(SceneComponent::textColourId)); // TODO: find out why this throws an assertion
+	addAndMakeVisible(shaderSourceLabel);
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
@@ -49,10 +51,6 @@ void SceneComponent::paint(Graphics& g) {
 
 	g.setColour(findColour(SceneComponent::outlineColourId));
 	g.drawRoundedRectangle(rect, cornerSize, outlineThickness);
-
-	String shaderSourceName = data.getSceneShaderSource(sceneData);
-	g.setColour(findColour(SceneComponent::textColourId));
-	g.drawText(shaderSourceName, rect, Justification(Justification::centred), true);
 }
 
 void SceneComponent::mouseDown(const MouseEvent& event) {
