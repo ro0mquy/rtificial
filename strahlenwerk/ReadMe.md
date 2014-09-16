@@ -13,7 +13,7 @@
 * `[Shift]+[Scroll]` scroll timeline horizontically
 * `[Ctrl]+[Scroll]` zoom timeline (zoom in to mouse position, zoom out of screen center)
 * `[Click]` set time position
-* `[F8]` save all timeline data to `timeline.xml`
+* `[Ctrl]+S` save all timeline data to `timeline.xml`
 
 #### Scenes
 * `[Ctrl]+[Drag]` create new scene or move already existing
