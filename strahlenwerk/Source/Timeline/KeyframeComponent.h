@@ -11,6 +11,7 @@ class TimelineData;
 class KeyframeComponent :
 	public McbComponent,
 	private ComponentDragger,
+	private ValueTree::Listener,
 	private ZoomFactor::Listener
 {
 	public:
@@ -25,6 +26,12 @@ class KeyframeComponent :
 		void zoomFactorChanged(ZoomFactor&) override;
 
 		void updateBounds();
+
+        void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
+        void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
+        void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
+        void valueTreeChildOrderChanged(ValueTree& parentTree) override;
+        void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
 		enum ColourIds {
 			fillColourId = 0x9414001,

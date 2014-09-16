@@ -1,12 +1,14 @@
 #include "KeyframeComponent.h"
 #include "SequenceComponent.h"
 #include "TimelineData.h"
+#include "TreeIdentifiers.h"
 
 KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
 	keyframeData(keyframeData_),
 	data(TimelineData::getTimelineData()),
 	zoomFactor(zoomFactor_)
 {
+	keyframeData.addListener(this);
 	zoomFactor.addListener(this);
 
 	// don't drag over the parent's edges
@@ -81,4 +83,24 @@ void KeyframeComponent::parentHierarchyChanged() {
 
 void KeyframeComponent::zoomFactorChanged(ZoomFactor&) {
 	updateBounds();
+}
+
+// ValueTree::Listener callbacks
+void KeyframeComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& property) {
+	// parent is always the keyframeData tree
+	if (property == treeId::keyframePosition) {
+		updateBounds();
+	}
+}
+
+void KeyframeComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenAdded*/) {
+}
+
+void KeyframeComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
+}
+
+void KeyframeComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+}
+
+void KeyframeComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }
