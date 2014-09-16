@@ -84,7 +84,7 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
 		AlertWindow reallyDeleteWindow("Scene", "Delete this Scene for a Long Time", AlertWindow::WarningIcon);
-		reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
+		reallyDeleteWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
 		reallyDeleteWindow.addButton("Maybe", 1, KeyPress('m'));
 		reallyDeleteWindow.addButton("Delete", 2, KeyPress('d'), KeyPress(KeyPress::spaceKey));
 

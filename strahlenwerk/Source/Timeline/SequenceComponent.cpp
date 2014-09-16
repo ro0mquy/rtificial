@@ -138,7 +138,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		} else if (m.isMiddleButtonDown()) {
 			// delete sequence
 			AlertWindow reallyDeleteWindow("Sequence", L"Delëte this Sequence for a Long Time?", AlertWindow::WarningIcon);
-			reallyDeleteWindow.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
+			reallyDeleteWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
 			reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
 
 			const int returnedChoice = reallyDeleteWindow.runModalLoop();
