@@ -1,5 +1,4 @@
 #include "KeyframeComponent.h"
-#include "SequenceComponent.h"
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 
@@ -65,7 +64,6 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 		}
 
 		data.removeKeyframe(keyframeData);
-		findParentComponentOfClass<SequenceComponent>()->removeKeyframeComponent(this);
 	} else {
 		McbComponent::mouseUp(event);
 	}

@@ -37,8 +37,9 @@ class KeyframeComponent :
 			fillColourId = 0x9414001,
 		};
 
-	private:
 		ValueTree keyframeData;
+
+	private:
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
 		SnapToGridConstrainer constrainer;

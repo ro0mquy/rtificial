@@ -10,6 +10,9 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 	zoomFactor(zoomFactor_),
 	resizableBorder(this, &constrainer)
 {
+	// register for changes of the whole timeline tree
+	data.addListenerToTree(this);
+
 	// initialize the value pointing to the start time of the scene this sequence belongs to
 	updateSceneStartValueRefer();
 	sceneStartValue.addListener(this);
@@ -31,7 +34,7 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 	addAndMakeVisible(resizableBorder);
 
 	// add keyframe components
-	updateKeyframeComponents();
+	addAllKeyframeComponents();
 }
 
 void SequenceComponent::valueChanged(Value& /*value*/) {
@@ -48,6 +51,12 @@ void SequenceComponent::updateBounds() {
 	setBounds(bounds);
 }
 
+void SequenceComponent::addKeyframeComponent(ValueTree keyframeData) {
+	auto keyframeComponent = new KeyframeComponent(keyframeData, zoomFactor);
+	addAndMakeVisible(keyframeComponent);
+	keyframeComponentsArray.add(keyframeComponent);
+}
+
 // update the value sceneStartValue refers to
 void SequenceComponent::updateSceneStartValueRefer() {
 	const var sceneId = data.getSequenceSceneId(sequenceData);
@@ -56,21 +65,26 @@ void SequenceComponent::updateSceneStartValueRefer() {
 	sceneStartValue.referTo(sceneForSequence.getPropertyAsValue("sceneStart", nullptr));
 }
 
-void SequenceComponent::updateKeyframeComponents() {
+void SequenceComponent::addAllKeyframeComponents() {
 	keyframeComponentsArray.clearQuick(true);
 	const int numKeyframes = data.getNumKeyframes(sequenceData);
 
 	// don't create a component for first and last keyframe
 	for (int i = 1; i < numKeyframes - 1; i++) {
 		ValueTree keyframeData = data.getKeyframe(sequenceData, i);
-		auto keyframeComponent = new KeyframeComponent(keyframeData, zoomFactor);
-		addAndMakeVisible(keyframeComponent);
-		keyframeComponentsArray.add(keyframeComponent);
+		addKeyframeComponent(keyframeData);
 	}
 }
 
-void SequenceComponent::removeKeyframeComponent(const KeyframeComponent* toBeDeleted) {
-	keyframeComponentsArray.removeObject(toBeDeleted);
+KeyframeComponent* SequenceComponent::getKeyframeComponentForData(ValueTree keyframeData) {
+	const int componentsArraySize = keyframeComponentsArray.size();
+	for (int i = 0; i < componentsArraySize; i++) {
+		auto keyframeComponent = keyframeComponentsArray.getUnchecked(i);
+		if (keyframeComponent->keyframeData == keyframeData) {
+			return keyframeComponent;
+		}
+	}
+	return nullptr;
 }
 
 void SequenceComponent::paint(Graphics& g) {
@@ -170,4 +184,27 @@ void SequenceComponent::resized() {
 
 void SequenceComponent::zoomFactorChanged(ZoomFactor&) {
 	updateBounds();
+}
+
+// ValueTree::Listener callbacks
+void SequenceComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
+}
+
+void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+	if (data.getKeyframesArray(sequenceData) == parentTree) {
+		addKeyframeComponent(childWhichHasBeenAdded);
+	}
+}
+
+void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+	if (data.getKeyframesArray(sequenceData) == parentTree) {
+		auto keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
+		keyframeComponentsArray.removeObject(keyframeComponent);
+	}
+}
+
+void SequenceComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+}
+
+void SequenceComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }

@@ -12,6 +12,7 @@ class KeyframeComponent;
 class SequenceComponent :
 	public McbComponent,
 	private ComponentDragger,
+	private ValueTree::Listener,
 	private ZoomFactor::Listener,
 	private Value::Listener
 {
@@ -27,9 +28,16 @@ class SequenceComponent :
 		void zoomFactorChanged(ZoomFactor&) override;
 
 		void updateBounds();
+		void addKeyframeComponent(ValueTree keyframeData);
 		void updateSceneStartValueRefer();
-		void updateKeyframeComponents();
-		void removeKeyframeComponent(const KeyframeComponent* toBeDeleted);
+		void addAllKeyframeComponents();
+		KeyframeComponent* getKeyframeComponentForData(ValueTree keyframeData);
+
+        void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
+        void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
+        void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
+        void valueTreeChildOrderChanged(ValueTree& parentTree) override;
+        void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
 		enum ColourIds {
 			fillColourId = 0x4934001,
