@@ -114,6 +114,8 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 
 	newSequenceComponent = new SequenceComponent(newSequenceData, zoomFactor, numUniform * rowHeight, rowHeight);
 	addAndMakeVisible(newSequenceComponent);
+
+	McbComponent::mouseDown(event);
 }
 
 void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
@@ -140,7 +142,6 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 	newSequenceComponent->updateSceneStartValueRefer();
 	newSequenceComponent->updateBounds();
 
-	repaint();
 	McbComponent::mouseDrag(event);
 }
 

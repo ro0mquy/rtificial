@@ -42,10 +42,29 @@ void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& 
 	zoomFactor *= exp(wheel.deltaY);
 }
 
+void Timeline::mouseDown(const MouseEvent& event) {
+	const int uniformsBarWidth = 150;
+	const bool isInUniBar = event.getMouseDownX() < uniformsBarWidth;
+	const ModifierKeys& m = event.mods;
+	if (!isInUniBar && m.isLeftButtonDown() && !m.isAnyModifierKeyDown()) {
+		// set current Time
+		mouseDrag(event);
+	} else {
+		Component::mouseDown(event);
+	}
+}
+
 void Timeline::mouseDrag(const MouseEvent& event) {
 	const int uniformsBarWidth = 150;
-	auto& data = TimelineData::getTimelineData();
-	data.currentTime = (event.x - uniformsBarWidth) / zoomFactor;
+	const bool isInUniBar = event.getMouseDownX() < uniformsBarWidth;
+	const ModifierKeys& m = event.mods;
+	if (!isInUniBar && m.isLeftButtonDown() && !m.isAnyModifierKeyDown()) {
+		const MouseEvent eventSeqView = event.getEventRelativeTo(&sequenceView);
+		auto& data = TimelineData::getTimelineData();
+		data.currentTime = jmax(eventSeqView.x, 0) / zoomFactor;
+	} else {
+		Component::mouseDrag(event);
+	}
 }
 
 ZoomFactor& Timeline::getZoomFactor() {
