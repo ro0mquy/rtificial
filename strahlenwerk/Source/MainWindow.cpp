@@ -91,7 +91,7 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			break;
 		case MainWindow::reload:
 			result.setInfo("Reload", "Reload everything", programCategory, 0);
-			result.addDefaultKeypress('r', ModifierKeys::noModifiers);
+			result.addDefaultKeypress(KeyPress::F5Key, ModifierKeys::noModifiers);
 			break;
 		case MainWindow::saveTimeline:
 			result.setInfo("Save Timeline", "Save the timeline data to a file", programCategory, 0);
