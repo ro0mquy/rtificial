@@ -34,7 +34,7 @@ void main() {
 		float intensity = 3. * sin(length(q.xz) * .1 -3. *  time) * .5 + .5;
 		q.xz = mod(q.xz, 30.);
 		grid = step(q.x, .5) + step(q.z, .5);
-		color += grid * vec3(1., 0., 0.) * .1 * intensity;
+		color += emit_light(normal, -dir, vec3(1., 0., 0.), grid * intensity);
 	}
 	color += apply_light(p, normal, -dir, mat, light1);
 
