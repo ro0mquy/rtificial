@@ -38,8 +38,7 @@ void main() {
 	}
 	color += apply_light(p, normal, -dir, mat, light1);
 
-	//output_color(color, distance(camera_position, p));
-	output_color(color, 4. + .1);
+	output_color(color, distance(camera_position, p));
 }
 
 float boden(vec3 p);

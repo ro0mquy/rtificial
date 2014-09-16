@@ -35,9 +35,7 @@ vec3 tonemap(vec3 color) {
 void main() {
 	vec4 dofColor = textureLod(dof, tc, 0.);
 	vec3 color = textureLod(orig, tc, 0.).rgb;
-
-	color = mix(color, dofColor.rgb, clamp(1000. * (abs(dofColor.a / 1920.) - .001), 0., 1.));
-
+	color = mix(color, dofColor.rgb, clamp(abs(dofColor.a) - 1., 0., 1.));
 
 	// bloom
 	vec3 bloom = vec3(0.);
