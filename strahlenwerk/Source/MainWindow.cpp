@@ -87,15 +87,15 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			break;
 		case MainWindow::openProject:
 			result.setInfo("Open Project", "Open a strahlenwerk project", programCategory, 0);
-			result.addDefaultKeypress('o', ModifierKeys::ctrlModifier);
+			result.addDefaultKeypress('o', ModifierKeys::commandModifier);
 			break;
 		case MainWindow::reload:
 			result.setInfo("Reload Shaders", "Reload all Shaders", programCategory, 0);
-			result.addDefaultKeypress('r', ModifierKeys::ctrlModifier);
+			result.addDefaultKeypress('r', ModifierKeys::commandModifier);
 			break;
 		case MainWindow::saveTimeline:
 			result.setInfo("Save Timeline", "Save the timeline data to a file", programCategory, 0);
-			result.addDefaultKeypress('s', ModifierKeys::ctrlModifier);
+			result.addDefaultKeypress('s', ModifierKeys::commandModifier);
 			break;
 		default:
 			break;

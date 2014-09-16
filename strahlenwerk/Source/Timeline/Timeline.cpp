@@ -37,11 +37,11 @@ void Timeline::resized() {
 }
 
 void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) {
-	if (!event.mods.isCtrlDown()) {
+	if (event.mods.isCommandDown()) {
+		zoomFactor *= exp(wheel.deltaY);
+	} else {
 		Component::mouseWheelMove(event, wheel);
 	}
-
-	zoomFactor *= exp(wheel.deltaY);
 }
 
 void Timeline::mouseDown(const MouseEvent& event) {
