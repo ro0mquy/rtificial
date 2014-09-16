@@ -13,6 +13,8 @@ class Timeline : public Component
 		Timeline();
 		void resized() override;
 		void mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) override;
+		void mouseDown(const MouseEvent& event) override;
+		void mouseDrag(const MouseEvent& event) override;
 
 		ZoomFactor& getZoomFactor();
 

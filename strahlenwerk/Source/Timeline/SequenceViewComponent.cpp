@@ -10,6 +10,7 @@ SequenceViewComponent::SequenceViewComponent(ZoomFactor& zoomFactor_) :
 	zoomFactor(zoomFactor_)
 {
 	zoomFactor.addListener(this);
+	data.currentTime.addListener(this);
 	updateSequenceComponents();
 }
 
@@ -138,6 +139,9 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 	data.setSequenceDuration(newSequenceData, absDistanceGrid);
 	newSequenceComponent->updateSceneStartValueRefer();
 	newSequenceComponent->updateBounds();
+
+	repaint();
+	McbComponent::mouseDrag(event);
 }
 
 void SequenceViewComponent::mouseUp(const MouseEvent& /*event*/) {
@@ -157,5 +161,9 @@ void SequenceViewComponent::mouseUp(const MouseEvent& /*event*/) {
 
 void SequenceViewComponent::zoomFactorChanged(ZoomFactor&) {
 	updateSize();
+	repaint();
+}
+
+void SequenceViewComponent::valueChanged(Value& /*value*/) {
 	repaint();
 }

@@ -1,4 +1,5 @@
 #include "Timeline.h"
+#include "TimelineData.h"
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
@@ -39,6 +40,12 @@ void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& 
 	}
 
 	zoomFactor *= exp(wheel.deltaY);
+}
+
+void Timeline::mouseDrag(const MouseEvent& event) {
+	const int uniformsBarWidth = 150;
+	auto& data = TimelineData::getTimelineData();
+	data.currentTime = (event.x - uniformsBarWidth) / zoomFactor;
 }
 
 ZoomFactor& Timeline::getZoomFactor() {

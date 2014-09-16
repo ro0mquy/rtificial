@@ -3,13 +3,15 @@
 
 #include <juce>
 #include "ZoomFactor.h"
+#include "MouseCallbackClasses.h"
 
 class TimelineData;
 class SequenceComponent;
 
 class SequenceViewComponent :
-	public Component,
-	private ZoomFactor::Listener
+	public McbComponent,
+	private ZoomFactor::Listener,
+	private Value::Listener
 {
 	public:
 		SequenceViewComponent(ZoomFactor& zoomFactor_);
@@ -26,6 +28,7 @@ class SequenceViewComponent :
 		void mouseUp(const MouseEvent& event) override;
 
 		void zoomFactorChanged(ZoomFactor&) override;
+		void valueChanged(Value& value) override;
 
 		enum ColourIds{
 			timeMarkerColourId = 0x8350102,
