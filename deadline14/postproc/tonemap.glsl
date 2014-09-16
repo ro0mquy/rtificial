@@ -8,7 +8,8 @@ uniform sampler2D luminance; // float level(11)
 uniform sampler2D bloom_big; // vec3
 uniform sampler2D bloom_medium; // vec3
 uniform sampler2D bloom_small; // vec3
-uniform sampler2D dof; // vec3
+uniform sampler2D dof; // vec4
+uniform sampler2D orig; // vec3
 
 uniform float lens_dirt;
 uniform float bloom_amount;
@@ -32,7 +33,11 @@ vec3 tonemap(vec3 color) {
 }
 
 void main() {
-	vec3 color = textureLod(dof, tc, 0.).rgb;
+	vec4 dofColor = textureLod(dof, tc, 0.);
+	vec3 color = textureLod(orig, tc, 0.).rgb;
+
+	color = mix(color, dofColor.rgb, clamp(1000. * (abs(dofColor.a / 1920.) - .001), 0., 1.));
+
 
 	// bloom
 	vec3 bloom = vec3(0.);

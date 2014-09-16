@@ -1,28 +1,31 @@
 #include "post_head.glsl"
 #include "bokeh.glsl"
+#line 4
 
 uniform sampler2D upwards; // vec4
 uniform sampler2D both; // vec4
-out vec3 out_color;
+out vec4 out_color;
 
-vec3 calculate_color(vec2 direction, sampler2D color_coc_tex) {
+vec4 gatherDirection(sampler2D texture, vec3 baseColor, float baseCoC, vec2 dir) {
 	vec2 pixelSize = 1./res;
-	vec3 accumulation = vec3(0.);
-	int n = 0;
-	float this_coc = textureLod(color_coc_tex, tc, 0.).a;
+	vec4 accum = vec4(vec3(0.), baseCoC);
+	float sum = 0.;
 
-	for(float i = 0; i < kernelSize; i++) {
-		vec4 other_color_coc = texture2D(color_coc_tex, tc + i * pixelSize * direction);
-		if (shouldBlur(this_coc, other_color_coc.a, i)) {
-			accumulation += other_color_coc.rgb;
-			n++;
-		}
+	for(int i = 0; i < kernelSize; i++) {
+		float dist = i + .5;
+		vec4 other = textureLod(texture, tc + dist * pixelSize * dir, 0.);
+		sum += gatherAndApply(other.rgb, other.a, baseCoC, dist, accum);
 	}
-	return accumulation / n;
+
+	accum.rgb /= max(sum, 1e-6);
+	return accum;
 }
 
 void main() {
-	vec3 value_down_left = calculate_color(vec2(cos(radians(30.)), sin(radians(30.))), upwards);
-	vec3 value_down_right = calculate_color(vec2(cos(radians(150.)), sin(radians(150.))), both);
-	out_color = (value_down_left + value_down_right) / 3.;
+	vec4 base = textureLod(both, tc, 0.);
+
+	vec4 downLeftBlur = gatherDirection(upwards, base.rgb, base.a, vec2(cos(radians(30.)), sin(radians(30.))));
+	vec4 downRightBlur = gatherDirection(both, base.rgb, base.a, vec2(cos(radians(150.)), sin(radians(150.))));
+
+	out_color = vec4((downLeftBlur.rgb + downRightBlur.rgb) / 3., max(abs(downLeftBlur.a), abs(downRightBlur.a)));
 }

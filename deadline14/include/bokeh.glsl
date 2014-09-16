@@ -1,11 +1,22 @@
 float kernelSize = 13.;
 
-bool shouldBlur(float this_coc, float other_coc, float distance) {
-	float quotient = other_coc / this_coc;
-	return
-		abs(other_coc) - distance > -1e-6 && (
-				// TODO: edit the following lines
-		(other_coc < 0. && (quotient > .99 || quotient < 0.)) ||
-		(other_coc > 0. && (quotient > 0. && quotient < 1.01))
-		);
+float gatherAndApply(vec3 color, float CoC, float baseCoC, float dist, inout vec4 outColor) {
+	bool blurNear = CoC < 0.;
+	float absCoC = abs(CoC);
+
+	if((absCoC > dist) && (blurNear || (baseCoC > 0. && absCoC < baseCoC * 2.))) {
+		if(blurNear) {
+			if(outColor.a < 0.) {
+				outColor.a = min(outColor.a, CoC);
+			} else {
+				if(-CoC > outColor.a) {
+					outColor.a = CoC;
+				}
+			}
+		}
+		float frac = clamp(absCoC - dist, 0., 1.);
+		outColor.rgb += frac * color;
+		return frac;
+	}
+	return 0.;
 }
