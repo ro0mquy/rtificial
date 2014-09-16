@@ -242,6 +242,7 @@ Perlin Noise ist schicker Gradient Noise, und sieht deshalb viel besser aus. Ist
 Daher gibts auch noch den schnellen Value Noise, für wenn mans eh nicht sieht.
 Außerdem noch fbm Varianten davon (cfbm, vfbm), die mehrere Oktaven kombinieren und ein wenig spannender sind.
 Gefühlt kommt vfbm näher an cfbm, als vnoise an cnoise, und cfbm ist noch mal ordentlich teuer.
+Der Wertebereich ist jeweils [-1, 1]! (das ist keine Fakultät)
 */
 
 
@@ -406,7 +407,7 @@ float rand(vec2 c) {
 float rand(vec3 c) {
     vec3 m = mod289(c);
 	vec3 h = permute(m);
-    return fract(permute(h.x * h.y * h.z + m.x + m.y + m.z)/41.);
+    return fract(permute(h.x * h.y * h.z + m.x + m.y + m.z)/41.) * 2. - 1.;
 }
 
 // see noise section above
