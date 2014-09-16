@@ -45,8 +45,8 @@ void main() {
 
 	// TODO ordentlicher noise
 	out_color = col + grain_intensity * vec3( // so schön weerboß
-			cnoise(1./(10. * grain_freq)  * gl_FragCoord.xy + time * 5000.),
-			cnoise(1./(10. * grain_freq)  * gl_FragCoord.xy + 30. + time * 5000.),
-			cnoise(1./(10. * grain_freq)  * gl_FragCoord.xy + 70. + time * 5000.)
+			cfbm(1./(10. * grain_freq)  * gl_FragCoord.xy + 2100. * time),
+			cfbm(1./(10. * grain_freq)  * gl_FragCoord.xy + 2300. * time),
+			cfbm(1./(10. * grain_freq)  * gl_FragCoord.xy + 2900. * time)
 			);
 }

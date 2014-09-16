@@ -235,12 +235,42 @@ float impulse(float k, float x) {
 	return h * exp(1. - h);
 }
 
+/*
+Noise - nützlich für fast alles! Daher auch gleich mal ne Menge verschiedenen.
+Wir haben klassichen Perlin Noise (cnoise - classical noise), sowie Value Noise (vnoise), jeweils für 2D und 3D.
+Perlin Noise ist schicker Gradient Noise, und sieht deshalb viel besser aus. Ist aber auch teurer.
+Daher gibts auch noch den schnellen Value Noise, für wenn mans eh nicht sieht.
+Außerdem noch fbm Varianten davon (cfbm, vfbm), die mehrere Oktaven kombinieren und ein wenig spannender sind.
+Gefühlt kommt vfbm näher an cfbm, als vnoise an cnoise, und cfbm ist noch mal ordentlich teuer.
+*/
+
+
+float mod289(float x) {
+  return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
+vec2 mod289(vec2 x) {
+  return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
 vec3 mod289(vec3 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
 vec4 mod289(vec4 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
+float permute(float x) {
+  return mod289(((x*34.0)+1.0)*x);
+}
+
+vec2 permute(vec2 x) {
+  return mod289(((x*34.0)+1.0)*x);
+}
+
+vec3 permute(vec3 x) {
+  return mod289(((x*34.0)+1.0)*x);
 }
 
 vec4 permute(vec4 x) {
@@ -259,7 +289,7 @@ vec3 fade(vec3 t) {
   return t*t*t*(t*(t*6.0-15.0)+10.0);
 }
 
-// Classic Perlin noise
+// see noise section above
 float cnoise(vec2 P) {
 	vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
 	vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
@@ -298,7 +328,7 @@ float cnoise(vec2 P) {
 	return 2.3 * n_xy;
 }
 
-// Classic Perlin noise
+// see noise section above
 float cnoise(vec3 P) {
 	vec3 Pi0 = floor(P); // Integer part for indexing
 	vec3 Pi1 = Pi0 + vec3(1.0); // Integer part + 1
@@ -365,4 +395,79 @@ float cnoise(vec3 P) {
 	vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);
 	float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
 	return 2.2 * n_xyz;
+}
+
+float rand(vec2 c) {
+    vec2 m = mod289(c);
+	vec2 h = permute(m);
+    return fract(permute(h.x * h.y + m.x + m.y)/41.);
+}
+
+float rand(vec3 c) {
+    vec3 m = mod289(c);
+	vec3 h = permute(m);
+    return fract(permute(h.x * h.y * h.z + m.x + m.y + m.z)/41.);
+}
+
+// see noise section above
+float vnoise(vec2 c) {
+	vec2 c0 = floor(c);
+    vec2 t = fract(c);
+
+    vec2 o = vec2(1., 0.);
+    float v00 = rand(c0 + o.yy);
+    float v01 = rand(c0 + o.yx);
+    float v10 = rand(c0 + o.xy);
+    float v11 = rand(c0 + o.xx);
+
+    t = fade(t);
+    return mix(mix(v00, v10, t.x), mix(v01, v11, t.x), t.y);
+}
+
+// see noise section above
+float vnoise(vec3 c) {
+	vec3 c0 = floor(c);
+    vec3 t = fract(c);
+
+    vec2 o = vec2(1., 0.);
+    float v000 = rand(c0 + o.yyy);
+    float v001 = rand(c0 + o.yyx);
+    float v010 = rand(c0 + o.yxy);
+    float v011 = rand(c0 + o.yxx);
+    float v100 = rand(c0 + o.xyy);
+    float v101 = rand(c0 + o.xyx);
+    float v110 = rand(c0 + o.xxy);
+    float v111 = rand(c0 + o.xxx);
+
+	t = fade(t);
+	return mix(
+		mix(
+			mix(v000, v100, t.x),
+			mix(v010, v110, t.x),
+			t.y),
+		mix(
+			mix(v001, v101, t.x),
+			mix(v011, v111, t.x),
+			t.y),
+		t.z);
+}
+
+// see noise section above
+float cfbm(vec2 c) {
+	return (cnoise(c) + cnoise(c * 2.) * .5 + cnoise(c * 4.) * .25)/1.75;
+}
+
+// see noise section above
+float cfbm(vec3 c) {
+	return (cnoise(c) + cnoise(c * 2.) * .5 + cnoise(c * 4.) * .25)/1.75;
+}
+
+// see noise section above
+float vfbm(vec2 c) {
+	return (vnoise(c) + vnoise(c * 2.) * .5 + vnoise(c * 4.) * .25)/1.75;
+}
+
+// see noise section above
+float vfbm(vec3 c) {
+	return (vnoise(c) + vnoise(c * 2.) * .5 + vnoise(c * 4.) * .25)/1.75;
 }

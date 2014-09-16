@@ -39,11 +39,11 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_freq" uniformType="float">
-      <uniformStandardValue valueFloatX="0.301"/>
+      <uniformStandardValue valueFloatX="0.167"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="0.003"/>
+      <uniformStandardValue valueFloatX="0.03"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="bloom_amount" uniformType="float">
