@@ -399,6 +399,13 @@ void TimelineData::setUniformStandardValue(ValueTree uniform, ValueTree standard
 }
 
 
+// returns the index of the uniform in the uniformsArray
+int TimelineData::getUniformIndex(ValueTree uniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getUniformsArray().indexOf(uniform);
+}
+
+
 
 // retrieves the sequences array for a given uniform
 ValueTree TimelineData::getSequencesArray(ValueTree uniform) {
@@ -688,6 +695,12 @@ void TimelineData::initializeKeyframesArray(ValueTree sequence) {
 	var relativeEndTime = getSequenceDuration(sequence);
 	addKeyframe(sequence, 0);
 	addKeyframe(sequence, relativeEndTime);
+}
+
+// returns the index of the keyframe in it's keyframesArray
+int TimelineData::getKeyframeIndex(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getParent().indexOf(keyframe);
 }
 
 

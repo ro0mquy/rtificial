@@ -10,6 +10,7 @@ class SequenceComponent;
 
 class SequenceViewComponent :
 	public McbComponent,
+	private ValueTree::Listener,
 	private ZoomFactor::Listener,
 	private Value::Listener
 {
@@ -20,7 +21,8 @@ class SequenceViewComponent :
 		void updateSize();
 		void paint(Graphics& g) override;
 		void paintOverChildren(Graphics& g) override;
-		void updateSequenceComponents();
+		void addSequenceComponent(ValueTree sequenceData);
+		void addAllSequenceComponents();
 		void removeSequenceComponent(const SequenceComponent* toBeDeleted);
 
 		void mouseDown(const MouseEvent& event) override;
@@ -29,6 +31,12 @@ class SequenceViewComponent :
 
 		void zoomFactorChanged(ZoomFactor&) override;
 		void valueChanged(Value& value) override;
+
+        void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
+        void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
+        void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
+        void valueTreeChildOrderChanged(ValueTree& parentTree) override;
+        void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
 		enum ColourIds{
 			timeMarkerColourId = 0x8350102,

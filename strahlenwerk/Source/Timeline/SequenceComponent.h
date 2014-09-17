@@ -16,7 +16,7 @@ class SequenceComponent :
 	private ZoomFactor::Listener
 {
 	public:
-		SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_, int y, int height);
+		SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_);
 		void paint(Graphics& g) override;
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;

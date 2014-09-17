@@ -71,6 +71,8 @@ class TimelineData {
 		void setUniformType(ValueTree uniform, var type);
 		void setUniformStandardValue(ValueTree uniform, ValueTree standardValue);
 
+		int getUniformIndex(ValueTree uniform);
+
 
 		// sequence stuff
 		ValueTree getSequencesArray(ValueTree uniform);
@@ -116,6 +118,7 @@ class TimelineData {
 		void setKeyframeValue(ValueTree keyframe, ValueTree value);
 
 		void initializeKeyframesArray(ValueTree sequence);
+		int getKeyframeIndex(ValueTree keyframe);
 
 
 		// value stuff

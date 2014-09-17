@@ -5,7 +5,7 @@
 #include "KeyframeComponent.h"
 #include "SequenceViewComponent.h"
 
-SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_, int y, int height) :
+SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_) :
 	sequenceData(_sequenceData),
 	data(TimelineData::getTimelineData()),
 	zoomFactor(zoomFactor_),
@@ -17,9 +17,8 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 	// register for zoom factor changes
 	zoomFactor.addListener(this);
 
-	// set the initial y-coordinate and height
+	// set size and position
 	updateBounds();
-	setBounds(getBounds().withY(y).withHeight(height));
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
@@ -35,13 +34,13 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 }
 
 void SequenceComponent::updateBounds() {
+	const int rowHeight = 20;
 	const float start = (float) data.getAbsoluteStartForSequence(sequenceData) * zoomFactor;
 	const float duration = (float) data.getSequenceDuration(sequenceData) * zoomFactor;
+	const int nthUniform = data.getUniformIndex(data.getSequenceParentUniform(sequenceData));
+	jassert(nthUniform >= 0);
 
-	Rectangle<int> bounds = getBounds();
-	bounds.setX(start);
-	bounds.setWidth(duration);
-	setBounds(bounds);
+	setBounds(start, nthUniform * rowHeight, duration, rowHeight);
 }
 
 void SequenceComponent::addKeyframeComponent(ValueTree keyframeData) {
@@ -193,6 +192,12 @@ void SequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Id
 
 void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
+		const int keyframeIndex = data.getKeyframeIndex(childWhichHasBeenAdded);
+		const int numKeyframes = data.getNumKeyframes(sequenceData);
+		if (keyframeIndex == 0 || keyframeIndex == numKeyframes - 1) {
+			// don't add a component for first or last keyframe
+			return;
+		}
 		addKeyframeComponent(childWhichHasBeenAdded);
 	}
 }

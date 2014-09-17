@@ -9,9 +9,10 @@ SequenceViewComponent::SequenceViewComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
 	zoomFactor(zoomFactor_)
 {
+	data.addListenerToTree(this);
 	zoomFactor.addListener(this);
 	data.currentTime.addListener(this);
-	updateSequenceComponents();
+	addAllSequenceComponents();
 }
 
 SequenceViewComponent::~SequenceViewComponent() = default;
@@ -74,8 +75,13 @@ bool SequenceViewComponent::uniformActiveForScene(ValueTree uniform, ValueTree s
 	return hash % 2 != 0;
 }
 
-void SequenceViewComponent::updateSequenceComponents() {
-	const int rowHeight = 20;
+void SequenceViewComponent::addSequenceComponent(ValueTree sequenceData) {
+	auto sequenceComponent = new SequenceComponent(sequenceData, zoomFactor);
+	addAndMakeVisible(sequenceComponent);
+	sequenceComponentsArray.add(sequenceComponent);
+}
+
+void SequenceViewComponent::addAllSequenceComponents() {
 	sequenceComponentsArray.clearQuick(true);
 	const int numUniforms = data.getNumUniforms();
 
@@ -85,9 +91,7 @@ void SequenceViewComponent::updateSequenceComponents() {
 
 		for (int j = 0; j < numSequences; j++) {
 			ValueTree sequenceData = data.getSequence(uniform, j);
-			auto sequenceComponent = new SequenceComponent(sequenceData, zoomFactor, i*rowHeight, rowHeight);
-			addAndMakeVisible(sequenceComponent);
-			sequenceComponentsArray.add(sequenceComponent);
+			addSequenceComponent(sequenceData);
 		}
 	}
 }
@@ -110,9 +114,6 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 		var sequenceDuration = 0;
 		var sequenceInterpolation = "linear";
 		newSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
-
-		newSequenceComponent = new SequenceComponent(newSequenceData, zoomFactor, numUniform * rowHeight, rowHeight);
-		addAndMakeVisible(newSequenceComponent);
 	} else {
 		McbComponent::mouseDown(event);
 	}
@@ -164,4 +165,23 @@ void SequenceViewComponent::zoomFactorChanged(ZoomFactor&) {
 void SequenceViewComponent::valueChanged(Value& /*value*/) {
 	// currentTime changed
 	repaint();
+}
+
+// ValueTree::Listener callbacks
+void SequenceViewComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+}
+
+void SequenceViewComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+	if (data.isSequence(childWhichHasBeenAdded)) {
+		addSequenceComponent(childWhichHasBeenAdded);
+	}
+}
+
+void SequenceViewComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+}
+
+void SequenceViewComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+}
+
+void SequenceViewComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }
