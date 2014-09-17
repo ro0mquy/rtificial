@@ -2,6 +2,7 @@
 
 #include <RtColourIds.h>
 #include "TimelineData.h"
+#include "TreeIdentifiers.h"
 #include "ValueEditorPropertyComponent.h"
 
 UniformsBarComponent::UniformsBarComponent() :
@@ -74,16 +75,23 @@ void UniformsBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, c
 }
 
 void UniformsBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenAdded) {
-	if (data.isUniform(childWhichHasBeenAdded)) {
+	if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
 		updateSize();
 		repaint();
 	}
 }
 
-void UniformsBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
+void UniformsBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved) {
+	if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
+		updateSize();
+		repaint();
+	}
 }
 
-void UniformsBarComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void UniformsBarComponent::valueTreeChildOrderChanged(ValueTree& parentTree) {
+	if (parentTree == data.getUniformsArray()) {
+		repaint();
+	}
 }
 
 void UniformsBarComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
