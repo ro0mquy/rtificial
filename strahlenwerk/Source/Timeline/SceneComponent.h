@@ -39,8 +39,9 @@ class SceneComponent :
 			textColourId = 0x2300105,
 		};
 
-	private:
 		ValueTree sceneData;
+
+	private:
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
 

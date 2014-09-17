@@ -80,8 +80,15 @@ void ScenesBarComponent::addAllSceneComponents() {
 	}
 }
 
-void ScenesBarComponent::removeSceneComponent(const SceneComponent* toBeDeleted) {
-	sceneComponentsArray.removeObject(toBeDeleted);
+SceneComponent* ScenesBarComponent::getSceneComponentForData(ValueTree sceneData) {
+	const int componentsArraySize = sceneComponentsArray.size();
+	for (int i = 0; i < componentsArraySize; i++) {
+		auto sceneComponent = sceneComponentsArray.getUnchecked(i);
+		if (sceneComponent->sceneData == sceneData) {
+			return sceneComponent;
+		}
+	}
+	return nullptr;
 }
 
 void ScenesBarComponent::mouseDown(const MouseEvent& event) {
@@ -90,7 +97,7 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 		var sceneStart = event.getMouseDownX() / zoomFactor;
 		var sceneDuration = 0;
 		var sceneShaderSource = "szenchen" + String(data.getNewSceneId());
-		newSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
+		currentlyCreatedSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
 	} else {
 		McbComponent::mouseDown(event);
 	}
@@ -98,7 +105,7 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 
 void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 	// invalid data happens on no left click or no command down
-	if (newSceneData.isValid()) {
+	if (currentlyCreatedSceneData.isValid()) {
 		const int gridWidth = 20; // time units
 
 		const float mouseDown = event.getMouseDownX() / zoomFactor;
@@ -111,8 +118,8 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 		const int absDistanceGrid = abs(distanceGrid);
 		const int startGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
 
-		data.setSceneStart(newSceneData, startGrid);
-		data.setSceneDuration(newSceneData, absDistanceGrid);
+		data.setSceneStart(currentlyCreatedSceneData, startGrid);
+		data.setSceneDuration(currentlyCreatedSceneData, absDistanceGrid);
 	} else {
 		McbComponent::mouseDrag(event);
 	}
@@ -120,14 +127,11 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 
 void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	// invalid data happens on no left click or no command down
-	if (newSceneData.isValid()) {
-		if (0 == int(data.getSceneDuration(newSceneData))) {
-			newSceneComponent = nullptr;
-			data.removeScene(newSceneData);
-		} else {
-			sceneComponentsArray.add(newSceneComponent.release());
+	if (currentlyCreatedSceneData.isValid()) {
+		if (0 == int(data.getSceneDuration(currentlyCreatedSceneData))) {
+			data.removeScene(currentlyCreatedSceneData);
 		}
-		newSceneData = ValueTree();
+		currentlyCreatedSceneData = ValueTree();
 	} else {
 		McbComponent::mouseUp(event);
 	}
@@ -153,7 +157,12 @@ void ScenesBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTre
 	}
 }
 
-void ScenesBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
+void ScenesBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved) {
+	if (data.isScene(childWhichHasBeenRemoved)) {
+		auto sceneComponent = getSceneComponentForData(childWhichHasBeenRemoved);
+		jassert(sceneComponent != nullptr);
+		sceneComponentsArray.removeObject(sceneComponent);
+	}
 }
 
 void ScenesBarComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {

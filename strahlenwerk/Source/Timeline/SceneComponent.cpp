@@ -1,5 +1,4 @@
 #include "SceneComponent.h"
-#include "ScenesBarComponent.h"
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 
@@ -101,7 +100,6 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 		}
 
 		data.removeScene(sceneData);
-		findParentComponentOfClass<ScenesBarComponent>()->removeSceneComponent(this);
 	} else {
 		McbComponent::mouseUp(event);
 	}

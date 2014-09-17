@@ -23,7 +23,7 @@ class ScenesBarComponent :
 		void paintOverChildren(Graphics& g) override;
 		void addSceneComponent(ValueTree sceneData);
 		void addAllSceneComponents();
-		void removeSceneComponent(const SceneComponent* toBeDeleted);
+		SceneComponent* getSceneComponentForData(ValueTree sceneData);
 
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
@@ -48,8 +48,7 @@ class ScenesBarComponent :
 		ZoomFactor& zoomFactor;
 		OwnedArray<SceneComponent> sceneComponentsArray;
 
-		ValueTree newSceneData;
-		ScopedPointer<SceneComponent> newSceneComponent;
+		ValueTree currentlyCreatedSceneData;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScenesBarComponent)
 };
