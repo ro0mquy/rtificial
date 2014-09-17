@@ -148,12 +148,19 @@ void ScenesBarComponent::valueChanged(Value& /*value*/) {
 }
 
 // ValueTree::Listener callbacks
-void ScenesBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
+void ScenesBarComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& /*property*/) {
+	if (parentTree.hasType(treeId::scene)) {
+		updateSize();
+		repaint();
+	}
 }
 
 void ScenesBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenAdded) {
 	if (data.isScene(childWhichHasBeenAdded)) {
 		addSceneComponent(childWhichHasBeenAdded);
+	} else if (childWhichHasBeenAdded.hasType(treeId::scene)) {
+		updateSize();
+		repaint();
 	}
 }
 
@@ -162,6 +169,9 @@ void ScenesBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueT
 		auto sceneComponent = getSceneComponentForData(childWhichHasBeenRemoved);
 		jassert(sceneComponent != nullptr);
 		sceneComponentsArray.removeObject(sceneComponent);
+	} else if (childWhichHasBeenRemoved.hasType(treeId::scene)) {
+		updateSize();
+		repaint();
 	}
 }
 
