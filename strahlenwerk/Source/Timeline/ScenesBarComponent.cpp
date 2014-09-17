@@ -148,7 +148,7 @@ void ScenesBarComponent::valueChanged(Value& /*value*/) {
 }
 
 // ValueTree::Listener callbacks
-void ScenesBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& property) {
+void ScenesBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
 }
 
 void ScenesBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenAdded) {

@@ -53,8 +53,7 @@ class SequenceViewComponent :
 		ZoomFactor& zoomFactor;
 		OwnedArray<SequenceComponent> sequenceComponentsArray;
 
-		ValueTree newSequenceData;
-		ScopedPointer<SequenceComponent> newSequenceComponent;
+		ValueTree currentlyCreatedSequenceData;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceViewComponent)
 };

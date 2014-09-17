@@ -121,7 +121,7 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 		const int absoluteStartGrid = roundFloatToInt(absoluteStart / float(gridWidth)) * gridWidth;
 		var sequenceDuration = 0;
 		var sequenceInterpolation = "linear";
-		newSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
+		currentlyCreatedSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
 	} else {
 		McbComponent::mouseDown(event);
 	}
@@ -129,7 +129,7 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 
 void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 	// invalid data happens on click in empty area, no left click or no command down
-	if (newSequenceData.isValid()) {
+	if (currentlyCreatedSequenceData.isValid()) {
 		const int gridWidth = 20;
 
 		const float mouseDown = event.getMouseDownX() / zoomFactor;
@@ -143,8 +143,8 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 
 		const int absoluteStartGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
 
-		data.setSequencePropertiesForAbsoluteStart(newSequenceData, absoluteStartGrid);
-		data.setSequenceDuration(newSequenceData, absDistanceGrid);
+		data.setSequencePropertiesForAbsoluteStart(currentlyCreatedSequenceData, absoluteStartGrid);
+		data.setSequenceDuration(currentlyCreatedSequenceData, absDistanceGrid);
 	} else {
 		McbComponent::mouseDrag(event);
 	}
@@ -152,14 +152,11 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 
 void SequenceViewComponent::mouseUp(const MouseEvent& event) {
 	// invalid data happens on click in empty area, no left click or no command down
-	if (newSequenceData.isValid()) {
-		if (int(data.getSequenceDuration(newSequenceData)) == 0) {
-			newSequenceComponent = nullptr; // this deletes the component
-			data.removeSequence(newSequenceData);
-		} else {
-			sequenceComponentsArray.add(newSequenceComponent.release()); // release() sets the pointer to nullptr
+	if (currentlyCreatedSequenceData.isValid()) {
+		if (int(data.getSequenceDuration(currentlyCreatedSequenceData)) == 0) {
+			data.removeSequence(currentlyCreatedSequenceData);
 		}
-		newSequenceData = ValueTree();
+		currentlyCreatedSequenceData = ValueTree();
 	} else {
 		McbComponent::mouseUp(event);
 	}
@@ -198,6 +195,7 @@ void SequenceViewComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, Value
 void SequenceViewComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved) {
 	if (data.isSequence(childWhichHasBeenRemoved)) {
 		auto sequenceComponent = getSequenceComponentForData(childWhichHasBeenRemoved);
+		jassert(sequenceComponent != nullptr);
 		sequenceComponentsArray.removeObject(sequenceComponent);
 	} else if (childWhichHasBeenRemoved.hasType(treeId::scene)) {
 		updateSize();

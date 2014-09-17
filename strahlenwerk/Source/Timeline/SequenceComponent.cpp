@@ -203,6 +203,7 @@ void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& ch
 void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
 		auto keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
+		jassert(keyframeComponent != nullptr);
 		keyframeComponentsArray.removeObject(keyframeComponent);
 	}
 }
