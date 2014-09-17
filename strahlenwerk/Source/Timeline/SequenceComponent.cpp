@@ -1,6 +1,7 @@
 #include "SequenceComponent.h"
 
 #include "TimelineData.h"
+#include "TreeIdentifiers.h"
 #include "KeyframeComponent.h"
 #include "SequenceViewComponent.h"
 
@@ -12,10 +13,6 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 {
 	// register for changes of the whole timeline tree
 	data.addListenerToTree(this);
-
-	// initialize the value pointing to the start time of the scene this sequence belongs to
-	updateSceneStartValueRefer();
-	sceneStartValue.addListener(this);
 
 	// register for zoom factor changes
 	zoomFactor.addListener(this);
@@ -37,10 +34,6 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 	addAllKeyframeComponents();
 }
 
-void SequenceComponent::valueChanged(Value& /*value*/) {
-	updateBounds();
-}
-
 void SequenceComponent::updateBounds() {
 	const float start = (float) data.getAbsoluteStartForSequence(sequenceData) * zoomFactor;
 	const float duration = (float) data.getSequenceDuration(sequenceData) * zoomFactor;
@@ -55,14 +48,6 @@ void SequenceComponent::addKeyframeComponent(ValueTree keyframeData) {
 	auto keyframeComponent = new KeyframeComponent(keyframeData, zoomFactor);
 	addAndMakeVisible(keyframeComponent);
 	keyframeComponentsArray.add(keyframeComponent);
-}
-
-// update the value sceneStartValue refers to
-void SequenceComponent::updateSceneStartValueRefer() {
-	const var sceneId = data.getSequenceSceneId(sequenceData);
-	ValueTree sceneForSequence = data.getScene(sceneId);
-	// TODO: remove this sceneStartValue completly or add a get*AsValue function
-	sceneStartValue.referTo(sceneForSequence.getPropertyAsValue("sceneStart", nullptr));
 }
 
 void SequenceComponent::addAllKeyframeComponents() {
@@ -172,7 +157,6 @@ void SequenceComponent::moved() {
 	// update the sceneId and relativ start time
 	const int newStart = constrainer.snapValueToGrid(getX() / zoomFactor);
 	data.setSequencePropertiesForAbsoluteStart(sequenceData, newStart);
-	updateSceneStartValueRefer();
 }
 
 void SequenceComponent::resized() {
@@ -187,7 +171,20 @@ void SequenceComponent::zoomFactorChanged(ZoomFactor&) {
 }
 
 // ValueTree::Listener callbacks
-void SequenceComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
+void SequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+	if (property == treeId::sceneStart) {
+		if (parentTree == data.getScene(data.getSequenceSceneId(sequenceData))) {
+			// the scene this sequence belongs to has been moved
+			updateBounds();
+		} else {
+			// another scene has been moved, so maybe this sequence now belongs to another scene
+			const int absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
+			data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
+		}
+	} else if (property == treeId::sceneDuration) {
+			const int absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
+			data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
+	}
 }
 
 void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {

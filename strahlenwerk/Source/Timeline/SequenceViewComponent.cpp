@@ -136,7 +136,6 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 
 		data.setSequencePropertiesForAbsoluteStart(newSequenceData, absoluteStartGrid);
 		data.setSequenceDuration(newSequenceData, absDistanceGrid);
-		newSequenceComponent->updateSceneStartValueRefer();
 		newSequenceComponent->updateBounds();
 	} else {
 		McbComponent::mouseDrag(event);

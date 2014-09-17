@@ -13,13 +13,11 @@ class SequenceComponent :
 	public McbComponent,
 	private ComponentDragger,
 	private ValueTree::Listener,
-	private ZoomFactor::Listener,
-	private Value::Listener
+	private ZoomFactor::Listener
 {
 	public:
 		SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_, int y, int height);
 		void paint(Graphics& g) override;
-		void valueChanged(Value& /*value*/) override;
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
@@ -29,7 +27,6 @@ class SequenceComponent :
 
 		void updateBounds();
 		void addKeyframeComponent(ValueTree keyframeData);
-		void updateSceneStartValueRefer();
 		void addAllKeyframeComponents();
 		KeyframeComponent* getKeyframeComponentForData(ValueTree keyframeData);
 
@@ -48,7 +45,7 @@ class SequenceComponent :
 		ValueTree sequenceData;
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
-		Value sceneStartValue;
+
 		SnapToGridConstrainer constrainer;
 		ResizableBorderComponent resizableBorder;
 		OwnedArray<KeyframeComponent> keyframeComponentsArray;
