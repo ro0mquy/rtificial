@@ -146,6 +146,14 @@
       <uniformStandardValue valueFloatX="1"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="focal_length" uniformType="float">
+      <uniformStandardValue valueFloatX="0.032"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="f_stop" uniformType="float">
+      <uniformStandardValue valueFloatX="0.22"/>
+      <sequencesArray/>
+    </uniform>
   </uniformsArray>
   <scenesArray>
     <scene sceneId="100" sceneStart="0" sceneDuration="160" sceneShaderSource="schalter"/>

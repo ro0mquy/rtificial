@@ -6,6 +6,10 @@ uniform vec3 camera_up;
 
 uniform float time;
 
+#ifndef FOCAL_LENGTH
+uniform float focal_length;
+#endif
+
 float TAU = 6.28318530718;
 
 // TODO camera FOV
@@ -15,7 +19,7 @@ mat3 get_camera() {
 }
 
 vec3 get_direction() {
-	return get_camera() * normalize(vec3((gl_FragCoord.xy - .5 * res) / res.y , -1.));
+	return get_camera() * normalize(vec3((gl_FragCoord.xy - .5 * res) / res.x , -focal_length / .03));
 }
 
 vec2 f(vec3 p);
