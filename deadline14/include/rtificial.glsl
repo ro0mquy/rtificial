@@ -43,7 +43,7 @@ vec3 calc_normal(vec3 p) {
 		f(p + epilepsilon.xyy)[0] - f(p - epilepsilon.xyy)[0],
 		f(p + epilepsilon.yxy)[0] - f(p - epilepsilon.yxy)[0],
 		f(p + epilepsilon.yyx)[0] - f(p - epilepsilon.yyx)[0]
-	));
+	) + 1e-9);
 }
 
 float sphere(vec3 p, float s) {
