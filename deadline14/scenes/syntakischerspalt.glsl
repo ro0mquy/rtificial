@@ -10,14 +10,12 @@ uniform float cc; // float
 uniform float dd; // float
 
 Material materials[] = Material[](
-	Material(synapse_color, 0.7, 1.),
-	Material(vec3(.03, .0, .0), .5, 0.),
-	Material(vec3(1.), .5, 0.)
+	Material(vec3(1.), .5, 0.),
+	Material(synapse_color, 0.7, 1.)
 );
 
-#define MATERIAL_ID_SYNAPSE 0.
-#define MATERIAL_ID_FLOOR 1.
-#define MATERIAL_ID_BOUNDING 2.
+#define MATERIAL_ID_BOUNDING 0.
+#define MATERIAL_ID_SYNAPSE 1.
 
 void main(void) {
 	vec3 direction = get_direction();
@@ -40,7 +38,7 @@ void main(void) {
 vec2 f(vec3 p) {
 	float domrep_x = 50.;
 	float domrep_z = 30.;
-	vec3 q = domrep(p, domrep_x, 1., domrep_z);
+	vec3 q = domrep(p, domrep_x, 0., domrep_z);
 	q.y = p.y;
 	q.x = abs(q.x);
 	q.z += 5.;
@@ -55,7 +53,6 @@ vec2 f(vec3 p) {
 	float capsule = line(q, vec3(2.,0.,0.), vec3(20.,0.,0.), mix(aa, bb, smoothstep(10.*cc, 10*dd, q.x)));
 
 	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), MATERIAL_ID_SYNAPSE);
-	vec2 bottom = vec2(p.y + 2., MATERIAL_ID_FLOOR);
 	vec2 bounding = vec2(-sphere(p - camera_position, 50.), MATERIAL_ID_BOUNDING);
-	return min_material(synapse, min_material(bottom, bounding));
+	return min_material(synapse, bounding);
 }
