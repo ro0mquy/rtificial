@@ -23,7 +23,7 @@ class SequenceViewComponent :
 		void paintOverChildren(Graphics& g) override;
 		void addSequenceComponent(ValueTree sequenceData);
 		void addAllSequenceComponents();
-		void removeSequenceComponent(const SequenceComponent* toBeDeleted);
+		SequenceComponent* getSequenceComponentForData(ValueTree sequenceData);
 
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;

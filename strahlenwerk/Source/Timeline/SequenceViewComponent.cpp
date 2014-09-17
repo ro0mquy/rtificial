@@ -96,8 +96,15 @@ void SequenceViewComponent::addAllSequenceComponents() {
 	}
 }
 
-void SequenceViewComponent::removeSequenceComponent(const SequenceComponent* toBeDeleted) {
-	sequenceComponentsArray.removeObject(toBeDeleted);
+SequenceComponent* SequenceViewComponent::getSequenceComponentForData(ValueTree sequenceData) {
+	const int componentsArraySize = sequenceComponentsArray.size();
+	for (int i = 0; i < componentsArraySize; i++) {
+		auto sequenceComponent = sequenceComponentsArray.getUnchecked(i);
+		if (sequenceComponent->sequenceData == sequenceData) {
+			return sequenceComponent;
+		}
+	}
+	return nullptr;
 }
 
 void SequenceViewComponent::mouseDown(const MouseEvent& event) {
@@ -168,16 +175,20 @@ void SequenceViewComponent::valueChanged(Value& /*value*/) {
 }
 
 // ValueTree::Listener callbacks
-void SequenceViewComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+void SequenceViewComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
 }
 
-void SequenceViewComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+void SequenceViewComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenAdded) {
 	if (data.isSequence(childWhichHasBeenAdded)) {
 		addSequenceComponent(childWhichHasBeenAdded);
 	}
 }
 
-void SequenceViewComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+void SequenceViewComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved) {
+	if (data.isSequence(childWhichHasBeenRemoved)) {
+		auto sequenceComponent = getSequenceComponentForData(childWhichHasBeenRemoved);
+		sequenceComponentsArray.removeObject(sequenceComponent);
+	}
 }
 
 void SequenceViewComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {

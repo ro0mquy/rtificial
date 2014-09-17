@@ -41,8 +41,9 @@ class SequenceComponent :
 			outlineColourId = 0x4934002,
 		};
 
-	private:
 		ValueTree sequenceData;
+
+	private:
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
 

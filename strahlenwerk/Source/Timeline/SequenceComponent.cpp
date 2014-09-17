@@ -3,7 +3,6 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include "KeyframeComponent.h"
-#include "SequenceViewComponent.h"
 
 SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_) :
 	sequenceData(_sequenceData),
@@ -145,7 +144,6 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 			}
 
 			data.removeSequence(sequenceData);
-			findParentComponentOfClass<SequenceViewComponent>()->removeSequenceComponent(this);
 		}
 	} else {
 		McbComponent::mouseUp(event);
