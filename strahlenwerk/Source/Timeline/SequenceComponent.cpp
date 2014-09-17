@@ -172,7 +172,11 @@ void SequenceComponent::zoomFactorChanged(ZoomFactor&) {
 
 // ValueTree::Listener callbacks
 void SequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
-	if (property == treeId::sceneStart) {
+	if (parentTree == sequenceData) {
+		// any of the sequence properties changed
+		// (may ignore sequenceInterpolation change?)
+		updateBounds();
+	} else if (property == treeId::sceneStart) {
 		if (parentTree == data.getScene(data.getSequenceSceneId(sequenceData))) {
 			// the scene this sequence belongs to has been moved
 			updateBounds();
