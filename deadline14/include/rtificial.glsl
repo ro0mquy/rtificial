@@ -159,7 +159,7 @@ vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
 	float alpha = square(material.roughness);
 	float alpha2 = square(alpha);
 	float k = square(material.roughness + 1.);
-	float specular_without_F = NdotL * alpha2 / (4. * mix(NdotL, 1., k) * mix(NdotV, 1., k) * PI * square(square(NdotH) * (alpha2 - 1.) + 1.));
+	float specular_without_F = alpha2 / (4. * mix(NdotL, 1., k) * mix(NdotV, 1., k) * PI * square(square(NdotH) * (alpha2 - 1.) + 1.));
 	float alphastrich = clamp(alpha + light.radius * .5 / light_distance, 0., 1.);
 	float spec_norm = alpha2 / (alphastrich * alphastrich);
 
@@ -168,11 +168,11 @@ vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
 	float F_dielectric = .04 + (1. - .04) * fresnel_power;
 	vec3 F_metal = material.color + (1. - material.color) * fresnel_power;
 
-	vec3 dielectric_color = .5 * (material.color / PI * NdotL + specular_without_F * F_dielectric);
+	vec3 dielectric_color = .5 * (material.color / PI + specular_without_F * F_dielectric);
 	vec3 metal_color = specular_without_F * F_metal;
 	float foo = square(1. - square(square(light_distance / light.radius)));
 	float falloff = clamp(foo, 0., 1.) / (square(light_distance) + 1.);
-	return mix(dielectric_color, metal_color, material.metallic) * falloff * light.intensity * light.color * spec_norm;
+	return NdotL * mix(dielectric_color, metal_color, material.metallic) * falloff * light.intensity * light.color * spec_norm;
 }
 
 vec3 emit_light(vec3 N, vec3 V, vec3 color, float intensity) {
