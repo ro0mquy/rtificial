@@ -110,7 +110,6 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 
 		data.setSceneStart(newSceneData, startGrid);
 		data.setSceneDuration(newSceneData, absDistanceGrid);
-		newSceneComponent->updateBounds();
 	} else {
 		McbComponent::mouseDrag(event);
 	}

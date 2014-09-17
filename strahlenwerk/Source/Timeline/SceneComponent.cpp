@@ -1,6 +1,7 @@
 #include "SceneComponent.h"
 #include "ScenesBarComponent.h"
 #include "TimelineData.h"
+#include "TreeIdentifiers.h"
 
 SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	sceneData(_sceneData),
@@ -27,6 +28,7 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	addAndMakeVisible(resizableBorder);
 
 	setMouseCursor(MouseCursor(MouseCursor::StandardCursorType::DraggingHandCursor));
+	sceneData.addListener(this);
 	zoomFactor.addListener(this);
 }
 
@@ -123,4 +125,24 @@ void SceneComponent::parentHierarchyChanged() {
 
 void SceneComponent::zoomFactorChanged(ZoomFactor&) {
 	updateBounds();
+}
+
+// ValueTree::Listener callbacks
+void SceneComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& property) {
+	// callback comes only from the sceneData that belongs to this component
+	if (property == treeId::sceneStart || property == treeId::sceneDuration) {
+		updateBounds();
+	}
+}
+
+void SceneComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenAdded*/) {
+}
+
+void SceneComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
+}
+
+void SceneComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+}
+
+void SceneComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }
