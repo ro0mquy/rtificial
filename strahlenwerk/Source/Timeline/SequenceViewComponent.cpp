@@ -3,6 +3,7 @@
 #include <cmath>
 #include "SequenceComponent.h"
 #include "TimelineData.h"
+#include "TreeIdentifiers.h"
 #include "KeyframeComponent.h"
 
 SequenceViewComponent::SequenceViewComponent(ZoomFactor& zoomFactor_) :
@@ -175,12 +176,22 @@ void SequenceViewComponent::valueChanged(Value& /*value*/) {
 }
 
 // ValueTree::Listener callbacks
-void SequenceViewComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
+void SequenceViewComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& /*property*/) {
+	if (parentTree.hasType(treeId::scene)) {
+		updateSize();
+		repaint();
+	}
 }
 
 void SequenceViewComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenAdded) {
 	if (data.isSequence(childWhichHasBeenAdded)) {
 		addSequenceComponent(childWhichHasBeenAdded);
+	} else if (childWhichHasBeenAdded.hasType(treeId::scene)) {
+		updateSize();
+		repaint();
+	} else if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
+		updateSize();
+		repaint();
 	}
 }
 
@@ -188,6 +199,12 @@ void SequenceViewComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, Val
 	if (data.isSequence(childWhichHasBeenRemoved)) {
 		auto sequenceComponent = getSequenceComponentForData(childWhichHasBeenRemoved);
 		sequenceComponentsArray.removeObject(sequenceComponent);
+	} else if (childWhichHasBeenRemoved.hasType(treeId::scene)) {
+		updateSize();
+		repaint();
+	} else if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
+		updateSize();
+		repaint();
 	}
 }
 
