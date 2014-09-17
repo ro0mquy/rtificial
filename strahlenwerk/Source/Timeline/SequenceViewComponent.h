@@ -37,6 +37,7 @@ class SequenceViewComponent :
         void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
         void valueTreeChildOrderChanged(ValueTree& parentTree) override;
         void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
+        void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
 
 		enum ColourIds{
 			timeMarkerColourId = 0x8350102,

@@ -180,3 +180,10 @@ void ScenesBarComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
 
 void ScenesBarComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }
+
+void ScenesBarComponent::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
+	// always the root tree
+	updateSize();
+	repaint();
+	addAllSceneComponents();
+}

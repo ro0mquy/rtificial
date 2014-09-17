@@ -21,6 +21,7 @@ class UniformsBarComponent :
         void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
         void valueTreeChildOrderChanged(ValueTree& parentTree) override;
         void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
+        void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
 
 		enum ColourIds{
 			evenRowColourId = 0x2300301,

@@ -96,3 +96,9 @@ void UniformsBarComponent::valueTreeChildOrderChanged(ValueTree& parentTree) {
 
 void UniformsBarComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }
+
+void UniformsBarComponent::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
+	// always the root tree
+	updateSize();
+	repaint();
+}

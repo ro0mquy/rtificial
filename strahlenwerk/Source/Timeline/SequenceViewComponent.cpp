@@ -211,3 +211,10 @@ void SequenceViewComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/
 
 void SequenceViewComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }
+
+void SequenceViewComponent::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
+	// always the root tree
+	updateSize();
+	repaint();
+	addAllSequenceComponents();
+}
