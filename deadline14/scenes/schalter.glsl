@@ -70,7 +70,7 @@ vec2 f(vec3 p) {
 	vec2 pyramid2 = vec2(pyr, MATERIAL_ID_PYRAMID);
 
 	q = trans(q, 0., -10.* pyramid_h - 1., 0.);
-	float cube = roundbox(q, vec3(.5,.5,.5), .5);
+	float cube = roundbox(q, vec3(1.,1.,1.), .5);
 	float d = .75 + smoothstep(.70,1., pyramid_animation)*7.5;
 	float torus = torus(trans(q, 0.,+.25,0.), vec2(.5 + d, .5));
 	vec2 schalter_cube = vec2(mix(cube, torus, smoothstep(.5, .75, pyramid_animation)), MATERIAL_ID_CUBE);
