@@ -10,12 +10,16 @@ ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	zoomFactor(zoomFactor_)
 {
 	data.addListenerToTree(this);
-	zoomFactor.addListener(this);
 	data.currentTime.addListener(this);
+	zoomFactor.addListener(this);
 	addAllSceneComponents();
 }
 
-ScenesBarComponent::~ScenesBarComponent() = default;
+ScenesBarComponent::~ScenesBarComponent() {
+	data.removeListenerFromTree(this);
+	data.currentTime.removeListener(this);
+	zoomFactor.removeListener(this);
+}
 
 void ScenesBarComponent::updateSize() {
 	const int paddingAfterLastScene = 300;

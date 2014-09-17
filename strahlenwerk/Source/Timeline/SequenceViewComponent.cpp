@@ -11,12 +11,16 @@ SequenceViewComponent::SequenceViewComponent(ZoomFactor& zoomFactor_) :
 	zoomFactor(zoomFactor_)
 {
 	data.addListenerToTree(this);
-	zoomFactor.addListener(this);
 	data.currentTime.addListener(this);
+	zoomFactor.addListener(this);
 	addAllSequenceComponents();
 }
 
-SequenceViewComponent::~SequenceViewComponent() = default;
+SequenceViewComponent::~SequenceViewComponent() {
+	data.removeListenerFromTree(this);
+	data.currentTime.removeListener(this);
+	zoomFactor.removeListener(this);
+}
 
 void SequenceViewComponent::updateSize() {
 	const int paddingAfterLastScene = 300;

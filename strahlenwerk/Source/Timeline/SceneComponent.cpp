@@ -31,6 +31,11 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	zoomFactor.addListener(this);
 }
 
+SceneComponent::~SceneComponent() {
+	sceneData.removeListener(this);
+	zoomFactor.removeListener(this);
+}
+
 void SceneComponent::updateBounds() {
 	const float start = (float) data.getSceneStart(sceneData) * zoomFactor;
 	const float duration = (float) data.getSceneDuration(sceneData) * zoomFactor;
@@ -100,6 +105,7 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 		}
 
 		data.removeScene(sceneData);
+		// this component gets deleted after this, so don't do stupid things
 	} else {
 		McbComponent::mouseUp(event);
 	}

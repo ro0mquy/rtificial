@@ -65,6 +65,11 @@ void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
 	valueTree.addListener(listener);
 }
 
+void TimelineData::removeListenerFromTree(ValueTree::Listener* listener) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	valueTree.removeListener(listener);
+}
+
 // comparator function for keyframes in the keyframes array of a sequence
 int TimelineData::compareElements(const ValueTree& first, const ValueTree& second) {
 		int firstPosition = getKeyframePosition(first);

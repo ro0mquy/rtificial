@@ -15,6 +15,11 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFa
 	constrainer.setGridWidth(20);
 }
 
+KeyframeComponent::~KeyframeComponent() {
+	keyframeData.removeListener(this);
+	zoomFactor.removeListener(this);
+}
+
 void KeyframeComponent::updateBounds() {
 	const int keyframeWidth = 4;
 	const int position = (float) data.getKeyframePosition(keyframeData) * zoomFactor;
@@ -64,6 +69,7 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 		}
 
 		data.removeKeyframe(keyframeData);
+		// this component gets deleted after this, so don't do stupid things
 	} else {
 		McbComponent::mouseUp(event);
 	}

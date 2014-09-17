@@ -11,6 +11,10 @@ UniformsBarComponent::UniformsBarComponent() :
 	data.addListenerToTree(this);
 }
 
+UniformsBarComponent::~UniformsBarComponent() {
+	data.removeListenerFromTree(this);
+}
+
 void UniformsBarComponent::updateSize() {
 	const int rowHeight = 20;
 	const int numUniforms = data.getNumUniforms();

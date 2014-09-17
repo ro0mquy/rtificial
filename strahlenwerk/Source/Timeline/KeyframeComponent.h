@@ -16,6 +16,7 @@ class KeyframeComponent :
 {
 	public:
 		KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_);
+		~KeyframeComponent();
 
 		void paint(Graphics& g) override;
 		void mouseDown(const MouseEvent& event) override;

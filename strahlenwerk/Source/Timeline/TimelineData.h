@@ -18,6 +18,7 @@ class TimelineData {
 		void readTimelineDataFromFile(const File& dataFile);
 		void writeTimelineDataToFile(const File& dataFile);
 		void addListenerToTree(ValueTree::Listener* listener);
+		void removeListenerFromTree(ValueTree::Listener* listener);
 		int compareElements(const ValueTree& first, const ValueTree& second);
 
 

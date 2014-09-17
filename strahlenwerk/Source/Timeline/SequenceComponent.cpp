@@ -32,6 +32,11 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 	addAllKeyframeComponents();
 }
 
+SequenceComponent::~SequenceComponent() {
+	data.removeListenerFromTree(this);
+	zoomFactor.removeListener(this);
+}
+
 void SequenceComponent::updateBounds() {
 	const int rowHeight = 20;
 	const float start = (float) data.getAbsoluteStartForSequence(sequenceData) * zoomFactor;
@@ -144,6 +149,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 			}
 
 			data.removeSequence(sequenceData);
+			// this component gets deleted after this, so don't do stupid things
 		}
 	} else {
 		McbComponent::mouseUp(event);

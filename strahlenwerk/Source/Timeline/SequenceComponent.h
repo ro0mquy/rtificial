@@ -17,6 +17,8 @@ class SequenceComponent :
 {
 	public:
 		SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_);
+		~SequenceComponent();
+
 		void paint(Graphics& g) override;
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;

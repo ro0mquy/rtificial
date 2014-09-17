@@ -11,6 +11,8 @@ class UniformsBarComponent :
 {
 	public:
 		UniformsBarComponent();
+		~UniformsBarComponent();
+
 		void updateSize();
 		void paint(Graphics& g) override;
 		void mouseUp(const MouseEvent& event) override;

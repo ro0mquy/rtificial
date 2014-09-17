@@ -16,6 +16,8 @@ class SceneComponent :
 {
 	public:
 		SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_);
+		~SceneComponent();
+
 		void paint(Graphics& g) override;
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
