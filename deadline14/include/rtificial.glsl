@@ -82,7 +82,7 @@ float slowbox(vec3 p, vec3 b) {
 
 // box with rounded corners, r is radius of corners
 float roundbox(vec3 p, vec3 b, float r) {
-	return slowbox(p, b - vec3(r)) - r;
+	return slowbox(p, b - r) - r;
 }
 
 // c must be normalized
