@@ -2,15 +2,17 @@
 
 #include "../RtificialLookAndFeel.h"
 #include "TimelineData.h"
+#include "TreeIdentifiers.h"
 #include "SceneComponent.h"
 
 ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
 	zoomFactor(zoomFactor_)
 {
+	data.addListenerToTree(this);
 	zoomFactor.addListener(this);
 	data.currentTime.addListener(this);
-	updateSceneComponents();
+	addAllSceneComponents();
 }
 
 ScenesBarComponent::~ScenesBarComponent() = default;
@@ -62,15 +64,19 @@ void ScenesBarComponent::paintOverChildren(Graphics& g) {
 	g.drawLine(x, 0, x, getHeight(), timeMarkerLineWidth);
 }
 
-void ScenesBarComponent::updateSceneComponents() {
+void ScenesBarComponent::addSceneComponent(ValueTree sceneData) {
+	SceneComponent* sceneComponent = new SceneComponent(sceneData, zoomFactor);
+	addAndMakeVisible(sceneComponent);
+	sceneComponentsArray.add(sceneComponent);
+}
+
+void ScenesBarComponent::addAllSceneComponents() {
 	sceneComponentsArray.clearQuick(true);
 	const int numScenes = data.getNumScenes();
 
 	for (int i = 0; i < numScenes; i++) {
 		ValueTree sceneData = data.getScene(i);
-		SceneComponent* sceneComponent = new SceneComponent(sceneData, zoomFactor);
-		addAndMakeVisible(sceneComponent);
-		sceneComponentsArray.add(sceneComponent);
+		addSceneComponent(sceneData);
 	}
 }
 
@@ -83,11 +89,8 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 	if (m.isLeftButtonDown() && m.isCommandDown()) {
 		var sceneStart = event.getMouseDownX() / zoomFactor;
 		var sceneDuration = 0;
-		var sceneShaderSource = "dummy" + String(data.getNewSceneId()) + ".glsl";
+		var sceneShaderSource = "szenchen" + String(data.getNewSceneId());
 		newSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
-
-		newSceneComponent = new SceneComponent(newSceneData, zoomFactor);
-		addAndMakeVisible(newSceneComponent);
 	} else {
 		McbComponent::mouseDown(event);
 	}
@@ -138,4 +141,23 @@ void ScenesBarComponent::zoomFactorChanged(ZoomFactor&) {
 void ScenesBarComponent::valueChanged(Value& /*value*/) {
 	// currentTime changed
 	repaint();
+}
+
+// ValueTree::Listener callbacks
+void ScenesBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& property) {
+}
+
+void ScenesBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenAdded) {
+	if (data.isScene(childWhichHasBeenAdded)) {
+		addSceneComponent(childWhichHasBeenAdded);
+	}
+}
+
+void ScenesBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
+}
+
+void ScenesBarComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+}
+
+void ScenesBarComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }
