@@ -58,10 +58,10 @@ float pyramid(vec3 p, float s, float h){
 
 vec2 f(vec3 p) {
 	vec3 q = rY(TAU * 0.05 * time) * p;
-	q = trans(q, 0., 1.*sin(0.75 * time), 0.);
+//	q = trans(q, 0., 1.*sin(0.75 * time), 0.);
 
 	float h = 4. * pyramid_animation;
-	vec3 qq = trans(q, 0.,12 - h,0.);
+	vec3 qq = trans(q, 0.,12 - h +.55,0.);
 	float pyr = pyramid(qq, 10. * pyramid_s, 10. * pyramid_h);
 	vec2 pyramid1 = vec2(pyr, MATERIAL_ID_PYRAMID);
 
@@ -71,8 +71,8 @@ vec2 f(vec3 p) {
 
 	q = trans(q, 0., -10.* pyramid_h - .75, 0.);
 	float cube = box(q, vec3(.75,.75,.75));
-	float d = .5 + smoothstep(.5, .75, pyramid_animation)* 5.5;
-	float torus = torus(q, vec2(.5 + d, .5));
+	float d = .75 + smoothstep(.70,1., pyramid_animation)*7.5;
+	float torus = torus(trans(q, 0.,+.25,0.), vec2(.5 + d, .5));
 	vec2 schalter_cube = vec2(mix(cube, torus, smoothstep(.5, .75, pyramid_animation)), MATERIAL_ID_CUBE);
 
 	vec2 bottom = vec2(p.y + 2., MATERIAL_ID_FLOOR);

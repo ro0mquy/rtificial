@@ -3,7 +3,7 @@
 <timelineTree>
   <uniformsArray>
     <uniform uniformName="focus_dist" uniformType="float">
-      <uniformStandardValue valueFloatX="0"/>
+      <uniformStandardValue valueFloatX="0.051"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="camera_position" uniformType="vec3">
@@ -39,7 +39,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_freq" uniformType="float">
-      <uniformStandardValue valueFloatX="0.167"/>
+      <uniformStandardValue valueFloatX="0.058"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_intensity" uniformType="float">
@@ -139,11 +139,11 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="pyramid_s" uniformType="float">
-      <uniformStandardValue valueFloatX="0.545"/>
+      <uniformStandardValue valueFloatX="0.313"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="pyramid_animation" uniformType="float">
-      <uniformStandardValue valueFloatX="0"/>
+      <uniformStandardValue valueFloatX="1"/>
       <sequencesArray/>
     </uniform>
   </uniformsArray>
