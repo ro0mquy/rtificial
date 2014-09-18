@@ -215,15 +215,15 @@ void TimelineData::setSceneShaderSource(ValueTree scene, var shaderSource) {
 
 
 // finds the the end time of the last scene
-int TimelineData::getLastSceneEndTime() {
+float TimelineData::getLastSceneEndTime() {
 	const int numScenes = getNumScenes();
-	int maxEndTime = 0;
+	float maxEndTime = 0.;
 
 	for (int i = 0; i < numScenes; i++) {
 		ValueTree scene = getScene(i);
-		const int start = getSceneStart(scene);
-		const int duration = getSceneDuration(scene);
-		const int end = start + duration;
+		const float start = getSceneStart(scene);
+		const float duration = getSceneDuration(scene);
+		const float end = start + duration;
 		maxEndTime = jmax(maxEndTime, end);
 	}
 
@@ -232,10 +232,10 @@ int TimelineData::getLastSceneEndTime() {
 
 // returns the active scene for a timepoint
 // a invalid tree is returned if there is none
-ValueTree TimelineData::getSceneForTime(const int absoluteTime) {
+ValueTree TimelineData::getSceneForTime(const float absoluteTime) {
 	const int numScenes = getNumScenes();
 	/*
-	// needs convertion to new TimelineData functions
+	// needs convertion to new TimelineData functions and float
 	// matches if the time is inside the scene and also if after the end
 	int smallestDistance = INT_MAX;
 	int bestScene = 0;
@@ -257,9 +257,9 @@ ValueTree TimelineData::getSceneForTime(const int absoluteTime) {
 	// matches only if inside scene
 	for (int i = 0; i < numScenes; i++) {
 		ValueTree scene = getScene(i);
-		const int start = getSceneStart(scene);
-		const int duration = getSceneDuration(scene);
-		const int distance = absoluteTime - start;
+		const float start = getSceneStart(scene);
+		const float duration = getSceneDuration(scene);
+		const float distance = absoluteTime - start;
 		if (isPositiveAndBelow(distance, duration)) {
 			return scene;
 		}

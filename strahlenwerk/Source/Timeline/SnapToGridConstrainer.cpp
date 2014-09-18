@@ -2,18 +2,18 @@
 #include "ZoomFactor.h"
 
 SnapToGridConstrainer::SnapToGridConstrainer() :
-	gridWidth(1)
+	gridWidth(1.)
 {
 }
 
 void SnapToGridConstrainer::setGridWidth(const int width) {
-	gridWidth = width;
+	//gridWidth = width;
 }
 
 // snaps values that are in time units
-int SnapToGridConstrainer::snapValueToGrid(const float value) {
-	const float posOnGrid = value / float(gridWidth);
-	const int newRoundedPos = roundFloatToInt(posOnGrid) * gridWidth;
+float SnapToGridConstrainer::snapValueToGrid(const float value) {
+	const float posOnGrid = value / gridWidth;
+	const float newRoundedPos = roundFloatToInt(posOnGrid) * gridWidth;
 	return newRoundedPos;
 }
 

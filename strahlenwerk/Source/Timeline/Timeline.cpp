@@ -3,7 +3,7 @@
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
-	sequenceView(zoomFactor),
+	//sequenceView(zoomFactor),
 	scenesBar(zoomFactor)
 {
 	viewportSequenceView.setViewedComponent(&sequenceView, false);
@@ -33,7 +33,7 @@ void Timeline::resized() {
 	uniformsBar.updateSize();
 
 	viewportSequenceView.setBounds(r);
-	sequenceView.updateSize();
+	//sequenceView.updateSize();
 }
 
 void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) {

@@ -46,8 +46,8 @@ class TimelineData {
 		void setSceneDuration(ValueTree scene, var duration);
 		void setSceneShaderSource(ValueTree scene, var shaderSource);
 
-		int getLastSceneEndTime();
-		ValueTree getSceneForTime(const int time);
+		float getLastSceneEndTime();
+		ValueTree getSceneForTime(const float time);
 		ValueTree getCurrentScene();
 		int getNewSceneId();
 

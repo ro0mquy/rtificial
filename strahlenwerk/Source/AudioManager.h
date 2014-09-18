@@ -10,7 +10,9 @@ class AudioManager {
 
 		void loadFile(const File& audioFile);
 		void togglePlayPause();
+
 		AudioThumbnail& getThumbnail();
+		int getBpm();
 
 	private:
 		AudioFormatManager formatManager;

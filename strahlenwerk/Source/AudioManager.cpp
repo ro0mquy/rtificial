@@ -57,3 +57,7 @@ void AudioManager::togglePlayPause() {
 AudioThumbnail& AudioManager::getThumbnail() {
 	return thumbnail;
 }
+
+int AudioManager::getBpm() {
+	return 120;
+}

@@ -8,7 +8,7 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	zoomFactor(zoomFactor_),
 	resizableBorder(this, &constrainer)
 {
-	const int gridWidth = 20;
+	const int gridWidth = 500;
 
 	Value shaderSourceValue = data.getSceneShaderSourceAsValue(sceneData);
 	shaderSourceLabel.getTextValue().referTo(shaderSourceValue);
@@ -112,14 +112,14 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 }
 
 void SceneComponent::moved() {
-	const int newStart = constrainer.snapValueToGrid(getX() / zoomFactor);
+	const float newStart = constrainer.snapValueToGrid(getX() / zoomFactor);
 	data.setSceneStart(sceneData, newStart);
 }
 
 void SceneComponent::resized() {
 	shaderSourceLabel.setBounds(getLocalBounds());
 	resizableBorder.setBounds(getLocalBounds());
-	const int newDuration = constrainer.snapValueToGrid(getWidth() / zoomFactor);
+	const float newDuration = constrainer.snapValueToGrid(getWidth() / zoomFactor);
 	data.setSceneDuration(sceneData, newDuration);
 }
 

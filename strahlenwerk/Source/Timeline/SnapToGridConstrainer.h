@@ -10,7 +10,7 @@ class SnapToGridConstrainer : public ComponentBoundsConstrainer {
 	public:
 		SnapToGridConstrainer();
 		void setGridWidth(const int width);
-		int snapValueToGrid(const float value);
+		float snapValueToGrid(const float value);
 		void checkBounds (Rectangle<int>& bounds,
 				const Rectangle<int>& old,
 				const Rectangle<int>& limits,
@@ -20,7 +20,7 @@ class SnapToGridConstrainer : public ComponentBoundsConstrainer {
 				const bool isStretchingRight) override ;
 
 	private:
-		int gridWidth;
+		float gridWidth;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SnapToGridConstrainer);
 };
 

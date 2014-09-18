@@ -9,16 +9,16 @@
     <uniform uniformName="foo" uniformType="color">
       <uniformStandardValue valueColorR="0" valueColorG="0" valueColorB="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="" sequenceStart="300" sequenceDuration="100"
+        <sequence sequenceSceneId="" sequenceStart="15" sequenceDuration="5"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueColorR="0" valueColorG="0" valueColorB="0"/>
             </keyframe>
-            <keyframe keyframePosition="60">
+            <keyframe keyframePosition="3">
               <keyframeValue valueColorR="0" valueColorG="0" valueColorB="0"/>
             </keyframe>
-            <keyframe keyframePosition="100">
+            <keyframe keyframePosition="5">
               <keyframeValue valueColorR="0" valueColorG="0" valueColorB="0"/>
             </keyframe>
           </keyframesArray>
@@ -28,13 +28,13 @@
     <uniform uniformName="camera_position" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="" sequenceStart="100" sequenceDuration="80"
+        <sequence sequenceSceneId="" sequenceStart="5" sequenceDuration="4"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
             </keyframe>
-            <keyframe keyframePosition="80">
+            <keyframe keyframePosition="4">
               <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
             </keyframe>
           </keyframesArray>
@@ -43,7 +43,7 @@
     </uniform>
   </uniformsArray>
   <scenesArray>
-    <scene sceneId="100" sceneStart="120" sceneDuration="160" sceneShaderSource="dummy100.glsl"/>
-    <scene sceneId="101" sceneStart="580" sceneDuration="320" sceneShaderSource="dummy101.glsl"/>
+    <scene sceneId="100" sceneStart="6" sceneDuration="8" sceneShaderSource="dummy100"/>
+    <scene sceneId="101" sceneStart="29" sceneDuration="16" sceneShaderSource="dummy101"/>
   </scenesArray>
 </timelineTree>

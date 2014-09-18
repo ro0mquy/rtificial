@@ -38,15 +38,17 @@ void ScenesBarComponent::updateSize() {
 void ScenesBarComponent::paint(Graphics& g) {
 	// höhö G-Punkt
 
-	auto& audioThumb = StrahlenwerkApplication::getInstance()->getAudioManager().getThumbnail();
-	// TODO conversion
-	audioThumb.drawChannel(g, getLocalBounds(), 0., getWidth() / zoomFactor, 0, 1.);
-	audioThumb.drawChannel(g, getLocalBounds(), 0., getWidth() / zoomFactor, 1, 1.);
+	auto& audioManager = StrahlenwerkApplication::getInstance()->getAudioManager();
+	auto& audioThumb = audioManager.getThumbnail();
+	const float beatsPerSecond = audioManager.getBpm() / 60.;
+	const float timeAtRightBorder = getWidth() / zoomFactor * beatsPerSecond;
+	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 0, 1.);
+	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 1, 1.);
 
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
 
-	const float lineDistance           = 20 * zoomFactor;
+	const float lineDistance           = 1/*gridWidth*/ * zoomFactor;
 	const int longLineDistance         = 4;
 	const float lineHeightFraction     = 0.25;
 	const float longLineHeightFraction = 0.5;
