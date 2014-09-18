@@ -9,6 +9,7 @@ class AudioManager {
 		virtual ~AudioManager();
 
 		void loadFile(const File& audioFile);
+		void togglePlayPause();
 
 	private:
 		AudioFormatManager formatManager;

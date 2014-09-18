@@ -29,6 +29,14 @@ void AudioManager::loadFile(const File& audioFile) {
 	if(reader != nullptr) {
 		currentFileSource = new AudioFormatReaderSource(reader, true);
 
-		transportSource.setSource(currentFileSource, 32768, &readAheadThread);
+		transportSource.setSource(currentFileSource, 1 << 18, &readAheadThread);
+	}
+}
+
+void AudioManager::togglePlayPause() {
+	if(transportSource.isPlaying()) {
+		transportSource.stop();
+	} else {
+		transportSource.start();
 	}
 }
