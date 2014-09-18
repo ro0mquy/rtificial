@@ -10,6 +10,7 @@ class AudioManager {
 
 		void loadFile(const File& audioFile);
 		void togglePlayPause();
+		AudioThumbnail& getThumbnail();
 
 	private:
 		AudioFormatManager formatManager;
@@ -18,6 +19,9 @@ class AudioManager {
 		AudioTransportSource transportSource;
 		ScopedPointer<AudioFormatReaderSource> currentFileSource;
 		TimeSliceThread readAheadThread;
+
+		AudioThumbnailCache thumbnailCache;
+		AudioThumbnail thumbnail;
 };
 
 #endif

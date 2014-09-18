@@ -1,7 +1,9 @@
 #include "AudioManager.h"
 
 AudioManager::AudioManager() :
-	readAheadThread("Audio Read Ahead Thread")
+	readAheadThread("Audio Read Ahead Thread"),
+	thumbnailCache(1), // actually we don't need caching
+	thumbnail(512, formatManager, thumbnailCache)
 {
 	formatManager.registerBasicFormats();
 	// no input, stereo output
@@ -39,6 +41,8 @@ void AudioManager::loadFile(const File& audioFile) {
 		currentFileSource = new AudioFormatReaderSource(reader, true);
 
 		transportSource.setSource(currentFileSource, 1 << 18, &readAheadThread);
+
+		thumbnail.setSource(new FileInputSource(audioFile));
 	}
 }
 
@@ -48,4 +52,8 @@ void AudioManager::togglePlayPause() {
 	} else {
 		transportSource.start();
 	}
+}
+
+AudioThumbnail& AudioManager::getThumbnail() {
+	return thumbnail;
 }

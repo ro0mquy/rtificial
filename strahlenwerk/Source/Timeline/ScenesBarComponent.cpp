@@ -4,6 +4,8 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include "SceneComponent.h"
+#include "StrahlenwerkApplication.h"
+#include "AudioManager.h"
 
 ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
@@ -35,6 +37,11 @@ void ScenesBarComponent::updateSize() {
 
 void ScenesBarComponent::paint(Graphics& g) {
 	// höhö G-Punkt
+
+	auto& audioThumb = StrahlenwerkApplication::getInstance()->getAudioManager().getThumbnail();
+	// TODO conversion
+	audioThumb.drawChannel(g, getLocalBounds(), 0., data.getLastSceneEndTime() / zoomFactor, 0, 1.);
+	audioThumb.drawChannel(g, getLocalBounds(), 0., data.getLastSceneEndTime() / zoomFactor, 1, 1.);
 
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));

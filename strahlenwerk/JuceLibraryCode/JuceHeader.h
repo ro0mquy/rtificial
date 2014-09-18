@@ -17,6 +17,8 @@
 #include "modules/juce_audio_basics/juce_audio_basics.h"
 #include "modules/juce_audio_devices/juce_audio_devices.h"
 #include "modules/juce_audio_formats/juce_audio_formats.h"
+#include "modules/juce_audio_processors/juce_audio_processors.h"
+#include "modules/juce_audio_utils/juce_audio_utils.h"
 #include "modules/juce_core/juce_core.h"
 #include "modules/juce_data_structures/juce_data_structures.h"
 #include "modules/juce_events/juce_events.h"
@@ -32,13 +34,11 @@
  using namespace juce;
 #endif
 
-#if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
     const char* const  projectName    = "strahlenwerk";
     const char* const  versionString  = "";
     const int          versionNumber  = 0x0;
 }
-#endif
 
 #endif   // __APPHEADERFILE_GXTJTP__
