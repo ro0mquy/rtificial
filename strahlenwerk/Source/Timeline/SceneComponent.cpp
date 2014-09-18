@@ -28,12 +28,12 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 
 	setMouseCursor(MouseCursor(MouseCursor::StandardCursorType::DraggingHandCursor));
 	sceneData.addListener(this);
-	zoomFactor.addListener(this);
+	zoomFactor.addChangeListener(this);
 }
 
 SceneComponent::~SceneComponent() {
 	sceneData.removeListener(this);
-	zoomFactor.removeListener(this);
+	zoomFactor.removeChangeListener(this);
 }
 
 void SceneComponent::updateBounds() {
@@ -127,7 +127,8 @@ void SceneComponent::parentHierarchyChanged() {
 	updateBounds();
 }
 
-void SceneComponent::zoomFactorChanged(ZoomFactor&) {
+void SceneComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	// zoomFactor update
 	updateBounds();
 }
 

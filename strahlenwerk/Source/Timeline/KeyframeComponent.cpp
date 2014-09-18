@@ -8,7 +8,7 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFa
 	zoomFactor(zoomFactor_)
 {
 	keyframeData.addListener(this);
-	zoomFactor.addListener(this);
+	zoomFactor.addChangeListener(this);
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
@@ -17,7 +17,7 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFa
 
 KeyframeComponent::~KeyframeComponent() {
 	keyframeData.removeListener(this);
-	zoomFactor.removeListener(this);
+	zoomFactor.removeChangeListener(this);
 }
 
 void KeyframeComponent::updateBounds() {
@@ -85,7 +85,8 @@ void KeyframeComponent::parentHierarchyChanged() {
 	updateBounds();
 }
 
-void KeyframeComponent::zoomFactorChanged(ZoomFactor&) {
+void KeyframeComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	// zoomFactor update
 	updateBounds();
 }
 

@@ -14,7 +14,7 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 	data.addListenerToTree(this);
 
 	// register for zoom factor changes
-	zoomFactor.addListener(this);
+	zoomFactor.addChangeListener(this);
 
 	// set size and position
 	updateBounds();
@@ -34,7 +34,7 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 
 SequenceComponent::~SequenceComponent() {
 	data.removeListenerFromTree(this);
-	zoomFactor.removeListener(this);
+	zoomFactor.removeChangeListener(this);
 }
 
 void SequenceComponent::updateBounds() {
@@ -169,7 +169,8 @@ void SequenceComponent::resized() {
 	data.setSequenceDuration(sequenceData, newDuration);
 }
 
-void SequenceComponent::zoomFactorChanged(ZoomFactor&) {
+void SequenceComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	// zoomFactor update
 	updateBounds();
 }
 

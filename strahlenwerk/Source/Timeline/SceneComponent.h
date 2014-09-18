@@ -12,7 +12,7 @@ class SceneComponent :
 	public McbComponent,
 	private ComponentDragger,
 	private ValueTree::Listener,
-	private ZoomFactor::Listener
+	private ChangeListener
 {
 	public:
 		SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_);
@@ -25,7 +25,7 @@ class SceneComponent :
 		void moved() override;
 		void resized() override;
 		void parentHierarchyChanged() override;
-		void zoomFactorChanged(ZoomFactor&) override;
+		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 		void updateBounds();
 

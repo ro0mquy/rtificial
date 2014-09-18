@@ -11,7 +11,7 @@ class SceneComponent;
 class ScenesBarComponent :
 	public McbComponent,
 	private ValueTree::Listener,
-	private ZoomFactor::Listener,
+	private ChangeListener,
 	private Value::Listener
 {
 	public:
@@ -29,7 +29,7 @@ class ScenesBarComponent :
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
 
-		void zoomFactorChanged(ZoomFactor&) override;
+		void changeListenerCallback(ChangeBroadcaster* source) override;
 		void valueChanged(Value& value) override;
 
         void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;

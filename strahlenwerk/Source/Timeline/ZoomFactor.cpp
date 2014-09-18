@@ -27,7 +27,7 @@ ZoomFactor& ZoomFactor::operator=(const float newZoomLevel) {
 	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
-		listeners.call(&ZoomFactor::Listener::zoomFactorChanged, *this);
+		sendChangeMessage();
 	}
 	return *this;
 }
@@ -40,7 +40,7 @@ ZoomFactor& ZoomFactor::operator*=(const float zoomLevelFactor) {
 	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
-		listeners.call(&ZoomFactor::Listener::zoomFactorChanged, *this);
+		sendChangeMessage();
 	}
 	return *this;
 }
@@ -53,7 +53,7 @@ ZoomFactor& ZoomFactor::operator/=(const float zoomLevelDivisor) {
 	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
-		listeners.call(&ZoomFactor::Listener::zoomFactorChanged, *this);
+		sendChangeMessage();
 	}
 	return *this;
 }
@@ -66,12 +66,4 @@ float ZoomFactor::timeToPixels(const float time) {
 float ZoomFactor::pixelsToTime(const float pixels) {
 	std::lock_guard<std::mutex> lock(zoomMutex);
 	return pixels / zoomLevel;
-}
-
-void ZoomFactor::addListener(Listener* const listener) {
-	listeners.add(listener);
-}
-
-void ZoomFactor::removeListener(Listener* const listener) {
-	listeners.remove(listener);
 }

@@ -13,7 +13,7 @@ class SequenceComponent :
 	public McbComponent,
 	private ComponentDragger,
 	private ValueTree::Listener,
-	private ZoomFactor::Listener
+	private ChangeListener
 {
 	public:
 		SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_);
@@ -25,7 +25,7 @@ class SequenceComponent :
 		void mouseUp(const MouseEvent& event) override;
 		void moved() override;
 		void resized() override;
-		void zoomFactorChanged(ZoomFactor&) override;
+		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 		void updateBounds();
 		void addKeyframeComponent(ValueTree keyframeData);

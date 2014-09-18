@@ -13,14 +13,14 @@ ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 {
 	data.addListenerToTree(this);
 	data.currentTime.addListener(this);
-	zoomFactor.addListener(this);
+	zoomFactor.addChangeListener(this);
 	addAllSceneComponents();
 }
 
 ScenesBarComponent::~ScenesBarComponent() {
 	data.removeListenerFromTree(this);
 	data.currentTime.removeListener(this);
-	zoomFactor.removeListener(this);
+	zoomFactor.removeChangeListener(this);
 }
 
 void ScenesBarComponent::updateSize() {
@@ -148,7 +148,8 @@ void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	}
 }
 
-void ScenesBarComponent::zoomFactorChanged(ZoomFactor&) {
+void ScenesBarComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	// zoomFactor update
 	updateSize();
 	repaint();
 }

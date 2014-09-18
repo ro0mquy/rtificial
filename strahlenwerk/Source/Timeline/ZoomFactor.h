@@ -4,7 +4,9 @@
 #include <juce>
 #include <mutex>
 
-class ZoomFactor {
+class ZoomFactor :
+	public ChangeBroadcaster
+{
 	public:
 		ZoomFactor();
 
@@ -18,18 +20,9 @@ class ZoomFactor {
 		float timeToPixels(const float time);
 		float pixelsToTime(const float pixels);
 
-		class Listener {
-			public:
-				virtual void zoomFactorChanged(ZoomFactor& zoomFactorThatHasChanged) = 0;
-		};
-
-		void addListener(Listener* const listener);
-		void removeListener(Listener* const listener);
-
 	private:
 		float zoomLevel;
 		std::mutex zoomMutex;
-		ListenerList<Listener> listeners;
 };
 
 #endif // ZOOMFACTOR_H

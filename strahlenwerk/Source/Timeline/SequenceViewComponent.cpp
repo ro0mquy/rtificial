@@ -12,14 +12,14 @@ SequenceViewComponent::SequenceViewComponent(ZoomFactor& zoomFactor_) :
 {
 	data.addListenerToTree(this);
 	data.currentTime.addListener(this);
-	zoomFactor.addListener(this);
+	zoomFactor.addChangeListener(this);
 	addAllSequenceComponents();
 }
 
 SequenceViewComponent::~SequenceViewComponent() {
 	data.removeListenerFromTree(this);
 	data.currentTime.removeListener(this);
-	zoomFactor.removeListener(this);
+	zoomFactor.removeChangeListener(this);
 }
 
 void SequenceViewComponent::updateSize() {
@@ -166,7 +166,8 @@ void SequenceViewComponent::mouseUp(const MouseEvent& event) {
 	}
 }
 
-void SequenceViewComponent::zoomFactorChanged(ZoomFactor&) {
+void SequenceViewComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	// zoomFactor update
 	updateSize();
 	repaint();
 }

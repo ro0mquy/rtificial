@@ -12,7 +12,7 @@ class KeyframeComponent :
 	public McbComponent,
 	private ComponentDragger,
 	private ValueTree::Listener,
-	private ZoomFactor::Listener
+	private ChangeListener
 {
 	public:
 		KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_);
@@ -24,7 +24,7 @@ class KeyframeComponent :
 		void mouseUp(const MouseEvent& event) override;
 		void moved() override;
 		void parentHierarchyChanged() override;
-		void zoomFactorChanged(ZoomFactor&) override;
+		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 		void updateBounds();
 
