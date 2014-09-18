@@ -1,4 +1,4 @@
-float kernelSize = 13.;
+float kernelSize = 20. * res.x / 1920.;
 
 uniform float f_stop;
 
