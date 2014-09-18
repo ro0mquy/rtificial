@@ -34,11 +34,13 @@
  using namespace juce;
 #endif
 
+#if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
     const char* const  projectName    = "strahlenwerk";
     const char* const  versionString  = "";
     const int          versionNumber  = 0x0;
 }
+#endif
 
 #endif   // __APPHEADERFILE_GXTJTP__
