@@ -5,6 +5,7 @@
 #include "Project/Project.h"
 
 class MainWindow;
+class AudioManager;
 
 class StrahlenwerkApplication : public JUCEApplication {
 	public:
@@ -26,6 +27,7 @@ class StrahlenwerkApplication : public JUCEApplication {
 
 	private:
 		ScopedPointer<MainWindow> mainWindow;
+		ScopedPointer<AudioManager> audioManager;
 		ScopedPointer<Project> project;
 		ScopedPointer<PropertiesFile> properties;
 };

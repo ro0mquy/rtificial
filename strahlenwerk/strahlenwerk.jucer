@@ -129,6 +129,9 @@
         <FILE id="ifwpB5" name="Timeline.cpp" compile="1" resource="0" file="Source/Timeline/Timeline.cpp"/>
         <FILE id="cE01V0" name="Timeline.h" compile="0" resource="0" file="Source/Timeline/Timeline.h"/>
       </GROUP>
+      <FILE id="HGrrNS" name="AudioManager.cpp" compile="1" resource="0"
+            file="Source/AudioManager.cpp"/>
+      <FILE id="HjueeN" name="AudioManager.h" compile="0" resource="0" file="Source/AudioManager.h"/>
       <FILE id="t84HiX" name="juce" compile="0" resource="1" file="Source/juce"/>
       <FILE id="UVEyS3" name="StrahlenwerkApplication.cpp" compile="1" resource="0"
             file="Source/StrahlenwerkApplication.cpp"/>

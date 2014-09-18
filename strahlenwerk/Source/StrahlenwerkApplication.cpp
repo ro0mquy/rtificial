@@ -4,6 +4,7 @@
 #include "Rendering/PostprocShader.h"
 #include "Rendering/PostprocPipeline.h"
 #include "PropertyNames.h"
+#include "AudioManager.h"
 
 StrahlenwerkApplication::~StrahlenwerkApplication() = default;
 
@@ -25,8 +26,8 @@ void StrahlenwerkApplication::initialise(const String& /*commandLine*/) {
 	options.filenameSuffix = ".settings";
 	options.osxLibrarySubFolder = "Application Support";
 	properties = new PropertiesFile(options);
-
-	project = new Project(properties->getValue(PropertyNames::PROJECT_DIR, "./").toStdString());
+	audioManager = new AudioManager();
+	project = new Project(properties->getValue(PropertyNames::PROJECT_DIR, "./").toStdString(), *audioManager);
 	mainWindow = new MainWindow();
 }
 
@@ -34,6 +35,7 @@ void StrahlenwerkApplication::shutdown() {
 	// Add your application's shutdown code here..
 	mainWindow = nullptr; // (deletes our window)
 	project = nullptr;
+	audioManager = nullptr;
 	properties = nullptr;
 }
 

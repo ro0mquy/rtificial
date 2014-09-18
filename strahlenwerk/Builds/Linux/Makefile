@@ -83,6 +83,7 @@ OBJECTS := \
   $(OBJDIR)/TimelineData_bd97819a.o \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
   $(OBJDIR)/Timeline_d3785850.o \
+  $(OBJDIR)/AudioManager_e2e40c00.o \
   $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
   $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/MainContentComponent_19da5e66.o \
@@ -276,6 +277,11 @@ $(OBJDIR)/SequenceViewComponent_a0963d32.o: ../../Source/Timeline/SequenceViewCo
 $(OBJDIR)/Timeline_d3785850.o: ../../Source/Timeline/Timeline.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Timeline.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/AudioManager_e2e40c00.o: ../../Source/AudioManager.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling AudioManager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/StrahlenwerkApplication_a618e10d.o: ../../Source/StrahlenwerkApplication.cpp

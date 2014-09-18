@@ -15,10 +15,11 @@ class PostprocPipeline;
 class ProjectListener;
 class Scenes;
 class Shader;
+class AudioManager;
 
 class Project : private efsw::FileWatchListener {
 	public:
-		Project(const std::string& dir);
+		Project(const std::string& dir, AudioManager& audioManager);
 		~Project();
 
 		void registerListener(ProjectListener* listener);
@@ -59,6 +60,7 @@ class Project : private efsw::FileWatchListener {
 		FileWatchMessageThreadListener fileListener;
 		std::unique_ptr<efsw::FileWatcher> fileWatcher;
 
+		AudioManager& audioManager;
 };
 
 #endif

@@ -13,11 +13,13 @@
 #include "Rendering/Shader.h"
 #include "Rendering/Uniform.h"
 #include "Rendering/UniformManager.h"
+#include "AudioManager.h"
 
-Project::Project(const std::string& dir) :
+Project::Project(const std::string& dir, AudioManager& _audioManager) :
 	loader(dir),
 	timelineData(loader.getTimelineDataFile()),
-	fileListener(*this)
+	fileListener(*this),
+	audioManager(_audioManager)
 {
 	watchFiles(dir);
 }
