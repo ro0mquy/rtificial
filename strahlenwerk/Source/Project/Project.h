@@ -24,7 +24,7 @@ class Project : private efsw::FileWatchListener {
 
 		void registerListener(ProjectListener* listener);
 		void unregisterListener(ProjectListener* listener);
-		void reload();
+		void reloadShaders();
 		void reloadPostproc();
 		void reloadScenes();
 		void saveTimelineData();

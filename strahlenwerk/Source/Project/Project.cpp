@@ -37,7 +37,7 @@ void Project::unregisterListener(ProjectListener* listener) {
 	}
 }
 
-void Project::reload() {
+void Project::reloadShaders() {
 	reloadPostproc();
 	reloadScenes();
 }
@@ -75,7 +75,7 @@ void Project::saveTimelineData() {
 
 void Project::contextChanged(OpenGLContext& _context) {
 	context = &_context;
-	reload();
+	reloadShaders();
 }
 
 std::unique_ptr<PostprocPipeline> Project::getPostproc() {
@@ -95,7 +95,7 @@ void Project::loadDirectory(const std::string& dir) {
 	watchFiles(dir);
 	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::PROJECT_DIR, var(dir));
 	timelineData.readTimelineDataFromFile(loader.getTimelineDataFile());
-	reload();
+	reloadShaders();
 }
 
 const ProjectFileLoader& Project::getLoader() const {
@@ -118,7 +118,7 @@ void Project::handleFileAction(
 		// TODO find a way for reloading only changed scenes
 		reloadScenes();
 	} else if(changedFile.getParentDirectory() == loader.getIncludeDir() && changedFile.hasFileExtension("glsl")) {
-		reload();
+		reloadShaders();
 	}
 }
 

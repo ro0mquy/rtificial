@@ -167,7 +167,7 @@ void MainWindow::doOpenProject() {
 }
 
 void MainWindow::doReload() {
-	StrahlenwerkApplication::getInstance()->getProject().reload();
+	StrahlenwerkApplication::getInstance()->getProject().reloadShaders();
 }
 
 void MainWindow::doSaveTimeline() {
