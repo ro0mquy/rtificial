@@ -17,7 +17,8 @@ void output_color(vec3 color, float dist) {
 	float focus_dist = 100. * focus_dist;
 	float f = focal_length;
 	float N = f_stop * 10.;
-	coc = (dist - focus_dist)/dist * (f * f) / (N * (focus_dist - f)) / 0.03 * 1920.;
+	// * .5 because we're doing dof on half res
+	coc = .5 * (dist - focus_dist)/dist * (f * f) / (N * (focus_dist - f)) / 0.03 * res.x;
 	out_color = color;
 	luminance = log(max(dot(color, vec3(.2126, .7152, .0722)), 1e-6)); // TODO calculate
 }
