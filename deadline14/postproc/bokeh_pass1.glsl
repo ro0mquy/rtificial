@@ -2,10 +2,8 @@
 #include "bokeh.glsl"
 #line 4
 
-uniform sampler2D color; // vec3 level(1)
-uniform sampler2D coc; // float level(1)
-
-// level(1)
+uniform sampler2D color; // vec3
+uniform sampler2D coc; // float
 
 out vec4 upwards;
 out vec4 both;

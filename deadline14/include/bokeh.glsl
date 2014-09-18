@@ -1,4 +1,4 @@
-float kernelSize = 26.;
+float kernelSize = 13.;
 
 uniform float f_stop;
 

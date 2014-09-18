@@ -2,11 +2,9 @@
 #include "bokeh.glsl"
 #line 4
 
-uniform sampler2D upwards; // vec4 level(1)
-uniform sampler2D both; // vec4 level(1)
+uniform sampler2D upwards; // vec4
+uniform sampler2D both; // vec4
 out vec4 out_color;
-
-// level(1)
 
 vec4 gatherDirection(sampler2D texture, vec3 baseColor, float baseCoC, vec2 dir) {
 	dir *= bokeh_rotation;
