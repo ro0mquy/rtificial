@@ -40,8 +40,8 @@ void ScenesBarComponent::paint(Graphics& g) {
 
 	auto& audioThumb = StrahlenwerkApplication::getInstance()->getAudioManager().getThumbnail();
 	// TODO conversion
-	audioThumb.drawChannel(g, getLocalBounds(), 0., data.getLastSceneEndTime() / zoomFactor, 0, 1.);
-	audioThumb.drawChannel(g, getLocalBounds(), 0., data.getLastSceneEndTime() / zoomFactor, 1, 1.);
+	audioThumb.drawChannel(g, getLocalBounds(), 0., getWidth() / zoomFactor, 0, 1.);
+	audioThumb.drawChannel(g, getLocalBounds(), 0., getWidth() / zoomFactor, 1, 1.);
 
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
