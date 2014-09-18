@@ -2,6 +2,7 @@
 
 #include "StrahlenwerkApplication.h"
 #include "Project/Project.h"
+#include "AudioManager.h"
 
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()
@@ -71,6 +72,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		MainWindow::openProject,
 		MainWindow::reload,
 		MainWindow::saveTimeline,
+		MainWindow::playPause,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -97,6 +99,9 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.setInfo("Save Timeline", "Save the timeline data to a file", programCategory, 0);
 			result.addDefaultKeypress('s', ModifierKeys::commandModifier);
 			break;
+		case MainWindow::playPause:
+			result.setInfo("Toggle play/pause", "Toggle play/pause", programCategory, 0);
+			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::noModifiers);
 		default:
 			break;
 	}
@@ -119,6 +124,10 @@ bool MainWindow::perform(const InvocationInfo& info) {
 
 		case MainWindow::saveTimeline:
 			doSaveTimeline();
+			break;
+
+		case MainWindow::playPause:
+			doPlayPause();
 			break;
 
 		default:
@@ -172,4 +181,8 @@ void MainWindow::doReload() {
 
 void MainWindow::doSaveTimeline() {
 	StrahlenwerkApplication::getInstance()->getProject().saveTimelineData();
+}
+
+void MainWindow::doPlayPause() {
+	StrahlenwerkApplication::getInstance()->getAudioManager().togglePlayPause();
 }

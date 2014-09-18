@@ -22,6 +22,7 @@ class StrahlenwerkApplication : public JUCEApplication {
 		MainWindow& getMainWindow();
 		Project& getProject();
 		PropertySet& getProperties();
+		AudioManager& getAudioManager();
 
 		static StrahlenwerkApplication* getInstance();
 

@@ -63,6 +63,10 @@ PropertySet& StrahlenwerkApplication::getProperties() {
 	return *properties;
 }
 
+AudioManager& StrahlenwerkApplication::getAudioManager() {
+	return *audioManager;
+}
+
 StrahlenwerkApplication* StrahlenwerkApplication::getInstance() {
 	return static_cast<StrahlenwerkApplication*>(JUCEApplication::getInstance());
 }
