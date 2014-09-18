@@ -22,6 +22,7 @@ Project::Project(const std::string& dir, AudioManager& _audioManager) :
 	audioManager(_audioManager)
 {
 	watchFiles(dir);
+	reloadAudio();
 }
 
 Project::~Project() = default;
@@ -40,33 +41,6 @@ void Project::unregisterListener(ProjectListener* listener) {
 void Project::reloadShaders() {
 	reloadPostproc();
 	reloadScenes();
-}
-
-void Project::reloadPostproc() {
-	auto shaders = loadPostprocShaders();
-	for(auto& shader : shaders) {
-		addUniforms(*shader);
-	}
-	if(!shaders.empty()) {
-		postproc = std::unique_ptr<PostprocPipeline>(new PostprocPipeline());
-		postproc->setShaders(std::move(shaders));
-	} else {
-		std::cerr << "No shaders loaded" << std::endl;
-	}
-	postprocChanged();
-}
-
-void Project::reloadScenes() {
-	auto shaders = loadSceneShaders();
-	for(const auto& shader : shaders) {
-		addUniforms(*shader);
-	}
-	if(!shaders.empty()) {
-		scenes = std::unique_ptr<Scenes>(new Scenes(std::move(shaders)));
-	} else {
-		std::cerr << "No shaders loaded" << std::endl;
-	}
-	scenesChanged();
 }
 
 void Project::saveTimelineData() {
@@ -119,6 +93,8 @@ void Project::handleFileAction(
 		reloadScenes();
 	} else if(changedFile.getParentDirectory() == loader.getIncludeDir() && changedFile.hasFileExtension("glsl")) {
 		reloadShaders();
+	} else if(changedFile == loader.getAudioFile()) {
+		reloadAudio();
 	}
 }
 
@@ -199,3 +175,33 @@ void Project::addUniforms(const Shader& shader) {
 	}
 }
 
+void Project::reloadPostproc() {
+	auto shaders = loadPostprocShaders();
+	for(auto& shader : shaders) {
+		addUniforms(*shader);
+	}
+	if(!shaders.empty()) {
+		postproc = std::unique_ptr<PostprocPipeline>(new PostprocPipeline());
+		postproc->setShaders(std::move(shaders));
+	} else {
+		std::cerr << "No shaders loaded" << std::endl;
+	}
+	postprocChanged();
+}
+
+void Project::reloadScenes() {
+	auto shaders = loadSceneShaders();
+	for(const auto& shader : shaders) {
+		addUniforms(*shader);
+	}
+	if(!shaders.empty()) {
+		scenes = std::unique_ptr<Scenes>(new Scenes(std::move(shaders)));
+	} else {
+		std::cerr << "No shaders loaded" << std::endl;
+	}
+	scenesChanged();
+}
+
+void Project::reloadAudio() {
+	audioManager.loadFile(loader.getAudioFile());
+}

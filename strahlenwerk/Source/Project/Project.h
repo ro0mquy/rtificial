@@ -25,8 +25,6 @@ class Project : private efsw::FileWatchListener {
 		void registerListener(ProjectListener* listener);
 		void unregisterListener(ProjectListener* listener);
 		void reloadShaders();
-		void reloadPostproc();
-		void reloadScenes();
 		void saveTimelineData();
 		void contextChanged(OpenGLContext& context);
 		std::unique_ptr<PostprocPipeline> getPostproc();
@@ -50,6 +48,9 @@ class Project : private efsw::FileWatchListener {
 		void scenesChanged();
 		void watchFiles(const std::string& dir);
 		void addUniforms(const Shader& shader);
+		void reloadPostproc();
+		void reloadScenes();
+		void reloadAudio();
 
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes> scenes;

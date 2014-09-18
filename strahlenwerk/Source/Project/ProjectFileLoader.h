@@ -13,6 +13,7 @@ class ProjectFileLoader {
 		std::vector<File> listSceneFiles();
 		File getMappingFile();
 		File getTimelineDataFile();
+		File getAudioFile();
 
 		const File& getSceneDir() const;
 		const File& getPostprocDir() const;

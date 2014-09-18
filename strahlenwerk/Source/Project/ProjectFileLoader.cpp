@@ -29,6 +29,10 @@ File ProjectFileLoader::getTimelineDataFile() {
 	return projectDir.getChildFile("timeline.xml");
 }
 
+File ProjectFileLoader::getAudioFile() {
+	return projectDir.getChildFile("music.flac");
+}
+
 const File& ProjectFileLoader::getSceneDir() const {
 	return sceneDir;
 }
