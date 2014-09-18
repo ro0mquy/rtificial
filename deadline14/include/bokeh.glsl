@@ -1,5 +1,14 @@
 float kernelSize = 13.;
 
+uniform float f_stop;
+
+// TODO remove manual scaling
+float bokeh_rotation_angle = mix(0., -radians(60.), (f_stop * 10. - .5) / (32. - .5));
+mat2 bokeh_rotation = mat2(
+	cos(bokeh_rotation_angle), -sin(bokeh_rotation_angle),
+	sin(bokeh_rotation_angle), cos(bokeh_rotation_angle)
+);
+
 float gatherAndApply(vec3 color, float CoC, float baseCoC, float dist, inout vec4 outColor) {
 	bool blurNear = CoC < 0.;
 	float absCoC = abs(CoC);

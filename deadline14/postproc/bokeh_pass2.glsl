@@ -7,6 +7,7 @@ uniform sampler2D both; // vec4
 out vec4 out_color;
 
 vec4 gatherDirection(sampler2D texture, vec3 baseColor, float baseCoC, vec2 dir) {
+	dir *= bokeh_rotation;
 	vec2 pixelSize = 1./res;
 	vec4 accum = vec4(vec3(0.), baseCoC);
 	float sum = 0.;

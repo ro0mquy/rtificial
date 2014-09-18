@@ -9,6 +9,7 @@ out vec4 upwards;
 out vec4 both;
 
 vec4 gatherDirection(vec3 baseColor, float baseCoC, vec2 dir) {
+	dir *= bokeh_rotation;
 	vec2 pixelSize = 1./res;
 	vec4 accum = vec4(vec3(0.), baseCoC);
 	float sum = 0.;
