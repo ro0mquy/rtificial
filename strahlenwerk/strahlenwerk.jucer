@@ -191,5 +191,10 @@
     <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
-  <JUCEOPTIONS/>
+  <JUCEOPTIONS JUCE_ASIO="disabled" JUCE_WASAPI="enabled" JUCE_DIRECTSOUND="disabled"
+               JUCE_ALSA="enabled" JUCE_JACK="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
+               JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_USE_FLAC="enabled"
+               JUCE_USE_OGGVORBIS="enabled" JUCE_USE_MP3AUDIOFORMAT="disabled"
+               JUCE_USE_LAME_AUDIO_FORMAT="disabled" JUCE_USE_WINDOWS_MEDIA_FORMAT="disabled"
+               JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="disabled"/>
 </JUCERPROJECT>

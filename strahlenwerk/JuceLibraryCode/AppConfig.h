@@ -37,58 +37,58 @@
 // juce_audio_devices flags:
 
 #ifndef    JUCE_ASIO
- //#define JUCE_ASIO
+ #define   JUCE_ASIO 0
 #endif
 
 #ifndef    JUCE_WASAPI
- //#define JUCE_WASAPI
+ #define   JUCE_WASAPI 1
 #endif
 
 #ifndef    JUCE_DIRECTSOUND
- //#define JUCE_DIRECTSOUND
+ #define   JUCE_DIRECTSOUND 0
 #endif
 
 #ifndef    JUCE_ALSA
- //#define JUCE_ALSA
+ #define   JUCE_ALSA 1
 #endif
 
 #ifndef    JUCE_JACK
- //#define JUCE_JACK
+ #define   JUCE_JACK 0
 #endif
 
 #ifndef    JUCE_USE_ANDROID_OPENSLES
- //#define JUCE_USE_ANDROID_OPENSLES
+ #define   JUCE_USE_ANDROID_OPENSLES 0
 #endif
 
 #ifndef    JUCE_USE_CDREADER
- //#define JUCE_USE_CDREADER
+ #define   JUCE_USE_CDREADER 0
 #endif
 
 #ifndef    JUCE_USE_CDBURNER
- //#define JUCE_USE_CDBURNER
+ #define   JUCE_USE_CDBURNER 0
 #endif
 
 //==============================================================================
 // juce_audio_formats flags:
 
 #ifndef    JUCE_USE_FLAC
- //#define JUCE_USE_FLAC
+ #define   JUCE_USE_FLAC 1
 #endif
 
 #ifndef    JUCE_USE_OGGVORBIS
- //#define JUCE_USE_OGGVORBIS
+ #define   JUCE_USE_OGGVORBIS 1
 #endif
 
 #ifndef    JUCE_USE_MP3AUDIOFORMAT
- //#define JUCE_USE_MP3AUDIOFORMAT
+ #define   JUCE_USE_MP3AUDIOFORMAT 0
 #endif
 
 #ifndef    JUCE_USE_LAME_AUDIO_FORMAT
- //#define JUCE_USE_LAME_AUDIO_FORMAT
+ #define   JUCE_USE_LAME_AUDIO_FORMAT 0
 #endif
 
 #ifndef    JUCE_USE_WINDOWS_MEDIA_FORMAT
- //#define JUCE_USE_WINDOWS_MEDIA_FORMAT
+ #define   JUCE_USE_WINDOWS_MEDIA_FORMAT 0
 #endif
 
 //==============================================================================
@@ -148,11 +148,11 @@
 // juce_gui_extra flags:
 
 #ifndef    JUCE_WEB_BROWSER
- //#define JUCE_WEB_BROWSER
+ #define   JUCE_WEB_BROWSER 0
 #endif
 
 #ifndef    JUCE_ENABLE_LIVE_CONSTANT_EDITOR
- //#define JUCE_ENABLE_LIVE_CONSTANT_EDITOR
+ #define   JUCE_ENABLE_LIVE_CONSTANT_EDITOR 0
 #endif
 
 
