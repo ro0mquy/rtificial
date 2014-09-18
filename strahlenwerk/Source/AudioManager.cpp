@@ -7,6 +7,15 @@ AudioManager::AudioManager() :
 	// no input, stereo output
 	deviceManager.initialiseWithDefaultDevices(0, 2);
 
+	// wenn man die buffergröße nicht auf etwas über 1024
+	// setzt bekommt man hier aus seiner musik besten
+	// electro-glitch gemacht (plus extra bonus lüftergeräusche)
+	//  wer's mag einfach auskommentieren!
+	AudioDeviceManager::AudioDeviceSetup deviceSetup;
+	deviceManager.getAudioDeviceSetup(deviceSetup);
+	deviceSetup.bufferSize = 1152;
+	deviceManager.setAudioDeviceSetup(deviceSetup, true);
+
 	readAheadThread.startThread(3); // priority 3
 
 	deviceManager.addAudioCallback(&player);
