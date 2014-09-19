@@ -9,8 +9,6 @@ class ZoomFactor;
 class SnapToGridConstrainer : public ComponentBoundsConstrainer {
 	public:
 		SnapToGridConstrainer();
-		void setGridWidth(const int width);
-		float snapValueToGrid(const float value);
 		void checkBounds (Rectangle<int>& bounds,
 				const Rectangle<int>& old,
 				const Rectangle<int>& limits,
@@ -18,9 +16,9 @@ class SnapToGridConstrainer : public ComponentBoundsConstrainer {
 				const bool isStretchingLeft,
 				const bool isStretchingBottom,
 				const bool isStretchingRight) override ;
+		static float snapValueToGrid(const float value);
 
 	private:
-		float gridWidth;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SnapToGridConstrainer);
 };
 

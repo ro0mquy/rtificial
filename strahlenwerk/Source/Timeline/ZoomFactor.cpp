@@ -69,3 +69,7 @@ float ZoomFactor::pixelsToTime(const float pixels) {
 	std::lock_guard<std::mutex> lock(zoomMutex);
 	return pixels / zoomLevel;
 }
+
+float ZoomFactor::getGridWith() {
+	return 1.;
+}

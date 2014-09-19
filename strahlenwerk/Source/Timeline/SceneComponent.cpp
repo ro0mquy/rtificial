@@ -8,8 +8,6 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	zoomFactor(zoomFactor_),
 	resizableBorder(this, &constrainer)
 {
-	const int gridWidth = 500;
-
 	Value shaderSourceValue = data.getSceneShaderSourceAsValue(sceneData);
 	shaderSourceLabel.getTextValue().referTo(shaderSourceValue);
 	shaderSourceLabel.setEditable(false, true, false);
@@ -19,8 +17,7 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
-	constrainer.setGridWidth(gridWidth);
-	constrainer.setMinimumWidth(gridWidth);
+	constrainer.setMinimumWidth(zoomFactor.getGridWith());
 
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
@@ -112,14 +109,14 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 }
 
 void SceneComponent::moved() {
-	const float newStart = constrainer.snapValueToGrid(getX() / zoomFactor);
+	const float newStart = SnapToGridConstrainer::snapValueToGrid(getX() / zoomFactor);
 	data.setSceneStart(sceneData, newStart);
 }
 
 void SceneComponent::resized() {
 	shaderSourceLabel.setBounds(getLocalBounds());
 	resizableBorder.setBounds(getLocalBounds());
-	const float newDuration = constrainer.snapValueToGrid(getWidth() / zoomFactor);
+	const float newDuration = SnapToGridConstrainer::snapValueToGrid(getWidth() / zoomFactor);
 	data.setSceneDuration(sceneData, newDuration);
 }
 

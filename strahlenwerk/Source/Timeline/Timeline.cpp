@@ -14,8 +14,6 @@ Timeline::Timeline() :
 	addAndMakeVisible(viewportSequenceView);
 	addAndMakeVisible(viewportScenesBar);
 	addAndMakeVisible(viewportUniformsBar);
-
-	constrainer.setGridWidth(20);
 }
 
 void Timeline::resized() {

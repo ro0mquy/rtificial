@@ -1,11 +1,12 @@
 #include "ScenesBarComponent.h"
 
-#include "../RtificialLookAndFeel.h"
+#include <RtificialLookAndFeel.h>
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include "SceneComponent.h"
 #include "StrahlenwerkApplication.h"
 #include "AudioManager.h"
+#include "SnapToGridConstrainer.h"
 
 ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
@@ -24,14 +25,14 @@ ScenesBarComponent::~ScenesBarComponent() {
 }
 
 void ScenesBarComponent::updateSize() {
-	const int paddingAfterLastScene = 300;
-	const int endTime = data.getLastSceneEndTime() * zoomFactor;
+	const float paddingAfterLastScene = 300;
+	const float endTime = data.getLastSceneEndTime() * zoomFactor;
 
 	const Viewport* parentViewport = findParentComponentOfClass<Viewport>();
 	const int viewportWidth = parentViewport->getMaximumVisibleWidth();
 	const int viewportHeight = parentViewport->getMaximumVisibleHeight();
 
-	const int width = jmax(endTime + paddingAfterLastScene, viewportWidth);
+	const int width = jmax(roundFloatToInt(endTime + paddingAfterLastScene), viewportWidth);
 	setSize(width, viewportHeight);
 }
 
@@ -48,25 +49,27 @@ void ScenesBarComponent::paint(Graphics& g) {
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
 
-	const float lineDistance           = 1/*gridWidth*/ * zoomFactor;
-	const int longLineDistance         = 4;
+	const float lineDistance           = zoomFactor.getGridWith() * zoomFactor;
+	const int longLineDistance         = 4; // every nth tick is a long line
 	const float lineHeightFraction     = 0.25;
 	const float longLineHeightFraction = 0.5;
 
-	for(int i = 0; i*lineDistance < getWidth(); i++){
+	const int width = getWidth();
+	const int height = getHeight();
+	for(int i = 0; i*lineDistance < width; i++){
 		const bool longLine = (i%longLineDistance == 0);
 		g.drawLine(
 				i*lineDistance + 0.5,
 				0,
 				i*lineDistance + 0.5,
-				getHeight()*(longLine ? longLineHeightFraction : lineHeightFraction),
+				height * (longLine ? longLineHeightFraction : lineHeightFraction),
 				1
 			);
 	}
 
 	// draw outline
 	g.setColour(findColour(RtColourIds::outlineColourId));
-	g.drawHorizontalLine(getHeight()-1, 0, getWidth());
+	g.drawHorizontalLine(height - 1, 0, width);
 }
 
 void ScenesBarComponent::paintOverChildren(Graphics& g) {
@@ -108,7 +111,7 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown()) {
 		var sceneStart = event.getMouseDownX() / zoomFactor;
-		var sceneDuration = 0;
+		var sceneDuration = 0.f;
 		var sceneShaderSource = "szenchen" + String(data.getNewSceneId());
 		currentlyCreatedSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
 	} else {
@@ -119,17 +122,15 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 	// invalid data happens on no left click or no command down
 	if (currentlyCreatedSceneData.isValid()) {
-		const int gridWidth = 20; // time units
-
 		const float mouseDown = event.getMouseDownX() / zoomFactor;
-		const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
+		const float mouseDownGrid = SnapToGridConstrainer::snapValueToGrid(mouseDown);
 
 		const float mousePos = event.x / zoomFactor;
-		const int mousePosGrid = roundFloatToInt(mousePos / float(gridWidth)) * gridWidth;
+		const float mousePosGrid = SnapToGridConstrainer::snapValueToGrid(mousePos);
 
-		const int distanceGrid = mousePosGrid - mouseDownGrid;
-		const int absDistanceGrid = abs(distanceGrid);
-		const int startGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
+		const float distanceGrid = mousePosGrid - mouseDownGrid;
+		const float absDistanceGrid = std::abs(distanceGrid);
+		const float startGrid = mouseDownGrid + jmin(0.f, distanceGrid); // subtract distance if negative
 
 		data.setSceneStart(currentlyCreatedSceneData, startGrid);
 		data.setSceneDuration(currentlyCreatedSceneData, absDistanceGrid);
@@ -141,7 +142,7 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	// invalid data happens on no left click or no command down
 	if (currentlyCreatedSceneData.isValid()) {
-		if (0 == int(data.getSceneDuration(currentlyCreatedSceneData))) {
+		if (0. == float(data.getSceneDuration(currentlyCreatedSceneData))) {
 			data.removeScene(currentlyCreatedSceneData);
 		}
 		currentlyCreatedSceneData = ValueTree();
@@ -153,7 +154,6 @@ void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 void ScenesBarComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// zoomFactor update
 	updateSize();
-	repaint();
 }
 
 void ScenesBarComponent::valueChanged(Value& /*value*/) {
@@ -165,7 +165,6 @@ void ScenesBarComponent::valueChanged(Value& /*value*/) {
 void ScenesBarComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& /*property*/) {
 	if (parentTree.hasType(treeId::scene)) {
 		updateSize();
-		repaint();
 	}
 }
 
@@ -174,7 +173,6 @@ void ScenesBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTre
 		addSceneComponent(childWhichHasBeenAdded);
 	} else if (childWhichHasBeenAdded.hasType(treeId::scene)) {
 		updateSize();
-		repaint();
 	}
 }
 
@@ -185,7 +183,6 @@ void ScenesBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueT
 		sceneComponentsArray.removeObject(sceneComponent);
 	} else if (childWhichHasBeenRemoved.hasType(treeId::scene)) {
 		updateSize();
-		repaint();
 	}
 }
 
@@ -197,7 +194,7 @@ void ScenesBarComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasC
 
 void ScenesBarComponent::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
 	// always the root tree
+	addAllSceneComponents();
 	updateSize();
 	repaint();
-	addAllSceneComponents();
 }

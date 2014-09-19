@@ -12,7 +12,6 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFa
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
-	constrainer.setGridWidth(20);
 }
 
 KeyframeComponent::~KeyframeComponent() {

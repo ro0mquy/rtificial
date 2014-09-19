@@ -21,7 +21,6 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
-	constrainer.setGridWidth(20);
 	constrainer.setMinimumWidth(20);
 
 	// add a border resizer that allows resizing only on the left and right

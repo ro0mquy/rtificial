@@ -20,6 +20,8 @@ class ZoomFactor :
 		float timeToPixels(const float time);
 		float pixelsToTime(const float pixels);
 
+		float getGridWith();
+
 	private:
 		float zoomLevel;
 		std::mutex zoomMutex;
