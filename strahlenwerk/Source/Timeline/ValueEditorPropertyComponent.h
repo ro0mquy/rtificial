@@ -10,6 +10,8 @@ class ValueEditorPropertyComponent : public PropertyComponent {
 		void refresh() override;
 		void resized() override;
 
+		virtual void useValueData(ValueTree /*valueData*/) {};
+
 		static PropertyComponent* newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData);
 
 	private:

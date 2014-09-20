@@ -23,8 +23,7 @@ class MainContentComponent : public Component
 		StretchableLayoutResizerBar verticalResizer;
 		Timeline timeline;
 
-		Component sidebar;
-		//Sidebar sidebar;
+		Sidebar sidebar;
 		StretchableLayoutResizerBar horizontalResizer;
 		OpenGLComponent openGLComponent;
 

@@ -5,12 +5,17 @@
 
 class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
-		BoolEditorPropertyComponent(const String& name, Value boolState_) :
-			ValueEditorPropertyComponent(name, 1),
-			boolState(boolState_)
+		BoolEditorPropertyComponent(const String& name, ValueTree valueData) :
+			ValueEditorPropertyComponent(name, 1)
 		{
-			button.getToggleStateValue().referTo(boolState);
+			useValueData(valueData);
 			addAndMakeVisible(button);
+		}
+
+		void useValueData(ValueTree valueData) override {
+			TimelineData& data = TimelineData::getTimelineData();
+			boolState.referTo(data.getValueBoolStateAsValue(valueData));
+			button.getToggleStateValue().referTo(boolState);
 		}
 
 	private:
@@ -22,15 +27,20 @@ class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 
 class FloatEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
-		FloatEditorPropertyComponent(const String& name, Value floatX_) :
+		FloatEditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 1),
-			floatX(floatX_),
 			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft)
 		{
+			useValueData(valueData);
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderX.setRange(-1., 1., .001);
-			sliderX.getValueObject().referTo(floatX);
 			addAndMakeVisible(sliderX);
+		}
+
+		void useValueData(ValueTree valueData) override {
+			TimelineData& data = TimelineData::getTimelineData();
+			floatX.referTo(data.getValueFloatXAsValue(valueData));
+			sliderX.getValueObject().referTo(floatX);
 		}
 
 	private:
@@ -42,21 +52,26 @@ class FloatEditorPropertyComponent : public ValueEditorPropertyComponent {
 
 class Vec2EditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
-		Vec2EditorPropertyComponent(const String& name, Value floatX_, Value floatY_) :
+		Vec2EditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 2),
-			floatX(floatX_),
-			floatY(floatY_),
 			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
 			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft)
 		{
+			useValueData(valueData);
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderX.setRange(-1., 1., .001);
 			sliderY.setRange(-1., 1., .001);
-			sliderX.getValueObject().referTo(floatX);
-			sliderY.getValueObject().referTo(floatY);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
+		}
+
+		void useValueData(ValueTree valueData) override {
+			TimelineData& data = TimelineData::getTimelineData();
+			floatX.referTo(data.getValueVec2XAsValue(valueData));
+			floatY.referTo(data.getValueVec2YAsValue(valueData));
+			sliderX.getValueObject().referTo(floatX);
+			sliderY.getValueObject().referTo(floatY);
 		}
 
 	private:
@@ -70,27 +85,32 @@ class Vec2EditorPropertyComponent : public ValueEditorPropertyComponent {
 
 class Vec3EditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
-		Vec3EditorPropertyComponent(const String& name, Value floatX_, Value floatY_, Value floatZ_) :
+		Vec3EditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 3),
-			floatX(floatX_),
-			floatY(floatY_),
-			floatZ(floatZ_),
 			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
 			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft),
 			sliderZ(Slider::IncDecButtons, Slider::TextBoxLeft)
 		{
+			useValueData(valueData);
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderZ.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderX.setRange(-1., 1., .001);
 			sliderY.setRange(-1., 1., .001);
 			sliderZ.setRange(-1., 1., .001);
-			sliderX.getValueObject().referTo(floatX);
-			sliderY.getValueObject().referTo(floatY);
-			sliderZ.getValueObject().referTo(floatZ);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
 			addAndMakeVisible(sliderZ);
+		}
+
+		void useValueData(ValueTree valueData) override {
+			TimelineData& data = TimelineData::getTimelineData();
+			floatX.referTo(data.getValueVec3XAsValue(valueData));
+			floatY.referTo(data.getValueVec3YAsValue(valueData));
+			floatZ.referTo(data.getValueVec3ZAsValue(valueData));
+			sliderX.getValueObject().referTo(floatX);
+			sliderY.getValueObject().referTo(floatY);
+			sliderZ.getValueObject().referTo(floatZ);
 		}
 
 	private:
@@ -108,17 +128,22 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 	private Value::Listener
 {
 	public:
-		ColorEditorPropertyComponent(const String& name, Value colorR_, Value colorG_, Value colorB_) :
+		ColorEditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 1),
-			colorR(colorR_),
-			colorG(colorG_),
-			colorB(colorB_),
 			colorLab(LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue()))
 		{
+			useValueData(valueData);
 			colorR.addListener(this);
 			colorG.addListener(this);
 			colorB.addListener(this);
 			colorLab.addListenerForLab(this);
+		}
+
+		void useValueData(ValueTree valueData) override {
+			TimelineData& data = TimelineData::getTimelineData();
+			colorR.referTo(data.getValueColorRAsValue(valueData));
+			colorG.referTo(data.getValueColorGAsValue(valueData));
+			colorB.referTo(data.getValueColorBAsValue(valueData));
 		}
 
 		void paint(Graphics& g) override {
@@ -182,25 +207,15 @@ void ValueEditorPropertyComponent::resized() {
 PropertyComponent* ValueEditorPropertyComponent::newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData) {
 	TimelineData& data = TimelineData::getTimelineData();
 	if (data.isValueBool(valueData)) {
-		Value boolState = data.getValueBoolStateAsValue(valueData);
-		return new BoolEditorPropertyComponent(propertyName, boolState);
+		return new BoolEditorPropertyComponent(propertyName, valueData);
 	} else if (data.isValueFloat(valueData)) {
-		Value floatX = data.getValueFloatXAsValue(valueData);
-		return new FloatEditorPropertyComponent(propertyName, floatX);
+		return new FloatEditorPropertyComponent(propertyName, valueData);
 	} else if (data.isValueVec2(valueData)) {
-		Value floatX = data.getValueVec2XAsValue(valueData);
-		Value floatY = data.getValueVec2YAsValue(valueData);
-		return new Vec2EditorPropertyComponent(propertyName, floatX, floatY);
+		return new Vec2EditorPropertyComponent(propertyName, valueData);
 	} else if (data.isValueVec3(valueData)) {
-		Value floatX = data.getValueVec3XAsValue(valueData);
-		Value floatY = data.getValueVec3YAsValue(valueData);
-		Value floatZ = data.getValueVec3ZAsValue(valueData);
-		return new Vec3EditorPropertyComponent(propertyName, floatX, floatY, floatZ);
+		return new Vec3EditorPropertyComponent(propertyName, valueData);
 	} else if (data.isValueColor(valueData)) {
-		Value colorR = data.getValueColorRAsValue(valueData);
-		Value colorG = data.getValueColorGAsValue(valueData);
-		Value colorB = data.getValueColorBAsValue(valueData);
-		return new ColorEditorPropertyComponent(propertyName, colorR, colorG, colorB);
+		return new ColorEditorPropertyComponent(propertyName, valueData);
 	}
 	return new TextPropertyComponent(Value(propertyName), propertyName, 30, false);
 }
