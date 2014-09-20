@@ -20,10 +20,10 @@ KeyframeComponent::~KeyframeComponent() {
 }
 
 void KeyframeComponent::updateBounds() {
-	const int keyframeWidth = 4;
-	const int position = (float) data.getKeyframePosition(keyframeData) * zoomFactor;
+	const float keyframeWidth = 4.;
+	const float position = (float) data.getKeyframePosition(keyframeData) * zoomFactor;
 	const int height = getParentHeight();
-	setBounds(position - keyframeWidth / 2, 0, keyframeWidth, height);
+	setBounds(roundFloatToInt(position - keyframeWidth / 2), 0, roundFloatToInt(keyframeWidth), height);
 }
 
 void KeyframeComponent::paint(Graphics& g) {
@@ -76,7 +76,7 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 
 void KeyframeComponent::moved() {
 	const float rawCenterX = getBounds().getCentreX() / zoomFactor;
-	const int snappedCenterX = constrainer.snapValueToGrid(rawCenterX);
+	const float snappedCenterX = SnapToGridConstrainer::snapValueToGrid(rawCenterX);
 	data.setKeyframePosition(keyframeData, snappedCenterX);
 }
 
