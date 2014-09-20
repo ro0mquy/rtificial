@@ -14,6 +14,7 @@
 * `[Ctrl]+[Scroll]` zoom timeline (zoom in to mouse position, zoom out of screen center)
 * `[Click]` set time position
 * `[Ctrl]+S` save all timeline data to `timeline.xml`
+* `[Space]` Play/pause
 
 #### Scenes
 * `[Ctrl]+[Drag]` create new scene or move already existing
@@ -29,6 +30,8 @@
 * `[Esc]` quit
 * `[F5]` reload shaders
 * `[Ctrl]+O` open a project directory
+* `F` Toggle fullscreen
+* `G` Toggle Rule of Third grid
 
 (Shader is also reloaded on file change)
 
