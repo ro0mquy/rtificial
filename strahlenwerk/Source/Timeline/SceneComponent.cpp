@@ -38,7 +38,9 @@ void SceneComponent::updateBounds() {
 	const float duration = (float) data.getSceneDuration(sceneData) * zoomFactor;
 
 	const float padding = 0;
-	setBounds(start, padding, duration, getParentHeight() - 2*padding);
+	const float percentOfParentHeight = .5;
+	const int newHeight = roundFloatToInt(getParentHeight() * percentOfParentHeight - 2*padding);
+	setBounds(start, padding, duration, newHeight);
 }
 
 void SceneComponent::paint(Graphics& g) {

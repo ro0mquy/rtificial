@@ -19,7 +19,7 @@ Timeline::Timeline() :
 }
 
 void Timeline::resized() {
-	const int scenesBarHeight = 30;
+	const int scenesBarHeight = 40;
 	const int uniformsBarWidth = 150;
 	Rectangle<int> r(getLocalBounds());
 
@@ -45,7 +45,7 @@ void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& 
 }
 
 void Timeline::mouseDown(const MouseEvent& event) {
-	const int uniformsBarWidth = 150;
+	const int uniformsBarWidth = viewportUniformsBar.getWidth();
 	const bool isInUniBar = event.getMouseDownX() < uniformsBarWidth;
 	const ModifierKeys& m = event.mods;
 	if (!isInUniBar && m.isLeftButtonDown() && !m.isAnyModifierKeyDown()) {
@@ -57,7 +57,7 @@ void Timeline::mouseDown(const MouseEvent& event) {
 }
 
 void Timeline::mouseDrag(const MouseEvent& event) {
-	const int uniformsBarWidth = 150;
+	const int uniformsBarWidth = viewportUniformsBar.getWidth();
 	const bool isInUniBar = event.getMouseDownX() < uniformsBarWidth;
 	const ModifierKeys& m = event.mods;
 	if (!isInUniBar && m.isLeftButtonDown() && !m.isAnyModifierKeyDown()) {
