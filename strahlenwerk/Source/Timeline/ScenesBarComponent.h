@@ -3,6 +3,7 @@
 
 #include <juce>
 #include "MouseCallbackClasses.h"
+#include "TimeMarkerComponent.h"
 
 class TimelineData;
 class AudioManager;
@@ -20,7 +21,6 @@ class ScenesBarComponent :
 
 		void updateSize();
 		void paint(Graphics& g) override;
-		void paintOverChildren(Graphics& g) override;
 		void addSceneComponent(ValueTree sceneData);
 		void addAllSceneComponents();
 		SceneComponent* getSceneComponentForData(ValueTree sceneData);
@@ -40,13 +40,12 @@ class ScenesBarComponent :
 
 		enum ColourIds{
 			tickColourId = 0x2300101,
-			timeMarkerColourId = 0x2300102,
 		};
 
 	private:
 		TimelineData& data;
-		AudioManager& audioManager;
 		ZoomFactor& zoomFactor;
+		TimeMarkerComponent timeMarker;
 		OwnedArray<SceneComponent> sceneComponentsArray;
 
 		ValueTree currentlyCreatedSceneData;

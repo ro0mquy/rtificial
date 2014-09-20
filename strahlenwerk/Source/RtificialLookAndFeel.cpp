@@ -5,13 +5,12 @@
 #include "Timeline/SequenceViewComponent.h"
 #include "Timeline/SequenceComponent.h"
 #include "Timeline/KeyframeComponent.h"
+#include "Timeline/TimeMarkerComponent.h"
 #include "RtColourIds.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
 	// ScenesBarComponent
 	setColour(ScenesBarComponent::tickColourId, Colours::white);
-	setColour(ScenesBarComponent::timeMarkerColourId, Colours::red);
-	setColour(SequenceViewComponent::timeMarkerColourId, findColour(ScenesBarComponent::timeMarkerColourId));
 
 	// SceneComponent
 	setColour(SceneComponent::outlineColourId, Colours::yellow);
@@ -36,6 +35,9 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 
 	// KeyframeComponent
 	setColour(KeyframeComponent::fillColourId, Colours::steelblue);
+
+	// TimeMarkerComponent
+	setColour(TimeMarkerComponent::fillColourId, Colours::red);
 
 	// RtColourIds
 	setColour(RtColourIds::outlineColourId, Colours::black);

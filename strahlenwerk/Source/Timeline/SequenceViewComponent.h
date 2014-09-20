@@ -3,6 +3,7 @@
 
 #include <juce>
 #include "MouseCallbackClasses.h"
+#include "TimeMarkerComponent.h"
 
 class TimelineData;
 class AudioManager;
@@ -20,7 +21,6 @@ class SequenceViewComponent :
 
 		void updateSize();
 		void paint(Graphics& g) override;
-		void paintOverChildren(Graphics& g) override;
 		void addSequenceComponent(ValueTree sequenceData);
 		void addAllSequenceComponents();
 		SequenceComponent* getSequenceComponentForData(ValueTree sequenceData);
@@ -39,7 +39,6 @@ class SequenceViewComponent :
         void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
 
 		enum ColourIds{
-			timeMarkerColourId = 0x8350102,
 			evenRowColourId = 0x2300301,
 			oddRowColourId = 0x2300302,
 			seperatorColourId = 0x2300304,
@@ -50,8 +49,8 @@ class SequenceViewComponent :
 		bool uniformActiveForScene(ValueTree uniform, ValueTree scene);
 
 		TimelineData& data;
-		AudioManager& audioManager;
 		ZoomFactor& zoomFactor;
+		TimeMarkerComponent timeMarker;
 		OwnedArray<SequenceComponent> sequenceComponentsArray;
 
 		ValueTree currentlyCreatedSequenceData;

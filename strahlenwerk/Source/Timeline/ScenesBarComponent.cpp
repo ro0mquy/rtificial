@@ -10,18 +10,17 @@
 
 ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
-	audioManager(AudioManager::getAudioManager()),
-	zoomFactor(zoomFactor_)
+	zoomFactor(zoomFactor_),
+	timeMarker(zoomFactor_)
 {
 	data.addListenerToTree(this);
-	audioManager.addChangeListener(this);
 	zoomFactor.addChangeListener(this);
 	addAllSceneComponents();
+	addAndMakeVisible(timeMarker);
 }
 
 ScenesBarComponent::~ScenesBarComponent() {
 	data.removeListenerFromTree(this);
-	audioManager.removeChangeListener(this);
 	zoomFactor.removeChangeListener(this);
 }
 
@@ -71,14 +70,6 @@ void ScenesBarComponent::paint(Graphics& g) {
 	// draw outline
 	g.setColour(findColour(RtColourIds::outlineColourId));
 	g.drawHorizontalLine(height - 1, 0, width);
-}
-
-void ScenesBarComponent::paintOverChildren(Graphics& g) {
-	// draw time marker
-	const float timeMarkerLineWidth = 2.;
-	g.setColour(findColour(ScenesBarComponent::timeMarkerColourId));
-	const float x = audioManager.getTimeInBeats() * zoomFactor;
-	g.drawLine(x, 0, x, getHeight(), timeMarkerLineWidth);
 }
 
 void ScenesBarComponent::addSceneComponent(ValueTree sceneData) {
@@ -152,14 +143,10 @@ void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	}
 }
 
-void ScenesBarComponent::changeListenerCallback(ChangeBroadcaster* source) {
-	if (source == &zoomFactor) {
-		updateSize();
-		repaint();
-	} else if (source == &audioManager) {
-		// time changed
-		repaint();
-	}
+void ScenesBarComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	// zoomFactor changed
+	updateSize();
+	repaint();
 }
 
 // ValueTree::Listener callbacks
