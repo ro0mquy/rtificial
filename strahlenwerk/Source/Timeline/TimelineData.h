@@ -19,7 +19,6 @@ class TimelineData {
 		void writeTimelineDataToFile(const File& dataFile);
 		void addListenerToTree(ValueTree::Listener* listener);
 		void removeListenerFromTree(ValueTree::Listener* listener);
-		int compareElements(const ValueTree& first, const ValueTree& second);
 
 
 		// scene related stuff
@@ -120,6 +119,7 @@ class TimelineData {
 
 		void initializeKeyframesArray(ValueTree sequence);
 		int getKeyframeIndex(ValueTree keyframe);
+		int compareKeyframes(const ValueTree& first, const ValueTree& second);
 
 
 		// value stuff

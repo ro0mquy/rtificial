@@ -70,13 +70,6 @@ void TimelineData::removeListenerFromTree(ValueTree::Listener* listener) {
 	valueTree.removeListener(listener);
 }
 
-// comparator function for keyframes in the keyframes array of a sequence
-int TimelineData::compareElements(const ValueTree& first, const ValueTree& second) {
-		int firstPosition = getKeyframePosition(first);
-		int secondPosition = getKeyframePosition(second);
-		return firstPosition - secondPosition;
-}
-
 
 
 // retrieves the scenes array
@@ -656,9 +649,18 @@ ValueTree TimelineData::addKeyframe(ValueTree sequence, var keyframePosition) {
 // keyframe gets inserted at a sorted position
 ValueTree TimelineData::addKeyframeUnchecked(ValueTree sequence, ValueTree keyframe) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	ValueTree keyframesArray = getKeyframesArray(sequence);
-	keyframesArray.addChild(keyframe, -1, nullptr);
-	keyframesArray.sort<TimelineData>(*this, &undoManager, true);
+	const int numKeyframes = getNumKeyframes(sequence);
+	int sortedPosition = 0;
+	for (; sortedPosition < numKeyframes; sortedPosition++) {
+		ValueTree otherKeyframe = getKeyframe(sequence, sortedPosition);
+		if (compareKeyframes(keyframe, otherKeyframe) < 0) {
+			// break if the new keyframe comes before the currently checked one
+			break;
+		}
+		// if the new keyframe comes last sortedPosition will contain numKeyframes
+		// and the new keyframe will be added at the end
+	}
+	getKeyframesArray(sequence).addChild(keyframe, sortedPosition, &undoManager);
 	return keyframe;
 }
 
@@ -711,6 +713,13 @@ void TimelineData::initializeKeyframesArray(ValueTree sequence) {
 int TimelineData::getKeyframeIndex(ValueTree keyframe) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return keyframe.getParent().indexOf(keyframe);
+}
+
+// comparator function for keyframes in the keyframes array of a sequence
+int TimelineData::compareKeyframes(const ValueTree& first, const ValueTree& second) {
+		int firstPosition = getKeyframePosition(first);
+		int secondPosition = getKeyframePosition(second);
+		return firstPosition - secondPosition;
 }
 
 
