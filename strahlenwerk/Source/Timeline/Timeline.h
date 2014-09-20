@@ -37,7 +37,7 @@ class Timeline : public Component
 		ViewportCallback viewportSequenceView;
 		ViewportCallback viewportScenesBar;
 		ViewportCallback viewportUniformsBar;
-		Component sequenceView;
+		SequenceViewComponent sequenceView;
 		ScenesBarComponent scenesBar;
 		UniformsBarComponent uniformsBar;
 

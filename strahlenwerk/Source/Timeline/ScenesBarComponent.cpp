@@ -154,6 +154,7 @@ void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 void ScenesBarComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// zoomFactor update
 	updateSize();
+	repaint();
 }
 
 void ScenesBarComponent::valueChanged(Value& /*value*/) {
@@ -165,6 +166,7 @@ void ScenesBarComponent::valueChanged(Value& /*value*/) {
 void ScenesBarComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& /*property*/) {
 	if (parentTree.hasType(treeId::scene)) {
 		updateSize();
+		repaint();
 	}
 }
 
@@ -173,6 +175,7 @@ void ScenesBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTre
 		addSceneComponent(childWhichHasBeenAdded);
 	} else if (childWhichHasBeenAdded.hasType(treeId::scene)) {
 		updateSize();
+		repaint();
 	}
 }
 
@@ -183,6 +186,7 @@ void ScenesBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueT
 		sceneComponentsArray.removeObject(sceneComponent);
 	} else if (childWhichHasBeenRemoved.hasType(treeId::scene)) {
 		updateSize();
+		repaint();
 	}
 }
 
