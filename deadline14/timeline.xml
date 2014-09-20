@@ -43,7 +43,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="0.03"/>
+      <uniformStandardValue valueFloatX="0.005"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="bloom_amount" uniformType="float">
@@ -156,10 +156,10 @@
     </uniform>
   </uniformsArray>
   <scenesArray>
-    <scene sceneId="100" sceneStart="0" sceneDuration="160" sceneShaderSource="schalter"/>
-    <scene sceneId="101" sceneStart="160" sceneDuration="160" sceneShaderSource="conicbobbel"/>
-    <scene sceneId="102" sceneStart="320" sceneDuration="160" sceneShaderSource="zapfen"/>
-    <scene sceneId="103" sceneStart="480" sceneDuration="160" sceneShaderSource="syntakischerspalt"/>
-    <scene sceneId="104" sceneStart="640" sceneDuration="160" sceneShaderSource="raymarching"/>
+    <scene sceneId="100" sceneStart="0" sceneDuration="8" sceneShaderSource="schalter"/>
+    <scene sceneId="101" sceneStart="8" sceneDuration="8" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="102" sceneStart="16" sceneDuration="8" sceneShaderSource="zapfen"/>
+    <scene sceneId="103" sceneStart="24" sceneDuration="8" sceneShaderSource="syntakischerspalt"/>
+    <scene sceneId="104" sceneStart="32" sceneDuration="8" sceneShaderSource="raymarching"/>
   </scenesArray>
 </timelineTree>
