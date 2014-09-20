@@ -45,9 +45,13 @@ void ScenesBarComponent::paint(Graphics& g) {
 	auto& audioThumb = audioManager.getThumbnail();
 	const float beatsPerSecond = audioManager.getBpm() / 60.;
 	const float timeAtRightBorder = getWidth() / zoomFactor / beatsPerSecond;
+
+	Rectangle<int> halfVisibleRect = getLocalBounds();
+	halfVisibleRect.setHeight(2 * halfVisibleRect.getHeight());
+
 	g.setColour(findColour(ScenesBarComponent::waveformColourId));
-	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 0, 1.);
-	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 1, 1.);
+	audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 0, 1.);
+	//audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 1, 1.);
 
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
