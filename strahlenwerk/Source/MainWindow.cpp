@@ -74,6 +74,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		MainWindow::saveTimeline,
 		MainWindow::playPause,
 		MainWindow::toggleGrid,
+		MainWindow::toggleFullscreen,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -108,6 +109,10 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.setInfo("Toogle Grid", "Enable/Disable Rule of Thirds grid overlay", programCategory, 0);
 			result.addDefaultKeypress('g', ModifierKeys::commandModifier);
 			break;
+		case MainWindow::toggleFullscreen:
+			result.setInfo("Toogle Fullscreen", "Toggle fullscreen mode for OpenGL component", programCategory, 0);
+			result.addDefaultKeypress('f', ModifierKeys::commandModifier);
+			break;
 		default:
 			break;
 	}
@@ -140,6 +145,10 @@ bool MainWindow::perform(const InvocationInfo& info) {
 			doToggleGrid();
 			break;
 
+		case MainWindow::toggleFullscreen:
+			doToggleFullscreen();
+			break;
+
 		default:
 			return false;
 	}
@@ -165,6 +174,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, MainWindow::saveTimeline);
 		menu.addCommandItem(commandManager, MainWindow::reload);
 		menu.addCommandItem(commandManager, MainWindow::toggleGrid);
+		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
 	}
 
@@ -204,4 +214,15 @@ void MainWindow::doToggleGrid() {
 	properties.setValue(PropertyNames::GRID_ENABLED, !previous);
 	// TODO this is not very elegant
 	mainContentComponent.repaintOpenGLComponent();
+}
+
+void MainWindow::doToggleFullscreen() {
+	auto& desktop = Desktop::getInstance();
+	if(this == desktop.getKioskModeComponent()) {
+		mainContentComponent.setDefaultLayout();
+		desktop.setKioskModeComponent(nullptr);
+	} else {
+		mainContentComponent.setOpenGLOnlyLayout();
+		desktop.setKioskModeComponent(this);
+	}
 }

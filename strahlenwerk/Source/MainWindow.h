@@ -26,7 +26,8 @@ class MainWindow : public DocumentWindow,
 			reload,
 			saveTimeline,
 			playPause,
-			toggleGrid
+			toggleGrid,
+			toggleFullscreen
 		};
 
 		StringArray getMenuBarNames() override;
@@ -45,6 +46,7 @@ class MainWindow : public DocumentWindow,
 		void doSaveTimeline();
 		void doPlayPause();
 		void doToggleGrid();
+		void doToggleFullscreen();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };
