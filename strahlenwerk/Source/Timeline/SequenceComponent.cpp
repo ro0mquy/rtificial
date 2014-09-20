@@ -183,17 +183,22 @@ void SequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Id
 			// the scene this sequence belongs to has been moved
 			updateBounds();
 		} else {
-			// a scene has been moved, so maybe this sequence now belongs to another scene
+			if (data.getSequenceSceneId(sequenceData) == var::null) {
+				// a scene has been moved, so maybe this sequence now belongs to another scene
+				const float absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
+				data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
+			}
+		}
+	} else if (property == treeId::sceneDuration) {
+		if (data.getSequenceSceneId(sequenceData) == var::null) {
 			const float absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
 			data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
 		}
-	} else if (property == treeId::sceneDuration) {
-			const float absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
-			data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
 	}
 }
 
 void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+	// TODO: react on addition of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
 		const int keyframeIndex = data.getKeyframeIndex(childWhichHasBeenAdded);
 		const int numKeyframes = data.getNumKeyframes(sequenceData);
@@ -206,6 +211,7 @@ void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& ch
 }
 
 void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+	// TODO: react on removal of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
 		auto keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
 		jassert(keyframeComponent != nullptr);
