@@ -23,16 +23,16 @@ SequenceViewComponent::~SequenceViewComponent() {
 }
 
 void SequenceViewComponent::updateSize() {
-	const int paddingAfterLastScene = 300;
 	const int rowHeight = 20;
 	const int numUniforms = data.getNumUniforms();
-	const int endTime = data.getLastSceneEndTime() * zoomFactor;
+	const float paddingAfterLastScene = 300.;
+	const float endTime = data.getLastSceneEndTime() * zoomFactor;
 
 	const Viewport* parentViewport = findParentComponentOfClass<Viewport>();
 	const int viewportWidth = parentViewport->getMaximumVisibleWidth();
 	const int viewportHeight = parentViewport->getMaximumVisibleHeight();
 
-	const int width = jmax(endTime + paddingAfterLastScene, viewportWidth);
+	const int width = jmax(roundFloatToInt(endTime + paddingAfterLastScene), viewportWidth);
 	const int height = jmax(numUniforms * rowHeight, viewportHeight);
 	setSize(width, height);
 }
@@ -113,7 +113,6 @@ SequenceComponent* SequenceViewComponent::getSequenceComponentForData(ValueTree 
 }
 
 void SequenceViewComponent::mouseDown(const MouseEvent& event) {
-	const int gridWidth = 20;
 	const int rowHeight = 20;
 	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
 	ValueTree uniform = data.getUniform(numUniform);
@@ -122,8 +121,8 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown() && uniform.isValid()) {
 		const float absoluteStart = event.getMouseDownX() / zoomFactor;
-		const int absoluteStartGrid = roundFloatToInt(absoluteStart / float(gridWidth)) * gridWidth;
-		var sequenceDuration = 0;
+		const float absoluteStartGrid = SnapToGridConstrainer::snapValueToGrid(absoluteStart);
+		var sequenceDuration = 0.f;
 		var sequenceInterpolation = "linear";
 		currentlyCreatedSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
 	} else {
@@ -134,18 +133,16 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 	// invalid data happens on click in empty area, no left click or no command down
 	if (currentlyCreatedSequenceData.isValid()) {
-		const int gridWidth = 20;
-
 		const float mouseDown = event.getMouseDownX() / zoomFactor;
-		const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
+		const float mouseDownGrid = SnapToGridConstrainer::snapValueToGrid(mouseDown);
 
 		const float mousePos = event.position.getX() / zoomFactor;
-		const int mousePosGrid = roundFloatToInt(mousePos / float(gridWidth)) * gridWidth;
+		const float mousePosGrid = SnapToGridConstrainer::snapValueToGrid(mousePos);
 
-		const int distanceGrid = mousePosGrid - mouseDownGrid;
-		const int absDistanceGrid = abs(distanceGrid);
+		const float distanceGrid = mousePosGrid - mouseDownGrid;
+		const float absDistanceGrid = std::abs(distanceGrid);
 
-		const int absoluteStartGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
+		const float absoluteStartGrid = mouseDownGrid + jmin(0.f, distanceGrid); // subtract distance if negative
 
 		data.setSequencePropertiesForAbsoluteStart(currentlyCreatedSequenceData, absoluteStartGrid);
 		data.setSequenceDuration(currentlyCreatedSequenceData, absDistanceGrid);
@@ -157,7 +154,7 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 void SequenceViewComponent::mouseUp(const MouseEvent& event) {
 	// invalid data happens on click in empty area, no left click or no command down
 	if (currentlyCreatedSequenceData.isValid()) {
-		if (int(data.getSequenceDuration(currentlyCreatedSequenceData)) == 0) {
+		if (0.f == float(data.getSequenceDuration(currentlyCreatedSequenceData))) {
 			data.removeSequence(currentlyCreatedSequenceData);
 		}
 		currentlyCreatedSequenceData = ValueTree();
@@ -219,7 +216,7 @@ void SequenceViewComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentH
 
 void SequenceViewComponent::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
 	// always the root tree
+	addAllSequenceComponents();
 	updateSize();
 	repaint();
-	addAllSequenceComponents();
 }
