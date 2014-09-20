@@ -26,7 +26,7 @@ ScenesBarComponent::~ScenesBarComponent() {
 }
 
 void ScenesBarComponent::updateSize() {
-	const float paddingAfterLastScene = 300;
+	const float paddingAfterLastScene = 300 + 18; // + getLookAndFeel().getDefaultScrollbarWidth(); // TODO: do this in a more dynamic way
 	const float endTime = data.getLastSceneEndTime() * zoomFactor;
 
 	const Viewport* parentViewport = findParentComponentOfClass<Viewport>();
