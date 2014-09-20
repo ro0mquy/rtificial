@@ -5,6 +5,7 @@
 #include "Rendering/PostprocPipeline.h"
 #include "PropertyNames.h"
 #include "AudioManager.h"
+#include "RtificialLookAndFeel.h"
 
 StrahlenwerkApplication::~StrahlenwerkApplication() = default;
 
@@ -26,8 +27,12 @@ void StrahlenwerkApplication::initialise(const String& /*commandLine*/) {
 	options.filenameSuffix = ".settings";
 	options.osxLibrarySubFolder = "Application Support";
 	properties = new PropertiesFile(options);
+
 	audioManager = new AudioManager();
 	project = new Project(properties->getValue(PropertyNames::PROJECT_DIR, "./").toStdString(), *audioManager);
+
+	lookAndFeel = new RtificialLookAndFeel();
+	Desktop::getInstance().setDefaultLookAndFeel(lookAndFeel);
 	mainWindow = new MainWindow();
 }
 

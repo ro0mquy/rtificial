@@ -18,7 +18,6 @@ MainWindow::MainWindow() :
 			Colours::darkgrey,
 			DocumentWindow::allButtons)
 {
-	setLookAndFeel(&lookAndFeel);
 	setMenuBar(this);
 	setContentOwned(&mainContentComponent, true);
 

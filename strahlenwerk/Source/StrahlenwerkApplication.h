@@ -6,6 +6,7 @@
 
 class MainWindow;
 class AudioManager;
+class RtificialLookAndFeel;
 
 class StrahlenwerkApplication : public JUCEApplication {
 	public:
@@ -27,6 +28,7 @@ class StrahlenwerkApplication : public JUCEApplication {
 		static StrahlenwerkApplication* getInstance();
 
 	private:
+		ScopedPointer<RtificialLookAndFeel> lookAndFeel;
 		ScopedPointer<MainWindow> mainWindow;
 		ScopedPointer<AudioManager> audioManager;
 		ScopedPointer<Project> project;
