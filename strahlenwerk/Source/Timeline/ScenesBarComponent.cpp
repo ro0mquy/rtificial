@@ -40,10 +40,12 @@ void ScenesBarComponent::updateSize() {
 void ScenesBarComponent::paint(Graphics& g) {
 	// höhö G-Punkt
 
+	// draw waveform thumb nail
 	auto& audioManager = AudioManager::getAudioManager();
 	auto& audioThumb = audioManager.getThumbnail();
 	const float beatsPerSecond = audioManager.getBpm() / 60.;
 	const float timeAtRightBorder = getWidth() / zoomFactor / beatsPerSecond;
+	g.setColour(findColour(ScenesBarComponent::waveformColourId));
 	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 0, 1.);
 	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 1, 1.);
 
