@@ -12,7 +12,7 @@ class ValueEditorPropertyComponent : public PropertyComponent {
 
 		virtual void useValueData(ValueTree /*valueData*/) {};
 
-		static PropertyComponent* newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData);
+		static ValueEditorPropertyComponent* newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData);
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ValueEditorPropertyComponent)

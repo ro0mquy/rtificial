@@ -1,52 +1,83 @@
 #include "Sidebar.h"
 #include <Timeline/TimelineData.h>
+#include <Timeline/TreeIdentifiers.h>
 #include <Timeline/Interpolator.h>
 #include <Timeline/ValueEditorPropertyComponent.h>
 
 Sidebar::Sidebar() :
 	data(TimelineData::getTimelineData())
 {
-	updateProperties();
 	data.addListenerToTree(this);
+	reAddAllProperties();
 }
 
-void Sidebar::updateProperties() {
+void Sidebar::addEditorComponentToArray(ValueTree uniform) {
+	const String name = data.getUniformName(uniform);
+
+	auto uniformState = data.getInterpolator().getCurrentUniformValue(uniform);
+	ValueTree value = uniformState.first;
+	const bool isOnKeyframe = uniformState.second;
+
+	auto newEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(name, value);
+	newEditor->setEnabled(isOnKeyframe);
+	editorComponentsArray.add(newEditor);
+}
+
+void Sidebar::reAddAllProperties() {
+	editorComponentsArray.clearQuick();
 	clear();
-	Interpolator& interpolator = data.getInterpolator();
-	Array<PropertyComponent*> properties;
 
 	const int numUniforms = data.getNumUniforms();
 	for (int i = 0; i < numUniforms; i++) {
 		ValueTree uniform = data.getUniform(i);
-		const String name = data.getUniformName(uniform);
-
-		auto uniformState = interpolator.getCurrentUniformValue(uniform);
-		ValueTree value = uniformState.first;
-		const bool isOnKeyframe = uniformState.second;
-
-		auto newEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(name, value);
-		newEditor->setEnabled(isOnKeyframe);
-		properties.add(newEditor);
+		addEditorComponentToArray(uniform);
 	}
-	addProperties(properties);
+
+	Array<PropertyComponent*> propertiesArray(editorComponentsArray.getRawDataPointer(), editorComponentsArray.size());
+	addProperties(propertiesArray);
+}
+
+void Sidebar::updateEditorValueData(ValueTree uniform) {
+	const int uniformIndex = data.getUniformIndex(uniform);
+
+	jassert(data.getNumUniforms() == editorComponentsArray.size());
+	if (uniformIndex >= editorComponentsArray.size()) {
+		// out of bounds
+		return;
+	}
+
+	auto uniformState = data.getInterpolator().getCurrentUniformValue(uniform);
+	ValueTree value = uniformState.first;
+	const bool isOnKeyframe = uniformState.second;
+
+	auto editorComponent = editorComponentsArray.getUnchecked(uniformIndex);
+	editorComponent->useValueData(value);
+	editorComponent->setEnabled(isOnKeyframe);
+}
+
+void Sidebar::updateAllEditorValueDatas() {
+	const int numUniforms = data.getNumUniforms();
+	for (int i = 0; i < numUniforms; i++) {
+		ValueTree uniform = data.getUniform(i);
+		updateEditorValueData(uniform);
+	}
 }
 
 // ValueTree::Listener callbacks
 void Sidebar::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
-	updateProperties();
 }
 
 void Sidebar::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenAdded*/) {
-	updateProperties();
 }
 
 void Sidebar::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
-	updateProperties();
 }
 
 void Sidebar::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
-	updateProperties();
 }
 
 void Sidebar::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
+}
+
+void Sidebar::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
 }

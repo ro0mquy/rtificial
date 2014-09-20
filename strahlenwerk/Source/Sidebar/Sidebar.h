@@ -3,6 +3,7 @@
 
 #include <juce>
 
+class ValueEditorPropertyComponent;
 class TimelineData;
 
 class Sidebar :
@@ -12,7 +13,10 @@ class Sidebar :
 	public:
 		Sidebar();
 
-		void updateProperties();
+		void addEditorComponentToArray(ValueTree uniform);
+		void reAddAllProperties();
+		void updateEditorValueData(ValueTree uniform);
+		void updateAllEditorValueDatas();
 
 		// ValueTree::Listener callbacks
         void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
@@ -20,8 +24,10 @@ class Sidebar :
         void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
         void valueTreeChildOrderChanged(ValueTree& parentTree) override;
         void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
+		void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
 
 	private:
+		Array<ValueEditorPropertyComponent*> editorComponentsArray;
 		TimelineData& data;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Sidebar)

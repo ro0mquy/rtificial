@@ -204,7 +204,7 @@ void ValueEditorPropertyComponent::resized() {
 	}
 }
 
-PropertyComponent* ValueEditorPropertyComponent::newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData) {
+ValueEditorPropertyComponent* ValueEditorPropertyComponent::newValueEditorPropertyComponent(const String& propertyName, ValueTree valueData) {
 	TimelineData& data = TimelineData::getTimelineData();
 	if (data.isValueBool(valueData)) {
 		return new BoolEditorPropertyComponent(propertyName, valueData);
@@ -217,5 +217,5 @@ PropertyComponent* ValueEditorPropertyComponent::newValueEditorPropertyComponent
 	} else if (data.isValueColor(valueData)) {
 		return new ColorEditorPropertyComponent(propertyName, valueData);
 	}
-	return new TextPropertyComponent(Value(propertyName), propertyName, 30, false);
+	return new ValueEditorPropertyComponent(propertyName);
 }
