@@ -82,7 +82,7 @@ class TimelineData {
 		ValueTree getSequence(ValueTree uniform, const int nthSequence);
 		bool isSequence(ValueTree sequence);
 		ValueTree addSequence(ValueTree uniform, ValueTree sequence, int position = -1);
-		ValueTree addSequence(ValueTree uniform, int absoluteStart, var duration, var interpolation, int position = -1);
+		ValueTree addSequence(ValueTree uniform, float absoluteStart, var duration, var interpolation, int position = -1);
 		ValueTree addSequenceUnchecked(ValueTree uniform, ValueTree sequence, int position);
 		void removeSequence(ValueTree sequence);
 
@@ -96,8 +96,8 @@ class TimelineData {
 		void setSequenceDuration(ValueTree sequence, var duration);
 		void setSequenceInterpolation(ValueTree sequence, var interpolation);
 
-		void setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
-		int getAbsoluteStartForSequence(ValueTree sequence);
+		void setSequencePropertiesForAbsoluteStart(ValueTree sequence, float absoluteStart);
+		float getAbsoluteStartForSequence(ValueTree sequence);
 		ValueTree getSequenceParentUniform(ValueTree sequence);
 
 

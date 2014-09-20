@@ -457,7 +457,7 @@ ValueTree TimelineData::addSequence(ValueTree uniform, ValueTree sequence, int p
 // adds a sequence with the given vars to a uniform at position
 // returns the assembled sequence
 // position defaults to -1 (append to end)
-ValueTree TimelineData::addSequence(ValueTree uniform, int absoluteStart, var duration, var interpolation, int position) {
+ValueTree TimelineData::addSequence(ValueTree uniform, float absoluteStart, var duration, var interpolation, int position) {
 	ValueTree sequence(treeId::sequence);
 	setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
 	setSequenceDuration(sequence, duration);
@@ -545,11 +545,11 @@ void TimelineData::setSequenceInterpolation(ValueTree sequence, var interpolatio
 
 // sets the sceneId and relative start time of a sequence for a given absolute start time
 // return true when the scene for this sequence is a new one, false otherwise
-void TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart) {
+void TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, float absoluteStart) {
 			ValueTree sceneForSequence = getSceneForTime(absoluteStart);
 			var sceneId = getSceneId(sceneForSequence);
 
-			const int sceneStart = getSceneStart(sceneForSequence);
+			const float sceneStart = getSceneStart(sceneForSequence);
 			var relativeStart = absoluteStart - sceneStart;
 			setSequenceStart(sequence, relativeStart);
 
@@ -562,9 +562,9 @@ void TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int
 
 // returns the start time of the sequence in absolute time
 // and not relative to the scene start time
-int TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
-	const int sceneStart = getSceneStart(getScene(getSequenceSceneId(sequence)));
-	const int sequenceStart = getSequenceStart(sequence);
+float TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
+	const float sceneStart = getSceneStart(getScene(getSequenceSceneId(sequence)));
+	const float sequenceStart = getSequenceStart(sequence);
 	return sceneStart + sequenceStart;
 }
 
