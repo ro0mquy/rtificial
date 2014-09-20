@@ -21,7 +21,7 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
-	constrainer.setMinimumWidth(20);
+	constrainer.setMinimumWidth(zoomFactor.getGridWith());
 
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
@@ -39,11 +39,13 @@ SequenceComponent::~SequenceComponent() {
 void SequenceComponent::updateBounds() {
 	const int rowHeight = 20;
 	const float start = (float) data.getAbsoluteStartForSequence(sequenceData) * zoomFactor;
+	const int newX = roundFloatToInt(start);
 	const float duration = (float) data.getSequenceDuration(sequenceData) * zoomFactor;
+	const int newWidth = roundFloatToInt(duration);
 	const int nthUniform = data.getUniformIndex(data.getSequenceParentUniform(sequenceData));
 	jassert(nthUniform >= 0);
 
-	setBounds(start, nthUniform * rowHeight, duration, rowHeight);
+	setBounds(newX, nthUniform * rowHeight, newWidth, rowHeight);
 }
 
 void SequenceComponent::addKeyframeComponent(ValueTree keyframeData) {
@@ -119,22 +121,17 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 	if (event.mouseWasClicked() && m.isCommandDown() && (m.isLeftButtonDown() || m.isMiddleButtonDown())) {
 		if (m.isLeftButtonDown()) {
 			// add keyframe
-			const int gridWidth = 20;
+			// TODO: compute with absolute time values
+			const float mouseDown = event.getMouseDownX() / zoomFactor;
+			const float mouseDownGrid = SnapToGridConstrainer::snapValueToGrid(mouseDown);
 
-			const float mouseDown = event.getMouseDownX() * zoomFactor;
-			const int mouseDownGrid = roundFloatToInt(mouseDown / float(gridWidth)) * gridWidth;
-
-			const int sequenceDuration = data.getSequenceDuration(sequenceData);
-			if (mouseDownGrid == 0 || mouseDownGrid == sequenceDuration) {
+			const float sequenceDuration = data.getSequenceDuration(sequenceData);
+			if (mouseDownGrid <= 0 || mouseDownGrid >= sequenceDuration) {
 				// don't set keyframe at start or end
 				return;
 			}
 
-			ValueTree keyframeData = data.addKeyframe(sequenceData, mouseDownGrid);
-
-			auto keyframeComponent = new KeyframeComponent(keyframeData, zoomFactor);
-			addAndMakeVisible(keyframeComponent);
-			keyframeComponentsArray.add(keyframeComponent);
+			data.addKeyframe(sequenceData, mouseDownGrid);
 
 		} else if (m.isMiddleButtonDown()) {
 			// delete sequence
@@ -157,14 +154,16 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 
 void SequenceComponent::moved() {
 	// update the sceneId and relativ start time
-	const int newStart = constrainer.snapValueToGrid(getX() / zoomFactor);
+	const float newX = getX() / zoomFactor;
+	const float newStart = SnapToGridConstrainer::snapValueToGrid(newX);
 	data.setSequencePropertiesForAbsoluteStart(sequenceData, newStart);
 }
 
 void SequenceComponent::resized() {
 	resizableBorder.setBounds(getLocalBounds());
 
-	const int newDuration = constrainer.snapValueToGrid(getWidth() / zoomFactor);
+	const float newWidth = getWidth() / zoomFactor;
+	const float newDuration = constrainer.snapValueToGrid(newWidth);
 	data.setSequenceDuration(sequenceData, newDuration);
 }
 
@@ -184,12 +183,12 @@ void SequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Id
 			// the scene this sequence belongs to has been moved
 			updateBounds();
 		} else {
-			// another scene has been moved, so maybe this sequence now belongs to another scene
-			const int absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
+			// a scene has been moved, so maybe this sequence now belongs to another scene
+			const float absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
 			data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
 		}
 	} else if (property == treeId::sceneDuration) {
-			const int absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
+			const float absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
 			data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
 	}
 }
