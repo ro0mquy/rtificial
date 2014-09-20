@@ -1,6 +1,8 @@
 #include "AudioManager.h"
+#include "StrahlenwerkApplication.h"
 
 AudioManager::AudioManager() :
+	transportSource(*this),
 	readAheadThread("Audio Read Ahead Thread"),
 	thumbnailCache(1), // actually we don't need caching
 	thumbnail(512, formatManager, thumbnailCache)
@@ -30,6 +32,10 @@ AudioManager::~AudioManager() {
 	deviceManager.removeAudioCallback(&player);
 }
 
+AudioManager& AudioManager::getAudioManager() {
+	return StrahlenwerkApplication::getInstance()->getAudioManager();
+}
+
 void AudioManager::loadFile(const File& audioFile) {
 	// unload the previous file source and delete it
 	transportSource.stop();
@@ -54,10 +60,29 @@ void AudioManager::togglePlayPause() {
 	}
 }
 
+float AudioManager::getTimeInBeats() {
+	return transportSource.getCurrentPosition() * (getBpm() / 60.);
+}
+
+void AudioManager::setTime(float newTimeInBeats) {
+	transportSource.setPosition(newTimeInBeats / (getBpm() / 60.));
+}
+
 AudioThumbnail& AudioManager::getThumbnail() {
 	return thumbnail;
 }
 
 int AudioManager::getBpm() {
 	return 120;
+}
+
+
+AudioManager::AudioTransportSourceWithCallback::AudioTransportSourceWithCallback(AudioManager& audioManager_) :
+	audioManager(audioManager_)
+{
+}
+
+void AudioManager::AudioTransportSourceWithCallback::getNextAudioBlock (const AudioSourceChannelInfo& info) {
+	AudioTransportSource::getNextAudioBlock(info);
+	audioManager.sendChangeMessage();
 }
