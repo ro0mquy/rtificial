@@ -1,5 +1,6 @@
 #include "Interpolator.h"
 #include <StrahlenwerkApplication.h>
+#include <AudioManager.h>
 #include "TimelineData.h"
 
 Interpolator::Interpolator(TimelineData& data_) :
@@ -25,10 +26,10 @@ std::pair<ValueTree, bool> Interpolator::getCurrentUniformValue(ValueTree unifor
 	for (int i = 0; i < numSequences; i++) {
 		ValueTree sequence = data.getSequence(uniformData, i);
 
-		const int absoluteSequenceStartTime = data.getAbsoluteStartForSequence(sequence);
-		const int sequenceDuration = data.getSequenceDuration(sequence);
+		const float absoluteSequenceStartTime = data.getAbsoluteStartForSequence(sequence);
+		const float sequenceDuration = data.getSequenceDuration(sequence);
 
-		const int relativeCurrentTime = int(data.currentTime.getValue()) - absoluteSequenceStartTime;
+		const float relativeCurrentTime = AudioManager::getAudioManager().getTimeInBeats() - absoluteSequenceStartTime;
 
 		if (!isPositiveAndNotGreaterThan(relativeCurrentTime, sequenceDuration)) {
 			// currentTime is not in this sequence
@@ -49,7 +50,7 @@ std::pair<ValueTree, bool> Interpolator::getCurrentUniformValue(const var& name)
 	return getCurrentUniformValue(uniformData);
 }
 
-std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree sequence, const int /*relativeCurrentTime*/) {
+std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree sequence, const float /*relativeCurrentTime*/) {
 	ValueTree currentUniformValue = data.getKeyframeValue(data.getKeyframe(sequence, 0));
 	const bool isOnKeyframe = true;
 	return std::pair<ValueTree, bool>(currentUniformValue, isOnKeyframe);

@@ -14,7 +14,7 @@ class Interpolator {
 		std::pair<ValueTree, bool> getCurrentUniformValue(const var& name);
 
 	private:
-		std::pair<ValueTree, bool> calculateInterpolatedValue(ValueTree sequence, const int relativeCurrentTime);
+		std::pair<ValueTree, bool> calculateInterpolatedValue(ValueTree sequence, const float relativeCurrentTime);
 
 		TimelineData& data;
 

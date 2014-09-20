@@ -165,10 +165,6 @@ class TimelineData {
 		void setValueColorG(ValueTree value, var colorG);
 		void setValueColorB(ValueTree value, var colorB);
 
-
-		// current time position
-		Value currentTime;
-
 	private:
 		ValueTree valueTree;
 		UndoManager undoManager;

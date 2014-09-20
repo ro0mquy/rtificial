@@ -1,5 +1,7 @@
 #include "Timeline.h"
 #include "TimelineData.h"
+#include "SnapToGridConstrainer.h"
+#include <AudioManager.h>
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
@@ -60,9 +62,9 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (!isInUniBar && m.isLeftButtonDown() && !m.isAnyModifierKeyDown()) {
 		const MouseEvent eventSeqView = event.getEventRelativeTo(&sequenceView);
-		auto& data = TimelineData::getTimelineData();
 		const float newTime = jmax(eventSeqView.x, 0) / zoomFactor;
-		data.currentTime = constrainer.snapValueToGrid(newTime);
+		const float newTimeSnapped = SnapToGridConstrainer::snapValueToGrid(newTime);
+		AudioManager::getAudioManager().setTime(newTimeSnapped);
 	} else {
 		Component::mouseDrag(event);
 	}

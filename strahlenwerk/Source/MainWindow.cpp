@@ -196,7 +196,7 @@ void MainWindow::doSaveTimeline() {
 }
 
 void MainWindow::doPlayPause() {
-	StrahlenwerkApplication::getInstance()->getAudioManager().togglePlayPause();
+	AudioManager::getAudioManager().togglePlayPause();
 }
 
 void MainWindow::doToggleGrid() {

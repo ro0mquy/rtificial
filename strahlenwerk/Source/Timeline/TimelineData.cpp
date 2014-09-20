@@ -1,16 +1,15 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include <StrahlenwerkApplication.h>
+#include <AudioManager.h>
 
 TimelineData::TimelineData(const File& dataFile) :
-	currentTime(40),
 	interpolator(*this)
 {
 	readTimelineDataFromFile(dataFile);
 }
 
 TimelineData::TimelineData() :
-	currentTime(40),
 	valueTree(treeId::timelineTree),
 	interpolator(*this)
 {
@@ -264,7 +263,7 @@ ValueTree TimelineData::getSceneForTime(const float absoluteTime) {
 
 // returns the scene that should be displayed at the current time
 ValueTree TimelineData::getCurrentScene() {
-	return getSceneForTime(currentTime.getValue());
+	return getSceneForTime(AudioManager::getAudioManager().getTimeInBeats());
 }
 
 // returns a scene Id that is currently not used
