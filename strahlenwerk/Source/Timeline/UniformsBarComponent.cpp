@@ -23,7 +23,7 @@ void UniformsBarComponent::updateSize() {
 	const int viewportWidth = parentViewport->getMaximumVisibleWidth();
 	const int viewportHeight = parentViewport->getMaximumVisibleHeight();
 
-	const int height = jmax(numUniforms * rowHeight, viewportHeight);
+	const int height = jmax(numUniforms * rowHeight + 18, viewportHeight); // TODO: fix 18
 	setSize(viewportWidth, height);
 }
 
