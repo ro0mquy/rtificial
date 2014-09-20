@@ -1,6 +1,6 @@
 #include "CameraController.h"
-#include "TimelineData.h"
 #include "TreeIdentifiers.h"
+#include <AudioManager.h>
 #include "CameraMath.h"
 #include <glm/glm.hpp>
 
@@ -40,6 +40,8 @@ ValueTree CameraController::getControlledUniformState(var& name) {
 	} else if (strName == "camera_up") {
 		return upValue;
 	} else if (strName == "time") {
+		const float currentTime = AudioManager::getAudioManager().getTimeInBeats();
+		timeValue.setProperty(treeId::valueFloatX, currentTime, nullptr);
 		return timeValue;
 	}
 	return ValueTree();
@@ -49,8 +51,6 @@ void CameraController::timerCallback() {
 	const double oldLastCallback = lastCallback;
 	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 	float deltaTime = lastCallback - oldLastCallback;
-	float newTimeValue = (float) timeValue.getProperty(treeId::valueFloatX) + deltaTime;
-	timeValue.setProperty(treeId::valueFloatX, newTimeValue, nullptr);
 
 	const ModifierKeys modKeys = ModifierKeys::getCurrentModifiers();
 	if (modKeys.isAnyModifierKeyDown()) {
