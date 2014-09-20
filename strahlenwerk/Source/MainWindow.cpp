@@ -107,11 +107,11 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			break;
 		case MainWindow::toggleGrid:
 			result.setInfo("Toogle Grid", "Enable/Disable Rule of Thirds grid overlay", programCategory, 0);
-			result.addDefaultKeypress('g', ModifierKeys::commandModifier);
+			result.addDefaultKeypress('g', ModifierKeys::noModifiers);
 			break;
 		case MainWindow::toggleFullscreen:
 			result.setInfo("Toogle Fullscreen", "Toggle fullscreen mode for OpenGL component", programCategory, 0);
-			result.addDefaultKeypress('f', ModifierKeys::commandModifier);
+			result.addDefaultKeypress('f', ModifierKeys::noModifiers);
 			break;
 		default:
 			break;
