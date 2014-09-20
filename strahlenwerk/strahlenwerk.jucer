@@ -149,6 +149,10 @@
             file="Source/OpenGLComponent.cpp"/>
       <FILE id="TyU334" name="OpenGLComponent.h" compile="0" resource="0"
             file="Source/OpenGLComponent.h"/>
+      <FILE id="K4UZDL" name="OpenGLTargetComponent.cpp" compile="1" resource="0"
+            file="Source/OpenGLTargetComponent.cpp"/>
+      <FILE id="jOGiUW" name="OpenGLTargetComponent.h" compile="0" resource="0"
+            file="Source/OpenGLTargetComponent.h"/>
       <FILE id="SkmHDQ" name="Renderer.cpp" compile="1" resource="0" file="Source/Renderer.cpp"/>
       <FILE id="vkHWw8" name="Renderer.h" compile="0" resource="0" file="Source/Renderer.h"/>
       <FILE id="SrFBU6" name="RtificialLookAndFeel.cpp" compile="1" resource="0"

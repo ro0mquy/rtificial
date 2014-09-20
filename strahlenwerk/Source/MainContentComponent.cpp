@@ -27,3 +27,7 @@ void MainContentComponent::resized() {
 Timeline& MainContentComponent::getTimeline() {
 	return timeline;
 }
+
+void MainContentComponent::repaintOpenGLComponent() {
+	openGLComponent.repaintChildren();
+}

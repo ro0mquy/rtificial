@@ -88,6 +88,7 @@ OBJECTS := \
   $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/MainContentComponent_19da5e66.o \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
+  $(OBJDIR)/OpenGLTargetComponent_5695ea9e.o \
   $(OBJDIR)/Renderer_d34861cc.o \
   $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
   $(OBJDIR)/BinaryData_ce4232d4.o \
@@ -304,6 +305,11 @@ $(OBJDIR)/MainContentComponent_19da5e66.o: ../../Source/MainContentComponent.cpp
 $(OBJDIR)/OpenGLComponent_fe08fa6f.o: ../../Source/OpenGLComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling OpenGLComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/OpenGLTargetComponent_5695ea9e.o: ../../Source/OpenGLTargetComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling OpenGLTargetComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Renderer_d34861cc.o: ../../Source/Renderer.cpp

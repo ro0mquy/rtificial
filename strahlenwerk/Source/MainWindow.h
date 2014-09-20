@@ -26,7 +26,8 @@ class MainWindow : public DocumentWindow,
 			openProject,
 			reload,
 			saveTimeline,
-			playPause
+			playPause,
+			toggleGrid
 		};
 
 		StringArray getMenuBarNames() override;
@@ -45,6 +46,7 @@ class MainWindow : public DocumentWindow,
 		void doReload();
 		void doSaveTimeline();
 		void doPlayPause();
+		void doToggleGrid();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };

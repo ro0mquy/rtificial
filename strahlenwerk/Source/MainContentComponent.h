@@ -15,6 +15,7 @@ class MainContentComponent : public Component
 		void resized() override;
 
 		Timeline& getTimeline();
+		void repaintOpenGLComponent();
 
 	private:
 		StretchableLayoutResizerBar verticalResizer;

@@ -3,6 +3,7 @@
 #include "StrahlenwerkApplication.h"
 #include "Project/Project.h"
 #include "AudioManager.h"
+#include "PropertyNames.h"
 
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()
@@ -73,6 +74,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		MainWindow::reload,
 		MainWindow::saveTimeline,
 		MainWindow::playPause,
+		MainWindow::toggleGrid,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -102,6 +104,11 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 		case MainWindow::playPause:
 			result.setInfo("Toggle play/pause", "Toggle play/pause", programCategory, 0);
 			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::noModifiers);
+			break;
+		case MainWindow::toggleGrid:
+			result.setInfo("Toogle Grid", "Enable/Disable Rule of Thirds grid overlay", programCategory, 0);
+			result.addDefaultKeypress('g', ModifierKeys::commandModifier);
+			break;
 		default:
 			break;
 	}
@@ -130,6 +137,10 @@ bool MainWindow::perform(const InvocationInfo& info) {
 			doPlayPause();
 			break;
 
+		case MainWindow::toggleGrid:
+			doToggleGrid();
+			break;
+
 		default:
 			return false;
 	}
@@ -154,6 +165,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, MainWindow::openProject);
 		menu.addCommandItem(commandManager, MainWindow::saveTimeline);
 		menu.addCommandItem(commandManager, MainWindow::reload);
+		menu.addCommandItem(commandManager, MainWindow::toggleGrid);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
 	}
 
@@ -185,4 +197,12 @@ void MainWindow::doSaveTimeline() {
 
 void MainWindow::doPlayPause() {
 	StrahlenwerkApplication::getInstance()->getAudioManager().togglePlayPause();
+}
+
+void MainWindow::doToggleGrid() {
+	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	const bool previous = properties.getBoolValue(PropertyNames::GRID_ENABLED);
+	properties.setValue(PropertyNames::GRID_ENABLED, !previous);
+	// TODO this is not very elegant
+	mainContentComponent.repaintOpenGLComponent();
 }

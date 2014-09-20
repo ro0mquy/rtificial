@@ -16,11 +16,15 @@ OpenGLComponent::OpenGLComponent() :
 	context.setRenderer(&renderer);
 	context.attachTo(fixedAspectRatioComponent);
 	context.setContinuousRepainting(true);
-
 }
 
 OpenGLComponent::~OpenGLComponent() {
 	context.detach();
+}
+
+void OpenGLComponent::repaintChildren() {
+	repaint();
+	fixedAspectRatioComponent.repaint();
 }
 
 void OpenGLComponent::resized() {

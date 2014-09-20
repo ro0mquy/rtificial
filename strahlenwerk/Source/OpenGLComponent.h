@@ -4,11 +4,14 @@
 #include <juce>
 
 #include "Renderer.h"
+#include "OpenGLTargetComponent.h"
 
 class OpenGLComponent : public Component, private ApplicationCommandManagerListener {
 	public:
 		OpenGLComponent();
 		~OpenGLComponent();
+
+		void repaintChildren();
 
 		void resized() override;
 		void paint(Graphics& g) override;
@@ -18,7 +21,7 @@ class OpenGLComponent : public Component, private ApplicationCommandManagerListe
 	private:
 		OpenGLContext context;
 		Renderer renderer;
-		Component fixedAspectRatioComponent;
+		OpenGLTargetComponent fixedAspectRatioComponent;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OpenGLComponent)
 };
