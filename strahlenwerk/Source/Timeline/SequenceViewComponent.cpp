@@ -2,23 +2,26 @@
 
 #include <cmath>
 #include "SequenceComponent.h"
+#include "KeyframeComponent.h"
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
-#include "KeyframeComponent.h"
+#include <AudioManager.h>
+#include "ZoomFactor.h"
 
 SequenceViewComponent::SequenceViewComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
+	audioManager(AudioManager::getAudioManager()),
 	zoomFactor(zoomFactor_)
 {
 	data.addListenerToTree(this);
-	data.currentTime.addListener(this);
+	audioManager.addChangeListener(this);
 	zoomFactor.addChangeListener(this);
 	addAllSequenceComponents();
 }
 
 SequenceViewComponent::~SequenceViewComponent() {
 	data.removeListenerFromTree(this);
-	data.currentTime.removeListener(this);
+	audioManager.removeChangeListener(this);
 	zoomFactor.removeChangeListener(this);
 }
 
@@ -68,7 +71,7 @@ void SequenceViewComponent::paint(Graphics& g){
 void SequenceViewComponent::paintOverChildren(Graphics& g) {
 	// draw time marker
 	g.setColour(findColour(SequenceViewComponent::timeMarkerColourId));
-	const float x = (float) data.currentTime.getValue() * zoomFactor;
+	const float x = audioManager.getTimeInBeats() * zoomFactor;
 	g.drawLine(x, 0, x, getHeight(), 2);
 }
 
@@ -163,15 +166,14 @@ void SequenceViewComponent::mouseUp(const MouseEvent& event) {
 	}
 }
 
-void SequenceViewComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
-	// zoomFactor update
-	updateSize();
-	repaint();
-}
-
-void SequenceViewComponent::valueChanged(Value& /*value*/) {
-	// currentTime changed
-	repaint();
+void SequenceViewComponent::changeListenerCallback(ChangeBroadcaster* source) {
+	if (source == &zoomFactor) {
+		updateSize();
+		repaint();
+	} else if (source == &audioManager) {
+		// time changed
+		repaint();
+	}
 }
 
 // ValueTree::Listener callbacks

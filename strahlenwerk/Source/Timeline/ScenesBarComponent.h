@@ -3,16 +3,16 @@
 
 #include <juce>
 #include "MouseCallbackClasses.h"
-#include "ZoomFactor.h"
 
 class TimelineData;
+class AudioManager;
+class ZoomFactor;
 class SceneComponent;
 
 class ScenesBarComponent :
 	public McbComponent,
 	private ValueTree::Listener,
-	private ChangeListener,
-	private Value::Listener
+	private ChangeListener
 {
 	public:
 		ScenesBarComponent(ZoomFactor& zoomFactor_);
@@ -30,7 +30,6 @@ class ScenesBarComponent :
 		void mouseUp(const MouseEvent& event) override;
 
 		void changeListenerCallback(ChangeBroadcaster* source) override;
-		void valueChanged(Value& value) override;
 
         void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
         void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
@@ -46,6 +45,7 @@ class ScenesBarComponent :
 
 	private:
 		TimelineData& data;
+		AudioManager& audioManager;
 		ZoomFactor& zoomFactor;
 		OwnedArray<SceneComponent> sceneComponentsArray;
 

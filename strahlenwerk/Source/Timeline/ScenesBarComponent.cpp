@@ -4,23 +4,24 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include "SceneComponent.h"
-#include "StrahlenwerkApplication.h"
-#include "AudioManager.h"
+#include <AudioManager.h>
+#include "ZoomFactor.h"
 #include "SnapToGridConstrainer.h"
 
 ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
+	audioManager(AudioManager::getAudioManager()),
 	zoomFactor(zoomFactor_)
 {
 	data.addListenerToTree(this);
-	data.currentTime.addListener(this);
+	audioManager.addChangeListener(this);
 	zoomFactor.addChangeListener(this);
 	addAllSceneComponents();
 }
 
 ScenesBarComponent::~ScenesBarComponent() {
 	data.removeListenerFromTree(this);
-	data.currentTime.removeListener(this);
+	audioManager.removeChangeListener(this);
 	zoomFactor.removeChangeListener(this);
 }
 
@@ -39,10 +40,10 @@ void ScenesBarComponent::updateSize() {
 void ScenesBarComponent::paint(Graphics& g) {
 	// höhö G-Punkt
 
-	auto& audioManager = StrahlenwerkApplication::getInstance()->getAudioManager();
+	auto& audioManager = AudioManager::getAudioManager();
 	auto& audioThumb = audioManager.getThumbnail();
 	const float beatsPerSecond = audioManager.getBpm() / 60.;
-	const float timeAtRightBorder = getWidth() / zoomFactor * beatsPerSecond;
+	const float timeAtRightBorder = getWidth() / zoomFactor / beatsPerSecond;
 	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 0, 1.);
 	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 1, 1.);
 
@@ -76,7 +77,7 @@ void ScenesBarComponent::paintOverChildren(Graphics& g) {
 	// draw time marker
 	const float timeMarkerLineWidth = 2.;
 	g.setColour(findColour(ScenesBarComponent::timeMarkerColourId));
-	const float x = (float) data.currentTime.getValue() * zoomFactor;
+	const float x = audioManager.getTimeInBeats() * zoomFactor;
 	g.drawLine(x, 0, x, getHeight(), timeMarkerLineWidth);
 }
 
@@ -151,15 +152,14 @@ void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	}
 }
 
-void ScenesBarComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
-	// zoomFactor update
-	updateSize();
-	repaint();
-}
-
-void ScenesBarComponent::valueChanged(Value& /*value*/) {
-	// currentTime changed
-	repaint();
+void ScenesBarComponent::changeListenerCallback(ChangeBroadcaster* source) {
+	if (source == &zoomFactor) {
+		updateSize();
+		repaint();
+	} else if (source == &audioManager) {
+		// time changed
+		repaint();
+	}
 }
 
 // ValueTree::Listener callbacks

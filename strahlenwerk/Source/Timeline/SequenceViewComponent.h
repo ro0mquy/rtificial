@@ -2,17 +2,17 @@
 #define SEQUENCEVIEWCOMPONENT_H
 
 #include <juce>
-#include "ZoomFactor.h"
 #include "MouseCallbackClasses.h"
 
 class TimelineData;
+class AudioManager;
+class ZoomFactor;
 class SequenceComponent;
 
 class SequenceViewComponent :
 	public McbComponent,
 	private ValueTree::Listener,
-	private ChangeListener,
-	private Value::Listener
+	private ChangeListener
 {
 	public:
 		SequenceViewComponent(ZoomFactor& zoomFactor_);
@@ -30,7 +30,6 @@ class SequenceViewComponent :
 		void mouseUp(const MouseEvent& event) override;
 
 		void changeListenerCallback(ChangeBroadcaster* source) override;
-		void valueChanged(Value& value) override;
 
         void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
         void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
@@ -51,6 +50,7 @@ class SequenceViewComponent :
 		bool uniformActiveForScene(ValueTree uniform, ValueTree scene);
 
 		TimelineData& data;
+		AudioManager& audioManager;
 		ZoomFactor& zoomFactor;
 		OwnedArray<SequenceComponent> sequenceComponentsArray;
 
