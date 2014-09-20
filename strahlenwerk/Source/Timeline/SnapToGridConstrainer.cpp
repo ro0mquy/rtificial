@@ -33,14 +33,17 @@ void SnapToGridConstrainer::checkBounds (Rectangle<int>& bounds,
 
 	// snap to grid
 	if (isStretchingLeft) {
-		const int newLeft = snapValueToGrid(bounds.getX() / zoomFactor);
-		bounds.setLeft(newLeft * zoomFactor);
+		const float rawNewLeft = snapValueToGrid(bounds.getX() / zoomFactor);
+		const int newLeft = roundFloatToInt(rawNewLeft * zoomFactor);
+		bounds.setLeft(newLeft);
 	} else if (isStretchingRight) {
-		const int newRight = snapValueToGrid(bounds.getRight() / zoomFactor);
-		bounds.setRight(newRight * zoomFactor);
+		const float rawNewRight = snapValueToGrid(bounds.getRight() / zoomFactor);
+		const int newRight = roundFloatToInt(rawNewRight * zoomFactor);
+		bounds.setRight(newRight);
 	} else { // dragging
-		const int newX = snapValueToGrid(bounds.getX() / zoomFactor);
-		bounds.setX(newX * zoomFactor);
+		const float rawNewX = snapValueToGrid(bounds.getX() / zoomFactor);
+		const int newX = roundFloatToInt(rawNewX * zoomFactor);
+		bounds.setX(newX);
 	}
 
 	// don't change Y coordinate
