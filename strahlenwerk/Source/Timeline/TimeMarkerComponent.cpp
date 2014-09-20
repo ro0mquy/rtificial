@@ -9,6 +9,7 @@ TimeMarkerComponent::TimeMarkerComponent(ZoomFactor& zoomFactor_) :
 	audioManager.addChangeListener(this);
 	zoomFactor.addChangeListener(this);
 	setOpaque(true);
+	setAlwaysOnTop(true);
 }
 
 TimeMarkerComponent::~TimeMarkerComponent() {
