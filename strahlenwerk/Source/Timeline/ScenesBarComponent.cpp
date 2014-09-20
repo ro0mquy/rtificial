@@ -45,13 +45,9 @@ void ScenesBarComponent::paint(Graphics& g) {
 	auto& audioThumb = audioManager.getThumbnail();
 	const float beatsPerSecond = audioManager.getBpm() / 60.;
 	const float timeAtRightBorder = getWidth() / zoomFactor / beatsPerSecond;
-
-	Rectangle<int> halfVisibleRect = getLocalBounds();
-	halfVisibleRect.translate(0, getHeight()/2);
-
 	g.setColour(findColour(ScenesBarComponent::waveformColourId));
-	audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 0, 1.);
-	//audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 1, 1.);
+	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 0, 1.);
+	audioThumb.drawChannel(g, getLocalBounds(), 0., timeAtRightBorder, 1, 1.);
 
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
@@ -60,19 +56,17 @@ void ScenesBarComponent::paint(Graphics& g) {
 	const int longLineDistance         = 4; // every nth tick is a long line
 	const float lineHeightFraction     = 0.25;
 	const float longLineHeightFraction = 0.5;
-	const float lineThickness          = 2.;
 
-	const float hintingOffset = std::fmod(lineThickness, 2.f) / 2.f;
 	const int width = getWidth();
 	const int height = getHeight();
-	for(int i = 1; i*lineDistance < width; i++){
+	for(int i = 0; i*lineDistance < width; i++){
 		const bool longLine = (i%longLineDistance == 0);
 		g.drawLine(
-				i*lineDistance - hintingOffset,
-				height,
-				i*lineDistance - hintingOffset,
-				height * (1. - (longLine ? longLineHeightFraction : lineHeightFraction)),
-				lineThickness
+				i*lineDistance + 0.5,
+				0,
+				i*lineDistance + 0.5,
+				height * (longLine ? longLineHeightFraction : lineHeightFraction),
+				1
 			);
 	}
 
