@@ -7,6 +7,7 @@ OpenGLComponent::OpenGLComponent() :
 {
 	MainWindow::getApplicationCommandManager().addListener(this);
 	setOpaque(true);
+	fixedAspectRatioComponent.setOpaque(true);
 
 	// create a component with a fixed aspect ratio
 	// it will get resized to full size by setBoundsToFit()

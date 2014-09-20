@@ -17,6 +17,7 @@ ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	zoomFactor.addChangeListener(this);
 	addAllSceneComponents();
 	addAndMakeVisible(timeMarker);
+	setBufferedToImage(true);
 }
 
 ScenesBarComponent::~ScenesBarComponent() {
