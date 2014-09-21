@@ -13,6 +13,11 @@ Sidebar::Sidebar() :
 	reAddAllProperties();
 }
 
+Sidebar::~Sidebar() {
+	data.removeListenerFromTree(this);
+	AudioManager::getAudioManager().removeChangeListener(this);
+}
+
 void Sidebar::addEditorComponentToArray(ValueTree uniform) {
 	const String name = data.getUniformName(uniform);
 

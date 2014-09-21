@@ -13,6 +13,7 @@ class Sidebar :
 {
 	public:
 		Sidebar();
+		~Sidebar();
 
 		void addEditorComponentToArray(ValueTree uniform);
 		void reAddAllProperties();
