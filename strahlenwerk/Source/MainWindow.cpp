@@ -221,8 +221,11 @@ void MainWindow::doToggleFullscreen() {
 	if(this == desktop.getKioskModeComponent()) {
 		mainContentComponent.setDefaultLayout();
 		desktop.setKioskModeComponent(nullptr);
+		// doppelt hält besser
+		setFullScreen(false);
 	} else {
 		mainContentComponent.setOpenGLOnlyLayout();
 		desktop.setKioskModeComponent(this);
+		setFullScreen(true);
 	}
 }
