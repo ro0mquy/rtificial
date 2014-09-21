@@ -73,7 +73,15 @@ void Sidebar::updateAllEditorValueDatas() {
 
 void Sidebar::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// time changed
-	updateAllEditorValueDatas();
+	// following is a bit modified code from updateAllEditorValueDatas()
+	const int numUniforms = data.getNumUniforms();
+	for (int i = 0; i < numUniforms; i++) {
+		ValueTree uniform = data.getUniform(i);
+		if (data.getNumSequences(uniform) > 0) {
+			// only update if there are some sequences
+			updateEditorValueData(uniform);
+		}
+	}
 }
 
 // TODO: improve checking if an update is necessary
