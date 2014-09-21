@@ -54,6 +54,8 @@ std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree se
 	const String interpolationType = data.getSequenceInterpolation(sequence);
 	if (interpolationType == "step" ) {
 		return interpolationMethodStep(sequence, relativeCurrentTime);
+	} else if (interpolationType == "linear" ) {
+		return interpolationMethodLinear(sequence, relativeCurrentTime);
 	}
 	return interpolationMethodStep(sequence, relativeCurrentTime);
 }
@@ -76,6 +78,45 @@ std::pair<ValueTree, bool> Interpolator::interpolationMethodStep(ValueTree seque
 		}
 	}
 	// normally at least the very first keyframe should come before the current time
+	jassertfalse;
+	return std::pair<ValueTree, bool>(ValueTree(), false);
+}
+
+// linear interpolation method
+// returns the lineary interpolated value between the two current keyframes
+std::pair<ValueTree, bool> Interpolator::interpolationMethodLinear(ValueTree sequence, const float currentTime) {
+	const int numKeyframes = data.getNumKeyframes(sequence);
+	for (int i = 1; i < numKeyframes; i++) {
+		ValueTree keyframe = data.getKeyframe(sequence, i);
+		const float keyframePosition = data.getKeyframePosition(keyframe);
+
+		if (currentTime == keyframePosition) {
+			// exactly on a keyframe
+			ValueTree value = data.getKeyframeValue(keyframe);
+			const bool isOnKeyframe = true;
+			return std::pair<ValueTree, bool>(value, isOnKeyframe);
+		}
+
+		if (currentTime < keyframePosition) {
+			// use last and this keyframe to interpolate
+			ValueTree keyframeBefore = data.getKeyframe(sequence, i - 1);
+
+			const float keyframeBeforePosition = data.getKeyframePosition(keyframeBefore);
+			const float timeBetweenKeyframes = keyframePosition - keyframeBeforePosition;
+			const float relativeCurrentTime = currentTime - keyframeBeforePosition;
+			const float mixT = relativeCurrentTime / timeBetweenKeyframes;
+
+			ValueTree valueBefore = data.getKeyframeValue(keyframeBefore);
+			ValueTree valueAfter = data.getKeyframeValue(keyframe);
+			ValueTree valueInterpolated = data.mixValues(valueBefore, valueAfter, mixT);
+			const bool isOnKeyframe = true;
+			return std::pair<ValueTree, bool>(valueInterpolated, isOnKeyframe);
+		}
+	}
+
+
+
+
 	jassertfalse;
 	return std::pair<ValueTree, bool>(ValueTree(), false);
 }

@@ -72,6 +72,9 @@ namespace treeId {
 									const Identifier valueColorR("valueColorR");
 									const Identifier valueColorG("valueColorG");
 									const Identifier valueColorB("valueColorB");
+
+	// extra value type for interpolated stuff
+	const Identifier interpolatedValue("interpolatedValue");
 }
 
 #endif // TIMELINETREE_H

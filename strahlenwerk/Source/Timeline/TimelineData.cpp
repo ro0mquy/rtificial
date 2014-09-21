@@ -2,6 +2,7 @@
 #include "TreeIdentifiers.h"
 #include <StrahlenwerkApplication.h>
 #include <AudioManager.h>
+#include <glm/glm.hpp>
 
 TimelineData::TimelineData(const File& dataFile) :
 	interpolator(*this)
@@ -986,4 +987,36 @@ void TimelineData::setValueColorG(ValueTree value, var colorG) {
 void TimelineData::setValueColorB(ValueTree value, var colorB) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	value.setProperty(treeId::valueColorB, colorB, &undoManager);
+}
+
+
+ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const float t) {
+	if (isValueBool(value1)) {
+		jassert(isValueBool(value2));
+		const bool boolState1 = getValueBoolState(value1);
+		const bool boolState2 = getValueBoolState(value2);
+		const bool boolInterpolated = glm::mix(boolState1, boolState2, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setValueBoolState(interpolatedValue, boolInterpolated);
+		return interpolatedValue;
+	} else if (isValueFloat(value1)) {
+		jassert(isValueFloat(value2));
+		const float floatX1 = getValueFloatX(value1);
+		const float floatX2 = getValueFloatX(value2);
+		const float floatInterpolated = glm::mix(floatX1, floatX2, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setValueFloatX(interpolatedValue, floatInterpolated);
+		return interpolatedValue;
+	} else if (isValueVec2(value1)) {
+		jassert(isValueVec2(value2));
+	} else if (isValueVec3(value1)) {
+		jassert(isValueVec3(value2));
+	} else if (isValueColor(value1)) {
+		jassert(isValueColor(value2));
+	}
+
+	jassertfalse;
+	return ValueTree();
 }

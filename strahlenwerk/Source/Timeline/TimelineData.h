@@ -168,6 +168,8 @@ class TimelineData {
 		void setValueColorG(ValueTree value, var colorG);
 		void setValueColorB(ValueTree value, var colorB);
 
+		ValueTree mixValues(ValueTree value1, ValueTree value2, const float t);
+
 	private:
 		ValueTree valueTree;
 		UndoManager undoManager;

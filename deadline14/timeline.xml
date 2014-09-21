@@ -146,7 +146,7 @@
       <uniformStandardValue valueFloatX="1"/>
       <sequencesArray>
         <sequence sequenceStart="0" sequenceSceneId="100" sequenceDuration="8"
-                  sequenceInterpolation="step">
+                  sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0"/>
