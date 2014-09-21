@@ -1,1 +1,3 @@
 efsw/
+include/*
+lib/efsw.lib

@@ -9,7 +9,7 @@ namespace BinaryData
 
 //================== juce ==================
 static const unsigned char temp_binary_data_0[] =
-"#include \"../JuceLibraryCode/JuceHeader.h\"\n";
+"#include \"../JuceLibraryCode/JuceHeader.h\"\r\n";
 
 const char* juce = (const char*) temp_binary_data_0;
 
@@ -24,7 +24,7 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
 
     switch (hash)
     {
-        case 0x0031f2ed:  numBytes = 43; return juce;
+        case 0x0031f2ed:  numBytes = 44; return juce;
         default: break;
     }
 

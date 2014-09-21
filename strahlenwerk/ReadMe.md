@@ -36,26 +36,56 @@
 (Shader is also reloaded on file change)
 
 ## Building and Installing
-### Install Juce
+### Linux
+#### Install Juce
 You have to `git clone --depth 1 git://github.com/julianstorer/JUCE.git` into any folder you want. Create then a symlink called `juce_modules` in `rtificial/strahlenwerk` to the modules folder of Juce.
 Example:
     cd rtificial/strahlenwerk && \
         git clone --depth 1 git://github.com/julianstorer/JUCE.git ~/Coding/JUCE && \
         ln -s ~/Coding/JUCE/modules juce_modules
 
-### Build dependencies
+#### Build dependencies
 * [efsw](https://bitbucket.org/SpartanJ/efsw) -- cross-platform file system watcher and notifier
 * [glm](http://glm.g-truc.net/) -- mathematics library for graphics software based on glsl
 
-### Install external libraries
+#### Install external libraries
 Go to `Lib` and execute `./build.sh` to install efsw. You probably need mercurial and cmake.
 Install all other external libraries with your favorite packet manager.
 
-### Building
+#### Building
 Go to `Builds/Linux` and execute `make -j 5`.
 
-### Running
+#### Running
 Just run `Builds/Linux/build/strahlenwerk` and be happy with this awesome looking piece of software.
+
+
+### Windows
+#### Install Visual Studio
+You need *Microsoft® Visual Studio® Express 2013 with Update 3 for Windows® **Desktop*** (because of some C++11 features). [Download](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop) and install it. You probably need a *Live* Account and 5GB space on EVERY DISK. I don't even...
+
+#### Install JUCE
+Use Git Shell to clone JUCE in any folder you want.
+
+    git clone --depth 1 git://github.com/julianstorer/JUCE.git
+
+Now use `cmd.exe` (not PowerShell) and go to `rtificial\strahlenwerk`. Then run
+
+    mklink /D juce_modules path\to\JUCE\modules
+
+where `path\to\JUCE\modules` is the path to the `JUCE\modules` directory. This will create a symbolic link.
+
+#### Installing build dependencies
+Download `glm` from [its home page](http://glm.g-truc.net) and unpack it. Move `glm-0.9.x.y\glm\glm` to `rtificial\strahlenwerk\Lib\include\glm`. You don't need the rest.
+
+
+Download `premake` from [its home page](http://industriousone.com/premake/download) and unpack it. Now download the [`efsw` zip-ball](https://bitbucket.org/SpartanJ/efsw/downloads) and unpack it. Now create a Visual Studio project by running the following in `cmd.exe`:
+
+    path\to\premake4.exe vs2013
+
+Open the project `.\make\Windows\efsw-static.vcxproj` in Visual Studio and compile it. Now move `.\lib\efsw-static-debug.lib` to `rtificial\strahlenwerk\Lib\lib\efsw.lib` and the folder `.\include\efsw` to `rtificial\strahlenwerk\Lib\include\efsw`. You don't need the rest.
+
+#### Building and running
+Open `rtificial\strahlenwerk\Builds\VisualStudio2013\strahlenwerk.vcxproj` in Visual Studio and hit `F7` to build, `F5` to build-and-run with the debugger and `Ctrl+F5` to build-and-run without the debugger. Hopefully nothing breaks, good luck with that!
 
 ## Scene directory contents
 ### Directory structure

@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2013
+Project("{BFD4D007-9CE9-A77A-D351-09F02AFCEA52}") = "strahlenwerk", "strahlenwerk.vcxproj", "{2A499C58-1D88-5AEF-6B56-463F8F8FAF20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A499C58-1D88-5AEF-6B56-463F8F8FAF20}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2A499C58-1D88-5AEF-6B56-463F8F8FAF20}.Debug|Win32.Build.0 = Debug|Win32
+		{2A499C58-1D88-5AEF-6B56-463F8F8FAF20}.Release|Win32.ActiveCfg = Release|Win32
+		{2A499C58-1D88-5AEF-6B56-463F8F8FAF20}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
