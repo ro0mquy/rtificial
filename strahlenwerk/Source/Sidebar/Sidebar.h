@@ -8,7 +8,8 @@ class TimelineData;
 
 class Sidebar :
 	public PropertyPanel,
-	private ValueTree::Listener
+	private ValueTree::Listener,
+	private ChangeListener
 {
 	public:
 		Sidebar();
@@ -17,6 +18,8 @@ class Sidebar :
 		void reAddAllProperties();
 		void updateEditorValueData(ValueTree uniform);
 		void updateAllEditorValueDatas();
+
+		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 		// ValueTree::Listener callbacks
         void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;

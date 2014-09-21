@@ -714,6 +714,13 @@ int TimelineData::getKeyframeIndex(ValueTree keyframe) {
 	return keyframe.getParent().indexOf(keyframe);
 }
 
+// returns the sequence the keyframe belongs to
+// of course the keyframe must already be added to one
+ValueTree TimelineData::getKeyframeParentSequence(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getParent().getParent();
+}
+
 // comparator function for keyframes in the keyframes array of a sequence
 int TimelineData::compareKeyframes(const ValueTree& first, const ValueTree& second) {
 		int firstPosition = getKeyframePosition(first);

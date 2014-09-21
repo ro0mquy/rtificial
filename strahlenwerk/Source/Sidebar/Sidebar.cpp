@@ -3,11 +3,13 @@
 #include <Timeline/TreeIdentifiers.h>
 #include <Timeline/Interpolator.h>
 #include <Timeline/ValueEditorPropertyComponent.h>
+#include <AudioManager.h>
 
 Sidebar::Sidebar() :
 	data(TimelineData::getTimelineData())
 {
 	data.addListenerToTree(this);
+	AudioManager::getAudioManager().addChangeListener(this);
 	reAddAllProperties();
 }
 
@@ -63,21 +65,52 @@ void Sidebar::updateAllEditorValueDatas() {
 	}
 }
 
+void Sidebar::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	// time changed
+	updateAllEditorValueDatas();
+}
+
+// TODO: improve checking if an update is necessary
 // ValueTree::Listener callbacks
-void Sidebar::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
+void Sidebar::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+	if (property == treeId::sceneStart) {
+		updateAllEditorValueDatas();
+	} else if (parentTree.hasType(treeId::sequence)) {
+		updateEditorValueData(data.getSequenceParentUniform(parentTree));
+	} else if (parentTree.hasType(treeId::keyframe)) {
+		updateEditorValueData(data.getSequenceParentUniform(data.getKeyframeParentSequence(parentTree)));
+	}
 }
 
-void Sidebar::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenAdded*/) {
+void Sidebar::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
+	if (parentTree == data.getUniformsArray()) {
+		reAddAllProperties();
+	} else if (childWhichHasBeenAdded.hasType(treeId::sequence)) {
+		updateEditorValueData(data.getSequenceParentUniform(childWhichHasBeenAdded));
+	} else if (childWhichHasBeenAdded.hasType(treeId::keyframe)) {
+		updateEditorValueData(data.getSequenceParentUniform(data.getKeyframeParentSequence(childWhichHasBeenAdded)));
+	}
 }
 
-void Sidebar::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
+void Sidebar::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+	if (parentTree == data.getUniformsArray()) {
+		reAddAllProperties();
+	} else if (childWhichHasBeenRemoved.hasType(treeId::sequence)) {
+		updateEditorValueData(data.getSequenceParentUniform(childWhichHasBeenRemoved));
+	} else if (childWhichHasBeenRemoved.hasType(treeId::keyframe)) {
+		updateEditorValueData(data.getSequenceParentUniform(data.getKeyframeParentSequence(childWhichHasBeenRemoved)));
+	}
 }
 
-void Sidebar::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void Sidebar::valueTreeChildOrderChanged(ValueTree& parentTree) {
+	if (parentTree == data.getUniformsArray()) {
+		reAddAllProperties();
+	}
 }
 
 void Sidebar::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }
 
 void Sidebar::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
+	reAddAllProperties();
 }
