@@ -69,6 +69,14 @@ void TimelineData::removeListenerFromTree(ValueTree::Listener* listener) {
 	valueTree.removeListener(listener);
 }
 
+// use this if you want to operate directly on the data
+// this may be helpful:
+//  std::lock_guard<std::recursive_mutex> lock(data.getMutex());
+//  it locks for the current context and unlocks on destruction
+std::recursive_mutex& TimelineData::getMutex() {
+	return treeMutex;
+}
+
 
 
 // retrieves the scenes array

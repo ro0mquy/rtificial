@@ -47,8 +47,9 @@ void Sidebar::reAddAllProperties() {
 void Sidebar::updateEditorValueData(ValueTree uniform) {
 	const int uniformIndex = data.getUniformIndex(uniform);
 
+	jassert(uniformIndex >= 0);
 	jassert(data.getNumUniforms() == editorComponentsArray.size());
-	if (uniformIndex >= editorComponentsArray.size()) {
+	if (uniformIndex < 0 || uniformIndex >= editorComponentsArray.size()) {
 		// out of bounds
 		return;
 	}
@@ -101,9 +102,11 @@ void Sidebar::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhich
 	if (parentTree == data.getUniformsArray()) {
 		reAddAllProperties();
 	} else if (childWhichHasBeenRemoved.hasType(treeId::sequence)) {
-		updateEditorValueData(data.getSequenceParentUniform(childWhichHasBeenRemoved));
+		std::lock_guard<std::recursive_mutex> lock(data.getMutex());
+		updateEditorValueData(parentTree.getParent());
 	} else if (childWhichHasBeenRemoved.hasType(treeId::keyframe)) {
-		updateEditorValueData(data.getSequenceParentUniform(data.getKeyframeParentSequence(childWhichHasBeenRemoved)));
+		std::lock_guard<std::recursive_mutex> lock(data.getMutex());
+		updateEditorValueData(data.getSequenceParentUniform(parentTree.getParent()));
 	}
 }
 

@@ -20,6 +20,8 @@ class TimelineData {
 		void addListenerToTree(ValueTree::Listener* listener);
 		void removeListenerFromTree(ValueTree::Listener* listener);
 
+		std::recursive_mutex& getMutex();
+
 
 		// scene related stuff
 		ValueTree getScenesArray();
