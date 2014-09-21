@@ -117,7 +117,7 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 		const float absoluteStart = event.getMouseDownX() / zoomFactor;
 		const float absoluteStartGrid = SnapToGridConstrainer::snapValueToGrid(absoluteStart);
 		var sequenceDuration = 0.f;
-		var sequenceInterpolation = "linear";
+		var sequenceInterpolation = "step";
 		currentlyCreatedSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
 	} else {
 		McbComponent::mouseDown(event);
