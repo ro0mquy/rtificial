@@ -50,8 +50,32 @@ std::pair<ValueTree, bool> Interpolator::getCurrentUniformValue(const var& name)
 	return getCurrentUniformValue(uniformData);
 }
 
-std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree sequence, const float /*relativeCurrentTime*/) {
-	ValueTree currentUniformValue = data.getKeyframeValue(data.getKeyframe(sequence, 0));
-	const bool isOnKeyframe = true;
-	return std::pair<ValueTree, bool>(currentUniformValue, isOnKeyframe);
+std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree sequence, const float relativeCurrentTime) {
+	const String interpolationType = data.getSequenceInterpolation(sequence);
+	if (interpolationType == "step" ) {
+		return interpolationMethodStep(sequence, relativeCurrentTime);
+	}
+	return interpolationMethodStep(sequence, relativeCurrentTime);
+}
+
+//// functions for interpolation methods
+
+// step interpolation method
+// returns the value of the last keyframe
+std::pair<ValueTree, bool> Interpolator::interpolationMethodStep(ValueTree sequence, const float currentTime) {
+	const int numKeyframes = data.getNumKeyframes(sequence);
+	// iterate keyframes from the end
+	for (int i = numKeyframes - 1; i >= 0; i--) {
+		ValueTree keyframe = data.getKeyframe(sequence, i);
+		const float keyframePosition = data.getKeyframePosition(keyframe);
+		if (keyframePosition <= currentTime) {
+			// return first keyframe that comes before the current time
+			ValueTree value = data.getKeyframeValue(keyframe);
+			const bool isOnKeyframe = true;
+			return std::pair<ValueTree, bool>(value, isOnKeyframe);
+		}
+	}
+	// normally at least the very first keyframe should come before the current time
+	jassertfalse;
+	return std::pair<ValueTree, bool>(ValueTree(), false);
 }

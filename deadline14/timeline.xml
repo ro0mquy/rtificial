@@ -144,7 +144,25 @@
     </uniform>
     <uniform uniformName="pyramid_animation" uniformType="float">
       <uniformStandardValue valueFloatX="1"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceStart="0" sequenceSceneId="100" sequenceDuration="8"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueFloatX="0.496"/>
+            </keyframe>
+            <keyframe keyframePosition="5">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="focal_length" uniformType="float">
       <uniformStandardValue valueFloatX="0.032"/>

@@ -16,8 +16,10 @@ class Interpolator {
 	private:
 		std::pair<ValueTree, bool> calculateInterpolatedValue(ValueTree sequence, const float relativeCurrentTime);
 
-		TimelineData& data;
+		// functions for interpolation methods
+		std::pair<ValueTree, bool> interpolationMethodStep(ValueTree sequence, const float currentTime);
 
+		TimelineData& data;
 		CameraController cameraController;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Interpolator)
