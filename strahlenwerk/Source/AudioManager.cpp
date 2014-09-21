@@ -66,6 +66,7 @@ float AudioManager::getTimeInBeats() {
 
 void AudioManager::setTime(float newTimeInBeats) {
 	transportSource.setPosition(newTimeInBeats / (getBpm() / 60.));
+	sendChangeMessage();
 }
 
 AudioThumbnail& AudioManager::getThumbnail() {
@@ -84,5 +85,7 @@ AudioManager::AudioTransportSourceWithCallback::AudioTransportSourceWithCallback
 
 void AudioManager::AudioTransportSourceWithCallback::getNextAudioBlock (const AudioSourceChannelInfo& info) {
 	AudioTransportSource::getNextAudioBlock(info);
-	audioManager.sendChangeMessage();
+	if (isPlaying()) {
+		audioManager.sendChangeMessage();
+	}
 }
