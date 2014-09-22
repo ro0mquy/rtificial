@@ -85,6 +85,14 @@ std::pair<ValueTree, bool> Interpolator::interpolationMethodStep(ValueTree seque
 // linear interpolation method
 // returns the lineary interpolated value between the two current keyframes
 std::pair<ValueTree, bool> Interpolator::interpolationMethodLinear(ValueTree sequence, const float currentTime) {
+	if (currentTime == 0.f) {
+		// on first keyframe
+		ValueTree value = data.getKeyframeValue(data.getKeyframe(sequence, 0));
+		const bool isOnKeyframe = true;
+		return std::pair<ValueTree, bool>(value, isOnKeyframe);
+	}
+
+	// check other keyframes for need to interpolate
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	for (int i = 1; i < numKeyframes; i++) {
 		ValueTree keyframe = data.getKeyframe(sequence, i);
@@ -109,13 +117,11 @@ std::pair<ValueTree, bool> Interpolator::interpolationMethodLinear(ValueTree seq
 			ValueTree valueBefore = data.getKeyframeValue(keyframeBefore);
 			ValueTree valueAfter = data.getKeyframeValue(keyframe);
 			ValueTree valueInterpolated = data.mixValues(valueBefore, valueAfter, mixT);
-			const bool isOnKeyframe = true;
+
+			const bool isOnKeyframe = false;
 			return std::pair<ValueTree, bool>(valueInterpolated, isOnKeyframe);
 		}
 	}
-
-
-
 
 	jassertfalse;
 	return std::pair<ValueTree, bool>(ValueTree(), false);
