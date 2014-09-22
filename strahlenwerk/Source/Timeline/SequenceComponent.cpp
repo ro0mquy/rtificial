@@ -122,7 +122,7 @@ void SequenceComponent::mouseDrag(const MouseEvent& event) {
 
 void SequenceComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (event.mouseWasClicked() && m.isCommandDown() && (m.isLeftButtonDown() || m.isMiddleButtonDown())) {
+	if (event.mouseWasClicked() && m.isCommandDown() && (m.isLeftButtonDown() || m.isMiddleButtonDown() || m.isPopupMenu())) {
 		if (m.isLeftButtonDown()) {
 			// add keyframe
 			// TODO: compute with absolute time values
@@ -136,6 +136,29 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 			}
 
 			data.addKeyframe(sequenceData, mouseDownGrid);
+
+		} else if (m.isPopupMenu()) {
+			String interpolationMethods[] = { "step", "linear" };
+			const int numMethods = sizeof(interpolationMethods) / sizeof(interpolationMethods[0]); // trick from stackoverflow, so it's good code
+			const String currentMethod = data.getSequenceInterpolation(sequenceData);
+			int currentMethodId = 0;
+
+			PopupMenu menu;
+			for (int i = 0; i < numMethods; i++) {
+				const String& itemText = interpolationMethods[i];
+				const bool isTicked = itemText == currentMethod;
+				if (isTicked) { currentMethodId = i+1; }
+				menu.addItem(i+1, itemText, true, isTicked);
+			}
+
+			const int menuResult = menu.showAt(this, currentMethodId, getWidth(), 1, getHeight());
+			if (menuResult == 0) {
+				// user dismissed menu
+				return;
+			}
+
+			// set method to selected one
+			data.setSequenceInterpolation(sequenceData, interpolationMethods[menuResult - 1]);
 
 		} else if (m.isMiddleButtonDown()) {
 			// delete sequence
@@ -180,8 +203,8 @@ void SequenceComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 void SequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
 	if (parentTree == sequenceData) {
 		// any of the sequence properties changed
-		// (may ignore sequenceInterpolation change?)
 		updateBounds();
+		repaint();
 	} else if (property == treeId::sceneStart) {
 		if (parentTree == data.getScene(data.getSequenceSceneId(sequenceData))) {
 			// the scene this sequence belongs to has been moved
