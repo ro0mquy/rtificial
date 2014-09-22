@@ -87,6 +87,10 @@ void SequenceComponent::paint(Graphics& g) {
 
 	g.setColour(findColour(SequenceComponent::outlineColourId));
 	g.drawRoundedRectangle(seqRect, cornerSize, 1);
+
+	const String interpolationMethod = data.getSequenceInterpolation(sequenceData);
+	g.setColour(findColour(SequenceComponent::textColourId));
+	g.drawText(interpolationMethod, seqRect, Justification::centred, true);
 }
 
 void SequenceComponent::mouseDown(const MouseEvent& event) {

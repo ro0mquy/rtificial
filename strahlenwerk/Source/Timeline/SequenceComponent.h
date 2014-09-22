@@ -40,7 +40,8 @@ class SequenceComponent :
 
 		enum ColourIds {
 			fillColourId = 0x4934001,
-			outlineColourId = 0x4934002,
+			outlineColourId,
+			textColourId,
 		};
 
 		ValueTree sequenceData;
