@@ -1039,16 +1039,7 @@ void TimelineData::setColorToValue(ValueTree value, glm::vec3 vector) {
 // mixes two values using glm::mix
 // does different stuff for bool, float, vec2, etc...
 ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const float t) {
-	if (isValueBool(value1)) {
-		jassert(isValueBool(value2));
-		const bool boolState1 = getValueBoolState(value1);
-		const bool boolState2 = getValueBoolState(value2);
-		const bool boolInterpolated = glm::mix(boolState1, boolState2, t);
-
-		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setValueBoolState(interpolatedValue, boolInterpolated);
-		return interpolatedValue;
-	} else if (isValueFloat(value1)) {
+	if (isValueFloat(value1)) {
 		jassert(isValueFloat(value2));
 		const float floatX1 = getValueFloatX(value1);
 		const float floatX2 = getValueFloatX(value2);
@@ -1085,6 +1076,10 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		ValueTree interpolatedValue(treeId::interpolatedValue);
 		setColorToValue(interpolatedValue, colorInterpolated);
 		return interpolatedValue;
+	} else if (isValueBool(value1)) {
+		jassert(isValueBool(value2));
+		jassertfalse; // bool mixing doesn't make any sense
+		return ValueTree();
 	}
 
 	jassertfalse;
