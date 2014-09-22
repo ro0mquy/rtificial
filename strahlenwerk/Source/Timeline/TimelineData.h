@@ -3,6 +3,7 @@
 
 #include <mutex>
 #include <juce>
+#include <glm/fwd.hpp>
 #include "Interpolator.h"
 
 class TimelineData {
@@ -167,6 +168,16 @@ class TimelineData {
 		void setValueColorR(ValueTree value, var colorR);
 		void setValueColorG(ValueTree value, var colorG);
 		void setValueColorB(ValueTree value, var colorB);
+
+
+		// math stuff (glm, ...)
+		glm::vec2 getVec2FromValue(ValueTree value);
+		glm::vec3 getVec3FromValue(ValueTree value);
+		glm::vec3 getColorFromValue(ValueTree value);
+
+		void setVec2ToValue(ValueTree value, glm::vec2 vector);
+		void setVec3ToValue(ValueTree value, glm::vec3 vector);
+		void setColorToValue(ValueTree value, glm::vec3 vector);
 
 		ValueTree mixValues(ValueTree value1, ValueTree value2, const float t);
 

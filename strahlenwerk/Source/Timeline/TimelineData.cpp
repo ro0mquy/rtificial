@@ -990,6 +990,54 @@ void TimelineData::setValueColorB(ValueTree value, var colorB) {
 }
 
 
+
+// returns a vec2 value as a glm::vec2
+glm::vec2 TimelineData::getVec2FromValue(ValueTree value) {
+	const float vec2X = getValueVec2X(value);
+	const float vec2Y = getValueVec2Y(value);
+	return glm::vec2(vec2X, vec2Y);
+}
+
+// returns a vec3 value as a glm::vec3
+glm::vec3 TimelineData::getVec3FromValue(ValueTree value) {
+	const float vec3X = getValueVec3X(value);
+	const float vec3Y = getValueVec3Y(value);
+	const float vec3Z = getValueVec3Z(value);
+	return glm::vec3(vec3X, vec3Y, vec3Z);
+}
+
+// returns a color value as a glm::vec3
+glm::vec3 TimelineData::getColorFromValue(ValueTree value) {
+	const float colorR = getValueColorR(value);
+	const float colorG = getValueColorG(value);
+	const float colorB = getValueColorB(value);
+	return glm::vec3(colorR, colorG, colorB);
+}
+
+
+// sets the contents of a vec2 value to the numbers from a glm::vec2
+void TimelineData::setVec2ToValue(ValueTree value, glm::vec2 vector) {
+	setValueVec2X(value, vector.x);
+	setValueVec2Y(value, vector.y);
+}
+
+// sets the contents of a vec3 value to the numbers from a glm::vec3
+void TimelineData::setVec3ToValue(ValueTree value, glm::vec3 vector) {
+	setValueVec3X(value, vector.x);
+	setValueVec3Y(value, vector.y);
+	setValueVec3Z(value, vector.z);
+}
+
+// sets the contents of a color value to the numbers from a glm::vec2
+void TimelineData::setColorToValue(ValueTree value, glm::vec3 vector) {
+	setValueColorR(value, vector.r);
+	setValueColorG(value, vector.g);
+	setValueColorB(value, vector.b);
+}
+
+
+// mixes two values using glm::mix
+// does different stuff for bool, float, vec2, etc...
 ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const float t) {
 	if (isValueBool(value1)) {
 		jassert(isValueBool(value2));
@@ -1011,10 +1059,32 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		return interpolatedValue;
 	} else if (isValueVec2(value1)) {
 		jassert(isValueVec2(value2));
+		const glm::vec2 vec21 = getVec2FromValue(value1);
+		const glm::vec2 vec22 = getVec2FromValue(value2);
+		const glm::vec2 vec2Interpolated = glm::mix(vec21, vec22, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setVec2ToValue(interpolatedValue, vec2Interpolated);
+		return interpolatedValue;
 	} else if (isValueVec3(value1)) {
 		jassert(isValueVec3(value2));
+		const glm::vec3 vec31 = getVec3FromValue(value1);
+		const glm::vec3 vec32 = getVec3FromValue(value2);
+		const glm::vec3 vec3Interpolated = glm::mix(vec31, vec32, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setVec3ToValue(interpolatedValue, vec3Interpolated);
+		return interpolatedValue;
 	} else if (isValueColor(value1)) {
 		jassert(isValueColor(value2));
+		const glm::vec3 color1 = getColorFromValue(value1);
+		const glm::vec3 color2 = getColorFromValue(value2);
+		// TODO: do better (maybe in Hcl?) interpolation
+		const glm::vec3 colorInterpolated = glm::mix(color1, color2, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setColorToValue(interpolatedValue, colorInterpolated);
+		return interpolatedValue;
 	}
 
 	jassertfalse;
