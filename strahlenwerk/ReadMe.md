@@ -24,6 +24,7 @@
 #### Sequences
 * `[Ctrl]+[Drag]` create new sequence or move already existing sequence or keyframe
 * `[Ctrl]+[Click]` create keyframe when inside a sequence
+* `[Ctrl]+[Rightclick]` select interpolation method
 * `[Ctrl]+[Middleclick]` delete sequence or keyframe
 
 ### General
