@@ -180,6 +180,7 @@ void SequenceViewComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, Value
 	} else if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
 		updateSize();
 		repaint();
+		timeMarker.updateSize();
 	}
 }
 
@@ -194,6 +195,7 @@ void SequenceViewComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, Val
 	} else if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
 		updateSize();
 		repaint();
+		timeMarker.updateSize();
 	}
 }
 

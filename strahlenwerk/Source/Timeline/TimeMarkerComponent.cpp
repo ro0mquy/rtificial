@@ -24,13 +24,17 @@ void TimeMarkerComponent::updatePosition() {
 	setTopLeftPosition(newX, getY());
 }
 
+void TimeMarkerComponent::updateSize() {
+	const int timeMarkerWidth = 2;
+	setSize(timeMarkerWidth, getParentHeight());
+}
+
 void TimeMarkerComponent::paint(Graphics& g) {
 	g.fillAll(findColour(TimeMarkerComponent::fillColourId));
 }
 
 void TimeMarkerComponent::parentHierarchyChanged() {
-	const int timeMarkerWidth = 2;
-	setSize(timeMarkerWidth, getParentHeight());
+	updateSize();
 	updatePosition();
 }
 

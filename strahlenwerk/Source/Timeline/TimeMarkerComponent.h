@@ -16,6 +16,7 @@ class TimeMarkerComponent :
 		~TimeMarkerComponent();
 
 		void updatePosition();
+		void updateSize();
 
 		void paint(Graphics& g) override;
 		void parentHierarchyChanged() override;
