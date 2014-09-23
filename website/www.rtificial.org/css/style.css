@@ -135,6 +135,16 @@ img.twitter-icon{
             transition: opacity 0.25s ease-in-out;
 	opacity: 0.0;
 }
+.demo .title a,
+.demo .title a:active,
+.demo .title a:visited{
+	color: #eee;
+	text-decoration: none;
+}
+.demo .title a:hover:before{
+	margin-left: -1.15em;
+	content: "# ";
+}
 .demo:hover .title{
     -webkit-transition: opacity 0.5s ease-in-out;
             transition: opacity 0.5s ease-in-out;
