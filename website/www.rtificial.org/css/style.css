@@ -11,6 +11,17 @@ body, html{
 	color: #eee;
 	font-family: 'Helvetica Neue', sans-serif;
 }
+a:active{
+	outline: none;
+}
+::-moz-selection{
+	background: #eee;
+	color: #111;
+}
+::selection{
+	background: #eee;
+	color: #111;
+}
 
 header{
 	margin-top: 50px;
