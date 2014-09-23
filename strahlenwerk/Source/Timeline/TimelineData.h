@@ -171,15 +171,18 @@ class TimelineData {
 
 
 		// math stuff (glm, ...)
+		float getFloatFromValue(ValueTree value);
 		glm::vec2 getVec2FromValue(ValueTree value);
 		glm::vec3 getVec3FromValue(ValueTree value);
 		glm::vec3 getColorFromValue(ValueTree value);
 
+		void setFloatToValue(ValueTree value, float scalar);
 		void setVec2ToValue(ValueTree value, glm::vec2 vector);
 		void setVec3ToValue(ValueTree value, glm::vec3 vector);
 		void setColorToValue(ValueTree value, glm::vec3 vector);
 
 		ValueTree mixValues(ValueTree value1, ValueTree value2, const float t);
+		ValueTree calculateCcrSplineForValues(ValueTree valueP0, ValueTree P1, ValueTree P2, ValueTree P3, const float t);
 
 	private:
 		ValueTree valueTree;

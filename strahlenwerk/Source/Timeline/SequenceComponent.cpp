@@ -138,7 +138,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 			data.addKeyframe(sequenceData, mouseDownGrid);
 
 		} else if (m.isPopupMenu()) {
-			String interpolationMethods[] = { "step", "linear" };
+			String interpolationMethods[] = { "step", "linear", "ccrSpline" };
 			const int numMethods = sizeof(interpolationMethods) / sizeof(interpolationMethods[0]); // trick from stackoverflow, so it's good code
 			const String currentMethod = data.getSequenceInterpolation(sequenceData);
 			int currentMethodId = 0;

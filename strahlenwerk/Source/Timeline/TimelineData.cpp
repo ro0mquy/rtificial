@@ -3,6 +3,7 @@
 #include <StrahlenwerkApplication.h>
 #include <AudioManager.h>
 #include <glm/glm.hpp>
+#include "Splines.h"
 
 TimelineData::TimelineData(const File& dataFile) :
 	interpolator(*this)
@@ -991,6 +992,12 @@ void TimelineData::setValueColorB(ValueTree value, var colorB) {
 
 
 
+// returns a float value as a float
+float TimelineData::getFloatFromValue(ValueTree value) {
+	const float floatX = getValueFloatX(value);
+	return floatX;
+}
+
 // returns a vec2 value as a glm::vec2
 glm::vec2 TimelineData::getVec2FromValue(ValueTree value) {
 	const float vec2X = getValueVec2X(value);
@@ -1015,6 +1022,11 @@ glm::vec3 TimelineData::getColorFromValue(ValueTree value) {
 }
 
 
+// sets the contents of a float value to the numbers from a float
+void TimelineData::setFloatToValue(ValueTree value, float scalar) {
+	setValueFloatX(value, scalar);
+}
+
 // sets the contents of a vec2 value to the numbers from a glm::vec2
 void TimelineData::setVec2ToValue(ValueTree value, glm::vec2 vector) {
 	setValueVec2X(value, vector.x);
@@ -1038,6 +1050,7 @@ void TimelineData::setColorToValue(ValueTree value, glm::vec3 vector) {
 
 // mixes two values using glm::mix
 // does different stuff for bool, float, vec2, etc...
+// t should be between 0 and 1
 ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const float t) {
 	if (isValueFloat(value1)) {
 		jassert(isValueFloat(value2));
@@ -1080,6 +1093,61 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		jassert(isValueBool(value2));
 		jassertfalse; // bool mixing doesn't make any sense
 		return ValueTree();
+	}
+
+	jassertfalse;
+	return ValueTree();
+}
+
+// returns the value of a centripetal Catmull-Rom spline for points P0, P1, P2 and P3 at parameter t
+// t should be between 0 and 1
+// if valueP0 or valueP3 are invalid (at start or end of sequence), some good values will be choosen
+ValueTree TimelineData::calculateCcrSplineForValues(ValueTree valueP0, ValueTree valueP1, ValueTree valueP2, ValueTree valueP3, const float t) {
+	if (isValueVec3(valueP1)) {
+		jassert(isValueVec3(valueP2));
+
+		const glm::vec3 P1 = getVec3FromValue(valueP1);
+		const glm::vec3 P2 = getVec3FromValue(valueP2);
+
+		// if values are invalid, mirror P2/P1 at P1/P2
+		const glm::vec3 P0 = valueP0.isValid() ? getVec3FromValue(valueP0) : P1 - (P2 - P1);
+		const glm::vec3 P3 = valueP3.isValid() ? getVec3FromValue(valueP3) : P2 - (P1 - P2);
+
+		const glm::vec3 interpolatedP = CentripetalCatmullRomSpline(P0, P1, P2, P3, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setVec3ToValue(interpolatedValue, interpolatedP);
+		return interpolatedValue;
+	} else if (isValueVec2(valueP1)) {
+		jassert(isValueVec2(valueP2));
+
+		const glm::vec2 P1 = getVec2FromValue(valueP1);
+		const glm::vec2 P2 = getVec2FromValue(valueP2);
+
+		// if values are invalid, mirror P2/P1 at P1/P2
+		const glm::vec2 P0 = valueP0.isValid() ? getVec2FromValue(valueP0) : P1 - (P2 - P1);
+		const glm::vec2 P3 = valueP3.isValid() ? getVec2FromValue(valueP3) : P2 - (P1 - P2);
+
+		const glm::vec2 interpolatedP = CentripetalCatmullRomSpline(P0, P1, P2, P3, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setVec2ToValue(interpolatedValue, interpolatedP);
+		return interpolatedValue;
+	} else if (isValueFloat(valueP1)) {
+		jassert(isValueFloat(valueP2));
+
+		const float P1 = getFloatFromValue(valueP1);
+		const float P2 = getFloatFromValue(valueP2);
+
+		// if values are invalid, mirror P2/P1 at P1/P2
+		const float P0 = valueP0.isValid() ? getFloatFromValue(valueP0) : P1 - (P2 - P1);
+		const float P3 = valueP3.isValid() ? getFloatFromValue(valueP3) : P2 - (P1 - P2);
+
+		const float interpolatedP = CentripetalCatmullRomSpline(P0, P1, P2, P3, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setFloatToValue(interpolatedValue, interpolatedP);
+		return interpolatedValue;
 	}
 
 	jassertfalse;

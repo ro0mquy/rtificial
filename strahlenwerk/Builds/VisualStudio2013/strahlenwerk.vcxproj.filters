@@ -1659,6 +1659,9 @@
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\Splines.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\TimeMarkerComponent.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>

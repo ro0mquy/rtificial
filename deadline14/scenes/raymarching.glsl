@@ -4,6 +4,8 @@
 uniform vec3 sphere1_color; // color
 uniform vec3 sphere2_color; // color
 
+uniform vec3 sphere1_pos; // vec3
+
 vec3 colors[] = vec3[](
 		sphere1_color,
 		sphere2_color,
@@ -43,7 +45,7 @@ vec2 f(vec3 p) {
 	p.x -= 1.;
 	vec2 sphere1 = vec2(sphere(p, .7), 0.);
 	p.x += 2.;
-	vec2 sphere2 = vec2(sphere(p, .7), 1.);
+	vec2 sphere2 = vec2(sphere(transv(p, 10*sphere1_pos), .7), 1.);
 	vec2 bottom = vec2(p.y + 2., 2.);
 	vec2 bounding = vec2(-sphere(p - camera_position, 50.), 3.);
 	return min_material(min_material(sphere1, sphere2), min_material(bottom, bounding));

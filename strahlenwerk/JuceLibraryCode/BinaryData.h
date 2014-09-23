@@ -10,7 +10,7 @@
 namespace BinaryData
 {
     extern const char*   juce;
-    const int            juceSize = 44;
+    const int            juceSize = 43;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

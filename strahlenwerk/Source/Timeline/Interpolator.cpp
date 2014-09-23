@@ -56,6 +56,8 @@ std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree se
 		return interpolationMethodStep(sequence, relativeCurrentTime);
 	} else if (interpolationType == "linear" ) {
 		return interpolationMethodLinear(sequence, relativeCurrentTime);
+	} else if (interpolationType == "ccrSpline" ) {
+		return interpolationMethodCcrSpline(sequence, relativeCurrentTime);
 	}
 	return interpolationMethodStep(sequence, relativeCurrentTime);
 }
@@ -110,6 +112,46 @@ std::pair<ValueTree, bool> Interpolator::interpolationMethodLinear(ValueTree seq
 			ValueTree valueBefore = data.getKeyframeValue(keyframeBefore);
 			ValueTree valueAfter = data.getKeyframeValue(keyframe);
 			ValueTree valueInterpolated = data.mixValues(valueBefore, valueAfter, mixT);
+
+			const bool isOnKeyframe = false;
+			return std::pair<ValueTree, bool>(valueInterpolated, isOnKeyframe);
+		}
+	}
+
+	jassertfalse;
+	return std::pair<ValueTree, bool>(ValueTree(), false);
+}
+
+// Centripetal Catmull-Rom Spline interpolation method
+// interpolates between different keyframes with Catmull-Rom splines in centripetal parametrization
+std::pair<ValueTree, bool> Interpolator::interpolationMethodCcrSpline(ValueTree sequence, const float currentTime) {
+	const int numKeyframes = data.getNumKeyframes(sequence);
+	for (int i = 0; i < numKeyframes; i++) {
+		ValueTree keyframe = data.getKeyframe(sequence, i);
+		const float keyframePosition = data.getKeyframePosition(keyframe);
+
+		if (currentTime == keyframePosition) {
+			// exactly on a keyframe
+			ValueTree value = data.getKeyframeValue(keyframe);
+			const bool isOnKeyframe = true;
+			return std::pair<ValueTree, bool>(value, isOnKeyframe);
+		}
+
+		if (currentTime < keyframePosition && i != 0) {
+			// we need P0, P1, P2 and P3 to interpolate
+			// the keyframe we found is P2
+			ValueTree keyframeBefore = data.getKeyframe(sequence, i - 1); // P1
+
+			const float keyframeBeforePosition = data.getKeyframePosition(keyframeBefore);
+			const float timeBetweenKeyframes = keyframePosition - keyframeBeforePosition;
+			const float relativeCurrentTime = currentTime - keyframeBeforePosition;
+			const float mixT = relativeCurrentTime / timeBetweenKeyframes;
+
+			ValueTree valueP0 = data.getKeyframeValue(data.getKeyframe(sequence, i - 2));
+			ValueTree valueP1 = data.getKeyframeValue(keyframeBefore);
+			ValueTree valueP2 = data.getKeyframeValue(keyframe);
+			ValueTree valueP3 = data.getKeyframeValue(data.getKeyframe(sequence, i + 1));
+			ValueTree valueInterpolated = data.calculateCcrSplineForValues(valueP0, valueP1, valueP2, valueP3, mixT);
 
 			const bool isOnKeyframe = false;
 			return std::pair<ValueTree, bool>(valueInterpolated, isOnKeyframe);

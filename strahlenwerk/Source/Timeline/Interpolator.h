@@ -19,6 +19,7 @@ class Interpolator {
 		// functions for interpolation methods
 		std::pair<ValueTree, bool> interpolationMethodStep(ValueTree sequence, const float currentTime);
 		std::pair<ValueTree, bool> interpolationMethodLinear(ValueTree sequence, const float currentTime);
+		std::pair<ValueTree, bool> interpolationMethodCcrSpline(ValueTree sequence, const float currentTime);
 
 		TimelineData& data;
 		CameraController cameraController;

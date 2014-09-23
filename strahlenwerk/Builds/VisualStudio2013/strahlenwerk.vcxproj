@@ -1279,6 +1279,7 @@
     <ClInclude Include="..\..\Source\Rendering\Uniform.h"/>
     <ClInclude Include="..\..\Source\Rendering\UniformManager.h"/>
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h"/>
+    <ClInclude Include="..\..\Source\Timeline\Splines.h"/>
     <ClInclude Include="..\..\Source\Timeline\TimeMarkerComponent.h"/>
     <ClInclude Include="..\..\Source\Timeline\MouseCallbackClasses.h"/>
     <ClInclude Include="..\..\Source\Timeline\CameraMath.h"/>
