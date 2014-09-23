@@ -60,22 +60,33 @@ float pyramid(vec3 p, float s, float h){
 
 vec2 f(vec3 p) {
 	vec3 q = rY(TAU * 0.05 * time) * p;
-	q = trans(q, 0., 1.*sin(0.75 * time), 0.);
+	//q = trans(q, 0., 1.*sin(0.75 * time), 0.);
 
-	float h = 4. * pyramid_animation;
-	vec3 qq = trans(q, 0.,12 - h +.55,0.);
-	float pyr = pyramid(qq, 10. * pyramid_s, 10. * pyramid_h);
-	vec2 pyramid1 = vec2(pyr, MATERIAL_ID_PYRAMID);
+	// double pyramid
+	float pyramid_size = 10.;
+	vec3 qq = q;
+	qq = trans(qq, 0., pyramid_h*pyramid_size, 0.); // y-axis translation
 
-	q = rX(TAU * .5) * q;
-	pyr = pyramid(q, 10. * pyramid_s, 10. * pyramid_h);
-	vec2 pyramid2 = vec2(pyr, MATERIAL_ID_PYRAMID);
+	float t_fall = 1. - pow((max(0.,min(.9, pyramid_animation))-0.)/.9, 2.);
+	float pyr_closed = 4. * t_fall;
 
-	q = trans(q, 0., -10.* pyramid_h - 1., 0.);
+	qq = trans(qq, 0., pyr_closed/2., 0.);
+
+	float t_stampf = (max(0.9,min(1., pyramid_animation))-0.9)/.1;
+
+	qq = trans(qq, 0.,  -  (1-pow(1.-t_stampf/2., 20.)), 0.);
+	qq.y = -abs(qq.y);
+	qq = trans(qq, 0., -pyr_closed/2., 0.); // pyramid distance
+	qq.y = -pyramid_size*pyramid_h-qq.y;
+	float pyr = pyramid(qq, pyramid_size * pyramid_s, pyramid_size * pyramid_h);
+	vec2 pyramid = vec2(pyr, MATERIAL_ID_PYRAMID);
+
+	// box-torus-morph
+	q = trans(q, 0., pyramid_size* pyramid_h + 1., 0.);
 	float cube = roundbox(q, vec3(1.), .5);
 	float d = .75 + smoothstep(.70,1., pyramid_animation)*7.5;
-	float torus = torus(trans(q, 0.,+.25,0.), vec2(.5 + d, .5));
-	vec2 schalter_cube = vec2(mix(cube, torus, smoothstep(.5, .75, pyramid_animation)), MATERIAL_ID_CUBE);
+	float torus = torus(trans(q, 0.,-.5,0.), vec2(.5 + d, .5));
+	vec2 schalter_cube = vec2(mix(cube, torus, smoothstep(.65, .75, pyramid_animation)), MATERIAL_ID_CUBE);
 
 	float lightballs_dist = sphere(domrep(p, 7, 10.,8.), 2.);
 	float no_lightballs = sphere(p, 20.);
@@ -83,5 +94,5 @@ vec2 f(vec3 p) {
 
 	vec2 bottom = vec2(p.y + 2., MATERIAL_ID_FLOOR);
 	vec2 bounding = vec2(-sphere(p - camera_position, 50.), MATERIAL_ID_BOUNDING);
-	return min_material(min_material(schalter_cube, min_material(pyramid1, pyramid2)), min_material(lightballs, min_material(bottom, bounding)));
+	return min_material(min_material(schalter_cube, pyramid), min_material(lightballs, min_material(bottom, bounding)));
 }
