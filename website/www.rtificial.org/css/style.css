@@ -174,7 +174,7 @@ img.twitter-icon{
 	list-style: none;
 	width: 100%;
 	height: 50px;
-	padding: 20px 15px 10px 0px;
+	padding: 20px 15px 10px 15px;
 	box-sizing: border-box;
 	-webkit-border-radius: 0 0 5px 5px;
 	        border-radius: 0 0 5px 5px;
@@ -190,8 +190,13 @@ img.twitter-icon{
             transition: margin-top 0.25s ease-in-out, opacity 0.5s ease-in-out;
 	opacity: 1.0;
 }
-.toolbar li{
+.toolbar li.right{
 	float: right;
+	margin-right: 10px;
+	margin-left: 5px;
+}
+.toolbar li.left{
+	float: left;
 	margin-left: 10px;
 	margin-right: 5px;
 }
