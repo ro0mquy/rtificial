@@ -12,6 +12,8 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFa
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
+
+	setMouseCursor(MouseCursor(MouseCursor::StandardCursorType::DraggingHandCursor));
 }
 
 KeyframeComponent::~KeyframeComponent() {

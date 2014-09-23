@@ -23,7 +23,6 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
 	addAndMakeVisible(resizableBorder);
 
-	setMouseCursor(MouseCursor(MouseCursor::StandardCursorType::DraggingHandCursor));
 	sceneData.addListener(this);
 	zoomFactor.addChangeListener(this);
 }
