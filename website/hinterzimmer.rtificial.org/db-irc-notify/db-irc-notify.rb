@@ -10,7 +10,7 @@ APP_SECRET  = '3zq6w82srafqqul'
 CONFIG = {
 	uuid:      6274093,
 	token:     'pUjeEsNnW_oAAAAAAAAIZgrs6QRP4dro9GdVD1nO6D_1Vq6qP2LIlcMMakMOva_4',
-	directory: '/ShaderPapiere',
+	directory: '/rtificial',
 	rss:       'https://www.dropbox.com/6274093/503875465/4xqSA4KOGxNS5vFDG5He7w3EQrzdQfsBakUmRDvQ/events.xml',
 	server:    'irc.ps0ke.de',
 	port:      2342,
