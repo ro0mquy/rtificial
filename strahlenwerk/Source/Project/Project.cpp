@@ -154,20 +154,23 @@ void Project::addUniforms(const Shader& shader) {
 			var type;
 			// TODO
 			switch(uniform->type) {
+				case UniformType::BOOL:
+					type = "bool";
+					break;
 				case UniformType::FLOAT:
-					type = var("float");
+					type = "float";
 					break;
 				case UniformType::VEC2:
-					type = var("vec2");
+					type = "vec2";
 					break;
 				case UniformType::VEC3:
-					type = var("vec3");
+					type = "vec3";
 					break;
 				case UniformType::COLOR:
-					type = var("color");
+					type = "color";
 					break;
 				case UniformType::VEC4:
-					type = var("vec4");
+					type = "vec4";
 					break;
 			}
 			timelineData.addUniform(var(uniform->name), type);

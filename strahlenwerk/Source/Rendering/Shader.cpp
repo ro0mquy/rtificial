@@ -30,7 +30,7 @@ void Shader::load(std::string source) {
 
 	applyIncludes();
 
-	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float)[ \t]+(\w+)[ \t]*;[ \t]*(// (color))?)regex");
+	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float|bool)[ \t]+(\w+)[ \t]*;[ \t]*(// (color))?)regex");
 	const std::sregex_iterator end;
 
 	std::vector<std::pair<size_t, int>> matches;
@@ -40,7 +40,10 @@ void Shader::load(std::string source) {
 		const auto& name = match[3];
 
 		UniformType type = UniformType::FLOAT;
-		if(typeString == "float") {
+		if (typeString == "bool") {
+			type = UniformType::BOOL;
+		}
+		else if(typeString == "float") {
 			type = UniformType::FLOAT;
 		}
 		else if(typeString == "vec2") {
@@ -200,14 +203,12 @@ void Shader::loadUniformValues() {
 		const int location = uniform->id;
 		ValueTree value = interpolator.getCurrentUniformValue(var(uniform->name)).first;
 		switch (uniform->type) {
-			/* no bool in UniformType
 			case UniformType::BOOL:
 				{
 					const float boolState = data.getValueBoolState(value);
 					context.extensions.glUniform1f(location, boolState);
 				}
 				break;
-			*/
 			case UniformType::FLOAT:
 				{
 					const float floatX = data.getValueFloatX(value);
