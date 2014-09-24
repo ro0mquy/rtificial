@@ -239,6 +239,11 @@ float impulse(float k, float x) {
 	return h * exp(1. - h);
 }
 
+float linstep(float edge0, float edge1, float x) {
+	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
+}
+
+
 /*
 Noise - nützlich für fast alles! Daher auch gleich mal ne Menge verschiedenen.
 Wir haben klassichen Perlin Noise (cnoise - classical noise), sowie Value Noise (vnoise), jeweils für 2D und 3D.
