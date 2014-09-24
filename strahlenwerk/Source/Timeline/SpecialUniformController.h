@@ -2,6 +2,7 @@
 #define SPECIALUNIFORMCONTROLLER_H
 
 #include <juce>
+#include <mutex>
 #include "Interpolator.h"
 
 class TimelineData;
@@ -43,14 +44,27 @@ class TimeController :
 };
 
 class CameraController :
-	public SpecialUniformController
+	public SpecialUniformController,
+	private KeyListener,
+	private AsyncUpdater,
+	private Timer
 {
 	public:
-		using SpecialUniformController::SpecialUniformController;
+		CameraController(TimelineData& data_);
+		~CameraController();
+
 		bool wantControlUniform(String& uniformName) override;
 		Interpolator::UniformState getUniformState(String& uniformName) override;
 
+		bool keyPressed(const KeyPress& key, Component* originatingComponent) override;
+		bool keyStateChanged(bool isKeyPressed, Component* originatingComponent) override;
+
+		void handleAsyncUpdate() override;
+		void timerCallback() override;
+
 	private:
+		static const int timerInterval = 15;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CameraController)
 };
 
