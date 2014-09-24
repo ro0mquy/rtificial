@@ -3,7 +3,6 @@
 
 #include <juce>
 #include <mutex>
-#include "Interpolator.h"
 
 class TimelineData;
 
@@ -21,7 +20,7 @@ class SpecialUniformController {
 		virtual bool wantControlUniform(String& uniformName) = 0;
 
 		// should return the actual value of the uniform
-		virtual Interpolator::UniformState getUniformState(String& uniformName) = 0;
+		virtual std::pair<ValueTree, bool> getUniformState(String& uniformName) = 0;
 
 	protected:
 		TimelineData& data;
@@ -37,7 +36,7 @@ class TimeController :
 		using SpecialUniformController::SpecialUniformController;
 		bool shouldAddUniformToTimlineData(String& uniformName) override;
 		bool wantControlUniform(String& uniformName) override;
-		Interpolator::UniformState getUniformState(String& uniformName) override;
+		std::pair<ValueTree, bool> getUniformState(String& uniformName) override;
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimeController)
@@ -54,7 +53,7 @@ class CameraController :
 		~CameraController();
 
 		bool wantControlUniform(String& uniformName) override;
-		Interpolator::UniformState getUniformState(String& uniformName) override;
+		std::pair<ValueTree, bool> getUniformState(String& uniformName) override;
 
 		bool keyPressed(const KeyPress& key, Component* originatingComponent) override;
 		bool keyStateChanged(bool isKeyPressed, Component* originatingComponent) override;

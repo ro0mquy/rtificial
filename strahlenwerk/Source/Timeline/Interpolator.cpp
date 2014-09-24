@@ -2,7 +2,6 @@
 #include <StrahlenwerkApplication.h>
 #include <AudioManager.h>
 #include "TimelineData.h"
-#include "SpecialUniformController.h"
 
 using UniformState = Interpolator::UniformState;
 

@@ -2,9 +2,9 @@
 #define INTERPOLATOR_H
 
 #include <juce>
+#include "SpecialUniformController.h"
 
 class TimelineData;
-class SpecialUniformController;
 
 class Interpolator {
 	public:
