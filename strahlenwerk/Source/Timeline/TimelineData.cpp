@@ -765,6 +765,11 @@ bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 		setValueVec3X(valueData, 0.);
 		setValueVec3Y(valueData, 0.);
 		setValueVec3Z(valueData, 0.);
+	} else if (valueType == "vec4") {
+		setValueVec4X(valueData, 0.);
+		setValueVec4Y(valueData, 0.);
+		setValueVec4Z(valueData, 0.);
+		setValueVec4W(valueData, 0.);
 	} else if (valueType == "color") {
 		setValueColorR(valueData, 0.);
 		setValueColorG(valueData, 0.);
@@ -798,6 +803,12 @@ bool TimelineData::isValueVec2(ValueTree value) {
 bool TimelineData::isValueVec3(ValueTree value) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return value.hasProperty(treeId::valueVec3X);
+}
+
+// checks if the value is of type vec4
+bool TimelineData::isValueVec4(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.hasProperty(treeId::valueVec4X);
 }
 
 // checks if the value is of type color
@@ -847,6 +858,30 @@ var TimelineData::getValueVec3Y(ValueTree value) {
 var TimelineData::getValueVec3Z(ValueTree value) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return value.getProperty(treeId::valueVec3Z);
+}
+
+// get vec4X of a vec4 value
+var TimelineData::getValueVec4X(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueVec4X);
+}
+
+// get vec4Y of a vec4 value
+var TimelineData::getValueVec4Y(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueVec4Y);
+}
+
+// get vec4Z of a vec4 value
+var TimelineData::getValueVec4Z(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueVec4Z);
+}
+
+// get vec4W of a vec4 value
+var TimelineData::getValueVec4W(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueVec4W);
 }
 
 // get colorR of a color value
@@ -908,6 +943,30 @@ Value TimelineData::getValueVec3YAsValue(ValueTree value) {
 Value TimelineData::getValueVec3ZAsValue(ValueTree value) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return value.getPropertyAsValue(treeId::valueVec3Z, &undoManager);
+}
+
+// get vec4X of a vec4 value as a juce::Value
+Value TimelineData::getValueVec4XAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueVec4X, &undoManager);
+}
+
+// get vec4Y of a vec4 value as a juce::Value
+Value TimelineData::getValueVec4YAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueVec4Y, &undoManager);
+}
+
+// get vec4Z of a vec4 value as a juce::Value
+Value TimelineData::getValueVec4ZAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueVec4Z, &undoManager);
+}
+
+// get vec4W of a vec4 value as a juce::Value
+Value TimelineData::getValueVec4WAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueVec4W, &undoManager);
 }
 
 // get colorR of a color value as a juce::Value
@@ -972,6 +1031,30 @@ void TimelineData::setValueVec3Z(ValueTree value, var vec3Z) {
 	value.setProperty(treeId::valueVec3Z, vec3Z, &undoManager);
 }
 
+// set vec4X of a vec4 value
+void TimelineData::setValueVec4X(ValueTree value, var vec4X) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueVec4X, vec4X, &undoManager);
+}
+
+// set vec4Y of a vec4 value
+void TimelineData::setValueVec4Y(ValueTree value, var vec4Y) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueVec4Y, vec4Y, &undoManager);
+}
+
+// set vec4Z of a vec4 value
+void TimelineData::setValueVec4Z(ValueTree value, var vec4Z) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueVec4Z, vec4Z, &undoManager);
+}
+
+// set vec4W of a vec4 value
+void TimelineData::setValueVec4W(ValueTree value, var vec4W) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueVec4W, vec4W, &undoManager);
+}
+
 // set colorR of a color value
 void TimelineData::setValueColorR(ValueTree value, var colorR) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
@@ -1013,6 +1096,15 @@ glm::vec3 TimelineData::getVec3FromValue(ValueTree value) {
 	return glm::vec3(vec3X, vec3Y, vec3Z);
 }
 
+// returns a vec4 value as a glm::vec4
+glm::vec4 TimelineData::getVec4FromValue(ValueTree value) {
+	const float vec4X = getValueVec4X(value);
+	const float vec4Y = getValueVec4Y(value);
+	const float vec4Z = getValueVec4Z(value);
+	const float vec4W = getValueVec4W(value);
+	return glm::vec4(vec4X, vec4Y, vec4Z, vec4W);
+}
+
 // returns a color value as a glm::vec3
 glm::vec3 TimelineData::getColorFromValue(ValueTree value) {
 	const float colorR = getValueColorR(value);
@@ -1038,6 +1130,14 @@ void TimelineData::setVec3ToValue(ValueTree value, glm::vec3 vector) {
 	setValueVec3X(value, vector.x);
 	setValueVec3Y(value, vector.y);
 	setValueVec3Z(value, vector.z);
+}
+
+// sets the contents of a vec4 value to the numbers from a glm::vec4
+void TimelineData::setVec4ToValue(ValueTree value, glm::vec4 vector) {
+	setValueVec4X(value, vector.x);
+	setValueVec4Y(value, vector.y);
+	setValueVec4Z(value, vector.z);
+	setValueVec4W(value, vector.w);
 }
 
 // sets the contents of a color value to the numbers from a glm::vec2

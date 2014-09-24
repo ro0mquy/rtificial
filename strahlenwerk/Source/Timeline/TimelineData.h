@@ -134,6 +134,7 @@ class TimelineData {
 		bool isValueFloat(ValueTree value);
 		bool isValueVec2(ValueTree value);
 		bool isValueVec3(ValueTree value);
+		bool isValueVec4(ValueTree value);
 		bool isValueColor(ValueTree value);
 
 		var getValueBoolState(ValueTree value);
@@ -143,6 +144,10 @@ class TimelineData {
 		var getValueVec3X(ValueTree value);
 		var getValueVec3Y(ValueTree value);
 		var getValueVec3Z(ValueTree value);
+		var getValueVec4X(ValueTree value);
+		var getValueVec4Y(ValueTree value);
+		var getValueVec4Z(ValueTree value);
+		var getValueVec4W(ValueTree value);
 		var getValueColorR(ValueTree value);
 		var getValueColorG(ValueTree value);
 		var getValueColorB(ValueTree value);
@@ -154,6 +159,10 @@ class TimelineData {
 		Value getValueVec3XAsValue(ValueTree value);
 		Value getValueVec3YAsValue(ValueTree value);
 		Value getValueVec3ZAsValue(ValueTree value);
+		Value getValueVec4XAsValue(ValueTree value);
+		Value getValueVec4YAsValue(ValueTree value);
+		Value getValueVec4ZAsValue(ValueTree value);
+		Value getValueVec4WAsValue(ValueTree value);
 		Value getValueColorRAsValue(ValueTree value);
 		Value getValueColorGAsValue(ValueTree value);
 		Value getValueColorBAsValue(ValueTree value);
@@ -165,6 +174,10 @@ class TimelineData {
 		void setValueVec3X(ValueTree value, var vec3X);
 		void setValueVec3Y(ValueTree value, var vec3Y);
 		void setValueVec3Z(ValueTree value, var vec3Z);
+		void setValueVec4X(ValueTree value, var vec4X);
+		void setValueVec4Y(ValueTree value, var vec4Y);
+		void setValueVec4Z(ValueTree value, var vec4Z);
+		void setValueVec4W(ValueTree value, var vec4W);
 		void setValueColorR(ValueTree value, var colorR);
 		void setValueColorG(ValueTree value, var colorG);
 		void setValueColorB(ValueTree value, var colorB);
@@ -174,11 +187,13 @@ class TimelineData {
 		float getFloatFromValue(ValueTree value);
 		glm::vec2 getVec2FromValue(ValueTree value);
 		glm::vec3 getVec3FromValue(ValueTree value);
+		glm::vec4 getVec4FromValue(ValueTree value);
 		glm::vec3 getColorFromValue(ValueTree value);
 
 		void setFloatToValue(ValueTree value, float scalar);
 		void setVec2ToValue(ValueTree value, glm::vec2 vector);
 		void setVec3ToValue(ValueTree value, glm::vec3 vector);
+		void setVec4ToValue(ValueTree value, glm::vec4 vector);
 		void setColorToValue(ValueTree value, glm::vec3 vector);
 
 		ValueTree mixValues(ValueTree value1, ValueTree value2, const float t);

@@ -68,6 +68,11 @@ namespace treeId {
 									const Identifier valueVec3X("valueVec3X");
 									const Identifier valueVec3Y("valueVec3Y");
 									const Identifier valueVec3Z("valueVec3Z");
+									// vec4
+									const Identifier valueVec4X("valueVec4X");
+									const Identifier valueVec4Y("valueVec4Y");
+									const Identifier valueVec4Z("valueVec4Z");
+									const Identifier valueVec4W("valueVec4W");
 									// color
 									const Identifier valueColorR("valueColorR");
 									const Identifier valueColorG("valueColorG");

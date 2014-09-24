@@ -239,8 +239,12 @@ void Shader::loadUniformValues() {
 				}
 				break;
 			case UniformType::VEC4:
-				// no vec4 in TimelineData
 				{
+					const float vec4X = data.getValueVec4X(value);
+					const float vec4Y = data.getValueVec4Y(value);
+					const float vec4Z = data.getValueVec4Z(value);
+					const float vec4W = data.getValueVec4W(value);
+					context.extensions.glUniform4f(location, vec4X, vec4Y, vec4Z, vec4W);
 				}
 				break;
 		}
