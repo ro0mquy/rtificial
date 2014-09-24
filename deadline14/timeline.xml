@@ -10,12 +10,8 @@
       <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="camera_direction" uniformType="vec3">
-      <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="camera_up" uniformType="vec3">
-      <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+    <uniform uniformName="camera_rotation" uniformType="vec4">
+      <uniformStandardValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="sphere1_color" uniformType="color">

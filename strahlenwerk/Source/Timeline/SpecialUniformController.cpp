@@ -34,8 +34,7 @@ CameraController::~CameraController() {
 
 bool CameraController::wantControlUniform(String& uniformName) {
 	return uniformName == "camera_position" ||
-		uniformName == "camera_direction" ||
-		uniformName == "camera_up";
+		uniformName == "camera_rotation";
 }
 
 #include <glm/glm.hpp>
@@ -43,10 +42,8 @@ Interpolator::UniformState CameraController::getUniformState(String& uniformName
 	ValueTree tree(treeId::controlledValue);
 	if (uniformName == "camera_position") {
 		data.setVec3ToValue(tree, glm::vec3(0., 0., 0.));
-	} else if (uniformName == "camera_direction") {
-		data.setVec3ToValue(tree, glm::vec3(0., 0., -1.));
-	} else if (uniformName == "camera_up") {
-		data.setVec3ToValue(tree, glm::vec3(0., 1., 0.));
+	} else if (uniformName == "camera_rotation") {
+		data.setVec4ToValue(tree, glm::vec4(0., 0., 0., 1.));
 	}
 	return Interpolator::UniformState(tree, false);
 }

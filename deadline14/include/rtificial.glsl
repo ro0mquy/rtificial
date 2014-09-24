@@ -1,8 +1,7 @@
 // fancy functions TODO
 
 uniform vec3 camera_position;
-uniform vec3 camera_direction;
-uniform vec3 camera_up;
+uniform vec4 camera_rotation;
 
 uniform float time;
 
@@ -12,14 +11,23 @@ uniform float focal_length;
 
 float TAU = 6.28318530718;
 
-// TODO camera FOV
+/*
 mat3 get_camera() {
 	vec3 view_right = cross(camera_direction, camera_up);
 	return mat3(view_right, camera_up, -camera_direction);
 }
+*/
+
+// http://molecularmusings.wordpress.com/2013/05/24/a-faster-quaternion-vector-multiplication/
+vec3 quat_rotate(vec3 v, vec4 q) {
+	vec3 t = 2 * cross(q.xyz, v);
+	return v + q.w * t + cross(q.xyz, t);
+	// *hex hex*
+}
 
 vec3 get_direction() {
-	return get_camera() * normalize(vec3((gl_FragCoord.xy - .5 * res) / res.x , -focal_length / .03));
+	vec3 dir = normalize(vec3((gl_FragCoord.xy - .5 * res) / res.x , -focal_length / .03));
+	return quat_rotate(dir, camera_rotation);
 }
 
 vec2 f(vec3 p);
