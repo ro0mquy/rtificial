@@ -13,7 +13,7 @@ class SpecialUniformController {
 
 		// gets called when new uniforms should be added to TimelineData
 		// when this function returns false, it won't get added
-		virtual bool shouldAddUniformToTimlineData(String& uniformName) { return true; }
+		virtual bool shouldAddUniformToTimlineData(String& /*uniformName*/) { return true; }
 
 		// gets called when the state of a uniform is needed
 		// controller gets control when true is returned

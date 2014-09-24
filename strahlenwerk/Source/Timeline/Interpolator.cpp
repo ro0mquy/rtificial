@@ -10,6 +10,7 @@ Interpolator::Interpolator(TimelineData& data_) :
 	data(data_)
 {
 	specialUniformControllers.add(new TimeController(data));
+	specialUniformControllers.add(new CameraController(data));
 }
 
 bool Interpolator::shouldAddUniformToTimlineData(String uniformName) {
@@ -24,7 +25,7 @@ bool Interpolator::shouldAddUniformToTimlineData(String uniformName) {
 
 UniformState Interpolator::getCurrentUniformState(ValueTree uniformData) {
 	if (!uniformData.isValid()) {
-		jassertfalse; // TODO: check why this gets thrown when enabled
+		jassertfalse;
 		return UniformState(ValueTree(), false);
 	}
 
@@ -49,6 +50,10 @@ UniformState Interpolator::getCurrentUniformState(const var& name) {
 
 	// no controller wants this uniform
 	ValueTree uniformData = data.getUniform(name);
+	if (!uniformData.isValid()) {
+		jassertfalse;
+		return UniformState(ValueTree(), false);
+	}
 	return getUniformStateFromTimelineData(uniformData);
 }
 
