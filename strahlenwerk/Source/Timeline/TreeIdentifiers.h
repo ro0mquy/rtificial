@@ -75,6 +75,8 @@ namespace treeId {
 
 	// extra value type for interpolated stuff
 	const Identifier interpolatedValue("interpolatedValue");
+	// extra value id for values form SpecialUniformControllers
+	const Identifier controlledValue("controlledValue");
 }
 
 #endif // TIMELINETREE_H

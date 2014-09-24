@@ -349,6 +349,9 @@
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\SpecialUniformController.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\TimeMarkerComponent.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
@@ -356,9 +359,6 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\CameraMath.cpp">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\CameraController.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\ZoomFactor.cpp">
@@ -1659,6 +1659,9 @@
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\SpecialUniformController.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\Splines.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
@@ -1669,9 +1672,6 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\CameraMath.h">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\CameraController.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\ZoomFactor.h">

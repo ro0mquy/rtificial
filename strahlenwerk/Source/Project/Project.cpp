@@ -149,32 +149,40 @@ void Project::addUniforms(const Shader& shader) {
 	const auto& uniformManager = UniformManager::Instance();
 	for(const int uniformId : shader.getUniformIds()) {
 		const Uniform* uniform = uniformManager.getUniform(uniformId);
-		// TODO handle same uniform with different type
-		if(!timelineData.getUniform(var(uniform->name)).isValid()) {
-			var type;
-			// TODO
-			switch(uniform->type) {
-				case UniformType::BOOL:
-					type = "bool";
-					break;
-				case UniformType::FLOAT:
-					type = "float";
-					break;
-				case UniformType::VEC2:
-					type = "vec2";
-					break;
-				case UniformType::VEC3:
-					type = "vec3";
-					break;
-				case UniformType::COLOR:
-					type = "color";
-					break;
-				case UniformType::VEC4:
-					type = "vec4";
-					break;
-			}
-			timelineData.addUniform(var(uniform->name), type);
+		if (false == timelineData.getInterpolator().shouldAddUniformToTimlineData(uniform->name)) {
+			// special uniform controller handles this uniform
+			return;
 		}
+
+		// TODO handle same uniform with different type
+		if(timelineData.getUniform(var(uniform->name)).isValid()) {
+			// uniform already exists
+			return;
+		}
+
+		var type;
+		// TODO
+		switch(uniform->type) {
+			case UniformType::BOOL:
+				type = "bool";
+				break;
+			case UniformType::FLOAT:
+				type = "float";
+				break;
+			case UniformType::VEC2:
+				type = "vec2";
+				break;
+			case UniformType::VEC3:
+				type = "vec3";
+				break;
+			case UniformType::COLOR:
+				type = "color";
+				break;
+			case UniformType::VEC4:
+				type = "vec4";
+				break;
+		}
+		timelineData.addUniform(var(uniform->name), type);
 	}
 }
 

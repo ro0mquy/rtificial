@@ -2,26 +2,57 @@
 #include <StrahlenwerkApplication.h>
 #include <AudioManager.h>
 #include "TimelineData.h"
+#include "SpecialUniformController.h"
+
+using UniformState = Interpolator::UniformState;
 
 Interpolator::Interpolator(TimelineData& data_) :
 	data(data_)
 {
+	specialUniformControllers.add(new TimeController(data));
 }
 
-std::pair<ValueTree, bool> Interpolator::getCurrentUniformValue(ValueTree uniformData) {
+bool Interpolator::shouldAddUniformToTimlineData(String uniformName) {
+	for (const auto specUniformCtrl : specialUniformControllers) {
+		if (false == specUniformCtrl->shouldAddUniformToTimlineData(uniformName)) {
+			return false;
+		}
+	}
+	// every controller returned true
+	return true;
+}
+
+UniformState Interpolator::getCurrentUniformState(ValueTree uniformData) {
 	if (!uniformData.isValid()) {
-		//jassertfalse; // TODO: check why this gets thrown when enabled
-		return std::pair<ValueTree, bool>(ValueTree(), false);
+		jassertfalse; // TODO: check why this gets thrown when enabled
+		return UniformState(ValueTree(), false);
 	}
 
-	var uniformName = data.getUniformName(uniformData);
-	if (cameraController.hasUniformToBeControlled(uniformName) &&
-			cameraController.getUseControlledUniform()
-			) {
-		// TODO: fix this whole camera code fuck up
-		return std::pair<ValueTree, bool>(cameraController.getControlledUniformState(uniformName), true);
+	String uniformName = data.getUniformName(uniformData);
+	for (const auto specUniformCtrl : specialUniformControllers) {
+		if (specUniformCtrl->wantControlUniform(uniformName)) {
+			return specUniformCtrl->getUniformState(uniformName);
+		}
 	}
 
+	// no controller wants this uniform
+	return getUniformStateFromTimelineData(uniformData);
+}
+
+UniformState Interpolator::getCurrentUniformState(const var& name) {
+	String uniformName = name;
+	for (const auto specUniformCtrl : specialUniformControllers) {
+		if (specUniformCtrl->wantControlUniform(uniformName)) {
+			return specUniformCtrl->getUniformState(uniformName);
+		}
+	}
+
+	// no controller wants this uniform
+	ValueTree uniformData = data.getUniform(name);
+	return getUniformStateFromTimelineData(uniformData);
+}
+
+UniformState Interpolator::getUniformStateFromTimelineData(ValueTree uniformData) {
 	const int numSequences = data.getNumSequences(uniformData);
 	for (int i = 0; i < numSequences; i++) {
 		ValueTree sequence = data.getSequence(uniformData, i);
@@ -36,21 +67,16 @@ std::pair<ValueTree, bool> Interpolator::getCurrentUniformValue(ValueTree unifor
 			continue;
 		}
 
-		return calculateInterpolatedValue(sequence, relativeCurrentTime);
+		return calculateInterpolatedState(sequence, relativeCurrentTime);
 	}
 
 	// no sequence at current time, use standard value
 	const bool isOnKeyframe = false;
 	ValueTree currentUniformValue = data.getUniformStandardValue(uniformData);
-	return std::pair<ValueTree, bool>(currentUniformValue, isOnKeyframe);
+	return UniformState(currentUniformValue, isOnKeyframe);
 }
 
-std::pair<ValueTree, bool> Interpolator::getCurrentUniformValue(const var& name) {
-	ValueTree uniformData = data.getUniform(name);
-	return getCurrentUniformValue(uniformData);
-}
-
-std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree sequence, const float relativeCurrentTime) {
+UniformState Interpolator::calculateInterpolatedState(ValueTree sequence, const float relativeCurrentTime) {
 	const String interpolationType = data.getSequenceInterpolation(sequence);
 	if (interpolationType == "step" ) {
 		return interpolationMethodStep(sequence, relativeCurrentTime);
@@ -66,7 +92,7 @@ std::pair<ValueTree, bool> Interpolator::calculateInterpolatedValue(ValueTree se
 
 // step interpolation method
 // returns the value of the last keyframe
-std::pair<ValueTree, bool> Interpolator::interpolationMethodStep(ValueTree sequence, const float currentTime) {
+UniformState Interpolator::interpolationMethodStep(ValueTree sequence, const float currentTime) {
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	// iterate keyframes from the end
 	for (int i = numKeyframes - 1; i >= 0; i--) {
@@ -76,17 +102,17 @@ std::pair<ValueTree, bool> Interpolator::interpolationMethodStep(ValueTree seque
 			// return first keyframe that comes before the current time
 			ValueTree value = data.getKeyframeValue(keyframe);
 			const bool isOnKeyframe = true;
-			return std::pair<ValueTree, bool>(value, isOnKeyframe);
+			return UniformState(value, isOnKeyframe);
 		}
 	}
 	// normally at least the very first keyframe should come before the current time
 	jassertfalse;
-	return std::pair<ValueTree, bool>(ValueTree(), false);
+	return UniformState(ValueTree(), false);
 }
 
 // linear interpolation method
 // returns the lineary interpolated value between the two current keyframes
-std::pair<ValueTree, bool> Interpolator::interpolationMethodLinear(ValueTree sequence, const float currentTime) {
+UniformState Interpolator::interpolationMethodLinear(ValueTree sequence, const float currentTime) {
 	// check other keyframes for need to interpolate
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	for (int i = 0; i < numKeyframes; i++) {
@@ -97,7 +123,7 @@ std::pair<ValueTree, bool> Interpolator::interpolationMethodLinear(ValueTree seq
 			// exactly on a keyframe
 			ValueTree value = data.getKeyframeValue(keyframe);
 			const bool isOnKeyframe = true;
-			return std::pair<ValueTree, bool>(value, isOnKeyframe);
+			return UniformState(value, isOnKeyframe);
 		}
 
 		if (currentTime < keyframePosition && i != 0) {
@@ -114,17 +140,17 @@ std::pair<ValueTree, bool> Interpolator::interpolationMethodLinear(ValueTree seq
 			ValueTree valueInterpolated = data.mixValues(valueBefore, valueAfter, mixT);
 
 			const bool isOnKeyframe = false;
-			return std::pair<ValueTree, bool>(valueInterpolated, isOnKeyframe);
+			return UniformState(valueInterpolated, isOnKeyframe);
 		}
 	}
 
 	jassertfalse;
-	return std::pair<ValueTree, bool>(ValueTree(), false);
+	return UniformState(ValueTree(), false);
 }
 
 // Centripetal Catmull-Rom Spline interpolation method
 // interpolates between different keyframes with Catmull-Rom splines in centripetal parametrization
-std::pair<ValueTree, bool> Interpolator::interpolationMethodCcrSpline(ValueTree sequence, const float currentTime) {
+UniformState Interpolator::interpolationMethodCcrSpline(ValueTree sequence, const float currentTime) {
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	for (int i = 0; i < numKeyframes; i++) {
 		ValueTree keyframe = data.getKeyframe(sequence, i);
@@ -134,7 +160,7 @@ std::pair<ValueTree, bool> Interpolator::interpolationMethodCcrSpline(ValueTree 
 			// exactly on a keyframe
 			ValueTree value = data.getKeyframeValue(keyframe);
 			const bool isOnKeyframe = true;
-			return std::pair<ValueTree, bool>(value, isOnKeyframe);
+			return UniformState(value, isOnKeyframe);
 		}
 
 		if (currentTime < keyframePosition && i != 0) {
@@ -154,10 +180,10 @@ std::pair<ValueTree, bool> Interpolator::interpolationMethodCcrSpline(ValueTree 
 			ValueTree valueInterpolated = data.calculateCcrSplineForValues(valueP0, valueP1, valueP2, valueP3, mixT);
 
 			const bool isOnKeyframe = false;
-			return std::pair<ValueTree, bool>(valueInterpolated, isOnKeyframe);
+			return UniformState(valueInterpolated, isOnKeyframe);
 		}
 	}
 
 	jassertfalse;
-	return std::pair<ValueTree, bool>(ValueTree(), false);
+	return UniformState(ValueTree(), false);
 }

@@ -2,27 +2,34 @@
 #define INTERPOLATOR_H
 
 #include <juce>
-#include "CameraController.h"
 
 class TimelineData;
+class SpecialUniformController;
 
 class Interpolator {
 	public:
 		Interpolator(TimelineData& data_);
 
-		std::pair<ValueTree, bool> getCurrentUniformValue(ValueTree uniformData);
-		std::pair<ValueTree, bool> getCurrentUniformValue(const var& name);
+		// typedef: pair.first is curent value, pair.second is bool for if on keyframe
+		using UniformState = std::pair<ValueTree, bool>;
+
+		bool shouldAddUniformToTimlineData(String uniformName);
+
+		UniformState getCurrentUniformState(ValueTree uniformData);
+		UniformState getCurrentUniformState(const var& name);
+
+		UniformState getUniformStateFromTimelineData(ValueTree uniformData);
 
 	private:
-		std::pair<ValueTree, bool> calculateInterpolatedValue(ValueTree sequence, const float relativeCurrentTime);
+		UniformState calculateInterpolatedState(ValueTree sequence, const float relativeCurrentTime);
 
 		// functions for interpolation methods
-		std::pair<ValueTree, bool> interpolationMethodStep(ValueTree sequence, const float currentTime);
-		std::pair<ValueTree, bool> interpolationMethodLinear(ValueTree sequence, const float currentTime);
-		std::pair<ValueTree, bool> interpolationMethodCcrSpline(ValueTree sequence, const float currentTime);
+		UniformState interpolationMethodStep(ValueTree sequence, const float currentTime);
+		UniformState interpolationMethodLinear(ValueTree sequence, const float currentTime);
+		UniformState interpolationMethodCcrSpline(ValueTree sequence, const float currentTime);
 
 		TimelineData& data;
-		CameraController cameraController;
+		OwnedArray<SpecialUniformController> specialUniformControllers;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Interpolator)
 };

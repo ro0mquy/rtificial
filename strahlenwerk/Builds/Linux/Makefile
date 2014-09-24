@@ -68,10 +68,10 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/SpecialUniformController_926d55c6.o \
   $(OBJDIR)/TimeMarkerComponent_32217cf1.o \
   $(OBJDIR)/MouseCallbackClasses_88049c4b.o \
   $(OBJDIR)/CameraMath_ba81f35c.o \
-  $(OBJDIR)/CameraController_be1bf2b0.o \
   $(OBJDIR)/ZoomFactor_9cf7cc11.o \
   $(OBJDIR)/Interpolator_e73f9cd6.o \
   $(OBJDIR)/KeyframeComponent_bb6b78ca.o \
@@ -208,6 +208,11 @@ $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	@echo "Compiling UniformManager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/SpecialUniformController_926d55c6.o: ../../Source/Timeline/SpecialUniformController.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SpecialUniformController.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/TimeMarkerComponent_32217cf1.o: ../../Source/Timeline/TimeMarkerComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling TimeMarkerComponent.cpp"
@@ -221,11 +226,6 @@ $(OBJDIR)/MouseCallbackClasses_88049c4b.o: ../../Source/Timeline/MouseCallbackCl
 $(OBJDIR)/CameraMath_ba81f35c.o: ../../Source/Timeline/CameraMath.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling CameraMath.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/CameraController_be1bf2b0.o: ../../Source/Timeline/CameraController.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling CameraController.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/ZoomFactor_9cf7cc11.o: ../../Source/Timeline/ZoomFactor.cpp

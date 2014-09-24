@@ -21,7 +21,7 @@ Sidebar::~Sidebar() {
 void Sidebar::addEditorComponentToArray(ValueTree uniform) {
 	const String name = data.getUniformName(uniform);
 
-	auto uniformState = data.getInterpolator().getCurrentUniformValue(uniform);
+	auto uniformState = data.getInterpolator().getCurrentUniformState(uniform);
 	ValueTree value = uniformState.first;
 	const bool isOnKeyframe = uniformState.second;
 
@@ -54,7 +54,7 @@ void Sidebar::updateEditorValueData(ValueTree uniform) {
 		return;
 	}
 
-	auto uniformState = data.getInterpolator().getCurrentUniformValue(uniform);
+	auto uniformState = data.getInterpolator().getCurrentUniformState(uniform);
 	ValueTree value = uniformState.first;
 	const bool isOnKeyframe = uniformState.second;
 

@@ -98,10 +98,6 @@
       <uniformStandardValue valueFloatX="0.84"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="time" uniformType="float">
-      <uniformStandardValue valueFloatX="0"/>
-      <sequencesArray/>
-    </uniform>
     <uniform uniformName="synapse_gap" uniformType="float">
       <uniformStandardValue valueFloatX="0.051"/>
       <sequencesArray/>

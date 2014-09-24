@@ -74,6 +74,10 @@
         <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
       </GROUP>
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
+        <FILE id="PrQ55n" name="SpecialUniformController.cpp" compile="1" resource="0"
+              file="Source/Timeline/SpecialUniformController.cpp"/>
+        <FILE id="PP9zqk" name="SpecialUniformController.h" compile="0" resource="0"
+              file="Source/Timeline/SpecialUniformController.h"/>
         <FILE id="xs0QFK" name="Splines.h" compile="0" resource="0" file="Source/Timeline/Splines.h"/>
         <FILE id="iX1s38" name="TimeMarkerComponent.cpp" compile="1" resource="0"
               file="Source/Timeline/TimeMarkerComponent.cpp"/>
@@ -85,10 +89,6 @@
               file="Source/Timeline/MouseCallbackClasses.h"/>
         <FILE id="SqLxqZ" name="CameraMath.cpp" compile="1" resource="0" file="Source/Timeline/CameraMath.cpp"/>
         <FILE id="il7nWq" name="CameraMath.h" compile="0" resource="0" file="Source/Timeline/CameraMath.h"/>
-        <FILE id="c5KgXu" name="CameraController.cpp" compile="1" resource="0"
-              file="Source/Timeline/CameraController.cpp"/>
-        <FILE id="QOlagC" name="CameraController.h" compile="0" resource="0"
-              file="Source/Timeline/CameraController.h"/>
         <FILE id="H4Zw2B" name="ZoomFactor.cpp" compile="1" resource="0" file="Source/Timeline/ZoomFactor.cpp"/>
         <FILE id="dU3OL9" name="ZoomFactor.h" compile="0" resource="0" file="Source/Timeline/ZoomFactor.h"/>
         <FILE id="x9o48o" name="Interpolator.cpp" compile="1" resource="0"

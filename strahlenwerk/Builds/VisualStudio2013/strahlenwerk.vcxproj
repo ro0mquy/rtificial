@@ -154,10 +154,10 @@
     <ClCompile Include="..\..\Source\Rendering\SceneShader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Uniform.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp"/>
+    <ClCompile Include="..\..\Source\Timeline\SpecialUniformController.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\TimeMarkerComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\MouseCallbackClasses.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\CameraMath.cpp"/>
-    <ClCompile Include="..\..\Source\Timeline\CameraController.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\ZoomFactor.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\Interpolator.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\KeyframeComponent.cpp"/>
@@ -1279,11 +1279,11 @@
     <ClInclude Include="..\..\Source\Rendering\Uniform.h"/>
     <ClInclude Include="..\..\Source\Rendering\UniformManager.h"/>
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h"/>
+    <ClInclude Include="..\..\Source\Timeline\SpecialUniformController.h"/>
     <ClInclude Include="..\..\Source\Timeline\Splines.h"/>
     <ClInclude Include="..\..\Source\Timeline\TimeMarkerComponent.h"/>
     <ClInclude Include="..\..\Source\Timeline\MouseCallbackClasses.h"/>
     <ClInclude Include="..\..\Source\Timeline\CameraMath.h"/>
-    <ClInclude Include="..\..\Source\Timeline\CameraController.h"/>
     <ClInclude Include="..\..\Source\Timeline\ZoomFactor.h"/>
     <ClInclude Include="..\..\Source\Timeline\Interpolator.h"/>
     <ClInclude Include="..\..\Source\Timeline\KeyframeComponent.h"/>
