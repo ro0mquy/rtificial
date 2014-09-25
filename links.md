@@ -45,3 +45,5 @@
     * [High Dynamic Range (part 3)](http://www.polygonpi.com/?p=1112)
     * [A depth of field implementation](http://www.polygonpi.com/?p=867)
 * [Funktionstabelle für Dualzahlen (Seite 13)](http://iel2.engr.ucdavis.edu/publication/journal/j_EC1.pdf)
+* [Learn Photography Concepts](http://www.cambridgeincolour.com/learn-photography-concepts.htm)
+* [Physically Based Camera Rendering](http://extremeistan.wordpress.com/2014/09/24/physically-based-camera-rendering/)
