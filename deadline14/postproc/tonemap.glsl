@@ -46,7 +46,7 @@ void main() {
 	vec2 dirt_input = tc * 800.;
 	vec3 dirt = .1 * vec3(smoothstep(-.3, .7, cnoise(dirt_input * .008)));
 	dirt += .9 * step(.7, vec3(cnoise(dirt_input))) * smoothstep(0., .7, cnoise(dirt_input * .02));
-	color = mix(color, mix(bloom, bloom * dirt, lens_dirt), bloom_amount * .01);
+	color = mix(color, mix(bloom, bloom * dirt, lens_dirt), bloom_amount);
 
 	// tonemap
 	float avgLuminance = exp(textureLod(luminance, tc, 0.).r);

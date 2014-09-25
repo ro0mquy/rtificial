@@ -31,7 +31,7 @@ void main() {
 			cos(theta), sin(theta),
 			-sin(theta), cos(theta)
 		);
-		float intensity = 3. * sin(length(q.xz) * .1 -3. *  time) * .5 + .5;
+		float intensity = .01 * (sin(length(q.xz) * .1 -3. *  time) * .5 + .5);
 		q.xz = mod(q.xz, 30.);
 		grid = step(q.x, .5) + step(q.z, .5);
 		color += emit_light(vec3(1., 0., 0.), grid * intensity);

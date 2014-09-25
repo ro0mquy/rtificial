@@ -39,7 +39,7 @@ void main(void) {
 		}
 		color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
 		if (material == 3.) {
-			color = conic_ring_color * conic_ring_intensity * 100.;
+			color = conic_ring_color * conic_ring_intensity * 3.;
 		}
 	}
 
