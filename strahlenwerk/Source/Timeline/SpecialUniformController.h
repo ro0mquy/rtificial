@@ -3,6 +3,9 @@
 
 #include <juce>
 #include <mutex>
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include "CameraMath.h"
 
 class TimelineData;
 
@@ -62,7 +65,13 @@ class CameraController :
 		void timerCallback() override;
 
 	private:
-		static const int timerInterval = 15;
+		static constexpr int timerInterval = 15;
+
+		std::mutex cameraMutex;
+		CameraMath cameraMath;
+		double lastCallback;
+		glm::vec3 position;
+		glm::quat rotation;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CameraController)
 };

@@ -2,6 +2,7 @@
 #define INTERPOLATOR_H
 
 #include <juce>
+#include <utility>
 #include "SpecialUniformController.h"
 
 class TimelineData;

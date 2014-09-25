@@ -194,6 +194,7 @@ class TimelineData {
 		void setVec2ToValue(ValueTree value, glm::vec2 vector);
 		void setVec3ToValue(ValueTree value, glm::vec3 vector);
 		void setVec4ToValue(ValueTree value, glm::vec4 vector);
+		void setQuatToValue(ValueTree value, glm::quat vector);
 		void setColorToValue(ValueTree value, glm::vec3 vector);
 
 		ValueTree mixValues(ValueTree value1, ValueTree value2, const float t);

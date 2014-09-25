@@ -37,13 +37,12 @@ bool CameraController::wantControlUniform(String& uniformName) {
 		uniformName == "camera_rotation";
 }
 
-#include <glm/glm.hpp>
 Interpolator::UniformState CameraController::getUniformState(String& uniformName) {
 	ValueTree tree(treeId::controlledValue);
 	if (uniformName == "camera_position") {
-		data.setVec3ToValue(tree, glm::vec3(0., 0., 0.));
+		data.setVec3ToValue(tree, position);
 	} else if (uniformName == "camera_rotation") {
-		data.setVec4ToValue(tree, glm::vec4(0., 0., 0., 1.));
+		data.setQuatToValue(tree, rotation);
 	}
 	return Interpolator::UniformState(tree, false);
 }
@@ -65,7 +64,9 @@ bool CameraController::keyPressed(const KeyPress& key, Component* /*originatingC
 		key.isKeyCode('o');
 
 	if (isCameraKey && !isTimerRunning()) {
+		std::lock_guard<std::mutex> lock(cameraMutex);
 		startTimer(timerInterval);
+		lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 	}
 
 	return isCameraKey;
@@ -105,5 +106,57 @@ void CameraController::handleAsyncUpdate() {
 }
 
 void CameraController::timerCallback() {
-	puts("\\o/");
+	std::lock_guard<std::mutex> lock(cameraMutex);
+
+	const double oldLastCallback = lastCallback;
+	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
+	const float deltaTime = lastCallback - oldLastCallback;
+
+	const ModifierKeys modKeys = ModifierKeys::getCurrentModifiers();
+	if (modKeys.isAnyModifierKeyDown()) {
+		// do nothing when any modifiers are held down
+		return;
+	}
+
+	if (KeyPress::isKeyCurrentlyDown('w')) {
+		position = cameraMath.positionForward(position, rotation, deltaTime);
+	}
+	if (KeyPress::isKeyCurrentlyDown('s')) {
+		position = cameraMath.positionBackward(position, rotation, deltaTime);
+	}
+
+	if (KeyPress::isKeyCurrentlyDown('a')) {
+		position = cameraMath.positionLeft(position, rotation, deltaTime);
+	}
+	if (KeyPress::isKeyCurrentlyDown('d')) {
+		position = cameraMath.positionRight(position, rotation, deltaTime);
+	}
+
+	if (KeyPress::isKeyCurrentlyDown('e')) {
+		position = cameraMath.positionUp(position, rotation, deltaTime);
+	}
+	if (KeyPress::isKeyCurrentlyDown('c')) {
+		position = cameraMath.positionDown(position, rotation, deltaTime);
+	}
+
+	if (KeyPress::isKeyCurrentlyDown('i')) {
+		rotation = cameraMath.rotationUp(position, rotation, deltaTime);
+	}
+	if (KeyPress::isKeyCurrentlyDown('k')) {
+		rotation = cameraMath.rotationDown(position, rotation, deltaTime);
+	}
+
+	if (KeyPress::isKeyCurrentlyDown('j')) {
+		rotation = cameraMath.rotationLeft(position, rotation, deltaTime);
+	}
+	if (KeyPress::isKeyCurrentlyDown('l')) {
+		rotation = cameraMath.rotationRight(position, rotation, deltaTime);
+	}
+
+	if (KeyPress::isKeyCurrentlyDown('u')) {
+		rotation = cameraMath.rotationCounterclockwise(position, rotation, deltaTime);
+	}
+	if (KeyPress::isKeyCurrentlyDown('o')) {
+		rotation = cameraMath.rotationClockwise(position, rotation, deltaTime);
+	}
 }

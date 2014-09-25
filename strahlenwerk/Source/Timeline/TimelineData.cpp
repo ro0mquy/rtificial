@@ -1140,6 +1140,14 @@ void TimelineData::setVec4ToValue(ValueTree value, glm::vec4 vector) {
 	setValueVec4W(value, vector.w);
 }
 
+// sets the contents of a vec4 value to the numbers from a glm::quat
+void TimelineData::setQuatToValue(ValueTree value, glm::quat vector) {
+	setValueVec4X(value, vector.x);
+	setValueVec4Y(value, vector.y);
+	setValueVec4Z(value, vector.z);
+	setValueVec4W(value, vector.w);
+}
+
 // sets the contents of a color value to the numbers from a glm::vec2
 void TimelineData::setColorToValue(ValueTree value, glm::vec3 vector) {
 	setValueColorR(value, vector.r);
