@@ -570,6 +570,28 @@ float TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
 	return sceneStart + sequenceStart;
 }
 
+// returns the active sequence of a uniform for a timepoint
+// a invalid tree is returned if there is none
+ValueTree TimelineData::getSequenceForTime(ValueTree uniform, const float absoluteTime) {
+	const int numSequences = getNumSequences(uniform);
+	for (int i = 0; i < numSequences; i++) {
+		ValueTree sequence = getSequence(uniform, i);
+		const float start = getAbsoluteStartForSequence(sequence);
+		const float duration = getSequenceDuration(sequence);
+		const float relativeTime = absoluteTime - start;
+		if (isPositiveAndNotGreaterThan(relativeTime, duration)) {
+			return sequence;
+		}
+	}
+	// in case of no matching sequence, return invalid tree
+	return ValueTree();
+}
+
+// returns the sequence of a uniform that should be used at the current time
+ValueTree TimelineData::getCurrentSequence(ValueTree uniform) {
+	return getSequenceForTime(uniform, AudioManager::getAudioManager().getTimeInBeats());
+}
+
 // returns the uniform the sequence belongs to
 // of course the sequence must already be added to one
 ValueTree TimelineData::getSequenceParentUniform(ValueTree sequence) {

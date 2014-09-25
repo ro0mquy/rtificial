@@ -100,6 +100,8 @@ class TimelineData {
 
 		void setSequencePropertiesForAbsoluteStart(ValueTree sequence, float absoluteStart);
 		float getAbsoluteStartForSequence(ValueTree sequence);
+		ValueTree getSequenceForTime(ValueTree uniform, const float absoluteTime);
+		ValueTree getCurrentSequence(ValueTree uniform);
 		ValueTree getSequenceParentUniform(ValueTree sequence);
 
 
