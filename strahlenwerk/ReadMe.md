@@ -12,10 +12,12 @@
 * `[Scroll]` scroll timeline vertically
 * `[Shift]+[Scroll]` scroll timeline horizontically
 * `[Ctrl]+[Scroll]` zoom timeline (zoom in to mouse position, zoom out of screen center)
-* `[Click]` set time position
+* `[Click]` set time position without changing camera
+* `[Shift]+[Click]` set time position and change camera
+* `[Space]` Play/pause without animating the camera
+* `[Shift]+[Space]` Play/pause with animated camera
+* `P` Place a Keyframe for the camera uniforms at the current position
 * `[Ctrl]+S` save all timeline data to `timeline.xml`
-* `[Space]` Play/pause
-* `S` Place a Keyframe for the camera uniforms at the current position
 
 #### Scenes
 * `[Ctrl]+[Drag]` create new scene or move already existing
