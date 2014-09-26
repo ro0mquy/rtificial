@@ -83,7 +83,7 @@ bool CameraController::keyPressed(const KeyPress& key, Component* /*originatingC
 		lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 	}
 
-	return isCameraKey;
+	return false;
 }
 
 bool CameraController::keyStateChanged(bool isKeyPressed, Component* /*originatingComponent*/) {
@@ -112,7 +112,7 @@ bool CameraController::keyStateChanged(bool isKeyPressed, Component* /*originati
 		stopTimer();
 	}
 
-	return !isCameraKeyDown;
+	return false;
 }
 
 void CameraController::handleAsyncUpdate() {
