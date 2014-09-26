@@ -9,7 +9,7 @@ Interpolator::Interpolator(TimelineData& data_) :
 	data(data_)
 {
 	specialUniformControllers.add(new TimeController(data));
-	specialUniformControllers.add(new CameraController(data));
+	specialUniformControllers.add(new CameraController(data, *this));
 }
 
 bool Interpolator::shouldAddUniformToTimlineData(String uniformName) {

@@ -1,6 +1,7 @@
 #include "SpecialUniformController.h"
 #include <AudioManager.h>
 #include "TimelineData.h"
+#include "Interpolator.h"
 #include "TreeIdentifiers.h"
 #include <StrahlenwerkApplication.h>
 #include <MainWindow.h>
@@ -21,11 +22,16 @@ Interpolator::UniformState TimeController::getUniformState(String& /*uniformName
 }
 
 
-CameraController::CameraController(TimelineData& data_) :
+CameraController* CameraController::globalCameraController = nullptr;
+
+CameraController::CameraController(TimelineData& data_, Interpolator& interpolator_) :
 	SpecialUniformController(data_),
+	interpolator(interpolator_),
 	cameraPositionName("camera_position"),
 	cameraRotationName("camera_rotation")
 {
+	globalCameraController = this;
+
 	MainWindow::getApplicationCommandManager().addListener(this);
 
 	// add this as a key listener to the main window, as soon as it is constructed
@@ -36,6 +42,7 @@ CameraController::~CameraController() {
 	//MainWindow::getApplicationCommandManager().removeListener(this);
 	// this segfaults because MainWindow gets deleted before this class
 	//StrahlenwerkApplication::getInstance()->getMainWindow().removeKeyListener(this);
+	globalCameraController = nullptr;
 }
 
 bool CameraController::wantControlUniform(String& uniformName) {
@@ -45,6 +52,7 @@ bool CameraController::wantControlUniform(String& uniformName) {
 
 Interpolator::UniformState CameraController::getUniformState(String& uniformName) {
 	ValueTree tree(treeId::controlledValue);
+	std::lock_guard<std::mutex> lock(cameraMutex);
 	if (uniformName == cameraPositionName) {
 		data.setVec3ToValue(tree, position);
 	} else if (uniformName == cameraRotationName) {
@@ -188,6 +196,7 @@ void CameraController::setKeyframeAtCurrentPosition() {
 			keyframe = data.addKeyframe(currentPosSequence, relativeCurrentTime);
 		}
 		ValueTree keyframeValue = data.getKeyframeValue(keyframe);
+		std::lock_guard<std::mutex> lock(cameraMutex);
 		data.setVec3ToValue(keyframeValue, position);
 	}
 
@@ -200,6 +209,19 @@ void CameraController::setKeyframeAtCurrentPosition() {
 			keyframe = data.addKeyframe(currentRotSequence, relativeCurrentTime);
 		}
 		ValueTree keyframeValue = data.getKeyframeValue(keyframe);
+		std::lock_guard<std::mutex> lock(cameraMutex);
 		data.setQuatToValue(keyframeValue, rotation);
 	}
+}
+
+void CameraController::getCameraFromCurrentPosition() {
+	ValueTree positionUniform = data.getUniform(var(cameraPositionName));
+	ValueTree positionValue = interpolator.getUniformStateFromTimelineData(positionUniform).first;
+
+	ValueTree rotationUniform = data.getUniform(var(cameraRotationName));
+	ValueTree rotationValue = interpolator.getUniformStateFromTimelineData(rotationUniform).first;
+
+	std::lock_guard<std::mutex> lock(cameraMutex);
+	position = data.getVec3FromValue(positionValue);
+	rotation = data.getQuatFromValue(rotationValue);
 }

@@ -191,6 +191,7 @@ class TimelineData {
 		glm::vec2 getVec2FromValue(ValueTree value);
 		glm::vec3 getVec3FromValue(ValueTree value);
 		glm::vec4 getVec4FromValue(ValueTree value);
+		glm::quat getQuatFromValue(ValueTree value);
 		glm::vec3 getColorFromValue(ValueTree value);
 
 		void setFloatToValue(ValueTree value, float scalar);

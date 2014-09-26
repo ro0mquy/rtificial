@@ -1,5 +1,6 @@
 #include "Timeline.h"
 #include "TimelineData.h"
+#include "SpecialUniformController.h"
 #include "SnapToGridConstrainer.h"
 #include <AudioManager.h>
 
@@ -48,7 +49,7 @@ void Timeline::mouseDown(const MouseEvent& event) {
 	const int uniformsBarWidth = 150;
 	const bool isInUniBar = event.getMouseDownX() < uniformsBarWidth;
 	const ModifierKeys& m = event.mods;
-	if (!isInUniBar && m.isLeftButtonDown() && !m.isAnyModifierKeyDown()) {
+	if (!isInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
 		// set current Time
 		mouseDrag(event);
 	} else {
@@ -60,11 +61,14 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 	const int uniformsBarWidth = 150;
 	const bool isInUniBar = event.getMouseDownX() < uniformsBarWidth;
 	const ModifierKeys& m = event.mods;
-	if (!isInUniBar && m.isLeftButtonDown() && !m.isAnyModifierKeyDown()) {
+	if (!isInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
 		const MouseEvent eventSeqView = event.getEventRelativeTo(&sequenceView);
 		const float newTime = jmax(eventSeqView.x, 0) / zoomFactor;
 		const float newTimeSnapped = SnapToGridConstrainer::snapValueToGrid(newTime);
 		AudioManager::getAudioManager().setTime(newTimeSnapped);
+		if (m.isShiftDown() && CameraController::globalCameraController) {
+			CameraController::globalCameraController->getCameraFromCurrentPosition();
+		}
 	} else {
 		Component::mouseDrag(event);
 	}

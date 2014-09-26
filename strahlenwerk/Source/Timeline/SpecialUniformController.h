@@ -8,6 +8,7 @@
 #include "CameraMath.h"
 
 class TimelineData;
+class Interpolator;
 
 class SpecialUniformController {
 	public:
@@ -53,8 +54,10 @@ class CameraController :
 	private ApplicationCommandManagerListener
 {
 	public:
-		CameraController(TimelineData& data_);
+		CameraController(TimelineData& data_, Interpolator& interpolator_);
 		~CameraController();
+
+		static CameraController* globalCameraController;
 
 		bool wantControlUniform(String& uniformName) override;
 		std::pair<ValueTree, bool> getUniformState(String& uniformName) override;
@@ -69,17 +72,19 @@ class CameraController :
 		void applicationCommandListChanged() override;
 
 		void setKeyframeAtCurrentPosition();
+		void getCameraFromCurrentPosition();
 
 	private:
-		static constexpr int timerInterval = 15;
-		const String cameraPositionName;
-		const String cameraRotationName;
-
+		Interpolator& interpolator;
 		std::mutex cameraMutex;
 		CameraMath cameraMath;
 		double lastCallback;
 		glm::vec3 position;
 		glm::quat rotation;
+
+		static constexpr int timerInterval = 15;
+		const String cameraPositionName;
+		const String cameraRotationName;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CameraController)
 };

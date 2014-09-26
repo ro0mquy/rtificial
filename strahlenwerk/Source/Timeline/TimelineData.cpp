@@ -793,10 +793,11 @@ bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 		setValueVec3Y(valueData, 0.);
 		setValueVec3Z(valueData, 0.);
 	} else if (valueType == "vec4") {
+		// vec4 is mostly a rotation, (0, 0, 0, 1) is the identity rotation
 		setValueVec4X(valueData, 0.);
 		setValueVec4Y(valueData, 0.);
 		setValueVec4Z(valueData, 0.);
-		setValueVec4W(valueData, 0.);
+		setValueVec4W(valueData, 1.);
 	} else if (valueType == "color") {
 		setValueColorR(valueData, 0.);
 		setValueColorG(valueData, 0.);
@@ -1130,6 +1131,15 @@ glm::vec4 TimelineData::getVec4FromValue(ValueTree value) {
 	const float vec4Z = getValueVec4Z(value);
 	const float vec4W = getValueVec4W(value);
 	return glm::vec4(vec4X, vec4Y, vec4Z, vec4W);
+}
+
+// returns a vec4 value as a glm::quat
+glm::quat TimelineData::getQuatFromValue(ValueTree value) {
+	const float quatX = getValueVec4X(value);
+	const float quatY = getValueVec4Y(value);
+	const float quatZ = getValueVec4Z(value);
+	const float quatW = getValueVec4W(value);
+	return glm::quat(quatW, quatX, quatY, quatZ);
 }
 
 // returns a color value as a glm::vec3
