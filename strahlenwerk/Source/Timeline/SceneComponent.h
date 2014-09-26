@@ -2,11 +2,10 @@
 #define SCENECOMPONENT_H
 
 #include <juce>
-#include "SnapToGridConstrainer.h"
-#include "ZoomFactor.h"
 #include "MouseCallbackClasses.h"
 
 class TimelineData;
+class ZoomFactor;
 
 class SceneComponent :
 	public McbComponent,
@@ -22,7 +21,6 @@ class SceneComponent :
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
-		void moved() override;
 		void resized() override;
 		void parentHierarchyChanged() override;
 		void changeListenerCallback(ChangeBroadcaster* source) override;
@@ -48,8 +46,22 @@ class SceneComponent :
 		ZoomFactor& zoomFactor;
 
 		McbLabel shaderSourceLabel;
-		SnapToGridConstrainer constrainer;
+		ComponentBoundsConstrainer constrainer;
 		ResizableBorderComponent resizableBorder;
+
+		class Positioner : public Component::Positioner {
+			public:
+				Positioner(Component& component, ValueTree sceneData_, TimelineData& data_, ZoomFactor& zoomFactor_);
+				void applyNewBounds(const Rectangle<int>& newBounds) override;
+
+			private:
+				ValueTree sceneData;
+				TimelineData& data;
+				ZoomFactor& zoomFactor;
+
+				JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Positioner)
+		};
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SceneComponent)
 };
 

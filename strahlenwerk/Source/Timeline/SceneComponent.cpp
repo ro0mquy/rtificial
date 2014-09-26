@@ -1,6 +1,7 @@
 #include "SceneComponent.h"
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
+#include "ZoomFactor.h"
 
 SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	sceneData(_sceneData),
@@ -15,9 +16,11 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	//shaderSourceLabel.setColour(Label::textColourId, findColour(SceneComponent::textColourId)); // TODO: find out why this throws an assertion
 	addAndMakeVisible(shaderSourceLabel);
 
+	setPositioner(new Positioner(*this, sceneData, data, zoomFactor));
+
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
-	constrainer.setMinimumWidth(zoomFactor.getGridWith());
+	constrainer.setMinimumWidth(zoomFactor.getGridWith() * zoomFactor);
 
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
@@ -25,6 +28,14 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 
 	sceneData.addListener(this);
 	zoomFactor.addChangeListener(this);
+}
+
+SceneComponent::Positioner::Positioner(Component& component, ValueTree sceneData_, TimelineData& data_, ZoomFactor& zoomFactor_) :
+	Component::Positioner(component),
+	sceneData(sceneData_),
+	data(data_),
+	zoomFactor(zoomFactor_)
+{
 }
 
 SceneComponent::~SceneComponent() {
@@ -38,6 +49,38 @@ void SceneComponent::updateBounds() {
 
 	const float padding = 0;
 	setBounds(start, padding, duration, getParentHeight() - 2*padding);
+}
+
+void SceneComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds) {
+	const bool xChanged = newBounds.getX() != getComponent().getX();
+	const bool widthChanged = newBounds.getWidth() != getComponent().getWidth();
+
+	if (xChanged && !widthChanged) {
+		// dragging
+		const float newX = newBounds.getX() / zoomFactor;
+		const float newStart = zoomFactor.snapValueToGrid(newX);
+		data.setSceneStart(sceneData, newStart);
+	} else if (xChanged && widthChanged) {
+		// stretching left
+		const float newX = newBounds.getX() / zoomFactor;
+		const float newStart = zoomFactor.snapValueToGrid(newX);
+
+		// calculate the new width through the change of X
+		// so that the right end stays where it is
+		// otherwise the duration and not the right side would be snapped to grid
+		const float oldStart = data.getSceneStart(sceneData);
+		const float deltaStart = newStart - oldStart;
+		const float oldDuration = data.getSceneDuration(sceneData);
+		const float newDuration = oldDuration - deltaStart;
+
+		data.setSceneStart(sceneData, newStart);
+		data.setSceneDuration(sceneData, newDuration);
+	} else if (!xChanged && widthChanged) {
+		// stretching right
+		const float newWidth = newBounds.getWidth() / zoomFactor;
+		const float newDuration = zoomFactor.snapValueToGrid(newWidth);
+		data.setSceneDuration(sceneData, newDuration);
+	}
 }
 
 void SceneComponent::paint(Graphics& g) {
@@ -107,16 +150,9 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 	}
 }
 
-void SceneComponent::moved() {
-	const float newStart = SnapToGridConstrainer::snapValueToGrid(getX() / zoomFactor);
-	data.setSceneStart(sceneData, newStart);
-}
-
 void SceneComponent::resized() {
 	shaderSourceLabel.setBounds(getLocalBounds());
 	resizableBorder.setBounds(getLocalBounds());
-	const float newDuration = SnapToGridConstrainer::snapValueToGrid(getWidth() / zoomFactor);
-	data.setSceneDuration(sceneData, newDuration);
 }
 
 void SceneComponent::parentHierarchyChanged() {
@@ -125,6 +161,7 @@ void SceneComponent::parentHierarchyChanged() {
 
 void SceneComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// zoomFactor update
+	constrainer.setMinimumWidth(zoomFactor.getGridWith() * zoomFactor);
 	updateBounds();
 }
 
