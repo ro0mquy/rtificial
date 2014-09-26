@@ -621,6 +621,11 @@ ValueTree TimelineData::getKeyframe(ValueTree sequence, const int nthKeyframe) {
 	return getKeyframesArray(sequence).getChild(nthKeyframe);
 }
 
+ValueTree TimelineData::getKeyframe(ValueTree sequence, const var& position) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getKeyframesArray(sequence).getChildWithProperty(treeId::keyframePosition, position);
+}
+
 // checks the ValueTree for all requirements to be a sequence
 bool TimelineData::isKeyframe(ValueTree keyframe) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
@@ -1138,17 +1143,20 @@ glm::vec3 TimelineData::getColorFromValue(ValueTree value) {
 
 // sets the contents of a float value to the numbers from a float
 void TimelineData::setFloatToValue(ValueTree value, float scalar) {
+	jassert(isValueFloat(value) || getNumValueProperties(value) == 0);
 	setValueFloatX(value, scalar);
 }
 
 // sets the contents of a vec2 value to the numbers from a glm::vec2
 void TimelineData::setVec2ToValue(ValueTree value, glm::vec2 vector) {
+	jassert(isValueVec2(value) || getNumValueProperties(value) == 0);
 	setValueVec2X(value, vector.x);
 	setValueVec2Y(value, vector.y);
 }
 
 // sets the contents of a vec3 value to the numbers from a glm::vec3
 void TimelineData::setVec3ToValue(ValueTree value, glm::vec3 vector) {
+	jassert(isValueVec3(value) || getNumValueProperties(value) == 0);
 	setValueVec3X(value, vector.x);
 	setValueVec3Y(value, vector.y);
 	setValueVec3Z(value, vector.z);
@@ -1156,6 +1164,7 @@ void TimelineData::setVec3ToValue(ValueTree value, glm::vec3 vector) {
 
 // sets the contents of a vec4 value to the numbers from a glm::vec4
 void TimelineData::setVec4ToValue(ValueTree value, glm::vec4 vector) {
+	jassert(isValueVec4(value) || getNumValueProperties(value) == 0);
 	setValueVec4X(value, vector.x);
 	setValueVec4Y(value, vector.y);
 	setValueVec4Z(value, vector.z);
@@ -1164,6 +1173,7 @@ void TimelineData::setVec4ToValue(ValueTree value, glm::vec4 vector) {
 
 // sets the contents of a vec4 value to the numbers from a glm::quat
 void TimelineData::setQuatToValue(ValueTree value, glm::quat vector) {
+	jassert(isValueVec4(value) || getNumValueProperties(value) == 0);
 	setValueVec4X(value, vector.x);
 	setValueVec4Y(value, vector.y);
 	setValueVec4Z(value, vector.z);
@@ -1172,6 +1182,7 @@ void TimelineData::setQuatToValue(ValueTree value, glm::quat vector) {
 
 // sets the contents of a color value to the numbers from a glm::vec2
 void TimelineData::setColorToValue(ValueTree value, glm::vec3 vector) {
+	jassert(isValueColor(value) || getNumValueProperties(value) == 0);
 	setValueColorR(value, vector.r);
 	setValueColorG(value, vector.g);
 	setValueColorB(value, vector.b);

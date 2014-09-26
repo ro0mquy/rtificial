@@ -22,26 +22,32 @@ Interpolator::UniformState TimeController::getUniformState(String& /*uniformName
 
 
 CameraController::CameraController(TimelineData& data_) :
-	SpecialUniformController(data_)
+	SpecialUniformController(data_),
+	cameraPositionName("camera_position"),
+	cameraRotationName("camera_rotation")
 {
+	MainWindow::getApplicationCommandManager().addListener(this);
+
 	// add this as a key listener to the main window, as soon as it is constructed
 	triggerAsyncUpdate();
 }
 
 CameraController::~CameraController() {
-	StrahlenwerkApplication::getInstance()->getMainWindow().removeKeyListener(this);
+	//MainWindow::getApplicationCommandManager().removeListener(this);
+	// this segfaults because MainWindow gets deleted before this class
+	//StrahlenwerkApplication::getInstance()->getMainWindow().removeKeyListener(this);
 }
 
 bool CameraController::wantControlUniform(String& uniformName) {
-	return uniformName == "camera_position" ||
-		uniformName == "camera_rotation";
+	return uniformName == cameraPositionName ||
+		uniformName == cameraRotationName;
 }
 
 Interpolator::UniformState CameraController::getUniformState(String& uniformName) {
 	ValueTree tree(treeId::controlledValue);
-	if (uniformName == "camera_position") {
+	if (uniformName == cameraPositionName) {
 		data.setVec3ToValue(tree, position);
-	} else if (uniformName == "camera_rotation") {
+	} else if (uniformName == cameraRotationName) {
 		data.setQuatToValue(tree, rotation);
 	}
 	return Interpolator::UniformState(tree, false);
@@ -158,5 +164,42 @@ void CameraController::timerCallback() {
 	}
 	if (KeyPress::isKeyCurrentlyDown('o')) {
 		rotation = cameraMath.rotationClockwise(position, rotation, deltaTime);
+	}
+}
+
+void CameraController::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
+	if (info.commandID == MainWindow::setKeyframe) {
+		setKeyframeAtCurrentPosition();
+	}
+}
+
+void CameraController::applicationCommandListChanged() {
+}
+
+void CameraController::setKeyframeAtCurrentPosition() {
+	const float currentTime = AudioManager::getAudioManager().getTimeInBeats();
+
+	ValueTree positionUniform = data.getUniform(var(cameraPositionName));
+	ValueTree currentPosSequence = data.getSequenceForTime(positionUniform, currentTime);
+	if (currentPosSequence.isValid()) {
+		const var relativeCurrentTime = currentTime - data.getAbsoluteStartForSequence(currentPosSequence);
+		ValueTree keyframe = data.getKeyframe(currentPosSequence, relativeCurrentTime);
+		if (!keyframe.isValid()) {
+			keyframe = data.addKeyframe(currentPosSequence, relativeCurrentTime);
+		}
+		ValueTree keyframeValue = data.getKeyframeValue(keyframe);
+		data.setVec3ToValue(keyframeValue, position);
+	}
+
+	ValueTree rotationUniform = data.getUniform(var(cameraRotationName));
+	ValueTree currentRotSequence = data.getSequenceForTime(rotationUniform, currentTime);
+	if (currentRotSequence.isValid()) {
+		const var relativeCurrentTime = currentTime - data.getAbsoluteStartForSequence(currentRotSequence);
+		ValueTree keyframe = data.getKeyframe(currentRotSequence, relativeCurrentTime);
+		if (!keyframe.isValid()) {
+			keyframe = data.addKeyframe(currentRotSequence, relativeCurrentTime);
+		}
+		ValueTree keyframeValue = data.getKeyframeValue(keyframe);
+		data.setQuatToValue(keyframeValue, rotation);
 	}
 }

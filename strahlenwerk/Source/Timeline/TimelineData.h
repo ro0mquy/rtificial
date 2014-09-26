@@ -110,6 +110,7 @@ class TimelineData {
 		int getNumKeyframes(ValueTree sequence);
 
 		ValueTree getKeyframe(ValueTree sequence, const int nthKeyframe);
+		ValueTree getKeyframe(ValueTree sequence, const var& position);
 		bool isKeyframe(ValueTree keyframe);
 		ValueTree addKeyframe(ValueTree sequence, ValueTree keyframe);
 		ValueTree addKeyframe(ValueTree sequence, var keyframePosition);

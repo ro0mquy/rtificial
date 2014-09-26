@@ -49,7 +49,8 @@ class CameraController :
 	public SpecialUniformController,
 	private KeyListener,
 	private AsyncUpdater,
-	private Timer
+	private Timer,
+	private ApplicationCommandManagerListener
 {
 	public:
 		CameraController(TimelineData& data_);
@@ -64,8 +65,15 @@ class CameraController :
 		void handleAsyncUpdate() override;
 		void timerCallback() override;
 
+		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
+		void applicationCommandListChanged() override;
+
+		void setKeyframeAtCurrentPosition();
+
 	private:
 		static constexpr int timerInterval = 15;
+		const String cameraPositionName;
+		const String cameraRotationName;
 
 		std::mutex cameraMutex;
 		CameraMath cameraMath;

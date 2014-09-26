@@ -27,7 +27,8 @@ class MainWindow : public DocumentWindow,
 			saveTimeline,
 			playPause,
 			toggleGrid,
-			toggleFullscreen
+			toggleFullscreen,
+			setKeyframe,
 		};
 
 		StringArray getMenuBarNames() override;

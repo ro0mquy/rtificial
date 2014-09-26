@@ -75,6 +75,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		MainWindow::playPause,
 		MainWindow::toggleGrid,
 		MainWindow::toggleFullscreen,
+		MainWindow::setKeyframe,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -113,6 +114,9 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.setInfo("Toogle Fullscreen", "Toggle fullscreen mode for OpenGL component", programCategory, 0);
 			result.addDefaultKeypress('f', ModifierKeys::noModifiers);
 			break;
+		case MainWindow::setKeyframe:
+			result.setInfo("Set Keyframe", "Places a Keyframe for the Camera at the Current Position", programCategory, 0);
+			result.addDefaultKeypress('p', ModifierKeys::noModifiers);
 		default:
 			break;
 	}
@@ -149,6 +153,10 @@ bool MainWindow::perform(const InvocationInfo& info) {
 			doToggleFullscreen();
 			break;
 
+		case MainWindow::setKeyframe:
+			// do nothing here, the action is done by a command listener
+			break;
+
 		default:
 			return false;
 	}
@@ -175,6 +183,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, MainWindow::reload);
 		menu.addCommandItem(commandManager, MainWindow::toggleGrid);
 		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);
+		menu.addCommandItem(commandManager, MainWindow::setKeyframe);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
 	}
 
