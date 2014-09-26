@@ -115,7 +115,7 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown() && uniform.isValid()) {
 		const float absoluteStart = event.getMouseDownX() / zoomFactor;
-		const float absoluteStartGrid = SnapToGridConstrainer::snapValueToGrid(absoluteStart);
+		const float absoluteStartGrid = zoomFactor.snapValueToGrid(absoluteStart);
 		var sequenceDuration = 0.f;
 		var sequenceInterpolation = "step";
 		currentlyCreatedSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
@@ -128,10 +128,10 @@ void SequenceViewComponent::mouseDrag(const MouseEvent& event) {
 	// invalid data happens on click in empty area, no left click or no command down
 	if (currentlyCreatedSequenceData.isValid()) {
 		const float mouseDown = event.getMouseDownX() / zoomFactor;
-		const float mouseDownGrid = SnapToGridConstrainer::snapValueToGrid(mouseDown);
+		const float mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
 
 		const float mousePos = event.position.getX() / zoomFactor;
-		const float mousePosGrid = SnapToGridConstrainer::snapValueToGrid(mousePos);
+		const float mousePosGrid = zoomFactor.snapValueToGrid(mousePos);
 
 		const float distanceGrid = mousePosGrid - mouseDownGrid;
 		const float absDistanceGrid = std::abs(distanceGrid);

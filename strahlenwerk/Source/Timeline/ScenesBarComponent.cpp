@@ -6,7 +6,6 @@
 #include "SceneComponent.h"
 #include <AudioManager.h>
 #include "ZoomFactor.h"
-#include "SnapToGridConstrainer.h"
 
 ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
@@ -122,10 +121,10 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 	// invalid data happens on no left click or no command down
 	if (currentlyCreatedSceneData.isValid()) {
 		const float mouseDown = event.getMouseDownX() / zoomFactor;
-		const float mouseDownGrid = SnapToGridConstrainer::snapValueToGrid(mouseDown);
+		const float mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
 
 		const float mousePos = event.x / zoomFactor;
-		const float mousePosGrid = SnapToGridConstrainer::snapValueToGrid(mousePos);
+		const float mousePosGrid = zoomFactor.snapValueToGrid(mousePos);
 
 		const float distanceGrid = mousePosGrid - mouseDownGrid;
 		const float absDistanceGrid = std::abs(distanceGrid);

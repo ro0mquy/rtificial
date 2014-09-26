@@ -79,7 +79,6 @@ OBJECTS := \
   $(OBJDIR)/SequenceComponent_10a22e57.o \
   $(OBJDIR)/UniformsBarComponent_d6185a18.o \
   $(OBJDIR)/SceneComponent_2e62f260.o \
-  $(OBJDIR)/SnapToGridConstrainer_30f5e134.o \
   $(OBJDIR)/ScenesBarComponent_9e1694c0.o \
   $(OBJDIR)/TimelineData_bd97819a.o \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
@@ -261,11 +260,6 @@ $(OBJDIR)/UniformsBarComponent_d6185a18.o: ../../Source/Timeline/UniformsBarComp
 $(OBJDIR)/SceneComponent_2e62f260.o: ../../Source/Timeline/SceneComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling SceneComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/SnapToGridConstrainer_30f5e134.o: ../../Source/Timeline/SnapToGridConstrainer.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling SnapToGridConstrainer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/ScenesBarComponent_9e1694c0.o: ../../Source/Timeline/ScenesBarComponent.cpp

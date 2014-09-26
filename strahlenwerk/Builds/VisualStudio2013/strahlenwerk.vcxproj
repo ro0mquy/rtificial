@@ -165,7 +165,6 @@
     <ClCompile Include="..\..\Source\Timeline\SequenceComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\UniformsBarComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\SceneComponent.cpp"/>
-    <ClCompile Include="..\..\Source\Timeline\SnapToGridConstrainer.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\ScenesBarComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\TimelineData.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\SequenceViewComponent.cpp"/>
@@ -1291,7 +1290,6 @@
     <ClInclude Include="..\..\Source\Timeline\SequenceComponent.h"/>
     <ClInclude Include="..\..\Source\Timeline\UniformsBarComponent.h"/>
     <ClInclude Include="..\..\Source\Timeline\SceneComponent.h"/>
-    <ClInclude Include="..\..\Source\Timeline\SnapToGridConstrainer.h"/>
     <ClInclude Include="..\..\Source\Timeline\ScenesBarComponent.h"/>
     <ClInclude Include="..\..\Source\Timeline\TimelineData.h"/>
     <ClInclude Include="..\..\Source\Timeline\SequenceViewComponent.h"/>

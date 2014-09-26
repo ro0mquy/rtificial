@@ -382,9 +382,6 @@
     <ClCompile Include="..\..\Source\Timeline\SceneComponent.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\SnapToGridConstrainer.cpp">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\ScenesBarComponent.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
@@ -1693,9 +1690,6 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\SceneComponent.h">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\SnapToGridConstrainer.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\ScenesBarComponent.h">
