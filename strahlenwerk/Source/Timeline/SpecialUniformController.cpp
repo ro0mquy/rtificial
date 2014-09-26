@@ -57,11 +57,16 @@ bool CameraController::wantControlUniform(String& uniformName) {
 
 Interpolator::UniformState CameraController::getUniformState(String& uniformName) {
 	ValueTree tree(treeId::controlledValue);
-	std::lock_guard<std::mutex> lock(cameraMutex);
 	if (uniformName == cameraPositionName) {
-		data.setVec3ToValue(tree, position);
+		cameraMutex.lock();
+		glm::vec3 tmpPosition = position;
+		cameraMutex.unlock();
+		data.setVec3ToValue(tree, tmpPosition);
 	} else if (uniformName == cameraRotationName) {
-		data.setQuatToValue(tree, rotation);
+		cameraMutex.lock();
+		glm::quat tmpRotation = rotation;
+		cameraMutex.unlock();
+		data.setQuatToValue(tree, tmpRotation);
 	}
 	return Interpolator::UniformState(tree, false);
 }
@@ -206,8 +211,12 @@ void CameraController::setKeyframeAtCurrentPosition() {
 			keyframe = data.addKeyframe(currentPosSequence, relativeCurrentTime);
 		}
 		ValueTree keyframeValue = data.getKeyframeValue(keyframe);
-		std::lock_guard<std::mutex> lock(cameraMutex);
-		data.setVec3ToValue(keyframeValue, position);
+
+		cameraMutex.lock();
+		glm::vec3 tmpPosition = position;
+		cameraMutex.unlock();
+
+		data.setVec3ToValue(keyframeValue, tmpPosition);
 	}
 
 	ValueTree rotationUniform = data.getUniform(var(cameraRotationName));
@@ -219,8 +228,12 @@ void CameraController::setKeyframeAtCurrentPosition() {
 			keyframe = data.addKeyframe(currentRotSequence, relativeCurrentTime);
 		}
 		ValueTree keyframeValue = data.getKeyframeValue(keyframe);
-		std::lock_guard<std::mutex> lock(cameraMutex);
-		data.setQuatToValue(keyframeValue, rotation);
+
+		cameraMutex.lock();
+		glm::quat tmpRotation = rotation;
+		cameraMutex.unlock();
+
+		data.setQuatToValue(keyframeValue, tmpRotation);
 	}
 }
 
@@ -231,9 +244,13 @@ void CameraController::getCameraFromCurrentPosition() {
 	ValueTree rotationUniform = data.getUniform(var(cameraRotationName));
 	ValueTree rotationValue = interpolator.getUniformStateFromTimelineData(rotationUniform).first;
 
-	std::lock_guard<std::mutex> lock(cameraMutex);
-	position = data.getVec3FromValue(positionValue);
-	rotation = data.getQuatFromValue(rotationValue);
+	glm::vec3 tmpPosition = data.getVec3FromValue(positionValue);
+	glm::quat tmpRotation = data.getQuatFromValue(rotationValue);
+
+	cameraMutex.lock();
+	position = tmpPosition;
+	rotation = tmpRotation;
+	cameraMutex.unlock();
 }
 
 bool CameraController::getHasControl() {
