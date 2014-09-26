@@ -1,6 +1,7 @@
 #include "KeyframeComponent.h"
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
+#include "ZoomFactor.h"
 
 KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
 	keyframeData(keyframeData_),
@@ -10,10 +11,20 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFa
 	keyframeData.addListener(this);
 	zoomFactor.addChangeListener(this);
 
+	setPositioner(new Positioner(*this, keyframeData, data, zoomFactor));
+
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
 
 	setMouseCursor(MouseCursor(MouseCursor::StandardCursorType::DraggingHandCursor));
+}
+
+KeyframeComponent::Positioner::Positioner(Component& component, ValueTree keyframeData_, TimelineData& data_, ZoomFactor& zoomFactor_) :
+	Component::Positioner(component),
+	keyframeData(keyframeData_),
+	data(data_),
+	zoomFactor(zoomFactor_)
+{
 }
 
 KeyframeComponent::~KeyframeComponent() {
@@ -26,6 +37,17 @@ void KeyframeComponent::updateBounds() {
 	const float position = (float) data.getKeyframePosition(keyframeData) * zoomFactor;
 	const int height = getParentHeight();
 	setBounds(roundFloatToInt(position - keyframeWidth / 2), 0, roundFloatToInt(keyframeWidth), height);
+}
+
+void KeyframeComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds) {
+	const bool xChanged = newBounds.getCentreX() != getComponent().getBounds().getCentreX();
+
+	if (xChanged) {
+		// dragging
+		const float newCentreX = newBounds.getCentreX() / zoomFactor;
+		const float newPosition = zoomFactor.snapValueToGrid(newCentreX);
+		data.setKeyframePosition(keyframeData, newPosition);
+	}
 }
 
 void KeyframeComponent::paint(Graphics& g) {
@@ -50,8 +72,6 @@ void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (!event.mouseWasClicked() && m.isLeftButtonDown() && m.isCommandDown()) {
 		dragComponent(this, event, &constrainer);
-		// center keyframe on grid
-		setTopLeftPosition(getPosition().translated(-getWidth() / 2, 0));
 	} else {
 		McbComponent::mouseDrag(event);
 	}
@@ -74,12 +94,6 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 	} else {
 		McbComponent::mouseUp(event);
 	}
-}
-
-void KeyframeComponent::moved() {
-	const float rawCenterX = getBounds().getCentreX() / zoomFactor;
-	const float snappedCenterX = SnapToGridConstrainer::snapValueToGrid(rawCenterX);
-	data.setKeyframePosition(keyframeData, snappedCenterX);
 }
 
 void KeyframeComponent::parentHierarchyChanged() {
