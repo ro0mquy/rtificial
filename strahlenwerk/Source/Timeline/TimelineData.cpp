@@ -550,16 +550,11 @@ void TimelineData::setSequenceInterpolation(ValueTree sequence, var interpolatio
 void TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, float absoluteStart) {
 			ValueTree sceneForSequence = getSceneForTime(absoluteStart);
 			var sceneId = getSceneId(sceneForSequence);
+			setSequenceSceneId(sequence, sceneId);
 
 			const float sceneStart = getSceneStart(sceneForSequence);
 			var relativeStart = absoluteStart - sceneStart;
 			setSequenceStart(sequence, relativeStart);
-
-			// if we set the sceneId before start time, there will be segfault
-			// when moving around scenes *shrug*
-			// this happens because there are some feed back loops in the callbacks
-			// (TODO: investigate this further)
-			setSequenceSceneId(sequence, sceneId);
 }
 
 // returns the start time of the sequence in absolute time
