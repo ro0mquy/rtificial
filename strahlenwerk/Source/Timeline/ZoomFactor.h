@@ -21,6 +21,7 @@ class ZoomFactor :
 		float pixelsToTime(const float pixels);
 
 		float getGridWith();
+		float snapValueToGrid(const float valueAsTime);
 
 	private:
 		float zoomLevel;

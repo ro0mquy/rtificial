@@ -73,3 +73,11 @@ float ZoomFactor::pixelsToTime(const float pixels) {
 float ZoomFactor::getGridWith() {
 	return 1.;
 }
+
+float ZoomFactor::snapValueToGrid(const float valueAsTime) {
+	// snaps values that are in time units
+	const float gridWidth = getGridWith();
+	const float posOnGrid = valueAsTime / gridWidth;
+	const float newRoundedPos = roundFloatToInt(posOnGrid) * gridWidth;
+	return newRoundedPos;
+}

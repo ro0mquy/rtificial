@@ -2,11 +2,10 @@
 #define SEQUENCECOMPONENT_H
 
 #include <juce>
-#include "SnapToGridConstrainer.h"
-#include "ZoomFactor.h"
 #include "MouseCallbackClasses.h"
 
 class TimelineData;
+class ZoomFactor;
 class KeyframeComponent;
 
 class SequenceComponent :
@@ -23,7 +22,6 @@ class SequenceComponent :
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
-		void moved() override;
 		void resized() override;
 		void changeListenerCallback(ChangeBroadcaster* source) override;
 
@@ -50,9 +48,22 @@ class SequenceComponent :
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
 
-		SnapToGridConstrainer constrainer;
+		ComponentBoundsConstrainer constrainer;
 		ResizableBorderComponent resizableBorder;
 		OwnedArray<KeyframeComponent> keyframeComponentsArray;
+
+		class Positioner : public Component::Positioner {
+			public:
+				Positioner(Component& component, ValueTree sequenceData_, TimelineData& data_, ZoomFactor& zoomFactor_);
+				void applyNewBounds(const Rectangle<int>& newBounds) override;
+
+			private:
+				ValueTree sequenceData;
+				TimelineData& data;
+				ZoomFactor& zoomFactor;
+
+				JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Positioner)
+		};
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceComponent)
 };

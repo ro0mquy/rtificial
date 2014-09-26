@@ -2,6 +2,7 @@
 
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
+#include "ZoomFactor.h"
 #include "KeyframeComponent.h"
 
 SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_) :
@@ -19,9 +20,12 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 	// set size and position
 	updateBounds();
 
+	// positioner that stores the results of drags into the sequence data
+	setPositioner(new Positioner(*this, sequenceData, data, zoomFactor));
+
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
-	constrainer.setMinimumWidth(zoomFactor.getGridWith());
+	constrainer.setMinimumWidth(zoomFactor.getGridWith() * zoomFactor);
 
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
@@ -29,6 +33,14 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 
 	// add keyframe components
 	addAllKeyframeComponents();
+}
+
+SequenceComponent::Positioner::Positioner(Component& component, ValueTree sequenceData_, TimelineData& data_, ZoomFactor& zoomFactor_) :
+	Component::Positioner(component),
+	sequenceData(sequenceData_),
+	data(data_),
+	zoomFactor(zoomFactor_)
+{
 }
 
 SequenceComponent::~SequenceComponent() {
@@ -46,6 +58,38 @@ void SequenceComponent::updateBounds() {
 	jassert(nthUniform >= 0);
 
 	setBounds(newX, nthUniform * rowHeight, newWidth, rowHeight);
+}
+
+void SequenceComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds) {
+	const bool xChanged = newBounds.getX() != getComponent().getX();
+	const bool widthChanged = newBounds.getWidth() != getComponent().getWidth();
+
+	if (xChanged && !widthChanged) {
+		// dragging
+		const float newX = newBounds.getX() / zoomFactor;
+		const float newStart = zoomFactor.snapValueToGrid(newX);
+		data.setSequencePropertiesForAbsoluteStart(sequenceData, newStart);
+	} else if (xChanged && widthChanged) {
+		// stretching left
+		const float newX = newBounds.getX() / zoomFactor;
+		const float newStart = zoomFactor.snapValueToGrid(newX);
+
+		// calculate the new width through the change of X
+		// so that the right end stays where it is
+		// otherwise the duration and not the right side would be snapped to grid
+		const float oldStart = data.getAbsoluteStartForSequence(sequenceData);
+		const float deltaStart = newStart - oldStart;
+		const float oldDuration = data.getSequenceDuration(sequenceData);
+		const float newDuration = oldDuration - deltaStart;
+
+		data.setSequencePropertiesForAbsoluteStart(sequenceData, newStart);
+		data.setSequenceDuration(sequenceData, newDuration);
+	} else if (!xChanged && widthChanged) {
+		// stretching right
+		const float newWidth = newBounds.getWidth() / zoomFactor;
+		const float newDuration = zoomFactor.snapValueToGrid(newWidth);
+		data.setSequenceDuration(sequenceData, newDuration);
+	}
 }
 
 void SequenceComponent::addKeyframeComponent(ValueTree keyframeData) {
@@ -127,7 +171,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 			// add keyframe
 			// TODO: compute with absolute time values
 			const float mouseDown = event.getMouseDownX() / zoomFactor;
-			const float mouseDownGrid = SnapToGridConstrainer::snapValueToGrid(mouseDown);
+			const float mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
 
 			const float sequenceDuration = data.getSequenceDuration(sequenceData);
 			if (mouseDownGrid <= 0 || mouseDownGrid >= sequenceDuration) {
@@ -179,23 +223,13 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 	}
 }
 
-void SequenceComponent::moved() {
-	// update the sceneId and relativ start time
-	const float newX = getX() / zoomFactor;
-	const float newStart = SnapToGridConstrainer::snapValueToGrid(newX);
-	data.setSequencePropertiesForAbsoluteStart(sequenceData, newStart);
-}
-
 void SequenceComponent::resized() {
 	resizableBorder.setBounds(getLocalBounds());
-
-	const float newWidth = getWidth() / zoomFactor;
-	const float newDuration = constrainer.snapValueToGrid(newWidth);
-	data.setSequenceDuration(sequenceData, newDuration);
 }
 
 void SequenceComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// zoomFactor update
+	constrainer.setMinimumWidth(zoomFactor.getGridWith() * zoomFactor);
 	updateBounds();
 }
 
