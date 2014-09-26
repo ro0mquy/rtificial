@@ -124,6 +124,55 @@ class Vec3EditorPropertyComponent : public ValueEditorPropertyComponent {
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec3EditorPropertyComponent)
 };
 
+class Vec4EditorPropertyComponent : public ValueEditorPropertyComponent {
+	public:
+		Vec4EditorPropertyComponent(const String& name, ValueTree valueData) :
+			ValueEditorPropertyComponent(name, 4),
+			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
+			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft),
+			sliderZ(Slider::IncDecButtons, Slider::TextBoxLeft),
+			sliderW(Slider::IncDecButtons, Slider::TextBoxLeft)
+		{
+			useValueData(valueData);
+			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderZ.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderW.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
+			sliderX.setRange(-1., 1., .001);
+			sliderY.setRange(-1., 1., .001);
+			sliderZ.setRange(-1., 1., .001);
+			sliderW.setRange(-1., 1., .001);
+			addAndMakeVisible(sliderX);
+			addAndMakeVisible(sliderY);
+			addAndMakeVisible(sliderZ);
+			addAndMakeVisible(sliderW);
+		}
+
+		void useValueData(ValueTree valueData) override {
+			TimelineData& data = TimelineData::getTimelineData();
+			floatX.referTo(data.getValueVec4XAsValue(valueData));
+			floatY.referTo(data.getValueVec4YAsValue(valueData));
+			floatZ.referTo(data.getValueVec4ZAsValue(valueData));
+			floatW.referTo(data.getValueVec4WAsValue(valueData));
+			sliderX.getValueObject().referTo(floatX);
+			sliderY.getValueObject().referTo(floatY);
+			sliderZ.getValueObject().referTo(floatZ);
+			sliderW.getValueObject().referTo(floatW);
+		}
+
+	private:
+		Value floatX;
+		Value floatY;
+		Value floatZ;
+		Value floatW;
+		Slider sliderX;
+		Slider sliderY;
+		Slider sliderZ;
+		Slider sliderW;
+
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec4EditorPropertyComponent)
+};
+
 class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 	private Value::Listener
 {
@@ -214,6 +263,8 @@ ValueEditorPropertyComponent* ValueEditorPropertyComponent::newValueEditorProper
 		return new Vec2EditorPropertyComponent(propertyName, valueData);
 	} else if (data.isValueVec3(valueData)) {
 		return new Vec3EditorPropertyComponent(propertyName, valueData);
+	} else if (data.isValueVec4(valueData)) {
+		return new Vec4EditorPropertyComponent(propertyName, valueData);
 	} else if (data.isValueColor(valueData)) {
 		return new ColorEditorPropertyComponent(propertyName, valueData);
 	}

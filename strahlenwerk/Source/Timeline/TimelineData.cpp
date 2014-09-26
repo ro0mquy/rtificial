@@ -1230,6 +1230,15 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		ValueTree interpolatedValue(treeId::interpolatedValue);
 		setVec3ToValue(interpolatedValue, vec3Interpolated);
 		return interpolatedValue;
+	} else if (isValueVec4(value1)) {
+		jassert(isValueVec4(value2));
+		const glm::quat quat1 = getQuatFromValue(value1);
+		const glm::quat quat2 = getQuatFromValue(value2);
+		const glm::quat quatInterpolated = glm::slerp(quat1, quat2, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setQuatToValue(interpolatedValue, quatInterpolated);
+		return interpolatedValue;
 	} else if (isValueColor(value1)) {
 		jassert(isValueColor(value2));
 		const glm::vec3 color1 = getColorFromValue(value1);
