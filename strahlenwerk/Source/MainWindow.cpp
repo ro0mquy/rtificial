@@ -88,7 +88,7 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 	switch (commandID) {
 		case MainWindow::quitProgram:
 			result.setInfo("Quit!", "Shuts down all the Beam Factory!", programCategory, 0);
-			result.addDefaultKeypress(KeyPress::escapeKey, ModifierKeys::noModifiers);
+			result.addDefaultKeypress('q', ModifierKeys::commandModifier);
 			break;
 		case MainWindow::openProject:
 			result.setInfo("Open Project", "Open a strahlenwerk project", programCategory, 0);
