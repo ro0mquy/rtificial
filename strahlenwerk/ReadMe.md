@@ -15,6 +15,7 @@
 * `[Click]` set time position
 * `[Ctrl]+S` save all timeline data to `timeline.xml`
 * `[Space]` Play/pause
+* `S` Place a Keyframe for the camera uniforms at the current position
 
 #### Scenes
 * `[Ctrl]+[Drag]` create new scene or move already existing
@@ -28,7 +29,7 @@
 * `[Ctrl]+[Middleclick]` delete sequence or keyframe
 
 ### General
-* `[Esc]` quit
+* `[Ctrl]+Q` quit
 * `[F5]` reload shaders
 * `[Ctrl]+O` open a project directory
 * `F` Toggle fullscreen
