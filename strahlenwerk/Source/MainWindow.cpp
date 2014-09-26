@@ -72,7 +72,8 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		MainWindow::openProject,
 		MainWindow::reload,
 		MainWindow::saveTimeline,
-		MainWindow::playPause,
+		MainWindow::playPauseWithAnimation,
+		MainWindow::playPauseWithoutAnimation,
 		MainWindow::toggleGrid,
 		MainWindow::toggleFullscreen,
 		MainWindow::setKeyframe,
@@ -102,8 +103,13 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.setInfo("Save Timeline", "Save the timeline data to a file", programCategory, 0);
 			result.addDefaultKeypress('s', ModifierKeys::commandModifier);
 			break;
-		case MainWindow::playPause:
-			result.setInfo("Toggle play/pause", "Toggle play/pause", programCategory, 0);
+		case MainWindow::playPauseWithAnimation:
+			result.setInfo("Play/Pause w/ animation", "Toggle play/pause with animation of camera", programCategory, 0);
+			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::shiftModifier);
+			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::commandModifier); // TODO: remove this
+			break;
+		case MainWindow::playPauseWithoutAnimation:
+			result.setInfo("Play/Pause w/o animation", "Toggle play/pause without animation of camera", programCategory, 0);
 			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::noModifiers);
 			break;
 		case MainWindow::toggleGrid:
@@ -141,7 +147,9 @@ bool MainWindow::perform(const InvocationInfo& info) {
 			doSaveTimeline();
 			break;
 
-		case MainWindow::playPause:
+		case MainWindow::playPauseWithAnimation:
+		case MainWindow::playPauseWithoutAnimation:
+			// control switching gets done via command listener
 			doPlayPause();
 			break;
 

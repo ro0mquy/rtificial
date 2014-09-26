@@ -74,6 +74,11 @@ class CameraController :
 		void setKeyframeAtCurrentPosition();
 		void getCameraFromCurrentPosition();
 
+		bool getHasControl();
+		void setHasControl(const bool shouldHaveControl);
+		void takeOverControl();
+		void releaseControl();
+
 	private:
 		Interpolator& interpolator;
 		std::mutex cameraMutex;
@@ -81,6 +86,7 @@ class CameraController :
 		double lastCallback;
 		glm::vec3 position;
 		glm::quat rotation;
+		bool hasControl;
 
 		static constexpr int timerInterval = 15;
 		const String cameraPositionName;

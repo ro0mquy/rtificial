@@ -27,6 +27,7 @@ CameraController* CameraController::globalCameraController = nullptr;
 CameraController::CameraController(TimelineData& data_, Interpolator& interpolator_) :
 	SpecialUniformController(data_),
 	interpolator(interpolator_),
+	hasControl(false),
 	cameraPositionName("camera_position"),
 	cameraRotationName("camera_rotation")
 {
@@ -46,8 +47,12 @@ CameraController::~CameraController() {
 }
 
 bool CameraController::wantControlUniform(String& uniformName) {
-	return uniformName == cameraPositionName ||
-		uniformName == cameraRotationName;
+	std::lock_guard<std::mutex> lock(cameraMutex);
+	if (hasControl) {
+		return uniformName == cameraPositionName ||
+			uniformName == cameraRotationName;
+	}
+	return false;
 }
 
 Interpolator::UniformState CameraController::getUniformState(String& uniformName) {
@@ -62,7 +67,7 @@ Interpolator::UniformState CameraController::getUniformState(String& uniformName
 }
 
 bool CameraController::keyPressed(const KeyPress& key, Component* /*originatingComponent*/) {
-	bool isCameraKey =
+	const bool isCameraKey =
 		key.isKeyCode('w') ||
 		key.isKeyCode('a') ||
 		key.isKeyCode('s') ||
@@ -78,6 +83,7 @@ bool CameraController::keyPressed(const KeyPress& key, Component* /*originatingC
 		key.isKeyCode('o');
 
 	if (isCameraKey && !isTimerRunning()) {
+		takeOverControl();
 		std::lock_guard<std::mutex> lock(cameraMutex);
 		startTimer(timerInterval);
 		lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
@@ -92,7 +98,7 @@ bool CameraController::keyStateChanged(bool isKeyPressed, Component* /*originati
 		return false;
 	}
 
-	bool isCameraKeyDown =
+	const bool isCameraKeyDown =
 		KeyPress::isKeyCurrentlyDown('w') ||
 		KeyPress::isKeyCurrentlyDown('a') ||
 		KeyPress::isKeyCurrentlyDown('s') ||
@@ -178,6 +184,10 @@ void CameraController::timerCallback() {
 void CameraController::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
 	if (info.commandID == MainWindow::setKeyframe) {
 		setKeyframeAtCurrentPosition();
+	} else if (info.commandID == MainWindow::playPauseWithAnimation) {
+		releaseControl();
+	} else if (info.commandID == MainWindow::playPauseWithoutAnimation) {
+		takeOverControl();
 	}
 }
 
@@ -224,4 +234,27 @@ void CameraController::getCameraFromCurrentPosition() {
 	std::lock_guard<std::mutex> lock(cameraMutex);
 	position = data.getVec3FromValue(positionValue);
 	rotation = data.getQuatFromValue(rotationValue);
+}
+
+bool CameraController::getHasControl() {
+	std::lock_guard<std::mutex> lock(cameraMutex);
+	return hasControl;
+}
+
+void CameraController::setHasControl(const bool shouldHaveControl) {
+	std::lock_guard<std::mutex> lock(cameraMutex);
+	hasControl = shouldHaveControl;
+}
+
+void CameraController::takeOverControl() {
+	if (!getHasControl()) {
+		getCameraFromCurrentPosition();
+		setHasControl(true);
+	}
+}
+
+void CameraController::releaseControl() {
+	if (getHasControl()) {
+		setHasControl(false);
+	}
 }

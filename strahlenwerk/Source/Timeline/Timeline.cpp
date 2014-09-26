@@ -62,13 +62,18 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 	const bool isInUniBar = event.getMouseDownX() < uniformsBarWidth;
 	const ModifierKeys& m = event.mods;
 	if (!isInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
+		if (CameraController::globalCameraController) {
+			if (m.isShiftDown()) {
+				CameraController::globalCameraController->releaseControl();
+			} else {
+				CameraController::globalCameraController->takeOverControl();
+			}
+		}
+
 		const MouseEvent eventSeqView = event.getEventRelativeTo(&sequenceView);
 		const float newTime = jmax(eventSeqView.x, 0) / zoomFactor;
 		const float newTimeSnapped = SnapToGridConstrainer::snapValueToGrid(newTime);
 		AudioManager::getAudioManager().setTime(newTimeSnapped);
-		if (m.isShiftDown() && CameraController::globalCameraController) {
-			CameraController::globalCameraController->getCameraFromCurrentPosition();
-		}
 	} else {
 		Component::mouseDrag(event);
 	}

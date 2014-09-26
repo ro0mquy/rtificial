@@ -8,11 +8,36 @@
     </uniform>
     <uniform uniformName="camera_position" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceStart="2" sequenceSceneId="100" sequenceDuration="4"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-0.0921001" valueVec3Y="0" valueVec3Z="6.55426"/>
+            </keyframe>
+            <keyframe keyframePosition="4">
+              <keyframeValue valueVec3X="12.3436" valueVec3Y="8.47151" valueVec3Z="3.44083"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="camera_rotation" uniformType="vec4">
       <uniformStandardValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceStart="2" sequenceSceneId="100" sequenceDuration="4"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
+            </keyframe>
+            <keyframe keyframePosition="4">
+              <keyframeValue valueVec4X="-0.124379" valueVec4Y="0.598562" valueVec4Z="0.0947585"
+                             valueVec4W="0.785668"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="sphere1_color" uniformType="color">
       <uniformStandardValue valueColorR="0.0414237" valueColorG="0.0381511" valueColorB="0.220577"/>
