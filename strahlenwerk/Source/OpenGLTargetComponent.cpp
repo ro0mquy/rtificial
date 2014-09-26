@@ -13,14 +13,14 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 		const auto reducedBounds = bounds.reduced(bounds.getWidth() * border, bounds.getHeight() * border);
 
 		Path path;
-		path.startNewSubPath(reducedBounds.getX(), thirdVert);
-		path.lineTo(reducedBounds.getRight(), thirdVert);
-		path.startNewSubPath(reducedBounds.getX(), thirdVert * 2);
-		path.lineTo(reducedBounds.getRight(), thirdVert * 2);
-		path.startNewSubPath(thirdHoriz, reducedBounds.getY());
-		path.lineTo(thirdHoriz, reducedBounds.getBottom());
-		path.startNewSubPath(thirdHoriz * 2, reducedBounds.getY());
-		path.lineTo(thirdHoriz * 2, reducedBounds.getBottom());
+		path.startNewSubPath(0, thirdVert);
+		path.lineTo(bounds.getRight(), thirdVert);
+		path.startNewSubPath(0, thirdVert * 2);
+		path.lineTo(bounds.getRight(), thirdVert * 2);
+		path.startNewSubPath(thirdHoriz, 0);
+		path.lineTo(thirdHoriz, bounds.getBottom());
+		path.startNewSubPath(thirdHoriz * 2, 0);
+		path.lineTo(thirdHoriz * 2, bounds.getBottom());
 		path.addRectangle(reducedBounds);
 
 		g.setColour(Colours::white);
