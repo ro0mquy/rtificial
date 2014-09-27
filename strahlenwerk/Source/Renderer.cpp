@@ -86,6 +86,11 @@ uint64_t Renderer::getLastFrameDuration() {
 	return lastFrameDuration;
 }
 
+void Renderer::makeDemo() {
+	std::lock_guard<std::mutex> lock(renderMutex);
+	StrahlenwerkApplication::getInstance()->getProject().makeDemo(*scenes, *postproc);
+}
+
 void Renderer::reloadPostproc() {
 	auto newPostproc = StrahlenwerkApplication::getInstance()->getProject().getPostproc();
 	renderMutex.lock();

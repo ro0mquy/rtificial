@@ -16,6 +16,7 @@ class Scenes {
 
 		SceneShader& getShader(int n) const;
 		int getShaderId(const std::string& name) const;
+		int getNumShaders() const;
 
 	private:
 		std::vector<std::unique_ptr<SceneShader>> shaders;

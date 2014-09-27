@@ -18,6 +18,7 @@ class Shader {
 		void draw(int widht, int height);
 		const std::vector<int>& getUniformIds() const;
 		const std::string& getName() const;
+		const std::string& getSource() const;
 
 	protected:
 		const Uniform* registerUniform(std::string name, UniformType type);

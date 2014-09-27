@@ -16,6 +16,8 @@ class PostprocPipeline {
 
 		void setShaders(std::vector<std::unique_ptr<PostprocShader>> shaders);
 		uint64_t render(SceneShader& shader, int width, int height);
+		PostprocShader& getShader(int n) const;
+		int getNumShaders() const;
 
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> shaders;

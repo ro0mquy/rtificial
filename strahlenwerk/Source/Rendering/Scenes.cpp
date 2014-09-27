@@ -26,3 +26,7 @@ int Scenes::getShaderId(const std::string& name) const {
 		return it->second;
 	}
 }
+
+int Scenes::getNumShaders() const {
+	return shaders.size();
+}

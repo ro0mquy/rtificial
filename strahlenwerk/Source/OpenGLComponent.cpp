@@ -55,4 +55,5 @@ void OpenGLComponent::applicationCommandListChanged() {
 }
 
 void OpenGLComponent::makeDemo() {
+	renderer.makeDemo();
 }

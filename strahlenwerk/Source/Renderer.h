@@ -25,6 +25,7 @@ class Renderer :
 		void scenesChanged() override;
 		void setSize(int width, int height);
 		uint64_t getLastFrameDuration();
+		void makeDemo();
 
 	private:
 		OpenGLContext& context;

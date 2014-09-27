@@ -75,3 +75,11 @@ uint64_t PostprocPipeline::render(SceneShader& shader, int width, int height) {
 	glGetQueryObjectui64v(queries[0], GL_QUERY_RESULT, &time);
 	return uint64_t(time);
 }
+
+PostprocShader& PostprocPipeline::getShader(int n) const {
+	return *shaders[n];
+}
+
+int PostprocPipeline::getNumShaders() const {
+	return shaders.size();
+}

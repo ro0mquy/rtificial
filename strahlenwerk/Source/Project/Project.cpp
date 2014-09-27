@@ -76,6 +76,27 @@ const ProjectFileLoader& Project::getLoader() const {
 	return loader;
 }
 
+void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
+	const File& buildDir = loader.getBuildDir();
+	buildDir.deleteRecursively();
+	buildDir.createDirectory();
+
+	const int postprocShaders = postproc.getNumShaders();
+	const int sceneShaders = scenes.getNumShaders();
+
+	for(int i = 0; i < postprocShaders; i++) {
+		const Shader& shader = postproc.getShader(i);
+		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
+		shaderFile.replaceWithText(shader.getSource());
+	}
+
+	for(int i = 0; i < sceneShaders; i++) {
+		const Shader& shader = scenes.getShader(i);
+		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
+		shaderFile.replaceWithText(shader.getSource());
+	}
+}
+
 void Project::handleFileAction(
 		efsw::WatchID /*watchid*/,
 		const std::string& dir,

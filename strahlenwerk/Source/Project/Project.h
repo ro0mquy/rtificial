@@ -16,6 +16,7 @@ class ProjectListener;
 class Scenes;
 class Shader;
 class AudioManager;
+class Scenes;
 
 class Project : private efsw::FileWatchListener {
 	public:
@@ -32,6 +33,7 @@ class Project : private efsw::FileWatchListener {
 		TimelineData& getTimelineData();
 		void loadDirectory(const std::string& dir);
 		const ProjectFileLoader& getLoader() const;
+		void makeDemo(Scenes& scenes, PostprocPipeline& postproc);
 
 		void handleFileAction(
 				efsw::WatchID watchid,

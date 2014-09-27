@@ -114,6 +114,10 @@ const std::string& Shader::getName() const {
 	return name;
 }
 
+const std::string& Shader::getSource() const {
+	return fragmentSource;
+}
+
 const Uniform* Shader::registerUniform(std::string name, UniformType type) {
 	return UniformManager::Instance().registerUniform(name, type);
 }
