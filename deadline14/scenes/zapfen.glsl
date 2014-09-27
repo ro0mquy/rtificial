@@ -5,8 +5,15 @@
 uniform vec3 background_color; // color
 uniform float zapfen_kreise;
 
+bool add_boden;
+
 void main() {
 	vec3 dir = get_direction();
+
+	add_boden = (dir.y != 0 && (-(camera_position.y - 20.) / dir.y) > 0.);
+	if(camera_position.y < 20.) {
+		add_boden = !add_boden;
+	}
 
 	int i;
 	vec3 p = march_adv(camera_position, dir, i, 150, .8);
@@ -68,28 +75,33 @@ vec2 f(vec3 p) {
 	mat3 rotZ = rZ(radians(-10.) * ((1. - k) * m + (.02 * sin(q.y))));
 	q = rotX * rotZ * q;
 	float radius = 10. * k;
+
 	float d = max(length(q.xz) - radius, abs(q.y) - height);
 
 	vec2 object = vec2(d, 1.);
 
-	vec2 ground = vec2(boden_implicit(p), 2.);
+	if(add_boden) {
+		vec2 ground = vec2(boden_implicit(p), 2.);
 
-	vec2 boden_object = smin_smaterial(object, ground, 10.);
+		vec2 boden_object = smin_smaterial(object, ground, 10.);
 
-	vec2 leit;
-	if(p.y < 20.) {
-		vec3 q = boden_transform(p);
-		float leit1 = leitungen(q, .2, 1.7);
-		float leit2 = leitungen(rY(radians(50.)) * q, .2, 2.3);
-		float leit3 = leitungen(rY(radians(30.)) * q, .2, 3.2);
-		float leit4 = leitungen(rY(radians(70.)) * q, .2, 2.7);
-		leit = vec2(min(min(leit1, leit2), min(leit3, leit4)), 3.);
-	} else {
-		leit = vec2(p.y, 3.);
+		vec2 leit;
+		if(p.y < 20.) {
+			vec3 q = boden_transform(p);
+			float leit1 = leitungen(q, .2, 1.7);
+			float leit2 = leitungen(rY(radians(50.)) * q, .2, 2.3);
+			float leit3 = leitungen(rY(radians(30.)) * q, .2, 3.2);
+			float leit4 = leitungen(rY(radians(70.)) * q, .2, 2.7);
+			leit = vec2(min(min(leit1, leit2), min(leit3, leit4)), 3.);
+		} else {
+			leit = vec2(p.y, 3.);
+		}
+
+		object = min_material(boden_object, leit);
 	}
 
 
-	return min_material(bounding, min_material(boden_object, leit));
+	return min_material(bounding, object);
 }
 
 vec3 boden_transform(vec3 p) {
