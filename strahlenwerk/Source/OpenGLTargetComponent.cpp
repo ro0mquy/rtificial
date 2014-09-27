@@ -5,6 +5,7 @@
 #include "Renderer.h"
 
 OpenGLTargetComponent::OpenGLTargetComponent(Renderer& _renderer) : renderer(_renderer) {
+	startTimer(50);
 }
 
 void OpenGLTargetComponent::paint(Graphics& g) {
@@ -32,9 +33,15 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 		g.strokePath(path, PathStrokeType(thickness));
 	}
 
-	const float fontHeight = 30.;
-	g.setColour(Colours::red);
-	g.setFont(fontHeight);
+	const float fontHeight = 12.;
+	g.setColour(Colours::white);
+	g.setFont(Font(Font::getDefaultMonospacedFontName(), fontHeight, 0));
 	const uint64_t frameTime = renderer.getLastFrameDuration();
-	g.drawSingleLineText(std::to_string(frameTime / 1000), 20, 20 + fontHeight / 2);
+	const double frameTimeInMillis = frameTime / 1000000.;
+	const String frameTimeString = String(frameTimeInMillis) + "ms\n" + String(1000. / frameTimeInMillis) + "fps";
+	g.drawMultiLineText(frameTimeString, 10, 12 + fontHeight / 2, getWidth());
+}
+
+void OpenGLTargetComponent::timerCallback() {
+	repaint();
 }
