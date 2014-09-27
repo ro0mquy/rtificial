@@ -125,7 +125,7 @@ void PostprocShader::onSourceProcessed() {
 	}
 
 	std::vector<std::pair<size_t, int>> outputPositions;
-	const std::regex outputRegex(R"regex((^|\n)[ \t]*out[ \t]+(bool|float|vec[234])[ \t]+(\w+)[ \t]*;)regex");
+	const std::regex outputRegex(R"regex((^|\n)[ \t]*out[ \t]+(float|vec[234])[ \t]+(\w+)[ \t]*;)regex");
 	for(std::sregex_iterator it(fragmentSource.begin(), fragmentSource.end(), outputRegex); it != end; ++it) {
 		const auto& match = *it;
 		const auto& name = match[3];
