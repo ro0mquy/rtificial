@@ -2,10 +2,14 @@
 
 #include "StrahlenwerkApplication.h"
 #include "PropertyNames.h"
+#include "Renderer.h"
+
+OpenGLTargetComponent::OpenGLTargetComponent(Renderer& _renderer) : renderer(_renderer) {
+}
 
 void OpenGLTargetComponent::paint(Graphics& g) {
+	const auto bounds = getLocalBounds();
 	if(StrahlenwerkApplication::getInstance()->getProperties().getBoolValue(PropertyNames::GRID_ENABLED)) {
-		const auto bounds = getLocalBounds();
 		const float thirdHoriz = bounds.getWidth() / 3.;
 		const float thirdVert = bounds.getHeight() / 3.;
 		const float thickness = bounds.getWidth() / 200.;
@@ -26,6 +30,11 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 		g.setColour(Colours::white);
 		g.setOpacity(.3);
 		g.strokePath(path, PathStrokeType(thickness));
-
 	}
+
+	const float fontHeight = 30.;
+	g.setColour(Colours::red);
+	g.setFont(fontHeight);
+	const uint64_t frameTime = renderer.getLastFrameDuration();
+	g.drawSingleLineText(std::to_string(frameTime / 1000), 20, 20 + fontHeight / 2);
 }

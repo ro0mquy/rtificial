@@ -52,15 +52,15 @@ void Renderer::renderOpenGL() {
 	postprocDeletionQueue.clear();
 
 	if(scenes == nullptr) {
-		postproc->render(defaultShader, width, height);
+		lastFrameDuration = postproc->render(defaultShader, width, height);
 	} else {
 		auto& data = TimelineData::getTimelineData();
 		const String shaderName = data.getSceneShaderSource(data.getCurrentScene());
 		const int shaderId = scenes->getShaderId(shaderName.toStdString());
 		if(shaderId == -1) {
-			postproc->render(defaultShader, width, height);
+			lastFrameDuration = postproc->render(defaultShader, width, height);
 		} else {
-			postproc->render(scenes->getShader(shaderId), width, height);
+			lastFrameDuration = postproc->render(scenes->getShader(shaderId), width, height);
 		}
 	}
 	renderMutex.unlock();
@@ -79,6 +79,11 @@ void Renderer::setSize(int _width, int _height) {
 	width = _width;
 	height = _height;
 	renderMutex.unlock();
+}
+
+uint64_t Renderer::getLastFrameDuration() {
+	std::lock_guard<std::mutex> lock(renderMutex);
+	return lastFrameDuration;
 }
 
 void Renderer::reloadPostproc() {

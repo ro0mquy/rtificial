@@ -9,10 +9,10 @@ void PostprocPipeline::setShaders(std::vector<std::unique_ptr<PostprocShader>> _
 	shaders = std::move(_shaders);
 }
 
-void PostprocPipeline::render(SceneShader& shader, int width, int height) {
+uint64_t PostprocPipeline::render(SceneShader& shader, int width, int height) {
 	// TODO evaluate "double buffering" of query objects
 	if(shaders.empty()) {
-		return;
+		return 0;
 	}
 
 	const auto requiredQueries = shaders.size(); // number of drawing operations
@@ -71,4 +71,7 @@ void PostprocPipeline::render(SceneShader& shader, int width, int height) {
 		}
 		std::cout << std::endl;
 	}
+	GLuint64 time;
+	glGetQueryObjectui64v(queries[0], GL_QUERY_RESULT, &time);
+	return uint64_t(time);
 }

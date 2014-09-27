@@ -3,7 +3,8 @@
 #include "OpenGLComponent.h"
 
 OpenGLComponent::OpenGLComponent() :
-	renderer(context)
+	renderer(context),
+	fixedAspectRatioComponent(renderer)
 {
 	MainWindow::getApplicationCommandManager().addListener(this);
 	setOpaque(true);

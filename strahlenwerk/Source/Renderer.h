@@ -24,6 +24,7 @@ class Renderer :
 		void postprocChanged() override;
 		void scenesChanged() override;
 		void setSize(int width, int height);
+		uint64_t getLastFrameDuration();
 
 	private:
 		OpenGLContext& context;
@@ -35,6 +36,7 @@ class Renderer :
 		int width, height;
 		std::vector<std::unique_ptr<PostprocPipeline>> postprocDeletionQueue;
 		std::vector<std::unique_ptr<Scenes>> scenesDeletionQueue;
+		uint64_t lastFrameDuration = 0;
 
 		void reloadPostproc();
 		void reloadScenes();
