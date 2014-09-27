@@ -10,13 +10,18 @@ bool add_boden;
 void main() {
 	vec3 dir = get_direction();
 
-	add_boden = (dir.y != 0 && (-(camera_position.y - 20.) / dir.y) > 0.);
-	if(camera_position.y < 20.) {
-		add_boden = !add_boden;
-	}
-
 	int i;
-	vec3 p = march_adv(camera_position, dir, i, 150, .8);
+	add_boden = false;
+	vec3 p = march_adv(camera_position, dir, i, 150, .9);
+	if(abs(f(p)[1]) <= 1e-6) {
+		if(dir.y != 0) {
+			float t = (-(camera_position.y - 20.) / dir.y);
+			if(t > 0.) {
+				add_boden = true;
+				p = march_adv(camera_position + t * dir, dir, i, 20, .8);
+			}
+		}
+	}
 
 	float materialId = f(p)[1];
 
@@ -98,6 +103,8 @@ vec2 f(vec3 p) {
 		}
 
 		object = min_material(boden_object, leit);
+	} else {
+		object = vec2(smax(object.x, 20. - p.y, 2.), 1.);
 	}
 
 
