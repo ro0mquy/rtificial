@@ -77,6 +77,8 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		MainWindow::toggleGrid,
 		MainWindow::toggleFullscreen,
 		MainWindow::setKeyframe,
+		MainWindow::resetCameraPosition,
+		MainWindow::resetCameraRotation,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -123,6 +125,15 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 		case MainWindow::setKeyframe:
 			result.setInfo("Set Keyframe", "Places a Keyframe for the Camera at the Current Position", programCategory, 0);
 			result.addDefaultKeypress('p', ModifierKeys::noModifiers);
+			break;
+		case MainWindow::resetCameraPosition:
+			result.setInfo("Reset Camera Position", "Moves the Camera back to the Origin", programCategory, 0);
+			result.addDefaultKeypress('b', ModifierKeys::commandModifier);
+			break;
+		case MainWindow::resetCameraRotation:
+			result.setInfo("Reset Camera Rotation", "Sets the Camera Rotation back to Default", programCategory, 0);
+			result.addDefaultKeypress('b', ModifierKeys::noModifiers);
+			break;
 		default:
 			break;
 	}
@@ -162,6 +173,8 @@ bool MainWindow::perform(const InvocationInfo& info) {
 			break;
 
 		case MainWindow::setKeyframe:
+		case MainWindow::resetCameraPosition:
+		case MainWindow::resetCameraRotation:
 			// do nothing here, the action is done by a command listener
 			break;
 
@@ -192,6 +205,8 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, MainWindow::toggleGrid);
 		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);
 		menu.addCommandItem(commandManager, MainWindow::setKeyframe);
+		menu.addCommandItem(commandManager, MainWindow::resetCameraPosition);
+		menu.addCommandItem(commandManager, MainWindow::resetCameraRotation);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
 	}
 

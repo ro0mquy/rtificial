@@ -187,12 +187,28 @@ void CameraController::timerCallback() {
 }
 
 void CameraController::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
-	if (info.commandID == MainWindow::setKeyframe) {
-		setKeyframeAtCurrentPosition();
-	} else if (info.commandID == MainWindow::playPauseWithAnimation) {
-		releaseControl();
-	} else if (info.commandID == MainWindow::playPauseWithoutAnimation) {
-		takeOverControl();
+	switch (info.commandID) {
+		case MainWindow::setKeyframe:
+			setKeyframeAtCurrentPosition();
+			break;
+		case MainWindow::playPauseWithAnimation:
+			releaseControl();
+			break;
+		case MainWindow::playPauseWithoutAnimation:
+			takeOverControl();
+			break;
+		case MainWindow::resetCameraPosition:
+			takeOverControl();
+			cameraMutex.lock();
+			position = glm::vec3(0., 0., 0.);
+			cameraMutex.unlock();
+			break;
+		case MainWindow::resetCameraRotation:
+			takeOverControl();
+			cameraMutex.lock();
+			rotation = glm::quat(1., 0., 0., 0.);
+			cameraMutex.unlock();
+			break;
 	}
 }
 

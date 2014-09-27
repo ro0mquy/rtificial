@@ -17,6 +17,8 @@
 * `[Space]` Play/pause without animating the camera
 * `[Shift]+[Space]` Play/pause with animated camera
 * `P` Place a Keyframe for the camera uniforms at the current position
+* `B` Reset Camera Rotation
+* `[Ctrl]+B` Reset Camera Position
 * `[Ctrl]+S` save all timeline data to `timeline.xml`
 
 #### Scenes

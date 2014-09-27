@@ -30,6 +30,8 @@ class MainWindow : public DocumentWindow,
 			toggleGrid,
 			toggleFullscreen,
 			setKeyframe,
+			resetCameraPosition,
+			resetCameraRotation,
 		};
 
 		StringArray getMenuBarNames() override;
