@@ -151,13 +151,13 @@ void Project::addUniforms(const Shader& shader) {
 		const Uniform* uniform = uniformManager.getUniform(uniformId);
 		if (false == timelineData.getInterpolator().shouldAddUniformToTimlineData(uniform->name)) {
 			// special uniform controller handles this uniform
-			return;
+			continue;
 		}
 
 		// TODO handle same uniform with different type
 		if(timelineData.getUniform(var(uniform->name)).isValid()) {
 			// uniform already exists
-			return;
+			continue;
 		}
 
 		var type;
