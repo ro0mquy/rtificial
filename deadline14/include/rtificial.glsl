@@ -246,6 +246,10 @@ mat3 rZ(float theta) {
 	);
 }
 
+mat2 rot2D(float theta) {
+	return mat2(cos(theta), -sin(theta), sin(theta), cos(theta));
+}
+
 // impulse from iq's website
 // k is the sharpness of the curve
 float impulse(float k, float x) {
