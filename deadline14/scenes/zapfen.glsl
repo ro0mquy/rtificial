@@ -9,21 +9,21 @@ void main() {
 	vec3 dir = get_direction();
 
 	int i;
-	vec3 p = march_adv(camera_position, dir, i, 100, .6);
+	vec3 p = march_adv(camera_position, dir, i, 150, .8);
 
-	int materialId = int(f(p)[1]);
+	float materialId = f(p)[1];
 
 	vec3 color = vec3(0.);
 	vec3 normal = calc_normal(p);
 	SphereLight light1 = SphereLight(vec3(0., 1000., 10.), vec3(1.), 3., 10000.);
-	Material mat;
-	if(materialId == 1) {
-		mat = Material(vec3(0.), 1., .0);
-	} else if(materialId == 0) {
-		mat = Material(vec3(1.), 0.1, 0.);
-		color += .001 * background_color;
-	} else if(materialId == 2) {
-		mat = Material(vec3(0.), 0., 0.);
+	if(materialId == 0.) {
+		color += .01 * mix(background_color, background_color_top, normal.y);
+	} else if(materialId >= 1. && materialId <= 2.) {
+		Material material1 = Material(vec3(0.), 1., .0);
+		vec3 color1 = apply_light(p, normal, -dir, material1, light1);
+
+		Material material2 = Material(vec3(0.), 0., 0.);
+		vec3 color2 = apply_light(p, normal, -dir, material2, light1);
 		float grid = 1.;
 		vec3 q = p;
 		float theta = radians(5.) * q.y * sin(time + q.y) + radians(5.) * zapfen_kreise * 10. * sin(q.x + time) * cos(q.z + time * 2.);
@@ -34,9 +34,10 @@ void main() {
 		float intensity = .01 * (sin(length(q.xz) * .1 -3. *  time) * .5 + .5);
 		q.xz = mod(q.xz, 30.);
 		grid = step(q.x, .5) + step(q.z, .5);
-		color += emit_light(vec3(1., 0., 0.), grid * intensity);
+		//color2 += emit_light(vec3(1., 0., 0.), grid * intensity);
+
+		color = mix(color1, color2, materialId - 1.);
 	}
-	color += apply_light(p, normal, -dir, mat, light1);
 
 	output_color(color, distance(camera_position, p));
 }
@@ -68,7 +69,7 @@ vec2 f(vec3 p) {
 
 	vec2 ground = vec2(boden_implicit(p), 2.);
 
-	return min_material(bounding, smin_material(object, ground, 10.));
+	return min_material(bounding, smin_smaterial(object, ground, 10.));
 }
 
 float boden_implicit(vec3 p) {

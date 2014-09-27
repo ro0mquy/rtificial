@@ -123,6 +123,12 @@ vec2 smin_material(vec2 a, vec2 b, float k) {
 	return vec2(smin(a, b, k), a.x > b.x ? b.y : a.y);
 }
 
+// be careful when nesting! (just don't)
+vec2 smin_smaterial(vec2 a, vec2 b, float k) {
+	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+	return vec2(mix(b.x, a.x, h) - k * h * (1.0 - h), mix(b.y, a.y, h));
+}
+
 // smooth maximum, k is the difference between the two values for which to smooth (eg. k = 0.1)
 float smax(float a, float b, float k) {
 	float h = clamp(0.5 - 0.5 * (b - a) / k, 0.0, 1.0 );
