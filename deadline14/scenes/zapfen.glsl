@@ -17,7 +17,7 @@ void main() {
 	vec3 normal = calc_normal(p);
 	SphereLight light1 = SphereLight(vec3(0., 1000., 10.), vec3(1.), 3., 10000.);
 	if(materialId == 0.) {
-		color += .01 * mix(background_color, background_color_top, normal.y);
+		color += .01 * background_color;
 	} else if(materialId >= 1. && materialId <= 2.) {
 		Material material1 = Material(vec3(0.), 1., .0);
 		vec3 color1 = apply_light(p, normal, -dir, material1, light1);
