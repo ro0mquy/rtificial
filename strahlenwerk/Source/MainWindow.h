@@ -32,6 +32,7 @@ class MainWindow : public DocumentWindow,
 			setKeyframe,
 			resetCameraPosition,
 			resetCameraRotation,
+			makeDemo,
 		};
 
 		StringArray getMenuBarNames() override;

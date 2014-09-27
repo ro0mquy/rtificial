@@ -79,6 +79,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		MainWindow::setKeyframe,
 		MainWindow::resetCameraPosition,
 		MainWindow::resetCameraRotation,
+		MainWindow::makeDemo,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -134,6 +135,10 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.setInfo("Reset Camera Rotation", "Sets the Camera Rotation back to Default", programCategory, 0);
 			result.addDefaultKeypress('b', ModifierKeys::noModifiers);
 			break;
+		case MainWindow::makeDemo:
+			result.setInfo("Make demo", "Make a demo about it!", programCategory, 0);
+			result.addDefaultKeypress('d', ModifierKeys::commandModifier);
+			break;
 		default:
 			break;
 	}
@@ -175,11 +180,9 @@ bool MainWindow::perform(const InvocationInfo& info) {
 		case MainWindow::setKeyframe:
 		case MainWindow::resetCameraPosition:
 		case MainWindow::resetCameraRotation:
+		case MainWindow::makeDemo:
 			// do nothing here, the action is done by a command listener
 			break;
-
-		default:
-			return false;
 	}
 
 	return true;
@@ -189,7 +192,7 @@ bool MainWindow::perform(const InvocationInfo& info) {
 // it provides the content for a menu bar
 
 StringArray MainWindow::getMenuBarNames() {
-	const char* const names[] = { "File", nullptr };
+	const char* const names[] = { "File", "Build", nullptr };
 	return StringArray(names);
 }
 
@@ -208,6 +211,8 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, MainWindow::resetCameraPosition);
 		menu.addCommandItem(commandManager, MainWindow::resetCameraRotation);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
+	} else if(topLevelMenuIndex == 1) {
+		menu.addCommandItem(commandManager, MainWindow::makeDemo);
 	}
 
 	return menu;

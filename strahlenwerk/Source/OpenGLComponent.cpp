@@ -39,10 +39,20 @@ void OpenGLComponent::paint(Graphics& g) {
 }
 
 void OpenGLComponent::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
-	if(info.commandID == MainWindow::quitProgram) {
-		context.detach();
+	switch(info.commandID) {
+		case MainWindow::quitProgram:
+			context.detach();
+			break;
+		case MainWindow::makeDemo:
+			makeDemo();
+			break;
+		default:
+			break;
 	}
 }
 
 void OpenGLComponent::applicationCommandListChanged() {
+}
+
+void OpenGLComponent::makeDemo() {
 }

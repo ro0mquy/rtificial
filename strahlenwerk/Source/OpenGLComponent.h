@@ -19,6 +19,8 @@ class OpenGLComponent : public Component, private ApplicationCommandManagerListe
 		void applicationCommandListChanged() override;
 
 	private:
+		void makeDemo();
+
 		OpenGLContext context;
 		Renderer renderer;
 		OpenGLTargetComponent fixedAspectRatioComponent;

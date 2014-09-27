@@ -37,7 +37,8 @@
 * `[F5]` reload shaders
 * `[Ctrl]+O` open a project directory
 * `F` Toggle fullscreen
-* `G` Toggle Rule of Third grid
+* `G` Toggle Rule of Thirds grid
+* `[Ctrl]+D` Make demo
 
 (Shader is also reloaded on file change)
 
