@@ -22,7 +22,7 @@ void main() {
 		Material material1 = Material(vec3(0.), 1., .0);
 		vec3 color1 = apply_light(p, normal, -dir, material1, light1);
 
-		Material material2 = Material(vec3(0.), 0., 0.);
+		Material material2 = Material(vec3(0.), 1., 0.);
 		vec3 color2 = apply_light(p, normal, -dir, material2, light1);
 		float grid = 1.;
 		vec3 q = p;
@@ -37,6 +37,9 @@ void main() {
 		//color2 += emit_light(vec3(1., 0., 0.), grid * intensity);
 
 		color = mix(color1, color2, materialId - 1.);
+	} else if(materialId == 3.) {
+		Material material = Material(vec3(1., 0., 0.), 1., 0.);
+		color = apply_light(p, normal, -dir, material, light1);
 	}
 
 	output_color(color, distance(camera_position, p));
@@ -44,6 +47,7 @@ void main() {
 
 float boden(vec3 p);
 float boden_implicit(vec3 p);
+float leitungen(vec3 p, float radius, float freq);
 
 vec2 f(vec3 p) {
 	vec2 bounding = vec2(-sphere(camera_position - p, 1000.), 0.);
@@ -69,11 +73,27 @@ vec2 f(vec3 p) {
 
 	vec2 ground = vec2(boden_implicit(p), 2.);
 
-	return min_material(bounding, smin_smaterial(object, ground, 10.));
+	vec2 boden_object = smin_smaterial(object, ground, 10.);
+
+	vec2 leit;
+	if(p.y < 20.) {
+		float leit1 = leitungen(p, .4, 1.);
+		float leit2 = leitungen(trans(p, 2., 0., 3.), .1, 3.);
+		leit = vec2(min(leit1, leit2), 3.);
+	} else {
+		leit = vec2(p.y, 3.);
+	}
+
+
+	return min_material(bounding, min_material(boden_object, leit));
+}
+
+vec3 boden_transform(vec3 p) {
+	return trans(p, 0., 10. * vnoise(.05 * p.xz), 0.);
 }
 
 float boden_implicit(vec3 p) {
-	return p.y - 10. * cnoise(.03 * p.xz);
+	return boden_transform(p).y;
 }
 
 float boden(vec3 p) {
@@ -85,4 +105,14 @@ float boden(vec3 p) {
 		boden_implicit(p + e.yxx) - boden_implicit(p - e.yxx)
 	);
 	return boden_implicit(p) / length(grad) * 2. * e.x;
+}
+
+float leitungen(vec3 p, float radius, float freq) {
+	p = boden_transform(p);
+	vec3 q = p;
+	p = trans(p, 0., 3. * (.5 + .5 * vnoise(.7 * p.xz + 5. * freq)), 0.);
+	q = trans(q, 0., 3. * (.5 + .5 * vnoise(.7 * p.xz + 3. * freq)), 0.);
+	p.x = mod(p.x, 10. / freq) - 5. / freq;
+	q.z = mod(q.z, 10. / freq) - 5. / freq;
+	return min(length(p.xy) - radius, length(q.zy) - radius);
 }
