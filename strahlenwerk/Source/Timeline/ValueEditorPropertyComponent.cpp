@@ -3,6 +3,9 @@
 #include <ColorPicker/LabColor.h>
 #include <ColorPicker/LabColorPicker.h>
 
+static const double sliderRange = 1000.;
+static const double sliderStepSize = .001;
+
 class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
 		BoolEditorPropertyComponent(const String& name, ValueTree valueData) :
@@ -33,7 +36,8 @@ class FloatEditorPropertyComponent : public ValueEditorPropertyComponent {
 		{
 			useValueData(valueData);
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderX.setRange(-1., 1., .001);
+			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderX.setMouseDragSensitivity(500 * sliderRange);
 			addAndMakeVisible(sliderX);
 		}
 
@@ -60,8 +64,10 @@ class Vec2EditorPropertyComponent : public ValueEditorPropertyComponent {
 			useValueData(valueData);
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderX.setRange(-1., 1., .001);
-			sliderY.setRange(-1., 1., .001);
+			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderY.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderX.setMouseDragSensitivity(500 * sliderRange);
+			sliderY.setMouseDragSensitivity(500 * sliderRange);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
 		}
@@ -95,9 +101,12 @@ class Vec3EditorPropertyComponent : public ValueEditorPropertyComponent {
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderZ.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderX.setRange(-1., 1., .001);
-			sliderY.setRange(-1., 1., .001);
-			sliderZ.setRange(-1., 1., .001);
+			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderY.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderZ.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderX.setMouseDragSensitivity(500 * sliderRange);
+			sliderY.setMouseDragSensitivity(500 * sliderRange);
+			sliderZ.setMouseDragSensitivity(500 * sliderRange);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
 			addAndMakeVisible(sliderZ);
@@ -138,10 +147,14 @@ class Vec4EditorPropertyComponent : public ValueEditorPropertyComponent {
 			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderZ.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderW.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderX.setRange(-1., 1., .001);
-			sliderY.setRange(-1., 1., .001);
-			sliderZ.setRange(-1., 1., .001);
-			sliderW.setRange(-1., 1., .001);
+			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderY.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderZ.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderW.setRange(-sliderRange, sliderRange, sliderStepSize);
+			sliderX.setMouseDragSensitivity(500 * sliderRange);
+			sliderY.setMouseDragSensitivity(500 * sliderRange);
+			sliderZ.setMouseDragSensitivity(500 * sliderRange);
+			sliderW.setMouseDragSensitivity(500 * sliderRange);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
 			addAndMakeVisible(sliderZ);
