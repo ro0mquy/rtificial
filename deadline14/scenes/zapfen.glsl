@@ -50,9 +50,11 @@ void main() {
 		//color2 += emit_light(vec3(1., 0., 0.), grid * intensity);
 
 		color = mix(color1, color2, materialId - 1.);
-	} else if(materialId == 3.) {
+	} else if(materialId >= 3. && materialId <= 4.) {
 		Material material = Material(vec3(1., 0., 0.), 1., 0.);
-		color = apply_light(p, normal, -dir, material, light1);
+		vec3 nonglowing = vec3(0.);
+		vec3 glowing = apply_light(p, normal, -dir, material, light1);
+		color = mix(nonglowing, glowing, materialId - 3.);
 	}
 
 	output_color(color, distance(camera_position, p));
@@ -60,7 +62,7 @@ void main() {
 
 float boden(vec3 p);
 float boden_implicit(vec3 p);
-float leitungen(vec3 p, float radius, float freq);
+vec2 leitungen(vec3 p, float radius, float freq);
 vec3 boden_transform(vec3 p);
 
 vec2 f(vec3 p) {
@@ -94,11 +96,12 @@ vec2 f(vec3 p) {
 		vec2 leit;
 		if(p.y < 20.) {
 			vec3 q = boden_transform(p);
-			float leit1 = leitungen(q, .2, 1.7);
-			float leit2 = leitungen(rY(radians(50.)) * q, .2, 2.3);
-			float leit3 = leitungen(rY(radians(30.)) * q, .2, 3.2);
-			float leit4 = leitungen(rY(radians(70.)) * q, .2, 2.7);
-			leit = vec2(min(min(leit1, leit2), min(leit3, leit4)), 3.);
+			vec2 leit1 = leitungen(q, .2, 1.7);
+			vec2 leit2 = leitungen(rY(radians(50.)) * q, .2, 2.3);
+			vec2 leit3 = leitungen(rY(radians(30.)) * q, .2, 3.2);
+			vec2 leit4 = leitungen(rY(radians(70.)) * q, .2, 2.7);
+			leit = min_material(min_material(leit1, leit2), min_material(leit3, leit4));
+			leit.y += 3.;
 		} else {
 			leit = vec2(p.y, 3.);
 		}
@@ -113,7 +116,7 @@ vec2 f(vec3 p) {
 }
 
 vec3 boden_transform(vec3 p) {
-	return trans(p, 0., 10. * vnoise(.05 * p.xz), 0.);
+	return trans(p, 0., 10. * (vnoise(.05 * p.xz) * .5 + .5), 0.);
 }
 
 float boden_implicit(vec3 p) {
@@ -131,10 +134,11 @@ float boden(vec3 p) {
 	return boden_implicit(p) / length(grad) * 2. * e.x;
 }
 
-float leitungen(vec3 p, float radius, float freq) {
-	float t = vnoise(.7 * p.xz + 333. * freq);
+vec2 leitungen(vec3 p, float radius, float freq) {
+	float t = vnoise(.7 * p.xz + 333. * freq) * .5 + .5;
+	float glow = smoothstep(.2, .8, vnoise(vec2(time * 3. + p.z * .2, 200. * floor(p.x / 10. /freq))));
 	p.xz += rot2D(radians(20.) * t) * vec2(10.) - 10.;
 	p = trans(p, 0., 4. * (t * .5 + .5), 0.);
 	p.x = mod(p.x, 10. / freq) - 5. / freq;
-	return length(p.xy) - radius;
+	return vec2(length(p.xy) - radius, glow);
 }
