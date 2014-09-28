@@ -135,8 +135,21 @@ float boden(vec3 p) {
 }
 
 vec2 leitungen(vec3 p, float radius, float freq) {
+	// estimate coordinate of next zapfen
+	vec2 floored = floor(p.xz/50.) * 50.;
+	vec2 ceiled = ceil(p.xz/50.) * 50.;
+	vec2 next = floored;
+	if(abs(p.x - floored.x) > abs(p.x - ceiled.x)) {
+		next.x = ceiled.x;
+	}
+	if(abs(p.y - floored.y) > abs(p.y - ceiled.y)) {
+		next.y = ceiled.y;
+	}
+
+	//float glow = smoothstep(.2, .8, vnoise(vec2(time * 3. + p.z * .2, 2000. * floor(p.x / 10. /freq))));
+	float glow = smoothstep(.2, .8, vnoise(vec2(distance(next, p.xz) * .5 + 1.3 * time, 2000. * rand(floor((p.xz + 25.) / 50.)))));
+
 	float t = vnoise(.7 * p.xz + 333. * freq) * .5 + .5;
-	float glow = smoothstep(.2, .8, vnoise(vec2(time * 3. + p.z * .2, 200. * floor(p.x / 10. /freq))));
 	p.xz += rot2D(radians(20.) * t) * vec2(10.) - 10.;
 	p = trans(p, 0., 4. * (t * .5 + .5), 0.);
 	p.x = mod(p.x, 10. / freq) - 5. / freq;
