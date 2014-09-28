@@ -5,13 +5,13 @@
 uniform vec3 background_color; // color
 uniform float zapfen_kreise;
 
-bool add_boden;
+bool add_boden = false;
+bool normal_mapping = false;
 
 void main() {
 	vec3 dir = get_direction();
 
 	int i;
-	add_boden = false;
 	vec3 p = march_adv(camera_position, dir, i, 150, .9);
 	if(abs(f(p)[1]) <= 1e-6) {
 		if(dir.y != 0) {
@@ -26,6 +26,7 @@ void main() {
 	float materialId = f(p)[1];
 
 	vec3 color = vec3(0.);
+	normal_mapping = true;
 	vec3 normal = calc_normal(p);
 	SphereLight light1 = SphereLight(vec3(0., 1000., 10.), vec3(1.), 3., 10000.);
 	if(materialId == 0.) {
@@ -70,8 +71,8 @@ vec2 f(vec3 p) {
 	q.y = p.y - height;
 	float k = smoothstep(-height * 1.2, height, -q.y);
 	vec2 ij = floor(p.xz / 50.);
-	float rotation = sin(7. * ij + time * .5);
-	float rotation2 = cos(11. * ij + time * .5);
+	float rotation = sin(7. * dot(ij, ij) + time * .5);
+	float rotation2 = cos(11. * dot(ij, ij) + time * .5);
 	mat3 rotX = rX(rotation * (1. - k) * radians(7.));
 	mat3 rotZ = rZ(rotation2 * (1. - k) * radians(7.));
 	mat3 rotY = rY((1. - k) * radians(100.));
@@ -79,6 +80,9 @@ vec2 f(vec3 p) {
 	float radius = 10. * k;
 
 	float d = max(length(q.xz) - radius, abs(q.y) - height);
+	if(normal_mapping) {
+		d += .06 * cfbm((2. * vnoise(q) + q) * .5);
+	}
 
 	vec2 object = vec2(d, 1.);
 
