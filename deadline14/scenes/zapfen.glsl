@@ -73,6 +73,7 @@ vec2 f(vec3 p) {
 	q.y = p.y - height;
 	float k = smoothstep(-height * 1.2, height, -q.y);
 	vec2 ij = floor(p.xz / 50.);
+	q.xz += rand(ij + 10.) * 5.;
 	float rotation = sin(7. * dot(ij, ij) + time * .5);
 	float rotation2 = cos(11. * dot(ij, ij) + time * .5);
 	mat3 rotX = rX(rotation * (1. - k) * radians(7.));
