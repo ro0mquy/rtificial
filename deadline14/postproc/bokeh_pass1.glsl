@@ -21,7 +21,7 @@ vec4 gatherDirection(vec3 baseColor, float baseCoC, vec2 dir) {
 		sum += gatherAndApply(otherColor, otherCoC, baseCoC, dist, accum);
 	}
 
-	accum.rgb /= max(sum, 1e-6);
+	accum.rgb = sum > 1e-6 ? accum.rgb / sum : baseColor;
 	return accum;
 }
 
@@ -34,10 +34,26 @@ void main() {
 
 	vec4 bothBlurs;
 	bothBlurs.rgb = upwardsBlur.rgb + downLeftBlur.rgb;
+	/*
 	if(abs(upwardsBlur.a) > abs(downLeftBlur.a)) {
 		bothBlurs.a = upwardsBlur.a;
 	} else {
 		bothBlurs.a = downLeftBlur.a;
+	}
+	*/
+	// experimental
+	if(downLeftBlur.a >= 0.) {
+		if(upwardsBlur.a >= 0.) {
+			bothBlurs.a = max(downLeftBlur.a, upwardsBlur.a);
+		} else {
+			bothBlurs.a = upwardsBlur.a;
+		}
+	} else {
+		if(upwardsBlur.a >= 0.) {
+			bothBlurs.a = downLeftBlur.a;
+		} else {
+			bothBlurs.a = min(downLeftBlur.a, upwardsBlur.a);
+		}
 	}
 
 	upwards = upwardsBlur;

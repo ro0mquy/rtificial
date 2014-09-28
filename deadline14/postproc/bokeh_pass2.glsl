@@ -18,7 +18,7 @@ vec4 gatherDirection(sampler2D texture, vec3 baseColor, float baseCoC, vec2 dir)
 		sum += gatherAndApply(other.rgb, other.a, baseCoC, dist, accum);
 	}
 
-	accum.rgb /= max(sum, 1e-6);
+	accum.rgb = sum > 1e-6 ? accum.rgb / sum : baseColor;
 	return accum;
 }
 
@@ -26,7 +26,7 @@ void main() {
 	vec4 base = textureLod(both, tc, 0.);
 
 	vec4 downLeftBlur = gatherDirection(upwards, base.rgb, base.a, vec2(cos(radians(30.)), sin(radians(30.))));
-	vec4 downRightBlur = gatherDirection(both, base.rgb, base.a, vec2(cos(radians(150.)), sin(radians(150.))));
+	vec4 downRightBlur = gatherDirection(both, base.rgb * .5, base.a, vec2(cos(radians(150.)), sin(radians(150.))));
 
 	out_color = vec4((downLeftBlur.rgb + downRightBlur.rgb) / 3., max(abs(downLeftBlur.a), abs(downRightBlur.a)));
 }

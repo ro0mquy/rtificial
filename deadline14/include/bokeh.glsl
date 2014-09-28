@@ -1,4 +1,4 @@
-float kernelSize = 20. * res.x / 1920.;
+float kernelSize = 40. * res.x / 1920.;
 
 uniform float f_stop;
 
@@ -22,6 +22,9 @@ float gatherAndApply(vec3 color, float CoC, float baseCoC, float dist, inout vec
 					outColor.a = CoC;
 				}
 			}
+		} else {
+			// experimental
+			outColor.a = max(outColor.a, CoC);
 		}
 		float frac = clamp(absCoC - dist, 0., 1.);
 		outColor.rgb += frac * color;
