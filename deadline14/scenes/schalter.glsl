@@ -21,6 +21,7 @@ Material materials[] = Material[](
 #define MATERIAL_ID_LIGHTBALL 4.
 
 float pyramid(vec3 p, float s, float h);
+float star(vec2 p, float num_wings, float thickness_wings);
 
 void main(void) {
 	vec3 direction = get_direction();
@@ -34,10 +35,43 @@ void main(void) {
 		vec3 normal = calc_normal(hit);
 
 		Material mat = materials[material];
+		if (material == MATERIAL_ID_FLOOR) {
+			vec3 col = vec3(0.);
+			float f_col = 0.;
+
+			float num_wings = 16.;
+			float thickness_wings = .003;
+			vec3 hit = hit;
+			hit.xz = rot2D(.5 + TAU / 200. * vnoise(hit.xz * .5)) * hit.xz;
+
+			f_col = max(f_col, star(rot2D(0.0) * (hit.xz - vec2(  0.,   0.)), num_wings, thickness_wings));
+			f_col = max(f_col, star(rot2D(0.5) * (hit.xz - vec2( 10.,  19.)), num_wings, thickness_wings));
+			f_col = max(f_col, star(rot2D(1.0) * (hit.xz - vec2(-10.,  15.)), num_wings, thickness_wings));
+			f_col = max(f_col, star(rot2D(1.5) * (hit.xz - vec2(  7., -19.)), num_wings, thickness_wings));
+			f_col = max(f_col, star(rot2D(2.0) * (hit.xz - vec2(- 2., - 9.)), num_wings, thickness_wings));
+			f_col = max(f_col, star(rot2D(2.5) * (hit.xz - vec2(- 5.,   4.)), num_wings, thickness_wings));
+			f_col = max(f_col, star(rot2D(3.0) * (hit.xz - vec2(-17., - 3.)), num_wings, thickness_wings));
+			f_col = max(f_col, star(rot2D(3.5) * (hit.xz - vec2( 14., -13.)), num_wings, thickness_wings));
+			f_col = max(f_col, star(rot2D(4.0) * (hit.xz - vec2( 22.,   7.)), num_wings, thickness_wings));
+
+			f_col = max(f_col, star(rot2D(.5 + TAU / 100. * vnoise(hit.xz * .5)) * (hit.xz - vec2(- 7.,   4.)), num_wings/2., thickness_wings));
+
+			col = vec3(f_col);
+			mat.color = col;
+		}
+
 		color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
 	}
 
 	output_color(color, 4.1);// distance(hit, camera_position));
+}
+
+float star(vec2 p_star, float num_wings, float thickness_wings) {
+	float angle = atan(p_star.x, p_star.y);
+	float length_2 = dot(p_star, p_star);
+	float sin_angle = .5 * (1. - cos(2. * angle * .5 * num_wings)); // sin^2
+	float limit = thickness_wings * num_wings * num_wings / length_2;
+	return 1. - step(limit, sin_angle);
 }
 
 float pyramid(vec3 p, float s, float h){
