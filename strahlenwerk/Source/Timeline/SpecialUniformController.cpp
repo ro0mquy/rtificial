@@ -184,6 +184,8 @@ void CameraController::timerCallback() {
 	if (KeyPress::isKeyCurrentlyDown('o')) {
 		rotation = cameraMath.rotationClockwise(position, rotation, deltaTime);
 	}
+
+	sendChangeMessage();
 }
 
 void CameraController::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
@@ -283,11 +285,13 @@ void CameraController::takeOverControl() {
 	if (!getHasControl()) {
 		getCameraFromCurrentPosition();
 		setHasControl(true);
+		sendChangeMessage();
 	}
 }
 
 void CameraController::releaseControl() {
 	if (getHasControl()) {
 		setHasControl(false);
+		sendChangeMessage();
 	}
 }

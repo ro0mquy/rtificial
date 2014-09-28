@@ -48,6 +48,7 @@ class TimeController :
 
 class CameraController :
 	public SpecialUniformController,
+	public ChangeBroadcaster,
 	private KeyListener,
 	private AsyncUpdater,
 	private Timer,
