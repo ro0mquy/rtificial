@@ -428,7 +428,7 @@ float cnoise(vec3 P) {
 float rand(vec2 c) {
     vec2 m = mod289(c);
 	vec2 h = permute(m);
-    return fract(permute(h.x * h.y + m.x + m.y)/41.);
+    return fract(permute(h.x * h.y + m.x + m.y)/41.) * 2. - 1.;
 }
 
 float rand(vec3 c) {
