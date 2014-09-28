@@ -3,7 +3,7 @@
 <timelineTree>
   <uniformsArray>
     <uniform uniformName="focus_dist" uniformType="float">
-      <uniformStandardValue valueFloatX="0.051"/>
+      <uniformStandardValue valueFloatX="5.1"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="camera_position" uniformType="vec3">
@@ -186,7 +186,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="f_stop" uniformType="float">
-      <uniformStandardValue valueFloatX="0.22"/>
+      <uniformStandardValue valueFloatX="2.2"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="sphere1_pos" uniformType="vec3">

@@ -14,9 +14,9 @@ uniform float focal_length;
 uniform float f_stop;
 
 void output_color(vec3 color, float dist) {
-	float focus_dist = 100. * focus_dist;
+	float focus_dist = focus_dist;
 	float f = focal_length;
-	float N = f_stop * 10.;
+	float N = f_stop;
 	coc = (dist - focus_dist)/dist * (f * f) / (N * (focus_dist - f)) / 0.03 * res.x;
 	out_color = color;
 	luminance = log(max(dot(color, vec3(.2126, .7152, .0722)), 1e-6)); // TODO calculate
