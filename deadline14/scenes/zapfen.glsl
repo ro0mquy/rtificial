@@ -68,17 +68,14 @@ vec2 f(vec3 p) {
 	float height = 40.; // .5 * height
 	vec3 q = domrepv(p, vec3(50.));
 	q.y = p.y - height;
-	//mat3 xrot = rX(radians(10.) * sin(q.y + p.x));
-	//mat3 yrot = rY(radians(50.) * cos(q.y + p.y));
-	//q = xrot * yrot * q;
-	float k = smoothstep(height * 1.2, -height, q.y);
-	float i = floor(p.x/50.);
-	float j = floor(p.z/50.);
-	float l = sin(i + sin(time + 3.)) * cos(j + sin(time + 5.));
-	float m = cos(i + sin(time + 1.)) * sin(j + sin(time + 2.));
-	mat3 rotX = rX(radians( 10.) * ((1. - k) * l + (.02 * sin(q.y))));
-	mat3 rotZ = rZ(radians(-10.) * ((1. - k) * m + (.02 * sin(q.y))));
-	q = rotX * rotZ * q;
+	float k = smoothstep(-height * 1.2, height, -q.y);
+	vec2 ij = floor(p.xz / 50.);
+	float rotation = sin(7. * ij + time * .5);
+	float rotation2 = cos(11. * ij + time * .5);
+	mat3 rotX = rX(rotation * (1. - k) * radians(7.));
+	mat3 rotZ = rZ(rotation2 * (1. - k) * radians(7.));
+	mat3 rotY = rY((1. - k) * radians(100.));
+	q = rotZ * rotX * rotY * q;
 	float radius = 10. * k;
 
 	float d = max(length(q.xz) - radius, abs(q.y) - height);
