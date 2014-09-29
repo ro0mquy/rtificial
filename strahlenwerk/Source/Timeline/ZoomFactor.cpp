@@ -3,6 +3,7 @@
 #include <MainWindow.h>
 #include <MainContentComponent.h>
 #include <Timeline/Timeline.h>
+#include <cmath>
 
 static const float minZoomLevel = 5.;
 
@@ -71,7 +72,8 @@ float ZoomFactor::pixelsToTime(const float pixels) {
 }
 
 float ZoomFactor::getGridWith() {
-	return 1.;
+	std::lock_guard<std::mutex> lock(zoomMutex);
+	return std::pow(2., -std::floor(std::log2(zoomLevel / 20.)));
 }
 
 float ZoomFactor::snapValueToGrid(const float valueAsTime) {
