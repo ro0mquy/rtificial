@@ -118,14 +118,27 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	shadersHeaderContent += postprocArrayDeclaration;
 	shadersHeaderContent += scenesArrayDeclaration;
 
-	shadersHeaderContent += "Framebuffer fbos[" + std::to_string(postprocShaders - 1) + "] = {\n";
+	std::string fboDeclaration = "Framebuffer fbos[" + std::to_string(postprocShaders - 1) + "] = {\n";
 	// export FBOs
 	for(int i = 0; i < postprocShaders - 1; i++) {
 		const PostprocShader& shader = postproc.getShader(i);
+		auto& outputs = shader.getOutputs();
+		const std::string number = std::to_string(outputs.size());
+		shadersHeaderContent += "Output " + shader.getName() + "_outputs[" + number + "] = {\n";
+		for(Output output : outputs) {
+			shadersHeaderContent += "\t{" +
+				std::to_string(output.components) + ", " +
+				std::to_string(output.bindingId) + ", " +
+				std::to_string(output.maxLod) +
+				"},\n";
+		}
+		shadersHeaderContent += "};\n";
 		const std::string lod = std::to_string(shader.getOutputLod());
-		shadersHeaderContent += "\tFramebuffer(" + lod + ", 0, nullptr),\n";
+		fboDeclaration += "\tFramebuffer(" + lod + ", " + number + ", " + shader.getName()+ "_outputs),\n";
 	}
-	shadersHeaderContent += "};\n";
+	fboDeclaration += "};\n";
+
+	shadersHeaderContent += fboDeclaration;
 
 	shadersHeader.replaceWithText(shadersHeaderContent);
 }

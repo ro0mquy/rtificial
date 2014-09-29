@@ -2,6 +2,9 @@
 #define FRAMEBUFFER_H
 
 struct Output {
+	int components;
+	int bindingId;
+	int maxLod;
 };
 
 class Framebuffer {
