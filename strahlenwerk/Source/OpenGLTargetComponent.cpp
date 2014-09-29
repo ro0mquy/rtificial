@@ -5,7 +5,7 @@
 #include "Renderer.h"
 
 OpenGLTargetComponent::OpenGLTargetComponent(Renderer& _renderer) : renderer(_renderer) {
-	startTimer(50);
+	setOpaque(true);
 }
 
 void OpenGLTargetComponent::paint(Graphics& g) {
@@ -40,8 +40,4 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 	const double frameTimeInMillis = frameTime / 1000000.;
 	const String frameTimeString = String(frameTimeInMillis) + "ms\n" + String(1000. / frameTimeInMillis) + "fps";
 	g.drawMultiLineText(frameTimeString, 10, 12 + fontHeight / 2, getWidth());
-}
-
-void OpenGLTargetComponent::timerCallback() {
-	repaint();
 }
