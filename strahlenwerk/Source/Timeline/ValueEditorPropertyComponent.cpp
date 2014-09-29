@@ -192,7 +192,7 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 	public:
 		ColorEditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 1),
-			colorLab(LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue()))
+			colorLab(50., 0., 0.)
 		{
 			useValueData(valueData);
 			colorR.addListener(this);
@@ -206,6 +206,7 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 			colorR.referTo(data.getValueColorRAsValue(valueData));
 			colorG.referTo(data.getValueColorGAsValue(valueData));
 			colorB.referTo(data.getValueColorBAsValue(valueData));
+			colorLab = LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue());
 		}
 
 		void paint(Graphics& g) override {
