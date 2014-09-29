@@ -34,10 +34,10 @@ class FloatEditorPropertyComponent : public ValueEditorPropertyComponent {
 			ValueEditorPropertyComponent(name, 1),
 			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft)
 		{
-			useValueData(valueData);
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
 			sliderX.setMouseDragSensitivity(500 * sliderRange);
+			useValueData(valueData);
 			addAndMakeVisible(sliderX);
 		}
 
@@ -61,13 +61,13 @@ class Vec2EditorPropertyComponent : public ValueEditorPropertyComponent {
 			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
 			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft)
 		{
-			useValueData(valueData);
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
 			sliderY.setRange(-sliderRange, sliderRange, sliderStepSize);
 			sliderX.setMouseDragSensitivity(500 * sliderRange);
 			sliderY.setMouseDragSensitivity(500 * sliderRange);
+			useValueData(valueData);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
 		}
@@ -97,7 +97,6 @@ class Vec3EditorPropertyComponent : public ValueEditorPropertyComponent {
 			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft),
 			sliderZ(Slider::IncDecButtons, Slider::TextBoxLeft)
 		{
-			useValueData(valueData);
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderZ.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
@@ -107,6 +106,7 @@ class Vec3EditorPropertyComponent : public ValueEditorPropertyComponent {
 			sliderX.setMouseDragSensitivity(500 * sliderRange);
 			sliderY.setMouseDragSensitivity(500 * sliderRange);
 			sliderZ.setMouseDragSensitivity(500 * sliderRange);
+			useValueData(valueData);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
 			addAndMakeVisible(sliderZ);
@@ -142,7 +142,6 @@ class Vec4EditorPropertyComponent : public ValueEditorPropertyComponent {
 			sliderZ(Slider::IncDecButtons, Slider::TextBoxLeft),
 			sliderW(Slider::IncDecButtons, Slider::TextBoxLeft)
 		{
-			useValueData(valueData);
 			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
 			sliderZ.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
@@ -155,6 +154,7 @@ class Vec4EditorPropertyComponent : public ValueEditorPropertyComponent {
 			sliderY.setMouseDragSensitivity(500 * sliderRange);
 			sliderZ.setMouseDragSensitivity(500 * sliderRange);
 			sliderW.setMouseDragSensitivity(500 * sliderRange);
+			useValueData(valueData);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
 			addAndMakeVisible(sliderZ);
