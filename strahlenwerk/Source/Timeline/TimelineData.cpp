@@ -794,9 +794,9 @@ bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 		setValueVec4Z(valueData, 0.);
 		setValueVec4W(valueData, 1.);
 	} else if (valueType == "color") {
-		setValueColorR(valueData, 0.);
-		setValueColorG(valueData, 0.);
-		setValueColorB(valueData, 0.);
+		setValueColorR(valueData, .18);
+		setValueColorG(valueData, .18);
+		setValueColorB(valueData, .18);
 	} else {
 		return false;
 	}
