@@ -31,7 +31,7 @@ File ProjectFileLoader::getTimelineDataFile() {
 }
 
 File ProjectFileLoader::getAudioFile() {
-	return projectDir.getChildFile("music.flac");
+	return projectDir.getChildFile("music.ogg");
 }
 
 const File& ProjectFileLoader::getSceneDir() const {
