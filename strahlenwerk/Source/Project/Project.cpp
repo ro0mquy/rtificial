@@ -87,9 +87,9 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	const std::regex search(R"regex(layout\((.*)\))regex");
 	const std::string replacement = "//[\nlayout($1)\n//]\n";
 
-	// create shaders.h
-	const File& shadersHeader = buildDir.getChildFile("shaders.h");
-	std::string shadersHeaderContent = "#include \"Shader.h\"\n";
+	// create header
+	const File& shadersHeader = buildDir.getChildFile("strahlenwerk_export.h");
+	std::string shadersHeaderContent = "#include \"Shader.h\"\n#include \"Framebuffer.h\"\n";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
 
@@ -113,7 +113,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 		inputsDeclaration += "};\n";
 
 
-		postprocArrayDeclaration += "\tShader(" + shader.getName() + "_source),\n";
+		postprocArrayDeclaration += "\tShader(" + shader.getName() + "_source, " + number + ", " + shader.getName() + "_inputs),\n";
 	}
 
 

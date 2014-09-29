@@ -141,7 +141,7 @@ void Shader::insertLocations(const std::vector<std::pair<size_t, int>>& location
  */
 void Shader::recompile() {
 	program.release();
-	const bool vertexOk = program.addVertexShader("#version 330\nin vec2 c;\nout vec2 tc;\nvoid main() { tc = c * .5 + .5;\ngl_Position = vec4(c, 0., 1.); }");
+	const bool vertexOk = program.addVertexShader("#version 330\nin vec2 c;\nlayout(location = 0) out vec2 tc;\nvoid main() { tc = c * .5 + .5;\ngl_Position = vec4(c, 0., 1.); }");
 	// TODO better logging
 	if(!vertexOk) {
 		std::cerr << getName() + " Vertex error: " << program.getLastError() << std::endl;

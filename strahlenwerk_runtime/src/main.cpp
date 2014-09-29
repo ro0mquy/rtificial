@@ -1,5 +1,7 @@
 #include "Backend.h"
 
+#include "strahlenwerk_export.h"
+
 const int width = 800;
 const int height = 600;
 const bool fullscreen = false;
