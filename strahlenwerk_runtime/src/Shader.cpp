@@ -4,7 +4,11 @@
 #include <iostream>
 #endif
 
-Shader::Shader(const char* _source) : source(_source) {
+Shader::Shader(const char* _source, int _inputsNumber, const Input* _inputs) :
+	source(_source),
+	inputsNumber(_inputsNumber),
+	inputs(_inputs)
+{
 }
 
 void Shader::compile() {
@@ -44,6 +48,11 @@ void Shader::bind() {
 
 void Shader::draw(int width, int height) {
 	bind();
+	for(int i = 0; i < inputsNumber; i++) {
+		glActiveTexture(GL_TEXTURE0 + inputs[i].bindingId);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, inputs[i].lod);
+	}
+
 	glClear(GL_COLOR_BUFFER_BIT);
 	glEnableVertexAttribArray(0);
 	const GLfloat rectangleVertices[] = {
