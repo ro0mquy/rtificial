@@ -55,7 +55,8 @@ void ScenesBarComponent::paint(Graphics& g) {
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
 
-	const float lineDistance           = zoomFactor.getGridWith() * zoomFactor;
+	const float gridWidth              = zoomFactor.getGridWith();
+	const float lineDistance           = gridWidth * zoomFactor;
 	const int longLineDistance         = 4; // every nth tick is a long line
 	const float lineHeightFraction     = 0.25;
 	const float longLineHeightFraction = 0.5;
@@ -71,6 +72,11 @@ void ScenesBarComponent::paint(Graphics& g) {
 				height * (longLine ? longLineHeightFraction : lineHeightFraction),
 				1
 			);
+
+		if (longLine) {
+			g.setColour(findColour(ScenesBarComponent::textColourId));
+			g.drawSingleLineText(String(i * gridWidth), i*lineDistance + 1, .8 * g.getCurrentFont().getHeight());
+		}
 	}
 
 	// draw outline

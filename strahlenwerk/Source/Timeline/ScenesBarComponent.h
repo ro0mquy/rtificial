@@ -41,6 +41,7 @@ class ScenesBarComponent :
 		enum ColourIds{
 			tickColourId = 0x2300100,
 			waveformColourId,
+			textColourId,
 		};
 
 	private:
