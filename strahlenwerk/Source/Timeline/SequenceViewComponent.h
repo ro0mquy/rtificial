@@ -31,12 +31,12 @@ class SequenceViewComponent :
 
 		void changeListenerCallback(ChangeBroadcaster* source) override;
 
-        void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
-        void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
-        void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
-        void valueTreeChildOrderChanged(ValueTree& parentTree) override;
-        void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
-        void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
+		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
+		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
+		void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
+		void valueTreeChildOrderChanged(ValueTree& parentTree) override;
+		void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
+		void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
 
 		enum ColourIds{
 			evenRowColourId = 0x2300301,
