@@ -9,7 +9,6 @@ CXX_FLAGS += -DBUILD_LINUX
 
 DEPS := $(OBJ_FILES:.o=.d)
 CXX_FLAGS += -MMD
--include $(DEPS)
 
 demo: $(OBJ_FILES)
 	$(CXX) $(LD_FLAGS) -o $@ $^
@@ -20,3 +19,5 @@ build_linux/%.o: src/%.cpp
 .PHONY: clean
 clean:
 	rm -f build_linux/* demo
+
+-include $(DEPS)
