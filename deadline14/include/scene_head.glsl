@@ -1,10 +1,24 @@
 #version 430
 
-layout(location = 0) uniform vec2 res;
+//[
+layout(location = 0)
+//]
+uniform vec2 res;
 
-layout(location = 0) out vec3 out_color; // alpha = CoC
-layout(location = 1) out float luminance;
-layout(location = 2) out float coc;
+//[
+layout(location = 0)
+//]
+out vec3 out_color; // alpha = CoC
+
+//[
+layout(location = 1)
+//]
+out float luminance;
+
+//[
+layout(location = 2)
+//]
+out float coc;
 
 uniform float focus_dist;
 

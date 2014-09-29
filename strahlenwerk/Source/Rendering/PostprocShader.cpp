@@ -63,7 +63,7 @@ void PostprocShader::insertBindings() {
 	size_t offset = 0;
 	const int inputsSize = inputs.size();
 	for(int i = 0; i < inputsSize; i++) {
-		const auto bindingString = "layout(binding = " + std::to_string(inputs[i].bindingId) + ") ";
+		const auto bindingString = "//[\nlayout(binding = " + std::to_string(inputs[i].bindingId) + ")\n//]\n";
 		if(fragmentSource[positions[i] + offset] == '\n') {
 			// insert after newline
 			offset++;

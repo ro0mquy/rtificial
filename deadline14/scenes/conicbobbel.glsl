@@ -9,7 +9,7 @@ uniform float conic_smooth_factor; // float
 uniform float manual_time; // float
 uniform float conic_ring_intensity; // float
 
-vec3 colors[] = vec3[](
+vec3 colors[4] = vec3[4](
 		vec3(.03, .0, .0),
 		vec3(.0),
 		conic_bobbel_color,

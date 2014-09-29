@@ -9,7 +9,7 @@ uniform float bb; // float
 uniform float cc; // float
 uniform float dd; // float
 
-Material materials[] = Material[](
+Material materials[2] = Material[2](
 	Material(vec3(1.), .5, 0.),
 	Material(synapse_color, 0.7, 1.)
 );

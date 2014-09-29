@@ -6,7 +6,7 @@ uniform float pyramid_h; // float
 uniform float pyramid_s; // float
 uniform float pyramid_animation; // float
 
-Material materials[] = Material[](
+Material materials[5] = Material[5](
 	Material(vec3(.1, .1, .1), .5, 0.),
 	Material(vec3(1.), .5, 0.),
 	Material(vec3(.1,.3,.1), 1., 0.),

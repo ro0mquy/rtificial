@@ -126,7 +126,7 @@ void Shader::insertLocations(const std::vector<std::pair<size_t, int>>& location
 	// this could be more efficient
 	size_t offset = 0;
 	for(const auto& location : locations) {
-		const auto locationString = "layout(location = " + std::to_string(location.second) + ") ";
+		const auto locationString = "//[\nlayout(location = " + std::to_string(location.second) + ")\n//]\n";
 		if(fragmentSource[location.first + offset] == '\n') {
 			// insert after newline
 			offset++;

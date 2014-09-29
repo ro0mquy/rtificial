@@ -6,7 +6,7 @@ uniform vec3 sphere2_color; // color
 
 uniform vec3 sphere1_pos; // vec3
 
-vec3 colors[] = vec3[](
+vec3 colors[4] = vec3[4](
 		sphere1_color,
 		sphere2_color,
 		vec3(.03, .0, .0),
