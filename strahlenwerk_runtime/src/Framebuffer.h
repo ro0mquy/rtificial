@@ -18,12 +18,12 @@ class Framebuffer {
 		void bind();
 		void unbind();
 		void destroy();
+		int width, height;
 
 	private:
 		const int outputLod;
 		const int outputsNumber;
 		const Output* const outputs;
-		int width, height;
 		GLuint fbo;
 		GLuint* textures;
 };
