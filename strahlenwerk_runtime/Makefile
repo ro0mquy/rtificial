@@ -13,7 +13,7 @@ CXX_FLAGS += -MMD
 demo: $(OBJ_FILES)
 	$(CXX) $(LD_FLAGS) -o $@ $^
 
-build_linux/%.o: src/%.cpp
+build_linux/%.o: src/%.cpp build_linux
 	$(CXX) $(CXX_FLAGS) -c -o $@ $<
 
 .PHONY: clean

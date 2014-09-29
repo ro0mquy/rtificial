@@ -91,10 +91,10 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	const File& shadersHeader = buildDir.getChildFile("shaders.h");
 	std::string shadersHeaderContent = "#include \"Shader.h\"\n";
 
-	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders) + "] = {\n";
+	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
 
 	// export shaders
-	for(int i = 0; i < postprocShaders; i++) {
+	for(int i = 1; i < postprocShaders; i++) {
 		const Shader& shader = postproc.getShader(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
 		shaderFile.replaceWithText(std::regex_replace(shader.getSource(), search, replacement));
@@ -117,6 +117,15 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 	shadersHeaderContent += postprocArrayDeclaration;
 	shadersHeaderContent += scenesArrayDeclaration;
+
+	shadersHeaderContent += "Framebuffer fbos[" + std::to_string(postprocShaders - 1) + "] = {\n";
+	// export FBOs
+	for(int i = 0; i < postprocShaders - 1; i++) {
+		const PostprocShader& shader = postproc.getShader(i);
+		const std::string lod = std::to_string(shader.getOutputLod());
+		shadersHeaderContent += "\tFramebuffer(" + lod + ", 0, nullptr),\n";
+	}
+	shadersHeaderContent += "};\n";
 
 	shadersHeader.replaceWithText(shadersHeaderContent);
 }
