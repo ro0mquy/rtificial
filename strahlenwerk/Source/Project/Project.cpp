@@ -87,17 +87,38 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	const std::regex search(R"regex(layout\((.*)\))regex");
 	const std::string replacement = "//[\nlayout($1)\n//]\n";
 
+	// create shaders.h
+	const File& shadersHeader = buildDir.getChildFile("shaders.h");
+	std::string shadersHeaderContent = "#include \"Shader.h\"\n";
+
+	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders) + "] = {\n";
+
+	// export shaders
 	for(int i = 0; i < postprocShaders; i++) {
 		const Shader& shader = postproc.getShader(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
 		shaderFile.replaceWithText(std::regex_replace(shader.getSource(), search, replacement));
+		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
+		postprocArrayDeclaration += "\tShader(" + shader.getName() + "_source),\n";
 	}
+
+	postprocArrayDeclaration += "};\n";
+
+	std::string scenesArrayDeclaration = "Shader scenes[" + std::to_string(sceneShaders) + "] = {\n";
 
 	for(int i = 0; i < sceneShaders; i++) {
 		const Shader& shader = scenes.getShader(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
 		shaderFile.replaceWithText(std::regex_replace(shader.getSource(), search, replacement));
+		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
+		scenesArrayDeclaration += "\tShader(" + shader.getName() + "_source),\n";
 	}
+	scenesArrayDeclaration += "};\n";
+
+	shadersHeaderContent += postprocArrayDeclaration;
+	shadersHeaderContent += scenesArrayDeclaration;
+
+	shadersHeader.replaceWithText(shadersHeaderContent);
 }
 
 void Project::handleFileAction(
