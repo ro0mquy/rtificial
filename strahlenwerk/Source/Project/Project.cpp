@@ -84,16 +84,19 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	const int postprocShaders = postproc.getNumShaders();
 	const int sceneShaders = scenes.getNumShaders();
 
+	const std::regex search(R"regex(layout\((.*)\))regex");
+	const std::string replacement = "//[\nlayout($1)\n//]\n";
+
 	for(int i = 0; i < postprocShaders; i++) {
 		const Shader& shader = postproc.getShader(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
-		shaderFile.replaceWithText(shader.getSource());
+		shaderFile.replaceWithText(std::regex_replace(shader.getSource(), search, replacement));
 	}
 
 	for(int i = 0; i < sceneShaders; i++) {
 		const Shader& shader = scenes.getShader(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
-		shaderFile.replaceWithText(shader.getSource());
+		shaderFile.replaceWithText(std::regex_replace(shader.getSource(), search, replacement));
 	}
 }
 
