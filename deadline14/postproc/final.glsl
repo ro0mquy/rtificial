@@ -82,10 +82,9 @@ void main() {
 
 	// TODO ordentlicher noise
 	float phi = radians(10.);
-	mat2 rot = mat2(cos(phi), -sin(phi), sin(phi), cos(phi));
 	out_color = col + grain_intensity * vec3(// so schön weerboß
-			fbm(vec2(1. / grain_freq * rot *  gl_FragCoord.xy +  31. * time)),
-			fbm(vec2(1. / grain_freq * rot *  gl_FragCoord.xy +  33. * time)),
-			fbm(vec2(1. / grain_freq * rot *  gl_FragCoord.xy +  32. * time))
+			fbm(vec2(1. / grain_freq *  gl_FragCoord.xy +  31. * time)),
+			fbm(vec2(1. / grain_freq *  gl_FragCoord.xy +  33. * time)),
+			fbm(vec2(1. / grain_freq *  gl_FragCoord.xy +  32. * time))
 			);
 }
