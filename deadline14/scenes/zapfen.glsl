@@ -97,10 +97,10 @@ vec2 f(vec3 p) {
 		vec2 leit;
 		if(p.y < 20.) {
 			vec3 q = boden_transform(p);
-			vec2 leit1 = leitungen(q, .2, 1.7);
-			vec2 leit2 = leitungen(rY(radians(50.)) * q, .2, 2.3);
-			vec2 leit3 = leitungen(rY(radians(30.)) * q, .2, 3.2);
-			vec2 leit4 = leitungen(rY(radians(70.)) * q, .2, 2.7);
+			vec2 leit1 = leitungen(q, .4, 1.7);
+			vec2 leit2 = leitungen(rY(radians(50.)) * q, .4, 2.3);
+			vec2 leit3 = leitungen(rY(radians(20.)) * q, .4, 3.2);
+			vec2 leit4 = leitungen(rY(radians(80.)) * q, .4, 2.7);
 			leit = min_material(min_material(leit1, leit2), min_material(leit3, leit4));
 			leit.y += 3.;
 		} else {
@@ -153,6 +153,6 @@ vec2 leitungen(vec3 p, float radius, float freq) {
 	float t = vnoise(.7 * p.xz + 333. * freq) * .5 + .5;
 	p.xz += rot2D(radians(20.) * t) * vec2(10.) - 10.;
 	p = trans(p, 0., 4. * (t * .5 + .5), 0.);
-	p.x = mod(p.x, 10. / freq) - 5. / freq;
+	p.x = mod(p.x, 20. / freq) - 10. / freq;
 	return vec2(length(p.xy) - radius, glow);
 }

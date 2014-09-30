@@ -87,19 +87,19 @@
       <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="aa" uniformType="float">
+    <uniform uniformName="synpase_aa" uniformType="float">
       <uniformStandardValue valueFloatX="1"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="bb" uniformType="float">
+    <uniform uniformName="synpase_bb" uniformType="float">
       <uniformStandardValue valueFloatX="0.44"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="cc" uniformType="float">
+    <uniform uniformName="synpase_cc" uniformType="float">
       <uniformStandardValue valueFloatX="-0.48"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="dd" uniformType="float">
+    <uniform uniformName="synpase_dd" uniformType="float">
       <uniformStandardValue valueFloatX="1"/>
       <sequencesArray/>
     </uniform>
