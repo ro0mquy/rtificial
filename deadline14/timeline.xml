@@ -160,29 +160,45 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="pyramid_animation" uniformType="float">
-      <uniformStandardValue valueFloatX="1"/>
+      <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
-        <sequence sequenceStart="0" sequenceSceneId="100" sequenceDuration="8"
+        <sequence sequenceSceneId="100" sequenceStart="14" sequenceDuration="10"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
-            <keyframe keyframePosition="2">
-              <keyframeValue valueFloatX="0.496"/>
-            </keyframe>
-            <keyframe keyframePosition="5">
+            <keyframe keyframePosition="10">
               <keyframeValue valueFloatX="1"/>
             </keyframe>
-            <keyframe keyframePosition="8">
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="100" sequenceStart="2" sequenceDuration="12"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="12">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="100" sequenceStart="24" sequenceDuration="4"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="4">
+              <keyframeValue valueFloatX="1"/>
             </keyframe>
           </keyframesArray>
         </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="focal_length" uniformType="float">
-      <uniformStandardValue valueFloatX="0.032"/>
+      <uniformStandardValue valueFloatX="0.019"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="f_stop" uniformType="float">
@@ -192,7 +208,7 @@
     <uniform uniformName="sphere1_pos" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
       <sequencesArray>
-        <sequence sequenceStart="0" sequenceSceneId="104" sequenceDuration="8"
+        <sequence sequenceStart="3" sequenceSceneId="104" sequenceDuration="14"
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -207,7 +223,7 @@
             <keyframe keyframePosition="6">
               <keyframeValue valueVec3X="-0.192" valueVec3Y="0.328" valueVec3Z="-0.456"/>
             </keyframe>
-            <keyframe keyframePosition="8">
+            <keyframe keyframePosition="14">
               <keyframeValue valueVec3X="0.624" valueVec3Y="0.512" valueVec3Z="0"/>
             </keyframe>
           </keyframesArray>
@@ -238,12 +254,75 @@
       <uniformStandardValue valueFloatX="0.773"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="pyramid_wave_animation" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="100" sequenceStart="14" sequenceDuration="6"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="6">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="100" sequenceStart="24" sequenceDuration="2"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="100" sequenceStart="30" sequenceDuration="1.75"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="1.75">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
+    <uniform uniformName="pyramid_bottom" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="100" sequenceStart="2" sequenceDuration="30"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="12">
+              <keyframeValue valueFloatX="-1"/>
+            </keyframe>
+            <keyframe keyframePosition="22">
+              <keyframeValue valueFloatX="-2"/>
+            </keyframe>
+            <keyframe keyframePosition="26">
+              <keyframeValue valueFloatX="-3"/>
+            </keyframe>
+            <keyframe keyframePosition="30">
+              <keyframeValue valueFloatX="5"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
   </uniformsArray>
   <scenesArray>
-    <scene sceneId="100" sceneStart="0" sceneDuration="8" sceneShaderSource="schalter"/>
-    <scene sceneId="101" sceneStart="8" sceneDuration="8" sceneShaderSource="conicbobbel"/>
-    <scene sceneId="102" sceneStart="16" sceneDuration="8" sceneShaderSource="zapfen"/>
-    <scene sceneId="103" sceneStart="24" sceneDuration="8" sceneShaderSource="syntakischerspalt"/>
-    <scene sceneId="104" sceneStart="32" sceneDuration="8" sceneShaderSource="raymarching"/>
+    <scene sceneId="100" sceneStart="0" sceneDuration="56" sceneShaderSource="schalter"/>
+    <scene sceneId="101" sceneStart="36" sceneDuration="20" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="102" sceneStart="56" sceneDuration="28" sceneShaderSource="zapfen"/>
+    <scene sceneId="103" sceneStart="84" sceneDuration="28" sceneShaderSource="syntakischerspalt"/>
+    <scene sceneId="104" sceneStart="112" sceneDuration="24" sceneShaderSource="raymarching"/>
   </scenesArray>
 </timelineTree>
