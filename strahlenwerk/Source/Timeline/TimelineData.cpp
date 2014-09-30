@@ -329,34 +329,43 @@ bool TimelineData::isUniform(ValueTree uniform) {
 	return isUniform;
 }
 
-// adds a uniform to the uniforms array at a given position
+// adds a uniform to the uniforms array at a sorted position
 // returns the uniform again
-// position defaults to -1 (append to end)
-ValueTree TimelineData::addUniform(ValueTree uniform, int position) {
+ValueTree TimelineData::addUniform(ValueTree uniform) {
 	jassert(isUniform(uniform));
-	addUniformUnchecked(uniform, position);
+	addUniformUnchecked(uniform);
 	return uniform;
 }
 
-// adds a uniform with the given vars at position
+// adds a uniform with the given vars at a sorted position
 // returns the assembled uniform
-// position defaults to -1 (append to end)
-ValueTree TimelineData::addUniform(var name, var type, int position) {
+ValueTree TimelineData::addUniform(var name, var type) {
 	ValueTree uniform(treeId::uniform);
 	setUniformName(uniform, name);
 	setUniformType(uniform, type);
 	initializeValue(getOrCreateUniformStandardValue(uniform), type);
-	addUniformUnchecked(uniform, position);
+	addUniformUnchecked(uniform);
 	return uniform;
 }
 
-// adds a uniform to the uniforms array
+// adds a uniform to the uniforms array at a sorted position
 // returns the uniform again
 // doesn't perform any checking (you should use addUniform(ValueTree))
-// position defaults to -1 (append to end)
-ValueTree TimelineData::addUniformUnchecked(ValueTree uniform, int position) {
+ValueTree TimelineData::addUniformUnchecked(ValueTree uniform) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	getUniformsArray().addChild(uniform, position, &undoManager);
+	const int numUniforms = getNumUniforms();
+	int sortedPosition = 0;
+	for (; sortedPosition < numUniforms; sortedPosition++) {
+		ValueTree otherUniform = getUniform(sortedPosition);
+		if (compareUniforms(uniform, otherUniform) < 0) {
+			// break if the new uniform comes before the currently checked one
+			break;
+		}
+		// if the new uniform comes last sortedPosition will contain numUniforms
+		// and the new uniform will be added at the end
+	}
+	getUniformsArray().addChild(uniform, sortedPosition, &undoManager);
+	getUniformsArray().sort(*this, nullptr, false); // TODO: remove this sort and compareElements()
 	return uniform;
 }
 
@@ -410,6 +419,16 @@ void TimelineData::setUniformStandardValue(ValueTree uniform, ValueTree standard
 int TimelineData::getUniformIndex(ValueTree uniform) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return getUniformsArray().indexOf(uniform);
+}
+
+// comparator function for uniforms in the uniforms array
+int TimelineData::compareUniforms(const ValueTree& first, const ValueTree& second) {
+		String firstName = getUniformName(first);
+		String secondName = getUniformName(second);
+		return firstName.compareNatural(secondName);
+}
+int TimelineData::compareElements(const ValueTree& first, const ValueTree& second) {
+	return compareUniforms(first, second);
 }
 
 

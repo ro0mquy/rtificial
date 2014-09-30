@@ -61,9 +61,9 @@ class TimelineData {
 		ValueTree getUniform(const int nthUniform);
 		ValueTree getUniform(const var& name);
 		bool isUniform(ValueTree uniform);
-		ValueTree addUniform(ValueTree uniform, int position = -1);
-		ValueTree addUniform(var name, var type, int position = -1);
-		ValueTree addUniformUnchecked(ValueTree uniform, int position);
+		ValueTree addUniform(ValueTree uniform);
+		ValueTree addUniform(var name, var type);
+		ValueTree addUniformUnchecked(ValueTree uniform);
 
 		var getUniformName(ValueTree uniform);
 		var getUniformType(ValueTree uniform);
@@ -75,6 +75,8 @@ class TimelineData {
 		void setUniformStandardValue(ValueTree uniform, ValueTree standardValue);
 
 		int getUniformIndex(ValueTree uniform);
+		int compareUniforms(const ValueTree& first, const ValueTree& second);
+		int compareElements(const ValueTree& first, const ValueTree& second);
 
 
 		// sequence stuff
