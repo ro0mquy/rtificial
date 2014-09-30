@@ -5,6 +5,7 @@
 uniform float pyramid_h; // float
 uniform float pyramid_s; // float
 uniform float pyramid_animation; // float
+uniform float pyramid_wave_animation; // float
 
 Material materials[5] = Material[5](
 	Material(vec3(.1, .1, .1), .5, 0.),
@@ -119,8 +120,16 @@ vec2 f(vec3 p) {
 	q = trans(q, 0., pyramid_size* pyramid_h + 1., 0.);
 	float cube = roundbox(q, vec3(1.), .5);
 	float d = .75 + smoothstep(.70,1., pyramid_animation)*7.5;
-	float torus = torus(trans(q, 0.,-.5,0.), vec2(.5 + d, .5));
-	vec2 schalter_cube = vec2(mix(cube, torus, smoothstep(.65, .75, pyramid_animation)), MATERIAL_ID_CUBE);
+	float down_anim = - (pyramid_size * pyramid_h + 2.) * smoothstep(0.75, 1., pyramid_animation);
+	float mytorus = torus(trans(q, 0.,-.5 + down_anim,0.), vec2(.5 + d, .5));
+	vec2 schalter_cube = vec2(mix(cube, mytorus, smoothstep(.65, .75, pyramid_animation)), MATERIAL_ID_CUBE);
+
+	float torus_2_down = -(pyramid_size * pyramid_h + 2.) - 2.*linstep(.5,1.,pyramid_wave_animation);
+	float torus_2_d = (.75+7.5 ) + pyramid_wave_animation * 10;
+	float torus_2_dicke = 0.5 - 0.5 * linstep(.5,1.,pyramid_wave_animation);
+	float torus_2 = torus(trans(q, 0.,-.5 + torus_2_down,0.), vec2(.5 + torus_2_d, torus_2_dicke));
+	torus_2 += 100 * (1. - step(0.001, pyramid_wave_animation));
+	schalter_cube = min_material(schalter_cube, vec2(torus_2, MATERIAL_ID_CUBE));
 
 	float lightballs_dist = sphere(domrep(p, 7, 10.,8.), 2.);
 	float no_lightballs = sphere(p, 20.);
@@ -128,5 +137,5 @@ vec2 f(vec3 p) {
 
 	vec2 bottom = vec2(p.y + 2., MATERIAL_ID_FLOOR);
 	vec2 bounding = vec2(-sphere(p - camera_position, 50.), MATERIAL_ID_BOUNDING);
-	return min_material(min_material(schalter_cube, pyramid), min_material(lightballs, min_material(bottom, bounding)));
+	return min_material(smin_material(schalter_cube, bottom, 3.), min_material(lightballs, min_material(pyramid, bounding)));
 }
