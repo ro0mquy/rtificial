@@ -218,6 +218,26 @@
       <uniformStandardValue valueFloatX="0.149"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="zapfen_color1" uniformType="color">
+      <uniformStandardValue valueColorR="0" valueColorG="5.78042e-11" valueColorB="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_color2" uniformType="color">
+      <uniformStandardValue valueColorR="0.00629647" valueColorG="0.0251764" valueColorB="0.00539006"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_mat_freq" uniformType="float">
+      <uniformStandardValue valueFloatX="0.232"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_rough1" uniformType="float">
+      <uniformStandardValue valueFloatX="0.603"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_rough2" uniformType="float">
+      <uniformStandardValue valueFloatX="0.773"/>
+      <sequencesArray/>
+    </uniform>
   </uniformsArray>
   <scenesArray>
     <scene sceneId="100" sceneStart="0" sceneDuration="8" sceneShaderSource="schalter"/>

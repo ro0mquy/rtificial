@@ -5,6 +5,11 @@
 uniform vec3 background_color; // color
 uniform float zapfen_kreise;
 uniform float zapfen_leit_freq;
+uniform vec3 zapfen_color1; // color
+uniform vec3 zapfen_color2; // color
+uniform float zapfen_mat_freq;
+uniform float zapfen_rough1;
+uniform float zapfen_rough2;
 
 bool add_boden = false;
 bool normal_mapping = false;
@@ -33,8 +38,14 @@ void main() {
 	if(materialId == 0.) {
 		color += .01 * background_color;
 	} else if(materialId >= 1. && materialId <= 2.) {
-		Material material1 = Material(vec3(0.), 1., .0);
-		vec3 color1 = apply_light(p, normal, -dir, material1, light1);
+		Material material1 = Material(zapfen_color1, zapfen_rough1, .0);
+		Material material3 = Material(zapfen_color2, zapfen_rough2, .0);
+		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
+		vec3 color1 = mix(
+			apply_light(p, normal, -dir, material1, light1),
+			apply_light(p, normal, -dir, material3, light1),
+			foo
+			);
 
 		Material material2 = Material(vec3(0.), 1., 0.);
 		vec3 color2 = apply_light(p, normal, -dir, material2, light1);
