@@ -204,12 +204,14 @@ void CameraController::applicationCommandInvoked(const ApplicationCommandTarget:
 			cameraMutex.lock();
 			position = glm::vec3(0., 0., 0.);
 			cameraMutex.unlock();
+			sendChangeMessage();
 			break;
 		case MainWindow::resetCameraRotation:
 			takeOverControl();
 			cameraMutex.lock();
 			rotation = glm::quat(1., 0., 0., 0.);
 			cameraMutex.unlock();
+			sendChangeMessage();
 			break;
 	}
 }
