@@ -319,10 +319,10 @@
     </uniform>
   </uniformsArray>
   <scenesArray>
-    <scene sceneId="100" sceneStart="0" sceneDuration="56" sceneShaderSource="schalter"/>
-    <scene sceneId="101" sceneStart="36" sceneDuration="20" sceneShaderSource="conicbobbel"/>
-    <scene sceneId="102" sceneStart="56" sceneDuration="28" sceneShaderSource="zapfen"/>
-    <scene sceneId="103" sceneStart="84" sceneDuration="28" sceneShaderSource="syntakischerspalt"/>
-    <scene sceneId="104" sceneStart="112" sceneDuration="24" sceneShaderSource="raymarching"/>
+    <scene sceneId="100" sceneStart="0" sceneDuration="52" sceneShaderSource="schalter"/>
+    <scene sceneId="101" sceneStart="52" sceneDuration="40" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="102" sceneStart="92" sceneDuration="64" sceneShaderSource="zapfen"/>
+    <scene sceneId="103" sceneStart="156" sceneDuration="76" sceneShaderSource="syntakischerspalt"/>
+    <scene sceneId="104" sceneStart="232" sceneDuration="48" sceneShaderSource="raymarching"/>
   </scenesArray>
 </timelineTree>
