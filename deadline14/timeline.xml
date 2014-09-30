@@ -214,6 +214,10 @@
         </sequence>
       </sequencesArray>
     </uniform>
+    <uniform uniformName="zapfen_leit_freq" uniformType="float">
+      <uniformStandardValue valueFloatX="0.149"/>
+      <sequencesArray/>
+    </uniform>
   </uniformsArray>
   <scenesArray>
     <scene sceneId="100" sceneStart="0" sceneDuration="8" sceneShaderSource="schalter"/>

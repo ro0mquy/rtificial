@@ -4,6 +4,7 @@
 
 uniform vec3 background_color; // color
 uniform float zapfen_kreise;
+uniform float zapfen_leit_freq;
 
 bool add_boden = false;
 bool normal_mapping = false;
@@ -18,7 +19,7 @@ void main() {
 			float t = (-(camera_position.y - 20.) / dir.y);
 			if(t > 0.) {
 				add_boden = true;
-				p = march_adv(camera_position + t * dir, dir, i, 20, .8);
+				p = march_adv(camera_position + t * dir, dir, i, 20, .7);
 			}
 		}
 	}
@@ -62,7 +63,7 @@ void main() {
 
 float boden(vec3 p);
 float boden_implicit(vec3 p);
-vec2 leitungen(vec3 p, float radius, float freq);
+vec2 leitungen(vec3 p, float rotation, float radius, float freq);
 vec3 boden_transform(vec3 p);
 
 vec2 f(vec3 p) {
@@ -97,10 +98,12 @@ vec2 f(vec3 p) {
 		vec2 leit;
 		if(p.y < 20.) {
 			vec3 q = boden_transform(p);
-			vec2 leit1 = leitungen(q, .4, 1.7);
-			vec2 leit2 = leitungen(rY(radians(50.)) * q, .4, 2.3);
-			vec2 leit3 = leitungen(rY(radians(20.)) * q, .4, 3.2);
-			vec2 leit4 = leitungen(rY(radians(80.)) * q, .4, 2.7);
+
+			leit.y = 1.;
+			vec2 leit1 = leitungen(q, 0., .6, 1.7);
+			vec2 leit2 = leitungen(q, 50., .6, 2.3);
+			vec2 leit3 = leitungen(q, 20., .6, 3.2);
+			vec2 leit4 = leitungen(q, 80., .6, 2.7);
 			leit = min_material(min_material(leit1, leit2), min_material(leit3, leit4));
 			leit.y += 3.;
 		} else {
@@ -135,7 +138,7 @@ float boden(vec3 p) {
 	return boden_implicit(p) / length(grad) * 2. * e.x;
 }
 
-vec2 leitungen(vec3 p, float radius, float freq) {
+vec2 leitungen(vec3 p, float rotation, float radius, float freq) {
 	// estimate coordinate of next zapfen
 	vec2 floored = floor(p.xz/50.) * 50.;
 	vec2 ceiled = ceil(p.xz/50.) * 50.;
@@ -147,12 +150,22 @@ vec2 leitungen(vec3 p, float radius, float freq) {
 		next.y = ceiled.y;
 	}
 
-	//float glow = smoothstep(.2, .8, vnoise(vec2(time * 3. + p.z * .2, 2000. * floor(p.x / 10. /freq))));
+	p.xz *= rot2D(rotation);
+
+	////float glow = smoothstep(.2, .8, vnoise(vec2(time * 3. + p.z * .2, 2000. * floor(p.x / 10. /freq))));
 	float glow = smoothstep(.2, .8, vnoise(vec2(distance(next, p.xz) * .5 + 1.3 * time, 2000. * rand(floor((p.xz + 25.) / 50.)))));
 
-	float t = vnoise(.7 * p.xz + 333. * freq) * .5 + .5;
-	p.xz += rot2D(radians(20.) * t) * vec2(10.) - 10.;
+	float t = vnoise(p.xz * zapfen_leit_freq + 333. * freq) * .5 + .5;
+	p.xz += rot2D(radians(10.) * t) * vec2(10.) - 10.;
 	p = trans(p, 0., 4. * (t * .5 + .5), 0.);
-	p.x = mod(p.x, 20. / freq) - 10. / freq;
-	return vec2(length(p.xy) - radius, glow);
+	//p.x = mod(p.x, 20. / freq) - 10. / freq;
+	//return vec2(length(p.xy) - radius, glow);
+
+	vec3 q = p;
+	q.xz = mod(q.xz, 40.);
+	float angle = atan(q.x, q.z);
+	angle = mod(angle, radians(20.));
+	float r = length(q.xz);
+	q.x = r * sin(angle);
+	return vec2(length(q.xy) - radius, glow);
 }
