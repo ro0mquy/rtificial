@@ -499,3 +499,11 @@ float vfbm(vec2 c) {
 float vfbm(vec3 c) {
 	return (vnoise(c) + vnoise(c * 2.) * .5 + vnoise(c * 4.) * .25)/1.75;
 }
+
+float ao(vec3 p, vec3 n, float d, float i) {
+	float o, s = sign(d);
+	for(o = s * .5 + .5; i > 0; i--) {
+		o -= (i * d - f(p + n * i * d * s)[0]) / exp2(i);
+	}
+	return o;
+}
