@@ -63,7 +63,7 @@ float conicbobbel(vec3 p_cone, float l_body) {
 	float height_spikes = .8;
 	float sharpness_spikes = 7.;
 	// move where the center of the spikes should be
-	vec3 p_spike = trans(p_cone, l_body * 1., 0., 0.);
+	vec3 p_spike = trans(p_cone, l_body * .9, 0., 0.);
 	// make cylindrical domrep; x -> x, y -> radius, z -> angle
 	p_spike.yz = vec2(length(p_spike.yz), atan(p_spike.y, p_spike.z) / TAU);
 	vec3 p_pre_spike = p_spike;
@@ -72,7 +72,7 @@ float conicbobbel(vec3 p_cone, float l_body) {
 	p_spike.y -= height_spikes;
 	p_spike.z *= 3.2;
 	// you may uncomment following rotation line, but then there will be lots of ugly artefacts, if you do, then change the center of the spikes to x = l_body * .9
-	//p_spike = rZ(TAU * -(p_spike.y + 1.) / 7.)* p_spike;
+	p_spike = rZ(TAU * -(clamp(p_spike.y, -10., .5) + 1.) / 7.)* p_spike;
 	float f_spike = cone(p_spike.xzy, normalize(vec2(sharpness_spikes, 1.)));
 	f_cone = smin(f_cone, f_spike, .1);
 
@@ -123,7 +123,7 @@ vec2 f(vec3 p) {
 	float l_body = 2.; // length of body
 	float f_cone = conicbobbel(p_cone, l_body);
 	float f_ring = bobbelring(p_cone, l_body, 0.);
-	f_ring = min(f_ring, bobbelring(p_cone, l_body, 1/2.5));
+	//f_ring = min(f_ring, bobbelring(p_cone, l_body, 1/2.5));
 
 	////// assembling and boundings
 	vec2 m_cone = vec2(f_cone, 2.);
