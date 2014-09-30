@@ -1,11 +1,11 @@
 #include "post_head.glsl"
-#include "rtificial.glsl"
 #line 4
 
 // lens distort, vignette, noise
 
 uniform sampler2D color; // vec3
 out vec3 out_color;
+uniform float time;
 
 uniform float distort_k;
 uniform float distort_kcube;
@@ -31,6 +31,43 @@ float vignette(float intensity, vec2 c) {
 	return one_minus_intesity + intensity * 16. * c.x *c.y * (1. - c.x) * (-1. - c.y);
 }
 
+float rand(vec2 co){
+	return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+vec2 g(float v) {
+	v *= 2.0 * 3.1415926;
+	return vec2(cos(v), sin(v));
+}
+
+vec2 fade(vec2 t) {
+	return t*t*t*(t*(t*6.0-15.0)+10.0);
+}
+
+float classic_noise(vec2 co) {
+	vec2 c = fract(co);
+	vec2 C = floor(co);
+	vec2 e = vec2(0.0, 1.0);
+
+	vec4 n = vec4(
+		dot(g(rand(C + e.xx)), c - e.xx),
+		dot(g(rand(C + e.xy)), c - e.xy),
+		dot(g(rand(C + e.yx)), c - e.yx),
+		dot(g(rand(C + e.yy)), c - e.yy)
+	);
+
+	vec2 u = fade(c);
+
+	return mix(
+		mix(n[0], n[2], u.x),
+		mix(n[1], n[3], u.x),
+		u.y);
+}
+
+float fbm(vec2 c) {
+	return (classic_noise(c) + classic_noise(c * 2.) * .5 + classic_noise(c * 4.) * .25)/1.75;
+}
+
 void main() {
 	vec3 col;
 	float k = distort_k;
@@ -44,9 +81,11 @@ void main() {
 	col *= vignette(vignette_intensity, gl_FragCoord.xy / res);
 
 	// TODO ordentlicher noise
-	out_color = col + grain_intensity * vec3( // so schön weerboß
-			cfbm(1./(10. * grain_freq)  * gl_FragCoord.xy + 2100. * time),
-			cfbm(1./(10. * grain_freq)  * gl_FragCoord.xy + 2300. * time),
-			cfbm(1./(10. * grain_freq)  * gl_FragCoord.xy + 2900. * time)
+	float phi = radians(10.);
+	mat2 rot = mat2(cos(phi), -sin(phi), sin(phi), cos(phi));
+	out_color = col + grain_intensity * vec3(// so schön weerboß
+			fbm(vec2(1. / grain_freq * rot *  gl_FragCoord.xy +  31. * time)),
+			fbm(vec2(1. / grain_freq * rot *  gl_FragCoord.xy +  33. * time)),
+			fbm(vec2(1. / grain_freq * rot *  gl_FragCoord.xy +  32. * time))
 			);
 }
