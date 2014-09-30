@@ -6,6 +6,7 @@ uniform float pyramid_h; // float
 uniform float pyramid_s; // float
 uniform float pyramid_animation; // float
 uniform float pyramid_wave_animation; // float
+uniform float pyramid_bottom; // float
 
 Material materials[5] = Material[5](
 	Material(vec3(.1, .1, .1), .5, 0.),
@@ -101,13 +102,17 @@ vec2 f(vec3 p) {
 	float pyramid_size = 10.;
 	vec3 qq = q;
 	qq = trans(qq, 0., pyramid_h*pyramid_size, 0.); // y-axis translation
+	qq = trans(qq, 0., pyramid_bottom, 0.);
 
-	float t_fall = 1. - pow((max(0.,min(.9, pyramid_animation))-0.)/.9, 2.);
+	float t_fall_closing = 1. - pow((max(0.1,min(.9, pyramid_animation))-0.)/.9, 2.);
+	float t_fall_opening = pow((max(0.,min(.1, pyramid_animation))-0.)/.1, 2.);
+	float t_fall = t_fall_opening*(1-step(0.1,pyramid_animation)) + t_fall_closing*step(0.1,pyramid_animation);
+
 	float pyr_closed = 4. * t_fall;
 
 	qq = trans(qq, 0., pyr_closed/2., 0.);
 
-	float t_stampf = (max(0.9,min(1., pyramid_animation))-0.9)/.1;
+	float t_stampf = linstep(.9,1.,pyramid_animation);
 
 	qq = trans(qq, 0.,  -  (1-pow(1.-t_stampf/2., 20.)), 0.);
 	qq.y = -abs(qq.y);
@@ -118,13 +123,14 @@ vec2 f(vec3 p) {
 
 	// box-torus-morph
 	q = trans(q, 0., pyramid_size* pyramid_h + 1., 0.);
-	float cube = roundbox(q, vec3(1.), .5);
+	q = trans(q, 0., pyramid_bottom, 0.);
+	float cube = roundbox(q, vec3(linstep(0.,0.1,pyramid_animation)), .5);
 	float d = .75 + smoothstep(.70,1., pyramid_animation)*7.5;
-	float down_anim = - (pyramid_size * pyramid_h + 2.) * smoothstep(0.75, 1., pyramid_animation);
+	float down_anim = - (pyramid_size * pyramid_h + 2. + pyramid_bottom) * smoothstep(0.75, 1., pyramid_animation);
 	float mytorus = torus(trans(q, 0.,-.5 + down_anim,0.), vec2(.5 + d, .5));
 	vec2 schalter_cube = vec2(mix(cube, mytorus, smoothstep(.65, .75, pyramid_animation)), MATERIAL_ID_CUBE);
 
-	float torus_2_down = -(pyramid_size * pyramid_h + 2.) - 2.*linstep(.5,1.,pyramid_wave_animation);
+	float torus_2_down = -(pyramid_size * pyramid_h + 2. + pyramid_bottom) - 2.*linstep(.5,1.,pyramid_wave_animation);
 	float torus_2_d = (.75+7.5 ) + pyramid_wave_animation * 10;
 	float torus_2_dicke = 0.5 - 0.5 * linstep(.5,1.,pyramid_wave_animation);
 	float torus_2 = torus(trans(q, 0.,-.5 + torus_2_down,0.), vec2(.5 + torus_2_d, torus_2_dicke));
