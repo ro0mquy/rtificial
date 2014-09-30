@@ -317,6 +317,14 @@
         </sequence>
       </sequencesArray>
     </uniform>
+    <uniform uniformName="conic_bobbel_noifreq" uniformType="float">
+      <uniformStandardValue valueFloatX="1.5"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_bobbel_roughness" uniformType="float">
+      <uniformStandardValue valueFloatX="-1"/>
+      <sequencesArray/>
+    </uniform>
   </uniformsArray>
   <scenesArray>
     <scene sceneId="100" sceneStart="0" sceneDuration="52" sceneShaderSource="schalter"/>

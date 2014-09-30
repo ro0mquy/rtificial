@@ -8,6 +8,8 @@ uniform vec3 conic_ring_color; // color
 uniform float conic_smooth_factor; // float
 uniform float manual_time; // float
 uniform float conic_ring_intensity; // float
+uniform float conic_bobbel_noifreq;
+uniform float conic_bobbel_roughness;
 
 vec3 colors[4] = vec3[4](
 		vec3(.03, .0, .0),
@@ -78,7 +80,7 @@ float conicbobbel(vec3 p_cone, float l_body) {
 
 	////// perlin make some noise!
 	vec2 surface_coord = vec2(p_cone.x * 3. + time, atan(p_cone.y, p_cone.z));
-	f_cone -= smoothstep(0., 1., cnoise(surface_coord * 1.5)) * .03; // smoothstep cuts the lower half of the noise to zero
+	f_cone -= smoothstep(conic_bobbel_roughness, 1., cnoise(surface_coord * conic_bobbel_noifreq)) * .03; // smoothstep cuts the lower half of the noise to zero, -1 and 0 are both good values for conic_bobbel_roughness
 
 	return f_cone;
 }
