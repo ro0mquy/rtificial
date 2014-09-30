@@ -38,7 +38,7 @@ void main(void) {
 	} else if (materialId >= 2. && materialId <= 3.) {
 		Material material1 = Material(colors[2], 0.2, 1.);
 		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
-		vec3 color2 = emit_light(colors[int(materialId)], conic_ring_intensity);
+		vec3 color2 = emit_light(colors[3], conic_ring_intensity);
 		float mixfactor = pow(materialId - 2., 6.); // change the exponent for sharpness of transition
 		color = mix(color1, color2, mixfactor);
 	} else {
