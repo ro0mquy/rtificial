@@ -115,10 +115,6 @@
       <uniformStandardValue valueFloatX="0.5"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="lens_dirt" uniformType="float">
-      <uniformStandardValue valueFloatX="0.7"/>
-      <sequencesArray/>
-    </uniform>
     <uniform uniformName="lift" uniformType="color">
       <uniformStandardValue valueColorR="8.56595e-10" valueColorG="1.67392e-09" valueColorB="0.000158502"/>
       <sequencesArray/>

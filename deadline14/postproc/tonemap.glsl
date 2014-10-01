@@ -1,5 +1,4 @@
 #include "post_head.glsl"
-#include "rtificial.glsl"
 #line 4
 
 // blend, tonemap, color grade
@@ -11,7 +10,6 @@ uniform sampler2D bloom_small; // vec3
 uniform sampler2D dof; // vec4
 uniform sampler2D orig; // vec3
 
-uniform float lens_dirt;
 uniform float bloom_amount;
 uniform float key;
 uniform vec3 lift; // color
@@ -43,10 +41,7 @@ void main() {
 	bloom += textureLod(bloom_medium, tc, 0.).rgb;
 	bloom += textureLod(bloom_small, tc, 0.).rgb;
 	bloom /= 3.;
-	vec2 dirt_input = tc * 800.;
-	vec3 dirt = .1 * vec3(smoothstep(-.3, .7, cnoise(dirt_input * .008)));
-	dirt += .9 * step(.7, vec3(cnoise(dirt_input))) * smoothstep(0., .7, cnoise(dirt_input * .02));
-	color = mix(color, mix(bloom, bloom * dirt, lens_dirt), bloom_amount);
+	color = mix(color, bloom, bloom_amount * .1);
 
 	// tonemap
 	float avgLuminance = exp(textureLod(luminance, tc, 0.).r);
