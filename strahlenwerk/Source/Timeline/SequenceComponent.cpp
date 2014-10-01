@@ -268,6 +268,9 @@ void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& ch
 			return;
 		}
 		addKeyframeComponent(childWhichHasBeenAdded);
+	} else if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
+		// uniform got inserted, row number may changed
+		updateBounds();
 	}
 }
 
@@ -277,10 +280,17 @@ void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& 
 		auto keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
 		jassert(keyframeComponent != nullptr);
 		keyframeComponentsArray.removeObject(keyframeComponent);
+	} else if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
+		// uniform got inserted, row number may changed
+		updateBounds();
 	}
 }
 
-void SequenceComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void SequenceComponent::valueTreeChildOrderChanged(ValueTree& parentTree) {
+	if (parentTree == data.getUniformsArray()) {
+		// uniforms order changed, row number may changed
+		updateBounds();
+	}
 }
 
 void SequenceComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
