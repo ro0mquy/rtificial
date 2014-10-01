@@ -31,10 +31,22 @@ int main() {
 		fbos[i].create(width, height);
 	}
 
+	int time = 0.; // TODO
+	int scene_id = 0;
+	int shader_id = scenes_data[scene_id].sceneId;
+	const int last_scene_id = sizeof(scenes_data) / sizeof(Scene) - 1;
 	while(backend.beforeFrame()) {
+		if(scenes_data[scene_id].end < time) {
+			if(scene_id == last_scene_id) {
+				break;
+			} else {
+				scene_id++;
+				shader_id = scenes_data[scene_id].sceneId;
+			}
+		}
+
 		fbos[0].bind();
-		// TODO find scene
-		scenes[0].draw(fbos[0].width, fbos[0].height);
+		scenes[shader_id].draw(fbos[0].width, fbos[0].height);
 		fbos[0].unbind();
 		for(int i = 0; i < n_postproc - 1; i++) {
 			fbos[i + 1].bind();

@@ -161,7 +161,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 	TimelineData& data = TimelineData::getTimelineData();
 
-	std::string scenesArray = "Scene scenes[" + std::to_string(data.getNumScenes()) + "] = {\n";
+	std::string scenesArray = "Scene scenes_data[" + std::to_string(data.getNumScenes()) + "] = {\n";
 
 	for(int i = 0; i < data.getNumScenes(); i++) {
 		auto scene = data.getScene(i);
@@ -178,7 +178,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 			}
 		}
 
-		scenesArray += "\tScene(" + std::to_string(start) + ", " + std::to_string(start + duration) + ", " + std::to_string(shaderId) + "),\n";
+		scenesArray += "\t{" + std::to_string(start) + ", " + std::to_string(start + duration) + ", " + std::to_string(shaderId) + "},\n";
 	}
 
 	scenesArray += "};\n";
