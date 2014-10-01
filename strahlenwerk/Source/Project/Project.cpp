@@ -184,6 +184,98 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	scenesArray += "};\n";
 	shadersHeaderContent += scenesArray;
 
+	int keyframeDataEntries = 0;
+	const int nUniforms = data.getNumUniforms();
+	for(int i = 0; i < nUniforms; i++) {
+		const auto uniform = data.getUniform(i);
+		const String type = data.getUniformType(uniform);
+		int components = 0;
+		if(type == "float") {
+			components = 1;
+		} else if(type == "vec2") {
+			components = 2;
+		} else if(type == "vec3") {
+			components = 3;
+		} else if(type == "vec4") {
+			components = 4;
+		} else if(type == "color") {
+			components = 3;
+		} else if(type == "bool") {
+			components = 1;
+		}
+
+		// count keyframes
+		int keyframes = 0;
+		for(int j = 0; j < data.getNumSequences(uniform); j++) {
+			keyframes += data.getNumKeyframes(data.getSequence(uniform, j));
+		}
+
+		keyframeDataEntries += (keyframes + 1) * components;
+	}
+
+	std::string keyframeDataArray = "float keyframe_data["  + std::to_string(keyframeDataEntries) + "] = {\n";
+	for(int i = 0; i < nUniforms; i++) {
+		const auto uniform = data.getUniform(i);
+		const String type = data.getUniformType(uniform);
+		auto standardValue = data.getUniformStandardValue(uniform);
+		keyframeDataArray += "\t";
+		if(type == "float") {
+			keyframeDataArray += std::to_string(float(data.getValueFloatX(standardValue))) + ",";
+		} else if(type == "vec2") {
+			keyframeDataArray += std::to_string(float(data.getValueVec2X(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueVec2Y(standardValue))) + ",";
+		} else if(type == "vec3") {
+			keyframeDataArray += std::to_string(float(data.getValueVec3X(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueVec3Y(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueVec3Z(standardValue))) + ",";
+		} else if(type == "vec4") {
+			keyframeDataArray += std::to_string(float(data.getValueVec4X(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueVec4Y(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueVec4Z(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueVec4W(standardValue))) + ",";
+		} else if(type == "color") {
+			keyframeDataArray += std::to_string(float(data.getValueColorR(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueColorG(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueColorB(standardValue))) + ",";
+		} else if(type == "bool") {
+			keyframeDataArray += std::to_string(bool(data.getValueBoolState(standardValue)) ? 1. : 0.) + ",";
+		}
+		keyframeDataArray += "\n";
+
+		for(int j = 0; j < data.getNumSequences(uniform); j++) {
+			auto sequence = data.getSequence(uniform, j);
+			for(int k = 0; k < data.getNumKeyframes(sequence); k++) {
+				keyframeDataArray += "\t";
+				auto keyframe = data.getKeyframe(sequence, k);
+				auto keyframeValue = data.getKeyframeValue(keyframe);
+				if(type == "float") {
+					keyframeDataArray += std::to_string(float(data.getValueFloatX(keyframeValue))) + ",";
+				} else if(type == "vec2") {
+					keyframeDataArray += std::to_string(float(data.getValueVec2X(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueVec2Y(keyframeValue))) + ",";
+				} else if(type == "vec3") {
+					keyframeDataArray += std::to_string(float(data.getValueVec3X(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueVec3Y(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueVec3Z(keyframeValue))) + ",";
+				} else if(type == "vec4") {
+					keyframeDataArray += std::to_string(float(data.getValueVec4X(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueVec4Y(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueVec4Z(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueVec4W(keyframeValue))) + ",";
+				} else if(type == "color") {
+					keyframeDataArray += std::to_string(float(data.getValueColorR(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueColorG(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueColorB(keyframeValue))) + ",";
+				} else if(type == "bool") {
+					keyframeDataArray += std::to_string(bool(data.getValueBoolState(keyframeValue)) ? 1. : 0.) + ",";
+				}
+				keyframeDataArray += "\n";
+			}
+		}
+	}
+	keyframeDataArray += "};\n";
+	shadersHeaderContent += keyframeDataArray;
+
 	shadersHeader.replaceWithText(shadersHeaderContent);
 }
 
