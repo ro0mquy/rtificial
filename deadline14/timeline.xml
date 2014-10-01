@@ -96,36 +96,45 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="conic_bobbel_xcoord" uniformType="float">
-      <uniformStandardValue valueFloatX="-2.979"/>
+      <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
         <sequence sequenceSceneId="101" sequenceStart="2" sequenceDuration="36"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="-10.719"/>
+              <keyframeValue valueFloatX="-9.529"/>
             </keyframe>
             <keyframe keyframePosition="36">
-              <keyframeValue valueFloatX="-2.008"/>
+              <keyframeValue valueFloatX="0"/>
             </keyframe>
           </keyframesArray>
         </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="conic_lampe_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.18" valueColorG="0.18" valueColorB="0.18"/>
+      <uniformStandardValue valueColorR="1" valueColorG="0" valueColorB="0.0636455"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="conic_ring_animation" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
         <sequence sequenceSceneId="101" sequenceStart="2" sequenceDuration="36"
-                  sequenceInterpolation="step">
+                  sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0"/>
+              <keyframeValue valueFloatX="-0.001"/>
+            </keyframe>
+            <keyframe keyframePosition="16">
+              <keyframeValue valueFloatX="-0.001"/>
+            </keyframe>
+            <keyframe keyframePosition="22">
+              <keyframeValue valueFloatX="0.999"/>
+            </keyframe>
+            <keyframe keyframePosition="28">
+              <keyframeValue valueFloatX="1.999"/>
             </keyframe>
             <keyframe keyframePosition="36">
-              <keyframeValue valueFloatX="0"/>
+              <keyframeValue valueFloatX="1.999"/>
             </keyframe>
           </keyframesArray>
         </sequence>

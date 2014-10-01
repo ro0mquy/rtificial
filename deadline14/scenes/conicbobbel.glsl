@@ -14,12 +14,18 @@ uniform float conic_ring_animation;
 uniform float conic_bobbel_xcoord;
 
 vec3 colors[5] = vec3[5](
-		vec3(.03, .0, .0),
 		vec3(.0),
+		vec3(.03, .0, .0),
+		conic_lampe_color,
 		conic_bobbel_color,
-		conic_ring_color,
-		conic_lampe_color
+		conic_ring_color
 		);
+
+const float material_bounding = 0.;
+const float material_boden    = 1.;
+const float material_lampe    = 2.;
+const float material_bobbel   = 3.;
+const float material_ring     = 4.;
 
 void main(void) {
 	vec3 direction = get_direction();
@@ -32,19 +38,26 @@ void main(void) {
 	vec3 normal = calc_normal(hit);
 
 	SphereLight light1 = SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.);
-	if(materialId == 0.) {
+	if(materialId == material_boden) {
 		float size = 2.;
 		float stripes = mod(floor(hit.x / size), 2.);
-		Material mat = Material(colors[int(materialId)] * stripes, 0.5, 0.);
+		Material mat = Material(colors[int(material_boden)] * stripes, 0.5, 0.);
 		color = apply_light(hit, normal, -direction, mat, light1);
-	} else if(materialId == 1.) {
-		Material mat = Material(colors[int(materialId)], 1., 0.);
+	} else if(materialId == material_bounding) {
+		Material mat = Material(colors[int(material_bounding)], 1., 0.);
 		color = apply_light(hit, normal, -direction, mat, light1);
-	} else if (materialId >= 2. && materialId <= 3.) {
-		Material material1 = Material(colors[2], 0.2, 1.);
+	} else if (materialId >= material_lampe && materialId <= material_bobbel) {
+		Material material1 = Material(colors[int(material_lampe)], 0.2, 1.);
 		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
-		vec3 color2 = emit_light(colors[3], conic_ring_intensity);
-		float mixfactor = pow(materialId - 2., 6.); // change the exponent for sharpness of transition
+		Material material2 = Material(colors[int(material_bobbel)], 0.2, 1.);
+		vec3 color2 = apply_light(hit, normal, -direction, material2, light1);
+		float mixfactor = pow(materialId - material_lampe, 3.); // change the exponent for sharpness of transition
+		color = mix(color1, color2, mixfactor);
+	} else if (materialId >= material_bobbel && materialId <= material_ring) {
+		Material material1 = Material(colors[int(material_bobbel)], 0.2, 1.);
+		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
+		vec3 color2 = emit_light(colors[int(material_ring)], conic_ring_intensity);
+		float mixfactor = pow(materialId - material_bobbel, 6.); // change the exponent for sharpness of transition
 		color = mix(color1, color2, mixfactor);
 	} else {
 		Material mat = Material(colors[int(materialId)], 0.2, 1.);
@@ -132,31 +145,25 @@ vec2 f(vec3 p) {
 	//f_ring = min(f_ring, bobbelring(p_cone, l_body, 1/2.5));
 
 	////// assembling and boundings
-	vec2 m_cone = vec2(f_cone, 2.);
-	vec2 m_ring = vec2(f_ring, 3.);
+	vec2 m_cone = vec2(f_cone, material_bobbel);
+	vec2 m_ring = vec2(f_ring, material_ring);
 	vec2 m_bobbel = smin_smaterial(m_cone, m_ring, conic_smooth_factor);
 
+	// lampen sphere and tunnel for bobbel
 	float radius_lampe = 10.;
 	vec3 p_lampe = trans(p, -15, 0, -3);
 	float f_lampe = sphere(p_lampe, radius_lampe);
 
-	/*
-	// chinesische startlampe
-	vec3 p_startrampe = trans(p_lampe, radius_lampe, 0., 0.);
-	float f_startlampe = cylinder(p_startrampe.zyx, .4, .00);
-	f_lampe = smin(f_lampe, f_startlampe, .5);
-	*/
-
-	vec3 p_delle = p_bobbel; //p_trans(p_lampe, radius_lampe, 0., 0.);
+	vec3 p_delle = p_bobbel;
 	float f_delle = line(p_delle, vec3(1.7, 0., 0.), vec3(.1), 1.);
 	f_lampe = smax(f_lampe, -f_delle, 1.);
 
-	vec2 m_lampe = vec2(f_lampe, 4.);
+	vec2 m_lampe = vec2(f_lampe, material_lampe);
 
-	vec2 m_bobbel_lampe = smin_material(m_bobbel, m_lampe, 1.);
+	vec2 m_bobbel_lampe = smin_smaterial(m_bobbel, m_lampe, 1.);
 
 	vec2 m_content = m_bobbel_lampe;
-	vec2 bottom = vec2(p.y + 20., 0.);
-	vec2 bounding = vec2(-sphere(p - camera_position, 300.), 1.);
+	vec2 bottom = vec2(p.y + 20., material_boden);
+	vec2 bounding = vec2(-sphere(p - camera_position, 300.), material_bounding);
 	return min_material(m_content, min_material(bottom, bounding));
 }
