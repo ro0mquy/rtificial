@@ -76,6 +76,14 @@ const ProjectFileLoader& Project::getLoader() const {
 	return loader;
 }
 
+// needed in makeDemo()
+int Project::compareElements(const ValueTree& first, const ValueTree& second) {
+	TimelineData& data = TimelineData::getTimelineData();
+	const float startFirst = data.getSceneStart(first);
+	const float startSecond = data.getSceneStart(second);
+	return startFirst - startSecond;
+}
+
 void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	const File& buildDir = loader.getBuildDir();
 	buildDir.deleteRecursively();
@@ -165,16 +173,20 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 	std::string scenesArray = "Scene scenes_data[" + std::to_string(data.getNumScenes()) + "] = {\n";
 
-	for(int i = 0; i < data.getNumScenes(); i++) {
-		auto scene = data.getScene(i);
+	const int numScenes = data.getNumScenes();
+	ValueTree scenesCopy = data.getScenesArray().createCopy();
+	scenesCopy.sort(*this, nullptr, false);
+
+	for(int i = 0; i < numScenes; i++) {
+		auto scene = scenesCopy.getChild(i);
 
 		const int start = data.getSceneStart(scene);
 		const int duration = data.getSceneDuration(scene);
-		const String shaderSource = data.getSceneShaderSource(scene);
+		const std::string shaderSource = data.getSceneShaderSource(scene).toString().toStdString();
 
 		int shaderId = -1;
 		for(int i = 0; i < sceneShaders; i++) {
-			if(scenes.getShader(i).getName() == shaderSource.toStdString()) {
+			if(scenes.getShader(i).getName() == shaderSource) {
 				shaderId = i;
 				break;
 			}

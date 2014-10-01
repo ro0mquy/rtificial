@@ -33,6 +33,7 @@ class Project : private efsw::FileWatchListener {
 		TimelineData& getTimelineData();
 		void loadDirectory(const std::string& dir);
 		const ProjectFileLoader& getLoader() const;
+		int compareElements(const ValueTree& first, const ValueTree& second);
 		void makeDemo(Scenes& scenes, PostprocPipeline& postproc);
 
 		void handleFileAction(
