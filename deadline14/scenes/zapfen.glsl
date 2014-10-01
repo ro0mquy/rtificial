@@ -11,8 +11,22 @@ uniform float zapfen_mat_freq;
 uniform float zapfen_rough1;
 uniform float zapfen_rough2;
 
+uniform vec3 zapfen_light1_pos;
+uniform vec3 zapfen_light2_pos;
+uniform vec3 zapfen_light1_col; // color
+uniform vec3 zapfen_light2_col; // color
+uniform float zapfen_light_radius;
+uniform float zapfen_light_intensity;
+
 bool add_boden = false;
 bool normal_mapping = false;
+
+vec3 apply_lights(vec3 p, vec3 N, vec3 V, Material mat) {
+	vec3 color = vec3(0.);
+	color += apply_light(p, N, V, mat, SphereLight(zapfen_light1_pos, zapfen_light1_col, zapfen_light_radius, zapfen_light_intensity));
+	color += apply_light(p, N, V, mat, SphereLight(zapfen_light2_pos, zapfen_light2_col, zapfen_light_radius, zapfen_light_intensity));
+	return color;
+}
 
 void main() {
 	vec3 dir = get_direction();
@@ -34,7 +48,6 @@ void main() {
 	vec3 color = vec3(0.);
 	normal_mapping = true;
 	vec3 normal = calc_normal(p);
-	SphereLight light1 = SphereLight(vec3(0., 1000., 10.), vec3(1.), 3., 10000.);
 	if(materialId == 0.) {
 		color += .01 * background_color;
 	} else if(materialId >= 1. && materialId <= 2.) {
@@ -42,13 +55,13 @@ void main() {
 		Material material3 = Material(zapfen_color2, zapfen_rough2, .0);
 		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
 		vec3 color1 = mix(
-			apply_light(p, normal, -dir, material1, light1),
-			apply_light(p, normal, -dir, material3, light1),
+			apply_lights(p, normal, -dir, material1),
+			apply_lights(p, normal, -dir, material3),
 			foo
 			);
 
 		Material material2 = Material(vec3(0.), 1., 0.);
-		vec3 color2 = apply_light(p, normal, -dir, material2, light1);
+		vec3 color2 = apply_lights(p, normal, -dir, material2);
 		float grid = 1.;
 		vec3 q = p;
 		float theta = radians(5.) * q.y * sin(time + q.y) + radians(5.) * zapfen_kreise * 10. * sin(q.x + time) * cos(q.z + time * 2.);
@@ -65,7 +78,7 @@ void main() {
 	} else if(materialId >= 3. && materialId <= 4.) {
 		Material material = Material(vec3(1., 0., 0.), 1., 0.);
 		vec3 nonglowing = vec3(0.);
-		vec3 glowing = apply_light(p, normal, -dir, material, light1);
+		vec3 glowing = apply_lights(p, normal, -dir, material);
 		color = mix(nonglowing, glowing, materialId - 3.);
 	}
 
