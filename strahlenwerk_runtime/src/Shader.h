@@ -1,7 +1,8 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include "gl.h"
+#include "gl_indentifiers.h"
+
 
 struct Input {
 	int bindingId;

@@ -13,6 +13,10 @@ class EmptyBackend {
 	void cleanup();
 };
 
+#ifdef BUILD_WINDOWS
+
+#include <windows.h>
+
 class WindowsBackend {
 	public:
 		void init(int width, int height, bool fullscreen);
@@ -20,8 +24,13 @@ class WindowsBackend {
 		bool beforeFrame();
 		void afterFrame();
 		void cleanup();
-};
 
+	private:
+		HDC hDC;
+};
+#endif
+
+#ifdef BUILD_LINUX
 class LinuxBackend {
 	public:
 		void init(int width, int height, bool fullscreen);
@@ -30,5 +39,6 @@ class LinuxBackend {
 		void afterFrame();
 		void cleanup();
 };
+#endif
 
 #endif

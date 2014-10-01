@@ -2,9 +2,14 @@
 
 #include "strahlenwerk_export.h"
 
+#include <windows.h>
+#include <GL/gl.h>
+#include "glcorearb.h"
+#include "gl_indentifiers.h"
+
 const int width = 800;
 const int height = 600;
-const bool fullscreen = false;
+const bool fullscreen = true;
 
 #ifdef BUILD_LINUX
 	using Backend = LinuxBackend;
@@ -12,7 +17,12 @@ const bool fullscreen = false;
 	using Backend = WindowsBackend;
 #endif
 
-int main() {
+#ifdef BUILD_WINDOWS
+	int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+#else
+	int main() {
+#endif
+		
 	// init backend
 	Backend backend;
 	backend.init(width, height, fullscreen);
@@ -23,6 +33,7 @@ int main() {
 	// TODO
 	// musik
 	// ladebalken/precalc
+
 	for(int i = 0; i < n_scenes; i++) {
 		scenes[i].compile();
 	}

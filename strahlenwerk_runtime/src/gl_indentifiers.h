@@ -1,33 +1,28 @@
+#ifndef GL_IDENTIFIERS_H
+#define GL_IDENTIFIERS_H
+#include <Windows.h>
+#include <GL/gl.h>
 #include "glcorearb.h"
 
-PFNGLACTIVETEXTUREPROC glActiveTexture;
-PFNGLGENBUFFERSPROC glGenFramebuffers;
-PFNGLGENTEXTURESPROC glGenTextures;
-PFNGLBINDFRAMEBUFFERPROC glBindFramebuffer;
-PFNGLBINDTEXTUREPROC glBindTexture;
-PFNGLTEXIMAGE2DPROC glTexImage2D;
-PFNGLTEXPARAMETERIPROC glTexParameteri;
-PFNGLGENERATEMIPMAPPROC glGenerateMipmap;
-PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2D;
-PFNGLDRAWBUFFERSPROC glDrawBuffers;
-PFNGLVIEWPORTPROC glViewport;
-PFNGLDELETETEXTURESPROC glDeleteTextures;
-PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffers;
-PFNGLENABLEPROC glEnable;
-PFNGLDISABLEPROC glDisable;
-PFNGLCREATESHADERPROC glCreateShader;
-PFNGLSHADERSOURCEPROC glShaderSource;
-PFNGLCOMPILESHADERPROC glCompileShader;
-PFNGLCREATEPROGRAMPROC glCreateProgram;
-PFNGLATTACHSHADERPROC glAttachShader;
-PFNGLDELETESHADERPROC glDeleteShader;
-PFNGLLINKPROGRAMPROC glLinkProgram;
-PFNGLUSEPROGRAMPROC glUseProgram;
-PFNGLTEXPARAMETERFPROC glTexParameterf;
-PFNGLCLEARPROC glClear;
-PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
-PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
-PFNGLUNIFORM2FPROC glUniform2f;
-PFNGLDRAWARRAYSPROC glDrawArrays;
-PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
-PFNGLDELETEPROGRAMPROC glDeleteProgram;
+extern PFNGLACTIVETEXTUREPROC            glActiveTexture;
+extern PFNGLGENBUFFERSPROC               glGenFramebuffers;
+extern PFNGLBINDFRAMEBUFFERPROC          glBindFramebuffer;
+extern PFNGLGENERATEMIPMAPPROC           glGenerateMipmap;
+extern PFNGLFRAMEBUFFERTEXTURE2DPROC     glFramebufferTexture2D;
+extern PFNGLDRAWBUFFERSPROC              glDrawBuffers;
+extern PFNGLDELETEFRAMEBUFFERSPROC       glDeleteFramebuffers;
+extern PFNGLCREATESHADERPROC             glCreateShader;
+extern PFNGLSHADERSOURCEPROC             glShaderSource;
+extern PFNGLCOMPILESHADERPROC            glCompileShader;
+extern PFNGLCREATEPROGRAMPROC            glCreateProgram;
+extern PFNGLATTACHSHADERPROC             glAttachShader;
+extern PFNGLDELETESHADERPROC             glDeleteShader;
+extern PFNGLLINKPROGRAMPROC              glLinkProgram;
+extern PFNGLUSEPROGRAMPROC               glUseProgram;
+extern PFNGLENABLEVERTEXATTRIBARRAYPROC  glEnableVertexAttribArray;
+extern PFNGLVERTEXATTRIBPOINTERPROC      glVertexAttribPointer;
+extern PFNGLUNIFORM2FPROC                glUniform2f;
+extern PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
+extern PFNGLDELETEPROGRAMPROC            glDeleteProgram;
+
+#endif

@@ -21,9 +21,6 @@
     <ClInclude Include="..\..\src\Framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\gl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\glcorearb.h">
       <Filter>Header Files</Filter>
     </ClInclude>

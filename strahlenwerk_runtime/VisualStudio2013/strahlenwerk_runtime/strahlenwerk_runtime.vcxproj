@@ -20,7 +20,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -55,7 +55,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;BUILD_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -80,7 +80,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\Backend.h" />
     <ClInclude Include="..\..\src\Framebuffer.h" />
-    <ClInclude Include="..\..\src\gl.h" />
     <ClInclude Include="..\..\src\glcorearb.h" />
     <ClInclude Include="..\..\src\gl_indentifiers.h" />
     <ClInclude Include="..\..\src\Shader.h" />
