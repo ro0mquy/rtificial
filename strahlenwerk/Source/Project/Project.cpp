@@ -92,6 +92,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	std::string shadersHeaderContent = R"source(#include "Shader.h"
 #include "Framebuffer.h"
 #include "Scene.h"
+#include "Keyframe.h"
 )source";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
@@ -185,6 +186,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	shadersHeaderContent += scenesArray;
 
 	int keyframeDataEntries = 0;
+	int sequences = 0;
 	const int nUniforms = data.getNumUniforms();
 	for(int i = 0; i < nUniforms; i++) {
 		const auto uniform = data.getUniform(i);
@@ -206,6 +208,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 		// count keyframes
 		int keyframes = 0;
+		sequences += data.getNumSequences(uniform);
 		for(int j = 0; j < data.getNumSequences(uniform); j++) {
 			keyframes += data.getNumKeyframes(data.getSequence(uniform, j));
 		}
@@ -214,6 +217,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	}
 
 	std::string keyframeDataArray = "float keyframe_data["  + std::to_string(keyframeDataEntries) + "] = {\n";
+	std::string sequenceDataArray = "Sequence sequence_data[" + std::to_string(sequences) + "] = {\n";
 	for(int i = 0; i < nUniforms; i++) {
 		const auto uniform = data.getUniform(i);
 		const String type = data.getUniformType(uniform);
@@ -244,6 +248,18 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 		for(int j = 0; j < data.getNumSequences(uniform); j++) {
 			auto sequence = data.getSequence(uniform, j);
+			const int start = float(data.getAbsoluteStartForSequence(sequence));
+			const int end = start + float(data.getSequenceDuration(sequence));
+			int interpolation = 0;
+			const auto interpolationString = data.getSequenceInterpolation(sequence);
+			if(interpolationString == "step") {
+				interpolation = 0;
+			} else if(interpolationString == "linear") {
+				interpolation = 1;
+			} else if(interpolationString == "ccrSpline") {
+				interpolation = 2;
+			}
+			sequenceDataArray += "\t{" + std::to_string(start) + ", " + std::to_string(end) + ", " +  std::to_string(interpolation) + "},\n";
 			for(int k = 0; k < data.getNumKeyframes(sequence); k++) {
 				keyframeDataArray += "\t";
 				auto keyframe = data.getKeyframe(sequence, k);
@@ -274,7 +290,9 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 		}
 	}
 	keyframeDataArray += "};\n";
+	sequenceDataArray += "};\n";
 	shadersHeaderContent += keyframeDataArray;
+	shadersHeaderContent += sequenceDataArray;
 
 	shadersHeader.replaceWithText(shadersHeaderContent);
 }
