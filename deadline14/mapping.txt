@@ -3,21 +3,23 @@ input.color bloom_medium_vert.color
 input.color bloom_small_vert.color
 input.color bokeh_pass1.color
 input.coc bokeh_pass1.coc
-input.luminance tonemap.luminance
-input.color tonemap.orig
+input.color blend.orig
 
 bloom_big_vert.out_color bloom_big_horiz.color
 bloom_medium_vert.out_color bloom_medium_horiz.color
 bloom_small_vert.out_color bloom_small_horiz.color
 
-bloom_big_horiz.out_color tonemap.bloom_big
-bloom_medium_horiz.out_color tonemap.bloom_medium
-bloom_small_horiz.out_color tonemap.bloom_small
+bloom_big_horiz.out_color blend.bloom_big
+bloom_medium_horiz.out_color blend.bloom_medium
+bloom_small_horiz.out_color blend.bloom_small
 
 bokeh_pass1.upwards bokeh_pass2.upwards
 bokeh_pass1.both bokeh_pass2.both
 
-bokeh_pass2.out_color tonemap.dof
+bokeh_pass2.out_color blend.dof
+
+blend.luminance tonemap.luminance
+blend.out_color tonemap.blended_color;
 
 tonemap.out_color fxaa.color
 
