@@ -2,8 +2,12 @@
 
 <timelineTree>
   <uniformsArray>
-    <uniform uniformName="focus_dist" uniformType="float">
-      <uniformStandardValue valueFloatX="5.1"/>
+    <uniform uniformName="background_color" uniformType="color">
+      <uniformStandardValue valueColorR="0" valueColorG="0" valueColorB="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="bloom_amount" uniformType="float">
+      <uniformStandardValue valueFloatX="0.004"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="camera_position" uniformType="vec3">
@@ -39,12 +43,32 @@
         </sequence>
       </sequencesArray>
     </uniform>
-    <uniform uniformName="sphere1_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.0414237" valueColorG="0.0381511" valueColorB="0.220577"/>
+    <uniform uniformName="conic_bobbel_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.295822" valueColorG="0.543238" valueColorB="0.380202"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="sphere2_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.21604" valueColorG="0.0233552" valueColorB="0.00721712"/>
+    <uniform uniformName="conic_bobbel_noifreq" uniformType="float">
+      <uniformStandardValue valueFloatX="1.5"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_bobbel_roughness" uniformType="float">
+      <uniformStandardValue valueFloatX="-1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_ring_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.229901" valueColorG="0.401021" valueColorB="0.0404214"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_ring_intensity" uniformType="float">
+      <uniformStandardValue valueFloatX="5"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_ring_pos" uniformType="float">
+      <uniformStandardValue valueFloatX="0.84"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_smooth_factor" uniformType="float">
+      <uniformStandardValue valueFloatX="1"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="distort_k" uniformType="float">
@@ -55,8 +79,24 @@
       <uniformStandardValue valueFloatX="0.005"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="vignette_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="0.774"/>
+    <uniform uniformName="f_stop" uniformType="float">
+      <uniformStandardValue valueFloatX="2.2"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="focal_length" uniformType="float">
+      <uniformStandardValue valueFloatX="0.019"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="focus_dist" uniformType="float">
+      <uniformStandardValue valueFloatX="5.1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="gain" uniformType="color">
+      <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="gamma" uniformType="color">
+      <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_freq" uniformType="float">
@@ -67,96 +107,20 @@
       <uniformStandardValue valueFloatX="0.02"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="bloom_amount" uniformType="float">
-      <uniformStandardValue valueFloatX="0.004"/>
+    <uniform uniformName="k" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="key" uniformType="float">
       <uniformStandardValue valueFloatX="0.5"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="lift" uniformType="color">
-      <uniformStandardValue valueColorR="8.56595e-10" valueColorG="1.67392e-09" valueColorB="0.000158502"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="gamma" uniformType="color">
-      <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="gain" uniformType="color">
-      <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="synapse_aa" uniformType="float">
-      <uniformStandardValue valueFloatX="1"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="synapse_bb" uniformType="float">
-      <uniformStandardValue valueFloatX="0.44"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="synapse_cc" uniformType="float">
-      <uniformStandardValue valueFloatX="-0.48"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="synapse_dd" uniformType="float">
-      <uniformStandardValue valueFloatX="1"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="conic_bobbel_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.295822" valueColorG="0.543238" valueColorB="0.380202"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="conic_smooth_factor" uniformType="float">
-      <uniformStandardValue valueFloatX="1"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="k" uniformType="float">
-      <uniformStandardValue valueFloatX="0"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="conic_ring_pos" uniformType="float">
-      <uniformStandardValue valueFloatX="0.84"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="synapse_gap" uniformType="float">
-      <uniformStandardValue valueFloatX="0.051"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="synapse_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.00414072" valueColorG="0.00414073" valueColorB="0.00751664"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="background_color" uniformType="color">
-      <uniformStandardValue valueColorR="0" valueColorG="0" valueColorB="0"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="zapfen_kreise" uniformType="float">
-      <uniformStandardValue valueFloatX="0.061"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="conic_ring_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.229901" valueColorG="0.401021" valueColorB="0.0404214"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="manual_time" uniformType="float">
-      <uniformStandardValue valueFloatX="0"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="conic_ring_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="5"/>
-      <sequencesArray/>
-    </uniform>
     <uniform uniformName="lens_dirt" uniformType="float">
       <uniformStandardValue valueFloatX="0.7"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="pyramid_h" uniformType="float">
-      <uniformStandardValue valueFloatX="0.427"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="pyramid_s" uniformType="float">
-      <uniformStandardValue valueFloatX="0.313"/>
+    <uniform uniformName="lift" uniformType="color">
+      <uniformStandardValue valueColorR="8.56595e-10" valueColorG="1.67392e-09" valueColorB="0.000158502"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="pyramid_animation" uniformType="float">
@@ -197,61 +161,37 @@
         </sequence>
       </sequencesArray>
     </uniform>
-    <uniform uniformName="focal_length" uniformType="float">
-      <uniformStandardValue valueFloatX="0.019"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="f_stop" uniformType="float">
-      <uniformStandardValue valueFloatX="2.2"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="sphere1_pos" uniformType="vec3">
-      <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+    <uniform uniformName="pyramid_bottom" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
-        <sequence sequenceStart="3" sequenceSceneId="104" sequenceDuration="14"
-                  sequenceInterpolation="ccrSpline">
+        <sequence sequenceSceneId="100" sequenceStart="2" sequenceDuration="30"
+                  sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueVec3X="-0.249" valueVec3Y="0.039" valueVec3Z="0.377"/>
+              <keyframeValue valueFloatX="0"/>
             </keyframe>
-            <keyframe keyframePosition="2">
-              <keyframeValue valueVec3X="-0.713" valueVec3Y="0.128" valueVec3Z="-0.416"/>
+            <keyframe keyframePosition="12">
+              <keyframeValue valueFloatX="-1"/>
             </keyframe>
-            <keyframe keyframePosition="4">
-              <keyframeValue valueVec3X="-0.504" valueVec3Y="0.576" valueVec3Z="1"/>
+            <keyframe keyframePosition="22">
+              <keyframeValue valueFloatX="-2"/>
             </keyframe>
-            <keyframe keyframePosition="6">
-              <keyframeValue valueVec3X="-0.192" valueVec3Y="0.328" valueVec3Z="-0.456"/>
+            <keyframe keyframePosition="26">
+              <keyframeValue valueFloatX="-3"/>
             </keyframe>
-            <keyframe keyframePosition="14">
-              <keyframeValue valueVec3X="0.624" valueVec3Y="0.512" valueVec3Z="0"/>
+            <keyframe keyframePosition="30">
+              <keyframeValue valueFloatX="5"/>
             </keyframe>
           </keyframesArray>
         </sequence>
       </sequencesArray>
     </uniform>
-    <uniform uniformName="zapfen_leit_freq" uniformType="float">
-      <uniformStandardValue valueFloatX="0.149"/>
+    <uniform uniformName="pyramid_h" uniformType="float">
+      <uniformStandardValue valueFloatX="0.427"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="zapfen_color1" uniformType="color">
-      <uniformStandardValue valueColorR="0" valueColorG="5.78042e-11" valueColorB="0"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="zapfen_color2" uniformType="color">
-      <uniformStandardValue valueColorR="0.00629647" valueColorG="0.0251764" valueColorB="0.00539006"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="zapfen_mat_freq" uniformType="float">
-      <uniformStandardValue valueFloatX="0.232"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="zapfen_rough1" uniformType="float">
-      <uniformStandardValue valueFloatX="0.603"/>
-      <sequencesArray/>
-    </uniform>
-    <uniform uniformName="zapfen_rough2" uniformType="float">
-      <uniformStandardValue valueFloatX="0.773"/>
+    <uniform uniformName="pyramid_s" uniformType="float">
+      <uniformStandardValue valueFloatX="0.313"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="pyramid_wave_animation" uniformType="float">
@@ -292,37 +232,93 @@
         </sequence>
       </sequencesArray>
     </uniform>
-    <uniform uniformName="pyramid_bottom" uniformType="float">
-      <uniformStandardValue valueFloatX="0"/>
+    <uniform uniformName="sphere1_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.0414237" valueColorG="0.0381511" valueColorB="0.220577"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="sphere1_pos" uniformType="vec3">
+      <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="100" sequenceStart="2" sequenceDuration="30"
-                  sequenceInterpolation="step">
+        <sequence sequenceStart="3" sequenceSceneId="104" sequenceDuration="14"
+                  sequenceInterpolation="ccrSpline">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0"/>
+              <keyframeValue valueVec3X="-0.249" valueVec3Y="0.039" valueVec3Z="0.377"/>
             </keyframe>
-            <keyframe keyframePosition="12">
-              <keyframeValue valueFloatX="-1"/>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueVec3X="-0.713" valueVec3Y="0.128" valueVec3Z="-0.416"/>
             </keyframe>
-            <keyframe keyframePosition="22">
-              <keyframeValue valueFloatX="-2"/>
+            <keyframe keyframePosition="4">
+              <keyframeValue valueVec3X="-0.504" valueVec3Y="0.576" valueVec3Z="1"/>
             </keyframe>
-            <keyframe keyframePosition="26">
-              <keyframeValue valueFloatX="-3"/>
+            <keyframe keyframePosition="6">
+              <keyframeValue valueVec3X="-0.192" valueVec3Y="0.328" valueVec3Z="-0.456"/>
             </keyframe>
-            <keyframe keyframePosition="30">
-              <keyframeValue valueFloatX="5"/>
+            <keyframe keyframePosition="14">
+              <keyframeValue valueVec3X="0.624" valueVec3Y="0.512" valueVec3Z="0"/>
             </keyframe>
           </keyframesArray>
         </sequence>
       </sequencesArray>
     </uniform>
-    <uniform uniformName="conic_bobbel_noifreq" uniformType="float">
-      <uniformStandardValue valueFloatX="1.5"/>
+    <uniform uniformName="sphere2_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.21604" valueColorG="0.0233552" valueColorB="0.00721712"/>
       <sequencesArray/>
     </uniform>
-    <uniform uniformName="conic_bobbel_roughness" uniformType="float">
-      <uniformStandardValue valueFloatX="-1"/>
+    <uniform uniformName="synapse_aa" uniformType="float">
+      <uniformStandardValue valueFloatX="1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_bb" uniformType="float">
+      <uniformStandardValue valueFloatX="0.44"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_cc" uniformType="float">
+      <uniformStandardValue valueFloatX="-0.48"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.00414072" valueColorG="0.00414073" valueColorB="0.00751664"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_dd" uniformType="float">
+      <uniformStandardValue valueFloatX="1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_gap" uniformType="float">
+      <uniformStandardValue valueFloatX="0.051"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="vignette_intensity" uniformType="float">
+      <uniformStandardValue valueFloatX="0.774"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_color1" uniformType="color">
+      <uniformStandardValue valueColorR="0" valueColorG="5.78042e-11" valueColorB="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_color2" uniformType="color">
+      <uniformStandardValue valueColorR="0.00629647" valueColorG="0.0251764" valueColorB="0.00539006"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_kreise" uniformType="float">
+      <uniformStandardValue valueFloatX="0.061"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_leit_freq" uniformType="float">
+      <uniformStandardValue valueFloatX="0.149"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_mat_freq" uniformType="float">
+      <uniformStandardValue valueFloatX="0.232"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_rough1" uniformType="float">
+      <uniformStandardValue valueFloatX="0.603"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_rough2" uniformType="float">
+      <uniformStandardValue valueFloatX="0.773"/>
       <sequencesArray/>
     </uniform>
   </uniformsArray>

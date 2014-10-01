@@ -6,7 +6,6 @@ uniform vec3 conic_bobbel_color; // color
 uniform vec3 conic_ring_color; // color
 
 uniform float conic_smooth_factor; // float
-uniform float manual_time; // float
 uniform float conic_ring_intensity; // float
 uniform float conic_bobbel_noifreq;
 uniform float conic_bobbel_roughness;
