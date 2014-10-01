@@ -108,6 +108,11 @@ float plane(vec3 p, vec3 n) {
 	return dot(p, n.xyz);
 }
 
+float cylinder(vec3 p, float radius, float thicknesshalf) {
+	float circle = length(p.xy) - radius;
+	return max(circle, abs(p.z) - thicknesshalf);
+}
+
 // hier kommt der witz!
 vec2 min_material(vec2 a, vec2 b) {
 	return mix(a, b, float(a.x > b.x));

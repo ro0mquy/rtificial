@@ -92,6 +92,8 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	std::string shadersHeaderContent = R"source(#include "Shader.h"
 #include "Framebuffer.h"
 #include "Scene.h"
+#include "Keyframe.h"
+#include "Sequence.h"
 )source";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
@@ -185,6 +187,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	shadersHeaderContent += scenesArray;
 
 	int keyframeDataEntries = 0;
+	int sequences = 0;
 	const int nUniforms = data.getNumUniforms();
 	for(int i = 0; i < nUniforms; i++) {
 		const auto uniform = data.getUniform(i);
@@ -206,6 +209,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 		// count keyframes
 		int keyframes = 0;
+		sequences += data.getNumSequences(uniform);
 		for(int j = 0; j < data.getNumSequences(uniform); j++) {
 			keyframes += data.getNumKeyframes(data.getSequence(uniform, j));
 		}
@@ -214,67 +218,110 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	}
 
 	std::string keyframeDataArray = "float keyframe_data["  + std::to_string(keyframeDataEntries) + "] = {\n";
+	std::string sequenceDataArray = "Sequence sequence_data[" + std::to_string(sequences) + "] = {\n";
+	std::string sequenceIndexArray = "int sequence_index[" + std::to_string(nUniforms + 1) + "] = {\n";
+	std::string keyframeIndexArray = "int keyframe_index[" + std::to_string(nUniforms + 1) + "] = {\n";
+	int sequenceIndex = 0;
+	sequenceIndexArray += "\t0,\n";
+	int keyframeIndex = 0;
+	keyframeIndexArray += "\t0,\n";
 	for(int i = 0; i < nUniforms; i++) {
 		const auto uniform = data.getUniform(i);
 		const String type = data.getUniformType(uniform);
 		auto standardValue = data.getUniformStandardValue(uniform);
 		keyframeDataArray += "\t";
+		// liebes zukünftiges ich, wenn du das liest, bist du echt tiiiieeeef in der scheiße - _vincent, 02.10.14
 		if(type == "float") {
 			keyframeDataArray += std::to_string(float(data.getValueFloatX(standardValue))) + ",";
+			keyframeIndex += 1;
 		} else if(type == "vec2") {
 			keyframeDataArray += std::to_string(float(data.getValueVec2X(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec2Y(standardValue))) + ",";
+			keyframeIndex += 2;
 		} else if(type == "vec3") {
 			keyframeDataArray += std::to_string(float(data.getValueVec3X(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec3Y(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec3Z(standardValue))) + ",";
+			keyframeIndex += 3;
 		} else if(type == "vec4") {
 			keyframeDataArray += std::to_string(float(data.getValueVec4X(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec4Y(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec4Z(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec4W(standardValue))) + ",";
+			keyframeIndex += 4;
 		} else if(type == "color") {
 			keyframeDataArray += std::to_string(float(data.getValueColorR(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueColorG(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueColorB(standardValue))) + ",";
+			keyframeIndex += 3;
 		} else if(type == "bool") {
 			keyframeDataArray += std::to_string(bool(data.getValueBoolState(standardValue)) ? 1. : 0.) + ",";
+			keyframeIndex += 1;
 		}
 		keyframeDataArray += "\n";
 
+		sequenceIndex += data.getNumSequences(uniform);
+		sequenceIndexArray += "\t" + std::to_string(sequenceIndex) + ",\n";
+
 		for(int j = 0; j < data.getNumSequences(uniform); j++) {
 			auto sequence = data.getSequence(uniform, j);
+			const int start = float(data.getAbsoluteStartForSequence(sequence));
+			const int end = start + float(data.getSequenceDuration(sequence));
+			int interpolation = 0;
+			const auto interpolationString = data.getSequenceInterpolation(sequence);
+			if(interpolationString == "step") {
+				interpolation = 0;
+			} else if(interpolationString == "linear") {
+				interpolation = 1;
+			} else if(interpolationString == "ccrSpline") {
+				interpolation = 2;
+			}
+			sequenceDataArray += "\t{" + std::to_string(start) + ", " + std::to_string(end) + ", " +  std::to_string(interpolation) + ", " + std::to_string(data.getNumKeyframes(sequence)) + "},\n";
 			for(int k = 0; k < data.getNumKeyframes(sequence); k++) {
 				keyframeDataArray += "\t";
 				auto keyframe = data.getKeyframe(sequence, k);
 				auto keyframeValue = data.getKeyframeValue(keyframe);
 				if(type == "float") {
 					keyframeDataArray += std::to_string(float(data.getValueFloatX(keyframeValue))) + ",";
+					keyframeIndex += 1;
 				} else if(type == "vec2") {
 					keyframeDataArray += std::to_string(float(data.getValueVec2X(keyframeValue))) + ", ";
 					keyframeDataArray += std::to_string(float(data.getValueVec2Y(keyframeValue))) + ",";
+					keyframeIndex += 2;
 				} else if(type == "vec3") {
 					keyframeDataArray += std::to_string(float(data.getValueVec3X(keyframeValue))) + ", ";
 					keyframeDataArray += std::to_string(float(data.getValueVec3Y(keyframeValue))) + ", ";
 					keyframeDataArray += std::to_string(float(data.getValueVec3Z(keyframeValue))) + ",";
+					keyframeIndex += 3;
 				} else if(type == "vec4") {
 					keyframeDataArray += std::to_string(float(data.getValueVec4X(keyframeValue))) + ", ";
 					keyframeDataArray += std::to_string(float(data.getValueVec4Y(keyframeValue))) + ", ";
 					keyframeDataArray += std::to_string(float(data.getValueVec4Z(keyframeValue))) + ", ";
 					keyframeDataArray += std::to_string(float(data.getValueVec4W(keyframeValue))) + ",";
+					keyframeIndex += 4;
 				} else if(type == "color") {
 					keyframeDataArray += std::to_string(float(data.getValueColorR(keyframeValue))) + ", ";
 					keyframeDataArray += std::to_string(float(data.getValueColorG(keyframeValue))) + ", ";
 					keyframeDataArray += std::to_string(float(data.getValueColorB(keyframeValue))) + ",";
+					keyframeIndex += 3;
 				} else if(type == "bool") {
 					keyframeDataArray += std::to_string(bool(data.getValueBoolState(keyframeValue)) ? 1. : 0.) + ",";
+					keyframeIndex += 1;
 				}
 				keyframeDataArray += "\n";
 			}
 		}
+
+		keyframeIndexArray += "\t" + std::to_string(keyframeIndex) + ",\n";
 	}
 	keyframeDataArray += "};\n";
+	sequenceDataArray += "};\n";
+	sequenceIndexArray += "};\n";
+	keyframeIndexArray += "};\n";
 	shadersHeaderContent += keyframeDataArray;
+	shadersHeaderContent += sequenceDataArray;
+	shadersHeaderContent += sequenceIndexArray;
+	shadersHeaderContent += keyframeIndexArray;
 
 	shadersHeader.replaceWithText(shadersHeaderContent);
 }
