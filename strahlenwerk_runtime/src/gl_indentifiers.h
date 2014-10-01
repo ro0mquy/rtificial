@@ -1,7 +1,10 @@
 #ifndef GL_IDENTIFIERS_H
 #define GL_IDENTIFIERS_H
-#include <Windows.h>
-#include <GL/gl.h>
+
+#ifdef BUILD_WINDOWS
+#	include <Windows.h>
+#	include <GL/gl.h>
+#endif
 #include "glcorearb.h"
 
 extern PFNGLACTIVETEXTUREPROC            glActiveTexture;
