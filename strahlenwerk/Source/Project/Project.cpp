@@ -89,7 +89,10 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 	// create header
 	const File& shadersHeader = buildDir.getChildFile("strahlenwerk_export.h");
-	std::string shadersHeaderContent = "#include \"Shader.h\"\n#include \"Framebuffer.h\"\n";
+	std::string shadersHeaderContent = R"source(#include "Shader.h"
+#include "Framebuffer.h"
+#include "Scene.h"
+)source";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
 
@@ -155,6 +158,31 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	fboDeclaration += "};\n";
 
 	shadersHeaderContent += fboDeclaration;
+
+	TimelineData& data = TimelineData::getTimelineData();
+
+	std::string scenesArray = "Scene scenes[" + std::to_string(data.getNumScenes()) + "] = {\n";
+
+	for(int i = 0; i < data.getNumScenes(); i++) {
+		auto scene = data.getScene(i);
+
+		const int start = data.getSceneStart(scene);
+		const int duration = data.getSceneDuration(scene);
+		const String shaderSource = data.getSceneShaderSource(scene);
+
+		int shaderId = -1;
+		for(int i = 0; i < sceneShaders; i++) {
+			if(scenes.getShader(i).getName() == shaderSource.toStdString()) {
+				shaderId = i;
+				break;
+			}
+		}
+
+		scenesArray += "\tScene(" + std::to_string(start) + ", " + std::to_string(start + duration) + ", " + std::to_string(shaderId) + "),\n";
+	}
+
+	scenesArray += "};\n";
+	shadersHeaderContent += scenesArray;
 
 	shadersHeader.replaceWithText(shadersHeaderContent);
 }
