@@ -82,12 +82,12 @@
     <ClInclude Include="..\..\src\Framebuffer.h" />
     <ClInclude Include="..\..\src\gl.h" />
     <ClInclude Include="..\..\src\glcorearb.h" />
+    <ClInclude Include="..\..\src\gl_indentifiers.h" />
     <ClInclude Include="..\..\src\Shader.h" />
     <ClInclude Include="..\..\src\strahlenwerk_export.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Framebuffer.cpp" />
-    <ClCompile Include="..\..\src\gl.cpp" />
     <ClCompile Include="..\..\src\LinuxBackend.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Shader.cpp" />
