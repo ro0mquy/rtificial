@@ -2,20 +2,27 @@
 
 #include "strahlenwerk_export.h"
 
-#include <windows.h>
-#include <GL/gl.h>
 #include "glcorearb.h"
 #include "gl_indentifiers.h"
 
-const int width = 800;
-const int height = 600;
-const bool fullscreen = true;
-
 #ifdef BUILD_LINUX
 	using Backend = LinuxBackend;
+
 #elif BUILD_WINDOWS
+	// las said this was good
+#	define VC_EXTRALEAN
+#	define WIN32_LEAN_AND_MEAN
+
+#	include <windows.h>
+#	include <GL/gl.h>
+
 	using Backend = WindowsBackend;
 #endif
+
+const int width = 1920;
+const int height = 1200;
+const bool fullscreen = true;
+const bool use_sound_thread = true;
 
 #ifdef BUILD_WINDOWS
 	int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
@@ -26,6 +33,7 @@ const bool fullscreen = true;
 	// init backend
 	Backend backend;
 	backend.init(width, height, fullscreen);
+	backend.initAudio(use_sound_thread);
 
 	const int n_scenes = sizeof(scenes) / sizeof(Shader);
 	const int n_postproc = sizeof(postproc) / sizeof(Shader);

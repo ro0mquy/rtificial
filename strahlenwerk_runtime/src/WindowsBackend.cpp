@@ -71,7 +71,64 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 	glDeleteProgram            = (PFNGLDELETEPROGRAMPROC)            wglGetProcAddress("glDeleteProgram");
 }
 
-void WindowsBackend::play_music(int16_t* audio) {
+
+// audio
+//#include <mmsystem.h>
+//#include <mmreg.h>
+
+// some song information
+#include "music/4klang.h"
+
+// MAX_SAMPLES gives you the number of samples for the whole song. we always produce stereo samples, so times 2 for the buffer
+SAMPLE_TYPE	lpSoundBuffer[MAX_SAMPLES * 2];
+HWAVEOUT	hWaveOut;
+
+WAVEFORMATEX WaveFMT = {
+#ifdef FLOAT_32BIT	
+	WAVE_FORMAT_IEEE_FLOAT,
+#else
+	WAVE_FORMAT_PCM,
+#endif		
+	2, // channels
+	SAMPLE_RATE, // samples per sec
+	SAMPLE_RATE*sizeof(SAMPLE_TYPE) * 2, // bytes per sec
+	sizeof(SAMPLE_TYPE) * 2, // block alignment;
+	sizeof(SAMPLE_TYPE) * 8, // bits per sample
+	0 // extension not needed
+};
+
+WAVEHDR WaveHDR = {
+	(LPSTR)lpSoundBuffer,
+	MAX_SAMPLES*sizeof(SAMPLE_TYPE) * 2,			// MAX_SAMPLES*sizeof(float)*2(stereo)
+	0,
+	0,
+	0,
+	0,
+	0,
+	0
+};
+
+MMTIME MMTime = {
+	TIME_SAMPLES,
+	0
+};
+
+extern "C" {
+	int _fltused = 1;
+}
+
+void WindowsBackend::initAudio(bool threaded) {
+	if (threaded){
+		// thx to xTr1m/blu-flame for providing a smarter and smaller way to create the thread :)
+		CreateThread(0, 0, (LPTHREAD_START_ROUTINE)_4klang_render, lpSoundBuffer, 0, 0);
+	}
+	else {
+		_4klang_render(lpSoundBuffer);
+	}
+
+	waveOutOpen(&hWaveOut, WAVE_MAPPER, &WaveFMT, NULL, 0, CALLBACK_NULL);
+	waveOutPrepareHeader(hWaveOut, &WaveHDR, sizeof(WaveHDR));
+	waveOutWrite(hWaveOut, &WaveHDR, sizeof(WaveHDR));
 }
 
 bool WindowsBackend::beforeFrame() {

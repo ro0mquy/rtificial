@@ -33,6 +33,9 @@
     <ClInclude Include="..\..\src\gl_indentifiers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\music\4klang.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Framebuffer.cpp">

@@ -4,7 +4,7 @@
 void LinuxBackend::init(int width, int height, bool fullscreen) {
 }
 
-void LinuxBackend::play_music(int16_t* audio) {
+void LinuxBackend::initAudio(bool threaded) {
 }
 
 bool LinuxBackend::beforeFrame() {

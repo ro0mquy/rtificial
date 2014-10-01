@@ -5,7 +5,7 @@ struct Sequence {
 	float start;
 	float end;
 	int interpolation;
-	int numKeyframes
+	int numKeyframes;
 };
 
 #endif
