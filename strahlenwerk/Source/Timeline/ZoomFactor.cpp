@@ -5,8 +5,6 @@
 #include <Timeline/Timeline.h>
 #include <cmath>
 
-static const float minZoomLevel = 5.;
-
 ZoomFactor::ZoomFactor() :
 	zoomLevel(20.)
 {
@@ -26,7 +24,7 @@ ZoomFactor::operator float() {
 ZoomFactor& ZoomFactor::operator=(const float newZoomLevel) {
 	zoomMutex.lock();
 	const float oldZoomLevel = zoomLevel;
-	zoomLevel = jmax(newZoomLevel, minZoomLevel); // without max() there will be dragons
+	zoomLevel = newZoomLevel;
 	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
@@ -39,7 +37,6 @@ ZoomFactor& ZoomFactor::operator*=(const float zoomLevelFactor) {
 	zoomMutex.lock();
 	const float oldZoomLevel = zoomLevel;
 	zoomLevel *= zoomLevelFactor;
-	zoomLevel = jmax(zoomLevel, minZoomLevel); // without max() there will be dragons
 	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
@@ -52,7 +49,6 @@ ZoomFactor& ZoomFactor::operator/=(const float zoomLevelDivisor) {
 	zoomMutex.lock();
 	const float oldZoomLevel = zoomLevel;
 	zoomLevel /= zoomLevelDivisor;
-	zoomLevel = jmax(zoomLevel, minZoomLevel); // without max() there will be dragons
 	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
