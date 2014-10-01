@@ -25,7 +25,7 @@ void Framebuffer::create(int _width, int _height) {
 	glGenTextures(outputsNumber, textures);
 
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-	GLenum drawBuffers[outputsNumber];
+	GLenum* drawBuffers = new GLenum[outputsNumber];
 	for(int i = 0; i < outputsNumber; i++) {
 		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
@@ -66,6 +66,7 @@ void Framebuffer::create(int _width, int _height) {
 		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
 	}
 	glDrawBuffers(outputsNumber, drawBuffers);
+	delete[] drawBuffers;
 }
 
 void Framebuffer::bind() {
