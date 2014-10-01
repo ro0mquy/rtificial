@@ -220,6 +220,10 @@ void CameraController::applicationCommandListChanged() {
 }
 
 void CameraController::setKeyframeAtCurrentPosition() {
+	if (!getHasControl()) {
+		getCameraFromCurrentPosition();
+	}
+
 	const float currentTime = AudioManager::getAudioManager().getTimeInBeats();
 
 	ValueTree positionUniform = data.getUniform(var(cameraPositionName));
