@@ -97,7 +97,9 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 	// create header
 	const File& shadersHeader = buildDir.getChildFile("strahlenwerk_export.h");
-	std::string shadersHeaderContent = R"source(#include "Shader.h"
+	std::string shadersHeaderContent = R"source(#ifndef STRAHLENWERK_EXPORT
+#define STRAHLENWERK_EXPORT
+#include "Shader.h"
 #include "Framebuffer.h"
 #include "Scene.h"
 #include "Keyframe.h"
@@ -180,9 +182,9 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	for(int i = 0; i < numScenes; i++) {
 		auto scene = scenesCopy.getChild(i);
 
-		const int start = data.getSceneStart(scene);
-		const int duration = data.getSceneDuration(scene);
-		const std::string shaderSource = data.getSceneShaderSource(scene).toString().toStdString();
+		const float start = data.getSceneStart(scene);
+		const float duration = data.getSceneDuration(scene);
+		const String shaderSource = data.getSceneShaderSource(scene);
 
 		int shaderId = -1;
 		for(int i = 0; i < sceneShaders; i++) {
@@ -200,6 +202,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 	int keyframeDataEntries = 0;
 	int sequences = 0;
+	int total_keyframes = 0;
 	const int nUniforms = data.getNumUniforms();
 	for(int i = 0; i < nUniforms; i++) {
 		const auto uniform = data.getUniform(i);
@@ -226,6 +229,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 			keyframes += data.getNumKeyframes(data.getSequence(uniform, j));
 		}
 
+		total_keyframes += keyframes;
 		keyframeDataEntries += (keyframes + 1) * components;
 	}
 
@@ -233,48 +237,73 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	std::string sequenceDataArray = "Sequence sequence_data[" + std::to_string(sequences) + "] = {\n";
 	std::string sequenceIndexArray = "int sequence_index[" + std::to_string(nUniforms + 1) + "] = {\n";
 	std::string keyframeIndexArray = "int keyframe_index[" + std::to_string(nUniforms + 1) + "] = {\n";
+	std::string uniformsArray = "Uniform uniforms[" + std::to_string(nUniforms) + "] = {\n";
+	std::string keyframeTimeArray = "float keyframe_time[" + std::to_string(total_keyframes) + "] = {\n";
+	std::string keyframeTimeIndexArray = "int keyframe_time_index[" + std::to_string(nUniforms + 1) + "] = {\n";
 	int sequenceIndex = 0;
 	sequenceIndexArray += "\t0,\n";
 	int keyframeIndex = 0;
+	int keyframeTimeIndex = 0;
 	keyframeIndexArray += "\t0,\n";
+	keyframeTimeIndexArray += "\t0,\n";
 	for(int i = 0; i < nUniforms; i++) {
 		const auto uniform = data.getUniform(i);
 		const String type = data.getUniformType(uniform);
 		auto standardValue = data.getUniformStandardValue(uniform);
 		keyframeDataArray += "\t";
-		// liebes zukünftiges ich, wenn du das liest, bist du echt tiiiieeeef in der scheiße - _vincent, 02.10.14
+		// liebes zukünftiges Ich, wenn du das liest, bist du echt tiiiieeeef in der scheiße - _vincent, 02.10.14
+		int typeInt = 0;
 		if(type == "float") {
 			keyframeDataArray += std::to_string(float(data.getValueFloatX(standardValue))) + ",";
 			keyframeIndex += 1;
+			typeInt = 0;
 		} else if(type == "vec2") {
 			keyframeDataArray += std::to_string(float(data.getValueVec2X(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec2Y(standardValue))) + ",";
 			keyframeIndex += 2;
+			typeInt = 1;
 		} else if(type == "vec3") {
 			keyframeDataArray += std::to_string(float(data.getValueVec3X(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec3Y(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec3Z(standardValue))) + ",";
 			keyframeIndex += 3;
+			typeInt = 2;
 		} else if(type == "vec4") {
 			keyframeDataArray += std::to_string(float(data.getValueVec4X(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec4Y(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec4Z(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueVec4W(standardValue))) + ",";
 			keyframeIndex += 4;
+			typeInt = 3;
 		} else if(type == "color") {
 			keyframeDataArray += std::to_string(float(data.getValueColorR(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueColorG(standardValue))) + ", ";
 			keyframeDataArray += std::to_string(float(data.getValueColorB(standardValue))) + ",";
 			keyframeIndex += 3;
+			typeInt = 4;
 		} else if(type == "bool") {
 			keyframeDataArray += std::to_string(bool(data.getValueBoolState(standardValue)) ? 1. : 0.) + ",";
 			keyframeIndex += 1;
+			typeInt = 5;
 		}
 		keyframeDataArray += "\n";
+		const String name = data.getUniformName(uniform);
+		const Uniform* uniformObject = UniformManager::Instance().getUniform(name.toStdString());
+		int location;
+		if(uniformObject == nullptr) {
+			std::cerr << "Warning: unused uniform " + name << std::endl;
+			location = -1;
+		} else {
+			location = uniformObject->id;
+		}
+		uniformsArray += "\t{" + std::to_string(typeInt) + ", " + std::to_string(location) + " },\n";
 
 		sequenceIndex += data.getNumSequences(uniform);
 		sequenceIndexArray += "\t" + std::to_string(sequenceIndex) + ",\n";
 
+		if(data.getNumSequences(uniform) == 0) {
+			std::cerr << "Warning: no sequences for uniform " + name << std::endl;
+		}
 		for(int j = 0; j < data.getNumSequences(uniform); j++) {
 			auto sequence = data.getSequence(uniform, j);
 			const int start = float(data.getAbsoluteStartForSequence(sequence));
@@ -320,20 +349,30 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 					keyframeDataArray += std::to_string(bool(data.getValueBoolState(keyframeValue)) ? 1. : 0.) + ",";
 					keyframeIndex += 1;
 				}
+				keyframeTimeIndex++;
 				keyframeDataArray += "\n";
+				keyframeTimeArray += "\t" + std::to_string(float(data.getKeyframePosition(keyframe))) + ",\n";
 			}
 		}
 
 		keyframeIndexArray += "\t" + std::to_string(keyframeIndex) + ",\n";
+		keyframeTimeIndexArray += "\t" + std::to_string(keyframeTimeIndex) + ",\n";
 	}
 	keyframeDataArray += "};\n";
 	sequenceDataArray += "};\n";
 	sequenceIndexArray += "};\n";
 	keyframeIndexArray += "};\n";
+	uniformsArray += "};\n";
+	keyframeTimeArray += "};\n";
+	keyframeTimeIndexArray += "};\n";
 	shadersHeaderContent += keyframeDataArray;
 	shadersHeaderContent += sequenceDataArray;
 	shadersHeaderContent += sequenceIndexArray;
 	shadersHeaderContent += keyframeIndexArray;
+	shadersHeaderContent += uniformsArray;
+	shadersHeaderContent += keyframeTimeArray;
+	shadersHeaderContent += keyframeTimeIndexArray;
+	shadersHeaderContent += "#endif";
 
 	shadersHeader.replaceWithText(shadersHeaderContent);
 }
