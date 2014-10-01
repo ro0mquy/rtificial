@@ -66,12 +66,15 @@ void SequenceViewComponent::paint(Graphics& g){
 	}
 }
 
-bool SequenceViewComponent::uniformActiveForScene(ValueTree uniform, ValueTree scene) {
+bool SequenceViewComponent::uniformActiveForScene(ValueTree /*uniform*/, ValueTree /*scene*/) {
+	return true;
+	/*
 	// TODO: dummy functionality, replace with real lookup
 	const String uniformName = data.getUniformName(uniform);
 	const String sceneShaderSource = data.getSceneShaderSource(scene);
 	const int64 hash = uniformName.hashCode() + sceneShaderSource.hashCode();
 	return hash % 2 != 0;
+	*/
 }
 
 void SequenceViewComponent::addSequenceComponent(ValueTree sequenceData) {
