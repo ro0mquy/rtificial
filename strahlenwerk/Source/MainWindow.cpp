@@ -18,6 +18,7 @@ MainWindow::MainWindow() :
 			Colours::darkgrey,
 			DocumentWindow::allButtons)
 {
+	setName("strahlenwerk - BER edition");
 	setMenuBar(this);
 	setContentOwned(&mainContentComponent, true);
 
