@@ -1292,6 +1292,55 @@ ValueTree TimelineData::calculateCcrSplineForValues(ValueTree valueP0, ValueTree
 		ValueTree interpolatedValue(treeId::interpolatedValue);
 		setVec3ToValue(interpolatedValue, interpolatedP);
 		return interpolatedValue;
+	} else if (isValueVec4(valueP1)) {
+		jassert(isValueVec4(valueP2));
+
+		const glm::quat P1 = getQuatFromValue(valueP1);
+		const glm::quat P2 = getQuatFromValue(valueP2);
+		/*
+
+		// if values are invalid, mirror P2/P1 at P1/P2
+		// 2 * dot(q0, q1) * q1 - q0 mirrors q0 at q1 (from shoemake)
+		glm::quat P0 = valueP0.isValid() ? getQuatFromValue(valueP0) : glm::quat(glm::vec4(2 * glm::dot(P2, P1) * P1) - glm::vec4(P2));
+		glm::quat P3 = valueP3.isValid() ? getQuatFromValue(valueP3) : glm::quat(glm::vec4(2 * glm::dot(P1, P2) * P2) - glm::vec4(P1));
+		*/
+
+		// if values are invalid, mirror P2/P1 at P1/P2
+		// 2 * dot(q0, q1) * q1 - q0 mirrors q0 at q1 (from shoemake)
+		glm::quat P0;
+		glm::quat P3;
+		if (valueP0.isValid()) {
+			P0 = getQuatFromValue(valueP0);
+		} else {
+			/*
+			// do subtraction by hand
+			const glm::quat product = 2 * glm::dot(P2, P1) * P1;
+			P0.x = product.x - P2.x;
+			P0.y = product.y - P2.y;
+			P0.z = product.z - P2.z;
+			P0.w = product.w - P2.w;
+			*/
+			P0 = P1;
+		}
+		if (valueP3.isValid()) {
+			P3 = getQuatFromValue(valueP3);
+		} else {
+			/*
+			// do subtraction by hand
+			const glm::quat product = 2 * glm::dot(P1, P2) * P2;
+			P0.x = product.x - P1.x;
+			P0.y = product.y - P1.y;
+			P0.z = product.z - P1.z;
+			P0.w = product.w - P1.w;
+			*/
+			P3 = P2;
+		}
+
+		const glm::quat interpolatedP = CentripetalCatmullRomSpline(P0, P1, P2, P3, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setQuatToValue(interpolatedValue, interpolatedP);
+		return interpolatedValue;
 	} else if (isValueVec2(valueP1)) {
 		jassert(isValueVec2(valueP2));
 

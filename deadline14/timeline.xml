@@ -24,6 +24,26 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="104" sequenceStart="4" sequenceDuration="12"
+                  sequenceInterpolation="ccrSpline">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-3.469" valueVec3Y="4.078" valueVec3Z="12.865"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueVec3X="1.6703" valueVec3Y="4.078" valueVec3Z="9.57903"/>
+            </keyframe>
+            <keyframe keyframePosition="4">
+              <keyframeValue valueVec3X="5.72132" valueVec3Y="4.078" valueVec3Z="5.40175"/>
+            </keyframe>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueVec3X="7.23923" valueVec3Y="4.078" valueVec3Z="-5.90491"/>
+            </keyframe>
+            <keyframe keyframePosition="12">
+              <keyframeValue valueVec3X="2.5898" valueVec3Y="7.78959" valueVec3Z="-8.64299"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="camera_rotation" uniformType="vec4">
@@ -38,6 +58,26 @@
             <keyframe keyframePosition="4">
               <keyframeValue valueVec4X="-0.124379" valueVec4Y="0.598562" valueVec4Z="0.0947585"
                              valueVec4W="0.785668"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="104" sequenceStart="4" sequenceDuration="12"
+                  sequenceInterpolation="ccrSpline">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="-0.117" valueVec4Y="-0.195" valueVec4Z="-0.023" valueVec4W="0.974"/>
+            </keyframe>
+            <keyframe keyframePosition="4">
+              <keyframeValue valueVec4X="-0.114333" valueVec4Y="0.353813" valueVec4Z="0.0436251"
+                             valueVec4W="0.927276"/>
+            </keyframe>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueVec4X="-0.0611159" valueVec4Y="0.83212" valueVec4Z="0.093621"
+                             valueVec4W="0.543209"/>
+            </keyframe>
+            <keyframe keyframePosition="12">
+              <keyframeValue valueVec4X="-0.0874576" valueVec4Y="0.903775" valueVec4Z="0.354868"
+                             valueVec4W="0.222736"/>
             </keyframe>
           </keyframesArray>
         </sequence>
