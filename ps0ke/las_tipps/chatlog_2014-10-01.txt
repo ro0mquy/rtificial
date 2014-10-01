@@ -1,0 +1,276 @@
+03:17:38 -!- Irssi: Starting query in IRCnet with las
+03:17:41 <Ps0ke> hey las
+03:18:01 <Ps0ke> ich weiss das ist jetzt ein bisschen kurzfrisitg, aber ich starre hier gerade mein vs2013 boese an
+03:18:24 <Ps0ke> und versuche ihm zu entlocken, wie man da opengl functions laedt
+03:18:41 <Ps0ke> und aeh das faellt uns voll frueh ein, weil wir wollen ein release auf der deadline machen
+03:18:46 <Ps0ke> samstag :D
+03:19:10 <Ps0ke> ich les erstmal das hier https://www.opengl.org/wiki/Load_OpenGL_Functions
+03:19:23 <Ps0ke> aber falls du noch irgendwelche tipps fuer uns hast, waeren wir sehr dankbar
+03:20:58 <Ps0ke> oh und btw: wir haben noch abductees opengl reference card und werden nicht zoegern sie als
+                 druckmittel einzusetzen!
+03:21:16 <Ps0ke> >:)
+11:50:47 <las> hi
+11:50:48 <las> also
+11:51:13 <las> http://msdn.microsoft.com/de-de/library/windows/desktop/dd374386%28v=vs.85%29.aspx
+11:51:37 <las> das gibt die functionpointer auf die entsprechenden "extension" bzw. neueren opengl funktionen
+11:52:05 <las> das gibts in fertig mit glew und auf pouet gibts auch noch ein projekt wo das jemand semiautomatisiert
+               hat
+11:52:20 <las> was ich benutze ist ein headergenerator
+11:53:34 <las> http://michael.peopleofhonoronly.com/dev/opengl/choc.cpp da ist z.b. der code für ein 1k intro
+11:53:56 <las> compileShader() anschauen, das holt da die function pointer ab
+11:54:29 <las> ich hab das bei mir im code in ein bisschen haesslicher, als calltable und mit ganz vielen generierten
+               defines und auch im debug mit ein bisschen c++ code der GL Errors fängt
+12:52:17 <Ps0ke> danke, das ist jetzt ungefaehr das, was wir jetzt auch von hand gemacht haben
+13:06:11 <las> also, naja das ist halt pretty much standard, gibt auch was fertiges, aber vermutlich ist die sachen per
+               hand laden kompakter
+13:06:37 <las> also so nen komplettes glew will man jetzt nicht unbedingt dazubauen zumal da ja auch dlls mitschwirren
+               mit noch mehr kram
+13:07:04 <las> läufts denn oder braucht ihr noch mehr support? :)
+16:08:19 <Ps0ke> current status: bildschirmaufloesung ist jetzt 800x600 und wir haben eine access violation executing
+                 location 0x0000000 :D
+16:08:31 <Ps0ke> schreibt demos fuer windows haben sie gesagt, das ist viel besser haben sie gesagt
+16:21:47 <las> hahahah
+16:21:58 <las> drück halt f5, mach windowed und debug hin
+16:22:01 <las> stell dich mal nicht so an
+16:22:21 <las> und nicht immer vollgas fullscreen und strg+f5 - das ist nur für professionals :D
+16:22:48 <las> mit visual studio debuggen ist jetzt echt ned so der ackt, ich fahr jetzt gleich heim von der arbeit
+16:23:02 <las> ich kann gerne später noch ein bisschen helfen und bin auch via skype oder so befragbar
+17:16:49 <Ps0ke> :P
+17:16:58 <Ps0ke> aber danke :)
+18:38:52 <Ps0ke> so, jetzt haben wirs!
+18:38:56 <Ps0ke> sogar fullscreen!
+18:39:14 <las> wenn ihr noch was braucht sagt bescheid.
+20:21:49 <Ps0ke> kannst du uns ein paar tipps geben wegen windows audio?
+20:21:58 <Ps0ke> da haben wir das letzte mal ja auch einfach sdl benutzt
+20:22:29 <Ps0ke> wir benutzen 4klang als synth, wissen aber nicht wirklich, wie man die daten die da rausfallen mit
+                 windows zu toenen umsetzt
+20:24:28 <las> 4klang hat winmm samples
+20:24:41 <las> kann euch aber auch code geben, in ner stunde hab ich mehr zeit.
+20:34:26 <Ps0ke> das ist nett
+21:51:15 <las> also
+21:51:19 <las> da bin ich wieder
+21:53:00 <las> ftp://ftp.untergrund.net/users/atz4klang/3.0.1/4klang_release.zip
+21:53:36 <las> 4klang_examples\Example\main.cpp
+21:53:44 <las> da kannste basically alles abrippen
+21:53:50 <las> falls du noch nicht hast
+21:54:00 <las> InitSound
+21:54:03 <las> ()
+21:54:29 <las> du brauchst basically nur 3 calls und den buffer in den vorher audio gerendert wurde
+21:54:35 <las> IwaveOutOpenIII( &hWaveOut, WAVE_MAPPER, &WaveFMT, NULL, 0, CALLBACK_NULL );
+21:54:35 <las> IwaveOutPrepareHeader( hWaveOut, &WaveHDR, sizeof(WaveHDR) );
+21:54:37 <las> IwaveOutWriteII( hWaveOut, &WaveHDR, sizeof(WaveHDR) );I
+21:55:24 <las> das spielt den buffer ab der in WaveHDR referenziert ist
+21:56:02 <las> vielleicht noch ein weiterer semisinnvoller hinweis, wenn ihr 4klang hernehmt
+21:56:30 <las> und erstmal das rendern in den audiobuffer macht und dann play... also da steht ja dieses createthread
+21:56:55 <las> das ist die sehr haessiche variante die audiorenderfunc laufen zu lassen waehrend der buffer schon
+               abgespielt wird
+21:57:18 <las> kann man machen, wobei es empfehlenswert ist, je nachdem wie hart man den 4klang an die wand faehrt,
+               vorher ein sleep zu machen.
+21:58:15 <las> da ist die annehme dass die CPU halt schneller audio generiert als es abgespielt wird, klappt meistens,
+               ist aber naja, race conditions und so vorprogrammiert, kann man aber ignorieren, passendes sleep
+               einbauen, gucken obs fast überall läuft und gut is.
+21:58:27 <las> dann braucht man nicht N minuten auf das audi warten
+21:58:39 <las> und zum debuggen sowieso am besten einfach fertigen wavemitschnitt verwenden
+22:00:03 <Ps0ke> haben wir letztes mal auch so gemacht :D
+22:00:35 <las> :)
+22:00:43 <las> das mit winmm schon hinbekommen?
+22:00:52 <Ps0ke> ne, ich boote jetzt erstmal wieder um
+22:01:06 <las> und ja, also sorry wenn ich da ein bisschen letztes mal gepushed habe dass windows irgendwie sinnvoller
+               ist und was weiss ich ;)
+22:01:16 <Ps0ke> wir haben halt vorhin das mit dem fenster oeffnen etc ordentlich hinbekommen
+22:01:30 <Ps0ke> du hast ja auch recht
+22:01:36 <las> also, naja, es ist halt leider so dass die zielgruppe eher kein linux zum zocken und demos gucken nimmt
+22:01:54 <las> und bei grafikcode ist die platform... naja wenn der basecode einmal steht, ist es fast egal
+22:02:02 <Ps0ke> ich meine wir koennen unsere linux demo nicht mal selbst anschauen, weil das mit den library versionen
+                 immer nur fuckup produziert
+22:02:04 <las> es sei denn du machst so dreckige dinge wie ich
+22:02:11 <Ps0ke> :D
+22:02:11 <las> und benutzt DX11 (bald DX12...)
+22:02:39 <las> ja das mit den libraries ist halt die totale hoelle und forced eigentlich dazu immer opensource zu
+               releasen
+22:02:40 <Ps0ke> wir bleiben erstmal bei opengl
+22:02:49 <las> und dann gehts plötzlich mit irgendeiner gcc version nicht mehr
+22:02:51 <las> und was weiss ich
+22:02:55 <Ps0ke> yo
+22:02:59 <las> opengl ist auch super awesme
+22:03:01 <las> awesome.
+22:03:05 <las> dx auch.
+22:03:09 <las> und andersrum
+22:03:12 <las> ist auch alles scheisse
+22:03:18 <las> alles grafikapis sind mist.
+22:03:35 <Ps0ke> kommst du eigentlich zur deadline? >:)
+22:04:05 <las> bei dx ists bei mir gerade so ein bisschen, ich will auch mal ne andere api als gl benutzen und ich hab
+               die letzten 1,5 jahre relative viele dx10/dx11 projekte für papers mitbearbeitet.
+22:04:13 <las> die APIs sind schon nicht so mies.
+22:04:20 <las> ne ich komme nicht zur deadline
+22:04:36 <las> keine zeit und ich finde die deadline auch persönlich echt ne doofe idee
+22:04:49 <las> ich mach das ja schon ein bisschen laenger und habe da eine ziemlich böse meinung
+22:05:12 <las> wir brauchen nicht mehr parties - wir brauchen besser ausgebildete leute die coolen scheiss machen und
+               sich dafür auch die zeit nehmen
+22:05:49 <las> und nicht von einer party zur naechsten jetten, das degeneriert dann einfach nur noch zu meetings bei
+               bier und computer und medicore releases angucken
+22:05:58 <las> und alle feiern sich dass sie wieder was gemacht haben.
+22:07:21 <Ps0ke> also wuenscht du dir, dass es wieder 'akademischer' wird im sinne von: man bringt die szene weiter?
+22:07:47 <las> ich sehs so: die releasequalität und partiell auch die anzahl geht über die zeit runter, weil die szene
+               in großen teilen auch leider altert, leute arbeiten und so. und dann mehr parties zu machen (mit
+               nordlicht und deadline jetzt zwei parties die nicht als "30 leute treffen sich zum grillen" durchgehen)
+               ist nicht hilfreich.
+22:09:18 <Ps0ke> hm
+22:09:26 <Ps0ke> wie lang bist du eigentlich schon dabei?
+22:09:30 <las> naja ich weiss nicht was ich mir konkret wünsche, die szene entwickelt sich weiter, machen ja alle
+               freiwillig mit. aber die aktuelle entwicklung was für mich klingt wie "ey lass uns in $stadt ne neue
+               party machen um uns zu profilieren" - find ich nicht gut
+22:10:16 <las> ich unterhalte mich auf parties unglaublich gerne mit leuten die ahnung haben wovon sie reden und da
+               habe ich leider tendenziell das gefühl dass das immer weniger werden, so böse das jetzt klingen mag.
+22:10:57 <Ps0ke> liegt das daran, dass zu viele neue leute kommen? oder warum hat sich das geaendert?
+22:11:17 <las> und anstelle da gegenzuwirken und zu sagen "ey lass uns mal so eine art party, ohne party mit mehr
+               bildungsaspekten dingsis für szener machen wo alle coolen leute mal ihren kram richtig erklären" -
+               machen die leute halt yet another party.
+22:11:32 <las> na, neue leute sind tendenziell immer total gerne gesehen
+22:12:33 <las> und aehm, in den letzten jahren bin ich eher von neuen leuten beeindruckt worden als von alten.
+22:13:10 <las> aber ich glaube wir koennten echt mal mehr wissensverteilung in der szene brauchen
+22:13:44 <las> weil, naja, es ist wirklich bitter nötig. früher war die szene technisch teilweise weiter als das was an
+               unis ging und in der game industry
+22:14:05 <las> heute sind die scheinbar lightyears ahead und das haette ich gerne wieder anders.
+22:14:19 <las> wobei das nicht einfach ist, weil die technik deutlich komplexer geworden ist.
+22:14:51 <Ps0ke> aber meinst du nicht auch, dass es ein bisschen daran liegt, dass in der games industrie jetzt einfach
+                 mal unglaublich viel geld liegt? und auch an den unis arbeiten bestimmt einfach mehr leute, oder?
+22:14:51 <las> ich bin mittlerweile eher von amiga demos beeindruckt als von irgendwelchen pc demo compos.
+22:15:12 <las> an unis arbeiten unglaublich viele DUMPFBACKEN.
+22:15:20 <las> (inkl. mir ;))
+22:15:21 <Ps0ke> ja, das hab ich auch schon gehoert :D
+22:15:26 <las> achso, ihr macht sphere tracing oder.
+22:15:55 <las> habt ihr diese fiesen ringartefakte (treten vor allem bei hochfrequenten prozeduralen texturen auf)
+22:16:04 <las> gibt da ein paper (tm)
+22:16:22 <Ps0ke> wir machen ray marching
+22:16:47 <Ps0ke> mit soohere tracing
+22:16:55 <las> okay. ihr lauft aber an einer ditanz funktion entlang, mit dem radius die auch die funktion gibt oder?
+22:16:59 <Ps0ke> und wir haben jede menge artefakte :D
+22:17:05 <las> man nennt es sphere tracing.
+22:17:22 <las> das heisst so weil der John C. Hart das so genannt hat.
+22:17:23 <Ps0ke> ja hat man mir auch grade erklaert
+22:17:23 <las> ;)
+22:17:33 <las> ach ihr seid nicht alleine? ;)
+22:17:40 <las> du musst mir schon sagen wer das alles mitliest ::P
+22:17:57 <Ps0ke> ja alle halt, bis auf den musiker
+22:18:08 <Ps0ke> diesmal wird das mit der deadline wirklich hart
+22:18:17 <Ps0ke> mal sehen, ob wir da am samstag ein release haben
+22:18:22 <las> habt ihr schon was zum angucken?
+22:18:34 <las> sonst kann ich euch noch ein paar bescheuerte funktionen rüberrollen lassen
+22:18:58 <las> erstmal such ich jetzt mal rasch den link
+22:19:03 <Ps0ke> naja wir haben in den letzten monaten groesstenteils an der toolchain gearbeitet
+22:19:18 <Ps0ke> wir haben schon ein paar szenen und konzept und so, aber halt alles noch nicht so geil
+22:19:22 <las> http://erleuchtet.org/~cupe/permanent/enhanced_sphere_tracing_preprint.pdf
+22:19:42 <las> da hat cupe das mal hingelegt, ich nehme an ihr habt gerade keinen zugriff auf die eg digital library
+22:19:46 <Ps0ke> "schreib, wir haben riesige stacheldildos, die leuchten"
+22:19:54 <las> http://diglib.eg.org/EG/DL/LocalChapterEvents/ItalChap/STAG2014 sonst da.
+22:20:28 <Ps0ke> durchs univpn haetten wir vielleicht, aber das ist schon gut so
+22:20:35 <las> (ggf. von eurem uninetz, aber das preprint.pdf sollte identisch sein, mit ohne EG bilderchen und DOI
+               nummer unten halt)
+22:21:07 <las> interessant ist 3.4
+22:21:22 <las> wenn ihr solche artefakte wie in Figure 10 habt
+22:22:08 <Ps0ke> haben wir schon mal gesehen, aber akut ist das nicht so schlimm
+22:22:15 <Ps0ke> ich tu das paper mal in unsere sammlung
+22:22:16 <las> und die in figure 8 bekommt man weg wenn man sich die intersection candidaten mit screenspace error
+               metrik raussucht und den aktuell besten candidaten mitschleift
+22:22:53 <las> der code da in listing 2 ist btw. SEHR GUT
+22:23:25 <Ps0ke> hehe danke
+22:23:27 <las> das ist direkt shadercode und benutzbar aka. ich hab den mehrfach hin und herkopiert und getestet.
+22:23:35 <Ps0ke> :D
+22:23:39 <las> mit omega = 1 habt ihr normales spheretracing.
+22:23:49 <las> (will man eventuell vielleicht auch manchmal haben)
+22:24:23 <las> der marching loop der da steht ist sehr sehr robust auch gehen leichtes oversteppen bei kaputten
+               distanzfunktionen, schreiben wir zwar nirgendwo - ist aber so.
+22:25:04 <las> (da ist so ein bisschen das functionSign ein guter trick... und so)
+22:25:11 <las> es ist halt kein IQ loop :P
+22:25:36 <Ps0ke> was ist denn ein iq loop?
+22:26:19 <las> naja die marchingloops die du auf shadertoy findest - größtenteils, sehen sehr stark so aus wie das was
+               iq so vorschlägt und das ist alles andere als robust genug um bestimmte dinge damit zu tun
+22:26:30 <las> wie z.b. glassartiges zeug raytracen
+22:27:13 <las> section 3.5 kann man getrost ignorieren, ist ne nette optimierung, braucht man aber nicht
+22:27:38 <las> 3.1 ist ganz nett, aber auch kein hexenwerk und da mussten wir feststellen das wir wohl das rad
+               neuerfunden haben...
+22:28:12 <las> 3.2 ist total sinnvoll und macht fiese mengen an aliasing weg, bläht aber objekte ggf. ein bisschen auf
+               je nachdem was man fuer thresholds wählt
+22:28:34 <las> 3.3 ist "obvious choice" für ein sinnvolles refraction epsilon
+22:28:57 <las> 3.4 total sinnvoll, im text vielleicht nicht soooo super detailier beschrieben wie es genau funktioniert.
+22:29:27 <las> das paper aber bitte nicht zu hart sharen ;)
+22:29:47 <las> und nicht auf pouet posten, bin gepannt wie lange das dauert - bis das die runde macht.
+22:30:02 <Ps0ke> das kommt in die privatsammlung und das wars. danke :)
+22:30:02 <las> die screenshots im teaser sind ja mehr als obvious.
+22:30:07 <Ps0ke> ja :D
+22:30:09 <las> ok :) danke.
+22:30:37 <las> wenn ihr noch ideen habt... ich brauch fuer das paper noch 30% mehr :P
+22:30:48 <Ps0ke> da haben wir auch grade das paper von hart gefunden, das ich aber nicht gelesen habe
+22:30:49 <las> und einen neuen titel ohne sphere tracing drin
+22:31:01 <las> dann können wir das naemlich NOCHMAL PUBLIZIEREN.
+22:31:07 <Ps0ke> was? :D
+22:31:15 <las> ihr macht spheretracing und hab das hart paper nicht gelesen?
+22:31:27 <Ps0ke> *ich* hab es nicht gelesen
+22:31:32 <las> ok :D
+22:31:44 <Ps0ke> aber es liegt da gut!
+22:32:10 <las> FESSELT IHN UND LASST IHN LESEN! ;)
+22:32:33 <Ps0ke> aber wieso koennt ihr das dann noch mal publizieren?
+22:32:40 <las> der hart schreibt in seinem paper quasi alles was man wissen muss, die vorgänger paper sind btw. auch
+               sehr lustig
+22:32:51 <las> da kann man so ein bisschen erahnen wie die idee gewachsen ist.
+22:33:02 <las> naja, also du machst ein konferenz paper
+22:33:25 <las> die sagen dann "alle konferenz paper bekommen eventuell nach der konferenz eine einladung zu journal X"
+22:33:55 <las> und journal X sagt dann: macht halt noch 30% neuen content und einen neuen namen - und dann nehmen wirs.
+22:34:03 <las> zack hast du zwei publikationen.
+22:34:09 <Ps0ke> ok wtf :D
+22:34:11 <las> dirty business.
+22:34:50 <las> besonders fies wenn man dann quasi ein paper in 3 varianten findet
+22:35:13 <las> z.b. das sphere tracing paper von hart hab ich glaube ich auch in 3 unterschiedlich ausfuehrlichen
+               varianten gesehen
+22:35:29 <las> die muss man auch erstmal finden und dann die beste... weil man will ja auch nicht alle lesen
+22:35:37 <las> also dieses akademische system ist voll fürn arsch.
+22:35:53 <Ps0ke> das hoer ich leider auch viel zu oft
+22:35:58 <Ps0ke> mal sehen, was da noch auf mich zu kommt
+22:37:03 <las> naja kann man schon machen, ist auf jeden fall manchmal ganz witzig
+22:37:12 <las> die konferenz wo wir da waren... war großartig.
+22:37:40 <las> das war so ne mini konferenz, wo anders haetten wir das vermutlich auch wegen "zu wenig contribution"
+               nicht veröffentlicht bekommen
+22:38:08 <las> weil nur einen "bag of tricks" zu veröffentlichen - als paper, ist quasi unmöglich.
+22:38:22 <las> was total schade ist, weil das die sachen sind die mich am meisten interessieren.
+22:40:21 <Ps0ke> was machst du eigentlich beruflich? arbeites du an der uni?
+22:41:09 <las> joa, ich forsche ;)
+22:41:45 <las> also ich bin doktorand mit allen vor und nachteilen
+22:42:00 <Ps0ke> an nem lehrstuhl fuer cg?
+22:42:12 <las> ich manage hier auch lehrveranstaltungen und so dinge - morgen um 7:30 klausuraufsicht.
+22:42:23 <las> lehrstuhl für graphische datenverarbeitung
+22:42:40 <las> und eigentlich soll ich irgendwas mit globaler beleuchtungsberechnung machen :D
+22:43:28 <las> aktuell warte ich auf meine GTX 980 die ich mir privat bestellt habe und dann werde ich mir tolle neue
+               dinge einfallen lassen oder so
+22:51:24 <Ps0ke> :D
+22:57:41 <Ps0ke> ja also wir machen jetzt mal einen spaziergang um erstmal wieder klar im kopf zu werden
+22:57:50 <Ps0ke> und vielen vielen dank fuer die tipps!
+23:21:21 <las> kein problem, ich helf gerne, man muss nur fragen. :)
+Day changed to 02 Oct 2014
+00:09:50 <Ps0ke> hast du denn irgendwelche genrellen kleinen tipps fuer bauen auf windows?
+00:10:33 <las> für klein bauen?
+00:10:41 <las> also sizecoding oder was spezielles?
+00:11:00 <las> also für 4k / 8k hab ich eine tüte voller dreckiger tricks
+00:11:32 <las> für 64k - nicht gegen die c++ standardlib linken (!!!) und kkrunchy nehmen
+00:13:13 <Ps0ke> ja ich glaube sizecoding ist grade nicht so unser problem
+00:13:33 <Ps0ke> wir machen wieder 64k
+00:13:48 <las> sobald das fenster offen ist und die reso geswitched ist... ist doch fast alles so wie unter linux :P
+00:13:57 <las> nur die IDE ist besser :PPP
+00:14:02 <Ps0ke> aber auch so generell, wir benutzen das halt nicht
+00:14:06 <Ps0ke> vim >
+00:14:15 <las> *kopf tisch*
+00:14:28 <las> :)
+00:14:33 <Ps0ke> zb liest man ueberall #define WIN32_LEAN_AND_MEAN
+00:14:45 <las> ja, das will man anmachen
+00:14:49 <Ps0ke> aber warum
+00:14:52 <Ps0ke> und so zeug mein ich halt
+00:14:52 <las> drück compiletimes ggf. runter.
+00:15:03 <las> *drückt
+00:15:15 <las> weil die windows.h ewig viel zeug includen kann
+00:15:43 <las> #define VC_EXTRALEAN
+00:15:43 <las> #define WIN32_LEAN_AND_MEAN
+00:15:45 <las> #include <Windows.h>
+00:15:50 <las> benutze ich.
+00:17:07 <Ps0ke> was ist mit #define MEGALACTIC_LEAN_PLUS_PLUS?
+00:18:09 <las> I'm not kidding. ;)
+
