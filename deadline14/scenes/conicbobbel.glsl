@@ -4,17 +4,21 @@
 
 uniform vec3 conic_bobbel_color; // color
 uniform vec3 conic_ring_color; // color
+uniform vec3 conic_lampe_color; // color
 
 uniform float conic_smooth_factor; // float
 uniform float conic_ring_intensity; // float
 uniform float conic_bobbel_noifreq;
 uniform float conic_bobbel_roughness;
+uniform float conic_ring_animation;
+uniform float conic_bobbel_xcoord;
 
-vec3 colors[4] = vec3[4](
+vec3 colors[5] = vec3[5](
 		vec3(.03, .0, .0),
 		vec3(.0),
 		conic_bobbel_color,
-		conic_ring_color
+		conic_ring_color,
+		conic_lampe_color
 		);
 
 void main(void) {
@@ -73,26 +77,27 @@ float conicbobbel(vec3 p_cone, float l_body) {
 	p_spike.y -= height_spikes;
 	p_spike.z *= 3.2;
 	// you may uncomment following rotation line, but then there will be lots of ugly artefacts, if you do, then change the center of the spikes to x = l_body * .9
-	p_spike = rZ(TAU * -(clamp(p_spike.y, -10., .5) + 1.) / 7.)* p_spike;
+	p_spike = rZ(TAU * -(min(p_spike.y, .0) + 1.) / 7.)* p_spike;
 	float f_spike = cone(p_spike.xzy, normalize(vec2(sharpness_spikes, 1.)));
 	f_cone = smin(f_cone, f_spike, .1);
 
 	////// perlin make some noise!
 	vec2 surface_coord = vec2(p_cone.x * 3. + time, atan(p_cone.y, p_cone.z));
-	f_cone -= smoothstep(conic_bobbel_roughness, 1., cnoise(surface_coord * conic_bobbel_noifreq)) * .03; // smoothstep cuts the lower half of the noise to zero, -1 and 0 are both good values for conic_bobbel_roughness
+	float noise_amplitude = smoothstep(-.6, 0., p_cone.x) * (1. - smoothstep(l_body + .3, l_body + .5, p_cone.x)) * .03;
+	f_cone -= noise_amplitude * smoothstep(conic_bobbel_roughness, 1., cnoise(surface_coord * conic_bobbel_noifreq)); // smoothstep cuts the lower half of the noise to zero, -1 and 0 are both good values for conic_bobbel_roughness
 
 	return f_cone;
 }
 
 float bobbelring(vec3 p_cone, float l_body, float factorDeltaT) {
 	////// big, bright rings
-	float T = 3.; // duration of one anmation cyclus
+	float T = 1.; // duration of one animation cyclus
 	float deltaT = T * factorDeltaT; // delta between first and second ring
 	float bgn_rng_anim = l_body + .7; // start point of ring animation
 	float end_rng_anim = -1.; // end point of ring anmation
 	float max_ring_amp = 1.5; // maximum ring amplitude
-	vec3 p_ring = trans(p_cone, bgn_rng_anim + (end_rng_anim - bgn_rng_anim) * mod(time + deltaT, T) / T, 0., 0.);
-	float ring_radius = max_ring_amp * impulse(8., mod(time + deltaT, T) / T); // first arg is impulse shape
+	vec3 p_ring = trans(p_cone, bgn_rng_anim + (end_rng_anim - bgn_rng_anim) * mod(conic_ring_animation + deltaT, T) / T, 0., 0.);
+	float ring_radius = max_ring_amp * impulse(8., mod(conic_ring_animation + deltaT, T) / T); // first arg is impulse shape
 	float ring_r_thickness = .2 * ring_radius; // thickness of ring in r direction
 	float ring_x_thickness = .03; // thickness of ring in x direction
 	float f_ring = 0.;
@@ -103,7 +108,7 @@ float bobbelring(vec3 p_cone, float l_body, float factorDeltaT) {
 }
 
 vec2 f(vec3 p) {
-	vec3 p_bobbel = trans(p, -1., 0., -3.);
+	vec3 p_bobbel = trans(p, conic_bobbel_xcoord, 0., -3.);
 
 	vec3 s_domrep = vec3(30, 1., 25.); // domrep cell size, 1. probably means no domrep
 	vec3 p_pre_cone = trans(p_bobbel, 10. * time, 0., 0.); // move with time
@@ -131,7 +136,27 @@ vec2 f(vec3 p) {
 	vec2 m_ring = vec2(f_ring, 3.);
 	vec2 m_bobbel = smin_smaterial(m_cone, m_ring, conic_smooth_factor);
 
-	vec2 bottom = vec2(p.y + 2., 0.);
+	float radius_lampe = 10.;
+	vec3 p_lampe = trans(p, -15, 0, -3);
+	float f_lampe = sphere(p_lampe, radius_lampe);
+
+	/*
+	// chinesische startlampe
+	vec3 p_startrampe = trans(p_lampe, radius_lampe, 0., 0.);
+	float f_startlampe = cylinder(p_startrampe.zyx, .4, .00);
+	f_lampe = smin(f_lampe, f_startlampe, .5);
+	*/
+
+	vec3 p_delle = p_bobbel; //p_trans(p_lampe, radius_lampe, 0., 0.);
+	float f_delle = line(p_delle, vec3(1.7, 0., 0.), vec3(.1), 1.);
+	f_lampe = smax(f_lampe, -f_delle, 1.);
+
+	vec2 m_lampe = vec2(f_lampe, 4.);
+
+	vec2 m_bobbel_lampe = smin_material(m_bobbel, m_lampe, 1.);
+
+	vec2 m_content = m_bobbel_lampe;
+	vec2 bottom = vec2(p.y + 20., 0.);
 	vec2 bounding = vec2(-sphere(p - camera_position, 300.), 1.);
-	return min_material(m_bobbel, min_material(bottom, bounding));
+	return min_material(m_content, min_material(bottom, bounding));
 }

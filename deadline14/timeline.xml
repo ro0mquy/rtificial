@@ -95,6 +95,42 @@
       <uniformStandardValue valueFloatX="-1"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="conic_bobbel_xcoord" uniformType="float">
+      <uniformStandardValue valueFloatX="-2.979"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="101" sequenceStart="2" sequenceDuration="36"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="-10.719"/>
+            </keyframe>
+            <keyframe keyframePosition="36">
+              <keyframeValue valueFloatX="-2.008"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
+    <uniform uniformName="conic_lampe_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.18" valueColorG="0.18" valueColorB="0.18"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_ring_animation" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="101" sequenceStart="2" sequenceDuration="36"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="36">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
     <uniform uniformName="conic_ring_color" uniformType="color">
       <uniformStandardValue valueColorR="0.229901" valueColorG="0.401021" valueColorB="0.0404214"/>
       <sequencesArray/>
