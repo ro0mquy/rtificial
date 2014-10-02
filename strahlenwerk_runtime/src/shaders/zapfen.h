@@ -1144,7 +1144,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(	int i;
 )shader_source"
-R"shader_source(	vec3 p = march_adv(camera_position, dir, i, 150, .9);
+R"shader_source(	vec3 p = march_adv(camera_position, dir, i, 100, .9);
 )shader_source"
 R"shader_source(	if(abs(f(p)[1]) <= 1e-6) {
 )shader_source"
@@ -1200,7 +1200,7 @@ R"shader_source(			);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(		Material material2 = Material(vec3(0.), 1., 0.);
+R"shader_source(		Material material2 = Material(vec3(1.), 1., 0.);
 )shader_source"
 R"shader_source(		vec3 color2 = apply_lights(p, normal, -dir, material2);
 )shader_source"
@@ -1228,13 +1228,13 @@ R"shader_source(		//color2 += emit_light(vec3(1., 0., 0.), grid * intensity);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(		color = mix(color1, color2, materialId - 1.);
+R"shader_source(		color = mix(color1, color2, pow(materialId - 1., 6.));
 )shader_source"
 R"shader_source(	} else if(materialId >= 3. && materialId <= 4.) {
 )shader_source"
 R"shader_source(		Material material = Material(vec3(1., 0., 0.), 1., 0.);
 )shader_source"
-R"shader_source(		vec3 nonglowing = vec3(0.);
+R"shader_source(		vec3 nonglowing = vec3(0., 0., 0.) * .2;
 )shader_source"
 R"shader_source(		vec3 glowing = apply_lights(p, normal, -dir, material);
 )shader_source"
@@ -1262,7 +1262,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(vec2 f(vec3 p) {
 )shader_source"
-R"shader_source(	vec2 bounding = vec2(-sphere(camera_position - p, 1000.), 0.);
+R"shader_source(	vec2 bounding = vec2(-sphere(camera_position - p, 300.), 0.);
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1330,13 +1330,31 @@ R"shader_source(			leit.y = 1.;
 )shader_source"
 R"shader_source(			vec2 leit1 = leitungen(q, 0., .6, 1.7);
 )shader_source"
-R"shader_source(			vec2 leit2 = leitungen(q, 50., .6, 2.3);
+R"shader_source(			vec2 leit2 = leitungen(q, 50., .6, 27.3);
 )shader_source"
-R"shader_source(			vec2 leit3 = leitungen(q, 20., .6, 3.2);
+R"shader_source(			vec2 leit3 = leitungen(q, 20., .6, 549.2);
 )shader_source"
-R"shader_source(			vec2 leit4 = leitungen(q, 80., .6, 2.7);
+R"shader_source(			vec2 leit4 = leitungen(q, 80., .6, 123.7);
 )shader_source"
-R"shader_source(			leit = min_material(min_material(leit1, leit2), min_material(leit3, leit4));
+R"shader_source(
+)shader_source"
+R"shader_source(			//vec2 leit1 = leitungen(q, 0., .2, 1.7);
+)shader_source"
+R"shader_source(			//vec2 leit2 = leitungen(q, 50., .2, 2.3);
+)shader_source"
+R"shader_source(			//vec2 leit3 = leitungen(q, 30., .2, 3.2);
+)shader_source"
+R"shader_source(			//vec2 leit4 = leitungen(q, 70., .2, 2.7);
+)shader_source"
+R"shader_source(			float k = .5;
+)shader_source"
+R"shader_source(			leit = smin_smaterial(smin_smaterial(leit1, leit2, k), smin_smaterial(leit3, leit4, k), k);
+)shader_source"
+R"shader_source(			//leit = min_material(leit1, min_material(leit2, leit3));
+)shader_source"
+R"shader_source(			//leit = min_material(leit1, leit2);
+)shader_source"
+R"shader_source(			//leit = leit1;
 )shader_source"
 R"shader_source(			leit.y += 3.;
 )shader_source"
@@ -1348,7 +1366,7 @@ R"shader_source(		}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(		object = min_material(boden_object, leit);
+R"shader_source(		object = smin_material(boden_object, leit, 2.);
 )shader_source"
 R"shader_source(	} else {
 )shader_source"
@@ -1434,15 +1452,19 @@ R"shader_source(
 )shader_source"
 R"shader_source(	////float glow = smoothstep(.2, .8, vnoise(vec2(time * 3. + p.z * .2, 2000. * floor(p.x / 10. /freq))));
 )shader_source"
-R"shader_source(	float glow = smoothstep(.2, .8, vnoise(vec2(distance(next, p.xz) * .5 + 1.3 * time, 2000. * rand(floor((p.xz + 25.) / 50.)))));
+R"shader_source(	float glow = smoothstep(.2, .8, vnoise(vec2(distance(next, p.xz) * .1 + 1.3 * time, 2000. * rand(floor((p.xz + 25.) / 50.)))));
+)shader_source"
+R"shader_source(	//glow = 1.;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	float t = vnoise(p.xz * zapfen_leit_freq + 333. * freq) * .5 + .5;
+R"shader_source(	float t = vnoise(vec2(p.z, floor(p.x/80.) * floor(p.z/80.)) * zapfen_leit_freq + 333. * freq) * .5 + .5;
 )shader_source"
-R"shader_source(	p.xz += rot2D(radians(10.) * t) * vec2(10.) - 10.;
+R"shader_source(	//float t = vnoise(vec2(p.z, 0.) * zapfen_leit_freq + 333. * freq) * .5 + .5;
 )shader_source"
-R"shader_source(	p = trans(p, 0., 4. * (t * .5 + .5), 0.);
+R"shader_source(	p.xz += rot2D(radians(20.) * t) * vec2(10.) - 10.;
+)shader_source"
+R"shader_source(	//p = trans(p, 0., 2. * (t * .5 + .5), 0.);
 )shader_source"
 R"shader_source(	//p.x = mod(p.x, 20. / freq) - 10. / freq;
 )shader_source"
@@ -1452,7 +1474,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(	vec3 q = p;
 )shader_source"
-R"shader_source(	q.xz = mod(q.xz, 40.);
+R"shader_source(	q.xz = mod(q.xz, 40.) + 5.;
 )shader_source"
 R"shader_source(	float angle = atan(q.x, q.z);
 )shader_source"

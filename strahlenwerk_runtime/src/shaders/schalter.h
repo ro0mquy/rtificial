@@ -1354,7 +1354,15 @@ R"shader_source(	schalter_cube = min_material(schalter_cube, vec2(torus_2, MATER
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	float lightballs_dist = sphere(domrep(p, 7, 10.,8.), 2.);
+R"shader_source(	vec3 p_lb = p;
+)shader_source"
+R"shader_source(	vec3 dr_factor = vec3(7.,10.,8.);
+)shader_source"
+R"shader_source(	vec3 p_lb_dr = domrepv(p_lb, dr_factor);
+)shader_source"
+R"shader_source(	p_lb_dr = trans(p_lb_dr, 0.,2*vnoise(floor(p_lb/dr_factor)),0.);
+)shader_source"
+R"shader_source(	float lightballs_dist = sphere(p_lb_dr, 2+1.5*vnoise(floor(p_lb/dr_factor)));
 )shader_source"
 R"shader_source(	float no_lightballs = sphere(p, 20.);
 )shader_source"

@@ -307,8 +307,8 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 		}
 		for(int j = 0; j < data.getNumSequences(uniform); j++) {
 			auto sequence = data.getSequence(uniform, j);
-			const int start = float(data.getAbsoluteStartForSequence(sequence));
-			const int end = start + float(data.getSequenceDuration(sequence));
+			const float start = float(data.getAbsoluteStartForSequence(sequence));
+			const float end = start + float(data.getSequenceDuration(sequence));
 			int interpolation = 0;
 			const auto interpolationString = data.getSequenceInterpolation(sequence);
 			if(interpolationString == "step") {
