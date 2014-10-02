@@ -638,8 +638,20 @@ ValueTree TimelineData::getKeyframe(ValueTree sequence, const int nthKeyframe) {
 }
 
 ValueTree TimelineData::getKeyframe(ValueTree sequence, const var& position) {
+	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
+	const float wantedPosition = position;
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	return getKeyframesArray(sequence).getChildWithProperty(treeId::keyframePosition, position);
+
+	const int numKeyframes = getNumKeyframes(sequence);
+	for (int i = 0; i < numKeyframes; i++) {
+		ValueTree keyframe = getKeyframe(sequence, i);
+		const float keyframePosition = getKeyframePosition(keyframe);
+		if (wantedPosition >= keyframePosition - epsilon && wantedPosition <= keyframePosition + epsilon) {
+			return keyframe;
+		}
+	}
+
+	return ValueTree();
 }
 
 // checks the ValueTree for all requirements to be a sequence
