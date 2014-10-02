@@ -1,8 +1,8 @@
 #include "vec2.h"
 #include <cmath>
 
-vec2::vec2(double x_, double y_, double z_) :
-	x(x_), y(y_), z(z_)
+vec2::vec2(double x_, double y_) :
+	x(x_), y(y_)
 { }
 
 vec2 operator+(vec2 const& v1, vec2 const& v2) {

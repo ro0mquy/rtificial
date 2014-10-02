@@ -85,6 +85,10 @@
     <ClInclude Include="..\..\src\glcorearb.h" />
     <ClInclude Include="..\..\src\gl_identifiers.h" />
     <ClInclude Include="..\..\src\Keyframe.h" />
+    <ClInclude Include="..\..\src\math\quat.h" />
+    <ClInclude Include="..\..\src\math\scalar.h" />
+    <ClInclude Include="..\..\src\math\vec2.h" />
+    <ClInclude Include="..\..\src\math\vec3.h" />
     <ClInclude Include="..\..\src\music\4klang.h" />
     <ClInclude Include="..\..\src\Scene.h" />
     <ClInclude Include="..\..\src\Sequence.h" />
@@ -97,6 +101,10 @@
     <ClCompile Include="..\..\src\Framebuffer.cpp" />
     <ClCompile Include="..\..\src\LinuxBackend.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\math\quat.cpp" />
+    <ClCompile Include="..\..\src\math\scalar.cpp" />
+    <ClCompile Include="..\..\src\math\vec2.cpp" />
+    <ClCompile Include="..\..\src\math\vec3.cpp" />
     <ClCompile Include="..\..\src\Shader.cpp" />
     <ClCompile Include="..\..\src\WindowsBackend.cpp" />
   </ItemGroup>

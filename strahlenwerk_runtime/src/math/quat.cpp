@@ -1,6 +1,12 @@
 #include "quat.h"
 #include <cmath>
 
+quat::quat(double w_, double x_, double y_, double z_) :
+	w(w_), x(x_), y(y_), z(z_)
+{
+}
+
+
 quat operator+(quat const& q1, quat const& q2) {
 	return quat(
 			q1.w + q2.w,
@@ -42,7 +48,7 @@ double dot(quat const& q1, quat const& q2) {
 }
 
 quat normalize(quat const& q) {
-	const double len = lenght(q);
+	const double len = length(q);
 	if (len <= 0.) {
 		return quat(1., 0., 0., 0.);
 	}
@@ -58,12 +64,12 @@ quat slerp(quat const& q1, quat const& q2, const double& t) {
 	// To fix this, one quat must be negated.
 	if (cosTheta < 0.)
 	{
-		q2_      = -q2;
+		q2_      = -1 * q2;
 		cosTheta = -cosTheta;
 	}
 
 	double angle = acos(cosTheta);
-	return (sin((1. - t) * angle) * q1 + sin(t * angle) * q2_) / sin(angle);
+	return (sin((1. - t) * angle) * q1 + sin(t * angle) * q2_) * (1.0 / sin(angle));
 }
 
 quat mirror(quat const& q0, quat const& q1) {
