@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "Keyframe.h"
 #include "Sequence.h"
+#include "Uniform.h"
 #include "shaders/bokeh_pass1.h"
 #include "shaders/bloom_small_vert.h"
 #include "shaders/bloom_medium_vert.h"
@@ -532,3 +533,4 @@ int keyframe_time_index[55] = {
 	42,
 };
 #endif
+

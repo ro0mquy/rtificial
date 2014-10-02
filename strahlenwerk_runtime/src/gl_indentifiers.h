@@ -4,10 +4,14 @@
 #ifdef BUILD_WINDOWS
 #	include <Windows.h>
 #	include <GL/gl.h>
+#	include "glcorearb.h"
+#elif BUILD_LINUX
+#	include <GL/gl.h>
 #endif
-#include "glcorearb.h"
 
+#ifdef BUILD_WINDOWS // wtf
 extern PFNGLACTIVETEXTUREPROC            glActiveTexture;
+#endif
 extern PFNGLGENBUFFERSPROC               glGenFramebuffers;
 extern PFNGLBINDFRAMEBUFFERPROC          glBindFramebuffer;
 extern PFNGLGENERATEMIPMAPPROC           glGenerateMipmap;

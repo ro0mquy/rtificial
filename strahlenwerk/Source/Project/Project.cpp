@@ -104,6 +104,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 #include "Scene.h"
 #include "Keyframe.h"
 #include "Sequence.h"
+#include "Uniform.h"
 )source";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
@@ -372,7 +373,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	shadersHeaderContent += uniformsArray;
 	shadersHeaderContent += keyframeTimeArray;
 	shadersHeaderContent += keyframeTimeIndexArray;
-	shadersHeaderContent += "#endif";
+	shadersHeaderContent += "#endif\n";
 
 	shadersHeader.replaceWithText(shadersHeaderContent);
 }

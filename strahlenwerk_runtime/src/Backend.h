@@ -35,7 +35,7 @@ class WindowsBackend {
 class LinuxBackend {
 	public:
 		void init(int width, int height, bool fullscreen);
-		void play_music(int16_t* audio);
+		void initAudio(bool threaded);
 		bool beforeFrame();
 		void afterFrame();
 		void cleanup();
