@@ -517,4 +517,5 @@ void Project::reloadScenes() {
 
 void Project::reloadAudio() {
 	audioManager.loadFile(loader.getAudioFile());
+	audioManager.loadEnvelopes(loader.getEnvelopeFile());
 }

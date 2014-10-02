@@ -1,6 +1,7 @@
 #version 430
 
 layout(location = 0) uniform vec2 res;
+layout(location = 1) uniform float envelopes[32];
 
 layout(location = 0) out vec3 out_color; // alpha = CoC
 layout(location = 1) out float coc;

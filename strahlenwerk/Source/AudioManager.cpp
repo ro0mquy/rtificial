@@ -52,6 +52,16 @@ void AudioManager::loadFile(const File& audioFile) {
 	}
 }
 
+void AudioManager::loadEnvelopes(const File& envelopeFile) {
+	if(envelopeFile.exists()) {
+		auto stream = envelopeFile.createInputStream();
+		envelopeData = std::unique_ptr<float>(new float[stream->getTotalLength() / sizeof(float)]);
+		envelopesSize = stream->getTotalLength() / sizeof(float);
+		stream->read(&(*envelopeData), stream->getTotalLength());
+		delete stream;
+	}
+}
+
 void AudioManager::togglePlayPause() {
 	if(transportSource.isPlaying()) {
 		transportSource.stop();
@@ -67,6 +77,19 @@ float AudioManager::getTimeInBeats() {
 void AudioManager::setTime(float newTimeInBeats) {
 	transportSource.setPosition(newTimeInBeats / (getBpm() / 60.));
 	sendChangeMessage();
+}
+
+float* AudioManager::getCurrentEnvelopes() {
+	if(envelopeData == nullptr) {
+		return nullptr;
+	} else {
+		const int index = int(transportSource.getCurrentPosition() * 44100) / 256 * 32;
+		if(index < envelopesSize) {
+			return &(&(*envelopeData))[index];
+		} else {
+			return nullptr;
+		}
+	}
 }
 
 AudioThumbnail& AudioManager::getThumbnail() {

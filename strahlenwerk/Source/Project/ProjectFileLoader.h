@@ -14,6 +14,7 @@ class ProjectFileLoader {
 		File getMappingFile();
 		File getTimelineDataFile();
 		File getAudioFile();
+		File getEnvelopeFile();
 
 		const File& getSceneDir() const;
 		const File& getPostprocDir() const;

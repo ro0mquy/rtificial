@@ -12,6 +12,7 @@
 #include <StrahlenwerkApplication.h>
 #include <Timeline/TimelineData.h>
 #include <Timeline/Interpolator.h>
+#include "AudioManager.h"
 
 Shader::Shader(OpenGLContext& context, std::string name) :
 	context(context),
@@ -100,6 +101,11 @@ void Shader::draw(int width, int height) {
 	};
 	context.extensions.glVertexAttribPointer(attributeCoord, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	context.extensions.glUniform2f(0, width, height);
+	AudioManager& audioManager = StrahlenwerkApplication::getInstance()->getAudioManager();
+	float* envelopes = audioManager.getCurrentEnvelopes();
+	if(envelopes != nullptr) {
+		context.extensions.glUniform1fv(1, 32, envelopes);
+	}
 	loadUniformValues();
 	glGetError(); // clear error
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
