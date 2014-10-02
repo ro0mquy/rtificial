@@ -211,6 +211,11 @@ vec3 domrep(vec3 p, float x, float y, float z) {
 	return domrepv(p, vec3(x, y, z));
 }
 
+// f: distance function to object
+// p: evaluation point
+// s: scale factor
+#define scale(f, p, s) f((p)/(s))*(s)
+
 // trans*late things - using vectors!!
 // p: point
 // v: translation vector
