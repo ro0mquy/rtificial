@@ -30,10 +30,10 @@
     <ClInclude Include="..\..\src\strahlenwerk_export.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\gl_indentifiers.h">
+    <ClInclude Include="..\..\src\music\4klang.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\music\4klang.h">
+    <ClInclude Include="..\..\src\gl_identifiers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

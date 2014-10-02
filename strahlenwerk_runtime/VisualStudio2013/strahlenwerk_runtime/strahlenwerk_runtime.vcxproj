@@ -82,7 +82,7 @@
     <ClInclude Include="..\..\src\Backend.h" />
     <ClInclude Include="..\..\src\Framebuffer.h" />
     <ClInclude Include="..\..\src\glcorearb.h" />
-    <ClInclude Include="..\..\src\gl_indentifiers.h" />
+    <ClInclude Include="..\..\src\gl_identifiers.h" />
     <ClInclude Include="..\..\src\music\4klang.h" />
     <ClInclude Include="..\..\src\Shader.h" />
     <ClInclude Include="..\..\src\strahlenwerk_export.h" />

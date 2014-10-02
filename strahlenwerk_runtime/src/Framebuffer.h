@@ -1,7 +1,7 @@
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H
 
-#include "gl_indentifiers.h"
+#include "gl_identifiers.h"
 
 struct Output {
 	int components;

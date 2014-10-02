@@ -1,7 +1,7 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include "gl_indentifiers.h"
+#include "gl_identifiers.h"
 
 
 struct Input {

@@ -3,7 +3,7 @@
 #include "strahlenwerk_export.h"
 
 #include "glcorearb.h"
-#include "gl_indentifiers.h"
+#include "gl_identifiers.h"
 
 #ifdef BUILD_LINUX
 	using Backend = LinuxBackend;
