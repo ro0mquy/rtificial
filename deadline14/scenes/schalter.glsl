@@ -142,13 +142,16 @@ vec2 f(vec3 p) {
 	qq = trans(qq, 0., -pyr_closed/2., 0.); // pyramid distance
 	qq.y = -pyramid_size*pyramid_h-qq.y;
 	float pyr = pyramid(qq, pyramid_size * pyramid_s, pyramid_size * pyramid_h);
+	float b = pyramid_size * pyramid_s * .5 * .9;
+	pyr = smax(pyr, -roundbox(trans(qq, 0., -pyramid_size * pyramid_h, 0.), vec3(b, .1, b), .3), .05);
 	p_pyramid = qq;
 	vec2 pyramid = vec2(pyr, MATERIAL_ID_PYRAMID);
 
 	// box-torus-morph
 	q = trans(q, 0., pyramid_size* pyramid_h + 1., 0.);
 	q = trans(q, 0., pyramid_bottom, 0.);
-	float cube = roundbox(q, vec3(linstep(0.,0.1,pyramid_animation)), .5);
+	// .1 fuer schale
+	float cube = roundbox(q, vec3(linstep(0.,0.1,pyramid_animation) + .1), .5);
 	float d = .75 + smoothstep(.70,1., pyramid_animation)*7.5;
 	float down_anim = - (pyramid_size * pyramid_h + 2. + pyramid_bottom) * smoothstep(0.75, 1., pyramid_animation);
 	float mytorus = torus(trans(q, 0.,-.5 + down_anim,0.), vec2(.5 + d, .5));
