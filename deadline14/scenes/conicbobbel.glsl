@@ -12,6 +12,8 @@ uniform float conic_bobbel_noifreq;
 uniform float conic_bobbel_roughness;
 uniform float conic_ring_animation;
 uniform float conic_bobbel_xcoord;
+uniform float conic_domrep_spacing;
+uniform bool  conic_domrep_enabled;
 
 vec3 colors[5] = vec3[5](
 		vec3(.0),
@@ -64,7 +66,7 @@ void main(void) {
 		color = apply_light(hit, normal, -direction, mat, light1);
 	}
 
-	output_color(color, 4.01);//distance(hit, camera_position));
+	output_color(color, distance(hit, camera_position));
 }
 
 float conicbobbel(vec3 p_cone, float l_body) {
@@ -123,20 +125,23 @@ float bobbelring(vec3 p_cone, float l_body, float factorDeltaT) {
 vec2 f(vec3 p) {
 	vec3 p_bobbel = trans(p, conic_bobbel_xcoord, 0., -3.);
 
-	vec3 s_domrep = vec3(30, 1., 25.); // domrep cell size, 1. probably means no domrep
-	vec3 p_pre_cone = trans(p_bobbel, 10. * time, 0., 0.); // move with time
+	vec3 s_domrep = conic_domrep_spacing * vec3(10, 13., 9.); // domrep cell size, 1. probably means no domrep
+	vec3 p_pre_cone = p_bobbel;
+	//p_pre_cone = trans(p_bobbel, 10. * time, 0., 0.); // move with time
 	// find the current cell
-	float cell_x = floor(p_pre_cone.x / s_domrep.x);
-	float cell_y = floor(p_pre_cone.y / s_domrep.y);
-	float cell_z = floor(p_pre_cone.z / s_domrep.z);
+	vec3 cell = floor(p_pre_cone / s_domrep) + 100.;
 	// move single cells a bit sidewards, maybe amplitude should be smaller than domrep cell
-	p_pre_cone = trans(p_pre_cone,
-			sin(cell_z * cell_z) * 32.,
-			0.,
-			sin(cell_x * cell_x) * 50.);
+	vec3 translation_vector = conic_domrep_spacing * vec3(
+			sin(cell.z * cell.z) * 4.,
+			sin(cell.z * cell.x) * 3.,
+			sin(cell.x * cell.x) * 3.6);
+	p_pre_cone = transv(p_pre_cone, translation_vector);
 	vec3 p_cone = domrepv(p_pre_cone, s_domrep);
-	p_cone.y = p_pre_cone.y; // dont't domrep y
-	p_cone = p_bobbel; // remove for repetition and movement
+	//p_cone.y = p_pre_cone.y; // dont't domrep y
+	if (!conic_domrep_enabled) {
+		// remove for repetition and movement
+		p_cone = p_bobbel;
+	}
 
 	// get bobbel body and rings
 	float l_body = 2.; // length of body
@@ -164,6 +169,6 @@ vec2 f(vec3 p) {
 
 	vec2 m_content = m_bobbel_lampe;
 	vec2 bottom = vec2(p.y + 20., material_boden);
-	vec2 bounding = vec2(-sphere(p - camera_position, 300.), material_bounding);
+	vec2 bounding = vec2(-sphere(p - camera_position, 100.), material_bounding);
 	return min_material(m_content, min_material(bottom, bounding));
 }
