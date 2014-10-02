@@ -68,7 +68,7 @@ vec2 f(vec3 p) {
 
 	// bobbel
 	vec3 p_bbl = p;
-	p_bbl = trans(p_bbl, 25., -25., -25.);
+	p_bbl = trans(p_bbl, dr_factor/2., -dr_factor/2., -dr_factor/2.);
 	p_bbl *= rY(-0.1*TAU);
 	float scale_factor = 0.15;
 	float bbl = conicbobbel(p_bbl / scale_factor, 2.) * scale_factor;
