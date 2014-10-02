@@ -4,6 +4,7 @@
 #include <AudioManager.h>
 #include <glm/glm.hpp>
 #include "Splines.h"
+#include "ZoomFactor.h"
 
 TimelineData::TimelineData(const File& dataFile) :
 	interpolator(*this)
@@ -587,13 +588,14 @@ float TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
 // returns the active sequence of a uniform for a timepoint
 // a invalid tree is returned if there is none
 ValueTree TimelineData::getSequenceForTime(ValueTree uniform, const float absoluteTime) {
+	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
 	const int numSequences = getNumSequences(uniform);
 	for (int i = 0; i < numSequences; i++) {
 		ValueTree sequence = getSequence(uniform, i);
 		const float start = getAbsoluteStartForSequence(sequence);
 		const float duration = getSequenceDuration(sequence);
 		const float relativeTime = absoluteTime - start;
-		if (isPositiveAndNotGreaterThan(relativeTime, duration)) {
+		if (isPositiveAndNotGreaterThan(relativeTime + epsilon, duration + 2.f * epsilon)) {
 			return sequence;
 		}
 	}

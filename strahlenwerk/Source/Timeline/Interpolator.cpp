@@ -2,6 +2,7 @@
 #include <StrahlenwerkApplication.h>
 #include <AudioManager.h>
 #include "TimelineData.h"
+#include "ZoomFactor.h"
 
 using UniformState = Interpolator::UniformState;
 
@@ -88,12 +89,13 @@ UniformState Interpolator::calculateInterpolatedState(ValueTree sequence, const 
 // step interpolation method
 // returns the value of the last keyframe
 UniformState Interpolator::interpolationMethodStep(ValueTree sequence, const float currentTime) {
+	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	// iterate keyframes from the end
 	for (int i = numKeyframes - 1; i >= 0; i--) {
 		ValueTree keyframe = data.getKeyframe(sequence, i);
 		const float keyframePosition = data.getKeyframePosition(keyframe);
-		if (keyframePosition <= currentTime) {
+		if (keyframePosition <= currentTime + epsilon) {
 			// return first keyframe that comes before the current time
 			ValueTree value = data.getKeyframeValue(keyframe);
 			const bool isOnKeyframe = true;
@@ -108,13 +110,15 @@ UniformState Interpolator::interpolationMethodStep(ValueTree sequence, const flo
 // linear interpolation method
 // returns the lineary interpolated value between the two current keyframes
 UniformState Interpolator::interpolationMethodLinear(ValueTree sequence, const float currentTime) {
+	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
+
 	// check other keyframes for need to interpolate
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	for (int i = 0; i < numKeyframes; i++) {
 		ValueTree keyframe = data.getKeyframe(sequence, i);
 		const float keyframePosition = data.getKeyframePosition(keyframe);
 
-		if (currentTime == keyframePosition) {
+		if (currentTime >= keyframePosition - epsilon && currentTime <= keyframePosition + epsilon) {
 			// exactly on a keyframe
 			ValueTree value = data.getKeyframeValue(keyframe);
 			const bool isOnKeyframe = true;
@@ -146,12 +150,14 @@ UniformState Interpolator::interpolationMethodLinear(ValueTree sequence, const f
 // Centripetal Catmull-Rom Spline interpolation method
 // interpolates between different keyframes with Catmull-Rom splines in centripetal parametrization
 UniformState Interpolator::interpolationMethodCcrSpline(ValueTree sequence, const float currentTime) {
+	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
+
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	for (int i = 0; i < numKeyframes; i++) {
 		ValueTree keyframe = data.getKeyframe(sequence, i);
 		const float keyframePosition = data.getKeyframePosition(keyframe);
 
-		if (currentTime == keyframePosition) {
+		if (currentTime >= keyframePosition - epsilon && currentTime <= keyframePosition + epsilon) {
 			// exactly on a keyframe
 			ValueTree value = data.getKeyframeValue(keyframe);
 			const bool isOnKeyframe = true;

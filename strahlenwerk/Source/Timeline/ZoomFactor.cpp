@@ -79,3 +79,7 @@ float ZoomFactor::snapValueToGrid(const float valueAsTime) {
 	const float newRoundedPos = roundFloatToInt(posOnGrid) * gridWidth;
 	return newRoundedPos;
 }
+
+float ZoomFactor::getEpsilon() {
+	return getGridWidth() / 100.;
+}

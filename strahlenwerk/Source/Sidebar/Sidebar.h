@@ -9,7 +9,8 @@ class TimelineData;
 class Sidebar :
 	public PropertyPanel,
 	private ValueTree::Listener,
-	private ChangeListener
+	private ChangeListener,
+	private AsyncUpdater
 {
 	public:
 		Sidebar();
@@ -20,6 +21,7 @@ class Sidebar :
 		void updateEditorValueData(ValueTree uniform);
 		void updateAllEditorValueDatas();
 
+		void handleAsyncUpdate() override;
 		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 		// ValueTree::Listener callbacks

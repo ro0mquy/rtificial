@@ -10,7 +10,7 @@ Sidebar::Sidebar() :
 {
 	data.addListenerToTree(this);
 	AudioManager::getAudioManager().addChangeListener(this);
-	reAddAllProperties();
+	triggerAsyncUpdate();
 }
 
 Sidebar::~Sidebar() {
@@ -69,6 +69,10 @@ void Sidebar::updateAllEditorValueDatas() {
 		ValueTree uniform = data.getUniform(i);
 		updateEditorValueData(uniform);
 	}
+}
+
+void Sidebar::handleAsyncUpdate() {
+	reAddAllProperties();
 }
 
 void Sidebar::changeListenerCallback(ChangeBroadcaster* /*source*/) {
