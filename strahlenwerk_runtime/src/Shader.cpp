@@ -1,4 +1,5 @@
 #include "Shader.h"
+#include "DataInterpolator.h"
 
 #ifdef DEBUG
 #include <iostream>
@@ -63,6 +64,7 @@ void Shader::draw(int width, int height) {
 	};
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	glUniform2f(0, width, height);
+	DataInterpolator::loadUniforms();
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(0);
 }
