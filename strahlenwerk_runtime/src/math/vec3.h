@@ -4,6 +4,7 @@
 struct vec3 {
 	double x, y, z;
 
+	vec3();
 	vec3(double x_, double y_, double z_);
 };
 

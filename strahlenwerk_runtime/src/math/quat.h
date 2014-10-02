@@ -4,6 +4,7 @@
 struct quat {
 	double x, y, z, w;
 
+	quat();
 	quat(double w, double x, double y, double z);
 };
 

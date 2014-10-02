@@ -10,6 +10,7 @@ namespace DataInterpolator {
 	void setUniformValue(const int nthUniform, const int type, const int location);
 	void setValue(const int nthUniform, const int type, const int location, const int offset);
 	void setLinearValue(const int nthUniform, const int type, const int location, const int offset, const double mixT);
+	void setSplineValue(const int nthUniform, const int type, const int location, const int offset, const double mixT, const bool noFirstValue, const bool noLastValue);
 };
 
 #endif // DATAINTERPOLATOR_H

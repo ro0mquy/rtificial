@@ -1,11 +1,13 @@
 #include "quat.h"
 #include <cmath>
 
+quat::quat() :
+	quat(1., 0., 0., 0.)
+{ }
+
 quat::quat(double w_, double x_, double y_, double z_) :
 	w(w_), x(x_), y(y_), z(z_)
-{
-}
-
+{ }
 
 quat operator+(quat const& q1, quat const& q2) {
 	return quat(

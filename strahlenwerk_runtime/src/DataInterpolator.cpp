@@ -61,7 +61,7 @@ void DataInterpolator::setUniformValue(const int nthUniform, const int type, con
 		const int keyframeTimeOffset = keyframeTimeIndex + totalNumKeyframe - numKeyframes;
 		const int keyframeDataOffset = totalNumKeyframe - numKeyframes + 1; // first keyframe data is standard value
 
-		for (int j = 0; i < numKeyframes; i++) {
+		for (int j = 0; j < numKeyframes; j++) {
 			const float keyframeTime = keyframe_time[keyframeTimeOffset + j];
 
 			if (relativeTime < keyframeTime && j != 0) {
@@ -81,45 +81,11 @@ void DataInterpolator::setUniformValue(const int nthUniform, const int type, con
 						// current keyframe is P2
 						setLinearValue(nthUniform, type, location, currentKeyframeDataOffset - 1, mixT);
 					} else {
-						/*
 						// ccrSpline
 						// current keyframe is P2
-						const float P1 = keyframe_data[currentKeyframeDataIndex - numFloatsInValue];
-						const float P2 = keyframe_data[currentKeyframeDataIndex];
-
-						float P0;
-						float P3;
-						if (i >= 2) {
-							// can access i-2th keyframe
-							P0 = keyframe_data[currentKeyframeDataIndex - 2 * numFloatsInValue];
-						} else {
-							// mirror P2 at P1
-							P0 = 2. * P1 - P2;
-						}
-						if (i <= numKeyframes - 2) {
-							// can access i+1th keyframe
-							P3 = keyframe_data[currentKeyframeDataIndex + numFloatsInValue];;
-						} else {
-							// mirror P1 at P2
-							P3 = 2. * P2 - P1;
-						}
-
-						// we calculate with deltas and not absolute times
-						const double dt01 = sqrt(distance(P0, P1));
-						const double dt12 = sqrt(distance(P1, P2));
-						const double dt23 = sqrt(distance(P2, P3));
-						const double dt = mixT * dt12;
-
-						const double L01 =              - dt  / dt01 * P0 + (dt + dt01) / dt01 * P1;
-						const double L12 =        (dt12 - dt) / dt12 * P1 +          dt / dt12 * P2;
-						const double L23 = (dt23 + dt12 - dt) / dt23 * P2 + (dt - dt12) / dt23 * P3;
-
-						const double L012 =        (dt12 - dt) / (dt01 + dt12) * L01 + (dt + dt01) / (dt01 + dt12) * L12;
-						const double L123 = (dt23 + dt12 - dt) / (dt12 + dt23) * L12 +          dt / (dt12 + dt23) * L23;
-
-						const double C12 = (dt12 - dt) / dt12 * L012 + dt / dt12 * L123;
-						return C12;
-						*/
+						const bool noFirstValue = j < 2;
+						const bool noLastValue = j > (numKeyframes - 2);
+						setSplineValue(nthUniform, type, location, currentKeyframeDataOffset - 1, mixT, noFirstValue, noLastValue);
 					}
 				}
 			}
@@ -253,6 +219,202 @@ void DataInterpolator::setLinearValue(const int nthUniform, const int type, cons
 
 				const quat mixed = slerp(P1, P2, mixT);
 				glUniform4f(location, mixed.x, mixed.y, mixed.z, mixed.w);
+			}
+			break;
+	}
+}
+
+// offset is for P1, not P2
+void DataInterpolator::setSplineValue(const int nthUniform, const int type, const int location, const int offset, const double mixT, const bool noFirstValue, const bool noLastValue) {
+	switch (type) {
+		case UNIFORM_TYPE_FLOAT:
+		case UNIFORM_TYPE_BOOL:
+			{
+				const int numFloatsInValue = 1;
+				const int standardValuePos = keyframe_index[nthUniform];
+				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const float P1 = keyframe_data[keyframeDataIndex];
+				const float P2 = keyframe_data[keyframeDataIndex + numFloatsInValue];
+
+				float P0, P3;
+				if (noFirstValue) {
+					P0 = 2. * P1 - P2;
+				} else {
+					P0 = keyframe_data[keyframeDataIndex - numFloatsInValue];
+				}
+				if (noLastValue) {
+					P3 = 2. * P2 - P1;
+				} else {
+					P3 = keyframe_data[keyframeDataIndex + 2 * numFloatsInValue];
+				}
+
+				const double dt01 = sqrt(distance(P0, P1));
+				const double dt12 = sqrt(distance(P1, P2));
+				const double dt23 = sqrt(distance(P2, P3));
+				const double dt = mixT * dt12;
+
+				const double L01 =              - dt  / dt01 * P0 + (dt + dt01) / dt01 * P1;
+				const double L12 =        (dt12 - dt) / dt12 * P1 +          dt / dt12 * P2;
+				const double L23 = (dt23 + dt12 - dt) / dt23 * P2 + (dt - dt12) / dt23 * P3;
+
+				const double L012 =        (dt12 - dt) / (dt01 + dt12) * L01 + (dt + dt01) / (dt01 + dt12) * L12;
+				const double L123 = (dt23 + dt12 - dt) / (dt12 + dt23) * L12 +          dt / (dt12 + dt23) * L23;
+
+				const double C12 = (dt12 - dt) / dt12 * L012 + dt / dt12 * L123;
+
+				glUniform1f(location, C12);
+			}
+			break;
+		case UNIFORM_TYPE_VEC2:
+			{
+				const int numFloatsInValue = 2;
+				const int standardValuePos = keyframe_index[nthUniform];
+				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const vec2 P1 = vec2(
+						keyframe_data[keyframeDataIndex],
+						keyframe_data[keyframeDataIndex + 1]);
+				const vec2 P2 = vec2(
+						keyframe_data[keyframeDataIndex + numFloatsInValue],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 1]);
+
+				vec2 P0, P3;
+				if (noFirstValue) {
+					P0 = 2. * P1 - P2;
+				} else {
+					P0 = vec2(
+						keyframe_data[keyframeDataIndex - numFloatsInValue],
+						keyframe_data[keyframeDataIndex - numFloatsInValue + 1]);
+				}
+				if (noLastValue) {
+					P3 = 2. * P2 - P1;
+				} else {
+					P3 = vec2(
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue],
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 1]);
+				}
+
+				const double dt01 = sqrt(distance(P0, P1));
+				const double dt12 = sqrt(distance(P1, P2));
+				const double dt23 = sqrt(distance(P2, P3));
+				const double dt = mixT * dt12;
+
+				const vec2 L01 =              - dt  / dt01 * P0 + (dt + dt01) / dt01 * P1;
+				const vec2 L12 =        (dt12 - dt) / dt12 * P1 +          dt / dt12 * P2;
+				const vec2 L23 = (dt23 + dt12 - dt) / dt23 * P2 + (dt - dt12) / dt23 * P3;
+
+				const vec2 L012 =        (dt12 - dt) / (dt01 + dt12) * L01 + (dt + dt01) / (dt01 + dt12) * L12;
+				const vec2 L123 = (dt23 + dt12 - dt) / (dt12 + dt23) * L12 +          dt / (dt12 + dt23) * L23;
+
+				const vec2 C12 = (dt12 - dt) / dt12 * L012 + dt / dt12 * L123;
+
+				glUniform2f(location, C12.x, C12.y);
+			}
+			break;
+		case UNIFORM_TYPE_VEC3:
+		case UNIFORM_TYPE_COLOR:
+			{
+				const int numFloatsInValue = 3;
+				const int standardValuePos = keyframe_index[nthUniform];
+				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const vec3 P1 = vec3(
+						keyframe_data[keyframeDataIndex],
+						keyframe_data[keyframeDataIndex + 1],
+						keyframe_data[keyframeDataIndex + 2]);
+				const vec3 P2 = vec3(
+						keyframe_data[keyframeDataIndex + numFloatsInValue],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 2]);
+
+				vec3 P0, P3;
+				if (noFirstValue) {
+					P0 = 2. * P1 - P2;
+				} else {
+					P0 = vec3(
+						keyframe_data[keyframeDataIndex - numFloatsInValue],
+						keyframe_data[keyframeDataIndex - numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex - numFloatsInValue + 2]);
+				}
+				if (noLastValue) {
+					P3 = 2. * P2 - P1;
+				} else {
+					P3 = vec3(
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue],
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 2]);
+				}
+
+				const double dt01 = sqrt(distance(P0, P1));
+				const double dt12 = sqrt(distance(P1, P2));
+				const double dt23 = sqrt(distance(P2, P3));
+				const double dt = mixT * dt12;
+
+				const vec3 L01 =              - dt  / dt01 * P0 + (dt + dt01) / dt01 * P1;
+				const vec3 L12 =        (dt12 - dt) / dt12 * P1 +          dt / dt12 * P2;
+				const vec3 L23 = (dt23 + dt12 - dt) / dt23 * P2 + (dt - dt12) / dt23 * P3;
+
+				const vec3 L012 =        (dt12 - dt) / (dt01 + dt12) * L01 + (dt + dt01) / (dt01 + dt12) * L12;
+				const vec3 L123 = (dt23 + dt12 - dt) / (dt12 + dt23) * L12 +          dt / (dt12 + dt23) * L23;
+
+				const vec3 C12 = (dt12 - dt) / dt12 * L012 + dt / dt12 * L123;
+
+				glUniform3f(location, C12.x, C12.y, C12.z);
+			}
+			break;
+		case UNIFORM_TYPE_VEC4:
+			{
+				const int numFloatsInValue = 4;
+				const int standardValuePos = keyframe_index[nthUniform];
+				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				// it's quat(w, x, y, z)
+				const quat P1 = quat(
+						keyframe_data[keyframeDataIndex + 3],
+						keyframe_data[keyframeDataIndex],
+						keyframe_data[keyframeDataIndex + 1],
+						keyframe_data[keyframeDataIndex + 2]);
+				const quat P2 = quat(
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 3],
+						keyframe_data[keyframeDataIndex + numFloatsInValue],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 2]);
+
+				quat P0, P3;
+				if (noFirstValue) {
+					P0 = P1;
+				} else {
+					P0 = quat(
+						keyframe_data[keyframeDataIndex - numFloatsInValue + 3],
+						keyframe_data[keyframeDataIndex - numFloatsInValue],
+						keyframe_data[keyframeDataIndex - numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex - numFloatsInValue + 2]);
+				}
+				if (noLastValue) {
+					P3 = P2;
+				} else {
+					P3 = quat(
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 3],
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue],
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 2]);
+				}
+
+				// interpolate between P1 and P2, so we need a1 and b2
+				const quat a1 = bisect(mirror(P0, P1), P2);
+				const quat b2 = mirror(bisect(mirror(P1, P2), P3), P2);
+
+				const quat p00 = slerp(P1, a1, mixT);
+				const quat p01 = slerp(a1, b2, mixT);
+				const quat p02 = slerp(b2, P2, mixT);
+
+				const quat p10 = slerp(p00, p01, mixT);
+				const quat p11 = slerp(p01, p02, mixT);
+
+				const quat p20 = slerp(p10, p11, mixT);
+
+				glUniform4f(location, p20.x, p20.y, p20.z, p20.w);
 			}
 			break;
 	}

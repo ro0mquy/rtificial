@@ -1,6 +1,10 @@
 #include "vec3.h"
 #include <cmath>
 
+vec3::vec3() :
+	vec3(0., 0., 0.)
+{ }
+
 vec3::vec3(double x_, double y_, double z_) :
 	x(x_), y(y_), z(z_)
 { }

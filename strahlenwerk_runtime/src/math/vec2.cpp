@@ -1,6 +1,10 @@
 #include "vec2.h"
 #include <cmath>
 
+vec2::vec2() :
+	vec2(0., 0.)
+{ }
+
 vec2::vec2(double x_, double y_) :
 	x(x_), y(y_)
 { }
