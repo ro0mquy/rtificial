@@ -19,10 +19,15 @@
 	using Backend = WindowsBackend;
 #endif
 
+#ifdef DEBUG && BUILD_WINDOWS
+#	include <string>
+#endif
+
 const int width = 1920;
 const int height = 1200;
 const bool fullscreen = true;
 const bool use_sound_thread = true;
+
 
 #ifdef BUILD_WINDOWS
 	int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
@@ -50,12 +55,11 @@ const bool use_sound_thread = true;
 		fbos[i].create(width, height);
 	}
 
-	int time = 0.; // TODO
 	int scene_id = 0;
 	int shader_id = scenes_data[scene_id].sceneId;
 	const int last_scene_id = sizeof(scenes_data) / sizeof(Scene) - 1;
 	while(backend.beforeFrame()) {
-		if(scenes_data[scene_id].end < time) {
+		if(scenes_data[scene_id].end < backend.getTime()) {
 			if(scene_id == last_scene_id) {
 				break;
 			} else {
@@ -78,6 +82,10 @@ const bool use_sound_thread = true;
 		postproc[n_postproc - 1].draw(width, height);
 		glDisable(GL_FRAMEBUFFER_SRGB);
 		backend.afterFrame();
+
+#		ifdef DEBUG && BUILD_WINDOWS
+		OutputDebugString((std::to_string(backend.getTime()) + "\n").c_str());
+#		endif
 	}
 
 	for(int i = 0; i < n_scenes; i++) {

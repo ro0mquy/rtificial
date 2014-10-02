@@ -131,6 +131,13 @@ void WindowsBackend::initAudio(bool threaded) {
 	waveOutWrite(hWaveOut, &WaveHDR, sizeof(WaveHDR));
 }
 
+double WindowsBackend::getTime(){
+	MMTIME time;
+	time.wType = TIME_SAMPLES;
+	waveOutGetPosition(hWaveOut, &time, sizeof(MMTIME));
+	return double(time.u.sample) / SAMPLE_RATE * BPM / 60;
+}
+
 bool WindowsBackend::beforeFrame() {
 
 	MSG msg;
