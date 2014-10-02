@@ -13,7 +13,7 @@
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.366"/>
+              <keyframeValue valueFloatX="0.004"/>
             </keyframe>
             <keyframe keyframePosition="31.5">
               <keyframeValue valueFloatX="0"/>
@@ -326,7 +326,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="key" uniformType="float">
-      <uniformStandardValue valueFloatX="0.5"/>
+      <uniformStandardValue valueFloatX="0.143"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="lift" uniformType="color">
@@ -395,6 +395,14 @@
           </keyframesArray>
         </sequence>
       </sequencesArray>
+    </uniform>
+    <uniform uniformName="pyramid_color" uniformType="color">
+      <uniformStandardValue valueColorR="0.0600645" valueColorG="0.0907675" valueColorB="0.254785"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="pyramid_color2" uniformType="color">
+      <uniformStandardValue valueColorR="0.0326548" valueColorG="0.0245302" valueColorB="0.0851944"/>
+      <sequencesArray/>
     </uniform>
     <uniform uniformName="pyramid_h" uniformType="float">
       <uniformStandardValue valueFloatX="0.427"/>

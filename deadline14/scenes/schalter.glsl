@@ -7,11 +7,13 @@ uniform float pyramid_s; // float
 uniform float pyramid_animation; // float
 uniform float pyramid_wave_animation; // float
 uniform float pyramid_bottom; // float
+uniform vec3 pyramid_color; // color
+uniform vec3 pyramid_color2; // color
 
 Material materials[5] = Material[5](
 	Material(vec3(.1, .1, .1), .5, 0.),
 	Material(vec3(1.), .5, 0.),
-	Material(vec3(.1,.3,.1), 1., 0.),
+	Material(pyramid_color, 1., 1.),
 	Material(vec3(.7, .3, .2), 1., 0.),
 	Material(vec3(1.), .5,0.)
 );
@@ -25,6 +27,8 @@ const int MATERIAL_ID_LIGHTBALL = 4;
 float pyramid(vec3 p, float s, float h);
 float star(vec2 p, float num_wings, float thickness_wings);
 
+vec3 p_pyramid;
+
 void main(void) {
 	vec3 direction = get_direction();
 
@@ -33,7 +37,8 @@ void main(void) {
 
 	vec3 color = vec3(0.);
 	if(i < 150) {
-		int material = int(f(hit).y);
+		float materialFloat = f(hit).y;
+		int material = int(materialFloat);
 		vec3 normal = calc_normal(hit);
 
 		Material mat = materials[material];
@@ -58,14 +63,28 @@ void main(void) {
 
 			f_col = max(f_col, star(rot2D(.5 + TAU / 100. * vnoise(hit.xz * .5)) * (hit.xz - vec2(- 7.,   4.)), num_wings/2., thickness_wings));
 
-			col = vec3(f_col);
+			col = vec3(f_col) * .1;
 			mat.color = col;
+		}
+
+		SphereLight light1 = SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.);
+
+		float factor = 1.;
+		if(material == MATERIAL_ID_PYRAMID) {
+			float t = vnoise(p_pyramid * .4) * cfbm(p_pyramid * 3.);
+			mat.roughness = .5 + .2 * sign(t) * pow(abs(t), .7) + .3 * cnoise(p_pyramid * .2 + 726.);
+
+			Material rust = Material(pyramid_color2, .9, .8);
+			float rustiness = .1 + .06 * cnoise(p_pyramid * .5);
+			rustiness *= 3.;
+			color = apply_light(hit, normal, -direction, rust, light1) * rustiness;
+			factor = 1. - rustiness;
 		}
 
 		if(MATERIAL_ID_LIGHTBALL == material || MATERIAL_ID_CUBE == material){
 			color = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5);
 		} else {
-			color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
+			color += factor * apply_light(hit, normal, -direction, mat, light1);
 		}
 	}
 
@@ -123,6 +142,7 @@ vec2 f(vec3 p) {
 	qq = trans(qq, 0., -pyr_closed/2., 0.); // pyramid distance
 	qq.y = -pyramid_size*pyramid_h-qq.y;
 	float pyr = pyramid(qq, pyramid_size * pyramid_s, pyramid_size * pyramid_h);
+	p_pyramid = qq;
 	vec2 pyramid = vec2(pyr, MATERIAL_ID_PYRAMID);
 
 	// box-torus-morph
