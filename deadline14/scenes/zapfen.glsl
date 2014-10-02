@@ -32,7 +32,7 @@ void main() {
 	vec3 dir = get_direction();
 
 	int i;
-	vec3 p = march_adv(camera_position, dir, i, 150, .9);
+	vec3 p = march_adv(camera_position, dir, i, 100, .9);
 	if(abs(f(p)[1]) <= 1e-6) {
 		if(dir.y != 0) {
 			float t = (-(camera_position.y - 20.) / dir.y);
@@ -60,7 +60,7 @@ void main() {
 			foo
 			);
 
-		Material material2 = Material(vec3(0.), 1., 0.);
+		Material material2 = Material(vec3(1.), 1., 0.);
 		vec3 color2 = apply_lights(p, normal, -dir, material2);
 		float grid = 1.;
 		vec3 q = p;
@@ -74,10 +74,10 @@ void main() {
 		grid = step(q.x, .5) + step(q.z, .5);
 		//color2 += emit_light(vec3(1., 0., 0.), grid * intensity);
 
-		color = mix(color1, color2, materialId - 1.);
+		color = mix(color1, color2, pow(materialId - 1., 6.));
 	} else if(materialId >= 3. && materialId <= 4.) {
 		Material material = Material(vec3(1., 0., 0.), 1., 0.);
-		vec3 nonglowing = vec3(0.);
+		vec3 nonglowing = vec3(0., 0., 0.) * .2;
 		vec3 glowing = apply_lights(p, normal, -dir, material);
 		color = mix(nonglowing, glowing, materialId - 3.);
 	}
@@ -91,7 +91,7 @@ vec2 leitungen(vec3 p, float rotation, float radius, float freq);
 vec3 boden_transform(vec3 p);
 
 vec2 f(vec3 p) {
-	vec2 bounding = vec2(-sphere(camera_position - p, 1000.), 0.);
+	vec2 bounding = vec2(-sphere(camera_position - p, 300.), 0.);
 
 	float height = 40.; // .5 * height
 	vec3 q = domrepv(p, vec3(50.));
@@ -125,16 +125,25 @@ vec2 f(vec3 p) {
 
 			leit.y = 1.;
 			vec2 leit1 = leitungen(q, 0., .6, 1.7);
-			vec2 leit2 = leitungen(q, 50., .6, 2.3);
-			vec2 leit3 = leitungen(q, 20., .6, 3.2);
-			vec2 leit4 = leitungen(q, 80., .6, 2.7);
-			leit = min_material(min_material(leit1, leit2), min_material(leit3, leit4));
+			vec2 leit2 = leitungen(q, 50., .6, 27.3);
+			vec2 leit3 = leitungen(q, 20., .6, 549.2);
+			vec2 leit4 = leitungen(q, 80., .6, 123.7);
+
+			//vec2 leit1 = leitungen(q, 0., .2, 1.7);
+			//vec2 leit2 = leitungen(q, 50., .2, 2.3);
+			//vec2 leit3 = leitungen(q, 30., .2, 3.2);
+			//vec2 leit4 = leitungen(q, 70., .2, 2.7);
+			float k = .5;
+			leit = smin_smaterial(smin_smaterial(leit1, leit2, k), smin_smaterial(leit3, leit4, k), k);
+			//leit = min_material(leit1, min_material(leit2, leit3));
+			//leit = min_material(leit1, leit2);
+			//leit = leit1;
 			leit.y += 3.;
 		} else {
 			leit = vec2(p.y, 3.);
 		}
 
-		object = min_material(boden_object, leit);
+		object = smin_material(boden_object, leit, 2.);
 	} else {
 		object = vec2(smax(object.x, 20. - p.y, 2.), 1.);
 	}
@@ -177,16 +186,18 @@ vec2 leitungen(vec3 p, float rotation, float radius, float freq) {
 	p.xz *= rot2D(rotation);
 
 	////float glow = smoothstep(.2, .8, vnoise(vec2(time * 3. + p.z * .2, 2000. * floor(p.x / 10. /freq))));
-	float glow = smoothstep(.2, .8, vnoise(vec2(distance(next, p.xz) * .5 + 1.3 * time, 2000. * rand(floor((p.xz + 25.) / 50.)))));
+	float glow = smoothstep(.2, .8, vnoise(vec2(distance(next, p.xz) * .1 + 1.3 * time, 2000. * rand(floor((p.xz + 25.) / 50.)))));
+	//glow = 1.;
 
-	float t = vnoise(p.xz * zapfen_leit_freq + 333. * freq) * .5 + .5;
-	p.xz += rot2D(radians(10.) * t) * vec2(10.) - 10.;
-	p = trans(p, 0., 4. * (t * .5 + .5), 0.);
+	float t = vnoise(vec2(p.z, floor(p.x/80.) * floor(p.z/80.)) * zapfen_leit_freq + 333. * freq) * .5 + .5;
+	//float t = vnoise(vec2(p.z, 0.) * zapfen_leit_freq + 333. * freq) * .5 + .5;
+	p.xz += rot2D(radians(20.) * t) * vec2(10.) - 10.;
+	//p = trans(p, 0., 2. * (t * .5 + .5), 0.);
 	//p.x = mod(p.x, 20. / freq) - 10. / freq;
 	//return vec2(length(p.xy) - radius, glow);
 
 	vec3 q = p;
-	q.xz = mod(q.xz, 40.);
+	q.xz = mod(q.xz, 40.) + 5.;
 	float angle = atan(q.x, q.z);
 	angle = mod(angle, radians(20.));
 	float r = length(q.xz);
