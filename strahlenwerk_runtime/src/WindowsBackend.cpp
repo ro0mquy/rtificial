@@ -24,7 +24,7 @@ PFNGLVERTEXATTRIBPOINTERPROC      glVertexAttribPointer;
 PFNGLUNIFORM2FPROC                glUniform2f;
 PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
 PFNGLDELETEPROGRAMPROC            glDeleteProgram;
- 
+
 
 void WindowsBackend::init(int width, int height, bool fullscreen) {
 

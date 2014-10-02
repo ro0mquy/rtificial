@@ -29,7 +29,7 @@ const bool use_sound_thread = true;
 #else
 	int main() {
 #endif
-		
+
 	// init backend
 	Backend backend;
 	backend.init(width, height, fullscreen);
