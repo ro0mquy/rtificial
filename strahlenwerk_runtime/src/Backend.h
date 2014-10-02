@@ -38,7 +38,7 @@ class LinuxBackend {
 	public:
 		void init(int width, int height, bool fullscreen);
 		void initAudio(bool threaded);
-		float getTime();
+		double getTime();
 		bool beforeFrame();
 		void afterFrame();
 		void cleanup();

@@ -72,7 +72,6 @@ void DataInterpolator::setUniformValue(const int nthUniform, const int type, con
 					setValue(nthUniform, type, location, currentKeyframeDataOffset - 1);
 
 				} else if (sequenceInterpolation == SEQ_INTERPOLATION_LINEAR || sequenceInterpolation == SEQ_INTERPOLATION_CCRSPLINE) {
-					/*
 					const float keyframeBeforeTime = keyframe_time[keyframeTimeOffset + i - 1];
 					const float timeBetweenKeyframes = keyframeTime - keyframeBeforeTime;
 					const float moreRelativeTime = relativeTime - keyframeBeforeTime;
@@ -80,10 +79,9 @@ void DataInterpolator::setUniformValue(const int nthUniform, const int type, con
 
 					if (sequenceInterpolation == SEQ_INTERPOLATION_LINEAR) {
 						// current keyframe is P2
-						const float valueP1 = keyframe_data[currentKeyframeDataIndex - numFloatsInValue];
-						const float valueP2 = keyframe_data[currentKeyframeDataIndex];
-						return mix(valueP1, valueP2, mixT);
+						setLinearValue(nthUniform, type, location, currentKeyframeDataOffset - 1, mixT);
 					} else {
+						/*
 						// ccrSpline
 						// current keyframe is P2
 						const float P1 = keyframe_data[currentKeyframeDataIndex - numFloatsInValue];
@@ -121,8 +119,8 @@ void DataInterpolator::setUniformValue(const int nthUniform, const int type, con
 
 						const double C12 = (dt12 - dt) / dt12 * L012 + dt / dt12 * L123;
 						return C12;
+						*/
 					}
-					*/
 				}
 			}
 		}
@@ -132,9 +130,11 @@ void DataInterpolator::setUniformValue(const int nthUniform, const int type, con
 	setValue(nthUniform, type, location, 0);
 }
 
+// offset is for P1 not P2
 void DataInterpolator::setValue(const int nthUniform, const int type, const int location, const int offset) {
 	switch (type) {
 		case UNIFORM_TYPE_FLOAT:
+		case UNIFORM_TYPE_BOOL:
 			{
 				const int numFloatsInValue = 1;
 				const int standardValuePos = keyframe_index[nthUniform];
@@ -154,6 +154,7 @@ void DataInterpolator::setValue(const int nthUniform, const int type, const int 
 			}
 			break;
 		case UNIFORM_TYPE_VEC3:
+		case UNIFORM_TYPE_COLOR:
 			{
 				const int numFloatsInValue = 3;
 				const int standardValuePos = keyframe_index[nthUniform];
@@ -174,41 +175,25 @@ void DataInterpolator::setValue(const int nthUniform, const int type, const int 
 				const float vec4Z = keyframe_data[keyframeDataIndex + 2];
 				const float vec4W = keyframe_data[keyframeDataIndex + 3];
 				glUniform4f(location, vec4X, vec4Y, vec4Z, vec4W);
-			}
-			break;
-		case UNIFORM_TYPE_COLOR:
-			{
-				const int numFloatsInValue = 3;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
-				const float vec3X = keyframe_data[keyframeDataIndex];
-				const float vec3Y = keyframe_data[keyframeDataIndex + 1];
-				const float vec3Z = keyframe_data[keyframeDataIndex + 2];
-				glUniform3f(location, vec3X, vec3Y, vec3Z);
-			}
-			break;
-		case UNIFORM_TYPE_BOOL:
-			{
-				const int numFloatsInValue = 1;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
-				const float floatValue = keyframe_data[keyframeDataIndex];
-				glUniform1f(location, floatValue);
 			}
 			break;
 	}
 }
 
-/*
-void setLinearValue(constint nthUniform, const int type, const int location, const int offset, const int mixT) {
+void DataInterpolator::setLinearValue(const int nthUniform, const int type, const int location, const int offset, const double mixT) {
 	switch (type) {
 		case UNIFORM_TYPE_FLOAT:
+		case UNIFORM_TYPE_BOOL:
 			{
 				const int numFloatsInValue = 1;
 				const int standardValuePos = keyframe_index[nthUniform];
 				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
-				const float floatValue = keyframe_data[keyframeDataIndex];
-				glUniform1f(location, floatValue);
+
+				const float P1 = keyframe_data[keyframeDataIndex];
+				const float P2 = keyframe_data[keyframeDataIndex + numFloatsInValue];
+
+				const float mixed = mix(P1, P2, mixT);
+				glUniform1f(location, mixed);
 			}
 			break;
 		case UNIFORM_TYPE_VEC2:
@@ -216,20 +201,36 @@ void setLinearValue(constint nthUniform, const int type, const int location, con
 				const int numFloatsInValue = 2;
 				const int standardValuePos = keyframe_index[nthUniform];
 				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
-				const float vec2X = keyframe_data[keyframeDataIndex];
-				const float vec2Y = keyframe_data[keyframeDataIndex + 1];
-				glUniform2f(location, vec2X, vec2Y);
+
+				const vec2 P1 = vec2(
+						keyframe_data[keyframeDataIndex],
+						keyframe_data[keyframeDataIndex + 1]);
+				const vec2 P2 = vec2(
+						keyframe_data[keyframeDataIndex + numFloatsInValue],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 1]);
+
+				const vec2 mixed = mix(P1, P2, mixT);
+				glUniform2f(location, mixed.x, mixed.y);
 			}
 			break;
 		case UNIFORM_TYPE_VEC3:
+		case UNIFORM_TYPE_COLOR:
 			{
 				const int numFloatsInValue = 3;
 				const int standardValuePos = keyframe_index[nthUniform];
 				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
-				const float vec3X = keyframe_data[keyframeDataIndex];
-				const float vec3Y = keyframe_data[keyframeDataIndex + 1];
-				const float vec3Z = keyframe_data[keyframeDataIndex + 2];
-				glUniform3f(location, vec3X, vec3Y, vec3Z);
+
+				const vec3 P1 = vec3(
+						keyframe_data[keyframeDataIndex],
+						keyframe_data[keyframeDataIndex + 1],
+						keyframe_data[keyframeDataIndex + 2]);
+				const vec3 P2 = vec3(
+						keyframe_data[keyframeDataIndex + numFloatsInValue],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 2]);
+
+				const vec3 mixed = mix(P1, P2, mixT);
+				glUniform3f(location, mixed.x, mixed.y, mixed.z);
 			}
 			break;
 		case UNIFORM_TYPE_VEC4:
@@ -237,33 +238,22 @@ void setLinearValue(constint nthUniform, const int type, const int location, con
 				const int numFloatsInValue = 4;
 				const int standardValuePos = keyframe_index[nthUniform];
 				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
-				const float vec4X = keyframe_data[keyframeDataIndex];
-				const float vec4Y = keyframe_data[keyframeDataIndex + 1];
-				const float vec4Z = keyframe_data[keyframeDataIndex + 2];
-				const float vec4W = keyframe_data[keyframeDataIndex + 3];
-				glUniform4f(location, vec4X, vec4Y, vec4Z, vec4W);
-			}
-			break;
-		case UNIFORM_TYPE_COLOR:
-			{
-				const int numFloatsInValue = 3;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
-				const float vec3X = keyframe_data[keyframeDataIndex];
-				const float vec3Y = keyframe_data[keyframeDataIndex + 1];
-				const float vec3Z = keyframe_data[keyframeDataIndex + 2];
-				glUniform3f(location, vec3X, vec3Y, vec3Z);
-			}
-			break;
-		case UNIFORM_TYPE_BOOL:
-			{
-				const int numFloatsInValue = 1;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
-				const float floatValue = keyframe_data[keyframeDataIndex];
-				glUniform1f(location, floatValue);
+
+				// it's quat(w, x, y, z)
+				const quat P1 = quat(
+						keyframe_data[keyframeDataIndex + 3],
+						keyframe_data[keyframeDataIndex],
+						keyframe_data[keyframeDataIndex + 1],
+						keyframe_data[keyframeDataIndex + 2]);
+				const quat P2 = quat(
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 3],
+						keyframe_data[keyframeDataIndex + numFloatsInValue],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 2]);
+
+				const quat mixed = slerp(P1, P2, mixT);
+				glUniform4f(location, mixed.x, mixed.y, mixed.z, mixed.w);
 			}
 			break;
 	}
 }
-*/
