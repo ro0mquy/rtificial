@@ -3,12 +3,7 @@
 #include "Shader.h"
 #include "Framebuffer.h"
 #include "Scene.h"
-//#include "strahlenwerk_export.h"
-extern Shader scenes[5];
-extern Framebuffer fbos[12];
-extern Shader postproc[12];
-extern Scene scenes_data[5];
-
+#include "strahlenwerk_export_interface.h"
 #include "glcorearb.h"
 #include "gl_identifiers.h"
 
@@ -26,8 +21,10 @@ extern Scene scenes_data[5];
 	using Backend = WindowsBackend;
 #endif
 
-#ifdef DEBUG && BUILD_WINDOWS
+#ifdef DEBUG
+#ifdef BUILD_WINDOWS
 #	include <string>
+#endif
 #endif
 
 const int width = 1920;

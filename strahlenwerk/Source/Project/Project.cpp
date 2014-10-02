@@ -97,6 +97,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 	// create header
 	const File& shadersHeader = buildDir.getChildFile("strahlenwerk_export.h");
+	const File& interfaceHeader = buildDir.getChildFile("strahlenwerk_export_interface.h");
 	std::string shadersHeaderContent = R"source(#ifndef STRAHLENWERK_EXPORT
 #define STRAHLENWERK_EXPORT
 #include "Shader.h"
@@ -106,8 +107,18 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 #include "Sequence.h"
 #include "Uniform.h"
 )source";
+	std::string interfaceHeaderContent = R"source(#ifndef STRAHLENWERK_EXPORT_INTERFACE_H
+#define STRAHLENWERK_EXPORT_INTERFACE_H
+#include "Shader.h"
+#include "Framebuffer.h"
+#include "Scene.h"
+#include "Keyframe.h"
+#include "Sequence.h"
+#include "Uniform.h"
+)source";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
+	interfaceHeaderContent += "extern Shader postproc[" + std::to_string(postprocShaders - 1) + "];\n";
 
 	std::string inputsDeclaration;
 	// export shaders
@@ -120,6 +131,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 		auto& inputs = shader.getInputs();
 		const std::string number = std::to_string(inputs.size());
 		inputsDeclaration += "Input " + shader.getName() + "_inputs[" + number + "] = {\n";
+		interfaceHeaderContent += "extern Input " + shader.getName() + "_inputs[" + number + "];\n";
 		for(Input input : inputs) {
 			inputsDeclaration += "\t{" +
 				std::to_string(input.bindingId) + ", " +
@@ -136,6 +148,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	postprocArrayDeclaration += "};\n";
 
 	std::string scenesArrayDeclaration = "Shader scenes[" + std::to_string(sceneShaders) + "] = {\n";
+	interfaceHeaderContent += "extern Shader scenes[" + std::to_string(sceneShaders) + "];\n";
 
 	for(int i = 0; i < sceneShaders; i++) {
 		const Shader& shader = scenes.getShader(i);
@@ -151,6 +164,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	shadersHeaderContent += scenesArrayDeclaration;
 
 	std::string fboDeclaration = "Framebuffer fbos[" + std::to_string(postprocShaders - 1) + "] = {\n";
+	interfaceHeaderContent += "extern Framebuffer fbos[" + std::to_string(postprocShaders - 1) + "];\n";
 	// export FBOs
 	for(int i = 0; i < postprocShaders - 1; i++) {
 		const PostprocShader& shader = postproc.getShader(i);
@@ -175,6 +189,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	TimelineData& data = TimelineData::getTimelineData();
 
 	std::string scenesArray = "Scene scenes_data[" + std::to_string(data.getNumScenes()) + "] = {\n";
+	interfaceHeaderContent += "extern Scene scenes_data[" + std::to_string(data.getNumScenes()) + "];\n";
 
 	const int numScenes = data.getNumScenes();
 	ValueTree scenesCopy = data.getScenesArray().createCopy();
@@ -241,6 +256,15 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	std::string uniformsArray = "Uniform uniforms[" + std::to_string(nUniforms) + "] = {\n";
 	std::string keyframeTimeArray = "float keyframe_time[" + std::to_string(total_keyframes) + "] = {\n";
 	std::string keyframeTimeIndexArray = "int keyframe_time_index[" + std::to_string(nUniforms + 1) + "] = {\n";
+
+	interfaceHeaderContent += "extern float keyframe_data["  + std::to_string(keyframeDataEntries) + "];\n";
+	interfaceHeaderContent += "extern Sequence sequence_data[" + std::to_string(sequences) + "];\n";
+	interfaceHeaderContent += "extern int sequence_index[" + std::to_string(nUniforms + 1) + "];\n";
+	interfaceHeaderContent += "extern int keyframe_index[" + std::to_string(nUniforms + 1) + "];\n";
+	interfaceHeaderContent += "extern Uniform uniforms[" + std::to_string(nUniforms) + "];\n";
+	interfaceHeaderContent += "extern float keyframe_time[" + std::to_string(total_keyframes) + "];\n";
+	interfaceHeaderContent += "extern int keyframe_time_index[" + std::to_string(nUniforms + 1) + "];\n";
+
 	int sequenceIndex = 0;
 	sequenceIndexArray += "\t0,\n";
 	int keyframeIndex = 0;
@@ -374,8 +398,10 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	shadersHeaderContent += keyframeTimeArray;
 	shadersHeaderContent += keyframeTimeIndexArray;
 	shadersHeaderContent += "#endif\n";
+	interfaceHeaderContent += "#endif\n";
 
 	shadersHeader.replaceWithText(shadersHeaderContent);
+	interfaceHeader.replaceWithText(interfaceHeaderContent);
 }
 
 void Project::handleFileAction(
