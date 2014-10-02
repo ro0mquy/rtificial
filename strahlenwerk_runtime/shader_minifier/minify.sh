@@ -16,5 +16,6 @@ DIR=$1
 mkdir -p minified
 
 for f in $(find $DIR -name '*.glsl'); do
-	mono shader_minifier.exe --format none -v $f && verheader $(basename -s .glsl $f)
+	#mono shader_minifier.exe --format none -v $f && verheader $(basename -s .glsl $f)
+	cp $f shader_code.h && verheader $(basename -s .glsl $f)
 done
