@@ -2,6 +2,7 @@ uniform float conic_bobbel_noifreq;
 uniform float conic_bobbel_roughness;
 uniform float conic_ring_animation;
 
+// l_body is size of bobbel, function is optimized for 2.
 float conicbobbel(vec3 p_cone, float l_body) {
 	////// distfunctions for body (some day in the past it was a cone)
 	float radius_mixer = smoothstep(l_body * .3, l_body * 1., p_cone.x)
