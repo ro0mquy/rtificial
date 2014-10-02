@@ -16,11 +16,11 @@ Material materials[5] = Material[5](
 	Material(vec3(1.), .5,0.)
 );
 
-#define MATERIAL_ID_FLOOR 0.
-#define MATERIAL_ID_BOUNDING 1.
-#define MATERIAL_ID_PYRAMID 2.
-#define MATERIAL_ID_CUBE 3.
-#define MATERIAL_ID_LIGHTBALL 4.
+const int MATERIAL_ID_FLOOR     = 0;
+const int MATERIAL_ID_BOUNDING  = 1;
+const int MATERIAL_ID_PYRAMID   = 2;
+const int MATERIAL_ID_CUBE      = 3;
+const int MATERIAL_ID_LIGHTBALL = 4;
 
 float pyramid(vec3 p, float s, float h);
 float star(vec2 p, float num_wings, float thickness_wings);
@@ -62,10 +62,14 @@ void main(void) {
 			mat.color = col;
 		}
 
-		color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
+		if(MATERIAL_ID_LIGHTBALL == material || MATERIAL_ID_CUBE == material){
+			color = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5);
+		} else {
+			color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
+		}
 	}
 
-	output_color(color, 4.1);// distance(hit, camera_position));
+	output_color(color, distance(hit, camera_position));
 }
 
 float star(vec2 p_star, float num_wings, float thickness_wings) {
