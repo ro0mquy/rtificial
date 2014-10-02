@@ -125,7 +125,7 @@ float smin(float a, float b, float k) {
 }
 
 vec2 smin_material(vec2 a, vec2 b, float k) {
-	return vec2(smin(a, b, k), a.x > b.x ? b.y : a.y);
+	return vec2(smin(a.x, b.x, k), a.x > b.x ? b.y : a.y);
 }
 
 // be careful when nesting! (just don't)
