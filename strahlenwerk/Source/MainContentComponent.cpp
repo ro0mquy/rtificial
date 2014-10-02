@@ -29,7 +29,7 @@ void MainContentComponent::repaintOpenGLComponent() {
 void MainContentComponent::setDefaultLayout() {
 	horizontalLayout.setItemLayout(0, 200, -1., -.3);
 	horizontalLayout.setItemLayout(1, 8, 8, 8);
-	horizontalLayout.setItemLayout(2, 400, -1., -.7);
+	horizontalLayout.setItemLayout(2, 150, -1., -.7);
 
 	verticalLayout.setItemLayout(0, 200, -1., -.66);
 	verticalLayout.setItemLayout(1, 8, 8, 8);

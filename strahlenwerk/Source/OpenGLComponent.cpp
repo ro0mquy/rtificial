@@ -42,6 +42,7 @@ void OpenGLComponent::repaintChildren() {
 }
 
 void OpenGLComponent::resized() {
+	fixedAspectRatioComponent.setSize(16, 9);
 	fixedAspectRatioComponent.setBoundsToFit(0, 0, getWidth(), getHeight(), Justification(Justification::centred), false);
 	renderer.setSize(fixedAspectRatioComponent.getWidth(), fixedAspectRatioComponent.getHeight());
 }
