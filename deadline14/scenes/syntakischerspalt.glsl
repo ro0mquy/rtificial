@@ -11,6 +11,7 @@ uniform float synapse_cc; // float
 uniform float synapse_dd; // float
 uniform float synapse_dist_fog_a; // float
 uniform float synapse_dist_fog_b; // float
+uniform float synapse_bobbel_progress; // float
 
 Material materials[3] = Material[3](
 	Material(vec3(1.), .5, 0.),
@@ -67,8 +68,12 @@ vec2 f(vec3 p) {
 	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), MATERIAL_ID_SYNAPSE);
 
 	// bobbel
-	vec3 p_bbl = p;
-	p_bbl = trans(p_bbl, dr_factor/2., -dr_factor/2., -dr_factor/2.);
+	vec3 p_bbl_p = p;
+	vec3 p_bbl = p_bbl_p;
+	//p_bbl = domrep(p_bbl_p, 1., 1., 1.);
+	//p_bbl.x = p_bbl_p.x;
+	p_bbl = trans(p_bbl, dr_factor.x/2., -dr_factor.y/2., -dr_factor.z/2.);
+	p_bbl = trans(p_bbl, synapse_bobbel_progress, 0., synapse_bobbel_progress);
 	p_bbl *= rY(-0.1*TAU);
 	float scale_factor = 0.15;
 	float bbl = conicbobbel(p_bbl / scale_factor, 2.) * scale_factor;
