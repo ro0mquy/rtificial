@@ -1,6 +1,13 @@
 #include "Backend.h"
 
-#include "strahlenwerk_export.h"
+#include "Shader.h"
+#include "Framebuffer.h"
+#include "Scene.h"
+//#include "strahlenwerk_export.h"
+extern Shader scenes[5];
+extern Framebuffer fbos[12];
+extern Shader postproc[12];
+extern Scene scenes_data[5];
 
 #include "glcorearb.h"
 #include "gl_identifiers.h"
@@ -68,6 +75,7 @@ const bool use_sound_thread = true;
 			}
 		}
 
+
 		fbos[0].bind();
 		scenes[shader_id].draw(fbos[0].width, fbos[0].height);
 		fbos[0].unbind();
@@ -76,10 +84,12 @@ const bool use_sound_thread = true;
 			postproc[i].draw(fbos[i + 1].width, fbos[i + 1].height);
 			fbos[i + 1].unbind();
 		}
+
 		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
 		postproc[n_postproc - 1].draw(width, height);
+//		scenes[shader_id].draw(fbos[0].width, fbos[0].height);
 		glDisable(GL_FRAMEBUFFER_SRGB);
 		backend.afterFrame();
 

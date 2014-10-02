@@ -1,8 +1,12 @@
 #include "Shader.h"
 #include "DataInterpolator.h"
 
+#define DEBUG
 #ifdef DEBUG
-#include <iostream>
+#	include <iostream>
+#	ifdef BUILD_WINDOWS
+#		include <Windows.h>
+#	endif
 #endif
 
 Shader::Shader(const char* _source, int _inputsNumber, const Input* _inputs) :
@@ -35,9 +39,13 @@ void Shader::compile() {
 		std::cerr << "Link error:" << std::endl;
 		GLint log_length;
 		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_length);
-		char* const log = malloc(log_length);
+		char* const log =(char* const) malloc(log_length);
 		glGetProgramInfoLog(program, log_length, NULL, log);
-		std::cerr << log;
+#		ifdef BUILD_WINDOWS
+			OutputDebugString(log);
+#		else
+			std::cerr << log;
+#		endif
 		free(log);
 	}
 #endif
@@ -65,6 +73,8 @@ void Shader::draw(int width, int height) {
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	glUniform2f(0, width, height);
 	DataInterpolator::loadUniforms();
+	glUniform3f(3, 0.0f, 5.0f, 7.0f);
+	glUniform4f(4, 0.0f, 0.0f, 0.0f, 1.0f);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(0);
 }

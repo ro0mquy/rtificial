@@ -21,9 +21,14 @@ PFNGLLINKPROGRAMPROC              glLinkProgram;
 PFNGLUSEPROGRAMPROC               glUseProgram;
 PFNGLENABLEVERTEXATTRIBARRAYPROC  glEnableVertexAttribArray;
 PFNGLVERTEXATTRIBPOINTERPROC      glVertexAttribPointer;
+PFNGLUNIFORM1FPROC                glUniform1f;
 PFNGLUNIFORM2FPROC                glUniform2f;
+PFNGLUNIFORM3FPROC                glUniform3f;
+PFNGLUNIFORM4FPROC                glUniform4f;
 PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
 PFNGLDELETEPROGRAMPROC            glDeleteProgram;
+PFNGLGETPROGRAMIVPROC             glGetProgramiv;
+PFNGLGETPROGRAMINFOLOGPROC        glGetProgramInfoLog;
 
 
 void WindowsBackend::init(int width, int height, bool fullscreen) {
@@ -66,9 +71,14 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 	glUseProgram               = (PFNGLUSEPROGRAMPROC)               wglGetProcAddress("glUseProgram");
 	glEnableVertexAttribArray  = (PFNGLENABLEVERTEXATTRIBARRAYPROC)  wglGetProcAddress("glEnableVertexAttribArray");
 	glVertexAttribPointer      = (PFNGLVERTEXATTRIBPOINTERPROC)      wglGetProcAddress("glVertexAttribPointer");
+	glUniform1f                = (PFNGLUNIFORM1FPROC)                wglGetProcAddress("glUniform1f");
 	glUniform2f                = (PFNGLUNIFORM2FPROC)                wglGetProcAddress("glUniform2f");
+	glUniform3f                = (PFNGLUNIFORM3FPROC)                wglGetProcAddress("glUniform3f");
+	glUniform4f                = (PFNGLUNIFORM4FPROC)                wglGetProcAddress("glUniform4f");
 	glDisableVertexAttribArray = (PFNGLDISABLEVERTEXATTRIBARRAYPROC) wglGetProcAddress("glDisableVertexAttribArray");
 	glDeleteProgram            = (PFNGLDELETEPROGRAMPROC)            wglGetProcAddress("glDeleteProgram");
+	glGetProgramiv             = (PFNGLGETPROGRAMIVPROC)             wglGetProcAddress("glGetProgramiv");
+	glGetProgramInfoLog        = (PFNGLGETPROGRAMINFOLOGPROC)        wglGetProcAddress("glGetProgramInfoLog");
 }
 
 

@@ -15,7 +15,7 @@ using namespace DataInterpolator;
 
 static const float time = 0.; // TODO: use real time
 
-void loadUniforms() {
+void DataInterpolator::loadUniforms() {
 	const int numUniforms = sizeof(uniforms) / sizeof(uniforms[0]);
 	for (int i = 0; i < numUniforms; i++) {
 		const Uniform uniform = uniforms[i];
@@ -31,7 +31,7 @@ void loadUniforms() {
 	}
 }
 
-void setUniformValue(const int nthUniform, const int type, const int location) {
+void DataInterpolator::setUniformValue(const int nthUniform, const int type, const int location) {
 	const int firstSequence = sequence_index[nthUniform];
 	const int lastSequences = sequence_index[nthUniform+1] - firstSequence;
 
@@ -132,7 +132,7 @@ void setUniformValue(const int nthUniform, const int type, const int location) {
 	setValue(nthUniform, type, location, 0);
 }
 
-void setValue(const int nthUniform, const int type, const int location, const int offset) {
+void DataInterpolator::setValue(const int nthUniform, const int type, const int location, const int offset) {
 	switch (type) {
 		case UNIFORM_TYPE_FLOAT:
 			{
