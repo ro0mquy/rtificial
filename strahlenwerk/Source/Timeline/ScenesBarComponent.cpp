@@ -55,7 +55,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));
 
-	const float gridWidth              = zoomFactor.getGridWith();
+	const float gridWidth              = zoomFactor.getGridWidth();
 	const float lineDistance           = gridWidth * zoomFactor;
 	const int longLineDistance         = 4; // every nth tick is a long line
 	const float lineHeightFraction     = 0.25;

@@ -25,7 +25,7 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
-	constrainer.setMinimumWidth(zoomFactor.getGridWith() * zoomFactor);
+	constrainer.setMinimumWidth(zoomFactor.getGridWidth() * zoomFactor);
 
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
@@ -229,7 +229,7 @@ void SequenceComponent::resized() {
 
 void SequenceComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// zoomFactor update
-	constrainer.setMinimumWidth(zoomFactor.getGridWith() * zoomFactor);
+	constrainer.setMinimumWidth(zoomFactor.getGridWidth() * zoomFactor);
 	updateBounds();
 }
 

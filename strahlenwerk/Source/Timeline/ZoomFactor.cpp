@@ -67,14 +67,14 @@ float ZoomFactor::pixelsToTime(const float pixels) {
 	return pixels / zoomLevel;
 }
 
-float ZoomFactor::getGridWith() {
+float ZoomFactor::getGridWidth() {
 	std::lock_guard<std::mutex> lock(zoomMutex);
 	return std::pow(2., -std::floor(std::log2(zoomLevel / 20.)));
 }
 
 float ZoomFactor::snapValueToGrid(const float valueAsTime) {
 	// snaps values that are in time units
-	const float gridWidth = getGridWith();
+	const float gridWidth = getGridWidth();
 	const float posOnGrid = valueAsTime / gridWidth;
 	const float newRoundedPos = roundFloatToInt(posOnGrid) * gridWidth;
 	return newRoundedPos;
