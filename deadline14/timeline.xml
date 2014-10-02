@@ -8,22 +8,23 @@
     </uniform>
     <uniform uniformName="bloom_amount" uniformType="float">
       <uniformStandardValue valueFloatX="0.004"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="31.5"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0.366"/>
+            </keyframe>
+            <keyframe keyframePosition="31.5">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="camera_position" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
       <sequencesArray>
-        <sequence sequenceStart="2" sequenceSceneId="100" sequenceDuration="4"
-                  sequenceInterpolation="linear">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueVec3X="-0.0921001" valueVec3Y="0" valueVec3Z="6.55426"/>
-            </keyframe>
-            <keyframe keyframePosition="4">
-              <keyframeValue valueVec3X="12.3436" valueVec3Y="8.47151" valueVec3Z="3.44083"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
         <sequence sequenceSceneId="104" sequenceStart="4" sequenceDuration="12"
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
@@ -44,23 +45,39 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="31.5"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-6.529" valueVec3Y="9.545" valueVec3Z="14.688"/>
+            </keyframe>
+            <keyframe keyframePosition="31.5">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="0" sequenceDuration="76"
+                  sequenceInterpolation="ccrSpline">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+            <keyframe keyframePosition="44">
+              <keyframeValue valueVec3X="-13.5831" valueVec3Y="-26.8775" valueVec3Z="-26.6695"/>
+            </keyframe>
+            <keyframe keyframePosition="44">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+            <keyframe keyframePosition="76">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="camera_rotation" uniformType="vec4">
       <uniformStandardValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
       <sequencesArray>
-        <sequence sequenceStart="2" sequenceSceneId="100" sequenceDuration="4"
-                  sequenceInterpolation="linear">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
-            </keyframe>
-            <keyframe keyframePosition="4">
-              <keyframeValue valueVec4X="-0.124379" valueVec4Y="0.598562" valueVec4Z="0.0947585"
-                             valueVec4W="0.785668"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
         <sequence sequenceSceneId="104" sequenceStart="4" sequenceDuration="12"
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
@@ -78,6 +95,35 @@
             <keyframe keyframePosition="12">
               <keyframeValue valueVec4X="-0.0874576" valueVec4Y="0.903775" valueVec4Z="0.354868"
                              valueVec4W="0.222736"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="31.5"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="0.189" valueVec4Y="0.223" valueVec4Z="0.044" valueVec4W="-0.955"/>
+            </keyframe>
+            <keyframe keyframePosition="31.5">
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="0" sequenceDuration="76"
+                  sequenceInterpolation="ccrSpline">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
+            </keyframe>
+            <keyframe keyframePosition="44">
+              <keyframeValue valueVec4X="0.28324" valueVec4Y="0.713715" valueVec4Z="0.159722"
+                             valueVec4W="0.620382"/>
+            </keyframe>
+            <keyframe keyframePosition="44">
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
+            </keyframe>
+            <keyframe keyframePosition="76">
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -166,15 +212,51 @@
     </uniform>
     <uniform uniformName="f_stop" uniformType="float">
       <uniformStandardValue valueFloatX="2.2"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="31.5"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0.557"/>
+            </keyframe>
+            <keyframe keyframePosition="31.5">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="focal_length" uniformType="float">
       <uniformStandardValue valueFloatX="0.019"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="31.5"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0.025"/>
+            </keyframe>
+            <keyframe keyframePosition="31.5">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="focus_dist" uniformType="float">
       <uniformStandardValue valueFloatX="5.1"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="31.5"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="11.788"/>
+            </keyframe>
+            <keyframe keyframePosition="31.5">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="gain" uniformType="color">
       <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
@@ -207,7 +289,7 @@
     <uniform uniformName="pyramid_animation" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="100" sequenceStart="14" sequenceDuration="10"
+        <sequence sequenceSceneId="100" sequenceStart="12" sequenceDuration="10"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -218,7 +300,7 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="100" sequenceStart="2" sequenceDuration="12"
+        <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="12"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -229,13 +311,16 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="100" sequenceStart="24" sequenceDuration="4"
+        <sequence sequenceSceneId="100" sequenceStart="22" sequenceDuration="9.5"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
             <keyframe keyframePosition="4">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="9.5">
               <keyframeValue valueFloatX="1"/>
             </keyframe>
           </keyframesArray>
@@ -245,7 +330,7 @@
     <uniform uniformName="pyramid_bottom" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="100" sequenceStart="2" sequenceDuration="30"
+        <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="31.5"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -257,10 +342,7 @@
             <keyframe keyframePosition="22">
               <keyframeValue valueFloatX="-2"/>
             </keyframe>
-            <keyframe keyframePosition="26">
-              <keyframeValue valueFloatX="-3"/>
-            </keyframe>
-            <keyframe keyframePosition="30">
+            <keyframe keyframePosition="31.5">
               <keyframeValue valueFloatX="5"/>
             </keyframe>
           </keyframesArray>
@@ -278,7 +360,7 @@
     <uniform uniformName="pyramid_wave_animation" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="100" sequenceStart="14" sequenceDuration="6"
+        <sequence sequenceSceneId="100" sequenceStart="12" sequenceDuration="6"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -289,24 +371,13 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="100" sequenceStart="24" sequenceDuration="2"
+        <sequence sequenceSceneId="100" sequenceStart="22" sequenceDuration="3"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
-            <keyframe keyframePosition="2">
-              <keyframeValue valueFloatX="1"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
-        <sequence sequenceSceneId="100" sequenceStart="30" sequenceDuration="1.75"
-                  sequenceInterpolation="linear">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0"/>
-            </keyframe>
-            <keyframe keyframePosition="1.75">
+            <keyframe keyframePosition="3">
               <keyframeValue valueFloatX="1"/>
             </keyframe>
           </keyframesArray>
@@ -364,6 +435,14 @@
     </uniform>
     <uniform uniformName="synapse_dd" uniformType="float">
       <uniformStandardValue valueFloatX="1"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_dist_fog_a" uniformType="float">
+      <uniformStandardValue valueFloatX="-300"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_dist_fog_b" uniformType="float">
+      <uniformStandardValue valueFloatX="-152.005"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="synapse_gap" uniformType="float">
@@ -428,8 +507,8 @@
     </uniform>
   </uniformsArray>
   <scenesArray>
-    <scene sceneId="100" sceneStart="0" sceneDuration="52" sceneShaderSource="schalter"/>
-    <scene sceneId="101" sceneStart="52" sceneDuration="40" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="100" sceneStart="0" sceneDuration="31.5" sceneShaderSource="schalter"/>
+    <scene sceneId="101" sceneStart="31.5" sceneDuration="60.5" sceneShaderSource="conicbobbel"/>
     <scene sceneId="102" sceneStart="92" sceneDuration="64" sceneShaderSource="zapfen"/>
     <scene sceneId="103" sceneStart="156" sceneDuration="76" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="104" sceneStart="232" sceneDuration="48" sceneShaderSource="raymarching"/>

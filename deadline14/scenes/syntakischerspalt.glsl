@@ -40,21 +40,27 @@ void main(void) {
 }
 
 vec2 f(vec3 p) {
-	vec3 q = domrep(p, 20., 20., 20.);
-	//q.y = p.y;
+	// domrep with rotation
+	vec3 dr_factor = vec3(50.);
+	vec3 q = domrepv(p, dr_factor);
+	q *= rZ(2*vnoise(3*floor(p/dr_factor)));
+	q *= rY(1.5*vnoise(floor(p/dr_factor)));
+
+	// mirror
 	q.x = abs(q.x);
-	q.z += 5.;
 	q.x -= 10 * synapse_gap;
 
+	// main body
 	float sphere1 = sphere(q, 1.);
 	q.x -= 2.;
 	float sphere2 = sphere(q, 2.);
 
+	// tail
 	q = rZ(-TAU*sin(q.x/5.)/30.) * q;
-	q = rY(-TAU*sin(q.x/2.+time*0.2)/50.)*q;
+	q = rY(-TAU*sin(q.x/2.+time*0.5)/50.)*q;
 	float capsule = line(q, vec3(2.,0.,0.), vec3(20.,0.,0.), mix(synapse_aa, synapse_bb, smoothstep(10.*synapse_cc, 10*synapse_dd, q.x)));
 
 	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), MATERIAL_ID_SYNAPSE);
-	vec2 bounding = vec2(-sphere(p - camera_position, 200.), MATERIAL_ID_BOUNDING);
+	vec2 bounding = vec2(-sphere(p - camera_position, -synapse_dist_fog_a), MATERIAL_ID_BOUNDING);
 	return min_material(synapse, bounding);
 }
