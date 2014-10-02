@@ -1,15 +1,600 @@
 #ifndef syntakischerspalt_H
 #define syntakischerspalt_H
 const char syntakischerspalt_source[] = R"shader_source(#version 430
-layout(location=0)uniform vec2 y;layout(location=0)out vec3 f;layout(location=1)out float v;layout(location=16)uniform float m;layout(location=6)uniform float c;
+
+layout(location = 0) uniform vec2 res;
+layout(location = 1) uniform float envelopes[32];
+
+layout(location = 0) out vec3 out_color; // alpha = CoC
+layout(location = 1) out float coc;
+
+layout(location = 48) uniform float focus_dist;
+
+layout(location = 38) uniform float focal_length;
 #define FOCAL_LENGTH
-layout(location=2)uniform float d;
+
+layout(location = 34) uniform float f_stop;
+
+void output_color(vec3 color, float dist) {
+	float focus_dist = focus_dist;
+	float f = focal_length;
+	float N = f_stop;
+	coc = (dist - focus_dist)/dist * (f * f) / (N * (focus_dist - f)) / 0.03 * res.x;
+	out_color = color;
+}
+
 #line 1
-layout(location=3)uniform vec3 x;layout(location=4)uniform vec4 z;layout(location=5)uniform float r;
+
+// fancy functions TODO
+
+layout(location = 35) uniform vec3 camera_position;
+layout(location = 36) uniform vec4 camera_rotation;
+
+layout(location = 37) uniform float time;
+
 #ifndef FOCAL_LENGTH
-layout(location=6)uniform float w;
+layout(location = 38) uniform float focal_length;
 #endif
-float n=6.28319;struct Material{vec3 color;float roughness;float metallic;};struct SphereLight{vec3 center;vec3 color;float radius;float intensity;};
+
+float TAU = 6.28318530718;
+
+/*
+mat3 get_camera() {
+	vec3 view_right = cross(camera_direction, camera_up);
+	return mat3(view_right, camera_up, -camera_direction);
+}
+*/
+
+// http://molecularmusings.wordpress.com/2013/05/24/a-faster-quaternion-vector-multiplication/
+vec3 quat_rotate(vec3 v, vec4 q) {
+	vec3 t = 2 * cross(q.xyz, v);
+	return v + q.w * t + cross(q.xyz, t);
+	// *hex hex*
+}
+
+vec3 get_direction() {
+	vec3 dir = normalize(vec3((gl_FragCoord.xy - .5 * res) / res.x , -focal_length / .03));
+	return quat_rotate(dir, camera_rotation);
+}
+
+vec2 f(vec3 p);
+
+vec3 march_adv(vec3 p, vec3 direction, out int i, int iterations, float stepsize) {
+	float walked = 0.;
+	for (i=0; i < iterations; i++) {
+		float dist = f(p)[0] * stepsize;
+		p += direction * dist;
+		dist = abs(dist);
+		walked += dist;
+
+		if (dist < .001 * walked) break;
+	}
+	return p;
+}
+
+vec3 march(vec3 p, vec3 direction, out int i) {
+	return march_adv(p, direction, i, 100, 1.);
+}
+
+vec3 calc_normal(vec3 p) {
+	vec2 epilepsilon = vec2(.001, 0.);
+	return normalize(vec3(
+		f(p + epilepsilon.xyy)[0] - f(p - epilepsilon.xyy)[0],
+		f(p + epilepsilon.yxy)[0] - f(p - epilepsilon.yxy)[0],
+		f(p + epilepsilon.yyx)[0] - f(p - epilepsilon.yyx)[0]
+	) + 1e-9);
+}
+
+float sphere(vec3 p, float s) {
+	return length(p) - s;
+}
+
+// a and b are the endpoints
+// r is the radius if you want some kind of capsule
+float line(vec3 p, vec3 a, vec3 b, float r) {
+	vec3 pa = p - a;
+	vec3 ba = b - a;
+	float h = clamp(dot(pa,ba) / dot(ba,ba), 0., 1. );
+	return length(pa - ba*h) - r;
+}
+
+float torus(vec3 p, vec2 t) {
+	vec2 q = vec2(length(p.xz) - t.x, p.y);
+	return length(q) - t.y;
+}
+
+float box(vec3 p, vec3 b) {
+	p = abs(p) - b;
+	return max(p.x, max(p.y, p.z));
+}
+
+float box2(vec2 p, vec2 b) {
+	p = abs(p) - b;
+	return max(p.x, p.y);
+}
+
+// more accurate than box(), but slower
+float slowbox(vec3 p, vec3 b) {
+	vec3 d = abs(p) - b;
+	return min(max(d.x, max(d.y, d.z)), 0.) + length(max(d, 0.));
+}
+
+// box with rounded corners, r is radius of corners
+float roundbox(vec3 p, vec3 b, float r) {
+	return slowbox(p, b - r) - r;
+}
+
+// c must be normalized
+float cone(vec3 p, vec2 c) {
+	float q = length(p.xy);
+	return dot(c, vec2(q, p.z));
+}
+
+// n must be normalized
+float plane(vec3 p, vec3 n) {
+	return dot(p, n.xyz);
+}
+
+float cylinder(vec3 p, float radius, float thicknesshalf) {
+	float circle = length(p.xy) - radius;
+	return max(circle, abs(p.z) - thicknesshalf);
+}
+
+// hier kommt der witz!
+vec2 min_material(vec2 a, vec2 b) {
+	return mix(a, b, float(a.x > b.x));
+}
+
+// smooth minimum, k is the difference between the two values for which to smooth (eg. k = 0.1)
+float smin(float a, float b, float k) {
+	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+	return mix(b, a, h) - k * h * (1.0 - h);
+}
+
+vec2 smin_material(vec2 a, vec2 b, float k) {
+	return vec2(smin(a, b, k), a.x > b.x ? b.y : a.y);
+}
+
+// be careful when nesting! (just don't)
+vec2 smin_smaterial(vec2 a, vec2 b, float k) {
+	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+	return vec2(mix(b.x, a.x, h) - k * h * (1.0 - h), mix(b.y, a.y, h));
+}
+
+// smooth maximum, k is the difference between the two values for which to smooth (eg. k = 0.1)
+float smax(float a, float b, float k) {
+	float h = clamp(0.5 - 0.5 * (b - a) / k, 0.0, 1.0 );
+	return mix(b, a, h) + k * h * (1.0 - h);
+}
+
+struct Material {
+	vec3 color;
+	float roughness;
+	float metallic;
+};
+
+struct SphereLight {
+	vec3 center;
+	vec3 color;
+	float radius;
+	float intensity;
+};
+
+// positive dot product
+float pdot(vec3 a, vec3 b) {
+	return max(0., dot(a, b));
+}
+
+float square(float a) {
+	return a * a;
+}
+
+vec3 apply_light(vec3 p, vec3 N, vec3 V, Material material, SphereLight light) {
+	vec3 L = light.center - p;
+
+	// calculate representative point
+	vec3 r = reflect(-V, N);
+	vec3 centerToRay = dot(L, r) * r - L;
+	vec3 closestPoint = L + centerToRay * clamp(light.radius/length(centerToRay), 0., 1.);
+	vec3 L_spec = normalize(closestPoint);
+
+	float light_distance = distance(p, light.center);
+
+	// specular
+	float PI = acos(-1.);
+	vec3 H = .5 * (L_spec + V);
+	float NdotH = dot(N, H);
+	float NdotL= pdot(N, L_spec);
+	float NdotV = dot(N, V);
+	float alpha = square(material.roughness);
+	float alpha2 = square(alpha);
+	float k = square(material.roughness + 1.);
+	float specular_without_F = alpha2 / (4. * mix(NdotL, 1., k) * mix(NdotV, 1., k) * PI * square(square(NdotH) * (alpha2 - 1.) + 1.));
+	float alphastrich = clamp(alpha + light.radius * .5 / light_distance, 0., 1.);
+	float spec_norm = alpha2 / (alphastrich * alphastrich);
+
+	float VdotH = dot(V, H);
+	float fresnel_power = exp2((-5.55473 * VdotH - 6.98316) * VdotH);
+	float F_dielectric = .04 + (1. - .04) * fresnel_power;
+	vec3 F_metal = material.color + (1. - material.color) * fresnel_power;
+
+	vec3 dielectric_color = .5 * (material.color / PI + specular_without_F * F_dielectric);
+	vec3 metal_color = specular_without_F * F_metal;
+	float foo = square(1. - square(square(light_distance / light.radius)));
+	float falloff = clamp(foo, 0., 1.) / (square(light_distance) + 1.);
+	return NdotL * mix(dielectric_color, metal_color, material.metallic) * falloff * light.intensity * light.color * spec_norm;
+}
+
+vec3 emit_light(vec3 color, float intensity) {
+	return color * intensity;
+}
+
+vec3 domrepv(vec3 p, vec3 c) {
+	return mod(p, c) - .5 * c;
+}
+
+// repeat things
+vec3 domrep(vec3 p, float x, float y, float z) {
+	return domrepv(p, vec3(x, y, z));
+}
+
+// trans*late things - using vectors!!
+// p: point
+// v: translation vector
+vec3 transv(vec3 p, vec3 v) {
+	return p - v;
+}
+
+// trans*late things
+// p: point
+// x: x
+// y: y
+// z: z
+vec3 trans(vec3 p, float x, float y, float z) {
+	return transv(p, vec3(x, y, z));
+}
+
+mat3 rX(float theta) {
+	return mat3(
+		1., 0., 0.,
+		0., cos(theta), sin(theta),
+		0., -sin(theta), cos(theta)
+	);
+}
+
+mat3 rY(float theta) {
+	return mat3(
+		cos(theta), 0., -sin(theta),
+		0., 1., 0.,
+		sin(theta), 0., cos(theta)
+	);
+}
+
+mat3 rZ(float theta) {
+	return mat3(
+		cos(theta), sin(theta), 0.,
+		-sin(theta), cos(theta), 0.,
+		0., 0., 1.
+	);
+}
+
+mat2 rot2D(float theta) {
+	return mat2(cos(theta), -sin(theta), sin(theta), cos(theta));
+}
+
+// impulse from iq's website
+// k is the sharpness of the curve
+float impulse(float k, float x) {
+	const float h = k * x;
+	return h * exp(1. - h);
+}
+
+float linstep(float edge0, float edge1, float x) {
+	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
+}
+
+
+/*
+Noise - nützlich für fast alles! Daher auch gleich mal ne Menge verschiedenen.
+Wir haben klassichen Perlin Noise (cnoise - classical noise), sowie Value Noise (vnoise), jeweils für 2D und 3D.
+Perlin Noise ist schicker Gradient Noise, und sieht deshalb viel besser aus. Ist aber auch teurer.
+Daher gibts auch noch den schnellen Value Noise, für wenn mans eh nicht sieht.
+Außerdem noch fbm Varianten davon (cfbm, vfbm), die mehrere Oktaven kombinieren und ein wenig spannender sind.
+Gefühlt kommt vfbm näher an cfbm, als vnoise an cnoise, und cfbm ist noch mal ordentlich teuer.
+Der Wertebereich ist jeweils [-1, 1]! (das ist keine Fakultät)
+*/
+
+
+float mod289(float x) {
+  return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
+vec2 mod289(vec2 x) {
+  return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
+vec3 mod289(vec3 x) {
+  return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
+vec4 mod289(vec4 x) {
+  return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
+float permute(float x) {
+  return mod289(((x*34.0)+1.0)*x);
+}
+
+vec2 permute(vec2 x) {
+  return mod289(((x*34.0)+1.0)*x);
+}
+
+vec3 permute(vec3 x) {
+  return mod289(((x*34.0)+1.0)*x);
+}
+
+vec4 permute(vec4 x) {
+  return mod289(((x*34.0)+1.0)*x);
+}
+
+vec4 taylorInvSqrt(vec4 r) {
+  return 1.79284291400159 - 0.85373472095314 * r;
+}
+
+vec2 fade(vec2 t) {
+  return t*t*t*(t*(t*6.0-15.0)+10.0);
+}
+
+vec3 fade(vec3 t) {
+  return t*t*t*(t*(t*6.0-15.0)+10.0);
+}
+
+// see noise section above
+float cnoise(vec2 P) {
+	vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
+	vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
+	Pi = mod289(Pi); // To avoid truncation effects in permutation
+	vec4 ix = Pi.xzxz;
+	vec4 iy = Pi.yyww;
+	vec4 fx = Pf.xzxz;
+	vec4 fy = Pf.yyww;
+
+	vec4 i = permute(permute(ix) + iy);
+
+	vec4 gx = fract(i * (1.0 / 41.0)) * 2.0 - 1.0 ;
+	vec4 gy = abs(gx) - 0.5 ;
+	vec4 tx = floor(gx + 0.5);
+	gx = gx - tx;
+
+	vec2 g00 = vec2(gx.x,gy.x);
+	vec2 g10 = vec2(gx.y,gy.y);
+	vec2 g01 = vec2(gx.z,gy.z);
+	vec2 g11 = vec2(gx.w,gy.w);
+
+	vec4 norm = taylorInvSqrt(vec4(dot(g00, g00), dot(g01, g01), dot(g10, g10), dot(g11, g11)));
+	g00 *= norm.x;
+	g01 *= norm.y;
+	g10 *= norm.z;
+	g11 *= norm.w;
+
+	float n00 = dot(g00, vec2(fx.x, fy.x));
+	float n10 = dot(g10, vec2(fx.y, fy.y));
+	float n01 = dot(g01, vec2(fx.z, fy.z));
+	float n11 = dot(g11, vec2(fx.w, fy.w));
+
+	vec2 fade_xy = fade(Pf.xy);
+	vec2 n_x = mix(vec2(n00, n01), vec2(n10, n11), fade_xy.x);
+	float n_xy = mix(n_x.x, n_x.y, fade_xy.y);
+	return 2.3 * n_xy;
+}
+
+// see noise section above
+float cnoise(vec3 P) {
+	vec3 Pi0 = floor(P); // Integer part for indexing
+	vec3 Pi1 = Pi0 + vec3(1.0); // Integer part + 1
+	Pi0 = mod289(Pi0);
+	Pi1 = mod289(Pi1);
+	vec3 Pf0 = fract(P); // Fractional part for interpolation
+	vec3 Pf1 = Pf0 - vec3(1.0); // Fractional part - 1.0
+	vec4 ix = vec4(Pi0.x, Pi1.x, Pi0.x, Pi1.x);
+	vec4 iy = vec4(Pi0.yy, Pi1.yy);
+	vec4 iz0 = Pi0.zzzz;
+	vec4 iz1 = Pi1.zzzz;
+
+	vec4 ixy = permute(permute(ix) + iy);
+	vec4 ixy0 = permute(ixy + iz0);
+	vec4 ixy1 = permute(ixy + iz1);
+
+	vec4 gx0 = ixy0 * (1.0 / 7.0);
+	vec4 gy0 = fract(floor(gx0) * (1.0 / 7.0)) - 0.5;
+	gx0 = fract(gx0);
+	vec4 gz0 = vec4(0.5) - abs(gx0) - abs(gy0);
+	vec4 sz0 = step(gz0, vec4(0.0));
+	gx0 -= sz0 * (step(0.0, gx0) - 0.5);
+	gy0 -= sz0 * (step(0.0, gy0) - 0.5);
+
+	vec4 gx1 = ixy1 * (1.0 / 7.0);
+	vec4 gy1 = fract(floor(gx1) * (1.0 / 7.0)) - 0.5;
+	gx1 = fract(gx1);
+	vec4 gz1 = vec4(0.5) - abs(gx1) - abs(gy1);
+	vec4 sz1 = step(gz1, vec4(0.0));
+	gx1 -= sz1 * (step(0.0, gx1) - 0.5);
+	gy1 -= sz1 * (step(0.0, gy1) - 0.5);
+
+	vec3 g000 = vec3(gx0.x,gy0.x,gz0.x);
+	vec3 g100 = vec3(gx0.y,gy0.y,gz0.y);
+	vec3 g010 = vec3(gx0.z,gy0.z,gz0.z);
+	vec3 g110 = vec3(gx0.w,gy0.w,gz0.w);
+	vec3 g001 = vec3(gx1.x,gy1.x,gz1.x);
+	vec3 g101 = vec3(gx1.y,gy1.y,gz1.y);
+	vec3 g011 = vec3(gx1.z,gy1.z,gz1.z);
+	vec3 g111 = vec3(gx1.w,gy1.w,gz1.w);
+
+	vec4 norm0 = taylorInvSqrt(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));
+	g000 *= norm0.x;
+	g010 *= norm0.y;
+	g100 *= norm0.z;
+	g110 *= norm0.w;
+	vec4 norm1 = taylorInvSqrt(vec4(dot(g001, g001), dot(g011, g011), dot(g101, g101), dot(g111, g111)));
+	g001 *= norm1.x;
+	g011 *= norm1.y;
+	g101 *= norm1.z;
+	g111 *= norm1.w;
+
+	float n000 = dot(g000, Pf0);
+	float n100 = dot(g100, vec3(Pf1.x, Pf0.yz));
+	float n010 = dot(g010, vec3(Pf0.x, Pf1.y, Pf0.z));
+	float n110 = dot(g110, vec3(Pf1.xy, Pf0.z));
+	float n001 = dot(g001, vec3(Pf0.xy, Pf1.z));
+	float n101 = dot(g101, vec3(Pf1.x, Pf0.y, Pf1.z));
+	float n011 = dot(g011, vec3(Pf0.x, Pf1.yz));
+	float n111 = dot(g111, Pf1);
+
+	vec3 fade_xyz = fade(Pf0);
+	vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);
+	vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);
+	float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
+	return 2.2 * n_xyz;
+}
+
+float rand(vec2 c) {
+    vec2 m = mod289(c);
+	vec2 h = permute(m);
+    return fract(permute(h.x * h.y + m.x + m.y)/41.) * 2. - 1.;
+}
+
+float rand(vec3 c) {
+    vec3 m = mod289(c);
+	vec3 h = permute(m);
+    return fract(permute(h.x * h.y * h.z + m.x + m.y + m.z)/41.) * 2. - 1.;
+}
+
+// see noise section above
+float vnoise(vec2 c) {
+	vec2 c0 = floor(c);
+    vec2 t = fract(c);
+
+    vec2 o = vec2(1., 0.);
+    float v00 = rand(c0 + o.yy);
+    float v01 = rand(c0 + o.yx);
+    float v10 = rand(c0 + o.xy);
+    float v11 = rand(c0 + o.xx);
+
+    t = fade(t);
+    return mix(mix(v00, v10, t.x), mix(v01, v11, t.x), t.y);
+}
+
+// see noise section above
+float vnoise(vec3 c) {
+	vec3 c0 = floor(c);
+    vec3 t = fract(c);
+
+    vec2 o = vec2(1., 0.);
+    float v000 = rand(c0 + o.yyy);
+    float v001 = rand(c0 + o.yyx);
+    float v010 = rand(c0 + o.yxy);
+    float v011 = rand(c0 + o.yxx);
+    float v100 = rand(c0 + o.xyy);
+    float v101 = rand(c0 + o.xyx);
+    float v110 = rand(c0 + o.xxy);
+    float v111 = rand(c0 + o.xxx);
+
+	t = fade(t);
+	return mix(
+		mix(
+			mix(v000, v100, t.x),
+			mix(v010, v110, t.x),
+			t.y),
+		mix(
+			mix(v001, v101, t.x),
+			mix(v011, v111, t.x),
+			t.y),
+		t.z);
+}
+
+// see noise section above
+float cfbm(vec2 c) {
+	return (cnoise(c) + cnoise(c * 2.) * .5 + cnoise(c * 4.) * .25)/1.75;
+}
+
+// see noise section above
+float cfbm(vec3 c) {
+	return (cnoise(c) + cnoise(c * 2.) * .5 + cnoise(c * 4.) * .25)/1.75;
+}
+
+// see noise section above
+float vfbm(vec2 c) {
+	return (vnoise(c) + vnoise(c * 2.) * .5 + vnoise(c * 4.) * .25)/1.75;
+}
+
+// see noise section above
+float vfbm(vec3 c) {
+	return (vnoise(c) + vnoise(c * 2.) * .5 + vnoise(c * 4.) * .25)/1.75;
+}
+
+float ao(vec3 p, vec3 n, float d, float i) {
+	float o, s = sign(d);
+	for(o = s * .5 + .5; i > 0; i--) {
+		o -= (i * d - f(p + n * i * d * s)[0]) / exp2(i);
+	}
+	return o;
+}
+
 #line 4
-layout(location=31)uniform vec3 l;layout(location=32)uniform float s;layout(location=33)uniform float i;layout(location=34)uniform float M;layout(location=35)uniform float F;layout(location=36)uniform float e;Material a[2]=Material[2](Material(vec3(1.),.5,0.),Material(l,.7,1.));const float S=0.,o=1.;void t(vec3 x,float l){float z=z,n=w,m=d;v=(l-z)/l*(n*n)/(m*(z-n))/.03*y.x;f=x;}vec3 p(vec3 x,vec4 v){vec3 f=2*cross(v.xyz,x);return x+v.w*f+cross(v.xyz,f);}vec3 p(){vec3 v=normalize(vec3((gl_FragCoord.xy-.5*y)/y.x,-w/.03));return p(v,z);}float h(vec3 v,float y){return length(v)-y;}float h(vec3 v,vec3 x,vec3 f,float y){vec3 l=v-x,z=f-x;float n=clamp(dot(l,z)/dot(z,z),0.,1.);return length(l-z*n)-y;}float u(vec3 v,vec2 y){vec2 f=vec2(length(v.xz)-y.x,v.y);return length(f)-y.y;}float g(vec3 v,vec3 x){return v=abs(v)-x,max(v.x,max(v.y,v.z));}float b(vec2 v,vec2 x){return v=abs(v)-x,max(v.x,v.y);}float L(vec3 v,vec3 y){vec3 f=abs(v)-y;return min(max(f.x,max(f.y,f.z)),0.)+length(max(f,0.));}float L(vec3 v,vec3 f,float y){return L(v,f-y)-y;}float C(vec3 v,vec2 x){float f=length(v.xy);return dot(x,vec2(f,v.z));}float T(vec3 v,vec3 f){return dot(v,f.xyz);}vec2 O(vec2 v,vec2 x){return mix(v,x,float(v.x>x.x));}float C(float v,float f,float x){float y=clamp(.5+.5*(f-v)/x,0.,1.);return mix(f,v,y)-x*y*(1.-y);}vec2 O(vec2 v,vec2 f,float y){return vec2(C(v,f,y),v.x>f.x?f.y:v.y);}vec2 T(vec2 v,vec2 f,float x){float y=clamp(.5+.5*(f-v)/x,0.,1.);return vec2(mix(f.x,v.x,y)-x*y*(1.-y),mix(f.y,v.y,y));}float b(float v,float f,float x){float y=clamp(.5-.5*(f-v)/x,0.,1.);return mix(f,v,y)+x*y*(1.-y);}float N(vec3 v,vec3 y){return max(0.,dot(v,y));}float C(float y){return y*y;}vec3 C(vec3 v,vec3 f,vec3 y,Material x,SphereLight m){vec3 l=m.center-v,z=reflect(-y,f),n=dot(l,z)*z-l,d=l+n*clamp(m.radius/length(n),0.,1.),s=normalize(d);float w=distance(v,m.center),c=acos(-1.);vec3 S=.5*(s+y);float r=dot(f,S),i=N(f,s),M=dot(f,y),o=C(x.roughness),W=C(o),J=C(x.roughness+1.),a=W/(4.*mix(i,1.,J)*mix(M,1.,J)*c*C(C(r)*(W-1.)+1.)),e=clamp(o+m.radius*.5/w,0.,1.),F=W/(e*e),t=dot(y,S),k=exp2((-5.55473*t-6.98316)*t),p=.04+.96*k;vec3 L=x.color+(1.-x.color)*k,Y=.5*(x.color/c+a*p),h=a*L;float U=C(1.-C(C(w/m.radius))),u=clamp(U,0.,1.)/(C(w)+1.);return i*mix(Y,h,x.metallic)*u*m.intensity*m.color*F;}vec3 H(vec3 v,float y){return v*y;}vec3 G(vec3 v,vec3 y){return mod(v,y)-.5*y;}vec3 C(vec3 v,float f,float x,float y){return G(v,vec3(f,x,y));}vec3 E(vec3 v,vec3 y){return v-y;}vec3 E(vec3 v,float f,float x,float y){return E(v,vec3(f,x,y));}mat3 E(float v){return mat3(1.,0.,0.,0.,cos(v),sin(v),0.,-sin(v),cos(v));}mat3 G(float v){return mat3(cos(v),0.,-sin(v),0.,1.,0.,sin(v),0.,cos(v));}mat3 H(float v){return mat3(cos(v),sin(v),0.,-sin(v),cos(v),0.,0.,0.,1.);}mat2 L(float v){return mat2(cos(v),-sin(v),sin(v),cos(v));}float A(float v,float y){const float x=v*y;return x*exp(1.-x);}float A(float y,float v,float f){return clamp((f-y)/(v-y),0.,1.);}float A(float v){return v-floor(v*(1./289.))*289.;}vec2 N(vec2 v){return v-floor(v*(1./289.))*289.;}vec3 O(vec3 v){return v-floor(v*(1./289.))*289.;}vec4 T(vec4 v){return v-floor(v*(1./289.))*289.;}float b(float v){return T((v*34.+1.)*v);}vec2 g(vec2 v){return T((v*34.+1.)*v);}vec3 h(vec3 v){return T((v*34.+1.)*v);}vec4 p(vec4 v){return T((v*34.+1.)*v);}vec4 t(vec4 y){return 1.79284-.853735*y;}vec2 u(vec2 v){return v*v*v*(v*(v*6.-15.)+10.);}vec3 k(vec3 v){return v*v*v*(v*(v*6.-15.)+10.);}float Z(vec2 v){vec4 f=floor(v.xyxy)+vec4(0.,0.,1.,1.),d=fract(v.xyxy)-vec4(0.,0.,1.,1.);f=T(f);vec4 y=f.xzxz,x=f.yyww,m=d.xzxz,n=d.yyww,l=p(p(y)+x),z=fract(l*(1./41.))*2.-1.,s=abs(z)-.5,J=floor(z+.5);z=z-J;vec2 r=vec2(z.x,s.x),w=vec2(z.y,s.y),c=vec2(z.z,s.z),i=vec2(z.w,s.w);vec4 W=t(vec4(dot(r,r),dot(c,c),dot(w,w),dot(i,i)));r*=W.x;c*=W.y;w*=W.z;i*=W.w;float M=dot(r,vec2(m.x,n.x)),o=dot(w,vec2(m.y,n.y)),S=dot(c,vec2(m.z,n.z)),e=dot(i,vec2(m.w,n.w));vec2 F=k(d.xy),Y=mix(vec2(M,S),vec2(o,e),F.x);float L=mix(Y.x,Y.y,F.y);return 2.3*L;}float Y(vec3 v){vec3 f=floor(v),y=f+vec3(1.);f=T(f);y=T(y);vec3 x=fract(v),z=x-vec3(1.);vec4 l=vec4(f.x,y.x,f.x,y.x),n=vec4(f.yy,y.yy),m=f.zzzz,s=y.zzzz,d=p(p(l)+n),W=p(d+m),c=p(d+s),r=W*(1./7.),w=fract(floor(r)*(1./7.))-.5;r=fract(r);vec4 i=vec4(.5)-abs(r)-abs(w),a=step(i,vec4(0.));r-=a*(step(0.,r)-.5);w-=a*(step(0.,w)-.5);vec4 S=c*(1./7.),o=fract(floor(S)*(1./7.))-.5;S=fract(S);vec4 M=vec4(.5)-abs(S)-abs(o),J=step(M,vec4(0.));S-=J*(step(0.,S)-.5);o-=J*(step(0.,o)-.5);vec3 e=vec3(r.x,w.x,i.x),Y=vec3(r.y,w.y,i.y),F=vec3(r.z,w.z,i.z),U=vec3(r.w,w.w,i.w),h=vec3(S.x,o.x,M.x),u=vec3(S.y,o.y,M.y),L=vec3(S.z,o.z,M.z),g=vec3(S.w,o.w,M.w);vec4 O=t(vec4(dot(e,e),dot(F,F),dot(Y,Y),dot(U,U)));e*=O.x;F*=O.y;Y*=O.z;U*=O.w;vec4 N=t(vec4(dot(h,h),dot(L,L),dot(u,u),dot(g,g)));h*=N.x;L*=N.y;u*=N.z;g*=N.w;float G=dot(e,x),b=dot(Y,vec3(z.x,x.yz)),C=dot(F,vec3(x.x,z.y,x.z)),H=dot(U,vec3(z.xy,x.z)),E=dot(h,vec3(x.xy,z.z)),A=dot(u,vec3(z.x,x.y,z.z)),Z=dot(L,vec3(x.x,z.yz)),X=dot(g,z);vec3 V=k(x);vec4 R=mix(vec4(G,b,C,H),vec4(E,A,Z,X),V.z);vec2 Q=mix(R.xy,R.zw,V.y);float P=mix(Q.x,Q.y,V.x);return 2.2*P;}float X(vec2 v){vec2 y=T(v),f=p(y);return fract(p(f.x*f.y+y.x+y.y)/41.)*2.-1.;}float W(vec3 v){vec3 y=T(v),f=p(y);return fract(p(f.x*f.y*f.z+y.x+y.y+y.z)/41.)*2.-1.;}float V(vec2 v){vec2 f=floor(v),y=fract(v),n=vec2(1.,0.);float x=W(f+n.yy),z=W(f+n.yx),w=W(f+n.xy),m=W(f+n.xx);y=k(y);return mix(mix(x,w,y.x),mix(z,m,y.x),y.y);}float U(vec3 v){vec3 f=floor(v),y=fract(v);vec2 x=vec2(1.,0.);float l=W(f+x.yyy),z=W(f+x.yyx),m=W(f+x.yxy),n=W(f+x.yxx),w=W(f+x.xyy),d=W(f+x.xyx),o=W(f+x.xxy),s=W(f+x.xxx);y=k(y);return mix(mix(mix(l,w,y.x),mix(m,o,y.x),y.y),mix(mix(z,d,y.x),mix(n,s,y.x),y.y),y.z);}float R(vec2 v){return(Y(v)+Y(v*2.)*.5+Y(v*4.)*.25)/1.75;}float Q(vec3 v){return(Y(v)+Y(v*2.)*.5+Y(v*4.)*.25)/1.75;}float P(vec2 v){return(U(v)+U(v*2.)*.5+U(v*4.)*.25)/1.75;}float K(vec3 v){return(U(v)+U(v*2.)*.5+U(v*4.)*.25)/1.75;}vec2 J(vec3 v){float f=100.,y=60.;vec3 m=C(v,f,0.,y);m.y=v.y;m.x=abs(m.x);m.z+=5.;m.x-=10*s;float z=h(m,1.);m.x-=2.;float w=h(m,2.);m=H(-n*sin(m.x/5.)/30.)*m;m=G(-n*sin(m.x/2.+r*.2)/50.)*m;float d=h(m,vec3(2.,0.,0.),vec3(20.,0.,0.),mix(i,M,smoothstep(10.*F,10*e,m.x)));vec2 l=vec2(C(b(-z,w,1.),d,1.),o),c=vec2(-h(v-x,500.),S);return O(l,c);}vec3 A(vec3 v,vec3 f,out int x,int y,float z){float m=0.;for(x=0;x<y;x++){float l=J(v)[0]*z;v+=f*l;l=abs(l);m+=l;if(l<.001*m)break;}return v;}vec3 E(vec3 v,vec3 f,out int y){return A(v,f,y,100,1.);}vec3 I(vec3 v){vec2 y=vec2(.001,0.);return normalize(vec3(J(v+y.xyy)[0]-J(v-y.xyy)[0],J(v+y.yxy)[0]-J(v-y.yxy)[0],J(v+y.yyx)[0]-J(v-y.yyx)[0])+1e-09);}float A(vec3 v,vec3 x,float y,float f){float l,z=sign(y);for(l=z*.5+.5;f>0;f--)l-=(f*y-J(v+x*f*y*z)[0])/exp2(f);return l;}void main(){vec3 v=p();int f;vec3 y=A(x,v,f,100,.7),m=vec3(0.);if(f<150){int n=int(J(y).y);vec3 z=I(y);Material w=a[n];m=C(y,z,-v,w,SphereLight(vec3(5.,9.,10.),vec3(1.),2.,100.));}t(m,distance(y,x));})shader_source";
+
+layout(location = 66) uniform vec3 synapse_color; // color
+layout(location = 67) uniform float synapse_gap; // float
+layout(location = 68) uniform float synapse_aa; // float
+layout(location = 69) uniform float synapse_bb; // float
+layout(location = 70) uniform float synapse_cc; // float
+layout(location = 71) uniform float synapse_dd; // float
+
+Material materials[2] = Material[2](
+	Material(vec3(1.), .5, 0.),
+	Material(synapse_color, 0.7, 1.)
+);
+
+const float MATERIAL_ID_BOUNDING = 0.;
+const float MATERIAL_ID_SYNAPSE = 1.;
+
+void main(void) {
+	vec3 direction = get_direction();
+
+	int i;
+	vec3 hit = march_adv(camera_position, direction, i, 100, .7);
+
+	vec3 color = vec3(0.);
+	if(i < 150) {
+		int material = int(f(hit).y);
+		vec3 normal = calc_normal(hit);
+
+		Material mat = materials[material];
+		color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
+	}
+
+	output_color(color, distance(hit, camera_position));
+}
+
+vec2 f(vec3 p) {
+	float domrep_x = 100.;
+	float domrep_z = 60.;
+	vec3 q = domrep(p, domrep_x, 0., domrep_z);
+	q.y = p.y;
+	q.x = abs(q.x);
+	q.z += 5.;
+	q.x -= 10 * synapse_gap;
+
+	float sphere1 = sphere(q, 1.);
+	q.x -= 2.;
+	float sphere2 = sphere(q, 2.);
+
+	q = rZ(-TAU*sin(q.x/5.)/30.) * q;
+	q = rY(-TAU*sin(q.x/2.+time*0.2)/50.)*q;
+	float capsule = line(q, vec3(2.,0.,0.), vec3(20.,0.,0.), mix(synapse_aa, synapse_bb, smoothstep(10.*synapse_cc, 10*synapse_dd, q.x)));
+
+	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), MATERIAL_ID_SYNAPSE);
+	vec2 bounding = vec2(-sphere(p - camera_position, 500.), MATERIAL_ID_BOUNDING);
+	return min_material(synapse, bounding);
+}
+)shader_source";
 #endif

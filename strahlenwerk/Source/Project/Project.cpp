@@ -114,7 +114,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	for(int i = 1; i < postprocShaders; i++) {
 		const PostprocShader& shader = postproc.getShader(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
-		//shaderFile.replaceWithText(std::regex_replace(shader.getSource(), search, replacement));
+		shaderFile.replaceWithText(shader.getSource());//std::regex_replace(shader.getSource(), search, replacement));
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 
 		auto& inputs = shader.getInputs();
@@ -140,7 +140,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	for(int i = 0; i < sceneShaders; i++) {
 		const Shader& shader = scenes.getShader(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
-		//shaderFile.replaceWithText(std::regex_replace(shader.getSource(), search, replacement));
+		shaderFile.replaceWithText(shader.getSource());//std::regex_replace(shader.getSource(), search, replacement));
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 		scenesArrayDeclaration += "\tShader(" + shader.getName() + "_source, 0, nullptr),\n";
 	}

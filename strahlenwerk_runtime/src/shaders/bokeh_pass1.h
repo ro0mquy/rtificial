@@ -1,9 +1,106 @@
 #ifndef bokeh_pass1_H
 #define bokeh_pass1_H
 const char bokeh_pass1_source[] = R"shader_source(#version 430
-layout(location=0)uniform vec2 v;layout(location=0)in vec2 w;
+
+layout(location = 0) uniform vec2 res;
+
+layout(location = 0) in vec2 tc;
+
 #line 1
-float n=40.*v.x/1920.;layout(location=2)uniform float l;float c=mix(0.,-radians(60.),(l*10.-.5)/31.5);mat2 m=mat2(cos(c),-sin(c),sin(c),cos(c));float t(vec3 w,float v,float z,float r,inout vec4 l){bool c=v<0.;float n=abs(v);if(n>r&&(c||z>0.&&n<z*2.)){if(c){if(l.w<0.)l.w=min(l.w,v);else{if(-v>l.w)l.w=v;}}else l.w=max(l.w,v);float m=clamp(n-r,0.,1.);l.xyz+=m*w;return m;}return 0.;}
+
+float kernelSize = 40. * res.x / 1920.;
+
+layout(location = 34) uniform float f_stop;
+
+// TODO remove manual scaling
+float bokeh_rotation_angle = mix(0., -radians(60.), (f_stop * 10. - .5) / (32. - .5));
+mat2 bokeh_rotation = mat2(
+	cos(bokeh_rotation_angle), -sin(bokeh_rotation_angle),
+	sin(bokeh_rotation_angle), cos(bokeh_rotation_angle)
+);
+
+float gatherAndApply(vec3 color, float CoC, float baseCoC, float dist, inout vec4 outColor) {
+	bool blurNear = CoC < 0.;
+	float absCoC = abs(CoC);
+
+	if((absCoC > dist) && (blurNear || (baseCoC > 0. && absCoC < baseCoC * 2.))) {
+		if(blurNear) {
+			if(outColor.a < 0.) {
+				outColor.a = min(outColor.a, CoC);
+			} else {
+				if(-CoC > outColor.a) {
+					outColor.a = CoC;
+				}
+			}
+		} else {
+			// experimental
+			outColor.a = max(outColor.a, CoC);
+		}
+		float frac = clamp(absCoC - dist, 0., 1.);
+		outColor.rgb += frac * color;
+		return frac;
+	}
+	return 0.;
+}
+
 #line 4
-layout(binding=0)uniform sampler2D z;layout(binding=1)uniform sampler2D r;layout(location=0)out vec4 e;layout(location=1)out vec4 f;vec4 t(vec3 m,float c,vec2 l){l*=m;vec2 f=1./v;vec4 e=vec4(vec3(0.),c);float i=0.;for(int s=0;s<n;s++){float g=s+.5;vec3 b=textureLod(z,w+g*f*l,0.).xyz;float o=textureLod(r,w+g*f*l,0.).x;i+=t(b,o,c,g,e);}e.xyz=i>1e-06?e.xyz/i:m;return e;}void main(){vec3 l=textureLod(z,w,0.).xyz;float v=textureLod(r,w,0.).x;vec4 m=t(l,v,vec2(0.,-1.)),c=t(l,v,vec2(cos(radians(30.)),sin(radians(30.)))),s;s.xyz=m.xyz+c.xyz;if(c.w>=0.){if(m.w>=0.)s.w=max(c.w,m.w);else s.w=m.w;}else{if(m.w>=0.)s.w=c.w;else s.w=min(c.w,m.w);}e=m;f=s;})shader_source";
+
+layout(binding = 0) uniform sampler2D color; // vec3
+layout(binding = 1) uniform sampler2D coc; // float
+
+layout(location = 0) out vec4 upwards;
+layout(location = 1) out vec4 both;
+
+vec4 gatherDirection(vec3 baseColor, float baseCoC, vec2 dir) {
+	dir *= bokeh_rotation;
+	vec2 pixelSize = 1./res;
+	vec4 accum = vec4(vec3(0.), baseCoC);
+	float sum = 0.;
+
+	for(int i = 0; i < kernelSize; i++) {
+		float dist = i + .5;
+		vec3 otherColor = textureLod(color, tc + dist * pixelSize * dir, 0.).rgb;
+		float otherCoC = textureLod(coc, tc + dist * pixelSize * dir, 0.).r;
+		sum += gatherAndApply(otherColor, otherCoC, baseCoC, dist, accum);
+	}
+
+	accum.rgb = sum > 1e-6 ? accum.rgb / sum : baseColor;
+	return accum;
+}
+
+void main() {
+	vec3 baseColor = textureLod(color, tc, 0.).rgb;
+	float baseCoC = textureLod(coc, tc, 0.).r;
+
+	vec4 upwardsBlur = gatherDirection(baseColor, baseCoC, vec2(0., -1.));
+	vec4 downLeftBlur = gatherDirection(baseColor, baseCoC, vec2(cos(radians(30.)), sin(radians(30.))));
+
+	vec4 bothBlurs;
+	bothBlurs.rgb = upwardsBlur.rgb + downLeftBlur.rgb;
+	/*
+	if(abs(upwardsBlur.a) > abs(downLeftBlur.a)) {
+		bothBlurs.a = upwardsBlur.a;
+	} else {
+		bothBlurs.a = downLeftBlur.a;
+	}
+	*/
+	// experimental
+	if(downLeftBlur.a >= 0.) {
+		if(upwardsBlur.a >= 0.) {
+			bothBlurs.a = max(downLeftBlur.a, upwardsBlur.a);
+		} else {
+			bothBlurs.a = upwardsBlur.a;
+		}
+	} else {
+		if(upwardsBlur.a >= 0.) {
+			bothBlurs.a = downLeftBlur.a;
+		} else {
+			bothBlurs.a = min(downLeftBlur.a, upwardsBlur.a);
+		}
+	}
+
+	upwards = upwardsBlur;
+	both = bothBlurs;
+}
+)shader_source";
 #endif
