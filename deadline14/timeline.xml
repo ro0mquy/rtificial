@@ -60,10 +60,16 @@
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueVec3X="17.799" valueVec3Y="-22.105" valueVec3Z="-20.602"/>
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+            <keyframe keyframePosition="-3.05176e-05">
+              <keyframeValue valueVec3X="17.7991" valueVec3Y="-22.1049" valueVec3Z="-20.6024"/>
             </keyframe>
             <keyframe keyframePosition="44">
               <keyframeValue valueVec3X="23.35" valueVec3Y="-22.105" valueVec3Z="-16.629"/>
+            </keyframe>
+            <keyframe keyframePosition="44">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
             </keyframe>
             <keyframe keyframePosition="68">
               <keyframeValue valueVec3X="23.255" valueVec3Y="-22.291" valueVec3Z="-16.978"/>
@@ -110,10 +116,17 @@
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueVec4X="-0.165" valueVec4Y="-0.475" valueVec4Z="-0.091" valueVec4W="0.86"/>
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
+            </keyframe>
+            <keyframe keyframePosition="-3.05176e-05">
+              <keyframeValue valueVec4X="-0.164698" valueVec4Y="-0.475207" valueVec4Z="-0.0910583"
+                             valueVec4W="0.859512"/>
             </keyframe>
             <keyframe keyframePosition="44">
               <keyframeValue valueVec4X="-0.187" valueVec4Y="-0.129" valueVec4Z="-0.025" valueVec4W="0.974"/>
+            </keyframe>
+            <keyframe keyframePosition="44">
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
             </keyframe>
             <keyframe keyframePosition="68">
               <keyframeValue valueVec4X="-0.203" valueVec4Y="-0.178" valueVec4Z="-0.034" valueVec4W="0.962"/>
@@ -466,6 +479,44 @@
     <uniform uniformName="synapse_bb" uniformType="float">
       <uniformStandardValue valueFloatX="0.44"/>
       <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_bobbel_progress" uniformType="float">
+      <uniformStandardValue valueFloatX="-2.5"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="103" sequenceStart="4" sequenceDuration="2"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="-2.5"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueFloatX="2.5"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="8" sequenceDuration="2"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="-2.5"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueFloatX="2.5"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="12" sequenceDuration="2"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="-2.5"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueFloatX="2.5"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="synapse_cc" uniformType="float">
       <uniformStandardValue valueFloatX="-0.48"/>

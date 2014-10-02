@@ -50,6 +50,7 @@ vec2 f(vec3 p) {
 	vec3 q = domrepv(p, dr_factor);
 	q *= rZ(2*rand(3*floor(p/dr_factor)));
 	q *= rY(1.5*rand(floor(p/dr_factor)));
+	vec3 q_p = q; // save for bobbel cutout
 
 	// mirror
 	q.x = abs(q.x);
@@ -68,16 +69,21 @@ vec2 f(vec3 p) {
 	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), MATERIAL_ID_SYNAPSE);
 
 	// bobbel
-	vec3 p_bbl_p = p;
-	vec3 p_bbl = p_bbl_p;
-	//p_bbl = domrep(p_bbl_p, 1., 1., 1.);
-	//p_bbl.x = p_bbl_p.x;
+	// positioning
+	vec3 p_bbl = p;
 	p_bbl = trans(p_bbl, dr_factor.x/2., -dr_factor.y/2., -dr_factor.z/2.);
 	p_bbl = trans(p_bbl, synapse_bobbel_progress, 0., synapse_bobbel_progress);
 	p_bbl *= rY(-0.1*TAU);
+	// domrep
+	vec3 p_bbl_p = p_bbl;
+	vec3 bbl_dr_factor = vec3(0.25);
+	p_bbl = domrepv(p_bbl, bbl_dr_factor);
+	p_bbl.x = p_bbl_p.x;
+	p_bbl = trans(p_bbl, 2*rand(floor(p_bbl_p/bbl_dr_factor)), 0.,0.);
+	// scale & add
 	float scale_factor = 0.15;
 	float bbl = conicbobbel(p_bbl / scale_factor, 2.) * scale_factor;
-	vec2 bobbel = vec2(bbl, MATERIAL_ID_BOBBEL);
+	vec2 bobbel = vec2(max(bbl, sphere(q_p, 1.25)), MATERIAL_ID_BOBBEL);
 
 	vec2 bounding = vec2(-sphere(p - camera_position, -synapse_dist_fog_a), MATERIAL_ID_BOUNDING);
 	return min_material(synapse, min_material(bounding, bobbel));
