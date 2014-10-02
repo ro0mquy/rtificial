@@ -36,6 +36,7 @@ void DataInterpolator::setUniformValue(const double time, const int nthUniform, 
 	if ((lastSequences - firstSequence) == 0) {
 		// no sequences, return standard value
 		setValue(nthUniform, type, location, 0);
+		return;
 	}
 
 	int totalNumKeyframe = 0;
@@ -86,6 +87,7 @@ void DataInterpolator::setUniformValue(const double time, const int nthUniform, 
 						setSplineValue(nthUniform, type, location, currentKeyframeDataOffset - 1, mixT, noFirstValue, noLastValue);
 					}
 				}
+				return;
 			}
 		}
 	}
