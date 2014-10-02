@@ -75,21 +75,21 @@ const bool use_sound_thread = true;
 			}
 		}
 
+		const double currentTime = backend.getTime();
 
 		fbos[0].bind();
-		scenes[shader_id].draw(fbos[0].width, fbos[0].height);
+		scenes[shader_id].draw(fbos[0].width, fbos[0].height, currentTime);
 		fbos[0].unbind();
 		for(int i = 0; i < n_postproc - 1; i++) {
 			fbos[i + 1].bind();
-			postproc[i].draw(fbos[i + 1].width, fbos[i + 1].height);
+			postproc[i].draw(fbos[i + 1].width, fbos[i + 1].height, currentTime);
 			fbos[i + 1].unbind();
 		}
 
 		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
-		postproc[n_postproc - 1].draw(width, height);
-//		scenes[shader_id].draw(fbos[0].width, fbos[0].height);
+		postproc[n_postproc - 1].draw(width, height, currentTime);
 		glDisable(GL_FRAMEBUFFER_SRGB);
 		backend.afterFrame();
 

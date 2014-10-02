@@ -13,9 +13,7 @@
 
 using namespace DataInterpolator;
 
-static const float time = 0.; // TODO: use real time
-
-void DataInterpolator::loadUniforms() {
+void DataInterpolator::loadUniforms(const double time) {
 	const int numUniforms = sizeof(uniforms) / sizeof(uniforms[0]);
 	for (int i = 0; i < numUniforms; i++) {
 		const Uniform uniform = uniforms[i];
@@ -27,11 +25,11 @@ void DataInterpolator::loadUniforms() {
 			continue;
 		}
 
-		setUniformValue(i, uniformType, uniformLocation);
+		setUniformValue(time, i, uniformType, uniformLocation);
 	}
 }
 
-void DataInterpolator::setUniformValue(const int nthUniform, const int type, const int location) {
+void DataInterpolator::setUniformValue(const double time, const int nthUniform, const int type, const int location) {
 	const int firstSequence = sequence_index[nthUniform];
 	const int lastSequences = sequence_index[nthUniform+1];
 
@@ -56,7 +54,7 @@ void DataInterpolator::setUniformValue(const int nthUniform, const int type, con
 
 		// time is in current sequence
 		const int sequenceInterpolation = sequence.interpolation;
-		const float relativeTime = time - sequenceStart;
+		const double relativeTime = time - sequenceStart;
 		const int keyframeTimeIndex = keyframe_time_index[nthUniform];
 		const int keyframeTimeOffset = keyframeTimeIndex + totalNumKeyframe - numKeyframes;
 		const int keyframeDataOffset = totalNumKeyframe - numKeyframes + 1; // first keyframe data is standard value
@@ -73,8 +71,8 @@ void DataInterpolator::setUniformValue(const int nthUniform, const int type, con
 
 				} else if (sequenceInterpolation == SEQ_INTERPOLATION_LINEAR || sequenceInterpolation == SEQ_INTERPOLATION_CCRSPLINE) {
 					const float keyframeBeforeTime = keyframe_time[keyframeTimeOffset + j - 1];
-					const float timeBetweenKeyframes = keyframeTime - keyframeBeforeTime;
-					const float moreRelativeTime = relativeTime - keyframeBeforeTime;
+					const double timeBetweenKeyframes = keyframeTime - keyframeBeforeTime;
+					const double moreRelativeTime = relativeTime - keyframeBeforeTime;
 					const double mixT = moreRelativeTime / timeBetweenKeyframes;
 
 					if (sequenceInterpolation == SEQ_INTERPOLATION_LINEAR) {

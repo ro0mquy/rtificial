@@ -14,7 +14,7 @@ class Shader {
 		Shader(const char* source, int inputsNumber, const Input* inputs);
 		void compile();
 		void bind();
-		void draw(int width, int height);
+		void draw(int width, int height, const double time);
 		void destroy();
 
 	private:
