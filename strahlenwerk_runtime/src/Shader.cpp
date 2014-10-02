@@ -73,8 +73,8 @@ void Shader::draw(int width, int height) {
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	glUniform2f(0, width, height);
 	DataInterpolator::loadUniforms();
-	glUniform3f(3, 0.0f, 5.0f, 7.0f);
-	glUniform4f(4, 0.0f, 0.0f, 0.0f, 1.0f);
+	glUniform3f(35, 0.0f, 5.0f, 7.0f);
+	glUniform4f(36, 0.0f, 0.0f, 0.0f, 1.0f);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableVertexAttribArray(0);
 }

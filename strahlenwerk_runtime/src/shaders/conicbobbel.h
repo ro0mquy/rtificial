@@ -566,8 +566,8 @@ const float material_boden    = 1.;
 const float material_lampe    = 2.;
 const float material_bobbel   = 3.;
 const float material_ring     = 4.;
-
-void main(void) {
+)shader_source"
+R"shader_source(void main(void) {
 	vec3 direction = get_direction();
 
 	int i;

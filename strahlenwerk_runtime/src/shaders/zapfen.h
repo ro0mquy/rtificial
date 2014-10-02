@@ -567,7 +567,8 @@ vec3 apply_lights(vec3 p, vec3 N, vec3 V, Material mat) {
 	color += apply_light(p, N, V, mat, SphereLight(zapfen_light2_pos, zapfen_light2_col, zapfen_light_radius, zapfen_light_intensity));
 	return color;
 }
-
+)shader_source"
+R"shader_source(
 void main() {
 	vec3 dir = get_direction();
 

@@ -607,7 +607,8 @@ void main(void) {
 
 	output_color(color, 4.1);// distance(hit, camera_position));
 }
-
+)shader_source"
+R"shader_source(
 float star(vec2 p_star, float num_wings, float thickness_wings) {
 	float angle = atan(p_star.x, p_star.y);
 	float length_2 = dot(p_star, p_star);
