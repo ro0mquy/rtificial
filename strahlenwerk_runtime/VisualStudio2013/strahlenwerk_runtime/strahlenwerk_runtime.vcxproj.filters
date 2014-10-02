@@ -51,16 +51,16 @@
     <ClInclude Include="..\..\src\Uniform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\math\quat.h">
+    <ClInclude Include="..\..\src\quat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\math\scalar.h">
+    <ClInclude Include="..\..\src\scalar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\math\vec2.h">
+    <ClInclude Include="..\..\src\vec2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\math\vec3.h">
+    <ClInclude Include="..\..\src\vec3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -83,16 +83,16 @@
     <ClCompile Include="..\..\src\DataInterpolator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\math\quat.cpp">
+    <ClCompile Include="..\..\src\vec3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\math\scalar.cpp">
+    <ClCompile Include="..\..\src\quat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\math\vec2.cpp">
+    <ClCompile Include="..\..\src\scalar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\math\vec3.cpp">
+    <ClCompile Include="..\..\src\vec2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
