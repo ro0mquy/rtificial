@@ -34,6 +34,10 @@ File ProjectFileLoader::getAudioFile() {
 	return projectDir.getChildFile("music.ogg");
 }
 
+File ProjectFileLoader::getEnvelopeFile() {
+	return projectDir.getChildFile("envelopes.out");
+}
+
 const File& ProjectFileLoader::getSceneDir() const {
 	return sceneDir;
 }

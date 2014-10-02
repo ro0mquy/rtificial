@@ -2,6 +2,7 @@
 #define AUDIOMANAGER_H
 
 #include <juce>
+#include <memory>
 
 class AudioManager :
 	public ChangeBroadcaster
@@ -13,9 +14,11 @@ class AudioManager :
 		static AudioManager& getAudioManager();
 
 		void loadFile(const File& audioFile);
+		void loadEnvelopes(const File& envelopeFile);
 		void togglePlayPause();
 		float getTimeInBeats();
 		void setTime(float newTimeInBeats);
+		float* getCurrentEnvelopes();
 
 		AudioThumbnail& getThumbnail();
 		int getBpm();
@@ -42,6 +45,9 @@ class AudioManager :
 
 		AudioThumbnailCache thumbnailCache;
 		AudioThumbnail thumbnail;
+
+		std::unique_ptr<float> envelopeData;
+		int envelopesSize = 0;
 };
 
 #endif
