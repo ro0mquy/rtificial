@@ -74,7 +74,7 @@ AudioThumbnail& AudioManager::getThumbnail() {
 }
 
 int AudioManager::getBpm() {
-	return 120;
+	return 118;
 }
 
 
