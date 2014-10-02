@@ -1,9 +1,9 @@
 #ifndef DATAINTERPOLATOR_H
 #define DATAINTERPOLATOR_H
 
-#include "math/vec2.h"
-#include "math/vec3.h"
-#include "math/quat.h"
+#include "vec2.h"
+#include "vec3.h"
+#include "quat.h"
 
 namespace DataInterpolator {
 	void loadUniforms();

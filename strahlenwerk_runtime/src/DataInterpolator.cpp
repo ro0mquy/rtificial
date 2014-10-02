@@ -4,10 +4,10 @@
 #include "Uniform.h"
 #include "Sequence.h"
 
-#include "math/scalar.h"
-#include "math/vec2.h"
-#include "math/vec3.h"
-#include "math/quat.h"
+#include "scalar.h"
+#include "vec2.h"
+#include "vec3.h"
+#include "quat.h"
 #include <cmath>
 
 
