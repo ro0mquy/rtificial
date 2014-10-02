@@ -8,6 +8,8 @@ uniform float synapse_aa; // float
 uniform float synapse_bb; // float
 uniform float synapse_cc; // float
 uniform float synapse_dd; // float
+uniform float synapse_dist_fog_a; // float
+uniform float synapse_dist_fog_b; // float
 
 Material materials[2] = Material[2](
 	Material(vec3(1.), .5, 0.),
@@ -32,14 +34,14 @@ void main(void) {
 		color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
 	}
 
+	color *= smoothstep(synapse_dist_fog_a, synapse_dist_fog_b, -distance(hit, camera_position));
+
 	output_color(color, distance(hit, camera_position));
 }
 
 vec2 f(vec3 p) {
-	float domrep_x = 100.;
-	float domrep_z = 60.;
-	vec3 q = domrep(p, domrep_x, 0., domrep_z);
-	q.y = p.y;
+	vec3 q = domrep(p, 20., 20., 20.);
+	//q.y = p.y;
 	q.x = abs(q.x);
 	q.z += 5.;
 	q.x -= 10 * synapse_gap;
@@ -53,6 +55,6 @@ vec2 f(vec3 p) {
 	float capsule = line(q, vec3(2.,0.,0.), vec3(20.,0.,0.), mix(synapse_aa, synapse_bb, smoothstep(10.*synapse_cc, 10*synapse_dd, q.x)));
 
 	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), MATERIAL_ID_SYNAPSE);
-	vec2 bounding = vec2(-sphere(p - camera_position, 500.), MATERIAL_ID_BOUNDING);
+	vec2 bounding = vec2(-sphere(p - camera_position, 200.), MATERIAL_ID_BOUNDING);
 	return min_material(synapse, bounding);
 }
