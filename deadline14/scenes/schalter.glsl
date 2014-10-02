@@ -137,7 +137,11 @@ vec2 f(vec3 p) {
 	torus_2 += 100 * (1. - step(0.001, pyramid_wave_animation));
 	schalter_cube = min_material(schalter_cube, vec2(torus_2, MATERIAL_ID_CUBE));
 
-	float lightballs_dist = sphere(domrep(p, 7, 10.,8.), 2.);
+	vec3 p_lb = p;
+	vec3 dr_factor = vec3(7.,10.,8.);
+	vec3 p_lb_dr = domrepv(p_lb, dr_factor);
+	p_lb_dr = trans(p_lb_dr, 0.,2*vnoise(floor(p_lb/dr_factor)),0.);
+	float lightballs_dist = sphere(p_lb_dr, 2+1.5*vnoise(floor(p_lb/dr_factor)));
 	float no_lightballs = sphere(p, 20.);
 	vec2 lightballs = vec2(max(lightballs_dist, -no_lightballs), MATERIAL_ID_LIGHTBALL);
 
