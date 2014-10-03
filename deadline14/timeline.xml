@@ -481,16 +481,16 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="synapse_bobbel_progress" uniformType="float">
-      <uniformStandardValue valueFloatX="-2.5"/>
+      <uniformStandardValue valueFloatX="-2.8"/>
       <sequencesArray>
         <sequence sequenceSceneId="103" sequenceStart="4" sequenceDuration="2"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="-2.5"/>
+              <keyframeValue valueFloatX="-2.8"/>
             </keyframe>
             <keyframe keyframePosition="2">
-              <keyframeValue valueFloatX="2.5"/>
+              <keyframeValue valueFloatX="2.8"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -498,10 +498,10 @@
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="-2.5"/>
+              <keyframeValue valueFloatX="-2.8"/>
             </keyframe>
             <keyframe keyframePosition="2">
-              <keyframeValue valueFloatX="2.5"/>
+              <keyframeValue valueFloatX="2.8"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -509,10 +509,10 @@
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="-2.5"/>
+              <keyframeValue valueFloatX="-2.8"/>
             </keyframe>
             <keyframe keyframePosition="2">
-              <keyframeValue valueFloatX="2.5"/>
+              <keyframeValue valueFloatX="2.8"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -541,6 +541,53 @@
     <uniform uniformName="synapse_gap" uniformType="float">
       <uniformStandardValue valueFloatX="0.051"/>
       <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_transmitter_r" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="103" sequenceStart="4" sequenceDuration="2"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="1">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="8" sequenceDuration="2"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="1">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="12" sequenceDuration="2"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="1">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="vignette_intensity" uniformType="float">
       <uniformStandardValue valueFloatX="0.774"/>

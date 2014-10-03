@@ -12,16 +12,19 @@ uniform float synapse_dd; // float
 uniform float synapse_dist_fog_a; // float
 uniform float synapse_dist_fog_b; // float
 uniform float synapse_bobbel_progress; // float
+uniform float synapse_transmitter_r; // float
 
-Material materials[3] = Material[3](
+Material materials[4] = Material[4](
 	Material(vec3(1.), .5, 0.),
 	Material(synapse_color, 0.7, 1.),
+	Material(vec3(0.,1.,0.), .2, 1.),
 	Material(vec3(0.,1.,0.), .2, 1.)
 );
 
-const float MATERIAL_ID_BOUNDING = 0.;
-const float MATERIAL_ID_SYNAPSE  = 1.;
-const float MATERIAL_ID_BOBBEL   = 2.;
+const float MATERIAL_ID_BOUNDING    = 0.;
+const float MATERIAL_ID_SYNAPSE     = 1.;
+const float MATERIAL_ID_BOBBEL      = 2.;
+const float MATERIAL_ID_TRANSMITTER = 3.;
 
 
 void main(void) {
@@ -36,7 +39,12 @@ void main(void) {
 		vec3 normal = calc_normal(hit);
 
 		Material mat = materials[material];
-		color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
+
+		if(MATERIAL_ID_TRANSMITTER == material){
+			color = emit_light(mat.color, 3 * synapse_transmitter_r);
+		} else {
+			color = apply_light(hit, normal, -direction, mat, SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.));
+		}
 	}
 
 	color *= smoothstep(synapse_dist_fog_a, synapse_dist_fog_b, -distance(hit, camera_position));
@@ -68,6 +76,12 @@ vec2 f(vec3 p) {
 
 	vec2 synapse = vec2(smin(smax(-sphere1, sphere2, 1.), capsule, 1.), MATERIAL_ID_SYNAPSE);
 
+	// fake neurotransmitter
+	vec3 p_t = q_p;
+	float transm = sphere(p_t, 1.35 * synapse_transmitter_r);
+	float t_cutout = sphere(trans(p, dr_factor.x/2., -dr_factor.y/2., -dr_factor.z/2.), 10.);
+	vec2 transmitter = vec2(max(transm, -t_cutout), MATERIAL_ID_TRANSMITTER);
+
 	// bobbel
 	// positioning
 	vec3 p_bbl = p;
@@ -86,5 +100,5 @@ vec2 f(vec3 p) {
 	vec2 bobbel = vec2(max(bbl, cylinder(q_p.zyx, 1.35, 1.5)), MATERIAL_ID_BOBBEL);
 
 	vec2 bounding = vec2(-sphere(p - camera_position, -synapse_dist_fog_a), MATERIAL_ID_BOUNDING);
-	return min_material(synapse, min_material(bounding, bobbel));
+	return min_material(min_material(synapse, transmitter), min_material(bounding, bobbel));
 }
