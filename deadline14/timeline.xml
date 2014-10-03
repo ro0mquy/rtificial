@@ -563,7 +563,7 @@
       </sequencesArray>
     </uniform>
     <uniform uniformName="conic_bobbel_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.295822" valueColorG="0.543238" valueColorB="0.380202"/>
+      <uniformStandardValue valueColorR="0.269356" valueColorG="0.0913925" valueColorB="0.039745"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="conic_bobbel_noifreq" uniformType="float">
@@ -591,7 +591,7 @@
       </sequencesArray>
     </uniform>
     <uniform uniformName="conic_domrep_enabled" uniformType="bool">
-      <uniformStandardValue valueBoolState="0"/>
+      <uniformStandardValue valueBoolState="1"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="conic_domrep_spacing" uniformType="float">
@@ -599,7 +599,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="conic_lampe_color" uniformType="color">
-      <uniformStandardValue valueColorR="1" valueColorG="0" valueColorB="0.0636455"/>
+      <uniformStandardValue valueColorR="0" valueColorG="0.0744869" valueColorB="0.416346"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="conic_ring_animation" uniformType="float">
@@ -628,7 +628,7 @@
       </sequencesArray>
     </uniform>
     <uniform uniformName="conic_ring_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.229901" valueColorG="0.401021" valueColorB="0.0404214"/>
+      <uniformStandardValue valueColorR="0.623137" valueColorG="0.110765" valueColorB="0.014556"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="conic_ring_intensity" uniformType="float">
