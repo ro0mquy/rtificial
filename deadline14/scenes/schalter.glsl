@@ -33,6 +33,23 @@ float pyramid(vec3 p, float s, float h);
 
 vec3 p_pyramid;
 
+vec3 apply_lights(vec3 p, vec3 N, vec3 V, Material mat) {
+	vec3 color = vec3(0.);
+	float radius = 2.;
+	float intensity = 50.;
+	color += apply_light(p, N, V, mat, SphereLight(
+		vec3(5., 6., 3.),
+		vec3(1.),
+		radius,
+		intensity));
+	color += apply_light(p, N, V, mat, SphereLight(
+		vec3(-3., -5., 4.),
+		vec3(1.),
+		radius,
+		intensity));
+	return color;
+}
+
 void main(void) {
 	vec3 direction = get_direction();
 
@@ -55,14 +72,14 @@ void main(void) {
 		Material rust = Material(pyramid_color2, .9, .8);
 		float rustiness = .1 + .06 * cnoise(p_pyramid * .5);
 		rustiness *= 3.;
-		color = apply_light(hit, normal, -direction, rust, light1) * rustiness;
+		color = apply_lights(hit, normal, -direction, rust) * rustiness;
 		factor = 1. - rustiness;
 	}
 
 	if (MATERIAL_ID_LIGHTBALL == material || MATERIAL_ID_CUBE == material) {
 		color = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5);
 	} else if (material >= MATERIAL_ID_FLOOR && material <= MATERIAL_ID_CUBE) {
-		vec3 nonglowing_floor = factor * apply_light(hit, normal, -direction, mat, light1);
+		vec3 nonglowing_floor = factor * apply_lights(hit, normal, -direction, mat);
 		vec3 glowing_floor = emit_light(mat.color, 5.);
 		float wave_height = hit.y + 2.;
 		vec3 color_floor = mix(nonglowing_floor, glowing_floor, smoothstep(0., 2., wave_height));
@@ -71,7 +88,7 @@ void main(void) {
 
 		color += mix(color_floor, color_cube, material - MATERIAL_ID_FLOOR);
 	} else {
-		color += factor * apply_light(hit, normal, -direction, mat, light1);
+		color += factor * apply_lights(hit, normal, -direction, mat);
 	}
 
 	output_color(color, distance(hit, camera_position));
