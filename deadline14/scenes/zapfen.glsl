@@ -44,7 +44,7 @@ void main() {
 			float t = (-(camera_position.y - 20.) / dir.y);
 			if(t > 0.) {
 				add_boden = true;
-				p = march_adv(camera_position + t * dir, dir, i, 20, .7);
+				p = march_adv(camera_position + t * dir, dir, i, 20, .9);
 			}
 		}
 	}
@@ -104,9 +104,7 @@ void main() {
 }
 
 float boden(vec3 p);
-float boden_implicit(vec3 p);
-float leitungen(vec3 p, float rotation, float radius, float freq);
-vec3 boden_transform(vec3 p);
+float leitungen(vec3 p, float rotation, float radius, float freq, float t);
 
 vec2 f(vec3 p) {
 	vec2 bounding = vec2(-sphere(camera_position - p, 300.), 0.);
@@ -116,17 +114,19 @@ vec2 f(vec3 p) {
 	q.y = p.y - height;
 	float k = smoothstep(-height * 1.2, height, -q.y);
 	vec2 ij = floor(p.xz / 50.);
-	q.xz += rand(ij + 10.) * 5.;
 	float rotation = sin(7. * dot(ij, ij) + time * .5);
 	float rotation2 = cos(11. * dot(ij, ij) + time * .5);
 	q.xz *= rot2D((1. - k) * radians(100.));
-	q.xy *= rot2D(rotation * (1. - k) * radians(7.));
-	q.yz *= rot2D(rotation * (1. - k) * radians(7.));
+	mat2 rot_matrix = rot2D(rotation * (1. - k) * radians(7.));
+	q.xy *= rot_matrix;
+	q.yz *= rot_matrix;
 	float radius = 10. * k;
 
 	float d = max(length(q.xz) - radius, abs(q.y) - height);
 	if(normal_mapping) {
-		d += .06 * cfbm((2. * vnoise(q) + q) * .5);
+		vec2 polar = vec2(q.y, atan(q.x, q.z));
+		polar *= vec2(1., 3.);
+		d += .06 * cnoise((2. * vnoise(polar) + polar) * .5);
 	}
 
 	d = smin(d, sphere(trans(q, 0., height, 0), 3.), 7.);
@@ -134,32 +134,35 @@ vec2 f(vec3 p) {
 	vec2 object = vec2(d, 1.);
 
 	if(add_boden) {
-		vec3 q = boden_transform(p);
+		vec3 q = trans(p, 0., 10. * (vnoise(.05 * p.xz) * .5 + .5), 0.);
 		vec2 ground = vec2(q.y, 2.);
 
 		vec2 boden_object = smin_smaterial(object, ground, 10.);
 
 		vec2 leit;
-		if(p.y < 20.) {
-			float leit1 = leitungen(q, 0., .6, 1.7);
-			float leit2 = leitungen(q, 50., .6, 27.3);
-			float leit3 = leitungen(q, 20., .6, 549.2);
-			float leit4 = leitungen(q, 80., .6, 123.7);
+		//if(p.y < 20.) {
+			float t = vnoise(vec2(q.z, floor(q.x/80.) * floor(q.z/80.)) * zapfen_leit_freq + 333. * 38.) * .5 + .5;
+			float leit1 = leitungen(q, 0., .6, 1.7, t);
+			//float leit2 = leitungen(q, 50., .6, 27.3);
+			//float leit3 = leitungen(q, 20., .6, 549.2);
+			float leit4 = leitungen(q, 80., .6, 123.7, t);
 
 			//vec2 leit1 = leitungen(q, 0., .2, 1.7);
 			//vec2 leit2 = leitungen(q, 50., .2, 2.3);
 			//vec2 leit3 = leitungen(q, 30., .2, 3.2);
 			//vec2 leit4 = leitungen(q, 70., .2, 2.7);
 			float k = .5;
-			leit = vec2(smin(smin(leit1, leit2, k), smin(leit3, leit4, k), k), 3.);
-			leit = vec2(smin(smin(leit1, leit2, k), leit3, k), 3.);
-		} else {
-			leit = vec2(p.y, 3.);
-		}
+			//leit = vec2(smin(smin(leit1, leit2, k), smin(leit3, leit4, k), k), 3.);
+			//leit = vec2(smin(smin(leit1, leit2, k), leit4, k), 3.);
+			leit = vec2(smin(leit1, leit4, k), 3.);
+		//} else {
+		//	leit = vec2(p.y, 3.);
+		//}
 
 		object = smin_smaterial(boden_object, leit, .5);
 	} else {
 		object = vec2(smax(object.x, 20. - p.y, 2.), 1.);
+		//object = vec2(max(object.x, 20. - p.y), 1.);
 	}
 
 	vec3 p_bobbel = trans(p, 0., 30., 0.);
@@ -168,8 +171,7 @@ vec2 f(vec3 p) {
 	p_bobbel.x -= time * 2.;
 
 	vec3 cellsize = vec3(60.);
-	vec3 cell = floor(p_bobbel / cellsize) + vec3(35., 73., 49.);
-	vec3 p_bobbel_mod = domrepv(p_bobbel, cellsize + vnoise(cell) * 3.);
+	vec3 p_bobbel_mod = domrepv(p_bobbel, cellsize);
 	float bobbel_d = conicbobbel(p_bobbel_mod /2., 2.) * 2.;
 	bobbel_d = max(bobbel_d, p_bobbel.x + 10.);
 	bobbel_d = max(bobbel_d, -p_bobbel_unrot.y + 10.);
@@ -179,11 +181,7 @@ vec2 f(vec3 p) {
 	return min_material(bounding, object);
 }
 
-vec3 boden_transform(vec3 p) {
-	return trans(p, 0., 10. * (vnoise(.05 * p.xz) * .5 + .5), 0.);
-}
-
-float leitungen(vec3 p, float rotation, float radius, float freq) {
+float leitungen(vec3 p, float rotation, float radius, float freq, float t) {
 	// estimate coordinate of next zapfen
 	//vec2 floored = floor(p.xz/50.) * 50.;
 	//vec2 ceiled = ceil(p.xz/50.) * 50.;
@@ -201,14 +199,14 @@ float leitungen(vec3 p, float rotation, float radius, float freq) {
 	//float glow = smoothstep(.2, .8, vnoise(vec2(distance(next, p.xz) * .1 + 1.3 * time, 2000. * rand(floor((p.xz + 25.) / 50.)))));
 	//glow = 1.;
 
-	float t = vnoise(vec2(p.z, floor(p.x/80.) * floor(p.z/80.)) * zapfen_leit_freq + 333. * freq) * .5 + .5;
+	t *= sin(freq) * .5 + .5;
 	//float t = vnoise(vec2(p.z, 0.) * zapfen_leit_freq + 333. * freq) * .5 + .5;
 	p.xz += rot2D(radians(20.) * t) * vec2(10.) - 10.;
 	//p = trans(p, 0., 2. * (t * .5 + .5), 0.);
 	//p.x = mod(p.x, 20. / freq) - 10. / freq;
 	//return vec2(length(p.xy) - radius, glow);
 
-	vec3 q = p;
+	vec3 q = trans(p, freq * 17., 0., -freq * 27.);
 	q.xz = mod(q.xz, 50.) + 5.;
 	float angle = atan(q.x, q.z);
 	angle = mod(angle, radians(20.));
