@@ -1,5 +1,6 @@
 #include "scene_head.glsl"
 #include "rtificial.glsl"
+#include "bobbel.glsl"
 #line 4
 
 uniform vec3 background_color; // color
@@ -93,6 +94,10 @@ void main() {
 		vec3 color2 = apply_lights(p, normal, -dir, material2);
 		color = mix(color2, color, pow(materialId - 2., .3));
 		//color = nonglowing;
+	} else if(materialId == 4.) {
+		//Material material = Material(vec3(1.), 1., 0.);
+		//color = apply_lights(p, normal, -dir, material);
+		color = emit_light(vec3(1.), .0001);
 	}
 
 	output_color(color, distance(camera_position, p));
@@ -157,6 +162,19 @@ vec2 f(vec3 p) {
 		object = vec2(smax(object.x, 20. - p.y, 2.), 1.);
 	}
 
+	vec3 p_bobbel = trans(p, 0., 30., 0.);
+	vec3 p_bobbel_unrot = p_bobbel;
+	p_bobbel.xy *= rot2D(radians(70.));
+	p_bobbel.x -= time * 2.;
+
+	vec3 cellsize = vec3(30.);
+	vec3 cell = floor(p_bobbel / cellsize) + vec3(35., 73., 49.);
+	vec3 p_bobbel_mod = domrepv(p_bobbel, cellsize + vnoise(cell) * 3.);
+	float bobbel_d = conicbobbel(p_bobbel_mod /2., 2.) * 2.;
+	bobbel_d = max(bobbel_d, p_bobbel.x + 10.);
+	bobbel_d = max(bobbel_d, -p_bobbel_unrot.y + 10.);
+	vec2 bobbel = vec2(bobbel_d, 4.);
+	object = min_material(object, bobbel);
 
 	return min_material(bounding, object);
 }
