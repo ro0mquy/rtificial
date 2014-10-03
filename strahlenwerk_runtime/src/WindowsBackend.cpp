@@ -138,6 +138,9 @@ void WindowsBackend::initAudio(bool threaded) {
 
 	waveOutOpen(&hWaveOut, WAVE_MAPPER, &WaveFMT, NULL, 0, CALLBACK_NULL);
 	waveOutPrepareHeader(hWaveOut, &WaveHDR, sizeof(WaveHDR));
+}
+
+void WindowsBackend::playAudio() {
 	waveOutWrite(hWaveOut, &WaveHDR, sizeof(WaveHDR));
 }
 

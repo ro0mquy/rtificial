@@ -59,6 +59,8 @@ const bool use_sound_thread = true;
 		fbos[i].create(width, height);
 	}
 
+	backend.playAudio();
+
 	int scene_id = 0;
 	int shader_id = scenes_data[scene_id].sceneId;
 	const int last_scene_id = sizeof(scenes_data) / sizeof(Scene) - 1;

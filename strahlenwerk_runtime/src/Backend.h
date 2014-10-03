@@ -7,6 +7,7 @@ using int16_t = short;
 class EmptyBackend {
 	void init(int width, int height, bool fullscreen);
 	void initAudio(bool threaded);
+	void playAudio();
 	double geTime();
 	// return false for abort
 	bool beforeFrame();
@@ -23,6 +24,7 @@ class WindowsBackend {
 	public:
 		void init(int width, int height, bool fullscreen);
 		void initAudio(bool threaded);
+		void playAudio();
 		double getTime();
 		bool beforeFrame();
 		void afterFrame();
@@ -38,6 +40,7 @@ class LinuxBackend {
 	public:
 		void init(int width, int height, bool fullscreen);
 		void initAudio(bool threaded);
+		void playAudio();
 		double getTime();
 		bool beforeFrame();
 		void afterFrame();

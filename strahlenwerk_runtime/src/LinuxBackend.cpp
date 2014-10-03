@@ -62,6 +62,9 @@ void LinuxBackend::init(int width, int height, bool fullscreen) {
 void LinuxBackend::initAudio(bool threaded) {
 }
 
+void LinuxBackend::playAudio(){
+}
+
 double LinuxBackend::getTime(){
 	return 0.0;
 }
