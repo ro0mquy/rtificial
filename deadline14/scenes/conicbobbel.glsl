@@ -37,7 +37,12 @@ void main(void) {
 	float materialId = f(hit)[1];
 	vec3 normal = calc_normal(hit);
 
-	SphereLight light1 = SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.);
+	float bobbel_metallic = 1.;
+	float metallic_bias = pow(cfbm(vnoise(hit.zy) * 30. + cross(hit - time * .4, hit.yzx + time * 3.) * .02) * .5 + .5, .05);
+	float bobbel_rough = .3;
+	bobbel_rough += .07 * cnoise(hit * 9. + 23. + metallic_bias * 15. + time * .5);
+
+	SphereLight light1 = SphereLight(vec3(5., 9., 10.) * 3., vec3(1.), 2., 100.);
 	if(materialId == material_boden) {
 		float size = 2.;
 		float stripes = mod(floor(hit.x / size), 2.);
@@ -49,12 +54,12 @@ void main(void) {
 	} else if (materialId >= material_lampe && materialId <= material_bobbel) {
 		Material material1 = Material(colors[int(material_lampe)], 0.2, 1.);
 		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
-		Material material2 = Material(colors[int(material_bobbel)], 0.2, 1.);
+		Material material2 = Material(colors[int(material_bobbel)], bobbel_rough, bobbel_metallic);
 		vec3 color2 = apply_light(hit, normal, -direction, material2, light1);
 		float mixfactor = pow(materialId - material_lampe, 3.); // change the exponent for sharpness of transition
 		color = mix(color1, color2, mixfactor);
 	} else if (materialId >= material_bobbel && materialId <= material_ring) {
-		Material material1 = Material(colors[int(material_bobbel)], 0.2, 1.);
+		Material material1 = Material(colors[int(material_bobbel)], bobbel_rough, bobbel_metallic);
 		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
 		vec3 color2 = emit_light(colors[int(material_ring)], conic_ring_intensity);
 		float mixfactor = pow(materialId - material_bobbel, 6.); // change the exponent for sharpness of transition
