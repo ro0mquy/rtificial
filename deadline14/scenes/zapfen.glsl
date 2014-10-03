@@ -102,17 +102,16 @@ vec2 f(vec3 p) {
 	vec2 bounding = vec2(-sphere(camera_position - p, 300.), 0.);
 
 	float height = 40.; // .5 * height
-	vec3 q = domrepv(p, vec3(65.));
+	vec3 q = domrepv(p, vec3(75.));
 	q.y = p.y - height;
 	float k = smoothstep(-height * 1.2, height, -q.y);
 	vec2 ij = floor(p.xz / 50.);
 	q.xz += rand(ij + 10.) * 5.;
 	float rotation = sin(7. * dot(ij, ij) + time * .5);
 	float rotation2 = cos(11. * dot(ij, ij) + time * .5);
-	mat3 rotX = rX(rotation * (1. - k) * radians(7.));
-	mat3 rotZ = rZ(rotation2 * (1. - k) * radians(7.));
-	mat3 rotY = rY((1. - k) * radians(100.));
-	q = rotZ * rotX * rotY * q;
+	q.xz *= rot2D((1. - k) * radians(100.));
+	q.xy *= rot2D(rotation * (1. - k) * radians(7.));
+	q.yz *= rot2D(rotation * (1. - k) * radians(7.));
 	float radius = 10. * k;
 
 	float d = max(length(q.xz) - radius, abs(q.y) - height);
@@ -120,16 +119,18 @@ vec2 f(vec3 p) {
 		d += .06 * cfbm((2. * vnoise(q) + q) * .5);
 	}
 
+	d = smin(d, sphere(trans(q, 0., height, 0), 3.), 7.);
+
 	vec2 object = vec2(d, 1.);
 
 	if(add_boden) {
-		vec2 ground = vec2(boden_implicit(p), 2.);
+		vec3 q = boden_transform(p);
+		vec2 ground = vec2(q.y, 2.);
 
 		vec2 boden_object = smin_smaterial(object, ground, 10.);
 
 		vec2 leit;
 		if(p.y < 20.) {
-			vec3 q = boden_transform(p);
 
 			float leit1 = leitungen(q, 0., .6, 1.7);
 			float leit2 = leitungen(q, 50., .6, 27.3);
@@ -158,21 +159,6 @@ vec2 f(vec3 p) {
 
 vec3 boden_transform(vec3 p) {
 	return trans(p, 0., 10. * (vnoise(.05 * p.xz) * .5 + .5), 0.);
-}
-
-float boden_implicit(vec3 p) {
-	return boden_transform(p).y;
-}
-
-float boden(vec3 p) {
-	//return p.y;
-	vec2 e = vec2(.01, .0);
-	vec3 grad = vec3(
-		boden_implicit(p + e.xyy) - boden_implicit(p - e.xyy),
-		boden_implicit(p + e.yxy) - boden_implicit(p - e.yxy),
-		boden_implicit(p + e.yxx) - boden_implicit(p - e.yxx)
-	);
-	return boden_implicit(p) / length(grad) * 2. * e.x;
 }
 
 float leitungen(vec3 p, float rotation, float radius, float freq) {
