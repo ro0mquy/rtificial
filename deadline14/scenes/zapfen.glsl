@@ -167,7 +167,7 @@ vec2 f(vec3 p) {
 	p_bobbel.xy *= rot2D(radians(70.));
 	p_bobbel.x -= time * 2.;
 
-	vec3 cellsize = vec3(30.);
+	vec3 cellsize = vec3(60.);
 	vec3 cell = floor(p_bobbel / cellsize) + vec3(35., 73., 49.);
 	vec3 p_bobbel_mod = domrepv(p_bobbel, cellsize + vnoise(cell) * 3.);
 	float bobbel_d = conicbobbel(p_bobbel_mod /2., 2.) * 2.;

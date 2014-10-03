@@ -207,13 +207,13 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="f_stop" uniformType="float">
-      <uniformStandardValue valueFloatX="2.2"/>
+      <uniformStandardValue valueFloatX="2.233"/>
       <sequencesArray>
         <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="31.5"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.557"/>
+              <keyframeValue valueFloatX="0.116"/>
             </keyframe>
             <keyframe keyframePosition="31.5">
               <keyframeValue valueFloatX="0"/>
@@ -261,13 +261,13 @@
       </sequencesArray>
     </uniform>
     <uniform uniformName="focus_dist" uniformType="float">
-      <uniformStandardValue valueFloatX="5.1"/>
+      <uniformStandardValue valueFloatX="4.591"/>
       <sequencesArray>
         <sequence sequenceSceneId="100" sequenceStart="0" sequenceDuration="31.5"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="11.788"/>
+              <keyframeValue valueFloatX="16.713"/>
             </keyframe>
             <keyframe keyframePosition="31.5">
               <keyframeValue valueFloatX="0"/>
@@ -522,13 +522,13 @@
     <uniform uniformName="synapse_gap" uniformType="float">
       <uniformStandardValue valueFloatX="0.051"/>
       <sequencesArray>
-        <sequence sequenceSceneId="105" sequenceStart="12" sequenceDuration="16"
+        <sequence sequenceSceneId="105" sequenceStart="0" sequenceDuration="19"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0.051"/>
             </keyframe>
-            <keyframe keyframePosition="16">
+            <keyframe keyframePosition="19">
               <keyframeValue valueFloatX="-0.05"/>
             </keyframe>
           </keyframesArray>
@@ -652,10 +652,10 @@
     </uniform>
   </uniformsArray>
   <scenesArray>
-    <scene sceneId="100" sceneStart="0" sceneDuration="31.5" sceneShaderSource="schalter"/>
-    <scene sceneId="101" sceneStart="31.5" sceneDuration="60.5" sceneShaderSource="conicbobbel"/>
-    <scene sceneId="102" sceneStart="92" sceneDuration="64" sceneShaderSource="zapfen"/>
-    <scene sceneId="103" sceneStart="156" sceneDuration="76" sceneShaderSource="syntakischerspalt"/>
-    <scene sceneId="105" sceneStart="232" sceneDuration="60" sceneShaderSource="zoomout"/>
+    <scene sceneId="100" sceneStart="48" sceneDuration="48" sceneShaderSource="schalter"/>
+    <scene sceneId="101" sceneStart="96" sceneDuration="52" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="102" sceneStart="148" sceneDuration="44" sceneShaderSource="zapfen"/>
+    <scene sceneId="103" sceneStart="192" sceneDuration="72" sceneShaderSource="syntakischerspalt"/>
+    <scene sceneId="105" sceneStart="264" sceneDuration="20" sceneShaderSource="zoomout"/>
   </scenesArray>
 </timelineTree>
