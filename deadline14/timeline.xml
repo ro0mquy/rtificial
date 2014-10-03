@@ -601,12 +601,24 @@
       <uniformStandardValue valueFloatX="0.774"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="zapfen_col_boden" uniformType="color">
+      <uniformStandardValue valueColorR="0" valueColorG="0.00536429" valueColorB="0.00313286"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_col_leit_glow" uniformType="color">
+      <uniformStandardValue valueColorR="0.675337" valueColorG="0.056296" valueColorB="0.00416281"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="zapfen_col_leit_non" uniformType="color">
+      <uniformStandardValue valueColorR="0" valueColorG="0.00478254" valueColorB="0"/>
+      <sequencesArray/>
+    </uniform>
     <uniform uniformName="zapfen_color1" uniformType="color">
-      <uniformStandardValue valueColorR="0" valueColorG="5.78042e-11" valueColorB="0"/>
+      <uniformStandardValue valueColorR="0" valueColorG="0.00617717" valueColorB="0"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_color2" uniformType="color">
-      <uniformStandardValue valueColorR="0.00629647" valueColorG="0.0251764" valueColorB="0.00539006"/>
+      <uniformStandardValue valueColorR="0.036574" valueColorG="0.023689" valueColorB="0.0162301"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_kreise" uniformType="float">
@@ -626,7 +638,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_light1_col" uniformType="color">
-      <uniformStandardValue valueColorR="1" valueColorG="1" valueColorB="1"/>
+      <uniformStandardValue valueColorR="0.930655" valueColorG="0.977789" valueColorB="0.219424"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_light1_pos" uniformType="vec3">
@@ -646,11 +658,11 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_rough1" uniformType="float">
-      <uniformStandardValue valueFloatX="0.603"/>
+      <uniformStandardValue valueFloatX="0.875"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_rough2" uniformType="float">
-      <uniformStandardValue valueFloatX="0.773"/>
+      <uniformStandardValue valueFloatX="0.475"/>
       <sequencesArray/>
     </uniform>
   </uniformsArray>

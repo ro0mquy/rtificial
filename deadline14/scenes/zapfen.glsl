@@ -10,6 +10,9 @@ uniform vec3 zapfen_color2; // color
 uniform float zapfen_mat_freq;
 uniform float zapfen_rough1;
 uniform float zapfen_rough2;
+uniform vec3 zapfen_col_boden; // color
+uniform vec3 zapfen_col_leit_glow; // color
+uniform vec3 zapfen_col_leit_non; // color
 
 uniform vec3 zapfen_light1_pos;
 uniform vec3 zapfen_light2_pos;
@@ -62,25 +65,14 @@ void main() {
 			foo
 			);
 
-		Material material2 = Material(vec3(1.), 1., 0.);
+		Material material2 = Material(zapfen_col_boden, 1., 0.);
 		vec3 color2 = apply_lights(p, normal, -dir, material2);
-		float grid = 1.;
-		vec3 q = p;
-		float theta = radians(5.) * q.y * sin(time + q.y) + radians(5.) * zapfen_kreise * 10. * sin(q.x + time) * cos(q.z + time * 2.);
-		q.xz *= mat2(
-			cos(theta), sin(theta),
-			-sin(theta), cos(theta)
-		);
-		float intensity = .01 * (sin(length(q.xz) * .1 -3. *  time) * .5 + .5);
-		q.xz = mod(q.xz, 30.);
-		grid = step(q.x, .5) + step(q.z, .5);
-		//color2 += emit_light(vec3(1., 0., 0.), grid * intensity);
 
 		color = mix(color1, color2, pow(materialId - 1., 6.));
 	} else if(materialId > 2. && materialId <= 3.) {
-		Material material = Material(vec3(.8, .3, 0.), .8, 0.);
+		Material material = Material(zapfen_col_leit_non, .9, 0.);
 		vec3 nonglowing = apply_lights(p, normal, -dir, material);
-		vec3 glowing = emit_light(vec3(0., .5, .05), .000005);
+		vec3 glowing = emit_light(zapfen_col_leit_glow, .000005);
 
 		float glow;// = cnoise(p.xz * .001 + time) * .5 + .5;
 		// estimate coordinate of next zapfen
@@ -97,7 +89,7 @@ void main() {
 
 		color = mix(nonglowing, glowing, glow);
 
-		Material material2 = Material(vec3(1.), 1., 0.);
+		Material material2 = Material(zapfen_col_boden, 1., 0.);
 		vec3 color2 = apply_lights(p, normal, -dir, material2);
 		color = mix(color2, color, pow(materialId - 2., .3));
 		//color = nonglowing;
