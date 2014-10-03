@@ -77,7 +77,7 @@ void main(void) {
 	}
 
 	if (MATERIAL_ID_LIGHTBALL == material || MATERIAL_ID_CUBE == material) {
-		color = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5);
+		color = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5. * (smoothstep(-6., 0., pdot(-direction, normal)) * 10));
 	} else if (material >= MATERIAL_ID_FLOOR && material <= MATERIAL_ID_CUBE) {
 		vec3 nonglowing_floor = factor * apply_lights(hit, normal, -direction, mat);
 		vec3 glowing_floor = emit_light(mat.color, 5.);
