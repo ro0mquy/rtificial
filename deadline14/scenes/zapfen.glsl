@@ -24,6 +24,7 @@ uniform float zapfen_light_radius;
 uniform float zapfen_light_intensity;
 uniform float zapfen_bobbel_progress;
 uniform vec3 zapfen_bobbel_displacement;
+uniform bool zapfen_bobbels_enabled;
 
 bool add_boden = false;
 bool normal_mapping = false;
@@ -176,13 +177,15 @@ vec2 f(vec3 p) {
 	p_bobbel.xy *= rot2D(radians(70.));
 	p_bobbel.x -= zapfen_bobbel_progress * 2.;
 
-	vec3 cellsize = vec3(60.);
-	vec3 p_bobbel_mod = domrepv(p_bobbel, cellsize);
-	float bobbel_d = conicbobbel(p_bobbel_mod, 2.);
-	bobbel_d = max(bobbel_d, p_bobbel.x + 10.);
-	bobbel_d = max(bobbel_d, -p_bobbel_unrot.y + 10.);
-	vec2 bobbel = vec2(bobbel_d, 0.);
-	object = smin_smaterial(object, bobbel, 2.);
+	if(zapfen_bobbels_enabled) {
+		vec3 cellsize = vec3(60.);
+		vec3 p_bobbel_mod = domrepv(p_bobbel, cellsize);
+		float bobbel_d = conicbobbel_fast(p_bobbel_mod, 2.);
+		bobbel_d = max(bobbel_d, p_bobbel.x + 10.);
+		bobbel_d = max(bobbel_d, -p_bobbel_unrot.y + 10.);
+		vec2 bobbel = vec2(bobbel_d, 0.);
+		object = smin_smaterial(object, bobbel, 2.);
+	}
 
 	return min_material(bounding, object);
 }

@@ -1516,6 +1516,22 @@
         </sequence>
       </sequencesArray>
     </uniform>
+    <uniform uniformName="zapfen_bobbels_enabled" uniformType="bool">
+      <uniformStandardValue valueBoolState="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueBoolState="1"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueBoolState="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
     <uniform uniformName="zapfen_col_bobbel" uniformType="color">
       <uniformStandardValue valueColorR="0.18" valueColorG="0.18" valueColorB="0.18"/>
       <sequencesArray/>
