@@ -31,6 +31,10 @@ void Sidebar::addEditorComponentToArray(ValueTree uniform) {
 }
 
 void Sidebar::reAddAllProperties() {
+	if (!constructionCompleted) {
+		return;
+	}
+
 	editorComponentsArray.clearQuick();
 	clear();
 
@@ -72,6 +76,7 @@ void Sidebar::updateAllEditorValueDatas() {
 }
 
 void Sidebar::handleAsyncUpdate() {
+	constructionCompleted = true;
 	reAddAllProperties();
 }
 
