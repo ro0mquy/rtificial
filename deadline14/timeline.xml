@@ -448,6 +448,10 @@
       <uniformStandardValue valueFloatX="0.44"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="synapse_bobbel_metalicness" uniformType="float">
+      <uniformStandardValue valueFloatX="1"/>
+      <sequencesArray/>
+    </uniform>
     <uniform uniformName="synapse_bobbel_progress" uniformType="float">
       <uniformStandardValue valueFloatX="-2.8"/>
       <sequencesArray>
@@ -486,12 +490,20 @@
         </sequence>
       </sequencesArray>
     </uniform>
+    <uniform uniformName="synapse_bobbel_roughness" uniformType="float">
+      <uniformStandardValue valueFloatX="0.908"/>
+      <sequencesArray/>
+    </uniform>
     <uniform uniformName="synapse_cc" uniformType="float">
       <uniformStandardValue valueFloatX="-0.48"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="synapse_color" uniformType="color">
-      <uniformStandardValue valueColorR="0.00414072" valueColorG="0.00414073" valueColorB="0.00751664"/>
+      <uniformStandardValue valueColorR="0.0279278" valueColorG="0.0803347" valueColorB="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="synapse_color_bobbel" uniformType="color">
+      <uniformStandardValue valueColorR="1" valueColorG="0.169508" valueColorB="0"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="synapse_dd" uniformType="float">

@@ -4,6 +4,7 @@
 #line 5
 
 uniform vec3 synapse_color; // color
+uniform vec3 synapse_color_bobbel; // color
 uniform float synapse_gap; // float
 uniform float synapse_aa; // float
 uniform float synapse_bb; // float
@@ -13,12 +14,14 @@ uniform float synapse_dist_fog_a; // float
 uniform float synapse_dist_fog_b; // float
 uniform float synapse_bobbel_progress; // float
 uniform float synapse_transmitter_r; // float
+uniform float synapse_bobbel_roughness;
+uniform float synapse_bobbel_metalicness;;
 
 Material materials[4] = Material[4](
 	Material(vec3(1.), .5, 0.),
 	Material(synapse_color, 0.7, 1.),
-	Material(vec3(0.,1.,0.), .2, 1.),
-	Material(vec3(0.,1.,0.), .2, 1.)
+	Material(synapse_color_bobbel, synapse_bobbel_roughness, synapse_bobbel_metalicness),
+	Material(synapse_color_bobbel, .2, 1.)
 );
 
 const float MATERIAL_ID_BOUNDING    = 0.;
