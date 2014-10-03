@@ -108,12 +108,16 @@ vec2 f(vec3 p) {
 	float f_delle = line(p_delle, vec3(1.7, 0., 0.), vec3(.1), 1.);
 	f_lampe = smax(f_lampe, -f_delle, 1.);
 
+	float lampe2 = sphere(trans(p_lampe, -7., -20., -50.), 1.4 * radius_lampe);
+	float lampe3 = sphere(trans(p_lampe, 8., 4., 50.), 1.7 * radius_lampe);
+	float lampe4 = sphere(trans(p_lampe, 3., 17., -40.), .7 * radius_lampe);
+	f_lampe = min(min(f_lampe, lampe2), min(lampe3, lampe4));
+
 	vec2 m_lampe = vec2(f_lampe, material_lampe);
 
 	vec2 m_bobbel_lampe = smin_smaterial(m_bobbel, m_lampe, 1.);
 
 	vec2 m_content = m_bobbel_lampe;
-	vec2 bottom = vec2(p.y + 20., material_boden);
 	vec2 bounding = vec2(-sphere(p - camera_position, 100.), material_bounding);
-	return min_material(m_content, min_material(bottom, bounding));
+	return min_material(m_content, bounding);
 }
