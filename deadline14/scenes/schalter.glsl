@@ -1,6 +1,7 @@
 #include "scene_head.glsl"
 #include "rtificial.glsl"
-#line 4
+#include "leitungen.glsl"
+#line 5
 
 uniform float pyramid_h; // float
 uniform float pyramid_s; // float
@@ -9,23 +10,26 @@ uniform float pyramid_wave_animation; // float
 uniform float pyramid_bottom; // float
 uniform vec3 pyramid_color; // color
 uniform vec3 pyramid_color2; // color
+uniform vec3 pyramid_color_leitungen; // color
+uniform vec3 pyramid_color_boden; // color
 
-Material materials[5] = Material[5](
-	Material(vec3(.1, .1, .1), .5, 0.),
+Material materials[6] = Material[6](
 	Material(vec3(1.), .5, 0.),
 	Material(pyramid_color, 1., 1.),
+	Material(pyramid_color_boden, .5, 0.),
 	Material(vec3(.7, .3, .2), 1., 0.),
-	Material(vec3(1.), .5,0.)
+	Material(vec3(1.), .5, 0.),
+	Material(pyramid_color_leitungen, 1., 0.)
 );
 
-const int MATERIAL_ID_FLOOR     = 0;
-const int MATERIAL_ID_BOUNDING  = 1;
-const int MATERIAL_ID_PYRAMID   = 2;
+const int MATERIAL_ID_BOUNDING  = 0;
+const int MATERIAL_ID_PYRAMID   = 1;
+const int MATERIAL_ID_FLOOR     = 2;
 const int MATERIAL_ID_CUBE      = 3;
 const int MATERIAL_ID_LIGHTBALL = 4;
+const int MATERIAL_ID_LEITUNGEN = 5;
 
 float pyramid(vec3 p, float s, float h);
-float star(vec2 p, float num_wings, float thickness_wings);
 
 vec3 p_pyramid;
 
@@ -36,67 +40,41 @@ void main(void) {
 	vec3 hit = march(camera_position, direction, i);
 
 	vec3 color = vec3(0.);
-	if(i < 150) {
-		float materialFloat = f(hit).y;
-		int material = int(materialFloat);
-		vec3 normal = calc_normal(hit);
+	float materialFloat = f(hit).y;
+	int material = int(materialFloat);
+	vec3 normal = calc_normal(hit);
 
-		Material mat = materials[material];
-		if (material == MATERIAL_ID_FLOOR) {
-			vec3 col = vec3(0.);
-			float f_col = 0.;
+	Material mat = materials[material];
+	SphereLight light1 = SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.);
 
-			float num_wings = 16.;
-			float thickness_wings = .003;
-			vec3 hit = hit;
-			hit.xz = rot2D(.5 + TAU / 200. * vnoise(hit.xz * .5)) * hit.xz;
+	float factor = 1.;
+	if(material == MATERIAL_ID_PYRAMID) {
+		float t = vnoise(p_pyramid * .4) * cfbm(p_pyramid * 3.);
+		mat.roughness = .5 + .2 * sign(t) * pow(abs(t), .7) + .3 * cnoise(p_pyramid * .2 + 726.);
 
-			f_col = max(f_col, star(rot2D(0.0) * (hit.xz - vec2(  0.,   0.)), num_wings, thickness_wings));
-			f_col = max(f_col, star(rot2D(0.5) * (hit.xz - vec2( 10.,  19.)), num_wings, thickness_wings));
-			f_col = max(f_col, star(rot2D(1.0) * (hit.xz - vec2(-10.,  15.)), num_wings, thickness_wings));
-			f_col = max(f_col, star(rot2D(1.5) * (hit.xz - vec2(  7., -19.)), num_wings, thickness_wings));
-			f_col = max(f_col, star(rot2D(2.0) * (hit.xz - vec2(- 2., - 9.)), num_wings, thickness_wings));
-			f_col = max(f_col, star(rot2D(2.5) * (hit.xz - vec2(- 5.,   4.)), num_wings, thickness_wings));
-			f_col = max(f_col, star(rot2D(3.0) * (hit.xz - vec2(-17., - 3.)), num_wings, thickness_wings));
-			f_col = max(f_col, star(rot2D(3.5) * (hit.xz - vec2( 14., -13.)), num_wings, thickness_wings));
-			f_col = max(f_col, star(rot2D(4.0) * (hit.xz - vec2( 22.,   7.)), num_wings, thickness_wings));
+		Material rust = Material(pyramid_color2, .9, .8);
+		float rustiness = .1 + .06 * cnoise(p_pyramid * .5);
+		rustiness *= 3.;
+		color = apply_light(hit, normal, -direction, rust, light1) * rustiness;
+		factor = 1. - rustiness;
+	}
 
-			f_col = max(f_col, star(rot2D(.5 + TAU / 100. * vnoise(hit.xz * .5)) * (hit.xz - vec2(- 7.,   4.)), num_wings/2., thickness_wings));
+	if (MATERIAL_ID_LIGHTBALL == material || MATERIAL_ID_CUBE == material) {
+		color = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5);
+	} else if (material >= MATERIAL_ID_FLOOR && material <= MATERIAL_ID_CUBE) {
+		vec3 nonglowing_floor = factor * apply_light(hit, normal, -direction, mat, light1);
+		vec3 glowing_floor = emit_light(mat.color, 5.);
+		float wave_height = hit.y + 2.;
+		vec3 color_floor = mix(nonglowing_floor, glowing_floor, smoothstep(0., 2., wave_height));
 
-			col = vec3(f_col) * .1;
-			mat.color = col;
-		}
+		vec3 color_cube = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5.);
 
-		SphereLight light1 = SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.);
-
-		float factor = 1.;
-		if(material == MATERIAL_ID_PYRAMID) {
-			float t = vnoise(p_pyramid * .4) * cfbm(p_pyramid * 3.);
-			mat.roughness = .5 + .2 * sign(t) * pow(abs(t), .7) + .3 * cnoise(p_pyramid * .2 + 726.);
-
-			Material rust = Material(pyramid_color2, .9, .8);
-			float rustiness = .1 + .06 * cnoise(p_pyramid * .5);
-			rustiness *= 3.;
-			color = apply_light(hit, normal, -direction, rust, light1) * rustiness;
-			factor = 1. - rustiness;
-		}
-
-		if(MATERIAL_ID_LIGHTBALL == material || MATERIAL_ID_CUBE == material){
-			color = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5);
-		} else {
-			color += factor * apply_light(hit, normal, -direction, mat, light1);
-		}
+		color += mix(color_floor, color_cube, material - MATERIAL_ID_FLOOR);
+	} else {
+		color += factor * apply_light(hit, normal, -direction, mat, light1);
 	}
 
 	output_color(color, distance(hit, camera_position));
-}
-
-float star(vec2 p_star, float num_wings, float thickness_wings) {
-	float angle = atan(p_star.x, p_star.y);
-	float length_2 = dot(p_star, p_star);
-	float sin_angle = .5 * (1. - cos(2. * angle * .5 * num_wings)); // sin^2
-	float limit = thickness_wings * num_wings * num_wings / length_2;
-	return 1. - step(limit, sin_angle);
 }
 
 float pyramid(vec3 p, float s, float h){
@@ -109,7 +87,7 @@ float pyramid(vec3 p, float s, float h){
 	vec3 n4 = vec3(0., sin(alpha), -cos(alpha));
 
 	float pyr;
-	pyr = plane(trans(p, 0.,-h,0.), vec3(0.,-1.,0.));
+	pyr = -p.y - h;
 	pyr = max(pyr, plane(p, n1));
 	pyr = max(pyr, plane(p, n2));
 	pyr = max(pyr, plane(p, n3));
@@ -150,19 +128,23 @@ vec2 f(vec3 p) {
 	// box-torus-morph
 	q = trans(q, 0., pyramid_size* pyramid_h + 1., 0.);
 	q = trans(q, 0., pyramid_bottom, 0.);
-	// .1 fuer schale
-	float cube = roundbox(q, vec3(linstep(0.,0.1,pyramid_animation) + .1), .5);
+	// .2 fuer schale
+	vec3 cube_dimension = vec3(smoothstep(0., 0.1, pyramid_animation) + .2);
+	float cube = roundbox(q, cube_dimension, .5);
 	float d = .75 + smoothstep(.70,1., pyramid_animation)*7.5;
-	float down_anim = - (pyramid_size * pyramid_h + 2. + pyramid_bottom) * smoothstep(0.75, 1., pyramid_animation);
+	float down_anim = - (pyramid_size * pyramid_h + 3. + pyramid_bottom) * smoothstep(0.75, 1., pyramid_animation);
 	float mytorus = torus(trans(q, 0.,-.5 + down_anim,0.), vec2(.5 + d, .5));
-	vec2 schalter_cube = vec2(mix(cube, mytorus, smoothstep(.65, .75, pyramid_animation)), MATERIAL_ID_CUBE);
+	float f_schalter_cube = vec2(mix(cube, mytorus, smoothstep(.65, .75, pyramid_animation)), MATERIAL_ID_CUBE);
 
+	/*
 	float torus_2_down = -(pyramid_size * pyramid_h + 2. + pyramid_bottom) - 2.*linstep(.5,1.,pyramid_wave_animation);
 	float torus_2_d = (.75+7.5 ) + pyramid_wave_animation * 10;
 	float torus_2_dicke = 0.5 - 0.5 * linstep(.5,1.,pyramid_wave_animation);
 	float torus_2 = torus(trans(q, 0.,-.5 + torus_2_down,0.), vec2(.5 + torus_2_d, torus_2_dicke));
 	torus_2 += 100 * (1. - step(0.001, pyramid_wave_animation));
-	schalter_cube = min_material(schalter_cube, vec2(torus_2, MATERIAL_ID_CUBE));
+	//vec2 schalter_cube = vec2(min(f_schalter_cube, torus_2), MATERIAL_ID_CUBE);
+	*/
+	vec2 schalter_cube = vec2(f_schalter_cube, MATERIAL_ID_CUBE);
 
 	vec3 p_lb = trans(p, 0., -2., 0.);
 	vec3 dr_factor = vec3(7.,10.,8.);
@@ -172,7 +154,38 @@ vec2 f(vec3 p) {
 	float no_lightballs = sphere(p, 20.);
 	vec2 lightballs = vec2(max(lightballs_dist, -no_lightballs), MATERIAL_ID_LIGHTBALL);
 
-	vec2 bottom = vec2(p.y + 2., MATERIAL_ID_FLOOR);
+	float wave_position =
+		+ 9. * step(.85, pyramid_animation)
+		+ 1.5 * linstep(.9, 1., pyramid_animation)
+		+ 10.5 * step(.00001, pyramid_wave_animation)
+		+ 15. * pyramid_wave_animation
+		;
+	float wave_amplitude = 0.
+		+ 2. * smoothstep(.87, .95, pyramid_animation)
+		+ 2. * step(.00001, pyramid_wave_animation)
+		- 2. * smoothstep(.00001, 1., pyramid_wave_animation)
+		;
+	float wave_width = 2.;
+
+	vec3 p_boden = trans(p, 0., -2., 0.);
+	float wave = length(p_boden.xz);
+	wave -= wave_position;
+	wave /= wave_width;
+	wave = wave_amplitude / (wave * wave + 1.);
+
+	p_boden.y -= wave;
+	p_boden = trans(p_boden, 10., 0., 5.);
+	float smoothing_leitungen = .5;
+	float f_leitungen = 0.;
+	f_leitungen = leitungen(p_boden, 0., .2, 1.7, 20.);
+	f_leitungen = smin(f_leitungen, leitungen(p_boden, 80., .2, 27.3, 15.), smoothing_leitungen);
+	f_leitungen = smin(f_leitungen, leitungen(p_boden, 20., .2, 549.2, 30.), smoothing_leitungen);
+	vec2 m_leitungen = vec2(f_leitungen, MATERIAL_ID_LEITUNGEN);
+
+	vec2 bottom = vec2(p_boden.y, MATERIAL_ID_FLOOR);
+	vec2 m_cube_bottom = smin_smaterial(schalter_cube, bottom, 3.);
+	vec2 m_cube_bottom_leitungen = min_material(m_cube_bottom, m_leitungen);
+
 	vec2 bounding = vec2(-sphere(p - camera_position, 50.), MATERIAL_ID_BOUNDING);
-	return min_material(smin_material(schalter_cube, bottom, 3.), min_material(lightballs, min_material(pyramid, bounding)));
+	return min_material(m_cube_bottom_leitungen, min_material(lightballs, min_material(pyramid, bounding)));
 }

@@ -49,7 +49,7 @@
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueVec3X="-6.529" valueVec3Y="9.545" valueVec3Z="14.688"/>
+              <keyframeValue valueVec3X="10.469" valueVec3Y="9.545" valueVec3Z="-1.67"/>
             </keyframe>
             <keyframe keyframePosition="31.5">
               <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
@@ -105,7 +105,7 @@
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueVec4X="0.189" valueVec4Y="0.223" valueVec4Z="0.044" valueVec4W="-0.955"/>
+              <keyframeValue valueVec4X="-0.106" valueVec4Y="0.822" valueVec4Z="0.163" valueVec4W="0.535"/>
             </keyframe>
             <keyframe keyframePosition="31.5">
               <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
@@ -326,7 +326,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="key" uniformType="float">
-      <uniformStandardValue valueFloatX="0.143"/>
+      <uniformStandardValue valueFloatX="0.5"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="lift" uniformType="color">
@@ -398,6 +398,14 @@
     </uniform>
     <uniform uniformName="pyramid_color" uniformType="color">
       <uniformStandardValue valueColorR="0.0600645" valueColorG="0.0907675" valueColorB="0.254785"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="pyramid_color_boden" uniformType="color">
+      <uniformStandardValue valueColorR="0" valueColorG="0.311131" valueColorB="0.62076"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="pyramid_color_leitungen" uniformType="color">
+      <uniformStandardValue valueColorR="0" valueColorG="0.0130822" valueColorB="0.121974"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="pyramid_color2" uniformType="color">
