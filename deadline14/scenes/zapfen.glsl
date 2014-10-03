@@ -81,7 +81,20 @@ void main() {
 		Material material = Material(vec3(.8, .3, 0.), .8, 0.);
 		vec3 nonglowing = apply_lights(p, normal, -dir, material);
 		vec3 glowing = emit_light(vec3(0., .5, .05), .000005);
-		float glow = cnoise(p.xz * .001 + time) * .5 + .5;
+
+		float glow;// = cnoise(p.xz * .001 + time) * .5 + .5;
+		// estimate coordinate of next zapfen
+		vec2 floored = floor(p.xz/65.) * 65.;
+		vec2 ceiled = ceil(p.xz/65.) * 65.;
+		vec2 next = floored;
+		if(abs(p.x - floored.x) > abs(p.x - ceiled.x)) {
+			next.x = ceiled.x;
+		}
+		if(abs(p.y - floored.y) > abs(p.y - ceiled.y)) {
+			next.y = ceiled.y;
+		}
+		glow = sin(distance(next, p.xz) * .5 + 6. * time) * (vnoise(floor(p.xz/65.)*20. + time * .4) * .5 + .5);
+
 		color = mix(nonglowing, glowing, glow);
 
 		Material material2 = Material(vec3(1.), 1., 0.);
@@ -131,7 +144,6 @@ vec2 f(vec3 p) {
 
 		vec2 leit;
 		if(p.y < 20.) {
-
 			float leit1 = leitungen(q, 0., .6, 1.7);
 			float leit2 = leitungen(q, 50., .6, 27.3);
 			float leit3 = leitungen(q, 20., .6, 549.2);
