@@ -12,9 +12,12 @@ uniform vec3 pyramid_color; // color
 uniform vec3 pyramid_color2; // color
 uniform vec3 pyramid_color_leitungen; // color
 uniform vec3 pyramid_color_boden; // color
+uniform vec3 schalter_light1_pos;
+uniform vec3 schalter_light2_pos;
+uniform vec3 background_color; // color
 
 Material materials[6] = Material[6](
-	Material(vec3(1.), .5, 0.),
+	Material(background_color, .5, 0.),
 	Material(pyramid_color, 1., 1.),
 	Material(pyramid_color_boden, .5, 0.),
 	Material(vec3(.7, .3, .2), 1., 0.),
@@ -38,12 +41,12 @@ vec3 apply_lights(vec3 p, vec3 N, vec3 V, Material mat) {
 	float radius = 2.;
 	float intensity = 50.;
 	color += apply_light(p, N, V, mat, SphereLight(
-		vec3(5., 6., 3.),
+		schalter_light1_pos,
 		vec3(1.),
 		radius,
 		intensity));
 	color += apply_light(p, N, V, mat, SphereLight(
-		vec3(-3., -5., 4.),
+		schalter_light2_pos,
 		vec3(1.),
 		radius,
 		intensity));
@@ -91,7 +94,8 @@ void main(void) {
 		color += factor * apply_lights(hit, normal, -direction, mat);
 	}
 
-	output_color(color, distance(hit, camera_position));
+	float dist = distance(hit, camera_position);
+	output_color(color, dist);
 }
 
 float pyramid(vec3 p, float s, float h){
