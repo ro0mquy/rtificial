@@ -4,7 +4,19 @@
   <uniformsArray>
     <uniform uniformName="background_color" uniformType="color">
       <uniformStandardValue valueColorR="0" valueColorG="0" valueColorB="0"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueColorR="0.00384234" valueColorG="0.0038038" valueColorB="0.00293096"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueColorR="0.18" valueColorG="0.18" valueColorB="0.18"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="bloom_amount" uniformType="float">
       <uniformStandardValue valueFloatX="0.004"/>
@@ -1307,7 +1319,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_light_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="2"/>
+      <uniformStandardValue valueFloatX="200.136"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_light_radius" uniformType="float">
@@ -1335,12 +1347,24 @@
       </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_light2_col" uniformType="color">
-      <uniformStandardValue valueColorR="0.18" valueColorG="0.18" valueColorB="0.18"/>
+      <uniformStandardValue valueColorR="0.998275" valueColorG="0.967539" valueColorB="0.694191"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_light2_pos" uniformType="vec3">
       <uniformStandardValue valueVec3X="30" valueVec3Y="50" valueVec3Z="-100"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-17.313" valueVec3Y="100" valueVec3Z="334.942"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_mat_freq" uniformType="float">
       <uniformStandardValue valueFloatX="0.232"/>

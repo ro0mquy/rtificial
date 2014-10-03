@@ -57,10 +57,11 @@ void main() {
 	vec3 color = vec3(0.);
 	normal_mapping = true;
 	vec3 normal = calc_normal(p);
+	vec3 bounding_color = .01 * background_color;
 	if(materialId == 4.) {
-		color += .01 * background_color;
+		color = bounding_color;
 	} else if(materialId >= 0. && materialId < 1.) {
-		vec3 color_bobbel = emit_light(zapfen_col_bobbel, .0001) * pdot(normal, -dir);
+		vec3 color_bobbel = emit_light(zapfen_col_bobbel, 10.) * pdot(normal, -dir);
 
 		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
 		Material material1 = Material(mix(zapfen_color1, zapfen_color2, foo), zapfen_rough1, .0);
@@ -79,7 +80,7 @@ void main() {
 	} else if(materialId > 2. && materialId <= 3.) {
 		Material material = Material(zapfen_col_leit_non, .9, 0.);
 		vec3 nonglowing = apply_lights(p, normal, -dir, material);
-		vec3 glowing = emit_light(zapfen_col_leit_glow, .000005);
+		vec3 glowing = emit_light(zapfen_col_leit_glow, .005);
 
 		float glow;// = cnoise(p.xz * .001 + time) * .5 + .5;
 		// estimate coordinate of next zapfen
@@ -102,7 +103,9 @@ void main() {
 		//color = nonglowing;
 	}
 
-	output_color(color, distance(camera_position, p));
+	float dist = distance(camera_position, p);
+	color = mix(color, bounding_color, smoothstep(220., 300., dist));
+	output_color(color, dist);
 }
 
 float boden(vec3 p);
