@@ -262,6 +262,31 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="106" sequenceStart="0" sequenceDuration="9"
+                  sequenceInterpolation="ccrSpline">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="0" valueVec3Y="10.253" valueVec3Z="24.706"/>
+            </keyframe>
+            <keyframe keyframePosition="4">
+              <keyframeValue valueVec3X="11.3684" valueVec3Y="2.5962" valueVec3Z="-4.20105"/>
+            </keyframe>
+            <keyframe keyframePosition="9">
+              <keyframeValue valueVec3X="23.0393" valueVec3Y="-10.3968" valueVec3Z="-31.8694"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="106" sequenceStart="9" sequenceDuration="3"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-17.0762" valueVec3Y="-26.6411" valueVec3Z="24.293"/>
+            </keyframe>
+            <keyframe keyframePosition="3">
+              <keyframeValue valueVec3X="-22.3932" valueVec3Y="-26.6411" valueVec3Z="22.4545"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="camera_rotation" uniformType="vec4">
@@ -425,6 +450,36 @@
             </keyframe>
             <keyframe keyframePosition="17">
               <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="106" sequenceStart="0" sequenceDuration="9"
+                  sequenceInterpolation="ccrSpline">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="-0.211353" valueVec4Y="0.104958" valueVec4Z="0.022828"
+                             valueVec4W="0.971754"/>
+            </keyframe>
+            <keyframe keyframePosition="4">
+              <keyframeValue valueVec4X="-0.195998" valueVec4Y="0.384258" valueVec4Z="0.0838156"
+                             valueVec4W="0.898566"/>
+            </keyframe>
+            <keyframe keyframePosition="9">
+              <keyframeValue valueVec4X="-0.0185969" valueVec4Y="0.689561" valueVec4Z="0.230508"
+                             valueVec4W="0.686689"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="106" sequenceStart="9" sequenceDuration="3"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="0.0798385" valueVec4Y="0.71678" valueVec4Z="-0.0824399"
+                             valueVec4W="0.687891"/>
+            </keyframe>
+            <keyframe keyframePosition="3">
+              <keyframeValue valueVec4X="0.0911978" valueVec4Y="0.891352" valueVec4Z="-0.20496"
+                             valueVec4W="0.394088"/>
             </keyframe>
           </keyframesArray>
         </sequence>
