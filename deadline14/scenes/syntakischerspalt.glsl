@@ -86,18 +86,31 @@ vec2 f(vec3 p) {
 	// positioning
 	vec3 p_bbl = p;
 	p_bbl = trans(p_bbl, dr_factor.x/2., -dr_factor.y/2., -dr_factor.z/2.);
-	p_bbl = trans(p_bbl, synapse_bobbel_progress, 0., synapse_bobbel_progress);
-	p_bbl *= rY(-0.1*TAU);
+	p_bbl *= rY(-0.11*TAU);
+	p_bbl = trans(p_bbl, synapse_bobbel_progress, 0., 0.);
 	// domrep
 	vec3 p_bbl_p = p_bbl;
-	vec3 bbl_dr_factor = vec3(0.25);
+	vec3 bbl_dr_factor = vec3(.7, .5, .5);
 	p_bbl = domrepv(p_bbl, bbl_dr_factor);
-	p_bbl.x = p_bbl_p.x;
-	p_bbl = trans(p_bbl, 2*rand(floor(p_bbl_p/bbl_dr_factor)), 0.,0.);
 	// scale & add
+
+	vec3 cell = floor(p_bbl_p / bbl_dr_factor);
+	cell.x += 90.;
+	cell.y += 150.;
+	cell.z += 250.;
+	vec3 translation_vector = .04 * vec3(
+			sin(cell.y * cell.z) * 4.,
+			sin(cell.z * cell.x) * 2.,
+			sin(cell.x * cell.y) * 2.6);
+	p_bbl = transv(p_bbl, translation_vector);
+
 	float scale_factor = 0.15;
+	p_bbl = trans(p_bbl, -2. * scale_factor, 0., 0.);
 	float bbl = conicbobbel(p_bbl / scale_factor, 2.) * scale_factor;
-	vec2 bobbel = vec2(max(bbl, cylinder(q_p.zyx, 1.35, 1.5)), MATERIAL_ID_BOBBEL);
+
+	vec3 p_cylinder = trans(q_p, synapse_bobbel_progress, 0., 0.);
+	float f_cylinder = cylinder(p_cylinder.zyx, 1.35, 1.35);
+	vec2 bobbel = vec2(smax(bbl, f_cylinder, .05), MATERIAL_ID_BOBBEL);
 
 	vec2 bounding = vec2(-sphere(p - camera_position, -synapse_dist_fog_a), MATERIAL_ID_BOUNDING);
 	return min_material(min_material(synapse, transmitter), min_material(bounding, bobbel));
