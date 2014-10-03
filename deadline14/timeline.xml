@@ -56,6 +56,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="105" sequenceStart="4" sequenceDuration="48"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="0" valueVec3Y="10.2531" valueVec3Z="24.7056"/>
+            </keyframe>
+            <keyframe keyframePosition="48">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="camera_rotation" uniformType="vec4">
@@ -90,6 +101,17 @@
             </keyframe>
             <keyframe keyframePosition="68">
               <keyframeValue valueVec4X="-0.203" valueVec4Y="-0.178" valueVec4Z="-0.034" valueVec4W="0.962"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="105" sequenceStart="4" sequenceDuration="48"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="-0.184956" valueVec4Y="0" valueVec4Z="0" valueVec4W="0.982747"/>
+            </keyframe>
+            <keyframe keyframePosition="48">
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
             </keyframe>
           </keyframesArray>
         </sequence>
