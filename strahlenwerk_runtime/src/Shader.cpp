@@ -1,10 +1,9 @@
 #include "Shader.h"
 #include "DataInterpolator.h"
 
-#define DEBUG
-#ifdef DEBUG
+#ifdef _DEBUG
 #	include <iostream>
-#	ifdef BUILD_WINDOWS
+#	ifdef _WINDOWS
 #		include <Windows.h>
 #	endif
 #endif
@@ -32,7 +31,7 @@ void Shader::compile() {
 	glDeleteShader(fragment);
 	glLinkProgram(program);
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	GLint link_ok = GL_FALSE;
 	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
 	if(link_ok == GL_FALSE) {
@@ -41,7 +40,7 @@ void Shader::compile() {
 		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_length);
 		char* const log =(char* const) malloc(log_length);
 		glGetProgramInfoLog(program, log_length, NULL, log);
-#		ifdef BUILD_WINDOWS
+#		ifdef _WINDOWS
 			OutputDebugString(log);
 #		else
 			std::cerr << log;

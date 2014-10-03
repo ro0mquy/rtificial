@@ -10,7 +10,7 @@
 #ifdef BUILD_LINUX
 	using Backend = LinuxBackend;
 
-#elif BUILD_WINDOWS
+#elif _WINDOWS
 	// las said this was good
 #	define VC_EXTRALEAN
 #	define WIN32_LEAN_AND_MEAN
@@ -21,8 +21,8 @@
 	using Backend = WindowsBackend;
 #endif
 
-#ifdef DEBUG
-#ifdef BUILD_WINDOWS
+#ifdef _DEBUG
+#ifdef _WINDOWS
 #	include <string>
 #endif
 #endif
@@ -33,7 +33,7 @@ const bool fullscreen = true;
 const bool use_sound_thread = true;
 
 
-#ifdef BUILD_WINDOWS
+#ifdef _WINDOWS
 	int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 #else
 	int main() {
@@ -90,7 +90,7 @@ const bool use_sound_thread = true;
 		glDisable(GL_FRAMEBUFFER_SRGB);
 		backend.afterFrame();
 
-#		ifdef DEBUG && BUILD_WINDOWS
+#		ifdef _DEBUG && _WINDOWS
 		OutputDebugString((std::to_string(backend.getTime()) + "\n").c_str());
 #		endif
 	}

@@ -1,4 +1,4 @@
-#ifdef BUILD_WINDOWS
+#ifdef _WINDOWS
 
 #include "Backend.h"
 #include <windows.h>

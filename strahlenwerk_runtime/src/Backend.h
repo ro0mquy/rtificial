@@ -14,7 +14,7 @@ class EmptyBackend {
 	void cleanup();
 };
 
-#ifdef BUILD_WINDOWS
+#ifdef _WINDOWS
 
 #include <windows.h>
 #include "music/4klang.h"

@@ -1,7 +1,7 @@
 #ifndef GL_IDENTIFIERS_H
 #define GL_IDENTIFIERS_H
 
-#ifdef BUILD_WINDOWS
+#ifdef _WINDOWS
 #	include <Windows.h>
 #	include <GL/gl.h>
 #	include "glcorearb.h"
@@ -9,7 +9,7 @@
 #	include <GL/gl.h>
 #endif
 
-#ifdef BUILD_WINDOWS // wtf
+#ifdef _WINDOWS // wtf
 extern PFNGLACTIVETEXTUREPROC            glActiveTexture;
 #endif
 extern PFNGLGENBUFFERSPROC               glGenFramebuffers;
