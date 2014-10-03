@@ -239,6 +239,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-37.464" valueVec3Y="84.379" valueVec3Z="21.742"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="camera_rotation" uniformType="vec4">
@@ -394,6 +405,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="-0.003" valueVec4Y="0.997" valueVec4Z="0.042" valueVec4W="0.064"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="conic_bobbel_color" uniformType="color">
@@ -510,6 +532,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0.437"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="focal_length" uniformType="float">
@@ -561,6 +594,17 @@
             </keyframe>
             <keyframe keyframePosition="12">
               <keyframeValue valueFloatX="6.065"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="11.987"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueFloatX="0"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -1198,6 +1242,42 @@
       <uniformStandardValue valueFloatX="0.774"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="zapfen_bobbel_displacement" uniformType="vec3">
+      <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="15.186" valueVec3Y="-14.36" valueVec3Z="3.426"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
+    <uniform uniformName="zapfen_bobbel_progress" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueFloatX="17"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
+    <uniform uniformName="zapfen_col_bobbel" uniformType="color">
+      <uniformStandardValue valueColorR="0.18" valueColorG="0.18" valueColorB="0.18"/>
+      <sequencesArray/>
+    </uniform>
     <uniform uniformName="zapfen_col_boden" uniformType="color">
       <uniformStandardValue valueColorR="0" valueColorG="0.00536429" valueColorB="0.00313286"/>
       <sequencesArray/>
@@ -1240,7 +1320,19 @@
     </uniform>
     <uniform uniformName="zapfen_light1_pos" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="20" valueVec3Z="0"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-37" valueVec3Y="101.977" valueVec3Z="16.539"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_light2_col" uniformType="color">
       <uniformStandardValue valueColorR="0.18" valueColorG="0.18" valueColorB="0.18"/>

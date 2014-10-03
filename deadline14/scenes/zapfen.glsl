@@ -14,6 +14,7 @@ uniform float zapfen_rough2;
 uniform vec3 zapfen_col_boden; // color
 uniform vec3 zapfen_col_leit_glow; // color
 uniform vec3 zapfen_col_leit_non; // color
+uniform vec3 zapfen_col_bobbel; // color
 
 uniform vec3 zapfen_light1_pos;
 uniform vec3 zapfen_light2_pos;
@@ -21,6 +22,8 @@ uniform vec3 zapfen_light1_col; // color
 uniform vec3 zapfen_light2_col; // color
 uniform float zapfen_light_radius;
 uniform float zapfen_light_intensity;
+uniform float zapfen_bobbel_progress;
+uniform vec3 zapfen_bobbel_displacement;
 
 bool add_boden = false;
 bool normal_mapping = false;
@@ -39,7 +42,7 @@ void main() {
 
 	int i;
 	vec3 p = march_adv(camera_position, dir, i, 100, .9);
-	if(abs(f(p)[1]) <= 1e-6) {
+	if(abs(f(p)[1]) == 4.) {
 		if(dir.y != 0) {
 			float t = (-(camera_position.y - 20.) / dir.y);
 			if(t > 0.) {
@@ -54,17 +57,20 @@ void main() {
 	vec3 color = vec3(0.);
 	normal_mapping = true;
 	vec3 normal = calc_normal(p);
-	if(materialId == 0.) {
+	if(materialId == 4.) {
 		color += .01 * background_color;
-	} else if(materialId >= 1. && materialId <= 2.) {
-		Material material1 = Material(zapfen_color1, zapfen_rough1, .0);
-		Material material3 = Material(zapfen_color2, zapfen_rough2, .0);
+	} else if(materialId >= 0. && materialId < 1.) {
+		vec3 color_bobbel = emit_light(zapfen_col_bobbel, .0001) * pdot(normal, -dir);
+
 		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
-		vec3 color1 = mix(
-			apply_lights(p, normal, -dir, material1),
-			apply_lights(p, normal, -dir, material3),
-			foo
-			);
+		Material material1 = Material(mix(zapfen_color1, zapfen_color2, foo), zapfen_rough1, .0);
+		vec3 color_zapfen = apply_lights(p, normal, -dir, material1);
+
+		color = mix(color_bobbel, color_zapfen, materialId - 0.);
+	} else if(materialId >= 1. && materialId <= 2.) {
+		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
+		Material material1 = Material(mix(zapfen_color1, zapfen_color2, foo), zapfen_rough1, .0);
+		vec3 color1 = apply_lights(p, normal, -dir, material1);
 
 		Material material2 = Material(zapfen_col_boden, 1., 0.);
 		vec3 color2 = apply_lights(p, normal, -dir, material2);
@@ -94,10 +100,6 @@ void main() {
 		vec3 color2 = apply_lights(p, normal, -dir, material2);
 		color = mix(color2, color, pow(materialId - 2., .3));
 		//color = nonglowing;
-	} else if(materialId == 4.) {
-		//Material material = Material(vec3(1.), 1., 0.);
-		//color = apply_lights(p, normal, -dir, material);
-		color = emit_light(vec3(1.), .0001);
 	}
 
 	output_color(color, distance(camera_position, p));
@@ -107,15 +109,15 @@ float boden(vec3 p);
 float leitungen(vec3 p, float rotation, float radius, float freq, float t);
 
 vec2 f(vec3 p) {
-	vec2 bounding = vec2(-sphere(camera_position - p, 300.), 0.);
+	vec2 bounding = vec2(-sphere(camera_position - p, 300.), 4.);
 
 	float height = 40.; // .5 * height
 	vec3 q = domrepv(p, vec3(75.));
 	q.y = p.y - height;
 	float k = smoothstep(-height * 1.2, height, -q.y);
 	vec2 ij = floor(p.xz / 50.);
-	float rotation = sin(7. * dot(ij, ij) + time * .5);
-	float rotation2 = cos(11. * dot(ij, ij) + time * .5);
+	float rotation = sin(7. * dot(ij, ij) + zapfen_bobbel_progress * .25);
+	float rotation2 = cos(11. * dot(ij, ij) + zapfen_bobbel_progress * .25);
 	q.xz *= rot2D((1. - k) * radians(100.));
 	mat2 rot_matrix = rot2D(rotation * (1. - k) * radians(7.));
 	q.xy *= rot_matrix;
@@ -167,16 +169,17 @@ vec2 f(vec3 p) {
 
 	vec3 p_bobbel = trans(p, 0., 30., 0.);
 	vec3 p_bobbel_unrot = p_bobbel;
+	p_bobbel = transv(p_bobbel, zapfen_bobbel_displacement);
 	p_bobbel.xy *= rot2D(radians(70.));
-	p_bobbel.x -= time * 2.;
+	p_bobbel.x -= zapfen_bobbel_progress * 2.;
 
 	vec3 cellsize = vec3(60.);
 	vec3 p_bobbel_mod = domrepv(p_bobbel, cellsize);
-	float bobbel_d = conicbobbel(p_bobbel_mod /2., 2.) * 2.;
+	float bobbel_d = conicbobbel(p_bobbel_mod, 2.);
 	bobbel_d = max(bobbel_d, p_bobbel.x + 10.);
 	bobbel_d = max(bobbel_d, -p_bobbel_unrot.y + 10.);
-	vec2 bobbel = vec2(bobbel_d, 4.);
-	object = min_material(object, bobbel);
+	vec2 bobbel = vec2(bobbel_d, 0.);
+	object = smin_smaterial(object, bobbel, 2.);
 
 	return min_material(bounding, object);
 }
