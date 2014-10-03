@@ -83,7 +83,7 @@ vec2 f(vec3 p) {
 	// scale & add
 	float scale_factor = 0.15;
 	float bbl = conicbobbel(p_bbl / scale_factor, 2.) * scale_factor;
-	vec2 bobbel = vec2(max(bbl, sphere(q_p, 1.25)), MATERIAL_ID_BOBBEL);
+	vec2 bobbel = vec2(max(bbl, cylinder(q_p.zyx, 1.35, 1.5)), MATERIAL_ID_BOBBEL);
 
 	vec2 bounding = vec2(-sphere(p - camera_position, -synapse_dist_fog_a), MATERIAL_ID_BOUNDING);
 	return min_material(synapse, min_material(bounding, bobbel));
