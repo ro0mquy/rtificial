@@ -3,7 +3,7 @@
 #include "bobbel.glsl"
 #line 4
 
-uniform vec3 background_color; // color
+uniform vec3 zapfen_background_color; // color
 uniform float zapfen_kreise;
 uniform float zapfen_leit_freq;
 uniform vec3 zapfen_color1; // color
@@ -58,7 +58,7 @@ void main() {
 	vec3 color = vec3(0.);
 	normal_mapping = true;
 	vec3 normal = calc_normal(p);
-	vec3 bounding_color = .01 * background_color;
+	vec3 bounding_color = .01 * zapfen_background_color;
 	if(materialId == 4.) {
 		color = bounding_color;
 	} else if(materialId >= 0. && materialId < 1.) {

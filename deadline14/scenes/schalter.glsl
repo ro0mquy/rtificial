@@ -14,10 +14,10 @@ uniform vec3 pyramid_color_leitungen; // color
 uniform vec3 pyramid_color_boden; // color
 uniform vec3 schalter_light1_pos;
 uniform vec3 schalter_light2_pos;
-uniform vec3 background_color; // color
+uniform vec3 schalter_background_color; // color
 
 Material materials[6] = Material[6](
-	Material(background_color, .5, 0.),
+	Material(schalter_background_color, .5, 0.),
 	Material(pyramid_color, 1., 1.),
 	Material(pyramid_color_boden, .5, 0.),
 	Material(vec3(.7, .3, .2), 1., 0.),
