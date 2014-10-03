@@ -25,7 +25,7 @@
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="1"/>
+              <keyframeValue valueFloatX="0.004"/>
             </keyframe>
             <keyframe keyframePosition="14">
               <keyframeValue valueFloatX="1"/>
@@ -36,7 +36,7 @@
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.025"/>
+              <keyframeValue valueFloatX="0.004"/>
             </keyframe>
             <keyframe keyframePosition="16">
               <keyframeValue valueFloatX="0"/>
@@ -47,7 +47,7 @@
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.017"/>
+              <keyframeValue valueFloatX="0.004"/>
             </keyframe>
             <keyframe keyframePosition="16">
               <keyframeValue valueFloatX="0.017"/>
@@ -635,7 +635,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="0.02"/>
+      <uniformStandardValue valueFloatX="0.011"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="k" uniformType="float">
