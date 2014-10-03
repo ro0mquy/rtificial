@@ -112,7 +112,7 @@ vec2 f(vec3 p) {
 	float bbl = conicbobbel(p_bbl / scale_factor, 2.) * scale_factor;
 
 	vec3 p_cylinder = trans(q_p, synapse_bobbel_progress, 0., 0.);
-	float f_cylinder = cylinder(p_cylinder.zyx, 1.35, 1.35);
+	float f_cylinder = cylinder(p_cylinder.zyx, 1.35, 1.2);
 	vec2 bobbel = vec2(smax(bbl, f_cylinder, .05), MATERIAL_ID_BOBBEL);
 
 	vec2 bounding = vec2(-sphere(p - camera_position, -synapse_dist_fog_a), MATERIAL_ID_BOUNDING);
