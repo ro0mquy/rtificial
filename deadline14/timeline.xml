@@ -413,28 +413,7 @@
     </uniform>
     <uniform uniformName="sphere1_pos" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
-      <sequencesArray>
-        <sequence sequenceStart="3" sequenceSceneId="104" sequenceDuration="14"
-                  sequenceInterpolation="ccrSpline">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueVec3X="-0.249" valueVec3Y="0.039" valueVec3Z="0.377"/>
-            </keyframe>
-            <keyframe keyframePosition="2">
-              <keyframeValue valueVec3X="-0.713" valueVec3Y="0.128" valueVec3Z="-0.416"/>
-            </keyframe>
-            <keyframe keyframePosition="4">
-              <keyframeValue valueVec3X="-0.504" valueVec3Y="0.576" valueVec3Z="1"/>
-            </keyframe>
-            <keyframe keyframePosition="6">
-              <keyframeValue valueVec3X="-0.192" valueVec3Y="0.328" valueVec3Z="-0.456"/>
-            </keyframe>
-            <keyframe keyframePosition="14">
-              <keyframeValue valueVec3X="0.624" valueVec3Y="0.512" valueVec3Z="0"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
-      </sequencesArray>
+      <sequencesArray/>
     </uniform>
     <uniform uniformName="sphere2_color" uniformType="color">
       <uniformStandardValue valueColorR="0.21604" valueColorG="0.0233552" valueColorB="0.00721712"/>
@@ -520,7 +499,19 @@
     </uniform>
     <uniform uniformName="synapse_gap" uniformType="float">
       <uniformStandardValue valueFloatX="0.051"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="105" sequenceStart="12" sequenceDuration="16"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0.051"/>
+            </keyframe>
+            <keyframe keyframePosition="16">
+              <keyframeValue valueFloatX="-0.05"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="synapse_transmitter_r" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
@@ -643,5 +634,6 @@
     <scene sceneId="101" sceneStart="31.5" sceneDuration="60.5" sceneShaderSource="conicbobbel"/>
     <scene sceneId="102" sceneStart="92" sceneDuration="64" sceneShaderSource="zapfen"/>
     <scene sceneId="103" sceneStart="156" sceneDuration="76" sceneShaderSource="syntakischerspalt"/>
+    <scene sceneId="105" sceneStart="232" sceneDuration="60" sceneShaderSource="zoomout"/>
   </scenesArray>
 </timelineTree>
