@@ -1267,6 +1267,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="64" sequenceDuration="24"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0.5"/>
+            </keyframe>
+            <keyframe keyframePosition="24">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="lift" uniformType="color">
@@ -1722,19 +1733,7 @@
     </uniform>
     <uniform uniformName="synapse_fade" uniformType="float">
       <uniformStandardValue valueFloatX="1"/>
-      <sequencesArray>
-        <sequence sequenceSceneId="103" sequenceStart="84" sequenceDuration="8"
-                  sequenceInterpolation="linear">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="1"/>
-            </keyframe>
-            <keyframe keyframePosition="8">
-              <keyframeValue valueFloatX="0"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
-      </sequencesArray>
+      <sequencesArray/>
     </uniform>
     <uniform uniformName="synapse_gap" uniformType="float">
       <uniformStandardValue valueFloatX="0.051"/>
