@@ -15,7 +15,7 @@ int main() {
 	}
 	FILE* const note_file = fopen("notes.out", "w");
 	if(note_file != NULL) {
-		fwrite(&__4klang_note_buffer, sizeof(int), MAX_SAMPLES / 8, note_file);
+		//fwrite(&__4klang_note_buffer, sizeof(int), MAX_SAMPLES / 8, note_file);
 		fclose(note_file);
 	} else {
 		fprintf(stderr, "Could not open notes out file\n");

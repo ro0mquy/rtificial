@@ -4,52 +4,7 @@
   <uniformsArray>
     <uniform uniformName="bloom_amount" uniformType="float">
       <uniformStandardValue valueFloatX="0.004"/>
-      <sequencesArray>
-        <sequence sequenceSceneId="103" sequenceStart="40" sequenceDuration="14"
-                  sequenceInterpolation="step">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="1"/>
-            </keyframe>
-            <keyframe keyframePosition="14">
-              <keyframeValue valueFloatX="1"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="24" sequenceDuration="16"
-                  sequenceInterpolation="step">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.025"/>
-            </keyframe>
-            <keyframe keyframePosition="16">
-              <keyframeValue valueFloatX="0"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="8" sequenceDuration="16"
-                  sequenceInterpolation="step">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.017"/>
-            </keyframe>
-            <keyframe keyframePosition="16">
-              <keyframeValue valueFloatX="0.017"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="0" sequenceDuration="8"
-                  sequenceInterpolation="step">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0"/>
-            </keyframe>
-            <keyframe keyframePosition="8">
-              <keyframeValue valueFloatX="0"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
-      </sequencesArray>
+      <sequencesArray/>
     </uniform>
     <uniform uniformName="camera_position" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
@@ -123,7 +78,7 @@
               <keyframeValue valueVec3X="11.9196" valueVec3Y="7.459" valueVec3Z="7.56"/>
             </keyframe>
             <keyframe keyframePosition="13">
-              <keyframeValue valueVec3X="11.9196" valueVec3Y="1.85009" valueVec3Z="7.56"/>
+              <keyframeValue valueVec3X="11.9196" valueVec3Y="1.85" valueVec3Z="7.56"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -245,7 +200,7 @@
               <keyframeValue valueVec3X="11.368" valueVec3Y="2.596" valueVec3Z="-4.201"/>
             </keyframe>
             <keyframe keyframePosition="9">
-              <keyframeValue valueVec3X="23.0393" valueVec3Y="-10.3968" valueVec3Z="-31.8694"/>
+              <keyframeValue valueVec3X="23.039" valueVec3Y="-10.397" valueVec3Z="-31.869"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -389,15 +344,15 @@
             </keyframe>
             <keyframe keyframePosition="4.82916">
               <keyframeValue valueVec4X="0.125" valueVec4Y="-0.552049" valueVec4Z="-0.085"
-                             valueVec4W="-0.819773"/>
+                             valueVec4W="-0.82"/>
             </keyframe>
             <keyframe keyframePosition="8.99996">
               <keyframeValue valueVec4X="-0.048" valueVec4Y="-0.557627" valueVec4Z="0.032"
                              valueVec4W="-0.828"/>
             </keyframe>
             <keyframe keyframePosition="13">
-              <keyframeValue valueVec4X="-0.213331" valueVec4Y="-0.53985" valueVec4Z="0.143198"
-                             valueVec4W="-0.801358"/>
+              <keyframeValue valueVec4X="-0.213" valueVec4Y="-0.53985" valueVec4Z="0.143"
+                             valueVec4W="-0.801"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -478,8 +433,7 @@
               <keyframeValue valueVec4X="-0.196" valueVec4Y="0.384" valueVec4Z="0.084" valueVec4W="0.899"/>
             </keyframe>
             <keyframe keyframePosition="9">
-              <keyframeValue valueVec4X="-0.0185969" valueVec4Y="0.689561" valueVec4Z="0.230508"
-                             valueVec4W="0.686689"/>
+              <keyframeValue valueVec4X="-0.019" valueVec4Y="0.69" valueVec4Z="0.231" valueVec4W="0.687"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -532,7 +486,7 @@
               <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
             </keyframe>
             <keyframe keyframePosition="8">
-              <keyframeValue valueVec4X="-0.771315" valueVec4Y="0" valueVec4Z="0" valueVec4W="0.636453"/>
+              <keyframeValue valueVec4X="-0.771" valueVec4Y="0" valueVec4Z="0" valueVec4W="0.636"/>
             </keyframe>
           </keyframesArray>
         </sequence>
