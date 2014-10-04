@@ -2090,6 +2090,22 @@
         </sequence>
       </sequencesArray>
     </uniform>
+    <uniform uniformName="synapse_last_fire" uniformType="bool">
+      <uniformStandardValue valueBoolState="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="103" sequenceStart="86" sequenceDuration="2"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueBoolState="1"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueBoolState="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
     <uniform uniformName="synapse_transmitter_r" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
@@ -2248,6 +2264,20 @@
           </keyframesArray>
         </sequence>
         <sequence sequenceSceneId="103" sequenceStart="52" sequenceDuration="2"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="1">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+            <keyframe keyframePosition="2">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="86" sequenceDuration="2"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">

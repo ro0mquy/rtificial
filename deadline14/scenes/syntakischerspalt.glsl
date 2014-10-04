@@ -17,6 +17,7 @@ uniform float synapse_transmitter_r; // float
 uniform float synapse_bobbel_roughness;
 uniform float synapse_bobbel_metalicness;;
 uniform float synapse_fade; // flaot
+uniform bool synapse_last_fire; //  bool
 
 Material materials[4] = Material[4](
 	Material(vec3(1.), .5, 0.),
@@ -86,6 +87,9 @@ vec2 f(vec3 p) {
 	vec3 p_t = q_p;
 	float transm = sphere(p_t, 1.35 * synapse_transmitter_r);
 	float t_cutout = sphere(trans(p, dr_factor.x/2., -dr_factor.y/2., -dr_factor.z/2.), 10.);
+	if(synapse_last_fire){
+		t_cutout *= -1;
+	}
 	vec2 transmitter = vec2(max(transm, -t_cutout), MATERIAL_ID_TRANSMITTER);
 
 	// bobbel
@@ -119,5 +123,8 @@ vec2 f(vec3 p) {
 	vec2 bobbel = vec2(smax(bbl, f_cylinder, .05), MATERIAL_ID_BOBBEL);
 
 	vec2 bounding = vec2(-sphere(p - camera_position, -synapse_dist_fog_a), MATERIAL_ID_BOUNDING);
-	return min_material(min_material(synapse, transmitter), min_material(bounding, bobbel));
+	if(!synapse_last_fire){
+		bounding = min_material(bounding, bobbel);
+	}
+	return min_material(min_material(synapse, transmitter), bounding);
 }
