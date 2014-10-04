@@ -831,14 +831,14 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="42" sequenceDuration="12"
+        <sequence sequenceSceneId="103" sequenceStart="40" sequenceDuration="8"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.229"/>
+              <keyframeValue valueFloatX="0.514"/>
             </keyframe>
-            <keyframe keyframePosition="12">
-              <keyframeValue valueFloatX="0.229"/>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueFloatX="0.514"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -897,6 +897,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="48" sequenceDuration="3"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="2.233"/>
+            </keyframe>
+            <keyframe keyframePosition="3">
+              <keyframeValue valueFloatX="2.233"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="focal_length" uniformType="float">
@@ -913,14 +924,14 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="42" sequenceDuration="12"
+        <sequence sequenceSceneId="103" sequenceStart="40" sequenceDuration="8"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0.02"/>
             </keyframe>
-            <keyframe keyframePosition="12">
-              <keyframeValue valueFloatX="0.2"/>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueFloatX="0.02"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -932,17 +943,6 @@
             </keyframe>
             <keyframe keyframePosition="12">
               <keyframeValue valueFloatX="0.012"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="48" sequenceDuration="8"
-                  sequenceInterpolation="step">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.02"/>
-            </keyframe>
-            <keyframe keyframePosition="8">
-              <keyframeValue valueFloatX="0.02"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -968,6 +968,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="48" sequenceDuration="3"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0.019"/>
+            </keyframe>
+            <keyframe keyframePosition="3">
+              <keyframeValue valueFloatX="0.019"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="focus_dist" uniformType="float">
@@ -984,14 +995,14 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="42" sequenceDuration="12"
+        <sequence sequenceSceneId="103" sequenceStart="40" sequenceDuration="8"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="6.065"/>
+              <keyframeValue valueFloatX="4.269"/>
             </keyframe>
-            <keyframe keyframePosition="12">
-              <keyframeValue valueFloatX="6.065"/>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueFloatX="4.269"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -1069,6 +1080,17 @@
             </keyframe>
             <keyframe keyframePosition="14">
               <keyframeValue valueFloatX="5.808"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="103" sequenceStart="48" sequenceDuration="3"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="4.591"/>
+            </keyframe>
+            <keyframe keyframePosition="3">
+              <keyframeValue valueFloatX="4.591"/>
             </keyframe>
           </keyframesArray>
         </sequence>
