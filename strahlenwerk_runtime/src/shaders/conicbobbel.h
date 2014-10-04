@@ -1322,13 +1322,17 @@ R"shader_source(layout(location = 65) uniform float conic_domrep_spacing;
 )shader_source"
 R"shader_source(layout(location = 66) uniform bool  conic_domrep_enabled;
 )shader_source"
+R"shader_source(layout(location = 67) uniform bool  conic_second_ring;
+)shader_source"
+R"shader_source(layout(location = 68) uniform bool  conic_use_noise;
+)shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 67) uniform vec3 zapfen_background_color; // color
+R"shader_source(layout(location = 69) uniform vec3 zapfen_background_color; // color
 )shader_source"
-R"shader_source(layout(location = 68) uniform bool conic_fog_enabled;
+R"shader_source(layout(location = 70) uniform bool conic_fog_enabled;
 )shader_source"
-R"shader_source(layout(location = 69) uniform vec3 conic_background_color; // color
+R"shader_source(layout(location = 71) uniform vec3 conic_background_color; // color
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1514,11 +1518,25 @@ R"shader_source(	// get bobbel body and rings
 )shader_source"
 R"shader_source(	float l_body = 2.; // length of body
 )shader_source"
-R"shader_source(	float f_cone = conicbobbel(p_cone, l_body);
+R"shader_source(	float f_cone;
+)shader_source"
+R"shader_source(	if (conic_use_noise) {
+)shader_source"
+R"shader_source(		f_cone = conicbobbel(p_cone, l_body);
+)shader_source"
+R"shader_source(	} else {
+)shader_source"
+R"shader_source(		f_cone = conicbobbel_fast(p_cone, l_body);
+)shader_source"
+R"shader_source(	}
 )shader_source"
 R"shader_source(	float f_ring = bobbelring(p_cone, l_body, 0.);
 )shader_source"
-R"shader_source(	//f_ring = min(f_ring, bobbelring(p_cone, l_body, 1/2.5));
+R"shader_source(	if (conic_second_ring) {
+)shader_source"
+R"shader_source(		f_ring = min(f_ring, bobbelring(p_cone, l_body, 1/2.));
+)shader_source"
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"

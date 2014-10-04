@@ -28,7 +28,7 @@ R"shader_source(layout(binding = 14) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
-R"shader_source(layout(location = 34) uniform float time;
+R"shader_source(layout(location = 33) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"

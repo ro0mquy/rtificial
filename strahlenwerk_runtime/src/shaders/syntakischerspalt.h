@@ -1290,35 +1290,37 @@ R"shader_source(#line 5
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 86) uniform vec3 synapse_color; // color
+R"shader_source(layout(location = 88) uniform vec3 synapse_color; // color
 )shader_source"
-R"shader_source(layout(location = 87) uniform vec3 synapse_color_bobbel; // color
+R"shader_source(layout(location = 89) uniform vec3 synapse_color_bobbel; // color
 )shader_source"
-R"shader_source(layout(location = 88) uniform float synapse_gap; // float
+R"shader_source(layout(location = 90) uniform float synapse_gap; // float
 )shader_source"
-R"shader_source(layout(location = 89) uniform float synapse_aa; // float
+R"shader_source(layout(location = 91) uniform float synapse_aa; // float
 )shader_source"
-R"shader_source(layout(location = 90) uniform float synapse_bb; // float
+R"shader_source(layout(location = 92) uniform float synapse_bb; // float
 )shader_source"
-R"shader_source(layout(location = 91) uniform float synapse_cc; // float
+R"shader_source(layout(location = 93) uniform float synapse_cc; // float
 )shader_source"
-R"shader_source(layout(location = 92) uniform float synapse_dd; // float
+R"shader_source(layout(location = 94) uniform float synapse_dd; // float
 )shader_source"
-R"shader_source(layout(location = 93) uniform float synapse_dist_fog_a; // float
+R"shader_source(layout(location = 95) uniform float synapse_dist_fog_a; // float
 )shader_source"
-R"shader_source(layout(location = 94) uniform float synapse_dist_fog_b; // float
+R"shader_source(layout(location = 96) uniform float synapse_dist_fog_b; // float
 )shader_source"
-R"shader_source(layout(location = 95) uniform float synapse_bobbel_progress; // float
+R"shader_source(layout(location = 97) uniform float synapse_bobbel_progress; // float
 )shader_source"
-R"shader_source(layout(location = 96) uniform float synapse_transmitter_r; // float
+R"shader_source(layout(location = 98) uniform float synapse_transmitter_r; // float
 )shader_source"
-R"shader_source(layout(location = 97) uniform float synapse_bobbel_roughness;
+R"shader_source(layout(location = 99) uniform float synapse_bobbel_roughness;
 )shader_source"
-R"shader_source(layout(location = 98) uniform float synapse_bobbel_metalicness;;
+R"shader_source(layout(location = 100) uniform float synapse_bobbel_metalicness;;
 )shader_source"
-R"shader_source(layout(location = 99) uniform float synapse_fade; // flaot
+R"shader_source(layout(location = 101) uniform float synapse_fade; // flaot
 )shader_source"
-R"shader_source(layout(location = 100) uniform bool synapse_last_fire; //  bool
+R"shader_source(layout(location = 122) uniform float synapse_min_darkness_dist; // flaot
+)shader_source"
+R"shader_source(layout(location = 102) uniform bool synapse_last_fire; //  bool
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1393,6 +1395,12 @@ R"shader_source(	color *= smoothstep(synapse_dist_fog_a, synapse_dist_fog_b, -di
 R"shader_source(
 )shader_source"
 R"shader_source(	color *= synapse_fade;
+)shader_source"
+R"shader_source(	if (synapse_min_darkness_dist > 0.) {
+)shader_source"
+R"shader_source(		color *= synapse_min_darkness_dist * 1. / distance(hit, vec3(25., -25., -25.));
+)shader_source"
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1522,7 +1530,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(	vec3 p_cylinder = trans(q_p, synapse_bobbel_progress, 0., 0.);
 )shader_source"
-R"shader_source(	float f_cylinder = cylinder(p_cylinder.zyx, 1.35, 1.2);
+R"shader_source(	float f_cylinder = cylinder(p_cylinder.zyx, 1.35, 1.1);
 )shader_source"
 R"shader_source(	vec2 bobbel = vec2(smax(bbl, f_cylinder, .05), MATERIAL_ID_BOBBEL);
 )shader_source"

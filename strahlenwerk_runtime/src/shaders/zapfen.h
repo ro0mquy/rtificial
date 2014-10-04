@@ -1290,49 +1290,49 @@ R"shader_source(#line 4
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 67) uniform vec3 zapfen_background_color; // color
+R"shader_source(layout(location = 69) uniform vec3 zapfen_background_color; // color
 )shader_source"
-R"shader_source(layout(location = 101) uniform float zapfen_kreise;
+R"shader_source(layout(location = 103) uniform float zapfen_kreise;
 )shader_source"
-R"shader_source(layout(location = 73) uniform float zapfen_leit_freq;
+R"shader_source(layout(location = 75) uniform float zapfen_leit_freq;
 )shader_source"
-R"shader_source(layout(location = 102) uniform vec3 zapfen_color1; // color
+R"shader_source(layout(location = 104) uniform vec3 zapfen_color1; // color
 )shader_source"
-R"shader_source(layout(location = 103) uniform vec3 zapfen_color2; // color
+R"shader_source(layout(location = 105) uniform vec3 zapfen_color2; // color
 )shader_source"
-R"shader_source(layout(location = 104) uniform float zapfen_mat_freq;
+R"shader_source(layout(location = 106) uniform float zapfen_mat_freq;
 )shader_source"
-R"shader_source(layout(location = 105) uniform float zapfen_rough1;
+R"shader_source(layout(location = 107) uniform float zapfen_rough1;
 )shader_source"
-R"shader_source(layout(location = 106) uniform float zapfen_rough2;
+R"shader_source(layout(location = 108) uniform float zapfen_rough2;
 )shader_source"
-R"shader_source(layout(location = 107) uniform vec3 zapfen_col_boden; // color
+R"shader_source(layout(location = 109) uniform vec3 zapfen_col_boden; // color
 )shader_source"
-R"shader_source(layout(location = 108) uniform vec3 zapfen_col_leit_glow; // color
+R"shader_source(layout(location = 110) uniform vec3 zapfen_col_leit_glow; // color
 )shader_source"
-R"shader_source(layout(location = 109) uniform vec3 zapfen_col_leit_non; // color
+R"shader_source(layout(location = 111) uniform vec3 zapfen_col_leit_non; // color
 )shader_source"
-R"shader_source(layout(location = 110) uniform vec3 zapfen_col_bobbel; // color
+R"shader_source(layout(location = 112) uniform vec3 zapfen_col_bobbel; // color
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 111) uniform vec3 zapfen_light1_pos;
+R"shader_source(layout(location = 113) uniform vec3 zapfen_light1_pos;
 )shader_source"
-R"shader_source(layout(location = 112) uniform vec3 zapfen_light2_pos;
+R"shader_source(layout(location = 114) uniform vec3 zapfen_light2_pos;
 )shader_source"
-R"shader_source(layout(location = 113) uniform vec3 zapfen_light1_col; // color
+R"shader_source(layout(location = 115) uniform vec3 zapfen_light1_col; // color
 )shader_source"
-R"shader_source(layout(location = 114) uniform vec3 zapfen_light2_col; // color
+R"shader_source(layout(location = 116) uniform vec3 zapfen_light2_col; // color
 )shader_source"
-R"shader_source(layout(location = 115) uniform float zapfen_light_radius;
+R"shader_source(layout(location = 117) uniform float zapfen_light_radius;
 )shader_source"
-R"shader_source(layout(location = 116) uniform float zapfen_light_intensity;
+R"shader_source(layout(location = 118) uniform float zapfen_light_intensity;
 )shader_source"
-R"shader_source(layout(location = 117) uniform float zapfen_bobbel_progress;
+R"shader_source(layout(location = 119) uniform float zapfen_bobbel_progress;
 )shader_source"
-R"shader_source(layout(location = 118) uniform vec3 zapfen_bobbel_displacement;
+R"shader_source(layout(location = 120) uniform vec3 zapfen_bobbel_displacement;
 )shader_source"
-R"shader_source(layout(location = 119) uniform bool zapfen_bobbels_enabled;
+R"shader_source(layout(location = 121) uniform bool zapfen_bobbels_enabled;
 )shader_source"
 R"shader_source(
 )shader_source"
