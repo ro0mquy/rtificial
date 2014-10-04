@@ -6,6 +6,7 @@
 #include "strahlenwerk_export_interface.h"
 #include "glcorearb.h"
 #include "gl_identifiers.h"
+#include "shaders/ladebalken.h"
 
 #ifdef BUILD_LINUX
 	using Backend = LinuxBackend;
@@ -51,13 +52,33 @@ const bool use_sound_thread = true;
 	// musik
 	// ladebalken/precalc
 
+	ladebalken.compile();
+
+	float progress = 0.;
+	float progress_step = 1./ (n_scenes + n_postproc);
+
 	for(int i = 0; i < n_scenes; i++) {
 		scenes[i].compile();
+		backend.beforeFrame();
+		ladebalken.bind();
+		progress += progress_step;
+		glUniform1f(74, progress);
+		ladebalken.draw(width, height, -1.);
+		backend.afterFrame();
 	}
 	for(int i = 0; i < n_postproc; i++) {
 		postproc[i].compile();
 		fbos[i].create(width, height);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		backend.beforeFrame();
+		ladebalken.bind();
+		progress += progress_step;
+		glUniform1f(74, progress);
+		ladebalken.draw(width, height, -1.);
+		backend.afterFrame();
 	}
+
+	Sleep(2000);
 
 	backend.playAudio();
 
