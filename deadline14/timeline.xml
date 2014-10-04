@@ -37,17 +37,6 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="105" sequenceStart="4" sequenceDuration="48"
-                  sequenceInterpolation="step">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueVec3X="0" valueVec3Y="10.253" valueVec3Z="24.706"/>
-            </keyframe>
-            <keyframe keyframePosition="48">
-              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
         <sequence sequenceSceneId="100" sequenceStart="12" sequenceDuration="12"
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
@@ -176,17 +165,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="54" sequenceDuration="18"
+        <sequence sequenceSceneId="103" sequenceStart="54" sequenceDuration="34"
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="25.418" valueVec3Y="-24.59" valueVec3Z="-24.702"/>
             </keyframe>
-            <keyframe keyframePosition="10">
-              <keyframeValue valueVec3X="8.60018" valueVec3Y="-9.22464" valueVec3Z="-7.49676"/>
+            <keyframe keyframePosition="12">
+              <keyframeValue valueVec3X="8.6" valueVec3Y="-9.225" valueVec3Z="-7.497"/>
             </keyframe>
-            <keyframe keyframePosition="18">
-              <keyframeValue valueVec3X="-52.2295" valueVec3Y="26.7398" valueVec3Z="-24.3225"/>
+            <keyframe keyframePosition="34">
+              <keyframeValue valueVec3X="-52.229" valueVec3Y="26.74" valueVec3Z="-24.322"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -384,17 +373,6 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="105" sequenceStart="4" sequenceDuration="48"
-                  sequenceInterpolation="step">
-          <keyframesArray>
-            <keyframe keyframePosition="0">
-              <keyframeValue valueVec4X="-0.185" valueVec4Y="0" valueVec4Z="0" valueVec4W="0.983"/>
-            </keyframe>
-            <keyframe keyframePosition="48">
-              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
-            </keyframe>
-          </keyframesArray>
-        </sequence>
         <sequence sequenceSceneId="100" sequenceStart="12" sequenceDuration="12"
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
@@ -485,19 +463,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="54" sequenceDuration="18"
+        <sequence sequenceSceneId="103" sequenceStart="54" sequenceDuration="34"
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec4X="-0.039" valueVec4Y="-0.366" valueVec4Z="-0.014" valueVec4W="0.929"/>
             </keyframe>
-            <keyframe keyframePosition="10">
-              <keyframeValue valueVec4X="-0.347755" valueVec4Y="-0.340758" valueVec4Z="-0.135443"
-                             valueVec4W="0.862824"/>
+            <keyframe keyframePosition="12">
+              <keyframeValue valueVec4X="-0.348" valueVec4Y="-0.341" valueVec4Z="-0.135" valueVec4W="0.863"/>
             </keyframe>
-            <keyframe keyframePosition="18">
-              <keyframeValue valueVec4X="-0.238556" valueVec4Y="-0.699709" valueVec4Z="-0.267488"
-                             valueVec4W="0.617907"/>
+            <keyframe keyframePosition="34">
+              <keyframeValue valueVec4X="-0.239" valueVec4Y="-0.7" valueVec4Z="-0.267" valueVec4W="0.618"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -2061,8 +2037,7 @@
     <scene sceneId="100" sceneStart="48" sceneDuration="48" sceneShaderSource="schalter"/>
     <scene sceneId="101" sceneStart="96" sceneDuration="38" sceneShaderSource="conicbobbel"/>
     <scene sceneId="102" sceneStart="144" sceneDuration="48" sceneShaderSource="zapfen"/>
-    <scene sceneId="103" sceneStart="192" sceneDuration="72" sceneShaderSource="syntakischerspalt"/>
-    <scene sceneId="105" sceneStart="264" sceneDuration="20" sceneShaderSource="zoomout"/>
+    <scene sceneId="103" sceneStart="192" sceneDuration="88" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="106" sceneStart="36" sceneDuration="12" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="107" sceneStart="0" sceneDuration="12" sceneShaderSource="schalter"/>
     <scene sceneId="108" sceneStart="12" sceneDuration="12" sceneShaderSource="conicbobbel"/>
