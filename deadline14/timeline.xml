@@ -1773,6 +1773,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="116" sequenceStart="0" sequenceDuration="56"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0.132"/>
+            </keyframe>
+            <keyframe keyframePosition="56">
+              <keyframeValue valueFloatX="0.132"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="lift" uniformType="color">
