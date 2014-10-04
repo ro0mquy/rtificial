@@ -62,13 +62,15 @@ void main() {
 	if(materialId == 4.) {
 		color = bounding_color;
 	} else if(materialId >= 0. && materialId < 1.) {
-		vec3 color_bobbel = emit_light(zapfen_col_bobbel, 10.) * pdot(normal, -dir);
+		Material material_bobbel = Material(zapfen_col_bobbel, .3, 1.);
+		vec3 color_bobbel = 1000. * apply_lights(p, normal, -dir, material_bobbel);
+		//vec3 color_bobbel = emit_light(zapfen_col_bobbel, 10.) * pdot(normal, -dir);
 
 		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
 		Material material1 = Material(mix(zapfen_color1, zapfen_color2, foo), zapfen_rough1, .0);
 		vec3 color_zapfen = apply_lights(p, normal, -dir, material1);
 
-		color = mix(color_bobbel, color_zapfen, materialId - 0.);
+		color = mix(color_bobbel, color_zapfen, pow(materialId - 0., .005));
 	} else if(materialId >= 1. && materialId <= 2.) {
 		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
 		Material material1 = Material(mix(zapfen_color1, zapfen_color2, foo), zapfen_rough1, .0);

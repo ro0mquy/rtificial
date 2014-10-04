@@ -179,13 +179,13 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="10.5"
+        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="11"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="-37.464" valueVec3Y="84.379" valueVec3Z="21.742"/>
             </keyframe>
-            <keyframe keyframePosition="10.5">
+            <keyframe keyframePosition="11">
               <keyframeValue valueVec3X="-49.332" valueVec3Y="84.379" valueVec3Z="20.212"/>
             </keyframe>
           </keyframesArray>
@@ -304,35 +304,35 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="110" sequenceStart="0" sequenceDuration="6"
+        <sequence sequenceSceneId="110" sequenceStart="0" sequenceDuration="8"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="-71.065" valueVec3Y="83.26" valueVec3Z="-30.416"/>
             </keyframe>
-            <keyframe keyframePosition="6">
+            <keyframe keyframePosition="8">
               <keyframeValue valueVec3X="-71.065" valueVec3Y="87.072" valueVec3Z="-30.416"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="7"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="-1.379" valueVec3Y="0" valueVec3Z="0.066"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="7">
               <keyframeValue valueVec3X="-3.733" valueVec3Y="0" valueVec3Z="4.176"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="6"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="-3.30998" valueVec3Y="0" valueVec3Z="3.4373"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="6">
               <keyframeValue valueVec3X="-2.917" valueVec3Y="0" valueVec3Z="4.23"/>
             </keyframe>
           </keyframesArray>
@@ -392,14 +392,25 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="101" sequenceStart="32" sequenceDuration="6"
+        <sequence sequenceSceneId="101" sequenceStart="32" sequenceDuration="8"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="41.129" valueVec3Y="-8.693" valueVec3Z="-3.001"/>
             </keyframe>
-            <keyframe keyframePosition="6">
+            <keyframe keyframePosition="8">
               <keyframeValue valueVec3X="41.129" valueVec3Y="16.096" valueVec3Z="-3.001"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="113" sequenceStart="0" sequenceDuration="7"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-77.0448" valueVec3Y="153.58" valueVec3Z="38.636"/>
+            </keyframe>
+            <keyframe keyframePosition="7">
+              <keyframeValue valueVec3X="-77.0448" valueVec3Y="153.58" valueVec3Z="38.636"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -543,15 +554,14 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="10.5"
+        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="11"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec4X="-0.003" valueVec4Y="0.997" valueVec4Z="0.042" valueVec4W="0.064"/>
             </keyframe>
-            <keyframe keyframePosition="10.5">
-              <keyframeValue valueVec4X="-0.00300005" valueVec4Y="0.997015" valueVec4Z="0.0420006"
-                             valueVec4W="0.064001"/>
+            <keyframe keyframePosition="11">
+              <keyframeValue valueVec4X="-0.003" valueVec4Y="0.997" valueVec4Z="0.042" valueVec4W="0.064"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -698,36 +708,36 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="7"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec4X="-0.016" valueVec4Y="-0.29" valueVec4Z="-0.012" valueVec4W="0.956"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="7">
               <keyframeValue valueVec4X="-0.221" valueVec4Y="-0.556" valueVec4Z="-0.156" valueVec4W="0.785"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="110" sequenceStart="0" sequenceDuration="6"
+        <sequence sequenceSceneId="110" sequenceStart="0" sequenceDuration="8"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec4X="-0.026" valueVec4Y="0.962" valueVec4Z="0.097" valueVec4W="0.256"/>
             </keyframe>
-            <keyframe keyframePosition="6">
+            <keyframe keyframePosition="8">
               <keyframeValue valueVec4X="-0.049" valueVec4Y="0.867" valueVec4Z="0.088" valueVec4W="0.488"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="6"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec4X="-0.186157" valueVec4Y="-0.510763" valueVec4Z="-0.131405"
                              valueVec4W="0.82834"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="6">
               <keyframeValue valueVec4X="-0.161" valueVec4Y="-0.645" valueVec4Z="-0.161" valueVec4W="0.728"/>
             </keyframe>
           </keyframesArray>
@@ -787,15 +797,28 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="101" sequenceStart="32" sequenceDuration="6"
+        <sequence sequenceSceneId="101" sequenceStart="32" sequenceDuration="8"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec4X="-0.093" valueVec4Y="-0.535" valueVec4Z="-0.059" valueVec4W="0.838"/>
             </keyframe>
-            <keyframe keyframePosition="6">
+            <keyframe keyframePosition="8">
               <keyframeValue valueVec4X="-0.109994" valueVec4Y="-0.0325373" valueVec4Z="-0.00360078"
                              valueVec4W="0.993927"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="113" sequenceStart="0" sequenceDuration="7"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="0.212366" valueVec4Y="0.27818" valueVec4Z="0.0635362"
+                             valueVec4W="-0.93457"/>
+            </keyframe>
+            <keyframe keyframePosition="7">
+              <keyframeValue valueVec4X="0.212366" valueVec4Y="0.27818" valueVec4Z="0.0635362"
+                             valueVec4W="-0.93457"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -845,24 +868,24 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="7"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="7">
               <keyframeValue valueFloatX="50"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="6"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="6">
               <keyframeValue valueFloatX="75"/>
             </keyframe>
           </keyframesArray>
@@ -892,13 +915,13 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="101" sequenceStart="32" sequenceDuration="6"
+        <sequence sequenceSceneId="101" sequenceStart="32" sequenceDuration="8"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
-            <keyframe keyframePosition="6">
+            <keyframe keyframePosition="8">
               <keyframeValue valueFloatX="50"/>
             </keyframe>
           </keyframesArray>
@@ -908,7 +931,7 @@
     <uniform uniformName="conic_domrep_enabled" uniformType="bool">
       <uniformStandardValue valueBoolState="1"/>
       <sequencesArray>
-        <sequence sequenceSceneId="101" sequenceStart="0" sequenceDuration="38"
+        <sequence sequenceSceneId="101" sequenceStart="0" sequenceDuration="40"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -917,7 +940,7 @@
             <keyframe keyframePosition="18.5">
               <keyframeValue valueBoolState="1"/>
             </keyframe>
-            <keyframe keyframePosition="38">
+            <keyframe keyframePosition="40">
               <keyframeValue valueBoolState="1"/>
             </keyframe>
           </keyframesArray>
@@ -957,13 +980,13 @@
     <uniform uniformName="conic_fog_enabled" uniformType="bool">
       <uniformStandardValue valueBoolState="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="6"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueBoolState="1"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="6">
               <keyframeValue valueBoolState="1"/>
             </keyframe>
           </keyframesArray>
@@ -1091,18 +1114,18 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="101" sequenceStart="32" sequenceDuration="6"
+        <sequence sequenceSceneId="101" sequenceStart="32" sequenceDuration="8"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="-0.001"/>
             </keyframe>
-            <keyframe keyframePosition="6">
-              <keyframeValue valueFloatX="2.999"/>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueFloatX="3.999"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="7"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -1110,6 +1133,9 @@
             </keyframe>
             <keyframe keyframePosition="4">
               <keyframeValue valueFloatX="0.999"/>
+            </keyframe>
+            <keyframe keyframePosition="7">
+              <keyframeValue valueFloatX="1.999"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -1164,13 +1190,13 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="19"
+        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="11"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.437"/>
+              <keyframeValue valueFloatX="0.18"/>
             </keyframe>
-            <keyframe keyframePosition="19">
+            <keyframe keyframePosition="11">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
           </keyframesArray>
@@ -1230,24 +1256,24 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="7"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0.121"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="7">
               <keyframeValue valueFloatX="0.121"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="6"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0.121"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="6">
               <keyframeValue valueFloatX="0.121"/>
             </keyframe>
           </keyframesArray>
@@ -1350,13 +1376,13 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="19"
+        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="11"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="11.987"/>
             </keyframe>
-            <keyframe keyframePosition="19">
+            <keyframe keyframePosition="11">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
           </keyframesArray>
@@ -1438,24 +1464,24 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="112" sequenceStart="0" sequenceDuration="7"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="8.199"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="7">
               <keyframeValue valueFloatX="16.52"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="4"
+        <sequence sequenceSceneId="111" sequenceStart="0" sequenceDuration="6"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="16.52"/>
             </keyframe>
-            <keyframe keyframePosition="4">
+            <keyframe keyframePosition="6">
               <keyframeValue valueFloatX="16.52"/>
             </keyframe>
           </keyframesArray>
@@ -2248,13 +2274,13 @@
     <uniform uniformName="zapfen_bobbel_displacement" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="19"
+        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="11"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="15.186" valueVec3Y="-14.36" valueVec3Z="3.426"/>
             </keyframe>
-            <keyframe keyframePosition="19">
+            <keyframe keyframePosition="11">
               <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
             </keyframe>
           </keyframesArray>
@@ -2264,25 +2290,36 @@
     <uniform uniformName="zapfen_bobbel_progress" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="19"
+        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="11"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
-            <keyframe keyframePosition="19">
-              <keyframeValue valueFloatX="17"/>
+            <keyframe keyframePosition="11">
+              <keyframeValue valueFloatX="9.395"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="110" sequenceStart="0" sequenceDuration="6"
+        <sequence sequenceSceneId="110" sequenceStart="0" sequenceDuration="8"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="10"/>
             </keyframe>
-            <keyframe keyframePosition="6">
+            <keyframe keyframePosition="8">
               <keyframeValue valueFloatX="25"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="113" sequenceStart="0" sequenceDuration="7"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="7">
+              <keyframeValue valueFloatX="14"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -2291,21 +2328,32 @@
     <uniform uniformName="zapfen_bobbels_enabled" uniformType="bool">
       <uniformStandardValue valueBoolState="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="19"
+        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="11"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueBoolState="1"/>
             </keyframe>
-            <keyframe keyframePosition="19">
+            <keyframe keyframePosition="11">
               <keyframeValue valueBoolState="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="113" sequenceStart="0" sequenceDuration="7"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueBoolState="1"/>
+            </keyframe>
+            <keyframe keyframePosition="7">
+              <keyframeValue valueBoolState="1"/>
             </keyframe>
           </keyframesArray>
         </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_col_bobbel" uniformType="color">
-      <uniformStandardValue valueColorR="0.18" valueColorG="0.18" valueColorB="0.18"/>
+      <uniformStandardValue valueColorR="0.176471" valueColorG="0.0196079" valueColorB="0"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_col_boden" uniformType="color">
@@ -2351,13 +2399,24 @@
     <uniform uniformName="zapfen_light1_pos" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="20" valueVec3Z="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="19"
+        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="11"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="-37" valueVec3Y="101.977" valueVec3Z="16.539"/>
             </keyframe>
-            <keyframe keyframePosition="19">
+            <keyframe keyframePosition="11">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="113" sequenceStart="0" sequenceDuration="7"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-69.23" valueVec3Y="152.779" valueVec3Z="89.009"/>
+            </keyframe>
+            <keyframe keyframePosition="7">
               <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
             </keyframe>
           </keyframesArray>
@@ -2371,13 +2430,24 @@
     <uniform uniformName="zapfen_light2_pos" uniformType="vec3">
       <uniformStandardValue valueVec3X="30" valueVec3Y="50" valueVec3Z="-100"/>
       <sequencesArray>
-        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="19"
+        <sequence sequenceSceneId="102" sequenceStart="0" sequenceDuration="11"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="-17.313" valueVec3Y="100" valueVec3Z="334.942"/>
             </keyframe>
-            <keyframe keyframePosition="19">
+            <keyframe keyframePosition="11">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="113" sequenceStart="0" sequenceDuration="7"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-25.521" valueVec3Y="59.599" valueVec3Z="-89.481"/>
+            </keyframe>
+            <keyframe keyframePosition="7">
               <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
             </keyframe>
           </keyframesArray>
@@ -2399,15 +2469,16 @@
   </uniformsArray>
   <scenesArray>
     <scene sceneId="100" sceneStart="48" sceneDuration="48" sceneShaderSource="schalter"/>
-    <scene sceneId="101" sceneStart="96" sceneDuration="38" sceneShaderSource="conicbobbel"/>
-    <scene sceneId="102" sceneStart="156" sceneDuration="20" sceneShaderSource="zapfen"/>
+    <scene sceneId="101" sceneStart="96" sceneDuration="40" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="102" sceneStart="164" sceneDuration="11" sceneShaderSource="zapfen"/>
     <scene sceneId="103" sceneStart="192" sceneDuration="96" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="106" sceneStart="36" sceneDuration="12" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="107" sceneStart="0" sceneDuration="12" sceneShaderSource="schalter"/>
     <scene sceneId="108" sceneStart="12" sceneDuration="12" sceneShaderSource="conicbobbel"/>
     <scene sceneId="109" sceneStart="24" sceneDuration="12" sceneShaderSource="zapfen"/>
-    <scene sceneId="110" sceneStart="134" sceneDuration="6" sceneShaderSource="zapfen"/>
-    <scene sceneId="111" sceneStart="178" sceneDuration="4" sceneShaderSource="conicbobbel"/>
-    <scene sceneId="112" sceneStart="140" sceneDuration="4" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="110" sceneStart="136" sceneDuration="8" sceneShaderSource="zapfen"/>
+    <scene sceneId="111" sceneStart="158" sceneDuration="6" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="112" sceneStart="144" sceneDuration="7" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="113" sceneStart="151" sceneDuration="7" sceneShaderSource="zapfen"/>
   </scenesArray>
 </timelineTree>
