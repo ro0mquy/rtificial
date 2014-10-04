@@ -28,7 +28,7 @@
 #endif
 
 const int width = 1920;
-const int height = 1200;
+const int height = 1080;
 const bool fullscreen = true;
 const bool use_sound_thread = true;
 
