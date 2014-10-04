@@ -27,7 +27,7 @@
           </keyframesArray>
         </sequence>
         <sequence sequenceSceneId="103" sequenceStart="8" sequenceDuration="16"
-                  sequenceInterpolation="ccrSpline">
+                  sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="18" valueVec3Y="-22.196" valueVec3Z="-20.596"/>
@@ -341,7 +341,7 @@
           </keyframesArray>
         </sequence>
         <sequence sequenceSceneId="103" sequenceStart="8" sequenceDuration="16"
-                  sequenceInterpolation="ccrSpline">
+                  sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec4X="-0.174" valueVec4Y="-0.48" valueVec4Z="-0.092" valueVec4W="0.855"/>

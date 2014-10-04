@@ -22,11 +22,11 @@ extern Input final_inputs[1];
 extern Shader scenes[6];
 extern Framebuffer fbos[12];
 extern Scene scenes_data[9];
-extern float keyframe_data[705];
-extern Sequence sequence_data[111];
-extern int sequence_index[78];
-extern int keyframe_index[78];
-extern Uniform uniforms[77];
-extern float keyframe_time[271];
-extern int keyframe_time_index[78];
+extern float keyframe_data[789];
+extern Sequence sequence_data[128];
+extern int sequence_index[84];
+extern int keyframe_index[84];
+extern Uniform uniforms[83];
+extern float keyframe_time[303];
+extern int keyframe_time_index[84];
 #endif

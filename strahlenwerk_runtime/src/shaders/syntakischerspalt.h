@@ -1284,31 +1284,31 @@ R"shader_source(#line 5
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 76) uniform vec3 synapse_color; // color
+R"shader_source(layout(location = 82) uniform vec3 synapse_color; // color
 )shader_source"
-R"shader_source(layout(location = 77) uniform vec3 synapse_color_bobbel; // color
+R"shader_source(layout(location = 83) uniform vec3 synapse_color_bobbel; // color
 )shader_source"
-R"shader_source(layout(location = 78) uniform float synapse_gap; // float
+R"shader_source(layout(location = 84) uniform float synapse_gap; // float
 )shader_source"
-R"shader_source(layout(location = 79) uniform float synapse_aa; // float
+R"shader_source(layout(location = 85) uniform float synapse_aa; // float
 )shader_source"
-R"shader_source(layout(location = 80) uniform float synapse_bb; // float
+R"shader_source(layout(location = 86) uniform float synapse_bb; // float
 )shader_source"
-R"shader_source(layout(location = 81) uniform float synapse_cc; // float
+R"shader_source(layout(location = 87) uniform float synapse_cc; // float
 )shader_source"
-R"shader_source(layout(location = 82) uniform float synapse_dd; // float
+R"shader_source(layout(location = 88) uniform float synapse_dd; // float
 )shader_source"
-R"shader_source(layout(location = 83) uniform float synapse_dist_fog_a; // float
+R"shader_source(layout(location = 89) uniform float synapse_dist_fog_a; // float
 )shader_source"
-R"shader_source(layout(location = 84) uniform float synapse_dist_fog_b; // float
+R"shader_source(layout(location = 90) uniform float synapse_dist_fog_b; // float
 )shader_source"
-R"shader_source(layout(location = 85) uniform float synapse_bobbel_progress; // float
+R"shader_source(layout(location = 91) uniform float synapse_bobbel_progress; // float
 )shader_source"
-R"shader_source(layout(location = 86) uniform float synapse_transmitter_r; // float
+R"shader_source(layout(location = 92) uniform float synapse_transmitter_r; // float
 )shader_source"
-R"shader_source(layout(location = 87) uniform float synapse_bobbel_roughness;
+R"shader_source(layout(location = 93) uniform float synapse_bobbel_roughness;
 )shader_source"
-R"shader_source(layout(location = 88) uniform float synapse_bobbel_metalicness;;
+R"shader_source(layout(location = 94) uniform float synapse_bobbel_metalicness;;
 )shader_source"
 R"shader_source(
 )shader_source"

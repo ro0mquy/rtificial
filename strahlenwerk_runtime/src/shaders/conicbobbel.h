@@ -1292,15 +1292,29 @@ R"shader_source(layout(location = 54) uniform vec3 conic_lampe_color; // color
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 55) uniform float conic_smooth_factor; // float
+R"shader_source(layout(location = 55) uniform vec3 conic_light1_pos;
 )shader_source"
-R"shader_source(layout(location = 56) uniform float conic_ring_intensity; // float
+R"shader_source(layout(location = 56) uniform vec3 conic_light2_pos;
 )shader_source"
-R"shader_source(layout(location = 57) uniform float conic_bobbel_xcoord;
+R"shader_source(layout(location = 57) uniform vec3 conic_light1_col; // color
 )shader_source"
-R"shader_source(layout(location = 58) uniform float conic_domrep_spacing;
+R"shader_source(layout(location = 58) uniform vec3 conic_light2_col; // color
 )shader_source"
-R"shader_source(layout(location = 59) uniform bool  conic_domrep_enabled;
+R"shader_source(layout(location = 59) uniform float conic_light_radius;
+)shader_source"
+R"shader_source(layout(location = 60) uniform float conic_light_intensity;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 61) uniform float conic_smooth_factor; // float
+)shader_source"
+R"shader_source(layout(location = 62) uniform float conic_ring_intensity; // float
+)shader_source"
+R"shader_source(layout(location = 63) uniform float conic_bobbel_xcoord;
+)shader_source"
+R"shader_source(layout(location = 64) uniform float conic_domrep_spacing;
+)shader_source"
+R"shader_source(layout(location = 65) uniform bool  conic_domrep_enabled;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1329,6 +1343,20 @@ R"shader_source(const float material_lampe    = 2.;
 R"shader_source(const float material_bobbel   = 3.;
 )shader_source"
 R"shader_source(const float material_ring     = 4.;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(vec3 apply_lights(vec3 p, vec3 N, vec3 V, Material mat) {
+)shader_source"
+R"shader_source(	vec3 color = vec3(0.);
+)shader_source"
+R"shader_source(	color += apply_light(p, N, V, mat, SphereLight(conic_light1_pos, conic_light1_col, conic_light_radius, conic_light_intensity));
+)shader_source"
+R"shader_source(	color += apply_light(p, N, V, mat, SphereLight(conic_light2_pos, conic_light2_col, conic_light_radius, conic_light_intensity));
+)shader_source"
+R"shader_source(	return color;
+)shader_source"
+R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1372,23 +1400,23 @@ R"shader_source(		float stripes = mod(floor(hit.x / size), 2.);
 )shader_source"
 R"shader_source(		Material mat = Material(colors[int(material_boden)] * stripes, 0.5, 0.);
 )shader_source"
-R"shader_source(		color = apply_light(hit, normal, -direction, mat, light1);
+R"shader_source(		color = apply_lights(hit, normal, -direction, mat);
 )shader_source"
 R"shader_source(	} else if(materialId == material_bounding) {
 )shader_source"
 R"shader_source(		Material mat = Material(colors[int(material_bounding)], 1., 0.);
 )shader_source"
-R"shader_source(		color = apply_light(hit, normal, -direction, mat, light1);
+R"shader_source(		color = apply_lights(hit, normal, -direction, mat);
 )shader_source"
 R"shader_source(	} else if (materialId >= material_lampe && materialId <= material_bobbel) {
 )shader_source"
-R"shader_source(		Material material1 = Material(colors[int(material_lampe)], 0.2, 1.);
+R"shader_source(		Material material1 = Material(colors[int(material_lampe)], 0.9, .9);
 )shader_source"
-R"shader_source(		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
+R"shader_source(		vec3 color1 = apply_lights(hit, normal, -direction, material1);
 )shader_source"
 R"shader_source(		Material material2 = Material(colors[int(material_bobbel)], bobbel_rough, bobbel_metallic);
 )shader_source"
-R"shader_source(		vec3 color2 = apply_light(hit, normal, -direction, material2, light1);
+R"shader_source(		vec3 color2 = apply_lights(hit, normal, -direction, material2);
 )shader_source"
 R"shader_source(		float mixfactor = pow(materialId - material_lampe, 3.); // change the exponent for sharpness of transition
 )shader_source"
@@ -1398,7 +1426,7 @@ R"shader_source(	} else if (materialId >= material_bobbel && materialId <= mater
 )shader_source"
 R"shader_source(		Material material1 = Material(colors[int(material_bobbel)], bobbel_rough, bobbel_metallic);
 )shader_source"
-R"shader_source(		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
+R"shader_source(		vec3 color1 = apply_lights(hit, normal, -direction, material1);
 )shader_source"
 R"shader_source(		vec3 color2 = emit_light(colors[int(material_ring)], conic_ring_intensity);
 )shader_source"
@@ -1410,7 +1438,7 @@ R"shader_source(	} else {
 )shader_source"
 R"shader_source(		Material mat = Material(colors[int(materialId)], 0.2, 1.);
 )shader_source"
-R"shader_source(		color = apply_light(hit, normal, -direction, mat, light1);
+R"shader_source(		color = apply_lights(hit, normal, -direction, mat);
 )shader_source"
 R"shader_source(	}
 )shader_source"

@@ -1092,13 +1092,13 @@ R"shader_source(
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 60) uniform vec3 sphere1_color; // color
+R"shader_source(layout(location = 66) uniform vec3 sphere1_color; // color
 )shader_source"
-R"shader_source(layout(location = 61) uniform vec3 sphere2_color; // color
+R"shader_source(layout(location = 67) uniform vec3 sphere2_color; // color
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 62) uniform vec3 sphere1_pos; // vec3
+R"shader_source(layout(location = 68) uniform vec3 sphere1_pos; // vec3
 )shader_source"
 R"shader_source(
 )shader_source"
