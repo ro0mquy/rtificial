@@ -266,7 +266,7 @@
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueVec3X="-0.0629286" valueVec3Y="1.6249" valueVec3Z="0.774638"/>
+              <keyframeValue valueVec3X="-0.063" valueVec3Y="1.625" valueVec3Z="0.775"/>
             </keyframe>
             <keyframe keyframePosition="10.5">
               <keyframeValue valueVec3X="-1.37" valueVec3Y="1.625" valueVec3Z="1.101"/>
@@ -680,8 +680,10 @@
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueVec4X="0.172769" valueVec4Y="-0.31018" valueVec4Z="-0.0574175"
-                             valueVec4W="-0.932614"/>
+              <keyframeValue valueVec4X="0.173" valueVec4Y="-0.31" valueVec4Z="-0.057" valueVec4W="-0.933"/>
+            </keyframe>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueVec4X="0.175" valueVec4Y="-0.275" valueVec4Z="-0.051" valueVec4W="-0.944"/>
             </keyframe>
             <keyframe keyframePosition="10.5">
               <keyframeValue valueVec4X="0.181" valueVec4Y="0.084" valueVec4Z="0.016" valueVec4W="-0.979"/>
