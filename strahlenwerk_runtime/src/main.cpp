@@ -237,6 +237,7 @@ void WinMainCRTStartup(){
 
 	backend.cleanup();
 	eGlobalsStaticsFree();
+	ExitProcess(0);
 #	ifdef _DEBUG
 	return 0;
 #	endif
