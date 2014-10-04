@@ -2271,6 +2271,25 @@
         </sequence>
       </sequencesArray>
     </uniform>
+    <uniform uniformName="synapse_min_darkness_dist" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="103" sequenceStart="54" sequenceDuration="38"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="10"/>
+            </keyframe>
+            <keyframe keyframePosition="22">
+              <keyframeValue valueFloatX="0.5"/>
+            </keyframe>
+            <keyframe keyframePosition="38">
+              <keyframeValue valueFloatX="0.5"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
     <uniform uniformName="synapse_transmitter_r" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
       <sequencesArray>
@@ -2449,7 +2468,7 @@
               <keyframeValue valueFloatX="0"/>
             </keyframe>
             <keyframe keyframePosition="1">
-              <keyframeValue valueFloatX="1"/>
+              <keyframeValue valueFloatX="0.435"/>
             </keyframe>
             <keyframe keyframePosition="2">
               <keyframeValue valueFloatX="0"/>

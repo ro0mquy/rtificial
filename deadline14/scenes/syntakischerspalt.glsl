@@ -17,6 +17,7 @@ uniform float synapse_transmitter_r; // float
 uniform float synapse_bobbel_roughness;
 uniform float synapse_bobbel_metalicness;;
 uniform float synapse_fade; // flaot
+uniform float synapse_min_darkness_dist; // flaot
 uniform bool synapse_last_fire; //  bool
 
 Material materials[4] = Material[4](
@@ -55,6 +56,9 @@ void main(void) {
 	color *= smoothstep(synapse_dist_fog_a, synapse_dist_fog_b, -distance(hit, camera_position));
 
 	color *= synapse_fade;
+	if (synapse_min_darkness_dist > 0.) {
+		color *= synapse_min_darkness_dist * 1. / distance(hit, vec3(25., -25., -25.));
+	}
 
 	output_color(color, distance(hit, camera_position));
 }
