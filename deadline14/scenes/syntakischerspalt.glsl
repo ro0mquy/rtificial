@@ -16,6 +16,7 @@ uniform float synapse_bobbel_progress; // float
 uniform float synapse_transmitter_r; // float
 uniform float synapse_bobbel_roughness;
 uniform float synapse_bobbel_metalicness;;
+uniform float synapse_fade; // flaot
 
 Material materials[4] = Material[4](
 	Material(vec3(1.), .5, 0.),
@@ -51,6 +52,8 @@ void main(void) {
 	}
 
 	color *= smoothstep(synapse_dist_fog_a, synapse_dist_fog_b, -distance(hit, camera_position));
+
+	color *= synapse_fade;
 
 	output_color(color, distance(hit, camera_position));
 }

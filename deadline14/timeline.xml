@@ -527,8 +527,7 @@
                              valueVec4W="0.341"/>
             </keyframe>
             <keyframe keyframePosition="8">
-              <keyframeValue valueVec4X="0.048" valueVec4Y="0.929513" valueVec4Z="-0.131"
-                             valueVec4W="0.341"/>
+              <keyframeValue valueVec4X="0.048" valueVec4Y="0.93" valueVec4Z="-0.131" valueVec4W="0.341"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -1672,6 +1671,22 @@
       <uniformStandardValue valueFloatX="-152.005"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="synapse_fade" uniformType="float">
+      <uniformStandardValue valueFloatX="1"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="103" sequenceStart="84" sequenceDuration="8"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="1"/>
+            </keyframe>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
     <uniform uniformName="synapse_gap" uniformType="float">
       <uniformStandardValue valueFloatX="0.051"/>
       <sequencesArray>
@@ -2037,7 +2052,7 @@
     <scene sceneId="100" sceneStart="48" sceneDuration="48" sceneShaderSource="schalter"/>
     <scene sceneId="101" sceneStart="96" sceneDuration="38" sceneShaderSource="conicbobbel"/>
     <scene sceneId="102" sceneStart="144" sceneDuration="48" sceneShaderSource="zapfen"/>
-    <scene sceneId="103" sceneStart="192" sceneDuration="88" sceneShaderSource="syntakischerspalt"/>
+    <scene sceneId="103" sceneStart="192" sceneDuration="96" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="106" sceneStart="36" sceneDuration="12" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="107" sceneStart="0" sceneDuration="12" sceneShaderSource="schalter"/>
     <scene sceneId="108" sceneStart="12" sceneDuration="12" sceneShaderSource="conicbobbel"/>
