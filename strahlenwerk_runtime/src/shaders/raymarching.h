@@ -304,7 +304,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(vec2 smin_material(vec2 a, vec2 b, float k) {
 )shader_source"
-R"shader_source(	return vec2(smin(a, b, k), a.x > b.x ? b.y : a.y);
+R"shader_source(	return vec2(smin(a.x, b.x, k), a.x > b.x ? b.y : a.y);
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -473,6 +473,16 @@ R"shader_source(vec3 domrep(vec3 p, float x, float y, float z) {
 R"shader_source(	return domrepv(p, vec3(x, y, z));
 )shader_source"
 R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(// f: distance function to object
+)shader_source"
+R"shader_source(// p: evaluation point
+)shader_source"
+R"shader_source(// s: scale factor
+)shader_source"
+R"shader_source(#define scale(f, p, s) f((p)/(s))*(s)
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1082,13 +1092,13 @@ R"shader_source(
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 58) uniform vec3 sphere1_color; // color
+R"shader_source(layout(location = 60) uniform vec3 sphere1_color; // color
 )shader_source"
-R"shader_source(layout(location = 59) uniform vec3 sphere2_color; // color
+R"shader_source(layout(location = 61) uniform vec3 sphere2_color; // color
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 60) uniform vec3 sphere1_pos; // vec3
+R"shader_source(layout(location = 62) uniform vec3 sphere1_pos; // vec3
 )shader_source"
 R"shader_source(
 )shader_source"

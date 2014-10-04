@@ -1,6 +1,6 @@
-#ifndef schalter_H
-#define schalter_H
-const char schalter_source[] =R"shader_source(#version 430
+#ifndef zoomout_H
+#define zoomout_H
+const char zoomout_source[] =R"shader_source(#version 430
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1090,141 +1090,47 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 63) uniform float zapfen_leit_freq;
+R"shader_source(#line 4
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(float leitungen(vec3 p, float rotation, float radius, float freq, float domrep_size) {
+R"shader_source(layout(location = 76) uniform vec3 synapse_color; // color
 )shader_source"
-R"shader_source(	p.xz *= rot2D(rotation);
+R"shader_source(layout(location = 78) uniform float synapse_gap; // float
 )shader_source"
-R"shader_source(	float t = vnoise(vec2(p.z, floor(p.x/80.) * floor(p.z/80.)) * zapfen_leit_freq + 333. * freq) * .5 + .5;
+R"shader_source(layout(location = 79) uniform float synapse_aa; // float
 )shader_source"
-R"shader_source(	//float t = vnoise(vec2(p.z, 0.) * zapfen_leit_freq + 333. * freq) * .5 + .5;
+R"shader_source(layout(location = 80) uniform float synapse_bb; // float
 )shader_source"
-R"shader_source(	//p.xz += rot2D(radians(20.) * t) * vec2(10.) - 10.;
+R"shader_source(layout(location = 81) uniform float synapse_cc; // float
 )shader_source"
-R"shader_source(
+R"shader_source(layout(location = 82) uniform float synapse_dd; // float
 )shader_source"
-R"shader_source(	vec3 q = p;
+R"shader_source(layout(location = 83) uniform float synapse_dist_fog_a; // float
 )shader_source"
-R"shader_source(	q.xz = mod(q.xz, domrep_size) + 5.;
-)shader_source"
-R"shader_source(	float angle = atan(q.x, q.z);
-)shader_source"
-R"shader_source(	angle = mod(angle, radians(20.));
-)shader_source"
-R"shader_source(	float r = length(q.xz);
-)shader_source"
-R"shader_source(	q.x = r * sin(angle);
-)shader_source"
-R"shader_source(	return length(q.xy) - radius;
-)shader_source"
-R"shader_source(}
+R"shader_source(layout(location = 84) uniform float synapse_dist_fog_b; // float
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(#line 5
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(layout(location = 64) uniform float pyramid_h; // float
-)shader_source"
-R"shader_source(layout(location = 65) uniform float pyramid_s; // float
-)shader_source"
-R"shader_source(layout(location = 66) uniform float pyramid_animation; // float
-)shader_source"
-R"shader_source(layout(location = 67) uniform float pyramid_wave_animation; // float
-)shader_source"
-R"shader_source(layout(location = 68) uniform float pyramid_bottom; // float
-)shader_source"
-R"shader_source(layout(location = 69) uniform vec3 pyramid_color; // color
-)shader_source"
-R"shader_source(layout(location = 70) uniform vec3 pyramid_color2; // color
-)shader_source"
-R"shader_source(layout(location = 71) uniform vec3 pyramid_color_leitungen; // color
-)shader_source"
-R"shader_source(layout(location = 72) uniform vec3 pyramid_color_boden; // color
-)shader_source"
-R"shader_source(layout(location = 73) uniform vec3 schalter_light1_pos;
-)shader_source"
-R"shader_source(layout(location = 74) uniform vec3 schalter_light2_pos;
-)shader_source"
-R"shader_source(layout(location = 75) uniform vec3 schalter_background_color; // color
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(Material materials[6] = Material[6](
-)shader_source"
-R"shader_source(	Material(schalter_background_color, .5, 0.),
-)shader_source"
-R"shader_source(	Material(pyramid_color, 1., 1.),
-)shader_source"
-R"shader_source(	Material(pyramid_color_boden, .5, 0.),
-)shader_source"
-R"shader_source(	Material(vec3(.7, .3, .2), 1., 0.),
+R"shader_source(Material materials[3] = Material[3](
 )shader_source"
 R"shader_source(	Material(vec3(1.), .5, 0.),
 )shader_source"
-R"shader_source(	Material(pyramid_color_leitungen, 1., 0.)
+R"shader_source(	Material(synapse_color, 0.7, 1.),
+)shader_source"
+R"shader_source(	Material(synapse_color, 0.7, 1.)
 )shader_source"
 R"shader_source();
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(const int MATERIAL_ID_BOUNDING  = 0;
+R"shader_source(const float MATERIAL_ID_BOUNDING = 0.;
 )shader_source"
-R"shader_source(const int MATERIAL_ID_PYRAMID   = 1;
+R"shader_source(const float MATERIAL_ID_SYNAPSE  = 1.;
 )shader_source"
-R"shader_source(const int MATERIAL_ID_FLOOR     = 2;
-)shader_source"
-R"shader_source(const int MATERIAL_ID_CUBE      = 3;
-)shader_source"
-R"shader_source(const int MATERIAL_ID_LIGHTBALL = 4;
-)shader_source"
-R"shader_source(const int MATERIAL_ID_LEITUNGEN = 5;
+R"shader_source(const float MATERIAL_ID_BAHNEN   = 2.;
 )shader_source"
 R"shader_source(
-)shader_source"
-R"shader_source(float pyramid(vec3 p, float s, float h);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(vec3 p_pyramid;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(vec3 apply_lights(vec3 p, vec3 N, vec3 V, Material mat) {
-)shader_source"
-R"shader_source(	vec3 color = vec3(0.);
-)shader_source"
-R"shader_source(	float radius = 2.;
-)shader_source"
-R"shader_source(	float intensity = 50.;
-)shader_source"
-R"shader_source(	color += apply_light(p, N, V, mat, SphereLight(
-)shader_source"
-R"shader_source(		schalter_light1_pos,
-)shader_source"
-R"shader_source(		vec3(1.),
-)shader_source"
-R"shader_source(		radius,
-)shader_source"
-R"shader_source(		intensity));
-)shader_source"
-R"shader_source(	color += apply_light(p, N, V, mat, SphereLight(
-)shader_source"
-R"shader_source(		schalter_light2_pos,
-)shader_source"
-R"shader_source(		vec3(1.),
-)shader_source"
-R"shader_source(		radius,
-)shader_source"
-R"shader_source(		intensity));
-)shader_source"
-R"shader_source(	return color;
-)shader_source"
-R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1236,15 +1142,13 @@ R"shader_source(
 )shader_source"
 R"shader_source(	int i;
 )shader_source"
-R"shader_source(	vec3 hit = march(camera_position, direction, i);
+R"shader_source(	vec3 hit = march_adv(camera_position, direction, i, 200, .7);
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(	vec3 color = vec3(0.);
 )shader_source"
-R"shader_source(	float materialFloat = f(hit).y;
-)shader_source"
-R"shader_source(	int material = int(materialFloat);
+R"shader_source(	int material = int(f(hit).y);
 )shader_source"
 R"shader_source(	vec3 normal = calc_normal(hit);
 )shader_source"
@@ -1252,103 +1156,53 @@ R"shader_source(
 )shader_source"
 R"shader_source(	Material mat = materials[material];
 )shader_source"
+R"shader_source(
+)shader_source"
 R"shader_source(	SphereLight light1 = SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.);
 )shader_source"
-R"shader_source(
+R"shader_source(	SphereLight light2 = SphereLight(vec3(5., -9., 10.), vec3(1.), 2., 100.);
 )shader_source"
-R"shader_source(	float factor = 1.;
+R"shader_source(	color += apply_light(hit, normal, -direction, mat, light1);
 )shader_source"
-R"shader_source(	if(material == MATERIAL_ID_PYRAMID) {
-)shader_source"
-R"shader_source(		float t = vnoise(p_pyramid * .4) * cfbm(p_pyramid * 3.);
-)shader_source"
-R"shader_source(		mat.roughness = .5 + .2 * sign(t) * pow(abs(t), .7) + .3 * cnoise(p_pyramid * .2 + 726.);
+R"shader_source(	color += apply_light(hit, normal, -direction, mat, light2);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(		Material rust = Material(pyramid_color2, .9, .8);
-)shader_source"
-R"shader_source(		float rustiness = .1 + .06 * cnoise(p_pyramid * .5);
-)shader_source"
-R"shader_source(		rustiness *= 3.;
-)shader_source"
-R"shader_source(		color = apply_lights(hit, normal, -direction, rust) * rustiness;
-)shader_source"
-R"shader_source(		factor = 1. - rustiness;
-)shader_source"
-R"shader_source(	}
+R"shader_source(	color *= smoothstep(synapse_dist_fog_a, synapse_dist_fog_b, -distance(hit, camera_position));
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	if (MATERIAL_ID_LIGHTBALL == material || MATERIAL_ID_CUBE == material) {
-)shader_source"
-R"shader_source(		color = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5. * (smoothstep(-6., 0., pdot(-direction, normal)) * 10));
-)shader_source"
-R"shader_source(	} else if (material >= MATERIAL_ID_FLOOR && material <= MATERIAL_ID_CUBE) {
-)shader_source"
-R"shader_source(		vec3 nonglowing_floor = factor * apply_lights(hit, normal, -direction, mat);
-)shader_source"
-R"shader_source(		vec3 glowing_floor = emit_light(mat.color, 5.);
-)shader_source"
-R"shader_source(		float wave_height = hit.y + 2.;
-)shader_source"
-R"shader_source(		vec3 color_floor = mix(nonglowing_floor, glowing_floor, smoothstep(0., 2., wave_height));
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(		vec3 color_cube = emit_light(materials[MATERIAL_ID_LIGHTBALL].color, 5.);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(		color += mix(color_floor, color_cube, material - MATERIAL_ID_FLOOR);
-)shader_source"
-R"shader_source(	} else {
-)shader_source"
-R"shader_source(		color += factor * apply_lights(hit, normal, -direction, mat);
-)shader_source"
-R"shader_source(	}
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	float dist = distance(hit, camera_position);
-)shader_source"
-R"shader_source(	output_color(color, dist);
+R"shader_source(	output_color(color, distance(hit, camera_position));
 )shader_source"
 R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(float pyramid(vec3 p, float s, float h){
+R"shader_source(float synapse(vec3 q) {
 )shader_source"
-R"shader_source(	float alpha = atan(s/(2*h));
+R"shader_source(	// main body
 )shader_source"
-R"shader_source(	// float alpha = s/(2*h*sqrt(s*s/(4*h*h)+1)
+R"shader_source(	float sphere1 = sphere(q, 1.);
 )shader_source"
-R"shader_source(
+R"shader_source(	q.x -= 2.;
 )shader_source"
-R"shader_source(	vec3 n1 = vec3( cos(alpha), sin(alpha), 0.);
-)shader_source"
-R"shader_source(	vec3 n2 = vec3(-cos(alpha), sin(alpha), 0.);
-)shader_source"
-R"shader_source(	vec3 n3 = vec3(0., sin(alpha),  cos(alpha));
-)shader_source"
-R"shader_source(	vec3 n4 = vec3(0., sin(alpha), -cos(alpha));
+R"shader_source(	float sphere2 = sphere(q, 2.);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	float pyr;
+R"shader_source(	// tail
 )shader_source"
-R"shader_source(	pyr = -p.y - h;
+R"shader_source(	q += rZ(-TAU*sin(q.x/5. + 9.)/30.) * vec3(8.) - 8.;
 )shader_source"
-R"shader_source(	pyr = max(pyr, plane(p, n1));
+R"shader_source(	float ohm_thingie = 6. * smoothstep(2., 5., q.x);
 )shader_source"
-R"shader_source(	pyr = max(pyr, plane(p, n2));
+R"shader_source(	q += rY(-TAU*sin(q.x/2.+time*0.5)/50.) * vec3(ohm_thingie) - ohm_thingie;
 )shader_source"
-R"shader_source(	pyr = max(pyr, plane(p, n3));
+R"shader_source(	float capsule = line(q, vec3(2.,0.,0.), vec3(100.,0.,0.), mix(1.3 * synapse_aa, synapse_bb, smoothstep(10.*synapse_cc, 10*synapse_dd, q.x)));
 )shader_source"
-R"shader_source(	pyr = max(pyr, plane(p, n4));
+R"shader_source(
 )shader_source"
-R"shader_source(	return pyr;
+R"shader_source(	return smin(smax(-sphere1, sphere2, 1.), capsule, 1.);
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -1356,189 +1210,123 @@ R"shader_source(
 )shader_source"
 R"shader_source(vec2 f(vec3 p) {
 )shader_source"
-R"shader_source(	vec3 q = rY(TAU * 0.05 * time) * p;
+R"shader_source(	// mirror
 )shader_source"
-R"shader_source(	//q = trans(q, 0., 1.*sin(0.75 * time), 0.);
+R"shader_source(	vec3 p_syn1 = p;
 )shader_source"
-R"shader_source(
+R"shader_source(	vec3 p_syn2 = p_syn1;
 )shader_source"
-R"shader_source(	// double pyramid
+R"shader_source(	p_syn2 *= -1.;
 )shader_source"
-R"shader_source(	float pyramid_size = 10.;
+R"shader_source(	p_syn1.x -= 10. * synapse_gap;
 )shader_source"
-R"shader_source(	vec3 qq = q;
-)shader_source"
-R"shader_source(	qq = trans(qq, 0., pyramid_h*pyramid_size, 0.); // y-axis translation
-)shader_source"
-R"shader_source(	qq = trans(qq, 0., pyramid_bottom, 0.);
+R"shader_source(	p_syn2.x -= 10. * synapse_gap;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	float t_fall_closing = 1. - pow((max(0.1,min(.9, pyramid_animation))-0.)/.9, 2.);
+R"shader_source(	// both synapses
 )shader_source"
-R"shader_source(	float t_fall_opening = pow((max(0.,min(.1, pyramid_animation))-0.)/.1, 2.);
+R"shader_source(	float f_syn1 = synapse(p_syn1);
 )shader_source"
-R"shader_source(	float t_fall = t_fall_opening*(1-step(0.1,pyramid_animation)) + t_fall_closing*step(0.1,pyramid_animation);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	float pyr_closed = 4. * t_fall;
+R"shader_source(	float f_syn2 = synapse(p_syn2);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	qq = trans(qq, 0., pyr_closed/2., 0.);
+R"shader_source(	float f_synapse = smin(f_syn1, f_syn2, 1.3);
+)shader_source"
+R"shader_source(	vec2 m_synapse = vec2(f_synapse, MATERIAL_ID_SYNAPSE);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	float t_stampf = linstep(.9,1.,pyramid_animation);
+R"shader_source(	float the_noise = .5 * vnoise(.01 * p);
+)shader_source"
+R"shader_source(	vec3 p_bahnen = trans(p, -20., -20., 0.);
+)shader_source"
+R"shader_source(	p_bahnen = p;
+)shader_source"
+R"shader_source(	float radius_bahnen = 1.5;
+)shader_source"
+R"shader_source(	float f_bahnen;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	qq = trans(qq, 0.,  -  (1-pow(1.-t_stampf/2., 20.)), 0.);
+R"shader_source(	{
 )shader_source"
-R"shader_source(	qq.y = -abs(qq.y);
+R"shader_source(		vec3 p_bahn = trans(p_bahnen, 20., 14., -7.);
 )shader_source"
-R"shader_source(	qq = trans(qq, 0., -pyr_closed/2., 0.); // pyramid distance
+R"shader_source(		vec3 dir_bahn = vec3(1., 2., 1.);
 )shader_source"
-R"shader_source(	qq.y = -pyramid_size*pyramid_h-qq.y;
+R"shader_source(		p_bahn.xy *= rot2D(the_noise);
 )shader_source"
-R"shader_source(	float pyr = pyramid(qq, pyramid_size * pyramid_s, pyramid_size * pyramid_h);
+R"shader_source(		f_bahnen = line(p_bahn, 100. * dir_bahn, -100. * dir_bahn, radius_bahnen);
 )shader_source"
-R"shader_source(	float b = pyramid_size * pyramid_s * .5 * .9;
-)shader_source"
-R"shader_source(	pyr = smax(pyr, -roundbox(trans(qq, 0., -pyramid_size * pyramid_h, 0.), vec3(b, .1, b), .3), .05);
-)shader_source"
-R"shader_source(	p_pyramid = qq;
-)shader_source"
-R"shader_source(	vec2 pyramid = vec2(pyr, MATERIAL_ID_PYRAMID);
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	// box-torus-morph
+R"shader_source(	{
 )shader_source"
-R"shader_source(	q = trans(q, 0., pyramid_size* pyramid_h + 1., 0.);
+R"shader_source(		vec3 p_bahn = trans(p_bahnen, -50., -34., -34.);
 )shader_source"
-R"shader_source(	q = trans(q, 0., pyramid_bottom, 0.);
+R"shader_source(		vec3 dir_bahn = vec3(3., 1., -1.);
 )shader_source"
-R"shader_source(	// .2 fuer schale
+R"shader_source(		p_bahn.xy *= rot2D(the_noise);
 )shader_source"
-R"shader_source(	vec3 cube_dimension = vec3(smoothstep(0., 0.1, pyramid_animation) + .2);
+R"shader_source(		f_bahnen = min(f_bahnen, line(p_bahn, 100. * dir_bahn, -100. * dir_bahn, radius_bahnen));
 )shader_source"
-R"shader_source(	float cube = roundbox(q, cube_dimension, .5);
-)shader_source"
-R"shader_source(	float d = .75 + smoothstep(.70,1., pyramid_animation)*7.5;
-)shader_source"
-R"shader_source(	float down_anim = - (pyramid_size * pyramid_h + 3. + pyramid_bottom) * smoothstep(0.75, 1., pyramid_animation);
-)shader_source"
-R"shader_source(	float mytorus = torus(trans(q, 0.,-.5 + down_anim,0.), vec2(.5 + d, .5));
-)shader_source"
-R"shader_source(	float f_schalter_cube = vec2(mix(cube, mytorus, smoothstep(.65, .75, pyramid_animation)), MATERIAL_ID_CUBE);
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	/*
+R"shader_source(	{
 )shader_source"
-R"shader_source(	float torus_2_down = -(pyramid_size * pyramid_h + 2. + pyramid_bottom) - 2.*linstep(.5,1.,pyramid_wave_animation);
+R"shader_source(		vec3 p_bahn = trans(p_bahnen, 23., -27., 17.);
 )shader_source"
-R"shader_source(	float torus_2_d = (.75+7.5 ) + pyramid_wave_animation * 10;
+R"shader_source(		vec3 dir_bahn = vec3(1., 1., 1.);
 )shader_source"
-R"shader_source(	float torus_2_dicke = 0.5 - 0.5 * linstep(.5,1.,pyramid_wave_animation);
+R"shader_source(		p_bahn.xy *= rot2D(the_noise);
 )shader_source"
-R"shader_source(	float torus_2 = torus(trans(q, 0.,-.5 + torus_2_down,0.), vec2(.5 + torus_2_d, torus_2_dicke));
+R"shader_source(		f_bahnen = min(f_bahnen, line(p_bahn, 100. * dir_bahn, -100. * dir_bahn, radius_bahnen));
 )shader_source"
-R"shader_source(	torus_2 += 100 * (1. - step(0.001, pyramid_wave_animation));
-)shader_source"
-R"shader_source(	//vec2 schalter_cube = vec2(min(f_schalter_cube, torus_2), MATERIAL_ID_CUBE);
-)shader_source"
-R"shader_source(	*/
-)shader_source"
-R"shader_source(	vec2 schalter_cube = vec2(f_schalter_cube, MATERIAL_ID_CUBE);
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	vec3 p_lb = trans(p, 0., -2., 0.);
+R"shader_source(	{
 )shader_source"
-R"shader_source(	vec3 dr_factor = vec3(7.,10.,8.);
+R"shader_source(		vec3 p_bahn = trans(p_bahnen, 40., -34., -27.);
 )shader_source"
-R"shader_source(	vec3 p_lb_dr = domrepv(p_lb, dr_factor);
+R"shader_source(		vec3 dir_bahn = vec3(-1., 2., -1.);
 )shader_source"
-R"shader_source(	p_lb_dr = trans(p_lb_dr, 0.,2*vnoise(floor(p_lb/dr_factor)),0.);
+R"shader_source(		p_bahn.xy *= rot2D(the_noise);
 )shader_source"
-R"shader_source(	float lightballs_dist = sphere(p_lb_dr, 2+0.75*vnoise(floor(p_lb/dr_factor)));
+R"shader_source(		f_bahnen = min(f_bahnen, line(p_bahn, 100. * dir_bahn, -100. * dir_bahn, radius_bahnen));
 )shader_source"
-R"shader_source(	float no_lightballs = sphere(p, 20.);
-)shader_source"
-R"shader_source(	vec2 lightballs = vec2(max(lightballs_dist, -no_lightballs), MATERIAL_ID_LIGHTBALL);
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	float wave_position =
+R"shader_source(	{
 )shader_source"
-R"shader_source(		+ 9. * step(.85, pyramid_animation)
+R"shader_source(		vec3 p_bahn = trans(p_bahnen, -10., -54., -37.);
 )shader_source"
-R"shader_source(		+ 1.5 * linstep(.9, 1., pyramid_animation)
+R"shader_source(		vec3 dir_bahn = vec3(-1., 2., -1.);
 )shader_source"
-R"shader_source(		+ 10.5 * step(.00001, pyramid_wave_animation)
+R"shader_source(		p_bahn.xy *= rot2D(the_noise);
 )shader_source"
-R"shader_source(		+ 15. * pyramid_wave_animation
+R"shader_source(		f_bahnen = min(f_bahnen, line(p_bahn, 100. * dir_bahn, -100. * dir_bahn, radius_bahnen));
 )shader_source"
-R"shader_source(		;
-)shader_source"
-R"shader_source(	float wave_amplitude = 0.
-)shader_source"
-R"shader_source(		+ 2. * smoothstep(.87, .95, pyramid_animation)
-)shader_source"
-R"shader_source(		+ 2. * step(.00001, pyramid_wave_animation)
-)shader_source"
-R"shader_source(		- 2. * smoothstep(.00001, 1., pyramid_wave_animation)
-)shader_source"
-R"shader_source(		;
-)shader_source"
-R"shader_source(	float wave_width = 2.;
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	vec3 p_boden = trans(p, 0., -2., 0.);
-)shader_source"
-R"shader_source(	float wave = length(p_boden.xz);
-)shader_source"
-R"shader_source(	wave -= wave_position;
-)shader_source"
-R"shader_source(	wave /= wave_width;
-)shader_source"
-R"shader_source(	wave = wave_amplitude / (wave * wave + 1.);
+R"shader_source(	vec2 m_bahnen = vec2(f_bahnen, MATERIAL_ID_BAHNEN);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	p_boden.y -= wave;
+R"shader_source(	vec2 m_bounding = vec2(-sphere(p - camera_position, -synapse_dist_fog_a), MATERIAL_ID_BOUNDING);
 )shader_source"
-R"shader_source(	p_boden = trans(p_boden, 10., 0., 5.);
-)shader_source"
-R"shader_source(	float smoothing_leitungen = .5;
-)shader_source"
-R"shader_source(	float f_leitungen = 0.;
-)shader_source"
-R"shader_source(	f_leitungen = leitungen(p_boden, 0., .2, 1.7, 20.);
-)shader_source"
-R"shader_source(	f_leitungen = smin(f_leitungen, leitungen(p_boden, 80., .2, 27.3, 15.), smoothing_leitungen);
-)shader_source"
-R"shader_source(	f_leitungen = smin(f_leitungen, leitungen(p_boden, 20., .2, 549.2, 30.), smoothing_leitungen);
-)shader_source"
-R"shader_source(	vec2 m_leitungen = vec2(f_leitungen, MATERIAL_ID_LEITUNGEN);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec2 bottom = vec2(p_boden.y, MATERIAL_ID_FLOOR);
-)shader_source"
-R"shader_source(	vec2 m_cube_bottom = smin_smaterial(schalter_cube, bottom, 3.);
-)shader_source"
-R"shader_source(	vec2 m_cube_bottom_leitungen = min_material(m_cube_bottom, m_leitungen);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec2 bounding = vec2(-sphere(p - camera_position, 50.), MATERIAL_ID_BOUNDING);
-)shader_source"
-R"shader_source(	return min_material(m_cube_bottom_leitungen, min_material(lightballs, min_material(pyramid, bounding)));
+R"shader_source(	return min_material(min_material(m_synapse, m_bahnen), m_bounding);
 )shader_source"
 R"shader_source(}
 )shader_source"

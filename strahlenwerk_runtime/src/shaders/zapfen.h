@@ -304,7 +304,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(vec2 smin_material(vec2 a, vec2 b, float k) {
 )shader_source"
-R"shader_source(	return vec2(smin(a, b, k), a.x > b.x ? b.y : a.y);
+R"shader_source(	return vec2(smin(a.x, b.x, k), a.x > b.x ? b.y : a.y);
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -473,6 +473,16 @@ R"shader_source(vec3 domrep(vec3 p, float x, float y, float z) {
 R"shader_source(	return domrepv(p, vec3(x, y, z));
 )shader_source"
 R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(// f: distance function to object
+)shader_source"
+R"shader_source(// p: evaluation point
+)shader_source"
+R"shader_source(// s: scale factor
+)shader_source"
+R"shader_source(#define scale(f, p, s) f((p)/(s))*(s)
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1080,45 +1090,253 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
+R"shader_source(layout(location = 49) uniform float conic_bobbel_noifreq;
+)shader_source"
+R"shader_source(layout(location = 50) uniform float conic_bobbel_roughness;
+)shader_source"
+R"shader_source(layout(location = 51) uniform float conic_ring_animation;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(// l_body is size of bobbel, function is optimized for 2.
+)shader_source"
+R"shader_source(float conicbobbel(vec3 p_cone, float l_body) {
+)shader_source"
+R"shader_source(	////// distfunctions for body (some day in the past it was a cone)
+)shader_source"
+R"shader_source(	float radius_mixer = smoothstep(l_body * .3, l_body * 1., p_cone.x)
+)shader_source"
+R"shader_source(		+ .3 * (1. - smoothstep(l_body * .0, l_body * .3, p_cone.x)); // used to mix between min_ and max_radius
+)shader_source"
+R"shader_source(	float max_radius = .5;
+)shader_source"
+R"shader_source(	float min_radius = .15;
+)shader_source"
+R"shader_source(	float line_radius = mix(min_radius, max_radius, radius_mixer);;
+)shader_source"
+R"shader_source(	float f_cone = line(p_cone, vec3(l_body, 0., 0.), vec3(0., 0., 0.), line_radius);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	////// akward spikes
+)shader_source"
+R"shader_source(	float num_spikes = 8.;
+)shader_source"
+R"shader_source(	float height_spikes = .8;
+)shader_source"
+R"shader_source(	float sharpness_spikes = 7.;
+)shader_source"
+R"shader_source(	// move where the center of the spikes should be
+)shader_source"
+R"shader_source(	vec3 p_spike = trans(p_cone, l_body * .9, 0., 0.);
+)shader_source"
+R"shader_source(	// make cylindrical domrep; x -> x, y -> radius, z -> angle
+)shader_source"
+R"shader_source(	p_spike.yz = vec2(length(p_spike.yz), atan(p_spike.y, p_spike.z) / TAU);
+)shader_source"
+R"shader_source(	vec3 p_pre_spike = p_spike;
+)shader_source"
+R"shader_source(	p_spike = domrep(p_spike, 1., 1., 1./num_spikes);
+)shader_source"
+R"shader_source(	p_spike.xy = p_pre_spike.xy; // don't domrep x and radius
+)shader_source"
+R"shader_source(	p_spike.y -= height_spikes;
+)shader_source"
+R"shader_source(	p_spike.z *= 3.2;
+)shader_source"
+R"shader_source(	// you may uncomment following rotation line, but then there will be lots of ugly artefacts, if you do, then change the center of the spikes to x = l_body * .9
+)shader_source"
+R"shader_source(	p_spike = rZ(TAU * -(min(p_spike.y, .0) + 1.) / 7.)* p_spike;
+)shader_source"
+R"shader_source(	float f_spike = cone(p_spike.xzy, normalize(vec2(sharpness_spikes, 1.)));
+)shader_source"
+R"shader_source(	f_cone = smin(f_cone, f_spike, .1);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	////// perlin make some noise!
+)shader_source"
+R"shader_source(	vec2 surface_coord = vec2(p_cone.x * 3. + time, atan(p_cone.y, p_cone.z));
+)shader_source"
+R"shader_source(	float noise_amplitude = smoothstep(-.6, 0., p_cone.x) * (1. - smoothstep(l_body + .3, l_body + .5, p_cone.x)) * .03;
+)shader_source"
+R"shader_source(	f_cone -= noise_amplitude * smoothstep(conic_bobbel_roughness, 1., cnoise(surface_coord * conic_bobbel_noifreq)); // smoothstep cuts the lower half of the noise to zero, -1 and 0 are both good values for conic_bobbel_roughness
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	return f_cone;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(// l_body is size of bobbel, function is optimized for 2.
+)shader_source"
+R"shader_source(// this one totally noiseless
+)shader_source"
+R"shader_source(float conicbobbel_fast(vec3 p_cone, float l_body) {
+)shader_source"
+R"shader_source(	////// distfunctions for body (some day in the past it was a cone)
+)shader_source"
+R"shader_source(	float radius_mixer = smoothstep(l_body * .3, l_body * 1., p_cone.x)
+)shader_source"
+R"shader_source(		+ .3 * (1. - smoothstep(l_body * .0, l_body * .3, p_cone.x)); // used to mix between min_ and max_radius
+)shader_source"
+R"shader_source(	float max_radius = .5;
+)shader_source"
+R"shader_source(	float min_radius = .15;
+)shader_source"
+R"shader_source(	float line_radius = mix(min_radius, max_radius, radius_mixer);;
+)shader_source"
+R"shader_source(	float f_cone = line(p_cone, vec3(l_body, 0., 0.), vec3(0., 0., 0.), line_radius);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	////// akward spikes
+)shader_source"
+R"shader_source(	float num_spikes = 8.;
+)shader_source"
+R"shader_source(	float height_spikes = .8;
+)shader_source"
+R"shader_source(	float sharpness_spikes = 7.;
+)shader_source"
+R"shader_source(	// move where the center of the spikes should be
+)shader_source"
+R"shader_source(	vec3 p_spike = trans(p_cone, l_body * .9, 0., 0.);
+)shader_source"
+R"shader_source(	// make cylindrical domrep; x -> x, y -> radius, z -> angle
+)shader_source"
+R"shader_source(	p_spike.yz = vec2(length(p_spike.yz), atan(p_spike.y, p_spike.z) / TAU);
+)shader_source"
+R"shader_source(	vec3 p_pre_spike = p_spike;
+)shader_source"
+R"shader_source(	p_spike = domrep(p_spike, 1., 1., 1./num_spikes);
+)shader_source"
+R"shader_source(	p_spike.xy = p_pre_spike.xy; // don't domrep x and radius
+)shader_source"
+R"shader_source(	p_spike.y -= height_spikes;
+)shader_source"
+R"shader_source(	p_spike.z *= 3.2;
+)shader_source"
+R"shader_source(	// you may uncomment following rotation line, but then there will be lots of ugly artefacts, if you do, then change the center of the spikes to x = l_body * .9
+)shader_source"
+R"shader_source(	p_spike = rZ(TAU * -(min(p_spike.y, .0) + 1.) / 7.)* p_spike;
+)shader_source"
+R"shader_source(	float f_spike = cone(p_spike.xzy, normalize(vec2(sharpness_spikes, 1.)));
+)shader_source"
+R"shader_source(	f_cone = smin(f_cone, f_spike, .1);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	////// perlin make some noise!
+)shader_source"
+R"shader_source(	//vec2 surface_coord = vec2(p_cone.x * 3. + time, atan(p_cone.y, p_cone.z));
+)shader_source"
+R"shader_source(	//float noise_amplitude = smoothstep(-.6, 0., p_cone.x) * (1. - smoothstep(l_body + .3, l_body + .5, p_cone.x)) * .03;
+)shader_source"
+R"shader_source(	//f_cone -= noise_amplitude * smoothstep(conic_bobbel_roughness, 1., cnoise(surface_coord * conic_bobbel_noifreq)); // smoothstep cuts the lower half of the noise to zero, -1 and 0 are both good values for conic_bobbel_roughness
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	return f_cone;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(float bobbelring(vec3 p_cone, float l_body, float factorDeltaT) {
+)shader_source"
+R"shader_source(	////// big, bright rings
+)shader_source"
+R"shader_source(	float T = 1.; // duration of one animation cyclus
+)shader_source"
+R"shader_source(	float deltaT = T * factorDeltaT; // delta between first and second ring
+)shader_source"
+R"shader_source(	float bgn_rng_anim = l_body + .7; // start point of ring animation
+)shader_source"
+R"shader_source(	float end_rng_anim = -1.; // end point of ring anmation
+)shader_source"
+R"shader_source(	float max_ring_amp = 1.5; // maximum ring amplitude
+)shader_source"
+R"shader_source(	vec3 p_ring = trans(p_cone, bgn_rng_anim + (end_rng_anim - bgn_rng_anim) * mod(conic_ring_animation + deltaT, T) / T, 0., 0.);
+)shader_source"
+R"shader_source(	float ring_radius = max_ring_amp * (impulse(8., mod(conic_ring_animation + deltaT, T) / T) - .025); // first arg is impulse shape
+)shader_source"
+R"shader_source(	float ring_r_thickness = .2 * ring_radius; // thickness of ring in r direction
+)shader_source"
+R"shader_source(	float ring_x_thickness = .03; // thickness of ring in x direction
+)shader_source"
+R"shader_source(	float f_ring = 0.;
+)shader_source"
+R"shader_source(	f_ring = abs(sphere(p_ring, ring_radius)) - ring_r_thickness;
+)shader_source"
+R"shader_source(	f_ring = smax(f_ring, abs(p_ring.x) - ring_x_thickness, .02);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	return f_ring;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
 R"shader_source(#line 4
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 72) uniform vec3 background_color; // color
+R"shader_source(layout(location = 89) uniform vec3 zapfen_background_color; // color
 )shader_source"
-R"shader_source(layout(location = 73) uniform float zapfen_kreise;
+R"shader_source(layout(location = 90) uniform float zapfen_kreise;
 )shader_source"
-R"shader_source(layout(location = 74) uniform float zapfen_leit_freq;
+R"shader_source(layout(location = 63) uniform float zapfen_leit_freq;
 )shader_source"
-R"shader_source(layout(location = 75) uniform vec3 zapfen_color1; // color
+R"shader_source(layout(location = 91) uniform vec3 zapfen_color1; // color
 )shader_source"
-R"shader_source(layout(location = 76) uniform vec3 zapfen_color2; // color
+R"shader_source(layout(location = 92) uniform vec3 zapfen_color2; // color
 )shader_source"
-R"shader_source(layout(location = 77) uniform float zapfen_mat_freq;
+R"shader_source(layout(location = 93) uniform float zapfen_mat_freq;
 )shader_source"
-R"shader_source(layout(location = 78) uniform float zapfen_rough1;
+R"shader_source(layout(location = 94) uniform float zapfen_rough1;
 )shader_source"
-R"shader_source(layout(location = 79) uniform float zapfen_rough2;
+R"shader_source(layout(location = 95) uniform float zapfen_rough2;
+)shader_source"
+R"shader_source(layout(location = 96) uniform vec3 zapfen_col_boden; // color
+)shader_source"
+R"shader_source(layout(location = 97) uniform vec3 zapfen_col_leit_glow; // color
+)shader_source"
+R"shader_source(layout(location = 98) uniform vec3 zapfen_col_leit_non; // color
+)shader_source"
+R"shader_source(layout(location = 99) uniform vec3 zapfen_col_bobbel; // color
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 80) uniform vec3 zapfen_light1_pos;
+R"shader_source(layout(location = 100) uniform vec3 zapfen_light1_pos;
 )shader_source"
-R"shader_source(layout(location = 81) uniform vec3 zapfen_light2_pos;
+R"shader_source(layout(location = 101) uniform vec3 zapfen_light2_pos;
 )shader_source"
-R"shader_source(layout(location = 82) uniform vec3 zapfen_light1_col; // color
+R"shader_source(layout(location = 102) uniform vec3 zapfen_light1_col; // color
 )shader_source"
-R"shader_source(layout(location = 83) uniform vec3 zapfen_light2_col; // color
+R"shader_source(layout(location = 103) uniform vec3 zapfen_light2_col; // color
 )shader_source"
-R"shader_source(layout(location = 84) uniform float zapfen_light_radius;
+R"shader_source(layout(location = 104) uniform float zapfen_light_radius;
 )shader_source"
-R"shader_source(layout(location = 85) uniform float zapfen_light_intensity;
+R"shader_source(layout(location = 105) uniform float zapfen_light_intensity;
+)shader_source"
+R"shader_source(layout(location = 106) uniform float zapfen_bobbel_progress;
+)shader_source"
+R"shader_source(layout(location = 107) uniform vec3 zapfen_bobbel_displacement;
+)shader_source"
+R"shader_source(layout(location = 108) uniform bool zapfen_bobbels_enabled;
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(bool add_boden = false;
 )shader_source"
 R"shader_source(bool normal_mapping = false;
+)shader_source"
+R"shader_source(//const bool add_boden = true;
+)shader_source"
+R"shader_source(//const bool normal_mapping = true;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1146,7 +1364,7 @@ R"shader_source(	int i;
 )shader_source"
 R"shader_source(	vec3 p = march_adv(camera_position, dir, i, 100, .9);
 )shader_source"
-R"shader_source(	if(abs(f(p)[1]) <= 1e-6) {
+R"shader_source(	if(abs(f(p)[1]) == 4.) {
 )shader_source"
 R"shader_source(		if(dir.y != 0) {
 )shader_source"
@@ -1156,7 +1374,7 @@ R"shader_source(			if(t > 0.) {
 )shader_source"
 R"shader_source(				add_boden = true;
 )shader_source"
-R"shader_source(				p = march_adv(camera_position + t * dir, dir, i, 20, .7);
+R"shader_source(				p = march_adv(camera_position + t * dir, dir, i, 20, .9);
 )shader_source"
 R"shader_source(			}
 )shader_source"
@@ -1176,75 +1394,103 @@ R"shader_source(	normal_mapping = true;
 )shader_source"
 R"shader_source(	vec3 normal = calc_normal(p);
 )shader_source"
-R"shader_source(	if(materialId == 0.) {
+R"shader_source(	vec3 bounding_color = .01 * zapfen_background_color;
 )shader_source"
-R"shader_source(		color += .01 * background_color;
+R"shader_source(	if(materialId == 4.) {
 )shader_source"
-R"shader_source(	} else if(materialId >= 1. && materialId <= 2.) {
+R"shader_source(		color = bounding_color;
 )shader_source"
-R"shader_source(		Material material1 = Material(zapfen_color1, zapfen_rough1, .0);
+R"shader_source(	} else if(materialId >= 0. && materialId < 1.) {
 )shader_source"
-R"shader_source(		Material material3 = Material(zapfen_color2, zapfen_rough2, .0);
-)shader_source"
-R"shader_source(		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
-)shader_source"
-R"shader_source(		vec3 color1 = mix(
-)shader_source"
-R"shader_source(			apply_lights(p, normal, -dir, material1),
-)shader_source"
-R"shader_source(			apply_lights(p, normal, -dir, material3),
-)shader_source"
-R"shader_source(			foo
-)shader_source"
-R"shader_source(			);
+R"shader_source(		vec3 color_bobbel = emit_light(zapfen_col_bobbel, 10.) * pdot(normal, -dir);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(		Material material2 = Material(vec3(1.), 1., 0.);
+R"shader_source(		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
+)shader_source"
+R"shader_source(		Material material1 = Material(mix(zapfen_color1, zapfen_color2, foo), zapfen_rough1, .0);
+)shader_source"
+R"shader_source(		vec3 color_zapfen = apply_lights(p, normal, -dir, material1);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(		color = mix(color_bobbel, color_zapfen, materialId - 0.);
+)shader_source"
+R"shader_source(	} else if(materialId >= 1. && materialId <= 2.) {
+)shader_source"
+R"shader_source(		float foo = pow(smoothstep(-80., -20., -p.y), 7.) * smoothstep(.3, .9, cfbm(p * zapfen_mat_freq * vec3(vnoise(.2 * p + 7.) * .01 + 1., .3, vnoise(.2 * p + 3.) * .01 + 1.)) * .5 + .5);
+)shader_source"
+R"shader_source(		Material material1 = Material(mix(zapfen_color1, zapfen_color2, foo), zapfen_rough1, .0);
+)shader_source"
+R"shader_source(		vec3 color1 = apply_lights(p, normal, -dir, material1);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(		Material material2 = Material(zapfen_col_boden, 1., 0.);
 )shader_source"
 R"shader_source(		vec3 color2 = apply_lights(p, normal, -dir, material2);
-)shader_source"
-R"shader_source(		float grid = 1.;
-)shader_source"
-R"shader_source(		vec3 q = p;
-)shader_source"
-R"shader_source(		float theta = radians(5.) * q.y * sin(time + q.y) + radians(5.) * zapfen_kreise * 10. * sin(q.x + time) * cos(q.z + time * 2.);
-)shader_source"
-R"shader_source(		q.xz *= mat2(
-)shader_source"
-R"shader_source(			cos(theta), sin(theta),
-)shader_source"
-R"shader_source(			-sin(theta), cos(theta)
-)shader_source"
-R"shader_source(		);
-)shader_source"
-R"shader_source(		float intensity = .01 * (sin(length(q.xz) * .1 -3. *  time) * .5 + .5);
-)shader_source"
-R"shader_source(		q.xz = mod(q.xz, 30.);
-)shader_source"
-R"shader_source(		grid = step(q.x, .5) + step(q.z, .5);
-)shader_source"
-R"shader_source(		//color2 += emit_light(vec3(1., 0., 0.), grid * intensity);
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(		color = mix(color1, color2, pow(materialId - 1., 6.));
 )shader_source"
-R"shader_source(	} else if(materialId >= 3. && materialId <= 4.) {
+R"shader_source(	} else if(materialId > 2. && materialId <= 3.) {
 )shader_source"
-R"shader_source(		Material material = Material(vec3(1., 0., 0.), 1., 0.);
+R"shader_source(		Material material = Material(zapfen_col_leit_non, .9, 0.);
 )shader_source"
-R"shader_source(		vec3 nonglowing = vec3(0., 0., 0.) * .2;
+R"shader_source(		vec3 nonglowing = apply_lights(p, normal, -dir, material);
 )shader_source"
-R"shader_source(		vec3 glowing = apply_lights(p, normal, -dir, material);
+R"shader_source(		vec3 glowing = emit_light(zapfen_col_leit_glow, .005);
 )shader_source"
-R"shader_source(		color = mix(nonglowing, glowing, materialId - 3.);
+R"shader_source(
+)shader_source"
+R"shader_source(		float glow;// = cnoise(p.xz * .001 + time) * .5 + .5;
+)shader_source"
+R"shader_source(		// estimate coordinate of next zapfen
+)shader_source"
+R"shader_source(		vec2 floored = floor(p.xz/65.) * 65.;
+)shader_source"
+R"shader_source(		vec2 ceiled = ceil(p.xz/65.) * 65.;
+)shader_source"
+R"shader_source(		vec2 next = floored;
+)shader_source"
+R"shader_source(		if(abs(p.x - floored.x) > abs(p.x - ceiled.x)) {
+)shader_source"
+R"shader_source(			next.x = ceiled.x;
+)shader_source"
+R"shader_source(		}
+)shader_source"
+R"shader_source(		if(abs(p.y - floored.y) > abs(p.y - ceiled.y)) {
+)shader_source"
+R"shader_source(			next.y = ceiled.y;
+)shader_source"
+R"shader_source(		}
+)shader_source"
+R"shader_source(		glow = sin(distance(next, p.xz) * .5 + 6. * time) * (vnoise(floor(p.xz/65.)*20. + time * .4) * .5 + .5);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(		color = mix(nonglowing, glowing, glow);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(		Material material2 = Material(zapfen_col_boden, 1., 0.);
+)shader_source"
+R"shader_source(		vec3 color2 = apply_lights(p, normal, -dir, material2);
+)shader_source"
+R"shader_source(		color = mix(color2, color, pow(materialId - 2., .3));
+)shader_source"
+R"shader_source(		//color = nonglowing;
 )shader_source"
 R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	output_color(color, distance(camera_position, p));
+R"shader_source(	float dist = distance(camera_position, p);
+)shader_source"
+R"shader_source(	color = mix(color, bounding_color, smoothstep(220., 300., dist));
+)shader_source"
+R"shader_source(	output_color(color, dist);
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -1252,23 +1498,19 @@ R"shader_source(
 )shader_source"
 R"shader_source(float boden(vec3 p);
 )shader_source"
-R"shader_source(float boden_implicit(vec3 p);
-)shader_source"
-R"shader_source(vec2 leitungen(vec3 p, float rotation, float radius, float freq);
-)shader_source"
-R"shader_source(vec3 boden_transform(vec3 p);
+R"shader_source(float leitungen(vec3 p, float rotation, float radius, float freq, float t);
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(vec2 f(vec3 p) {
 )shader_source"
-R"shader_source(	vec2 bounding = vec2(-sphere(camera_position - p, 300.), 0.);
+R"shader_source(	vec2 bounding = vec2(-sphere(camera_position - p, 300.), 4.);
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(	float height = 40.; // .5 * height
 )shader_source"
-R"shader_source(	vec3 q = domrepv(p, vec3(50.));
+R"shader_source(	vec3 q = domrepv(p, vec3(75.));
 )shader_source"
 R"shader_source(	q.y = p.y - height;
 )shader_source"
@@ -1276,19 +1518,17 @@ R"shader_source(	float k = smoothstep(-height * 1.2, height, -q.y);
 )shader_source"
 R"shader_source(	vec2 ij = floor(p.xz / 50.);
 )shader_source"
-R"shader_source(	q.xz += rand(ij + 10.) * 5.;
+R"shader_source(	float rotation = sin(7. * dot(ij, ij) + zapfen_bobbel_progress * .25);
 )shader_source"
-R"shader_source(	float rotation = sin(7. * dot(ij, ij) + time * .5);
+R"shader_source(	float rotation2 = cos(11. * dot(ij, ij) + zapfen_bobbel_progress * .25);
 )shader_source"
-R"shader_source(	float rotation2 = cos(11. * dot(ij, ij) + time * .5);
+R"shader_source(	q.xz *= rot2D((1. - k) * radians(100.));
 )shader_source"
-R"shader_source(	mat3 rotX = rX(rotation * (1. - k) * radians(7.));
+R"shader_source(	mat2 rot_matrix = rot2D(rotation * (1. - k) * radians(7.));
 )shader_source"
-R"shader_source(	mat3 rotZ = rZ(rotation2 * (1. - k) * radians(7.));
+R"shader_source(	q.xy *= rot_matrix;
 )shader_source"
-R"shader_source(	mat3 rotY = rY((1. - k) * radians(100.));
-)shader_source"
-R"shader_source(	q = rotZ * rotX * rotY * q;
+R"shader_source(	q.yz *= rot_matrix;
 )shader_source"
 R"shader_source(	float radius = 10. * k;
 )shader_source"
@@ -1298,9 +1538,17 @@ R"shader_source(	float d = max(length(q.xz) - radius, abs(q.y) - height);
 )shader_source"
 R"shader_source(	if(normal_mapping) {
 )shader_source"
-R"shader_source(		d += .06 * cfbm((2. * vnoise(q) + q) * .5);
+R"shader_source(		vec2 polar = vec2(q.y, atan(q.x, q.z));
+)shader_source"
+R"shader_source(		polar *= vec2(1., 3.);
+)shader_source"
+R"shader_source(		d += .06 * cnoise((2. * vnoise(polar) + polar) * .5);
 )shader_source"
 R"shader_source(	}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	d = smin(d, sphere(trans(q, 0., height, 0), 3.), 7.);
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1310,7 +1558,9 @@ R"shader_source(
 )shader_source"
 R"shader_source(	if(add_boden) {
 )shader_source"
-R"shader_source(		vec2 ground = vec2(boden_implicit(p), 2.);
+R"shader_source(		vec3 q = trans(p, 0., 10. * (vnoise(.05 * p.xz) * .5 + .5), 0.);
+)shader_source"
+R"shader_source(		vec2 ground = vec2(q.y, 2.);
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1320,21 +1570,17 @@ R"shader_source(
 )shader_source"
 R"shader_source(		vec2 leit;
 )shader_source"
-R"shader_source(		if(p.y < 20.) {
+R"shader_source(		//if(p.y < 20.) {
 )shader_source"
-R"shader_source(			vec3 q = boden_transform(p);
+R"shader_source(			float t = vnoise(vec2(q.z, floor(q.x/80.) * floor(q.z/80.)) * zapfen_leit_freq + 333. * 38.) * .5 + .5;
 )shader_source"
-R"shader_source(
+R"shader_source(			float leit1 = leitungen(q, 0., .6, 1.7, t);
 )shader_source"
-R"shader_source(			leit.y = 1.;
+R"shader_source(			//float leit2 = leitungen(q, 50., .6, 27.3);
 )shader_source"
-R"shader_source(			vec2 leit1 = leitungen(q, 0., .6, 1.7);
+R"shader_source(			//float leit3 = leitungen(q, 20., .6, 549.2);
 )shader_source"
-R"shader_source(			vec2 leit2 = leitungen(q, 50., .6, 27.3);
-)shader_source"
-R"shader_source(			vec2 leit3 = leitungen(q, 20., .6, 549.2);
-)shader_source"
-R"shader_source(			vec2 leit4 = leitungen(q, 80., .6, 123.7);
+R"shader_source(			float leit4 = leitungen(q, 80., .6, 123.7, t);
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1348,33 +1594,61 @@ R"shader_source(			//vec2 leit4 = leitungen(q, 70., .2, 2.7);
 )shader_source"
 R"shader_source(			float k = .5;
 )shader_source"
-R"shader_source(			leit = smin_smaterial(smin_smaterial(leit1, leit2, k), smin_smaterial(leit3, leit4, k), k);
+R"shader_source(			//leit = vec2(smin(smin(leit1, leit2, k), smin(leit3, leit4, k), k), 3.);
 )shader_source"
-R"shader_source(			//leit = min_material(leit1, min_material(leit2, leit3));
+R"shader_source(			//leit = vec2(smin(smin(leit1, leit2, k), leit4, k), 3.);
 )shader_source"
-R"shader_source(			//leit = min_material(leit1, leit2);
+R"shader_source(			leit = vec2(smin(leit1, leit4, k), 3.);
 )shader_source"
-R"shader_source(			//leit = leit1;
+R"shader_source(		//} else {
 )shader_source"
-R"shader_source(			leit.y += 3.;
+R"shader_source(		//	leit = vec2(p.y, 3.);
 )shader_source"
-R"shader_source(		} else {
-)shader_source"
-R"shader_source(			leit = vec2(p.y, 3.);
-)shader_source"
-R"shader_source(		}
+R"shader_source(		//}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(		object = smin_material(boden_object, leit, 2.);
+R"shader_source(		object = smin_smaterial(boden_object, leit, .5);
 )shader_source"
 R"shader_source(	} else {
 )shader_source"
 R"shader_source(		object = vec2(smax(object.x, 20. - p.y, 2.), 1.);
 )shader_source"
+R"shader_source(		//object = vec2(max(object.x, 20. - p.y), 1.);
+)shader_source"
 R"shader_source(	}
 )shader_source"
 R"shader_source(
+)shader_source"
+R"shader_source(	vec3 p_bobbel = trans(p, 0., 30., 0.);
+)shader_source"
+R"shader_source(	vec3 p_bobbel_unrot = p_bobbel;
+)shader_source"
+R"shader_source(	p_bobbel = transv(p_bobbel, zapfen_bobbel_displacement);
+)shader_source"
+R"shader_source(	p_bobbel.xy *= rot2D(radians(70.));
+)shader_source"
+R"shader_source(	p_bobbel.x -= zapfen_bobbel_progress * 2.;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	if(zapfen_bobbels_enabled) {
+)shader_source"
+R"shader_source(		vec3 cellsize = vec3(60.);
+)shader_source"
+R"shader_source(		vec3 p_bobbel_mod = domrepv(p_bobbel, cellsize);
+)shader_source"
+R"shader_source(		float bobbel_d = conicbobbel_fast(p_bobbel_mod, 2.);
+)shader_source"
+R"shader_source(		bobbel_d = max(bobbel_d, p_bobbel.x + 10.);
+)shader_source"
+R"shader_source(		bobbel_d = max(bobbel_d, -p_bobbel_unrot.y + 10.);
+)shader_source"
+R"shader_source(		vec2 bobbel = vec2(bobbel_d, 0.);
+)shader_source"
+R"shader_source(		object = smin_smaterial(object, bobbel, 2.);
+)shader_source"
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1384,65 +1658,27 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(vec3 boden_transform(vec3 p) {
-)shader_source"
-R"shader_source(	return trans(p, 0., 10. * (vnoise(.05 * p.xz) * .5 + .5), 0.);
-)shader_source"
-R"shader_source(}
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(float boden_implicit(vec3 p) {
-)shader_source"
-R"shader_source(	return boden_transform(p).y;
-)shader_source"
-R"shader_source(}
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(float boden(vec3 p) {
-)shader_source"
-R"shader_source(	//return p.y;
-)shader_source"
-R"shader_source(	vec2 e = vec2(.01, .0);
-)shader_source"
-R"shader_source(	vec3 grad = vec3(
-)shader_source"
-R"shader_source(		boden_implicit(p + e.xyy) - boden_implicit(p - e.xyy),
-)shader_source"
-R"shader_source(		boden_implicit(p + e.yxy) - boden_implicit(p - e.yxy),
-)shader_source"
-R"shader_source(		boden_implicit(p + e.yxx) - boden_implicit(p - e.yxx)
-)shader_source"
-R"shader_source(	);
-)shader_source"
-R"shader_source(	return boden_implicit(p) / length(grad) * 2. * e.x;
-)shader_source"
-R"shader_source(}
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(vec2 leitungen(vec3 p, float rotation, float radius, float freq) {
+R"shader_source(float leitungen(vec3 p, float rotation, float radius, float freq, float t) {
 )shader_source"
 R"shader_source(	// estimate coordinate of next zapfen
 )shader_source"
-R"shader_source(	vec2 floored = floor(p.xz/50.) * 50.;
+R"shader_source(	//vec2 floored = floor(p.xz/50.) * 50.;
 )shader_source"
-R"shader_source(	vec2 ceiled = ceil(p.xz/50.) * 50.;
+R"shader_source(	//vec2 ceiled = ceil(p.xz/50.) * 50.;
 )shader_source"
-R"shader_source(	vec2 next = floored;
+R"shader_source(	//vec2 next = floored;
 )shader_source"
-R"shader_source(	if(abs(p.x - floored.x) > abs(p.x - ceiled.x)) {
+R"shader_source(	//if(abs(p.x - floored.x) > abs(p.x - ceiled.x)) {
 )shader_source"
-R"shader_source(		next.x = ceiled.x;
+R"shader_source(	//	next.x = ceiled.x;
 )shader_source"
-R"shader_source(	}
+R"shader_source(	//}
 )shader_source"
-R"shader_source(	if(abs(p.y - floored.y) > abs(p.y - ceiled.y)) {
+R"shader_source(	//if(abs(p.y - floored.y) > abs(p.y - ceiled.y)) {
 )shader_source"
-R"shader_source(		next.y = ceiled.y;
+R"shader_source(	//	next.y = ceiled.y;
 )shader_source"
-R"shader_source(	}
+R"shader_source(	//}
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1452,13 +1688,13 @@ R"shader_source(
 )shader_source"
 R"shader_source(	////float glow = smoothstep(.2, .8, vnoise(vec2(time * 3. + p.z * .2, 2000. * floor(p.x / 10. /freq))));
 )shader_source"
-R"shader_source(	float glow = smoothstep(.2, .8, vnoise(vec2(distance(next, p.xz) * .1 + 1.3 * time, 2000. * rand(floor((p.xz + 25.) / 50.)))));
+R"shader_source(	//float glow = smoothstep(.2, .8, vnoise(vec2(distance(next, p.xz) * .1 + 1.3 * time, 2000. * rand(floor((p.xz + 25.) / 50.)))));
 )shader_source"
 R"shader_source(	//glow = 1.;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	float t = vnoise(vec2(p.z, floor(p.x/80.) * floor(p.z/80.)) * zapfen_leit_freq + 333. * freq) * .5 + .5;
+R"shader_source(	t *= sin(freq) * .5 + .5;
 )shader_source"
 R"shader_source(	//float t = vnoise(vec2(p.z, 0.) * zapfen_leit_freq + 333. * freq) * .5 + .5;
 )shader_source"
@@ -1472,9 +1708,9 @@ R"shader_source(	//return vec2(length(p.xy) - radius, glow);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	vec3 q = p;
+R"shader_source(	vec3 q = trans(p, freq * 17., 0., -freq * 27.);
 )shader_source"
-R"shader_source(	q.xz = mod(q.xz, 40.) + 5.;
+R"shader_source(	q.xz = mod(q.xz, 50.) + 5.;
 )shader_source"
 R"shader_source(	float angle = atan(q.x, q.z);
 )shader_source"
@@ -1484,7 +1720,7 @@ R"shader_source(	float r = length(q.xz);
 )shader_source"
 R"shader_source(	q.x = r * sin(angle);
 )shader_source"
-R"shader_source(	return vec2(length(q.xy) - radius, glow);
+R"shader_source(	return length(q.xy) - radius;
 )shader_source"
 R"shader_source(}
 )shader_source"

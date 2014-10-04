@@ -304,7 +304,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(vec2 smin_material(vec2 a, vec2 b, float k) {
 )shader_source"
-R"shader_source(	return vec2(smin(a, b, k), a.x > b.x ? b.y : a.y);
+R"shader_source(	return vec2(smin(a.x, b.x, k), a.x > b.x ? b.y : a.y);
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -473,6 +473,16 @@ R"shader_source(vec3 domrep(vec3 p, float x, float y, float z) {
 R"shader_source(	return domrepv(p, vec3(x, y, z));
 )shader_source"
 R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(// f: distance function to object
+)shader_source"
+R"shader_source(// p: evaluation point
+)shader_source"
+R"shader_source(// s: scale factor
+)shader_source"
+R"shader_source(#define scale(f, p, s) f((p)/(s))*(s)
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1080,139 +1090,15 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(#line 4
+R"shader_source(layout(location = 49) uniform float conic_bobbel_noifreq;
+)shader_source"
+R"shader_source(layout(location = 50) uniform float conic_bobbel_roughness;
+)shader_source"
+R"shader_source(layout(location = 51) uniform float conic_ring_animation;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 49) uniform vec3 conic_bobbel_color; // color
-)shader_source"
-R"shader_source(layout(location = 50) uniform vec3 conic_ring_color; // color
-)shader_source"
-R"shader_source(layout(location = 51) uniform vec3 conic_lampe_color; // color
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(layout(location = 52) uniform float conic_smooth_factor; // float
-)shader_source"
-R"shader_source(layout(location = 53) uniform float conic_ring_intensity; // float
-)shader_source"
-R"shader_source(layout(location = 54) uniform float conic_bobbel_noifreq;
-)shader_source"
-R"shader_source(layout(location = 55) uniform float conic_bobbel_roughness;
-)shader_source"
-R"shader_source(layout(location = 56) uniform float conic_ring_animation;
-)shader_source"
-R"shader_source(layout(location = 57) uniform float conic_bobbel_xcoord;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(vec3 colors[5] = vec3[5](
-)shader_source"
-R"shader_source(		vec3(.0),
-)shader_source"
-R"shader_source(		vec3(.03, .0, .0),
-)shader_source"
-R"shader_source(		conic_lampe_color,
-)shader_source"
-R"shader_source(		conic_bobbel_color,
-)shader_source"
-R"shader_source(		conic_ring_color
-)shader_source"
-R"shader_source(		);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(const float material_bounding = 0.;
-)shader_source"
-R"shader_source(const float material_boden    = 1.;
-)shader_source"
-R"shader_source(const float material_lampe    = 2.;
-)shader_source"
-R"shader_source(const float material_bobbel   = 3.;
-)shader_source"
-R"shader_source(const float material_ring     = 4.;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(void main(void) {
-)shader_source"
-R"shader_source(	vec3 direction = get_direction();
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	int i;
-)shader_source"
-R"shader_source(	vec3 hit = march_adv(camera_position, direction, i, 100, 1.);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 color = vec3(0.);
-)shader_source"
-R"shader_source(	float materialId = f(hit)[1];
-)shader_source"
-R"shader_source(	vec3 normal = calc_normal(hit);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	SphereLight light1 = SphereLight(vec3(5., 9., 10.), vec3(1.), 2., 100.);
-)shader_source"
-R"shader_source(	if(materialId == material_boden) {
-)shader_source"
-R"shader_source(		float size = 2.;
-)shader_source"
-R"shader_source(		float stripes = mod(floor(hit.x / size), 2.);
-)shader_source"
-R"shader_source(		Material mat = Material(colors[int(material_boden)] * stripes, 0.5, 0.);
-)shader_source"
-R"shader_source(		color = apply_light(hit, normal, -direction, mat, light1);
-)shader_source"
-R"shader_source(	} else if(materialId == material_bounding) {
-)shader_source"
-R"shader_source(		Material mat = Material(colors[int(material_bounding)], 1., 0.);
-)shader_source"
-R"shader_source(		color = apply_light(hit, normal, -direction, mat, light1);
-)shader_source"
-R"shader_source(	} else if (materialId >= material_lampe && materialId <= material_bobbel) {
-)shader_source"
-R"shader_source(		Material material1 = Material(colors[int(material_lampe)], 0.2, 1.);
-)shader_source"
-R"shader_source(		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
-)shader_source"
-R"shader_source(		Material material2 = Material(colors[int(material_bobbel)], 0.2, 1.);
-)shader_source"
-R"shader_source(		vec3 color2 = apply_light(hit, normal, -direction, material2, light1);
-)shader_source"
-R"shader_source(		float mixfactor = pow(materialId - material_lampe, 3.); // change the exponent for sharpness of transition
-)shader_source"
-R"shader_source(		color = mix(color1, color2, mixfactor);
-)shader_source"
-R"shader_source(	} else if (materialId >= material_bobbel && materialId <= material_ring) {
-)shader_source"
-R"shader_source(		Material material1 = Material(colors[int(material_bobbel)], 0.2, 1.);
-)shader_source"
-R"shader_source(		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
-)shader_source"
-R"shader_source(		vec3 color2 = emit_light(colors[int(material_ring)], conic_ring_intensity);
-)shader_source"
-R"shader_source(		float mixfactor = pow(materialId - material_bobbel, 6.); // change the exponent for sharpness of transition
-)shader_source"
-R"shader_source(		color = mix(color1, color2, mixfactor);
-)shader_source"
-R"shader_source(	} else {
-)shader_source"
-R"shader_source(		Material mat = Material(colors[int(materialId)], 0.2, 1.);
-)shader_source"
-R"shader_source(		color = apply_light(hit, normal, -direction, mat, light1);
-)shader_source"
-R"shader_source(	}
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	output_color(color, 4.01);//distance(hit, camera_position));
-)shader_source"
-R"shader_source(}
-)shader_source"
-R"shader_source(
+R"shader_source(// l_body is size of bobbel, function is optimized for 2.
 )shader_source"
 R"shader_source(float conicbobbel(vec3 p_cone, float l_body) {
 )shader_source"
@@ -1284,6 +1170,80 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
+R"shader_source(// l_body is size of bobbel, function is optimized for 2.
+)shader_source"
+R"shader_source(// this one totally noiseless
+)shader_source"
+R"shader_source(float conicbobbel_fast(vec3 p_cone, float l_body) {
+)shader_source"
+R"shader_source(	////// distfunctions for body (some day in the past it was a cone)
+)shader_source"
+R"shader_source(	float radius_mixer = smoothstep(l_body * .3, l_body * 1., p_cone.x)
+)shader_source"
+R"shader_source(		+ .3 * (1. - smoothstep(l_body * .0, l_body * .3, p_cone.x)); // used to mix between min_ and max_radius
+)shader_source"
+R"shader_source(	float max_radius = .5;
+)shader_source"
+R"shader_source(	float min_radius = .15;
+)shader_source"
+R"shader_source(	float line_radius = mix(min_radius, max_radius, radius_mixer);;
+)shader_source"
+R"shader_source(	float f_cone = line(p_cone, vec3(l_body, 0., 0.), vec3(0., 0., 0.), line_radius);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	////// akward spikes
+)shader_source"
+R"shader_source(	float num_spikes = 8.;
+)shader_source"
+R"shader_source(	float height_spikes = .8;
+)shader_source"
+R"shader_source(	float sharpness_spikes = 7.;
+)shader_source"
+R"shader_source(	// move where the center of the spikes should be
+)shader_source"
+R"shader_source(	vec3 p_spike = trans(p_cone, l_body * .9, 0., 0.);
+)shader_source"
+R"shader_source(	// make cylindrical domrep; x -> x, y -> radius, z -> angle
+)shader_source"
+R"shader_source(	p_spike.yz = vec2(length(p_spike.yz), atan(p_spike.y, p_spike.z) / TAU);
+)shader_source"
+R"shader_source(	vec3 p_pre_spike = p_spike;
+)shader_source"
+R"shader_source(	p_spike = domrep(p_spike, 1., 1., 1./num_spikes);
+)shader_source"
+R"shader_source(	p_spike.xy = p_pre_spike.xy; // don't domrep x and radius
+)shader_source"
+R"shader_source(	p_spike.y -= height_spikes;
+)shader_source"
+R"shader_source(	p_spike.z *= 3.2;
+)shader_source"
+R"shader_source(	// you may uncomment following rotation line, but then there will be lots of ugly artefacts, if you do, then change the center of the spikes to x = l_body * .9
+)shader_source"
+R"shader_source(	p_spike = rZ(TAU * -(min(p_spike.y, .0) + 1.) / 7.)* p_spike;
+)shader_source"
+R"shader_source(	float f_spike = cone(p_spike.xzy, normalize(vec2(sharpness_spikes, 1.)));
+)shader_source"
+R"shader_source(	f_cone = smin(f_cone, f_spike, .1);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	////// perlin make some noise!
+)shader_source"
+R"shader_source(	//vec2 surface_coord = vec2(p_cone.x * 3. + time, atan(p_cone.y, p_cone.z));
+)shader_source"
+R"shader_source(	//float noise_amplitude = smoothstep(-.6, 0., p_cone.x) * (1. - smoothstep(l_body + .3, l_body + .5, p_cone.x)) * .03;
+)shader_source"
+R"shader_source(	//f_cone -= noise_amplitude * smoothstep(conic_bobbel_roughness, 1., cnoise(surface_coord * conic_bobbel_noifreq)); // smoothstep cuts the lower half of the noise to zero, -1 and 0 are both good values for conic_bobbel_roughness
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	return f_cone;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
 R"shader_source(float bobbelring(vec3 p_cone, float l_body, float factorDeltaT) {
 )shader_source"
 R"shader_source(	////// big, bright rings
@@ -1300,7 +1260,7 @@ R"shader_source(	float max_ring_amp = 1.5; // maximum ring amplitude
 )shader_source"
 R"shader_source(	vec3 p_ring = trans(p_cone, bgn_rng_anim + (end_rng_anim - bgn_rng_anim) * mod(conic_ring_animation + deltaT, T) / T, 0., 0.);
 )shader_source"
-R"shader_source(	float ring_radius = max_ring_amp * impulse(8., mod(conic_ring_animation + deltaT, T) / T); // first arg is impulse shape
+R"shader_source(	float ring_radius = max_ring_amp * (impulse(8., mod(conic_ring_animation + deltaT, T) / T) - .025); // first arg is impulse shape
 )shader_source"
 R"shader_source(	float ring_r_thickness = .2 * ring_radius; // thickness of ring in r direction
 )shader_source"
@@ -1320,39 +1280,187 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
+R"shader_source(#line 5
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 52) uniform vec3 conic_bobbel_color; // color
+)shader_source"
+R"shader_source(layout(location = 53) uniform vec3 conic_ring_color; // color
+)shader_source"
+R"shader_source(layout(location = 54) uniform vec3 conic_lampe_color; // color
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 55) uniform float conic_smooth_factor; // float
+)shader_source"
+R"shader_source(layout(location = 56) uniform float conic_ring_intensity; // float
+)shader_source"
+R"shader_source(layout(location = 57) uniform float conic_bobbel_xcoord;
+)shader_source"
+R"shader_source(layout(location = 58) uniform float conic_domrep_spacing;
+)shader_source"
+R"shader_source(layout(location = 59) uniform bool  conic_domrep_enabled;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(vec3 colors[5] = vec3[5](
+)shader_source"
+R"shader_source(		vec3(.0),
+)shader_source"
+R"shader_source(		vec3(.03, .0, .0),
+)shader_source"
+R"shader_source(		conic_lampe_color,
+)shader_source"
+R"shader_source(		conic_bobbel_color,
+)shader_source"
+R"shader_source(		conic_ring_color
+)shader_source"
+R"shader_source(		);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(const float material_bounding = 0.;
+)shader_source"
+R"shader_source(const float material_boden    = 1.;
+)shader_source"
+R"shader_source(const float material_lampe    = 2.;
+)shader_source"
+R"shader_source(const float material_bobbel   = 3.;
+)shader_source"
+R"shader_source(const float material_ring     = 4.;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(void main(void) {
+)shader_source"
+R"shader_source(	vec3 direction = get_direction();
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	int i;
+)shader_source"
+R"shader_source(	vec3 hit = march_adv(camera_position, direction, i, 100, 1.);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	vec3 color = vec3(0.);
+)shader_source"
+R"shader_source(	float materialId = f(hit)[1];
+)shader_source"
+R"shader_source(	vec3 normal = calc_normal(hit);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float bobbel_metallic = 1.;
+)shader_source"
+R"shader_source(	float metallic_bias = pow(cfbm(vnoise(hit.zy) * 30. + cross(hit - time * .4, hit.yzx + time * 3.) * .02) * .5 + .5, .05);
+)shader_source"
+R"shader_source(	float bobbel_rough = .3;
+)shader_source"
+R"shader_source(	bobbel_rough += .07 * cnoise(hit * 9. + 23. + metallic_bias * 15. + time * .5);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	SphereLight light1 = SphereLight(vec3(5., 9., 10.) * 3., vec3(1.), 2., 100.);
+)shader_source"
+R"shader_source(	if(materialId == material_boden) {
+)shader_source"
+R"shader_source(		float size = 2.;
+)shader_source"
+R"shader_source(		float stripes = mod(floor(hit.x / size), 2.);
+)shader_source"
+R"shader_source(		Material mat = Material(colors[int(material_boden)] * stripes, 0.5, 0.);
+)shader_source"
+R"shader_source(		color = apply_light(hit, normal, -direction, mat, light1);
+)shader_source"
+R"shader_source(	} else if(materialId == material_bounding) {
+)shader_source"
+R"shader_source(		Material mat = Material(colors[int(material_bounding)], 1., 0.);
+)shader_source"
+R"shader_source(		color = apply_light(hit, normal, -direction, mat, light1);
+)shader_source"
+R"shader_source(	} else if (materialId >= material_lampe && materialId <= material_bobbel) {
+)shader_source"
+R"shader_source(		Material material1 = Material(colors[int(material_lampe)], 0.2, 1.);
+)shader_source"
+R"shader_source(		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
+)shader_source"
+R"shader_source(		Material material2 = Material(colors[int(material_bobbel)], bobbel_rough, bobbel_metallic);
+)shader_source"
+R"shader_source(		vec3 color2 = apply_light(hit, normal, -direction, material2, light1);
+)shader_source"
+R"shader_source(		float mixfactor = pow(materialId - material_lampe, 3.); // change the exponent for sharpness of transition
+)shader_source"
+R"shader_source(		color = mix(color1, color2, mixfactor);
+)shader_source"
+R"shader_source(	} else if (materialId >= material_bobbel && materialId <= material_ring) {
+)shader_source"
+R"shader_source(		Material material1 = Material(colors[int(material_bobbel)], bobbel_rough, bobbel_metallic);
+)shader_source"
+R"shader_source(		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
+)shader_source"
+R"shader_source(		vec3 color2 = emit_light(colors[int(material_ring)], conic_ring_intensity);
+)shader_source"
+R"shader_source(		float mixfactor = pow(materialId - material_bobbel, 6.); // change the exponent for sharpness of transition
+)shader_source"
+R"shader_source(		color = mix(color1, color2, mixfactor);
+)shader_source"
+R"shader_source(	} else {
+)shader_source"
+R"shader_source(		Material mat = Material(colors[int(materialId)], 0.2, 1.);
+)shader_source"
+R"shader_source(		color = apply_light(hit, normal, -direction, mat, light1);
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	output_color(color, distance(hit, camera_position));
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
 R"shader_source(vec2 f(vec3 p) {
 )shader_source"
 R"shader_source(	vec3 p_bobbel = trans(p, conic_bobbel_xcoord, 0., -3.);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	vec3 s_domrep = vec3(30, 1., 25.); // domrep cell size, 1. probably means no domrep
+R"shader_source(	vec3 s_domrep = conic_domrep_spacing * vec3(10, 13., 9.); // domrep cell size, 1. probably means no domrep
 )shader_source"
-R"shader_source(	vec3 p_pre_cone = trans(p_bobbel, 10. * time, 0., 0.); // move with time
+R"shader_source(	vec3 p_pre_cone = p_bobbel;
+)shader_source"
+R"shader_source(	//p_pre_cone = trans(p_bobbel, 10. * time, 0., 0.); // move with time
 )shader_source"
 R"shader_source(	// find the current cell
 )shader_source"
-R"shader_source(	float cell_x = floor(p_pre_cone.x / s_domrep.x);
-)shader_source"
-R"shader_source(	float cell_y = floor(p_pre_cone.y / s_domrep.y);
-)shader_source"
-R"shader_source(	float cell_z = floor(p_pre_cone.z / s_domrep.z);
+R"shader_source(	vec3 cell = floor(p_pre_cone / s_domrep) + 100.;
 )shader_source"
 R"shader_source(	// move single cells a bit sidewards, maybe amplitude should be smaller than domrep cell
 )shader_source"
-R"shader_source(	p_pre_cone = trans(p_pre_cone,
+R"shader_source(	vec3 translation_vector = conic_domrep_spacing * vec3(
 )shader_source"
-R"shader_source(			sin(cell_z * cell_z) * 32.,
+R"shader_source(			sin(cell.z * cell.z) * 4.,
 )shader_source"
-R"shader_source(			0.,
+R"shader_source(			sin(cell.z * cell.x) * 3.,
 )shader_source"
-R"shader_source(			sin(cell_x * cell_x) * 50.);
+R"shader_source(			sin(cell.x * cell.x) * 3.6);
+)shader_source"
+R"shader_source(	p_pre_cone = transv(p_pre_cone, translation_vector);
 )shader_source"
 R"shader_source(	vec3 p_cone = domrepv(p_pre_cone, s_domrep);
 )shader_source"
-R"shader_source(	p_cone.y = p_pre_cone.y; // dont't domrep y
+R"shader_source(	//p_cone.y = p_pre_cone.y; // dont't domrep y
 )shader_source"
-R"shader_source(	p_cone = p_bobbel; // remove for repetition and movement
+R"shader_source(	if (!conic_domrep_enabled) {
+)shader_source"
+R"shader_source(		// remove for repetition and movement
+)shader_source"
+R"shader_source(		p_cone = p_bobbel;
+)shader_source"
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1396,6 +1504,16 @@ R"shader_source(	f_lampe = smax(f_lampe, -f_delle, 1.);
 )shader_source"
 R"shader_source(
 )shader_source"
+R"shader_source(	float lampe2 = sphere(trans(p_lampe, -7., -20., -50.), 1.4 * radius_lampe);
+)shader_source"
+R"shader_source(	float lampe3 = sphere(trans(p_lampe, 8., 4., 50.), 1.7 * radius_lampe);
+)shader_source"
+R"shader_source(	float lampe4 = sphere(trans(p_lampe, 3., 17., -40.), .7 * radius_lampe);
+)shader_source"
+R"shader_source(	f_lampe = min(min(f_lampe, lampe2), min(lampe3, lampe4));
+)shader_source"
+R"shader_source(
+)shader_source"
 R"shader_source(	vec2 m_lampe = vec2(f_lampe, material_lampe);
 )shader_source"
 R"shader_source(
@@ -1406,11 +1524,9 @@ R"shader_source(
 )shader_source"
 R"shader_source(	vec2 m_content = m_bobbel_lampe;
 )shader_source"
-R"shader_source(	vec2 bottom = vec2(p.y + 20., material_boden);
+R"shader_source(	vec2 bounding = vec2(-sphere(p - camera_position, 100.), material_bounding);
 )shader_source"
-R"shader_source(	vec2 bounding = vec2(-sphere(p - camera_position, 300.), material_bounding);
-)shader_source"
-R"shader_source(	return min_material(m_content, min_material(bottom, bounding));
+R"shader_source(	return min_material(m_content, bounding);
 )shader_source"
 R"shader_source(}
 )shader_source"
