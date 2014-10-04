@@ -14,7 +14,7 @@ quat operator+(quat const& q1, quat const& q2) {
 			q1.w + q2.w,
 			q1.x + q2.x,
 			q1.y + q2.y,
-			q1.z + q1.z);
+			q1.z + q2.z);
 }
 
 quat operator-(quat const& q1, quat const& q2) {
@@ -22,7 +22,7 @@ quat operator-(quat const& q1, quat const& q2) {
 			q1.w - q2.w,
 			q1.x - q2.x,
 			q1.y - q2.y,
-			q1.z - q1.z);
+			q1.z - q2.z);
 }
 
 quat operator*(double const& s, quat const& q) {
