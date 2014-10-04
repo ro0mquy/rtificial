@@ -22,7 +22,7 @@ int main() {
 	}
 	FILE* const envelope_file = fopen("envelopes.out", "w");
 	if(envelope_file != NULL) {
-		fwrite(&__4klang_envelope_buffer, sizeof(float), MAX_SAMPLES / 8, envelope_file);
+		//fwrite(&__4klang_envelope_buffer, sizeof(float), MAX_SAMPLES / 8, envelope_file);
 		fclose(envelope_file);
 	} else {
 		fprintf(stderr, "Could not open envelopes out file\n");
