@@ -137,13 +137,13 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="0" sequenceDuration="8"
+        <sequence sequenceSceneId="116" sequenceStart="0" sequenceDuration="10"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
             </keyframe>
-            <keyframe keyframePosition="8">
+            <keyframe keyframePosition="10">
               <keyframeValue valueVec3X="1.7863" valueVec3Y="-11.2724" valueVec3Z="4.11152"/>
             </keyframe>
           </keyframesArray>
@@ -405,6 +405,28 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="114" sequenceStart="0" sequenceDuration="9"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="19.447" valueVec3Y="8.565" valueVec3Z="-15.577"/>
+            </keyframe>
+            <keyframe keyframePosition="9">
+              <keyframeValue valueVec3X="28.265" valueVec3Y="8.565" valueVec3Z="-19.363"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="115" sequenceStart="0" sequenceDuration="6"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-56.241" valueVec3Y="69.264" valueVec3Z="190.151"/>
+            </keyframe>
+            <keyframe keyframePosition="6">
+              <keyframeValue valueVec3X="73.427" valueVec3Y="69.264" valueVec3Z="-70.342"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="camera_rotation" uniformType="vec4">
@@ -502,13 +524,13 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="0" sequenceDuration="8"
+        <sequence sequenceSceneId="116" sequenceStart="0" sequenceDuration="10"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
             </keyframe>
-            <keyframe keyframePosition="8">
+            <keyframe keyframePosition="10">
               <keyframeValue valueVec4X="-0.181051" valueVec4Y="-0.375934" valueVec4Z="-0.0751522"
                              valueVec4W="0.905674"/>
             </keyframe>
@@ -803,6 +825,28 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="114" sequenceStart="0" sequenceDuration="9"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="0.129" valueVec4Y="0.594" valueVec4Z="0.097" valueVec4W="-0.788"/>
+            </keyframe>
+            <keyframe keyframePosition="9">
+              <keyframeValue valueVec4X="0.129" valueVec4Y="0.594" valueVec4Z="0.097" valueVec4W="-0.788"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="115" sequenceStart="0" sequenceDuration="6"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="-0.083" valueVec4Y="-0.228" valueVec4Z="-0.019" valueVec4W="0.97"/>
+            </keyframe>
+            <keyframe keyframePosition="6">
+              <keyframeValue valueVec4X="-0.083" valueVec4Y="-0.228" valueVec4Z="-0.019" valueVec4W="0.97"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="conic_background_color" uniformType="color">
@@ -907,6 +951,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="114" sequenceStart="0" sequenceDuration="9"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="9">
+              <keyframeValue valueFloatX="10"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="conic_domrep_enabled" uniformType="bool">
@@ -969,6 +1024,17 @@
             </keyframe>
             <keyframe keyframePosition="6">
               <keyframeValue valueBoolState="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="114" sequenceStart="0" sequenceDuration="9"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueBoolState="1"/>
+            </keyframe>
+            <keyframe keyframePosition="9">
+              <keyframeValue valueBoolState="0"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -1120,6 +1186,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="114" sequenceStart="1" sequenceDuration="8"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueFloatX="3.999"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="conic_ring_color" uniformType="color">
@@ -1133,6 +1210,22 @@
     <uniform uniformName="conic_ring_pos" uniformType="float">
       <uniformStandardValue valueFloatX="0.84"/>
       <sequencesArray/>
+    </uniform>
+    <uniform uniformName="conic_second_ring" uniformType="bool">
+      <uniformStandardValue valueBoolState="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="114" sequenceStart="0" sequenceDuration="9"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueBoolState="1"/>
+            </keyframe>
+            <keyframe keyframePosition="9">
+              <keyframeValue valueBoolState="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="conic_smooth_factor" uniformType="float">
       <uniformStandardValue valueFloatX="1"/>
@@ -2326,6 +2419,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="115" sequenceStart="0" sequenceDuration="6"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="6">
+              <keyframeValue valueFloatX="40"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_bobbels_enabled" uniformType="bool">
@@ -2349,6 +2453,17 @@
               <keyframeValue valueBoolState="1"/>
             </keyframe>
             <keyframe keyframePosition="7">
+              <keyframeValue valueBoolState="1"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="115" sequenceStart="0" sequenceDuration="6"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueBoolState="1"/>
+            </keyframe>
+            <keyframe keyframePosition="6">
               <keyframeValue valueBoolState="1"/>
             </keyframe>
           </keyframesArray>
@@ -2424,6 +2539,17 @@
             </keyframe>
           </keyframesArray>
         </sequence>
+        <sequence sequenceSceneId="115" sequenceStart="0" sequenceDuration="6"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-56" valueVec3Y="69" valueVec3Z="190"/>
+            </keyframe>
+            <keyframe keyframePosition="6">
+              <keyframeValue valueVec3X="73" valueVec3Y="69" valueVec3Z="-70"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
       </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_light2_col" uniformType="color">
@@ -2483,5 +2609,8 @@
     <scene sceneId="111" sceneStart="158" sceneDuration="6" sceneShaderSource="conicbobbel"/>
     <scene sceneId="112" sceneStart="144" sceneDuration="7" sceneShaderSource="conicbobbel"/>
     <scene sceneId="113" sceneStart="151" sceneDuration="7" sceneShaderSource="zapfen"/>
+    <scene sceneId="114" sceneStart="175" sceneDuration="9" sceneShaderSource="conicbobbel"/>
+    <scene sceneId="115" sceneStart="184" sceneDuration="6" sceneShaderSource="zapfen"/>
+    <scene sceneId="116" sceneStart="190" sceneDuration="2" sceneShaderSource="syntakischerspalt"/>
   </scenesArray>
 </timelineTree>

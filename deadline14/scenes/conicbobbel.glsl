@@ -19,6 +19,7 @@ uniform float conic_ring_intensity; // float
 uniform float conic_bobbel_xcoord;
 uniform float conic_domrep_spacing;
 uniform bool  conic_domrep_enabled;
+uniform bool  conic_second_ring;
 
 uniform vec3 zapfen_background_color; // color
 uniform bool conic_fog_enabled;
@@ -117,7 +118,9 @@ vec2 f(vec3 p) {
 	float l_body = 2.; // length of body
 	float f_cone = conicbobbel(p_cone, l_body);
 	float f_ring = bobbelring(p_cone, l_body, 0.);
-	//f_ring = min(f_ring, bobbelring(p_cone, l_body, 1/2.5));
+	if (conic_second_ring) {
+		f_ring = min(f_ring, bobbelring(p_cone, l_body, 1/2.));
+	}
 
 	////// assembling and boundings
 	vec2 m_cone = vec2(f_cone, material_bobbel);
