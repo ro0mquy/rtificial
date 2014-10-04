@@ -1318,9 +1318,9 @@ R"shader_source(layout(location = 100) uniform float synapse_bobbel_metalicness;
 )shader_source"
 R"shader_source(layout(location = 101) uniform float synapse_fade; // flaot
 )shader_source"
-R"shader_source(layout(location = 122) uniform float synapse_min_darkness_dist; // flaot
+R"shader_source(layout(location = 102) uniform float synapse_min_darkness_dist; // flaot
 )shader_source"
-R"shader_source(layout(location = 102) uniform bool synapse_last_fire; //  bool
+R"shader_source(layout(location = 103) uniform bool synapse_last_fire; //  bool
 )shader_source"
 R"shader_source(
 )shader_source"

@@ -1746,7 +1746,7 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="78" sequenceDuration="14"
+        <sequence sequenceSceneId="103" sequenceStart="78" sequenceDuration="18"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -1756,6 +1756,9 @@
               <keyframeValue valueFloatX="0"/>
             </keyframe>
             <keyframe keyframePosition="14">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="18">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
           </keyframesArray>
@@ -2729,7 +2732,7 @@
     <scene sceneId="100" sceneStart="48" sceneDuration="48" sceneShaderSource="schalter"/>
     <scene sceneId="101" sceneStart="96" sceneDuration="40" sceneShaderSource="conicbobbel"/>
     <scene sceneId="102" sceneStart="164" sceneDuration="11" sceneShaderSource="zapfen"/>
-    <scene sceneId="103" sceneStart="192" sceneDuration="92" sceneShaderSource="syntakischerspalt"/>
+    <scene sceneId="103" sceneStart="192" sceneDuration="96" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="106" sceneStart="36" sceneDuration="12" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="107" sceneStart="0" sceneDuration="12" sceneShaderSource="schalter"/>
     <scene sceneId="108" sceneStart="12" sceneDuration="12" sceneShaderSource="conicbobbel"/>
