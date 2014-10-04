@@ -20,7 +20,7 @@ R"shader_source(float kernelSize = 40. * res.x / 1920.;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 34) uniform float f_stop;
+R"shader_source(layout(location = 36) uniform float f_stop;
 )shader_source"
 R"shader_source(
 )shader_source"

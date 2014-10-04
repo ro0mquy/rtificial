@@ -28,19 +28,19 @@ R"shader_source(layout(binding = 14) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
-R"shader_source(layout(location = 37) uniform float time;
+R"shader_source(layout(location = 34) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 39) uniform float distort_k;
+R"shader_source(layout(location = 40) uniform float distort_k;
 )shader_source"
-R"shader_source(layout(location = 40) uniform float distort_kcube;
+R"shader_source(layout(location = 41) uniform float distort_kcube;
 )shader_source"
-R"shader_source(layout(location = 41) uniform float vignette_intensity;
+R"shader_source(layout(location = 42) uniform float vignette_intensity;
 )shader_source"
-R"shader_source(layout(location = 42) uniform float grain_freq;
+R"shader_source(layout(location = 43) uniform float grain_freq;
 )shader_source"
-R"shader_source(layout(location = 43) uniform float grain_intensity;
+R"shader_source(layout(location = 44) uniform float grain_intensity;
 )shader_source"
 R"shader_source(
 )shader_source"

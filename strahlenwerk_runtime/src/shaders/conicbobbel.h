@@ -16,17 +16,17 @@ R"shader_source(layout(location = 1) out float coc;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 48) uniform float focus_dist;
+R"shader_source(layout(location = 49) uniform float focus_dist;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 38) uniform float focal_length;
+R"shader_source(layout(location = 39) uniform float focal_length;
 )shader_source"
 R"shader_source(#define FOCAL_LENGTH
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 34) uniform float f_stop;
+R"shader_source(layout(location = 36) uniform float f_stop;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -60,19 +60,19 @@ R"shader_source(// fancy functions TODO
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 35) uniform vec3 camera_position;
+R"shader_source(layout(location = 37) uniform vec3 camera_position;
 )shader_source"
-R"shader_source(layout(location = 36) uniform vec4 camera_rotation;
+R"shader_source(layout(location = 38) uniform vec4 camera_rotation;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 37) uniform float time;
+R"shader_source(layout(location = 33) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(#ifndef FOCAL_LENGTH
 )shader_source"
-R"shader_source(layout(location = 38) uniform float focal_length;
+R"shader_source(layout(location = 39) uniform float focal_length;
 )shader_source"
 R"shader_source(#endif
 )shader_source"
@@ -1096,11 +1096,11 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 49) uniform float conic_bobbel_noifreq;
+R"shader_source(layout(location = 50) uniform float conic_bobbel_noifreq;
 )shader_source"
-R"shader_source(layout(location = 50) uniform float conic_bobbel_roughness;
+R"shader_source(layout(location = 51) uniform float conic_bobbel_roughness;
 )shader_source"
-R"shader_source(layout(location = 51) uniform float conic_ring_animation;
+R"shader_source(layout(location = 52) uniform float conic_ring_animation;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1290,43 +1290,45 @@ R"shader_source(#line 5
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 52) uniform vec3 conic_bobbel_color; // color
+R"shader_source(layout(location = 53) uniform vec3 conic_bobbel_color; // color
 )shader_source"
-R"shader_source(layout(location = 53) uniform vec3 conic_ring_color; // color
+R"shader_source(layout(location = 54) uniform vec3 conic_ring_color; // color
 )shader_source"
-R"shader_source(layout(location = 54) uniform vec3 conic_lampe_color; // color
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(layout(location = 55) uniform vec3 conic_light1_pos;
-)shader_source"
-R"shader_source(layout(location = 56) uniform vec3 conic_light2_pos;
-)shader_source"
-R"shader_source(layout(location = 57) uniform vec3 conic_light1_col; // color
-)shader_source"
-R"shader_source(layout(location = 58) uniform vec3 conic_light2_col; // color
-)shader_source"
-R"shader_source(layout(location = 59) uniform float conic_light_radius;
-)shader_source"
-R"shader_source(layout(location = 60) uniform float conic_light_intensity;
+R"shader_source(layout(location = 55) uniform vec3 conic_lampe_color; // color
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 61) uniform float conic_smooth_factor; // float
+R"shader_source(layout(location = 56) uniform vec3 conic_light1_pos;
 )shader_source"
-R"shader_source(layout(location = 62) uniform float conic_ring_intensity; // float
+R"shader_source(layout(location = 57) uniform vec3 conic_light2_pos;
 )shader_source"
-R"shader_source(layout(location = 63) uniform float conic_bobbel_xcoord;
+R"shader_source(layout(location = 58) uniform vec3 conic_light1_col; // color
 )shader_source"
-R"shader_source(layout(location = 64) uniform float conic_domrep_spacing;
+R"shader_source(layout(location = 59) uniform vec3 conic_light2_col; // color
 )shader_source"
-R"shader_source(layout(location = 65) uniform bool  conic_domrep_enabled;
+R"shader_source(layout(location = 60) uniform float conic_light_radius;
+)shader_source"
+R"shader_source(layout(location = 61) uniform float conic_light_intensity;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 66) uniform vec3 zapfen_background_color; // color
+R"shader_source(layout(location = 62) uniform float conic_smooth_factor; // float
 )shader_source"
-R"shader_source(layout(location = 67) uniform bool conic_fog_enabled;
+R"shader_source(layout(location = 63) uniform float conic_ring_intensity; // float
+)shader_source"
+R"shader_source(layout(location = 64) uniform float conic_bobbel_xcoord;
+)shader_source"
+R"shader_source(layout(location = 65) uniform float conic_domrep_spacing;
+)shader_source"
+R"shader_source(layout(location = 66) uniform bool  conic_domrep_enabled;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 67) uniform vec3 zapfen_background_color; // color
+)shader_source"
+R"shader_source(layout(location = 68) uniform bool conic_fog_enabled;
+)shader_source"
+R"shader_source(layout(location = 69) uniform vec3 conic_background_color; // color
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1458,11 +1460,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(	float dist = distance(hit, camera_position);
 )shader_source"
-R"shader_source(	if(conic_fog_enabled) {
-)shader_source"
-R"shader_source(		color = mix(color, zapfen_background_color * .001, smoothstep(80., 100., dist));
-)shader_source"
-R"shader_source(	}
+R"shader_source(	color = mix(color, (conic_fog_enabled ? zapfen_background_color : conic_background_color) * .001, smoothstep(80., 100., dist));
 )shader_source"
 R"shader_source(	output_color(color, dist);
 )shader_source"

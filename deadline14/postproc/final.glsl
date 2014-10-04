@@ -5,7 +5,7 @@
 
 uniform sampler2D color; // vec3
 out vec3 out_color;
-uniform float time;
+layout(location = 34) uniform float time;
 
 uniform float distort_k;
 uniform float distort_kcube;

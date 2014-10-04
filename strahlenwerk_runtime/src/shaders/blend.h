@@ -32,7 +32,7 @@ R"shader_source(layout(binding = 0) uniform sampler2D orig; // vec3
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 33) uniform float bloom_amount;
+R"shader_source(layout(location = 35) uniform float bloom_amount;
 )shader_source"
 R"shader_source(
 )shader_source"

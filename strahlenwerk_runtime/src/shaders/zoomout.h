@@ -16,17 +16,17 @@ R"shader_source(layout(location = 1) out float coc;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 48) uniform float focus_dist;
+R"shader_source(layout(location = 49) uniform float focus_dist;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 38) uniform float focal_length;
+R"shader_source(layout(location = 39) uniform float focal_length;
 )shader_source"
 R"shader_source(#define FOCAL_LENGTH
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 34) uniform float f_stop;
+R"shader_source(layout(location = 36) uniform float f_stop;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -60,19 +60,19 @@ R"shader_source(// fancy functions TODO
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 35) uniform vec3 camera_position;
+R"shader_source(layout(location = 37) uniform vec3 camera_position;
 )shader_source"
-R"shader_source(layout(location = 36) uniform vec4 camera_rotation;
+R"shader_source(layout(location = 38) uniform vec4 camera_rotation;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 37) uniform float time;
+R"shader_source(layout(location = 33) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(#ifndef FOCAL_LENGTH
 )shader_source"
-R"shader_source(layout(location = 38) uniform float focal_length;
+R"shader_source(layout(location = 39) uniform float focal_length;
 )shader_source"
 R"shader_source(#endif
 )shader_source"
@@ -1100,21 +1100,21 @@ R"shader_source(#line 4
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 84) uniform vec3 synapse_color; // color
+R"shader_source(layout(location = 86) uniform vec3 synapse_color; // color
 )shader_source"
-R"shader_source(layout(location = 86) uniform float synapse_gap; // float
+R"shader_source(layout(location = 88) uniform float synapse_gap; // float
 )shader_source"
-R"shader_source(layout(location = 87) uniform float synapse_aa; // float
+R"shader_source(layout(location = 89) uniform float synapse_aa; // float
 )shader_source"
-R"shader_source(layout(location = 88) uniform float synapse_bb; // float
+R"shader_source(layout(location = 90) uniform float synapse_bb; // float
 )shader_source"
-R"shader_source(layout(location = 89) uniform float synapse_cc; // float
+R"shader_source(layout(location = 91) uniform float synapse_cc; // float
 )shader_source"
-R"shader_source(layout(location = 90) uniform float synapse_dd; // float
+R"shader_source(layout(location = 92) uniform float synapse_dd; // float
 )shader_source"
-R"shader_source(layout(location = 91) uniform float synapse_dist_fog_a; // float
+R"shader_source(layout(location = 93) uniform float synapse_dist_fog_a; // float
 )shader_source"
-R"shader_source(layout(location = 92) uniform float synapse_dist_fog_b; // float
+R"shader_source(layout(location = 94) uniform float synapse_dist_fog_b; // float
 )shader_source"
 R"shader_source(
 )shader_source"

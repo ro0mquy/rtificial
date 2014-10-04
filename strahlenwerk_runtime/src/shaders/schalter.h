@@ -16,17 +16,17 @@ R"shader_source(layout(location = 1) out float coc;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 48) uniform float focus_dist;
+R"shader_source(layout(location = 49) uniform float focus_dist;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 38) uniform float focal_length;
+R"shader_source(layout(location = 39) uniform float focal_length;
 )shader_source"
 R"shader_source(#define FOCAL_LENGTH
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 34) uniform float f_stop;
+R"shader_source(layout(location = 36) uniform float f_stop;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -60,19 +60,19 @@ R"shader_source(// fancy functions TODO
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 35) uniform vec3 camera_position;
+R"shader_source(layout(location = 37) uniform vec3 camera_position;
 )shader_source"
-R"shader_source(layout(location = 36) uniform vec4 camera_rotation;
+R"shader_source(layout(location = 38) uniform vec4 camera_rotation;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 37) uniform float time;
+R"shader_source(layout(location = 33) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(#ifndef FOCAL_LENGTH
 )shader_source"
-R"shader_source(layout(location = 38) uniform float focal_length;
+R"shader_source(layout(location = 39) uniform float focal_length;
 )shader_source"
 R"shader_source(#endif
 )shader_source"
@@ -1096,7 +1096,7 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 71) uniform float zapfen_leit_freq;
+R"shader_source(layout(location = 73) uniform float zapfen_leit_freq;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1134,29 +1134,29 @@ R"shader_source(#line 5
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 72) uniform float pyramid_h; // float
+R"shader_source(layout(location = 74) uniform float pyramid_h; // float
 )shader_source"
-R"shader_source(layout(location = 73) uniform float pyramid_s; // float
+R"shader_source(layout(location = 75) uniform float pyramid_s; // float
 )shader_source"
-R"shader_source(layout(location = 74) uniform float pyramid_animation; // float
+R"shader_source(layout(location = 76) uniform float pyramid_animation; // float
 )shader_source"
-R"shader_source(layout(location = 75) uniform float pyramid_wave_animation; // float
+R"shader_source(layout(location = 77) uniform float pyramid_wave_animation; // float
 )shader_source"
-R"shader_source(layout(location = 76) uniform float pyramid_bottom; // float
+R"shader_source(layout(location = 78) uniform float pyramid_bottom; // float
 )shader_source"
-R"shader_source(layout(location = 77) uniform vec3 pyramid_color; // color
+R"shader_source(layout(location = 79) uniform vec3 pyramid_color; // color
 )shader_source"
-R"shader_source(layout(location = 78) uniform vec3 pyramid_color2; // color
+R"shader_source(layout(location = 80) uniform vec3 pyramid_color2; // color
 )shader_source"
-R"shader_source(layout(location = 79) uniform vec3 pyramid_color_leitungen; // color
+R"shader_source(layout(location = 81) uniform vec3 pyramid_color_leitungen; // color
 )shader_source"
-R"shader_source(layout(location = 80) uniform vec3 pyramid_color_boden; // color
+R"shader_source(layout(location = 82) uniform vec3 pyramid_color_boden; // color
 )shader_source"
-R"shader_source(layout(location = 81) uniform vec3 schalter_light1_pos;
+R"shader_source(layout(location = 83) uniform vec3 schalter_light1_pos;
 )shader_source"
-R"shader_source(layout(location = 82) uniform vec3 schalter_light2_pos;
+R"shader_source(layout(location = 84) uniform vec3 schalter_light2_pos;
 )shader_source"
-R"shader_source(layout(location = 83) uniform vec3 schalter_background_color; // color
+R"shader_source(layout(location = 85) uniform vec3 schalter_background_color; // color
 )shader_source"
 R"shader_source(
 )shader_source"

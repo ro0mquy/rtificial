@@ -20,13 +20,13 @@ R"shader_source(
 )shader_source"
 R"shader_source(layout(binding = 12) uniform sampler2D luminance; // float level(11)
 )shader_source"
-R"shader_source(layout(location = 44) uniform float key;
+R"shader_source(layout(location = 45) uniform float key;
 )shader_source"
-R"shader_source(layout(location = 45) uniform vec3 lift; // color
+R"shader_source(layout(location = 46) uniform vec3 lift; // color
 )shader_source"
-R"shader_source(layout(location = 46) uniform vec3 gamma; // color
+R"shader_source(layout(location = 47) uniform vec3 gamma; // color
 )shader_source"
-R"shader_source(layout(location = 47) uniform vec3 gain; // color
+R"shader_source(layout(location = 48) uniform vec3 gain; // color
 )shader_source"
 R"shader_source(layout(binding = 11) uniform sampler2D blended_color; // vec3
 )shader_source"
