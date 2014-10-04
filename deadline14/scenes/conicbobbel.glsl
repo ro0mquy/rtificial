@@ -22,6 +22,7 @@ uniform bool  conic_domrep_enabled;
 
 uniform vec3 zapfen_background_color; // color
 uniform bool conic_fog_enabled;
+uniform vec3 conic_background_color; // color
 
 vec3 colors[5] = vec3[5](
 		vec3(.0),
@@ -87,9 +88,7 @@ void main(void) {
 	}
 
 	float dist = distance(hit, camera_position);
-	if(conic_fog_enabled) {
-		color = mix(color, zapfen_background_color * .001, smoothstep(80., 100., dist));
-	}
+	color = mix(color, (conic_fog_enabled ? zapfen_background_color : conic_background_color) * .001, smoothstep(80., 100., dist));
 	output_color(color, dist);
 }
 
