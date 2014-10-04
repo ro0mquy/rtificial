@@ -165,7 +165,7 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="54" sequenceDuration="34"
+        <sequence sequenceSceneId="103" sequenceStart="54" sequenceDuration="36"
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -174,7 +174,7 @@
             <keyframe keyframePosition="12">
               <keyframeValue valueVec3X="8.6" valueVec3Y="-9.225" valueVec3Z="-7.497"/>
             </keyframe>
-            <keyframe keyframePosition="34">
+            <keyframe keyframePosition="36">
               <keyframeValue valueVec3X="-52.229" valueVec3Y="26.74" valueVec3Z="-24.322"/>
             </keyframe>
           </keyframesArray>
@@ -540,7 +540,7 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="54" sequenceDuration="34"
+        <sequence sequenceSceneId="103" sequenceStart="54" sequenceDuration="36"
                   sequenceInterpolation="ccrSpline">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -549,7 +549,7 @@
             <keyframe keyframePosition="12">
               <keyframeValue valueVec4X="-0.291" valueVec4Y="-0.349" valueVec4Z="-0.112" valueVec4W="0.884"/>
             </keyframe>
-            <keyframe keyframePosition="34">
+            <keyframe keyframePosition="36">
               <keyframeValue valueVec4X="-0.239" valueVec4Y="-0.7" valueVec4Z="-0.267" valueVec4W="0.618"/>
             </keyframe>
           </keyframesArray>
@@ -1595,13 +1595,16 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="64" sequenceDuration="24"
+        <sequence sequenceSceneId="103" sequenceStart="78" sequenceDuration="14"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0.5"/>
             </keyframe>
-            <keyframe keyframePosition="24">
+            <keyframe keyframePosition="12">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="14">
               <keyframeValue valueFloatX="0"/>
             </keyframe>
           </keyframesArray>
@@ -2093,7 +2096,7 @@
     <uniform uniformName="synapse_last_fire" uniformType="bool">
       <uniformStandardValue valueBoolState="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="103" sequenceStart="86" sequenceDuration="2"
+        <sequence sequenceSceneId="103" sequenceStart="88" sequenceDuration="2"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -2277,7 +2280,7 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="86" sequenceDuration="2"
+        <sequence sequenceSceneId="103" sequenceStart="88" sequenceDuration="2"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -2501,7 +2504,7 @@
     <scene sceneId="100" sceneStart="48" sceneDuration="48" sceneShaderSource="schalter"/>
     <scene sceneId="101" sceneStart="96" sceneDuration="40" sceneShaderSource="conicbobbel"/>
     <scene sceneId="102" sceneStart="164" sceneDuration="11" sceneShaderSource="zapfen"/>
-    <scene sceneId="103" sceneStart="192" sceneDuration="96" sceneShaderSource="syntakischerspalt"/>
+    <scene sceneId="103" sceneStart="192" sceneDuration="92" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="106" sceneStart="36" sceneDuration="12" sceneShaderSource="syntakischerspalt"/>
     <scene sceneId="107" sceneStart="0" sceneDuration="12" sceneShaderSource="schalter"/>
     <scene sceneId="108" sceneStart="12" sceneDuration="12" sceneShaderSource="conicbobbel"/>
