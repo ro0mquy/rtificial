@@ -40,6 +40,12 @@ R"shader_source(	float N = f_stop;
 )shader_source"
 R"shader_source(	coc = (dist - focus_dist)/dist * (f * f) / (N * (focus_dist - f)) / 0.03 * res.x;
 )shader_source"
+R"shader_source(	if(any(isnan(color)) || any(isinf(color))) {
+)shader_source"
+R"shader_source(		color = vec3(0.);
+)shader_source"
+R"shader_source(	}
+)shader_source"
 R"shader_source(	out_color = color;
 )shader_source"
 R"shader_source(}
@@ -164,7 +170,7 @@ R"shader_source(		f(p + epilepsilon.yxy)[0] - f(p - epilepsilon.yxy)[0],
 )shader_source"
 R"shader_source(		f(p + epilepsilon.yyx)[0] - f(p - epilepsilon.yyx)[0]
 )shader_source"
-R"shader_source(	) + 1e-9);
+R"shader_source(	));
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -1092,13 +1098,13 @@ R"shader_source(
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 66) uniform vec3 sphere1_color; // color
+R"shader_source(layout(location = 68) uniform vec3 sphere1_color; // color
 )shader_source"
-R"shader_source(layout(location = 67) uniform vec3 sphere2_color; // color
+R"shader_source(layout(location = 69) uniform vec3 sphere2_color; // color
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 68) uniform vec3 sphere1_pos; // vec3
+R"shader_source(layout(location = 70) uniform vec3 sphere1_pos; // vec3
 )shader_source"
 R"shader_source(
 )shader_source"

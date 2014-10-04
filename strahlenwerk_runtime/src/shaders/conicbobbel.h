@@ -40,6 +40,12 @@ R"shader_source(	float N = f_stop;
 )shader_source"
 R"shader_source(	coc = (dist - focus_dist)/dist * (f * f) / (N * (focus_dist - f)) / 0.03 * res.x;
 )shader_source"
+R"shader_source(	if(any(isnan(color)) || any(isinf(color))) {
+)shader_source"
+R"shader_source(		color = vec3(0.);
+)shader_source"
+R"shader_source(	}
+)shader_source"
 R"shader_source(	out_color = color;
 )shader_source"
 R"shader_source(}
@@ -164,7 +170,7 @@ R"shader_source(		f(p + epilepsilon.yxy)[0] - f(p - epilepsilon.yxy)[0],
 )shader_source"
 R"shader_source(		f(p + epilepsilon.yyx)[0] - f(p - epilepsilon.yyx)[0]
 )shader_source"
-R"shader_source(	) + 1e-9);
+R"shader_source(	));
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -1318,6 +1324,12 @@ R"shader_source(layout(location = 65) uniform bool  conic_domrep_enabled;
 )shader_source"
 R"shader_source(
 )shader_source"
+R"shader_source(layout(location = 66) uniform vec3 zapfen_background_color; // color
+)shader_source"
+R"shader_source(layout(location = 67) uniform bool conic_fog_enabled;
+)shader_source"
+R"shader_source(
+)shader_source"
 R"shader_source(vec3 colors[5] = vec3[5](
 )shader_source"
 R"shader_source(		vec3(.0),
@@ -1444,7 +1456,15 @@ R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	output_color(color, distance(hit, camera_position));
+R"shader_source(	float dist = distance(hit, camera_position);
+)shader_source"
+R"shader_source(	if(conic_fog_enabled) {
+)shader_source"
+R"shader_source(		color = mix(color, zapfen_background_color * .001, smoothstep(80., 100., dist));
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(	output_color(color, dist);
 )shader_source"
 R"shader_source(}
 )shader_source"
