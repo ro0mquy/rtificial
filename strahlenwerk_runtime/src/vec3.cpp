@@ -1,6 +1,6 @@
 #include "vec3.h"
-#include <cmath>
 
+extern float sqrt(float);
 vec3::vec3() :
 	vec3(0., 0., 0.)
 { }
@@ -38,7 +38,7 @@ vec3 operator*(vec3 const& v, double const& s) {
 }
 
 double length(vec3 const& v) {
-	return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
 double distance(vec3 const& v1, vec3 const& v2) {

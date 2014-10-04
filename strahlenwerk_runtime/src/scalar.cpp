@@ -1,8 +1,9 @@
 #include "scalar.h"
-#include <cmath>
+
+extern float abs(float x);
 
 double distance(double const& s1, double const& s2) {
-	return std::abs(s1 - s2);
+	return abs(s1 - s2);
 }
 
 double mix(double const& s1, double const& s2, double const& t) {

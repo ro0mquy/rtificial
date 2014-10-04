@@ -8,9 +8,24 @@
 #include "vec2.h"
 #include "vec3.h"
 #include "quat.h"
-#include <cmath>
+//#include <cmath>
 
+static float sqrt(float x){
+	__asm fld x;
+	__asm fsqrt;
+	__asm fstp x;
+	return x;
 
+}
+/*
+extern "C" {
+	int atexit(
+		void(__cdecl *func)(void)
+		){
+		return 0;
+	}
+}
+*/
 using namespace DataInterpolator;
 
 void DataInterpolator::loadUniforms(const double time) {
@@ -41,8 +56,10 @@ void DataInterpolator::setUniformValue(const double time, const int nthUniform, 
 
 	int totalNumKeyframe = 0;
 
+	Sequence sequence;
 	for (int i = firstSequence; i < lastSequences; i++) {
-		const Sequence sequence = sequence_data[i];
+		//const Sequence sequence = sequence_data[i];
+		sequence = sequence_data[i];
 		const int numKeyframes = sequence.numKeyframes;
 		totalNumKeyframe += numKeyframes;
 

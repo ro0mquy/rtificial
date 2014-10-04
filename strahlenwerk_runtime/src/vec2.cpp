@@ -1,6 +1,6 @@
 #include "vec2.h"
-#include <cmath>
 
+extern float sqrt(float);
 vec2::vec2() :
 	vec2(0., 0.)
 { }
@@ -34,7 +34,7 @@ vec2 operator*(vec2 const& v, double const& s) {
 }
 
 double length(vec2 const& v) {
-	return std::sqrt(v.x * v.x + v.y * v.y);
+	return sqrt(v.x * v.x + v.y * v.y);
 }
 
 double distance(vec2 const& v1, vec2 const& v2) {
