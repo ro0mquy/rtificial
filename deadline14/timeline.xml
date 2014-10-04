@@ -141,7 +141,7 @@
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="-431.248"/>
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
             </keyframe>
             <keyframe keyframePosition="8">
               <keyframeValue valueVec3X="500" valueVec3Y="-500" valueVec3Z="-500"/>
@@ -183,10 +183,21 @@
               <keyframeValue valueVec3X="25.418" valueVec3Y="-24.59" valueVec3Z="-24.702"/>
             </keyframe>
             <keyframe keyframePosition="10">
-              <keyframeValue valueVec3X="8.6" valueVec3Y="-9.225" valueVec3Z="-7.497"/>
+              <keyframeValue valueVec3X="8.60018" valueVec3Y="-9.22464" valueVec3Z="-7.49676"/>
             </keyframe>
             <keyframe keyframePosition="18">
-              <keyframeValue valueVec3X="-52.229" valueVec3Y="26.74" valueVec3Z="-24.322"/>
+              <keyframeValue valueVec3X="-52.2295" valueVec3Y="26.7398" valueVec3Z="-24.3225"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-37.464" valueVec3Y="84.379" valueVec3Z="21.742"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -326,7 +337,8 @@
                              valueVec4W="-0.934645"/>
             </keyframe>
             <keyframe keyframePosition="2.49997">
-              <keyframeValue valueVec4X="-0.06" valueVec4Y="-0.35" valueVec4Z="0.022" valueVec4W="-0.935"/>
+              <keyframeValue valueVec4X="-0.06" valueVec4Y="-0.350221" valueVec4Z="0.022"
+                             valueVec4W="-0.935"/>
             </keyframe>
             <keyframe keyframePosition="6.99998">
               <keyframeValue valueVec4X="0.147" valueVec4Y="-0.347" valueVec4Z="-0.055" valueVec4W="-0.925"/>
@@ -348,7 +360,7 @@
             </keyframe>
             <keyframe keyframePosition="8.99996">
               <keyframeValue valueVec4X="-0.048" valueVec4Y="-0.557627" valueVec4Z="0.032"
-                             valueVec4W="-0.828"/>
+                             valueVec4W="-0.8279"/>
             </keyframe>
             <keyframe keyframePosition="13">
               <keyframeValue valueVec4X="-0.213" valueVec4Y="-0.53985" valueVec4Z="0.143"
@@ -416,10 +428,23 @@
               <keyframeValue valueVec4X="-0.039" valueVec4Y="-0.366" valueVec4Z="-0.014" valueVec4W="0.929"/>
             </keyframe>
             <keyframe keyframePosition="10">
-              <keyframeValue valueVec4X="-0.348" valueVec4Y="-0.341" valueVec4Z="-0.135" valueVec4W="0.863"/>
+              <keyframeValue valueVec4X="-0.347755" valueVec4Y="-0.340758" valueVec4Z="-0.135443"
+                             valueVec4W="0.862824"/>
             </keyframe>
             <keyframe keyframePosition="18">
-              <keyframeValue valueVec4X="-0.239" valueVec4Y="-0.7" valueVec4Z="-0.267" valueVec4W="0.618"/>
+              <keyframeValue valueVec4X="-0.238556" valueVec4Y="-0.699709" valueVec4Z="-0.267488"
+                             valueVec4W="0.617907"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec4X="-0.003" valueVec4Y="0.997" valueVec4Z="0.042" valueVec4W="0.064"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec4X="0" valueVec4Y="0" valueVec4Z="0" valueVec4W="1"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -640,28 +665,25 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="40" sequenceDuration="8"
+        <sequence sequenceSceneId="103" sequenceStart="42" sequenceDuration="12"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0.229"/>
             </keyframe>
-            <keyframe keyframePosition="8">
+            <keyframe keyframePosition="12">
               <keyframeValue valueFloatX="0.229"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="48" sequenceDuration="8"
-                  sequenceInterpolation="linear">
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="0.229"/>
+              <keyframeValue valueFloatX="0.437"/>
             </keyframe>
-            <keyframe keyframePosition="1.5">
-              <keyframeValue valueFloatX="1.484"/>
-            </keyframe>
-            <keyframe keyframePosition="8">
-              <keyframeValue valueFloatX="2.233"/>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueFloatX="0"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -714,13 +736,13 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="40" sequenceDuration="8"
+        <sequence sequenceSceneId="103" sequenceStart="42" sequenceDuration="12"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0.02"/>
             </keyframe>
-            <keyframe keyframePosition="8">
+            <keyframe keyframePosition="12">
               <keyframeValue valueFloatX="0.2"/>
             </keyframe>
           </keyframesArray>
@@ -774,25 +796,25 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="40" sequenceDuration="8"
+        <sequence sequenceSceneId="103" sequenceStart="42" sequenceDuration="12"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="6.065"/>
             </keyframe>
-            <keyframe keyframePosition="8">
+            <keyframe keyframePosition="12">
               <keyframeValue valueFloatX="6.065"/>
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="48" sequenceDuration="8"
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
-              <keyframeValue valueFloatX="4.311"/>
+              <keyframeValue valueFloatX="11.987"/>
             </keyframe>
-            <keyframe keyframePosition="8">
-              <keyframeValue valueFloatX="4.311"/>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueFloatX="0"/>
             </keyframe>
           </keyframesArray>
         </sequence>
@@ -866,7 +888,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="grain_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="0.02"/>
+      <uniformStandardValue valueFloatX="0.011"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="k" uniformType="float">
@@ -1562,11 +1584,35 @@
     </uniform>
     <uniform uniformName="zapfen_bobbel_displacement" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="15.186" valueVec3Y="-14.36" valueVec3Z="3.426"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_bobbel_progress" uniformType="float">
       <uniformStandardValue valueFloatX="0"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueFloatX="0"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueFloatX="17"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_bobbels_enabled" uniformType="bool">
       <uniformStandardValue valueBoolState="0"/>
@@ -1617,7 +1663,7 @@
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_light_intensity" uniformType="float">
-      <uniformStandardValue valueFloatX="2"/>
+      <uniformStandardValue valueFloatX="200.136"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_light_radius" uniformType="float">
@@ -1630,15 +1676,39 @@
     </uniform>
     <uniform uniformName="zapfen_light1_pos" uniformType="vec3">
       <uniformStandardValue valueVec3X="0" valueVec3Y="20" valueVec3Z="0"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-37" valueVec3Y="101.977" valueVec3Z="16.539"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_light2_col" uniformType="color">
-      <uniformStandardValue valueColorR="0.18" valueColorG="0.18" valueColorB="0.18"/>
+      <uniformStandardValue valueColorR="0.998275" valueColorG="0.967539" valueColorB="0.694191"/>
       <sequencesArray/>
     </uniform>
     <uniform uniformName="zapfen_light2_pos" uniformType="vec3">
       <uniformStandardValue valueVec3X="30" valueVec3Y="50" valueVec3Z="-100"/>
-      <sequencesArray/>
+      <sequencesArray>
+        <sequence sequenceSceneId="102" sequenceStart="2" sequenceDuration="17"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="-17.313" valueVec3Y="100" valueVec3Z="334.942"/>
+            </keyframe>
+            <keyframe keyframePosition="17">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
     </uniform>
     <uniform uniformName="zapfen_mat_freq" uniformType="float">
       <uniformStandardValue valueFloatX="0.232"/>
