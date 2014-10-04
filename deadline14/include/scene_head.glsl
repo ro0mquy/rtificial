@@ -18,6 +18,9 @@ void output_color(vec3 color, float dist) {
 	float f = focal_length;
 	float N = f_stop;
 	coc = (dist - focus_dist)/dist * (f * f) / (N * (focus_dist - f)) / 0.03 * res.x;
+	if(any(isnan(color)) || any(isinf(color))) {
+		color = vec3(0.);
+	}
 	out_color = color;
 }
 
