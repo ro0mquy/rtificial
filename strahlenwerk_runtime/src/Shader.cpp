@@ -71,7 +71,7 @@ void Shader::draw(int width, int height, const double time) {
 	};
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	glUniform2f(0, width, height);
-	glUniform1f(34, time);
+	glUniform1f(33, time);
 	if (time >= 0.) {
 		DataInterpolator::loadUniforms(time);
 	}
