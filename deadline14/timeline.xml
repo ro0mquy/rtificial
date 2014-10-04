@@ -2148,7 +2148,7 @@
     <uniform uniformName="synapse_last_fire" uniformType="bool">
       <uniformStandardValue valueBoolState="0"/>
       <sequencesArray>
-        <sequence sequenceSceneId="103" sequenceStart="88" sequenceDuration="2"
+        <sequence sequenceSceneId="103" sequenceStart="87" sequenceDuration="2"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
@@ -2332,7 +2332,7 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="103" sequenceStart="88" sequenceDuration="2"
+        <sequence sequenceSceneId="103" sequenceStart="87" sequenceDuration="2"
                   sequenceInterpolation="linear">
           <keyframesArray>
             <keyframe keyframePosition="0">
