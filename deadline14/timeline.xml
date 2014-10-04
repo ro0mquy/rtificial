@@ -1233,6 +1233,22 @@
       <uniformStandardValue valueFloatX="1"/>
       <sequencesArray/>
     </uniform>
+    <uniform uniformName="conic_use_noise" uniformType="bool">
+      <uniformStandardValue valueBoolState="1"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="101" sequenceStart="32" sequenceDuration="8"
+                  sequenceInterpolation="step">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueBoolState="0"/>
+            </keyframe>
+            <keyframe keyframePosition="8">
+              <keyframeValue valueBoolState="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
     <uniform uniformName="distort_k" uniformType="float">
       <uniformStandardValue valueFloatX="0.001"/>
       <sequencesArray/>
@@ -1299,13 +1315,22 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="101" sequenceStart="8" sequenceDuration="10.5"
+        <sequence sequenceSceneId="101" sequenceStart="8" sequenceDuration="32"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0.955"/>
             </keyframe>
             <keyframe keyframePosition="10.5">
+              <keyframeValue valueFloatX="0.793"/>
+            </keyframe>
+            <keyframe keyframePosition="19.5">
+              <keyframeValue valueFloatX="0.078"/>
+            </keyframe>
+            <keyframe keyframePosition="24">
+              <keyframeValue valueFloatX="0.133"/>
+            </keyframe>
+            <keyframe keyframePosition="32">
               <keyframeValue valueFloatX="0.955"/>
             </keyframe>
           </keyframesArray>
@@ -1496,13 +1521,22 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="101" sequenceStart="8" sequenceDuration="10.5"
+        <sequence sequenceSceneId="101" sequenceStart="8" sequenceDuration="32"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="5.808"/>
             </keyframe>
             <keyframe keyframePosition="10.5">
+              <keyframeValue valueFloatX="6.557"/>
+            </keyframe>
+            <keyframe keyframePosition="19.5">
+              <keyframeValue valueFloatX="19.272"/>
+            </keyframe>
+            <keyframe keyframePosition="24">
+              <keyframeValue valueFloatX="21.86"/>
+            </keyframe>
+            <keyframe keyframePosition="32">
               <keyframeValue valueFloatX="5.808"/>
             </keyframe>
           </keyframesArray>
@@ -1596,13 +1630,13 @@
             </keyframe>
           </keyframesArray>
         </sequence>
-        <sequence sequenceSceneId="101" sequenceStart="0" sequenceDuration="32"
+        <sequence sequenceSceneId="101" sequenceStart="0" sequenceDuration="40"
                   sequenceInterpolation="step">
           <keyframesArray>
             <keyframe keyframePosition="0">
               <keyframeValue valueFloatX="0.2"/>
             </keyframe>
-            <keyframe keyframePosition="32">
+            <keyframe keyframePosition="40">
               <keyframeValue valueFloatX="0.5"/>
             </keyframe>
           </keyframesArray>
