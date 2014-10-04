@@ -20,6 +20,9 @@ uniform float conic_bobbel_xcoord;
 uniform float conic_domrep_spacing;
 uniform bool  conic_domrep_enabled;
 
+uniform vec3 zapfen_background_color; // color
+uniform bool conic_fog_enabled;
+
 vec3 colors[5] = vec3[5](
 		vec3(.0),
 		vec3(.03, .0, .0),
@@ -83,7 +86,11 @@ void main(void) {
 		color = apply_lights(hit, normal, -direction, mat);
 	}
 
-	output_color(color, distance(hit, camera_position));
+	float dist = distance(hit, camera_position);
+	if(conic_fog_enabled) {
+		color = mix(color, zapfen_background_color * .001, smoothstep(80., 100., dist));
+	}
+	output_color(color, dist);
 }
 
 vec2 f(vec3 p) {

@@ -96,7 +96,7 @@ void main() {
 		}
 		glow = sin(distance(next, p.xz) * .5 + 6. * time) * (vnoise(floor(p.xz/65.)*20. + time * .4) * .5 + .5);
 
-		color = mix(nonglowing, glowing, glow);
+		color = mix(nonglowing, glowing, pow(glow * .5 + .5, 5.));
 
 		Material material2 = Material(zapfen_col_boden, 1., 0.);
 		vec3 color2 = apply_lights(p, normal, -dir, material2);
