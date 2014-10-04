@@ -222,7 +222,7 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 			if (!contentBounds.contains(event.getPosition())) return;
 
 			LabColorPicker* popupPicker = new LabColorPicker(colorLab);
-			popupPicker->setSize(600, 812);
+			popupPicker->setSize(300, 406);
 
 			CallOutBox::launchAsynchronously(popupPicker, localAreaToGlobal(contentBounds), nullptr);
 		}
