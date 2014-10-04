@@ -7,6 +7,13 @@ uniform vec3 conic_bobbel_color; // color
 uniform vec3 conic_ring_color; // color
 uniform vec3 conic_lampe_color; // color
 
+uniform vec3 conic_light1_pos;
+uniform vec3 conic_light2_pos;
+uniform vec3 conic_light1_col; // color
+uniform vec3 conic_light2_col; // color
+uniform float conic_light_radius;
+uniform float conic_light_intensity;
+
 uniform float conic_smooth_factor; // float
 uniform float conic_ring_intensity; // float
 uniform float conic_bobbel_xcoord;
@@ -26,6 +33,13 @@ const float material_boden    = 1.;
 const float material_lampe    = 2.;
 const float material_bobbel   = 3.;
 const float material_ring     = 4.;
+
+vec3 apply_lights(vec3 p, vec3 N, vec3 V, Material mat) {
+	vec3 color = vec3(0.);
+	color += apply_light(p, N, V, mat, SphereLight(conic_light1_pos, conic_light1_col, conic_light_radius, conic_light_intensity));
+	color += apply_light(p, N, V, mat, SphereLight(conic_light2_pos, conic_light2_col, conic_light_radius, conic_light_intensity));
+	return color;
+}
 
 void main(void) {
 	vec3 direction = get_direction();
@@ -47,26 +61,26 @@ void main(void) {
 		float size = 2.;
 		float stripes = mod(floor(hit.x / size), 2.);
 		Material mat = Material(colors[int(material_boden)] * stripes, 0.5, 0.);
-		color = apply_light(hit, normal, -direction, mat, light1);
+		color = apply_lights(hit, normal, -direction, mat);
 	} else if(materialId == material_bounding) {
 		Material mat = Material(colors[int(material_bounding)], 1., 0.);
-		color = apply_light(hit, normal, -direction, mat, light1);
+		color = apply_lights(hit, normal, -direction, mat);
 	} else if (materialId >= material_lampe && materialId <= material_bobbel) {
-		Material material1 = Material(colors[int(material_lampe)], 0.2, 1.);
-		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
+		Material material1 = Material(colors[int(material_lampe)], 0.9, .9);
+		vec3 color1 = apply_lights(hit, normal, -direction, material1);
 		Material material2 = Material(colors[int(material_bobbel)], bobbel_rough, bobbel_metallic);
-		vec3 color2 = apply_light(hit, normal, -direction, material2, light1);
+		vec3 color2 = apply_lights(hit, normal, -direction, material2);
 		float mixfactor = pow(materialId - material_lampe, 3.); // change the exponent for sharpness of transition
 		color = mix(color1, color2, mixfactor);
 	} else if (materialId >= material_bobbel && materialId <= material_ring) {
 		Material material1 = Material(colors[int(material_bobbel)], bobbel_rough, bobbel_metallic);
-		vec3 color1 = apply_light(hit, normal, -direction, material1, light1);
+		vec3 color1 = apply_lights(hit, normal, -direction, material1);
 		vec3 color2 = emit_light(colors[int(material_ring)], conic_ring_intensity);
 		float mixfactor = pow(materialId - material_bobbel, 6.); // change the exponent for sharpness of transition
 		color = mix(color1, color2, mixfactor);
 	} else {
 		Material mat = Material(colors[int(materialId)], 0.2, 1.);
-		color = apply_light(hit, normal, -direction, mat, light1);
+		color = apply_lights(hit, normal, -direction, mat);
 	}
 
 	output_color(color, distance(hit, camera_position));
