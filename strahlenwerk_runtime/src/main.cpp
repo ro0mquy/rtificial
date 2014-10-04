@@ -65,6 +65,7 @@ const bool use_sound_thread = true;
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1.);
 		backend.afterFrame();
+		Sleep(100);
 	}
 	for(int i = 0; i < n_postproc; i++) {
 		postproc[i].compile();
@@ -76,9 +77,8 @@ const bool use_sound_thread = true;
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1.);
 		backend.afterFrame();
+		Sleep(100);
 	}
-
-	Sleep(2000);
 
 	backend.playAudio();
 
