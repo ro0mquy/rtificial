@@ -19,6 +19,7 @@
 * trockener Wüstenboden (der von Wasser geflutet wird?)
 * ein flipper mit nicer metallkugel und interaktion zwischen objekten (wofür wir ja schließlich bekannt sind). Könnte man auch ausweiten auf eine "arcade" demo.
 * "Zyklotron": Tron das Spiel in Polarkoordinaten. Bewegung in ê⃗_φ und ê⃗_r Richtung. Wand im Ursprung. Gitternetz mit Radar.
+* Beginn: 2D Waveform, dann Drehung der Kamera in Raum, sodass Waveform eine Fläche ist. Fläche wird überfolgen und ist "Landschaft"
 
 ## Bilder
 * http://projectosxar.deviantart.com/art/Through-the-Gap-455732816
