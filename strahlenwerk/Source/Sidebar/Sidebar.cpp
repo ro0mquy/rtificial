@@ -8,8 +8,6 @@
 Sidebar::Sidebar() :
 	data(TimelineData::getTimelineData())
 {
-	data.addListenerToTree(this);
-	AudioManager::getAudioManager().addChangeListener(this);
 	triggerAsyncUpdate();
 }
 
@@ -31,10 +29,6 @@ void Sidebar::addEditorComponentToArray(ValueTree uniform) {
 }
 
 void Sidebar::reAddAllProperties() {
-	if (!constructionCompleted) {
-		return;
-	}
-
 	editorComponentsArray.clearQuick();
 	clear();
 
@@ -76,7 +70,8 @@ void Sidebar::updateAllEditorValueDatas() {
 }
 
 void Sidebar::handleAsyncUpdate() {
-	constructionCompleted = true;
+	data.addListenerToTree(this);
+	AudioManager::getAudioManager().addChangeListener(this);
 	reAddAllProperties();
 }
 
