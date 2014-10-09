@@ -32,17 +32,17 @@ int main(){
 	playAudio();
 
 	/* draw loop */
-	sleep(30);
+	sleep(180);
 
 	cleanup();
 	return 0;
 }
 
 
-SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
+static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 
 static snd_pcm_t* alsa_handle;
-static snd_pcm_uframes_t  audio_frames;
+static snd_pcm_uframes_t audio_frames;
 
 void initAudio(int threaded) {
 	// run 4klang rendering in a thread
@@ -92,30 +92,29 @@ void playAudio() {
 
 static void* __playAudio(void* arg) {
 	size_t audio_buffer_size = audio_frames * AUDIO_CHANNELS;
-	size_t audio_buffer_offset = 0;
 
-	while (23) {
-		// write buffer to sound card
-		size_t bytes_written = snd_pcm_writei(alsa_handle, audio_buffer + audio_buffer_offset, audio_frames);
+	for (size_t audio_buffer_offset = 0;
+			audio_buffer_offset < MAX_SAMPLES * AUDIO_CHANNELS;
+			audio_buffer_offset += audio_buffer_size
+		) {
+		// write data directly from 4klang buffer to sound card
+		size_t bytes_written = snd_pcm_writei(alsa_handle,
+				audio_buffer + audio_buffer_offset,
+				audio_frames
+				);
 
 		if (-EPIPE == bytes_written){
-//			fprintf(stderr, "[audio] underrun occured\n");
+			// handle underrun
 			snd_pcm_prepare(alsa_handle);
-// wenn wir oben kein error handling machen, dann hier auch nicht.
-//		} else if (bytes_written < 0){
-//			fprintf(stderr, "[audio] writei error: %s\n", snd_strerror(bytes_written));
-//		} else if (bytes_written != (int) audio_frames){
-//			fprintf(stderr, "[audio] short write: %zu frames written\n", bytes_written);
 		}
-
-		audio_buffer_offset += audio_buffer_size;
 	}
 
+	// exit thread
 	return NULL;
 }
 
 void cleanup() {
-	snd_pcm_drain(alsa_handle); // play all pending frames
-	// snd_pcm_drop(); // to stop immediately
+	// stop audio immediately
+	snd_pcm_drop(alsa_handle);
 	snd_pcm_close(alsa_handle);
 }
