@@ -8,6 +8,6 @@ A basic alsa player that reads from `stdin` for 5 seconds. The code is taken fro
 
 ## `alsa_4klang.c`
 
-A 4klang player using alsa. It uses `4klang.o`, renders it in a thread and plays it in another.
+A 4klang player using ALSA. It uses `4klang.o`, renders it in a thread and plays it in another. On Arch Linux you will need the 32-bit ALSA and PulseAudio libraries `lib32-libpulse` and `lib32-alsa-plugins`.
 
     sh make.alsa_4klang.sh && ./alsa_4klang

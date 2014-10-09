@@ -1,9 +1,3 @@
-/*
- * in archlinux you need
- * lib32-libpulse
- * lib32-alsa-plugins
- */
-
 #include <stdio.h>
 #include <pthread.h>
 #include <alloca.h> // ALSA
