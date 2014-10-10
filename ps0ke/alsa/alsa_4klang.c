@@ -2,7 +2,6 @@
 #include <pthread.h>
 #include <alloca.h> // ALSA
 #include <unistd.h> // sleep()
-#include <string.h> // memcpy()
 #define ALSA_PCM_NEW_HW_PARAMS_API
 #include <alsa/asoundlib.h>
 
