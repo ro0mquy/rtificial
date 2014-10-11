@@ -1,7 +1,6 @@
 #ifdef _WINDOWS
 
 #include "Backend.h"
-#include <windows.h>
 #include "glcorearb.h"
 
 PFNGLACTIVETEXTUREPROC            glActiveTexture;
@@ -32,25 +31,24 @@ PFNGLGETPROGRAMINFOLOGPROC        glGetProgramInfoLog;
 
 
 void WindowsBackend::init(int width, int height, bool fullscreen) {
-
-	DEVMODE dm = {
-		"", 0, 0, sizeof(dm), 0, DM_PELSWIDTH | DM_PELSHEIGHT, { { 0, 0, 0, 0, 0, 0, 0, 0 } }, 0, 0, 0, 0, 0,
+	DEVMODE device_mode = {
+		"", 0, 0, sizeof(device_mode), 0, DM_PELSWIDTH | DM_PELSHEIGHT, { { 0, 0, 0, 0, 0, 0, 0, 0 } }, 0, 0, 0, 0, 0,
 		"", 0, 0, width, height, { 0 }, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	};
 
-	PIXELFORMATDESCRIPTOR pfd =	{
-		sizeof(pfd), 1, PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+	PIXELFORMATDESCRIPTOR pixel_format_descriptor =	{
+		sizeof(pixel_format_descriptor), 1, PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
 		32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0
 	};
 
 	// open Windows window
-	if (fullscreen){
-		ChangeDisplaySettings(&dm, CDS_FULLSCREEN);
+	if (fullscreen) {
+		ChangeDisplaySettings(&device_mode, CDS_FULLSCREEN);
 	}
 
-	hDC = GetDC(CreateWindow("edit", 0, WS_POPUP | WS_VISIBLE | WS_MAXIMIZE , 0, 0, 0, 0, 0, 0, 0, 0));
-	SetPixelFormat(hDC, ChoosePixelFormat(hDC, &pfd), &pfd);
-	wglMakeCurrent(hDC, wglCreateContext(hDC));
+	window_handle = GetDC(CreateWindow("edit", 0, WS_POPUP | WS_VISIBLE | WS_MAXIMIZE , 0, 0, 0, 0, 0, 0, 0, 0));
+	SetPixelFormat(window_handle, ChoosePixelFormat(window_handle, &pixel_format_descriptor), &pixel_format_descriptor);
+	wglMakeCurrent(window_handle, wglCreateContext(window_handle));
 	ShowCursor(FALSE);
 
 	// Load OpenGL functions manually
@@ -82,77 +80,67 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 }
 
 
-// audio
 //#include <mmsystem.h>
 //#include <mmreg.h>
-
-// some song information
 #include "music/4klang.h"
+#define AUDIO_CHANNELS 2
 
-// MAX_SAMPLES gives you the number of samples for the whole song. we always produce stereo samples, so times 2 for the buffer
-SAMPLE_TYPE	lpSoundBuffer[MAX_SAMPLES * 2];
-HWAVEOUT	hWaveOut;
-
-WAVEFORMATEX WaveFMT = {
-#ifdef FLOAT_32BIT	
-	WAVE_FORMAT_IEEE_FLOAT,
-#else
-	WAVE_FORMAT_PCM,
-#endif		
-	2, // channels
-	SAMPLE_RATE, // samples per sec
-	SAMPLE_RATE*sizeof(SAMPLE_TYPE) * 2, // bytes per sec
-	sizeof(SAMPLE_TYPE) * 2, // block alignment;
-	sizeof(SAMPLE_TYPE) * 8, // bits per sample
-	0 // extension not needed
-};
-
-WAVEHDR WaveHDR = {
-	(LPSTR)lpSoundBuffer,
-	MAX_SAMPLES*sizeof(SAMPLE_TYPE) * 2,			// MAX_SAMPLES*sizeof(float)*2(stereo)
-	0,
-	0,
-	0,
-	0,
-	0,
-	0
-};
-
-MMTIME MMTime = {
-	TIME_SAMPLES,
-	0
-};
+static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 
 extern "C" {
 	int _fltused = 1;
 }
 
 void WindowsBackend::initAudio(bool threaded) {
-	if (threaded){
+	if (threaded) {
 		// thx to xTr1m/blu-flame for providing a smarter and smaller way to create the thread :)
-		CreateThread(0, 0, (LPTHREAD_START_ROUTINE)_4klang_render, lpSoundBuffer, 0, 0);
-	}
-	else {
-		_4klang_render(lpSoundBuffer);
+		CreateThread(0, 0, (LPTHREAD_START_ROUTINE) _4klang_render, audio_buffer, 0, 0);
+	} else {
+		_4klang_render(audio_buffer);
 	}
 
-	waveOutOpen(&hWaveOut, WAVE_MAPPER, &WaveFMT, NULL, 0, CALLBACK_NULL);
-	waveOutPrepareHeader(hWaveOut, &WaveHDR, sizeof(WaveHDR));
+	audio_wave_header = {
+		(LPSTR) audio_buffer,
+		MAX_SAMPLES * sizeof(SAMPLE_TYPE) * AUDIO_CHANNELS,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0
+	};
+
+	WAVEFORMATEX wave_format = {
+#		ifdef FLOAT_32BIT	
+			WAVE_FORMAT_IEEE_FLOAT,
+#		else
+			WAVE_FORMAT_PCM,
+#		endif		
+		/* channels        */ AUDIO_CHANNELS,
+		/* samples/second  */ SAMPLE_RATE,
+		/* bytes/second    */ SAMPLE_RATE*sizeof(SAMPLE_TYPE) * AUDIO_CHANNELS,
+		/* block alignment */ sizeof(SAMPLE_TYPE) * AUDIO_CHANNELS,
+		/* bits/sample     */ sizeof(SAMPLE_TYPE) * 8,
+		/* no extensions   */ 0
+	};
+
+	waveOutOpen(&audio_wave_out, WAVE_MAPPER, &wave_format, NULL, 0, CALLBACK_NULL);
+	waveOutPrepareHeader(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 }
 
 void WindowsBackend::playAudio() {
-	waveOutWrite(hWaveOut, &WaveHDR, sizeof(WaveHDR));
+	waveOutWrite(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 }
 
 double WindowsBackend::getTime(){
 	MMTIME time;
 	time.wType = TIME_SAMPLES;
-	waveOutGetPosition(hWaveOut, &time, sizeof(MMTIME));
+	waveOutGetPosition(audio_wave_out, &time, sizeof(MMTIME));
 	return double(time.u.sample) / SAMPLE_RATE * BPM / 60;
 }
 
-bool WindowsBackend::beforeFrame() {
 
+bool WindowsBackend::beforeFrame() {
 	MSG msg;
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 	{
@@ -164,10 +152,10 @@ bool WindowsBackend::beforeFrame() {
 }
 
 void WindowsBackend::afterFrame() {
-	SwapBuffers(hDC);
+	SwapBuffers(window_handle);
 }
 
-void WindowsBackend::cleanup() {
-//	ExitProcess(0);
-}
+
+void WindowsBackend::cleanup() {}
+
 #endif

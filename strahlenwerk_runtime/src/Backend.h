@@ -39,15 +39,20 @@ using int16_t = short;
 class WindowsBackend {
 	public:
 		void init(int width, int height, bool fullscreen);
+
 		void initAudio(bool threaded);
 		void playAudio();
 		double getTime();
+
 		bool beforeFrame();
 		void afterFrame();
+
 		void cleanup();
 
 	private:
-		HDC hDC;
+		HDC window_handle;
+		HWAVEOUT audio_wave_out;
+		WAVEHDR audio_wave_header;
 };
 
 #endif
