@@ -13,15 +13,24 @@ using int16_t = short;
 #define WIN32_LEAN_AND_MEAN
 
 #ifdef _DEBUG
+#	include <string>
+
 #	define RT_MAIN int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+
 #	define RT_INIT
+
 #	define RT_DEINIT \
 		ExitProcess(0); \
 		return 0;
+
+#	define RT_DEBUG(str) \
+		OutputDebugString(string);
 #else
 #	define RT_MAIN void WinMainCRTStartup()
+
 #	define RT_INIT \
 		GlobalsStaticsInit();
+
 #	define RT_DEINIT \
 		GlobalsStaticsFree(); \
 		ExitProcess(0);
@@ -50,6 +59,16 @@ class WindowsBackend {
 #define RT_INIT
 #define RT_DEINIT \
 	return 0;
+
+#ifdef _DEBUG
+#	include <string>
+#	include <iostream>
+
+// http://stackoverflow.com/questions/8311058/n-or-n-or-stdendl-to-stdcout
+#	define RT_DEBUG(str) \
+	std::cerr << str << '\n';
+#endif
+
 
 class LinuxBackend {
 	public:

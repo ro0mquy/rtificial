@@ -1,13 +1,6 @@
 #include "Shader.h"
 #include "DataInterpolator.h"
 
-#ifdef _DEBUG
-#	include <iostream>
-#	ifdef _WINDOWS
-#		include <Windows.h>
-#	endif
-#endif
-
 Shader::Shader(const char* _source, int _inputsNumber, const Input* _inputs) :
 	source(_source),
 	inputsNumber(_inputsNumber),
@@ -31,23 +24,19 @@ void Shader::compile() {
 	glDeleteShader(fragment);
 	glLinkProgram(program);
 
-#ifdef _DEBUG
-	GLint link_ok = GL_FALSE;
-	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
-	if(link_ok == GL_FALSE) {
-		std::cerr << "Link error:" << std::endl;
-		GLint log_length;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_length);
-		char* const log =(char* const) malloc(log_length);
-		glGetProgramInfoLog(program, log_length, NULL, log);
-#		ifdef _WINDOWS
-			OutputDebugString(log);
-#		else
-			std::cerr << log;
-#		endif
-		free(log);
-	}
-#endif
+#	ifdef _DEBUG
+		GLint link_ok = GL_FALSE;
+		glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
+		if(link_ok == GL_FALSE) {
+			RT_DEBUG("Link error:");
+			GLint log_length;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_length);
+			char* const log =(char* const) malloc(log_length);
+			glGetProgramInfoLog(program, log_length, NULL, log);
+			RT_DEBUG(log)
+			free(log);
+		}
+#	endif
 }
 
 void Shader::bind() {

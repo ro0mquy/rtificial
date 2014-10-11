@@ -89,8 +89,8 @@ RT_MAIN {
 		glDisable(GL_FRAMEBUFFER_SRGB);
 		backend.afterFrame();
 
-#		ifdef _DEBUG && _WINDOWS
-		OutputDebugString((std::to_string(backend.getTime()) + "\n").c_str());
+#		ifdef _DEBUG
+		RT_DEBUG((std::to_string(backend.getTime()) + "\n").c_str());
 #		endif
 	}
 
