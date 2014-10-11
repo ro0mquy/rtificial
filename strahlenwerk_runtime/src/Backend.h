@@ -47,6 +47,8 @@ class WindowsBackend {
 		bool beforeFrame();
 		void afterFrame();
 
+		void sleep(int seconds);
+
 		void cleanup();
 
 	private:
@@ -69,20 +71,24 @@ class WindowsBackend {
 #	include <string>
 #	include <iostream>
 
-// http://stackoverflow.com/questions/8311058/n-or-n-or-stdendl-to-stdcout
+	// http://stackoverflow.com/questions/8311058/n-or-n-or-stdendl-to-stdcout
 #	define RT_DEBUG(str) \
-	std::cerr << str << '\n';
+		std::cerr << str << '\n';
 #endif
-
 
 class LinuxBackend {
 	public:
 		void init(int width, int height, bool fullscreen);
+
 		void initAudio(bool threaded);
 		void playAudio();
 		double getTime();
+
 		bool beforeFrame();
 		void afterFrame();
+
+		void sleep(int seconds);
+
 		void cleanup();
 };
 

@@ -41,7 +41,7 @@ RT_MAIN {
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1.);
 		backend.afterFrame();
-		Sleep(100);
+		backend.sleep(100);
 	}
 	for(int i = 0; i < n_postproc; i++) {
 		postproc[i].compile();
@@ -53,7 +53,7 @@ RT_MAIN {
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1.);
 		backend.afterFrame();
-		Sleep(100);
+		backend.sleep(100);
 	}
 
 	backend.playAudio();

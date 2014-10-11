@@ -59,6 +59,7 @@ void LinuxBackend::init(int width, int height, bool fullscreen) {
 	glGetProgramInfoLog        = (PFNGLGETPROGRAMINFOLOGPROC)        glXGetProcAddressARB((unsigned char*) "glGetProgramInfoLog");
 }
 
+
 void LinuxBackend::initAudio(bool threaded) {
 }
 
@@ -69,6 +70,7 @@ double LinuxBackend::getTime(){
 	return 0.0;
 }
 
+
 bool LinuxBackend::beforeFrame() {
 	return false;
 }
@@ -76,6 +78,12 @@ bool LinuxBackend::beforeFrame() {
 void LinuxBackend::afterFrame() {
 }
 
+
+void LinuxBackend::sleep(int seconds) {
+}
+
+
 void LinuxBackend::cleanup() {
 }
+
 #endif

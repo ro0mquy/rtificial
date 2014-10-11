@@ -156,6 +156,11 @@ void WindowsBackend::afterFrame() {
 }
 
 
+void WindowsBackend::sleep(int seconds) {
+	Sleep(seconds);
+}
+
+
 void WindowsBackend::cleanup() {}
 
 #endif
