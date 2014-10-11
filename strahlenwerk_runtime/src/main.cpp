@@ -11,30 +11,13 @@
 #ifdef BUILD_LINUX
 	using Backend = LinuxBackend;
 #elif _WINDOWS
-	// las said this was good
-#	define VC_EXTRALEAN
-#	define WIN32_LEAN_AND_MEAN
-
-#	include <windows.h>
-#	include <GL/gl.h>
-#	include "stdlib.h"
-
 	using Backend = WindowsBackend;
-#endif
-
-
-
-#ifdef _DEBUG
-#ifdef _WINDOWS
-#	include <string>
-#endif
 #endif
 
 const int width = 1920;
 const int height = 1080;
 const bool fullscreen = true;
 const bool use_sound_thread = true;
-
 
 #ifdef _WINDOWS
 #	ifdef _DEBUG

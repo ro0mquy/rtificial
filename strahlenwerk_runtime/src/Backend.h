@@ -19,6 +19,11 @@ class EmptyBackend {
 
 #include <windows.h>
 #include "music/4klang.h"
+#include "stdlib.h"
+
+// las said this was good
+#define VC_EXTRALEAN
+#define WIN32_LEAN_AND_MEAN
 
 class WindowsBackend {
 	public:
@@ -33,9 +38,12 @@ class WindowsBackend {
 	private:
 		HDC hDC;
 };
+
 #endif
 
+
 #ifdef BUILD_LINUX
+
 class LinuxBackend {
 	public:
 		void init(int width, int height, bool fullscreen);
@@ -46,6 +54,7 @@ class LinuxBackend {
 		void afterFrame();
 		void cleanup();
 };
+
 #endif
 
 #endif
