@@ -19,18 +19,8 @@ const int height = 1080;
 const bool fullscreen = true;
 const bool use_sound_thread = true;
 
-#ifdef _WINDOWS
-#	ifdef _DEBUG
-	int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-#	else
-void WinMainCRTStartup(){
-	GlobalsStaticsInit();
-#	endif
-#else
-	int main() {
-#endif
-
-	// init backend
+RT_MAIN {
+	RT_INIT
 	Backend backend;
 	backend.init(width, height, fullscreen);
 	backend.initAudio(use_sound_thread);
@@ -113,9 +103,5 @@ void WinMainCRTStartup(){
 	}
 
 	backend.cleanup();
-	GlobalsStaticsFree();
-	ExitProcess(0);
-#	ifdef _DEBUG
-	return 0;
-#	endif
+	RT_DEINIT
 }
