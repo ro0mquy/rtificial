@@ -1,7 +1,18 @@
 #ifndef RT_STDMATH
 #define RT_STDMATH
 
-#include "stdmath.h"
+#ifdef _MSC_VER
+#	define RT_ASM(asm_literal) \
+		__asm { \
+			asm_literal \
+		}
+#elif __GNUC__ || __clang__
+#	define RT_ASM(asm_literal) \
+		"__asm__(\"" \
+			#asm_literal \
+		"\" : : );"
+#endif
+
 
 float abs(float x);
 
