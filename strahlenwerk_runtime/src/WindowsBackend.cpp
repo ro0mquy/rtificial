@@ -82,8 +82,11 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 
 //#include <mmsystem.h>
 //#include <mmreg.h>
-#include "music/4klang.h"
+#include "music/4klang.windows.h"
 #define AUDIO_CHANNELS 2
+#ifndef WINDOWS_OBJECT
+#	error "4klang object type does not match target architecture"
+#endif
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 
@@ -142,8 +145,7 @@ double WindowsBackend::getTime(){
 
 bool WindowsBackend::beforeFrame() {
 	MSG msg;
-	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-	{
+	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 		//TranslateMessage( &msg ); // Don't have any keys that need translating to WM_CHAR messages
 		DispatchMessage(&msg);
 	}
