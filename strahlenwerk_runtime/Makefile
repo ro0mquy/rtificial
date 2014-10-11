@@ -1,6 +1,6 @@
 CPP_FILES := $(wildcard src/*.cpp)
 OBJ_FILES := $(addprefix build_linux/,$(notdir $(CPP_FILES:.cpp=.o)))
-LD_FLAGS := -lGL
+LD_FLAGS := -lGL -lX11
 CXX_FLAGS := -std=c++11
 CXX := clang++
 

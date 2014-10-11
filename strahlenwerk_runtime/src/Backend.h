@@ -62,6 +62,10 @@ class WindowsBackend {
 
 #ifdef BUILD_LINUX
 
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <GL/glx.h>
+
 #define RT_MAIN int main()
 #define RT_INIT
 #define RT_DEINIT \
@@ -90,6 +94,11 @@ class LinuxBackend {
 		void sleep(int seconds);
 
 		void cleanup();
+
+	private:
+		Display* x_display;
+		Window x_window;
+		GLXContext gl_context;
 };
 
 #endif
