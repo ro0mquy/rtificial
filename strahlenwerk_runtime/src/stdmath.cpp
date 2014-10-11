@@ -1,49 +1,41 @@
 #include "stdmath.h"
 
 float abs(float x) {
-	RT_ASM (
-		fld     dword ptr[x]
-		fabs
-		fstp    dword ptr[x]
-	);
+	RT_ASM(fld     dword ptr[x]);
+	RT_ASM(fabs);
+	RT_ASM(fstp    dword ptr[x]);
 
 	return x;
 }
 
 float sqrt(float x) {
-	RT_ASM (
-		fld     dword ptr[x]
-		fsqrt
-		fstp    dword ptr[x]
-	);
+	RT_ASM(fld     dword ptr[x]);
+	RT_ASM(fsqrt);
+	RT_ASM(fstp    dword ptr[x]);
 
 	return x;
 }
 
 
 float sin(float x) {
-	RT_ASM (
-		fld     dword ptr[x]
-		fsin
-		fstp    dword ptr[x]
-	);
+	RT_ASM(fld     dword ptr[x]);
+	RT_ASM(fsin);
+	RT_ASM(fstp    dword ptr[x]);
 
 	return x;
 }
 
 float acos(float x) {
-	RT_ASM (
-		fld     dword ptr[x]
-		fld     st(0)
-		fld     st(0)
-		fmul
-		fld1
-		fsubr
-		fsqrt
-		fxch
-		fpatan
-		fstp    dword ptr[x]
-	);
+	RT_ASM(fld     dword ptr[x]);
+	RT_ASM(fld     st(0));
+	RT_ASM(fld     st(0));
+	RT_ASM(fmul);
+	RT_ASM(fld1);
+	RT_ASM(fsubr);
+	RT_ASM(fsqrt);
+	RT_ASM(fxch);
+	RT_ASM(fpatan);
+	RT_ASM(fstp    dword ptr[x]);
 
 	return x;
 }

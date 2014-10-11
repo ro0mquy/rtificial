@@ -5,7 +5,7 @@
 #	define RT_ASM(asm_literal) \
 		__asm { \
 			asm_literal \
-		}
+		};
 #elif __GNUC__ || __clang__
 #	define RT_ASM(asm_literal) \
 		"__asm__(\"" \
