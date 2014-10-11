@@ -10,7 +10,6 @@
 
 #ifdef BUILD_LINUX
 	using Backend = LinuxBackend;
-
 #elif _WINDOWS
 	// las said this was good
 #	define VC_EXTRALEAN
@@ -18,113 +17,12 @@
 
 #	include <windows.h>
 #	include <GL/gl.h>
+#	include "stdlib.h"
 
 	using Backend = WindowsBackend;
 #endif
 
-	typedef unsigned int uint;
 
-	void* __cdecl operator new(uint bytes){
-		return HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, bytes);
-	}
-
-		void* __cdecl operator new [](uint bytes) {
-		return operator new(bytes);
-	}
-
-		void* __cdecl operator new(uint bytes, void* here){
-		return here;
-	}
-
-		void __cdecl operator delete(void* ptr) {
-		if (ptr) HeapFree(GetProcessHeap(), 0, ptr);
-	}
-
-	void __cdecl operator delete [](void* ptr) {
-		operator delete(ptr);
-	}
-
-	typedef void (__cdecl *ePVFV)();
-
-
-
-
-#pragma data_seg(".CRT$XCA")
-	ePVFV __xc_a[] = { nullptr };
-#pragma data_seg(".CRT$XCZ")
-	ePVFV __xc_z[] = { nullptr };
-#pragma data_seg() // reset data segment
-
-	static const unsigned int eMAX_ATEXITS = 32;
-	static ePVFV g_atExitList[eMAX_ATEXITS];
-
-	void memset2(void * dst, unsigned char val, unsigned int count)
-	{
-		__asm
-		{
-			mov     eax, dword ptr[val]
-				mov     ecx, dword ptr[count]
-				mov     edi, dword ptr[dst]
-				rep     stosb
-		}
-	}
-
-	static void initTerm(ePVFV *pfbegin, ePVFV *pfend)
-	{
-		while (pfbegin < pfend)
-		{
-			if (*pfbegin)
-				(**pfbegin)();
-
-			pfbegin++;
-		}
-	}
-
-	static void initAtExit()
-	{
-		memset2(g_atExitList, 0, sizeof(g_atExitList));
-	}
-
-	static void doAtExit()
-	{
-		initTerm(g_atExitList, g_atExitList + eMAX_ATEXITS);
-	}
-
-	int __cdecl atexit(ePVFV func)
-	{
-		// get next free entry in atexist list
-		unsigned int index = 0;
-		while (g_atExitList[index++]);
-	//	eASSERT(index < eMAX_ATEXITS);
-
-		// put function pointer to destructor there
-		if (index < eMAX_ATEXITS)
-		{
-			g_atExitList[index] = func;
-			return 0;
-		}
-
-		return -1;
-	}
-
-		extern "C" int _cdecl _purecall(void)
-	{
-		return 0;
-}
-		void eGlobalsStaticsInit()
-		{
-#ifdef NDEBUG
-			initAtExit();
-			initTerm(__xc_a, __xc_z); 
-#endif
-		}
-
-		void eGlobalsStaticsFree()
-		{
-#ifdef NDEBUG
-			doAtExit();
-#endif
-		}
 
 #ifdef _DEBUG
 #ifdef _WINDOWS
@@ -143,7 +41,7 @@ const bool use_sound_thread = true;
 	int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 #	else
 void WinMainCRTStartup(){
-	eGlobalsStaticsInit();
+	GlobalsStaticsInit();
 #	endif
 #else
 	int main() {
@@ -156,10 +54,6 @@ void WinMainCRTStartup(){
 
 	const int n_scenes = sizeof(scenes) / sizeof(Shader);
 	const int n_postproc = sizeof(postproc) / sizeof(Shader);
-
-	// TODO
-	// musik
-	// ladebalken/precalc
 
 	ladebalken.compile();
 
@@ -236,7 +130,7 @@ void WinMainCRTStartup(){
 	}
 
 	backend.cleanup();
-	eGlobalsStaticsFree();
+	GlobalsStaticsFree();
 	ExitProcess(0);
 #	ifdef _DEBUG
 	return 0;

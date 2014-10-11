@@ -104,6 +104,7 @@
     <ClInclude Include="..\..\src\Scene.h" />
     <ClInclude Include="..\..\src\Sequence.h" />
     <ClInclude Include="..\..\src\Shader.h" />
+    <ClInclude Include="..\..\src\stdlib.h" />
     <ClInclude Include="..\..\src\strahlenwerk_export.h" />
     <ClInclude Include="..\..\src\Uniform.h" />
     <ClInclude Include="..\..\src\vec2.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="..\..\src\quat.cpp" />
     <ClCompile Include="..\..\src\scalar.cpp" />
     <ClCompile Include="..\..\src\Shader.cpp" />
+    <ClCompile Include="..\..\src\stdlib.cpp" />
     <ClCompile Include="..\..\src\vec2.cpp" />
     <ClCompile Include="..\..\src\vec3.cpp" />
     <ClCompile Include="..\..\src\WindowsBackend.cpp" />
