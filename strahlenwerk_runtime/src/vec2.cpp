@@ -1,6 +1,6 @@
 #include "vec2.h"
+#include "stdmath.h"
 
-extern float sqrt(float);
 vec2::vec2() :
 	vec2(0., 0.)
 { }

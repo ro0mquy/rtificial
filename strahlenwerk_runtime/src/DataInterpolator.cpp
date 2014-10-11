@@ -8,24 +8,8 @@
 #include "vec2.h"
 #include "vec3.h"
 #include "quat.h"
-//#include <cmath>
+#include "stdmath.h"
 
-static float sqrt(float x){
-	__asm fld x;
-	__asm fsqrt;
-	__asm fstp x;
-	return x;
-
-}
-/*
-extern "C" {
-	int atexit(
-		void(__cdecl *func)(void)
-		){
-		return 0;
-	}
-}
-*/
 using namespace DataInterpolator;
 
 void DataInterpolator::loadUniforms(const double time) {

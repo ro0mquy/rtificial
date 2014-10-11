@@ -1,58 +1,6 @@
 #include "quat.h"
-//#include <cmath>
+#include "stdmath.h"
 #include "scalar.h"
-
-float acos(float x)
-{
-	__asm
-	{
-		fld     dword ptr[x]
-			fld     st(0)
-			fld     st(0)
-			fmul
-			fld1
-			fsubr
-			fsqrt
-			fxch
-			fpatan
-			fstp    dword ptr[x]
-	}
-
-	return x;
-}
-
-float abs(float x)
-{
-	__asm
-	{
-		fld     dword ptr[x]
-			fabs
-			fstp    dword ptr[x]
-	}
-
-	return x;
-}
-
-float sin(float x)
-{
-	__asm
-	{
-		fld     dword ptr[x]
-			fsin
-			fstp    dword ptr[x]
-	}
-
-	return x;
-}
-
-float sqrt(float x){
-	__asm fld x;
-	__asm fsqrt;
-	__asm fstp x;
-	return x;
-
-}
-
 
 quat::quat() :
 	quat(1., 0., 0., 0.)

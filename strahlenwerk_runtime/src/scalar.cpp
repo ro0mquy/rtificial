@@ -1,6 +1,5 @@
 #include "scalar.h"
-
-extern float abs(float x);
+#include "stdmath.h"
 
 double distance(double const& s1, double const& s2) {
 	return abs(s1 - s2);
