@@ -65,6 +65,8 @@ class WindowsBackend {
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
+#define ALSA_PCM_NEW_HW_PARAMS_API
+#include <alsa/asoundlib.h>
 
 #define RT_MAIN int main()
 #define RT_INIT
