@@ -152,9 +152,9 @@ void LinuxBackend::initAudio(bool threaded) {
 void LinuxBackend::playAudio(){
 }
 
-static float time = 0.0f;
+static float rt_time = 0.0f;
 double LinuxBackend::getTime(){
-	return time++;
+	return rt_time++;
 }
 
 
