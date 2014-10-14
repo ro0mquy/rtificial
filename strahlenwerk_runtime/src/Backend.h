@@ -47,7 +47,7 @@ class WindowsBackend {
 		bool beforeFrame();
 		void afterFrame();
 
-		void sleep(int seconds);
+		void sleep(int milliseconds);
 
 		void cleanup();
 
@@ -91,7 +91,7 @@ class LinuxBackend {
 		bool beforeFrame();
 		void afterFrame();
 
-		void sleep(int seconds);
+		void sleep(int milliseconds);
 
 		void cleanup();
 

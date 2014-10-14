@@ -188,7 +188,9 @@ void LinuxBackend::afterFrame() {
 }
 
 
-void LinuxBackend::sleep(int seconds) {
+#include <unistd.h>
+void LinuxBackend::sleep(int miliseconds) {
+	usleep(miliseconds * 1000);
 }
 
 
