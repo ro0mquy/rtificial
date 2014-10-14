@@ -8,7 +8,7 @@
 #include "gl_identifiers.h"
 #include "shaders/ladebalken.h"
 
-#ifdef BUILD_LINUX
+#ifdef __linux
 	using Backend = LinuxBackend;
 #elif _WINDOWS
 	using Backend = WindowsBackend;

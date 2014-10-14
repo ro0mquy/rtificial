@@ -4,9 +4,6 @@ LD_FLAGS := -lGL -lX11
 CXX_FLAGS := -std=c++11 -masm=intel
 CXX := clang++
 
-# Linux Build
-CXX_FLAGS += -DBUILD_LINUX
-
 DEPS := $(OBJ_FILES:.o=.d)
 CXX_FLAGS += -MMD
 

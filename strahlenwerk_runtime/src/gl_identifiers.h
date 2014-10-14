@@ -5,7 +5,7 @@
 #	include <Windows.h>
 #	include <GL/gl.h>
 #	include "glcorearb.h"
-#elif BUILD_LINUX
+#elif __linux
 #	include <GL/gl.h>
 #endif
 

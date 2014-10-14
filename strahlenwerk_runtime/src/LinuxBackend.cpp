@@ -1,4 +1,4 @@
-#ifdef BUILD_LINUX
+#ifdef __linux
 
 #include "Backend.h"
 #include <X11/X.h>

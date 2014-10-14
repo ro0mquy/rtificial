@@ -60,7 +60,7 @@ class WindowsBackend {
 #endif
 
 
-#ifdef BUILD_LINUX
+#ifdef __linux
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
