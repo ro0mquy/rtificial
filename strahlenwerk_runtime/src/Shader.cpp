@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "DataInterpolator.h"
+#include "Backend.h" // for RT_DEBUG
 
 Shader::Shader(const char* _source, int _inputsNumber, const Input* _inputs) :
 	source(_source),
