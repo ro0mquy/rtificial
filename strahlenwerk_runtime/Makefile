@@ -1,8 +1,8 @@
 CPP_FILES := $(wildcard src/*.cpp)
 OBJ_FILES := $(addprefix build_linux/,$(notdir $(CPP_FILES:.cpp=.o))) src/music/4klang.linux.o
 LD_FLAGS := -m32 -lGL -lX11 -lasound -pthread
-CXX_FLAGS := -std=c++11 -m32
-#CXX := clang++
+CXX_FLAGS := -std=c++11 -m32 -Wall -Wextra
+CXX := clang++
 
 DEPS := $(OBJ_FILES:.o=.d)
 CXX_FLAGS += -MMD
