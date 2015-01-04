@@ -72,7 +72,7 @@ mat2 matD(int i) {
 }
 
 float ray_to_pos(vec2 r) {
-	return vec2((sin(r.y) + r.x) * 2. / 35.);
+	return r.x * 2. / 35.;
 }
 uniform vec2 resolution;
 
@@ -126,7 +126,7 @@ void main() {
 		m_s = matD(i) * m_s;
 	}
 
-	vec2 rayY = vec2(position.y * 17.5, .08);
+	vec2 rayY = vec2(position.y * 17.5, .08 * sin(time));
 	vec2 rayX = vec2(position.x * 17.5, .1);
 	vec2 ray_apertureY = m_alpha * rayY;
 	vec2 ray_sensorY = m_s * ray_apertureY;
