@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 // taken from catmullrom.pdf
 // see also wikipedia for centripetal catmull-rom splines
@@ -27,6 +28,7 @@ genType CentripetalCatmullRomSpline(genType const& P0, genType const& P1, genTyp
 	return C12;
 }
 
+/*
 // returns q0 - q1
 static glm::quat quat_sub(glm::quat const& q0, glm::quat const& q1) {
 	glm::quat out;
@@ -46,6 +48,7 @@ static glm::quat quat_bisect(glm::quat const& q0, glm::quat const& q1) {
 static glm::quat quat_mirror(glm::quat const& q0, glm::quat const& q1) {
 	return quat_sub(2 * glm::dot(q0, q1) * q1, q0);
 }
+// */
 
 glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, glm::quat const& P2, glm::quat const& P3, const float rawT) {
 	using namespace glm;
@@ -69,7 +72,7 @@ glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, 
 	return C12;
 	// */
 
-	//*
+	/*
 	// uniform catmull rom
 	// interpolate between P1 and P2, so we need a1 and b2
 	const quat a1 = quat_bisect(quat_mirror(P0, P1), P2);
@@ -85,6 +88,23 @@ glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, 
 	const quat p20 = slerp(p10, p11, rawT);
 
 	return p20;
+	// */
+
+	//*
+	// squad interpolation from Quaternion.pdf
+	// interpolate between P1 and P2, so we need a1 and a2
+	const quat invP1 = inverse(P1);
+	const quat invP2 = inverse(P2);
+
+	const quat a1 = P1 * exp((log(invP1 * P0) + log(invP1 * P2)) / -4.f);
+	const quat a2 = P2 * exp((log(invP2 * P1) + log(invP2 * P3)) / -4.f);
+
+	const quat p12 = slerp(P1, P2, rawT);
+	const quat a12 = slerp(a1, a2, rawT);
+
+	const quat pa12 = slerp(p12, a12, 2.f * rawT * (1.f - rawT));
+
+	return pa12;
 	// */
 }
 
