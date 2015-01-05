@@ -18,7 +18,7 @@ void main() {
 	area += .5 * length(cross(vec3(b - d, 0.), vec3(c - d, 0.)));
 	intensity = 4./ (area + .01);
 	intensity *= .05;
-	intensity *= 20.; // debug
+	intensity *= 30.; // debug
 	gl_Position = gl_in[0].gl_Position;
 	position = tex_position[0];
 	EmitVertex();

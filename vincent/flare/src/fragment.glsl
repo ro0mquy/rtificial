@@ -14,7 +14,7 @@ void main() {
 
 	float value = 1.;
 
-	float r = .5;
+	float r = .07;
 
 	vec2 top_right = vec2(cos(radians(30.)), sin(radians(30.)));
 

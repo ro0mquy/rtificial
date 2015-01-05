@@ -94,7 +94,7 @@ void main() {
 	mat2 m_alpha = mat2(1.);
 	int i = 1;
 	if (interface1 < aperture) {
-		for (int j = 1; j < interface1; j++) {
+		for (int j = i; j < interface1; j++) {
 			m_alpha = matD(j) * m_alpha;
 		}
 		m_alpha = matL(interface1) * m_alpha;
@@ -112,7 +112,7 @@ void main() {
 
 	i = aperture + 1;
 	if (interface1 > aperture) {
-		for (int j = 1; j < interface1; j++) {
+		for (int j = i; j < interface1; j++) {
 			m_s = matD(j) * m_s;
 		}
 		m_s = matL(interface1) * m_s;
@@ -127,7 +127,7 @@ void main() {
 	}
 
 	vec2 rayY = vec2(position.y * 17.5, .08 * sin(time));
-	vec2 rayX = vec2(position.x * 17.5, .1);
+	vec2 rayX = vec2(position.x * 17.5, .1 * cos(time));
 	vec2 ray_apertureY = m_alpha * rayY;
 	vec2 ray_sensorY = m_s * ray_apertureY;
 	vec2 ray_apertureX = m_alpha * rayX;
