@@ -53,11 +53,16 @@ void UniformsBarComponent::paint(Graphics& g) {
 }
 
 void UniformsBarComponent::mouseUp(const MouseEvent& event) {
+	if (event.x < 0 || event.x >= getWidth()) {
+		// click outside of uniformsBar
+		return;
+	}
+
 	const int editorWidth = 300;
 	const int rowHeight = 20;
 
-	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight)); // floor division
-	if (numUniform >= data.getNumUniforms()) {
+	const int numUniform = int(event.position.y / float(rowHeight)); // floor division
+	if (numUniform < 0 || numUniform >= data.getNumUniforms()) {
 		// clicked on empty area at bottom of UniformsBar
 		return;
 	}
@@ -72,7 +77,8 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 
 	// bounding rectangle of this uniform
 	const Rectangle<int> rect(0, numUniform * rowHeight, getWidth(), rowHeight);
-	CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
+	CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
+	callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
 }
 
 void UniformsBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {

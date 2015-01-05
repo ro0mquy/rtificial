@@ -224,7 +224,8 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 			LabColorPicker* popupPicker = new LabColorPicker(colorLab);
 			popupPicker->setSize(300, 406);
 
-			CallOutBox::launchAsynchronously(popupPicker, localAreaToGlobal(contentBounds), nullptr);
+			CallOutBox& callOutBox = CallOutBox::launchAsynchronously(popupPicker, localAreaToGlobal(contentBounds), nullptr);
+			callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
 		}
 
 		void valueChanged(Value& value) {
