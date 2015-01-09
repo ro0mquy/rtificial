@@ -94,10 +94,9 @@ void Shader::draw(int width, int height) {
 	program.use();
 	context.extensions.glEnableVertexAttribArray(attributeCoord);
 	const GLfloat rectangleVertices[] = {
-		-1.0,  1.0,
 		-1.0, -1.0,
-		 1.0,  1.0,
-		 1.0, -1.0,
+		 3.0, -1.0,
+		-1.0,  3.0,
 	};
 	context.extensions.glVertexAttribPointer(attributeCoord, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	context.extensions.glUniform2f(0, width, height);
@@ -108,7 +107,7 @@ void Shader::draw(int width, int height) {
 	}
 	loadUniformValues();
 	glGetError(); // clear error
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 	context.extensions.glDisableVertexAttribArray(attributeCoord);
 }
 
