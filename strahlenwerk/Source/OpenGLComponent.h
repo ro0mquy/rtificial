@@ -18,8 +18,6 @@ class OpenGLComponent :
 		OpenGLComponent();
 		~OpenGLComponent();
 
-		void repaintChildren();
-
 		void resized() override;
 		void paint(Graphics& g) override;
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
@@ -27,6 +25,7 @@ class OpenGLComponent :
 		void changeListenerCallback(ChangeBroadcaster* source) override;
 		void postprocChanged() override;
 		void scenesChanged() override;
+		void doToggleGrid();
 
 		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
 		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
@@ -35,9 +34,11 @@ class OpenGLComponent :
 		void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 		void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
 
-	private:
-		void makeDemo();
+		enum CommandIDs {
+			toggleGrid = 0x7f81da00,
+		};
 
+	private:
 		OpenGLContext context;
 		Renderer renderer;
 		OpenGLTargetComponent fixedAspectRatioComponent;

@@ -33,6 +33,7 @@ CameraController::CameraController(TimelineData& data_, Interpolator& interpolat
 {
 	globalCameraController = this;
 
+	// register command listener
 	MainWindow::getApplicationCommandManager().addListener(this);
 
 	// add this as a key listener to the main window, as soon as it is constructed
@@ -190,23 +191,23 @@ void CameraController::timerCallback() {
 
 void CameraController::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
 	switch (info.commandID) {
-		case MainWindow::setKeyframe:
+		case CameraController::setKeyframe:
 			setKeyframeAtCurrentPosition();
 			break;
-		case MainWindow::playPauseWithAnimation:
+		case CameraController::playPauseWithAnimation:
 			releaseControl();
 			break;
-		case MainWindow::playPauseWithoutAnimation:
+		case CameraController::playPauseWithoutAnimation:
 			takeOverControl();
 			break;
-		case MainWindow::resetCameraPosition:
+		case CameraController::resetCameraPosition:
 			takeOverControl();
 			cameraMutex.lock();
 			position = glm::vec3(0., 0., 0.);
 			cameraMutex.unlock();
 			sendChangeMessage();
 			break;
-		case MainWindow::resetCameraRotation:
+		case CameraController::resetCameraRotation:
 			takeOverControl();
 			cameraMutex.lock();
 			rotation = glm::quat(1., 0., 0., 0.);

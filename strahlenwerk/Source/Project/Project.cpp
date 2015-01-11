@@ -14,6 +14,7 @@
 #include "Rendering/Uniform.h"
 #include "Rendering/UniformManager.h"
 #include "AudioManager.h"
+#include <MainWindow.h>
 
 Project::Project(const std::string& dir, AudioManager& _audioManager) :
 	loader(dir),
@@ -23,6 +24,7 @@ Project::Project(const std::string& dir, AudioManager& _audioManager) :
 {
 	watchFiles(dir);
 	reloadAudio();
+	MainWindow::getApplicationCommandManager().addListener(this);
 }
 
 Project::~Project() = default;
@@ -404,6 +406,23 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	interfaceHeader.replaceWithText(interfaceHeaderContent);
 }
 
+void Project::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
+	switch (info.commandID) {
+		case Project::openProject:
+			performOpenProject();
+			break;
+		case Project::reloadShaderFiles:
+			reloadShaders();
+			break;
+		case Project::saveTimeline:
+			saveTimelineData();
+			break;
+	}
+}
+
+void Project::applicationCommandListChanged() {
+}
+
 void Project::handleFileAction(
 		efsw::WatchID /*watchid*/,
 		const std::string& dir,
@@ -544,4 +563,12 @@ void Project::reloadScenes() {
 void Project::reloadAudio() {
 	audioManager.loadFile(loader.getAudioFile());
 	audioManager.loadEnvelopes(loader.getEnvelopeFile());
+}
+
+void Project::performOpenProject() {
+	FileChooser fileChooser("Entscheide dich gefaelligst!");
+	if(fileChooser.browseForDirectory()) {
+		auto path = fileChooser.getResult().getFullPathName().toStdString();
+		loadDirectory(path);
+	}
 }

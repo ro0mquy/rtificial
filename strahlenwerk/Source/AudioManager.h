@@ -5,7 +5,8 @@
 #include <memory>
 
 class AudioManager :
-	public ChangeBroadcaster
+	public ChangeBroadcaster,
+	private ApplicationCommandManagerListener
 {
 	public:
 		AudioManager();
@@ -22,6 +23,9 @@ class AudioManager :
 
 		AudioThumbnail& getThumbnail();
 		int getBpm();
+
+		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
+		void applicationCommandListChanged() override;
 
 	private:
 		class AudioTransportSourceWithCallback :

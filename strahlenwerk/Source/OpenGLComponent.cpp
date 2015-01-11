@@ -5,6 +5,7 @@
 #include <AudioManager.h>
 #include <StrahlenwerkApplication.h>
 #include <Project/Project.h>
+#include <PropertyNames.h>
 
 OpenGLComponent::OpenGLComponent() :
 	renderer(context),
@@ -32,15 +33,6 @@ OpenGLComponent::~OpenGLComponent() {
 	context.detach();
 }
 
-void OpenGLComponent::makeDemo() {
-	renderer.makeDemo();
-}
-
-void OpenGLComponent::repaintChildren() {
-	repaint();
-	fixedAspectRatioComponent.repaint();
-}
-
 void OpenGLComponent::resized() {
 	fixedAspectRatioComponent.setSize(16, 9);
 	fixedAspectRatioComponent.setBoundsToFit(0, 0, getWidth(), getHeight(), Justification(Justification::centred), false);
@@ -52,14 +44,12 @@ void OpenGLComponent::paint(Graphics& g) {
 }
 
 void OpenGLComponent::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
-	switch(info.commandID) {
+	switch (info.commandID) {
 		case MainWindow::quitProgram:
 			context.detach();
 			break;
-		case MainWindow::makeDemo:
-			makeDemo();
-			break;
-		default:
+		case OpenGLComponent::toggleGrid:
+			doToggleGrid();
 			break;
 	}
 }
@@ -79,6 +69,13 @@ void OpenGLComponent::postprocChanged() {
 }
 
 void OpenGLComponent::scenesChanged() {
+	fixedAspectRatioComponent.repaint();
+}
+
+void OpenGLComponent::doToggleGrid() {
+	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	const bool previous = properties.getBoolValue(PropertyNames::GRID_ENABLED);
+	properties.setValue(PropertyNames::GRID_ENABLED, !previous);
 	fixedAspectRatioComponent.repaint();
 }
 

@@ -11,6 +11,7 @@
 #include "Project/Project.h"
 #include "Rendering/DefaultShader.h"
 #include "Rendering/Scenes.h"
+#include <MainWindow.h>
 
 Renderer::Renderer(OpenGLContext& context) :
 	context(context),
@@ -19,6 +20,8 @@ Renderer::Renderer(OpenGLContext& context) :
 	width(0),
 	height(0)
 {
+	MainWindow::getApplicationCommandManager().addListener(this);
+
 	defaultShader.load(defaultShaderSource);
 	PostprocPipelineLoader loader;
 	defaultPostproc->setShaders(loader.load(context, "input.color output.color\n", {}));
@@ -86,7 +89,7 @@ uint64_t Renderer::getLastFrameDuration() {
 	return lastFrameDuration;
 }
 
-void Renderer::makeDemo() {
+void Renderer::performMakeDemo() {
 	std::lock_guard<std::mutex> lock(renderMutex);
 	StrahlenwerkApplication::getInstance()->getProject().makeDemo(*scenes, *postproc);
 }
@@ -117,4 +120,17 @@ void Renderer::reloadScenes() {
 	scenes = std::move(newScenes);
 	renderMutex.unlock();
 	context.triggerRepaint();
+}
+
+void Renderer::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
+	switch(info.commandID) {
+		case Renderer::makeDemo:
+			performMakeDemo();
+			break;
+		default:
+			break;
+	}
+}
+
+void Renderer::applicationCommandListChanged() {
 }

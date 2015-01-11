@@ -22,10 +22,6 @@ Timeline& MainContentComponent::getTimeline() {
 	return timeline;
 }
 
-void MainContentComponent::repaintOpenGLComponent() {
-	openGLComponent.repaintChildren();
-}
-
 void MainContentComponent::setDefaultLayout() {
 	horizontalLayout.setItemLayout(0, 200, -1., -.3);
 	horizontalLayout.setItemLayout(1, 8, 8, 8);

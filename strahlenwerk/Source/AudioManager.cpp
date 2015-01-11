@@ -1,5 +1,7 @@
 #include "AudioManager.h"
 #include "StrahlenwerkApplication.h"
+#include <MainWindow.h>
+#include <Timeline/SpecialUniformController.h>
 
 AudioManager::AudioManager() :
 	transportSource(*this),
@@ -24,6 +26,8 @@ AudioManager::AudioManager() :
 
 	deviceManager.addAudioCallback(&player);
 	player.setSource(&transportSource);
+
+	MainWindow::getApplicationCommandManager().addListener(this);
 }
 
 AudioManager::~AudioManager() {
@@ -98,6 +102,18 @@ AudioThumbnail& AudioManager::getThumbnail() {
 
 int AudioManager::getBpm() {
 	return 118;
+}
+
+void AudioManager::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
+	switch (info.commandID) {
+		case CameraController::playPauseWithAnimation:
+		case CameraController::playPauseWithoutAnimation:
+			togglePlayPause();
+			break;
+	}
+}
+
+void AudioManager::applicationCommandListChanged() {
 }
 
 

@@ -80,6 +80,14 @@ class CameraController :
 		void takeOverControl();
 		void releaseControl();
 
+		enum CommandIDs {
+			playPauseWithAnimation = 0x4f81da00,
+			playPauseWithoutAnimation,
+			setKeyframe,
+			resetCameraPosition,
+			resetCameraRotation,
+		};
+
 	private:
 		Interpolator& interpolator;
 		std::mutex cameraMutex;

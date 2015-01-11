@@ -1,9 +1,10 @@
 #include "MainWindow.h"
 
 #include "StrahlenwerkApplication.h"
-#include "Project/Project.h"
-#include "AudioManager.h"
-#include "PropertyNames.h"
+#include <Renderer.h>
+#include <Timeline/SpecialUniformController.h>
+#include <OpenGLComponent.h>
+#include <Project/Project.h>
 
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()
@@ -61,6 +62,10 @@ ApplicationCommandManager& MainWindow::getApplicationCommandManager() {
 // this window to publish a set of actions it can perform, and which can be mapped
 // onto menus, keypresses, etc.
 
+// For adding new commands add them to getAllCommands() and getCommandInfo()
+// and handle them via callback in the class that performs the action
+// may also add them to the menu bar model below
+
 ApplicationCommandTarget* MainWindow::getNextCommandTarget() {
 	// this will return the next parent component that is an ApplicationCommandTarget
 	return findFirstTargetParentComponent();
@@ -70,17 +75,18 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 	// this returns the set of all commands that this target can perform..
 	const CommandID ids[] = {
 		MainWindow::quitProgram,
-		MainWindow::openProject,
-		MainWindow::reload,
-		MainWindow::saveTimeline,
-		MainWindow::playPauseWithAnimation,
-		MainWindow::playPauseWithoutAnimation,
-		MainWindow::toggleGrid,
 		MainWindow::toggleFullscreen,
-		MainWindow::setKeyframe,
-		MainWindow::resetCameraPosition,
-		MainWindow::resetCameraRotation,
-		MainWindow::makeDemo,
+		Project::openProject,
+		Project::reloadShaderFiles,
+		Project::saveTimeline,
+		OpenGLComponent::toggleGrid,
+		CameraController::playPauseWithAnimation,
+		CameraController::playPauseWithoutAnimation,
+		CameraController::setKeyframe,
+		CameraController::resetCameraPosition,
+		CameraController::resetCameraRotation,
+		Renderer::makeDemo,
+
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -91,98 +97,83 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 
 	// supply info: shortname, description, category, flags(=0)
 	switch (commandID) {
+
 		case MainWindow::quitProgram:
 			result.setInfo("Quit!", "Shuts down all the Beam Factory!", programCategory, 0);
 			result.addDefaultKeypress('q', ModifierKeys::commandModifier);
 			break;
-		case MainWindow::openProject:
-			result.setInfo("Open Project", "Open a strahlenwerk project", programCategory, 0);
-			result.addDefaultKeypress('o', ModifierKeys::commandModifier);
-			break;
-		case MainWindow::reload:
-			result.setInfo("Reload Shaders", "Reload all Shaders", programCategory, 0);
-			result.addDefaultKeypress('r', ModifierKeys::commandModifier);
-			break;
-		case MainWindow::saveTimeline:
-			result.setInfo("Save Timeline", "Save the timeline data to a file", programCategory, 0);
-			result.addDefaultKeypress('s', ModifierKeys::commandModifier);
-			break;
-		case MainWindow::playPauseWithAnimation:
-			result.setInfo("Play/Pause w/ animation", "Toggle play/pause with animation of camera", programCategory, 0);
-			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::shiftModifier);
-			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::commandModifier); // TODO: remove this
-			break;
-		case MainWindow::playPauseWithoutAnimation:
-			result.setInfo("Play/Pause w/o animation", "Toggle play/pause without animation of camera", programCategory, 0);
-			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::noModifiers);
-			break;
-		case MainWindow::toggleGrid:
-			result.setInfo("Toogle Grid", "Enable/Disable Rule of Thirds grid overlay", programCategory, 0);
-			result.addDefaultKeypress('g', ModifierKeys::noModifiers);
-			break;
+
 		case MainWindow::toggleFullscreen:
 			result.setInfo("Toogle Fullscreen", "Toggle fullscreen mode for OpenGL component", programCategory, 0);
 			result.addDefaultKeypress('f', ModifierKeys::noModifiers);
 			break;
-		case MainWindow::setKeyframe:
+
+		case Project::openProject:
+			result.setInfo("Open Project", "Open a strahlenwerk project", programCategory, 0);
+			result.addDefaultKeypress('o', ModifierKeys::commandModifier);
+			break;
+
+		case Project::reloadShaderFiles:
+			result.setInfo("Reload Shaders", "Reload all Shaders", programCategory, 0);
+			result.addDefaultKeypress('r', ModifierKeys::commandModifier);
+			break;
+
+		case Project::saveTimeline:
+			result.setInfo("Save Timeline", "Save the timeline data to a file", programCategory, 0);
+			result.addDefaultKeypress('s', ModifierKeys::commandModifier);
+			break;
+
+		case CameraController::playPauseWithAnimation:
+			result.setInfo("Play/Pause w/ animation", "Toggle play/pause with animation of camera", programCategory, 0);
+			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::shiftModifier);
+			break;
+
+		case CameraController::playPauseWithoutAnimation:
+			result.setInfo("Play/Pause w/o animation", "Toggle play/pause without animation of camera", programCategory, 0);
+			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::noModifiers);
+			break;
+
+		case OpenGLComponent::toggleGrid:
+			result.setInfo("Toogle Grid", "Enable/Disable Rule of Thirds grid overlay", programCategory, 0);
+			result.addDefaultKeypress('g', ModifierKeys::noModifiers);
+			break;
+
+		case CameraController::setKeyframe:
 			result.setInfo("Set Keyframe", "Places a Keyframe for the Camera at the Current Position", programCategory, 0);
 			result.addDefaultKeypress('p', ModifierKeys::noModifiers);
 			break;
-		case MainWindow::resetCameraPosition:
+
+		case CameraController::resetCameraPosition:
 			result.setInfo("Reset Camera Position", "Moves the Camera back to the Origin", programCategory, 0);
 			result.addDefaultKeypress('b', ModifierKeys::commandModifier);
 			break;
-		case MainWindow::resetCameraRotation:
+
+		case CameraController::resetCameraRotation:
 			result.setInfo("Reset Camera Rotation", "Sets the Camera Rotation back to Default", programCategory, 0);
 			result.addDefaultKeypress('b', ModifierKeys::noModifiers);
 			break;
-		case MainWindow::makeDemo:
+
+		case Renderer::makeDemo:
 			result.setInfo("Make demo", "Make a demo about it!", programCategory, 0);
 			result.addDefaultKeypress('d', ModifierKeys::commandModifier);
 			break;
+
 		default:
 			break;
+
 	}
 }
 
 bool MainWindow::perform(const InvocationInfo& info) {
 	// do something to perform the command
+	// most of the commands get handled somewhere else via callback
 	switch (info.commandID) {
 		case MainWindow::quitProgram:
 			JUCEApplication::getInstance()->quit();
 			break;
 
-		case MainWindow::openProject:
-			doOpenProject();
-			break;
-
-		case MainWindow::reload:
-			doReload();
-			break;
-
-		case MainWindow::saveTimeline:
-			doSaveTimeline();
-			break;
-
-		case MainWindow::playPauseWithAnimation:
-		case MainWindow::playPauseWithoutAnimation:
-			// control switching gets done via command listener
-			doPlayPause();
-			break;
-
-		case MainWindow::toggleGrid:
-			doToggleGrid();
-			break;
-
 		case MainWindow::toggleFullscreen:
-			doToggleFullscreen();
-			break;
-
-		case MainWindow::setKeyframe:
-		case MainWindow::resetCameraPosition:
-		case MainWindow::resetCameraRotation:
-		case MainWindow::makeDemo:
-			// do nothing here, the action is done by a command listener
+			performToggleFullscreen();
 			break;
 	}
 
@@ -203,17 +194,17 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 	PopupMenu menu;
 
 	if (topLevelMenuIndex == 0) {
-		menu.addCommandItem(commandManager, MainWindow::openProject);
-		menu.addCommandItem(commandManager, MainWindow::saveTimeline);
-		menu.addCommandItem(commandManager, MainWindow::reload);
-		menu.addCommandItem(commandManager, MainWindow::toggleGrid);
+		menu.addCommandItem(commandManager, Project::openProject);
+		menu.addCommandItem(commandManager, Project::saveTimeline);
+		menu.addCommandItem(commandManager, Project::reloadShaderFiles);
+		menu.addCommandItem(commandManager, OpenGLComponent::toggleGrid);
 		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);
-		menu.addCommandItem(commandManager, MainWindow::setKeyframe);
-		menu.addCommandItem(commandManager, MainWindow::resetCameraPosition);
-		menu.addCommandItem(commandManager, MainWindow::resetCameraRotation);
+		menu.addCommandItem(commandManager, CameraController::setKeyframe);
+		menu.addCommandItem(commandManager, CameraController::resetCameraPosition);
+		menu.addCommandItem(commandManager, CameraController::resetCameraRotation);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
-	} else if(topLevelMenuIndex == 1) {
-		menu.addCommandItem(commandManager, MainWindow::makeDemo);
+	} else if (topLevelMenuIndex == 1) {
+		menu.addCommandItem(commandManager, Renderer::makeDemo);
 	}
 
 	return menu;
@@ -226,35 +217,7 @@ void MainWindow::menuItemSelected(int menuItemID, int /*topLevelMenuIndex*/) {
 	}
 }
 
-void MainWindow::doOpenProject() {
-	FileChooser fileChooser("Entscheide dich gefaelligst!");
-	if(fileChooser.browseForDirectory()) {
-		auto path = fileChooser.getResult().getFullPathName().toStdString();
-		StrahlenwerkApplication::getInstance()->getProject().loadDirectory(path);
-	}
-}
-
-void MainWindow::doReload() {
-	StrahlenwerkApplication::getInstance()->getProject().reloadShaders();
-}
-
-void MainWindow::doSaveTimeline() {
-	StrahlenwerkApplication::getInstance()->getProject().saveTimelineData();
-}
-
-void MainWindow::doPlayPause() {
-	AudioManager::getAudioManager().togglePlayPause();
-}
-
-void MainWindow::doToggleGrid() {
-	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
-	const bool previous = properties.getBoolValue(PropertyNames::GRID_ENABLED);
-	properties.setValue(PropertyNames::GRID_ENABLED, !previous);
-	// TODO this is not very elegant
-	mainContentComponent.repaintOpenGLComponent();
-}
-
-void MainWindow::doToggleFullscreen() {
+void MainWindow::performToggleFullscreen() {
 	auto& desktop = Desktop::getInstance();
 	if(this == desktop.getKioskModeComponent()) {
 		mainContentComponent.setDefaultLayout();

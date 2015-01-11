@@ -22,17 +22,7 @@ class MainWindow : public DocumentWindow,
 
 		enum CommandIDs {
 			quitProgram = 0x2300,
-			openProject,
-			reload,
-			saveTimeline,
-			playPauseWithAnimation,
-			playPauseWithoutAnimation,
-			toggleGrid,
 			toggleFullscreen,
-			setKeyframe,
-			resetCameraPosition,
-			resetCameraRotation,
-			makeDemo,
 		};
 
 		StringArray getMenuBarNames() override;
@@ -46,12 +36,7 @@ class MainWindow : public DocumentWindow,
 		void getAllCommands(Array<CommandID>& commands) override;
 		void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
 		bool perform(const InvocationInfo& info) override;
-		void doOpenProject();
-		void doReload();
-		void doSaveTimeline();
-		void doPlayPause();
-		void doToggleGrid();
-		void doToggleFullscreen();
+		void performToggleFullscreen();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };

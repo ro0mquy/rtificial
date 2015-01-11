@@ -18,7 +18,10 @@ class Shader;
 class AudioManager;
 class Scenes;
 
-class Project : private efsw::FileWatchListener {
+class Project :
+	private efsw::FileWatchListener,
+	private ApplicationCommandManagerListener
+{
 	public:
 		Project(const std::string& dir, AudioManager& audioManager);
 		~Project();
@@ -36,12 +39,21 @@ class Project : private efsw::FileWatchListener {
 		int compareElements(const ValueTree& first, const ValueTree& second);
 		void makeDemo(Scenes& scenes, PostprocPipeline& postproc);
 
+		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
+		void applicationCommandListChanged() override;
+
 		void handleFileAction(
 				efsw::WatchID watchid,
 				const std::string& dir,
 				const std::string& filename,
 				efsw::Action action,
 				std::string oldFilename) override;
+
+		enum CommandIDs {
+			openProject = 0x7f41da00,
+			reloadShaderFiles,
+			saveTimeline,
+		};
 
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
@@ -54,6 +66,7 @@ class Project : private efsw::FileWatchListener {
 		void reloadPostproc();
 		void reloadScenes();
 		void reloadAudio();
+		void performOpenProject();
 
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes> scenes;
