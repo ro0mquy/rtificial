@@ -30,3 +30,4 @@
 
 ## Weitere Quellen der Inspiration:
 * http://cghubs.com/
+* http://www.liaworks.com/theprojects/filament-sculptures/
