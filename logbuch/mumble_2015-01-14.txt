@@ -1,0 +1,24 @@
+rtificialdays: 14.2. - 20.2. würde für Ps0ke, _vincent, drb und ro0mquy passen
+ausweichtermin am 14.3. - 16.3. passt auch allen
+
+znc.ps0ke.de:64804
+
+demostyle für evoke:
+	wie bei demo mit shambala von alcatraz, schwarze siluette auf weissem hintergrund in 2d
+	diese wurde dann so beleuchtet, dass nur specular light sichtbar.
+	mehr von dem look! dann irgendwann switch auf 3d, das soll mehr rauskommen
+	dann wie tron so neon farben streifen, ausserdem: duanlge/nowhere neon-/schwarzlichtfarbenstyle
+
+bakefile:
+	einfach variable in shader mit rt_float_foobar suffix erzeugt uniform der an den anfang des shaders und im strahlenwerk erstellt wird
+	wenn man uniforms in strahlenwerk "baked" werden beim shadereinlesen die uniforms zu consts mit wertzuweisungen gemacht
+	shaderfiles an sich bleiben unverändert
+	variablen-werte-paare werden in bakefile gespeichert
+	=> hemmschwelle zum uniformanlegen sinkt dramatisch
+
+idee von drb:
+	neonfarben mit natur verbinden. grun okka orange
+	erst naturfarben (pastel), dann brille aufsetzen und neon!
+
+zukünftig kurze notizen und gedankenstützen von mumble/treffen/rtificialdays/demopartys/$event in eine datei im git packen
+zur not einfach über github webinterface
