@@ -225,8 +225,10 @@ void MainWindow::performToggleFullscreen() {
 		// doppelt hält besser
 		setFullScreen(false);
 	} else {
-		mainContentComponent.setOpenGLOnlyLayout();
+		// first set kiosk mode, so the OpenGL component knows it
+		// doesn't need to write it's new size to the settings file
 		desktop.setKioskModeComponent(this);
+		mainContentComponent.setOpenGLOnlyLayout();
 		setFullScreen(true);
 	}
 }

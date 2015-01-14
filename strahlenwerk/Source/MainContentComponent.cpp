@@ -1,4 +1,6 @@
 #include "MainContentComponent.h"
+#include <StrahlenwerkApplication.h>
+#include <PropertyNames.h>
 
 MainContentComponent::MainContentComponent() :
 	verticalResizer(&verticalLayout, 1, false),
@@ -23,13 +25,17 @@ Timeline& MainContentComponent::getTimeline() {
 }
 
 void MainContentComponent::setDefaultLayout() {
-	horizontalLayout.setItemLayout(0, 200, -1., -.3);
-	horizontalLayout.setItemLayout(1, 8, 8, 8);
-	horizontalLayout.setItemLayout(2, 150, -1., -.7);
+	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	const int glComponentWidth = properties.getIntValue(PropertyNames::OpenGLWidth, 400);
+	const int glComponentHeight = properties.getIntValue(PropertyNames::OpenGLHeight, 300);
 
-	verticalLayout.setItemLayout(0, 200, -1., -.66);
+	horizontalLayout.setItemLayout(0, 200, -1., getWidth() - glComponentWidth - 8);
+	horizontalLayout.setItemLayout(1, 8, 8, 8);
+	horizontalLayout.setItemLayout(2, 160, -1., glComponentWidth);
+
+	verticalLayout.setItemLayout(0, 90, -1., glComponentHeight);
 	verticalLayout.setItemLayout(1, 8, 8, 8);
-	verticalLayout.setItemLayout(2, 200, -1., -.33 );
+	verticalLayout.setItemLayout(2, 200, -1., getHeight() - glComponentHeight - 8 );
 	verticalBoxLayout.resized();
 }
 

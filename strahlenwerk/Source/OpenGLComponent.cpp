@@ -37,6 +37,12 @@ void OpenGLComponent::resized() {
 	fixedAspectRatioComponent.setSize(16, 9);
 	fixedAspectRatioComponent.setBoundsToFit(0, 0, getWidth(), getHeight(), Justification(Justification::centred), false);
 	renderer.setSize(fixedAspectRatioComponent.getWidth(), fixedAspectRatioComponent.getHeight());
+
+	if (Desktop::getInstance().getKioskModeComponent() == nullptr) {
+		auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
+		properties.setValue(PropertyNames::OpenGLWidth, getWidth());
+		properties.setValue(PropertyNames::OpenGLHeight, getHeight());
+	}
 }
 
 void OpenGLComponent::paint(Graphics& g) {
