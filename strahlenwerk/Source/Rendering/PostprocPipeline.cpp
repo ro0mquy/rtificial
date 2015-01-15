@@ -2,6 +2,8 @@
 
 #include "SceneShader.h"
 #include "PostprocShader.h"
+#include <StrahlenwerkApplication.h>
+#include <PropertyNames.h>
 
 PostprocPipeline::~PostprocPipeline() = default;
 
@@ -26,6 +28,14 @@ uint64_t PostprocPipeline::render(SceneShader& shader, int width, int height) {
 	std::vector<std::string> queryNames;
 	int queryIndex = 0;
 
+	// render intermediate passes at a lower resolution if requested
+	const int originalWidth = width;
+	const int originalHeigth = height;
+	if (StrahlenwerkApplication::getInstance()->getProperties().getBoolValue(PropertyNames::HalfResolutionEnabled)) {
+		width /= 2;
+		height /= 2;
+	}
+
 	if(shaders.size() > 1) {
 		shaders[0]->bindFBO(width, height);
 		queryNames.push_back(shader.getName());
@@ -46,14 +56,14 @@ uint64_t PostprocPipeline::render(SceneShader& shader, int width, int height) {
 	glEnable(GL_FRAMEBUFFER_SRGB);
 	// bind default framebuffer again
 	OpenGLContext::getCurrentContext()->extensions.glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, originalWidth, originalHeigth);
 	glBeginQuery(GL_TIME_ELAPSED, queries[queryIndex++]);
 	if(shaders.size() > 1) {
 		// this works becaue the last drawn shader has only one output (which should have location = 0)
-		shaders[shaders.size() - 1]->draw(width, height);
+		shaders[shaders.size() - 1]->draw(originalWidth, originalHeigth);
 		queryNames.push_back(shaders[shaders.size() - 1]->getName());
 	} else {
-		shader.draw(width, height);
+		shader.draw(originalWidth, originalHeigth);
 		queryNames.push_back(shader.getName());
 	}
 	glEndQuery(GL_TIME_ELAPSED);

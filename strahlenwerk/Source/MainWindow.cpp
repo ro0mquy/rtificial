@@ -80,6 +80,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Project::reloadShaderFiles,
 		Project::saveTimeline,
 		OpenGLComponent::toggleGrid,
+		Renderer::toggleHalfResolution,
 		CameraController::playPauseWithAnimation,
 		CameraController::playPauseWithoutAnimation,
 		CameraController::setKeyframe,
@@ -124,18 +125,23 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			break;
 
 		case CameraController::playPauseWithAnimation:
-			result.setInfo("Play/Pause w/ animation", "Toggle play/pause with animation of camera", programCategory, 0);
+			result.setInfo("Play/Pause w/ Animation", "Toggle play/pause with animation of camera", programCategory, 0);
 			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::shiftModifier);
 			break;
 
 		case CameraController::playPauseWithoutAnimation:
-			result.setInfo("Play/Pause w/o animation", "Toggle play/pause without animation of camera", programCategory, 0);
+			result.setInfo("Play/Pause w/o Animation", "Toggle play/pause without animation of camera", programCategory, 0);
 			result.addDefaultKeypress(KeyPress::spaceKey, ModifierKeys::noModifiers);
 			break;
 
 		case OpenGLComponent::toggleGrid:
 			result.setInfo("Toogle Grid", "Enable/Disable Rule of Thirds grid overlay", programCategory, 0);
 			result.addDefaultKeypress('g', ModifierKeys::noModifiers);
+			break;
+
+		case Renderer::toggleHalfResolution:
+			result.setInfo("Toogle Half Resolution", "Enable/Disable rendering at half resolution", programCategory, 0);
+			result.addDefaultKeypress('h', ModifierKeys::commandModifier);
 			break;
 
 		case CameraController::setKeyframe:
@@ -198,6 +204,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, Project::saveTimeline);
 		menu.addCommandItem(commandManager, Project::reloadShaderFiles);
 		menu.addCommandItem(commandManager, OpenGLComponent::toggleGrid);
+		menu.addCommandItem(commandManager, Renderer::toggleHalfResolution);
 		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);
 		menu.addCommandItem(commandManager, CameraController::setKeyframe);
 		menu.addCommandItem(commandManager, CameraController::resetCameraPosition);

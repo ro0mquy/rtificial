@@ -12,6 +12,7 @@
 #include "Rendering/DefaultShader.h"
 #include "Rendering/Scenes.h"
 #include <MainWindow.h>
+#include <PropertyNames.h>
 
 Renderer::Renderer(OpenGLContext& context) :
 	context(context),
@@ -94,6 +95,14 @@ void Renderer::performMakeDemo() {
 	StrahlenwerkApplication::getInstance()->getProject().makeDemo(*scenes, *postproc);
 }
 
+void Renderer::performToggleHalfResolution() {
+	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	const bool previous = properties.getBoolValue(PropertyNames::HalfResolutionEnabled);
+	properties.setValue(PropertyNames::HalfResolutionEnabled, !previous);
+	context.triggerRepaint();
+}
+
+
 void Renderer::reloadPostproc() {
 	auto newPostproc = StrahlenwerkApplication::getInstance()->getProject().getPostproc();
 	renderMutex.lock();
@@ -127,6 +136,8 @@ void Renderer::applicationCommandInvoked(const ApplicationCommandTarget::Invocat
 		case Renderer::makeDemo:
 			performMakeDemo();
 			break;
+		case Renderer::toggleHalfResolution:
+			performToggleHalfResolution();
 		default:
 			break;
 	}

@@ -31,6 +31,7 @@ class Renderer :
 
 		enum CommandIDs {
 			makeDemo = 0x4581da00,
+			toggleHalfResolution,
 		};
 
 	private:
@@ -46,6 +47,7 @@ class Renderer :
 		uint64_t lastFrameDuration = 0;
 
 		void performMakeDemo();
+		void performToggleHalfResolution();
 		void reloadPostproc();
 		void reloadScenes();
 
