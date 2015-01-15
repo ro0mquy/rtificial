@@ -61,7 +61,7 @@ void Renderer::renderOpenGL() {
 		const String shaderName = data.getSceneShaderSource(data.getCurrentScene());
 		const int shaderId = scenes->getShaderId(shaderName.toStdString());
 		if(shaderId == -1) {
-			lastFrameDuration = postproc->render(defaultShader, width, height);
+			lastFrameDuration = defaultPostproc->render(defaultShader, width, height);
 		} else {
 			lastFrameDuration = postproc->render(scenes->getShader(shaderId), width, height);
 		}
