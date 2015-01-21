@@ -6,34 +6,39 @@
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
 	sequenceView(zoomFactor),
-	scenesBar(zoomFactor)
+	scenesBar(zoomFactor),
+	scenesBarSequenceViewBoxLayout(scenesBarSequenceViewLayout, {{ &viewportScenesBar, &viewportSequenceView }}),
+	uniformsBarResizer(&timelineLayout, 1, true),
+	timelineBoxLayout(timelineLayout, {{ &viewportUniformsBar, &uniformsBarResizer, &scenesBarSequenceViewBoxLayout }})
 {
 	viewportSequenceView.setViewedComponent(&sequenceView, false);
 	viewportScenesBar.setViewedComponent(&scenesBar, false);
 	viewportScenesBar.setScrollBarsShown(false, false, false, true);
 	viewportUniformsBar.setViewedComponent(&uniformsBar, false);
 	viewportUniformsBar.setScrollBarsShown(false, false, true, false);
-	addAndMakeVisible(viewportSequenceView);
-	addAndMakeVisible(viewportScenesBar);
-	addAndMakeVisible(viewportUniformsBar);
+
+	scenesBarSequenceViewLayout.setItemLayout(0, 30, 30, 30); // scenesBar
+	scenesBarSequenceViewLayout.setItemLayout(1, 170, -1., -1.); // sequenceView
+
+	timelineLayout.setItemLayout(0, 100, -1., 150); // uniformsBar
+	timelineLayout.setItemLayout(1, 8, 8, 8); // uniformsBarResizer
+	timelineLayout.setItemLayout(2, 200, -1., 650); // scenesBar & sequenceView
+
+	scenesBarSequenceViewBoxLayout.setInterceptsMouseClicks(false, true);
+	timelineBoxLayout.setInterceptsMouseClicks(false, true);
+	addAndMakeVisible(timelineBoxLayout);
 }
 
 void Timeline::resized() {
 	const int scenesBarHeight = 30;
-	const int uniformsBarWidth = 150;
-	Rectangle<int> r(getLocalBounds());
 
-	viewportScenesBar.setBounds(
-			r.removeFromTop(scenesBarHeight)
-			.withTrimmedLeft(uniformsBarWidth)
-		);
-	scenesBar.updateSize();
+	// the timelineBoxLayout doesn't update the components height
+	// so the uniformsBar could be made somewhat smaller
+	viewportUniformsBar.setBounds(viewportUniformsBar.getX(), scenesBarHeight, viewportUniformsBar.getWidth(), getHeight() - scenesBarHeight);
+	uniformsBarResizer.setSize(uniformsBarResizer.getWidth(), getHeight());
+	scenesBarSequenceViewBoxLayout.setSize(scenesBarSequenceViewBoxLayout.getWidth(), getHeight());
 
-	viewportUniformsBar.setBounds(r.removeFromLeft(uniformsBarWidth));
-	uniformsBar.updateSize();
-
-	viewportSequenceView.setBounds(r);
-	sequenceView.updateSize();
+	timelineBoxLayout.setBounds(getLocalBounds());
 }
 
 void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) {
@@ -60,10 +65,11 @@ void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& 
 }
 
 void Timeline::mouseDown(const MouseEvent& event) {
-	const int uniformsBarWidth = 150;
-	const bool isInUniBar = event.getMouseDownX() < uniformsBarWidth;
+	const MouseEvent eventViewportSeqView = event.getEventRelativeTo(&viewportSequenceView);
+	const bool isNotInUniBar = eventViewportSeqView.getMouseDownX() >= 0;
+
 	const ModifierKeys& m = event.mods;
-	if (!isInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
+	if (isNotInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
 		// set current Time
 		mouseDrag(event);
 	} else {
@@ -72,10 +78,11 @@ void Timeline::mouseDown(const MouseEvent& event) {
 }
 
 void Timeline::mouseDrag(const MouseEvent& event) {
-	const int uniformsBarWidth = 150;
-	const bool isInUniBar = event.getMouseDownX() < uniformsBarWidth;
+	const MouseEvent eventViewportSeqView = event.getEventRelativeTo(&viewportSequenceView);
+	const bool isNotInUniBar = eventViewportSeqView.getMouseDownX() >= 0;
+
 	const ModifierKeys& m = event.mods;
-	if (!isInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
+	if (isNotInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
 		if (CameraController::globalCameraController) {
 			if (m.isShiftDown()) {
 				CameraController::globalCameraController->releaseControl();

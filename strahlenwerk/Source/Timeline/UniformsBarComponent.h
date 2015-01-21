@@ -2,18 +2,20 @@
 #define UNIFORMSBARCOMPONENT_H
 
 #include <juce>
+#include "SelfResizingComponent.h"
 
 class TimelineData;
 
 class UniformsBarComponent :
 	public Component,
+	public SelfResizingComponent,
 	private ValueTree::Listener
 {
 	public:
 		UniformsBarComponent();
 		~UniformsBarComponent();
 
-		void updateSize();
+		void updateSize() override;
 		void paint(Graphics& g) override;
 		void mouseUp(const MouseEvent& event) override;
 

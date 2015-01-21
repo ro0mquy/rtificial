@@ -2,6 +2,7 @@
 #define SEQUENCEVIEWCOMPONENT_H
 
 #include <juce>
+#include "SelfResizingComponent.h"
 #include "MouseCallbackClasses.h"
 #include "TimeMarkerComponent.h"
 
@@ -12,6 +13,7 @@ class SequenceComponent;
 
 class SequenceViewComponent :
 	public McbComponent,
+	public SelfResizingComponent,
 	private ValueTree::Listener,
 	private ChangeListener
 {
@@ -19,7 +21,7 @@ class SequenceViewComponent :
 		SequenceViewComponent(ZoomFactor& zoomFactor_);
 		~SequenceViewComponent();
 
-		void updateSize();
+		void updateSize() override;
 		void paint(Graphics& g) override;
 		void addSequenceComponent(ValueTree sequenceData);
 		void addAllSequenceComponents();

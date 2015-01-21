@@ -46,10 +46,6 @@ void UniformsBarComponent::paint(Graphics& g) {
 		g.setColour(findColour(UniformsBarComponent::uniformTextColourId));
 		g.drawText(name, rect.withLeft(3), Justification(Justification::centredLeft), true);
 	}
-
-	// draw outline
-	g.setColour(findColour(RtColourIds::outlineColourId));
-	g.drawVerticalLine(getWidth()-1, 0, getHeight());
 }
 
 void UniformsBarComponent::mouseUp(const MouseEvent& event) {

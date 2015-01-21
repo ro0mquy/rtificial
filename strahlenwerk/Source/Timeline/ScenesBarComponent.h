@@ -2,6 +2,7 @@
 #define SCENESBARCOMPONENT_H
 
 #include <juce>
+#include "SelfResizingComponent.h"
 #include "MouseCallbackClasses.h"
 #include "TimeMarkerComponent.h"
 
@@ -12,6 +13,7 @@ class SceneComponent;
 
 class ScenesBarComponent :
 	public McbComponent,
+	public SelfResizingComponent,
 	private ValueTree::Listener,
 	private ChangeListener
 {
@@ -19,7 +21,7 @@ class ScenesBarComponent :
 		ScenesBarComponent(ZoomFactor& zoomFactor_);
 		~ScenesBarComponent();
 
-		void updateSize();
+		void updateSize() override;
 		void paint(Graphics& g) override;
 		void addSceneComponent(ValueTree sceneData);
 		void addAllSceneComponents();
