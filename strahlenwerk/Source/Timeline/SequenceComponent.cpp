@@ -242,18 +242,6 @@ void SequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Id
 		if (parentTree == data.getScene(data.getSequenceSceneId(sequenceData))) {
 			// the scene this sequence belongs to has been moved
 			updateBounds();
-		} else {
-			if (data.getSequenceSceneId(sequenceData) == var::null) {
-				// a scene has been moved, so maybe this sequence now belongs to another scene
-				const int absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
-				data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
-			}
-		}
-	} else if (property == treeId::sceneDuration) {
-		if (data.getSequenceSceneId(sequenceData) == var::null) {
-			// a scene has been resized, so maybe this sequence now belongs to another scene
-			const int absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
-			data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
 		}
 	}
 }

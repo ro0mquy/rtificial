@@ -177,6 +177,29 @@ ValueTree TimelineData::addSceneUnchecked(ValueTree scene, int position) {
 void TimelineData::removeScene(ValueTree scene) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	getScenesArray().removeChild(scene, &undoManager);
+
+	// remove the sceneId of the scene to be deleted
+	// from the sequences belonging to this scene
+	const var& sceneId = getSceneId(scene);
+	const int sceneStart = getSceneStart(scene);
+	const int numUniforms = getNumUniforms();
+
+	for (int i = 0; i < numUniforms; i++) {
+		ValueTree uniform = getUniform(i);
+		const int numSequences = getNumSequences(uniform);
+
+		for (int j = 0; j < numSequences; j++) {
+			ValueTree sequence = getSequence(uniform, j);
+
+			if (getSequenceSceneId(sequence) != sceneId) {
+				continue;
+			}
+
+			const int sequenceStart = getSequenceStart(sequence);
+			const int absoluteStart = sceneStart + sequenceStart;
+			setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
+		}
+	}
 }
 
 
@@ -222,12 +245,62 @@ void TimelineData::setSceneId(ValueTree scene, var id) {
 void TimelineData::setSceneStart(ValueTree scene, var start) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	scene.setProperty(treeId::sceneStart, start, &undoManager);
+
+	// check if some existing sequences without scene now belong to this scene
+	const int sceneStart = start;
+	const int sceneDuration = getSceneDuration(scene);
+	const int numUniforms = getNumUniforms();
+
+	for (int i = 0; i < numUniforms; i++) {
+		ValueTree uniform = getUniform(i);
+		const int numSequences = getNumSequences(uniform);
+
+		for (int j = 0; j < numSequences; j++) {
+			ValueTree sequence = getSequence(uniform, j);
+
+			if (getSequenceSceneId(sequence) != var::null) {
+				continue;
+			}
+
+			const int absoluteStart = getAbsoluteStartForSequence(sequence);
+			const int relativeStart = absoluteStart - sceneStart;
+
+			if (isPositiveAndBelow(relativeStart, sceneDuration)) {
+				setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
+			}
+		}
+	}
 }
 
 // sets the duration for the given scene
 void TimelineData::setSceneDuration(ValueTree scene, var duration) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	scene.setProperty(treeId::sceneDuration, duration, &undoManager);
+
+	// check if some existing sequences without scene now belong to this scene
+	const int sceneStart = getSceneStart(scene);
+	const int sceneDuration = duration;
+	const int numUniforms = getNumUniforms();
+
+	for (int i = 0; i < numUniforms; i++) {
+		ValueTree uniform = getUniform(i);
+		const int numSequences = getNumSequences(uniform);
+
+		for (int j = 0; j < numSequences; j++) {
+			ValueTree sequence = getSequence(uniform, j);
+
+			if (getSequenceSceneId(sequence) != var::null) {
+				continue;
+			}
+
+			const int absoluteStart = getAbsoluteStartForSequence(sequence);
+			const int relativeStart = absoluteStart - sceneStart;
+
+			if (isPositiveAndBelow(relativeStart, sceneDuration)) {
+				setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
+			}
+		}
+	}
 }
 
 // sets the shaderSource for the given scene
