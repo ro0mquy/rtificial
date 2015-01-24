@@ -6,7 +6,7 @@
 #include <cmath>
 
 ZoomFactor::ZoomFactor() :
-	zoomLevel(20.)
+	zoomLevel(initialZoomLevel)
 {
 }
 
@@ -57,29 +57,25 @@ ZoomFactor& ZoomFactor::operator/=(const float zoomLevelDivisor) {
 	return *this;
 }
 
-float ZoomFactor::timeToPixels(const float time) {
+float ZoomFactor::timeToPixels(const int time) {
 	std::lock_guard<std::mutex> lock(zoomMutex);
 	return time * zoomLevel;
 }
 
-float ZoomFactor::pixelsToTime(const float pixels) {
+int ZoomFactor::pixelsToTime(const float pixels) {
 	std::lock_guard<std::mutex> lock(zoomMutex);
-	return pixels / zoomLevel;
+	return roundFloatToInt(pixels / zoomLevel);
 }
 
 float ZoomFactor::getGridWidth() {
 	std::lock_guard<std::mutex> lock(zoomMutex);
-	return std::pow(2., -std::floor(std::log2(zoomLevel / 20.)));
+	return 1000. * std::pow(2., -std::floor(std::log2(zoomLevel / initialZoomLevel)));
 }
 
-float ZoomFactor::snapValueToGrid(const float valueAsTime) {
+int ZoomFactor::snapValueToGrid(const int valueAsTime) {
 	// snaps values that are in time units
 	const float gridWidth = getGridWidth();
 	const float posOnGrid = valueAsTime / gridWidth;
-	const float newRoundedPos = roundFloatToInt(posOnGrid) * gridWidth;
+	const int newRoundedPos = roundFloatToInt(posOnGrid) * gridWidth;
 	return newRoundedPos;
-}
-
-float ZoomFactor::getEpsilon() {
-	return getGridWidth() / 100.;
 }

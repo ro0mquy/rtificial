@@ -44,8 +44,8 @@ void KeyframeComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 
 	if (xChanged) {
 		// dragging
-		const float newCentreX = newBounds.getCentreX() / zoomFactor;
-		const float newPosition = zoomFactor.snapValueToGrid(newCentreX);
+		const int newCentreX = newBounds.getCentreX() / zoomFactor;
+		const int newPosition = zoomFactor.snapValueToGrid(newCentreX);
 		data.setKeyframePosition(keyframeData, newPosition);
 	}
 }

@@ -58,11 +58,11 @@ UniformState Interpolator::getCurrentUniformState(const var& name) {
 }
 
 UniformState Interpolator::getUniformStateFromTimelineData(ValueTree uniformData) {
-	const float absoluteCurrentTime = AudioManager::getAudioManager().getTimeInBeats();
+	const int absoluteCurrentTime = AudioManager::getAudioManager().getTime();
 	ValueTree currentSequence = data.getSequenceForTime(uniformData, absoluteCurrentTime);
 
 	if (currentSequence.isValid()) {
-		const float relativeCurrentTime = absoluteCurrentTime - data.getAbsoluteStartForSequence(currentSequence);
+		const int relativeCurrentTime = absoluteCurrentTime - data.getAbsoluteStartForSequence(currentSequence);
 		return calculateInterpolatedState(currentSequence, relativeCurrentTime);
 	}
 
@@ -72,7 +72,7 @@ UniformState Interpolator::getUniformStateFromTimelineData(ValueTree uniformData
 	return UniformState(currentUniformValue, isOnKeyframe);
 }
 
-UniformState Interpolator::calculateInterpolatedState(ValueTree sequence, const float relativeCurrentTime) {
+UniformState Interpolator::calculateInterpolatedState(ValueTree sequence, const int relativeCurrentTime) {
 	const String interpolationType = data.getSequenceInterpolation(sequence);
 	if (interpolationType == "step" ) {
 		return interpolationMethodStep(sequence, relativeCurrentTime);
@@ -88,14 +88,13 @@ UniformState Interpolator::calculateInterpolatedState(ValueTree sequence, const 
 
 // step interpolation method
 // returns the value of the last keyframe
-UniformState Interpolator::interpolationMethodStep(ValueTree sequence, const float currentTime) {
-	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
+UniformState Interpolator::interpolationMethodStep(ValueTree sequence, const int currentTime) {
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	// iterate keyframes from the end
 	for (int i = numKeyframes - 1; i >= 0; i--) {
 		ValueTree keyframe = data.getKeyframe(sequence, i);
-		const float keyframePosition = data.getKeyframePosition(keyframe);
-		if (keyframePosition <= currentTime + epsilon) {
+		const int keyframePosition = data.getKeyframePosition(keyframe);
+		if (keyframePosition <= currentTime) {
 			// return first keyframe that comes before the current time
 			ValueTree value = data.getKeyframeValue(keyframe);
 			const bool isOnKeyframe = true;
@@ -109,16 +108,14 @@ UniformState Interpolator::interpolationMethodStep(ValueTree sequence, const flo
 
 // linear interpolation method
 // returns the lineary interpolated value between the two current keyframes
-UniformState Interpolator::interpolationMethodLinear(ValueTree sequence, const float currentTime) {
-	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
-
+UniformState Interpolator::interpolationMethodLinear(ValueTree sequence, const int currentTime) {
 	// check other keyframes for need to interpolate
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	for (int i = 0; i < numKeyframes; i++) {
 		ValueTree keyframe = data.getKeyframe(sequence, i);
-		const float keyframePosition = data.getKeyframePosition(keyframe);
+		const int keyframePosition = data.getKeyframePosition(keyframe);
 
-		if (currentTime >= keyframePosition - epsilon && currentTime <= keyframePosition + epsilon) {
+		if (currentTime == keyframePosition) {
 			// exactly on a keyframe
 			ValueTree value = data.getKeyframeValue(keyframe);
 			const bool isOnKeyframe = true;
@@ -129,10 +126,10 @@ UniformState Interpolator::interpolationMethodLinear(ValueTree sequence, const f
 			// use last and this keyframe to interpolate
 			ValueTree keyframeBefore = data.getKeyframe(sequence, i - 1);
 
-			const float keyframeBeforePosition = data.getKeyframePosition(keyframeBefore);
-			const float timeBetweenKeyframes = keyframePosition - keyframeBeforePosition;
-			const float relativeCurrentTime = currentTime - keyframeBeforePosition;
-			const float mixT = relativeCurrentTime / timeBetweenKeyframes;
+			const int keyframeBeforePosition = data.getKeyframePosition(keyframeBefore);
+			const int timeBetweenKeyframes = keyframePosition - keyframeBeforePosition;
+			const int relativeCurrentTime = currentTime - keyframeBeforePosition;
+			const float mixT = float(relativeCurrentTime) / float(timeBetweenKeyframes);
 
 			ValueTree valueBefore = data.getKeyframeValue(keyframeBefore);
 			ValueTree valueAfter = data.getKeyframeValue(keyframe);
@@ -149,15 +146,13 @@ UniformState Interpolator::interpolationMethodLinear(ValueTree sequence, const f
 
 // Centripetal Catmull-Rom Spline interpolation method
 // interpolates between different keyframes with Catmull-Rom splines in centripetal parametrization
-UniformState Interpolator::interpolationMethodCcrSpline(ValueTree sequence, const float currentTime) {
-	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
-
+UniformState Interpolator::interpolationMethodCcrSpline(ValueTree sequence, const int currentTime) {
 	const int numKeyframes = data.getNumKeyframes(sequence);
 	for (int i = 0; i < numKeyframes; i++) {
 		ValueTree keyframe = data.getKeyframe(sequence, i);
-		const float keyframePosition = data.getKeyframePosition(keyframe);
+		const int keyframePosition = data.getKeyframePosition(keyframe);
 
-		if (currentTime >= keyframePosition - epsilon && currentTime <= keyframePosition + epsilon) {
+		if (currentTime == keyframePosition) {
 			// exactly on a keyframe
 			ValueTree value = data.getKeyframeValue(keyframe);
 			const bool isOnKeyframe = true;
@@ -169,10 +164,10 @@ UniformState Interpolator::interpolationMethodCcrSpline(ValueTree sequence, cons
 			// the keyframe we found is P2
 			ValueTree keyframeBefore = data.getKeyframe(sequence, i - 1); // P1
 
-			const float keyframeBeforePosition = data.getKeyframePosition(keyframeBefore);
-			const float timeBetweenKeyframes = keyframePosition - keyframeBeforePosition;
-			const float relativeCurrentTime = currentTime - keyframeBeforePosition;
-			const float mixT = relativeCurrentTime / timeBetweenKeyframes;
+			const int keyframeBeforePosition = data.getKeyframePosition(keyframeBefore);
+			const int timeBetweenKeyframes = keyframePosition - keyframeBeforePosition;
+			const int relativeCurrentTime = currentTime - keyframeBeforePosition;
+			const float mixT = float(relativeCurrentTime) / float(timeBetweenKeyframes);
 
 			ValueTree valueP0 = data.getKeyframeValue(data.getKeyframe(sequence, i - 2));
 			ValueTree valueP1 = data.getKeyframeValue(keyframeBefore);

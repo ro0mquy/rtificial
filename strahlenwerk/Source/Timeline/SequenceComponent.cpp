@@ -50,10 +50,9 @@ SequenceComponent::~SequenceComponent() {
 
 void SequenceComponent::updateBounds() {
 	const int rowHeight = 20;
-	const float start = (float) data.getAbsoluteStartForSequence(sequenceData) * zoomFactor;
+	const int start = (int) data.getAbsoluteStartForSequence(sequenceData) * zoomFactor;
 	const int newX = roundFloatToInt(start);
-	const float duration = (float) data.getSequenceDuration(sequenceData) * zoomFactor;
-	const int newWidth = roundFloatToInt(duration);
+	const int newWidth = (int) data.getSequenceDuration(sequenceData) * zoomFactor;
 	const int nthUniform = data.getUniformIndex(data.getSequenceParentUniform(sequenceData));
 	jassert(nthUniform >= 0);
 
@@ -66,28 +65,28 @@ void SequenceComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 
 	if (xChanged && !widthChanged) {
 		// dragging
-		const float newX = newBounds.getX() / zoomFactor;
-		const float newStart = zoomFactor.snapValueToGrid(newX);
+		const int newX = newBounds.getX() / zoomFactor;
+		const int newStart = zoomFactor.snapValueToGrid(newX);
 		data.setSequencePropertiesForAbsoluteStart(sequenceData, newStart);
 	} else if (xChanged && widthChanged) {
 		// stretching left
-		const float newX = newBounds.getX() / zoomFactor;
-		const float newStart = zoomFactor.snapValueToGrid(newX);
+		const int newX = newBounds.getX() / zoomFactor;
+		const int newStart = zoomFactor.snapValueToGrid(newX);
 
 		// calculate the new width through the change of X
 		// so that the right end stays where it is
 		// otherwise the duration and not the right side would be snapped to grid
-		const float oldStart = data.getAbsoluteStartForSequence(sequenceData);
-		const float deltaStart = newStart - oldStart;
-		const float oldDuration = data.getSequenceDuration(sequenceData);
-		const float newDuration = oldDuration - deltaStart;
+		const int oldStart = data.getAbsoluteStartForSequence(sequenceData);
+		const int deltaStart = newStart - oldStart;
+		const int oldDuration = data.getSequenceDuration(sequenceData);
+		const int newDuration = oldDuration - deltaStart;
 
 		data.setSequencePropertiesForAbsoluteStart(sequenceData, newStart);
 		data.setSequenceDuration(sequenceData, newDuration);
 	} else if (!xChanged && widthChanged) {
 		// stretching right
-		const float newWidth = newBounds.getWidth() / zoomFactor;
-		const float newDuration = zoomFactor.snapValueToGrid(newWidth);
+		const int newWidth = newBounds.getWidth() / zoomFactor;
+		const int newDuration = zoomFactor.snapValueToGrid(newWidth);
 		data.setSequenceDuration(sequenceData, newDuration);
 	}
 }
@@ -170,10 +169,10 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		if (m.isLeftButtonDown()) {
 			// add keyframe
 			// TODO: compute with absolute time values
-			const float mouseDown = event.getMouseDownX() / zoomFactor;
-			const float mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
+			const int mouseDown = event.getMouseDownX() / zoomFactor;
+			const int mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
 
-			const float sequenceDuration = data.getSequenceDuration(sequenceData);
+			const int sequenceDuration = data.getSequenceDuration(sequenceData);
 			if (mouseDownGrid <= 0 || mouseDownGrid >= sequenceDuration) {
 				// don't set keyframe at start or end
 				return;
@@ -246,13 +245,14 @@ void SequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Id
 		} else {
 			if (data.getSequenceSceneId(sequenceData) == var::null) {
 				// a scene has been moved, so maybe this sequence now belongs to another scene
-				const float absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
+				const int absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
 				data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
 			}
 		}
 	} else if (property == treeId::sceneDuration) {
 		if (data.getSequenceSceneId(sequenceData) == var::null) {
-			const float absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
+			// a scene has been resized, so maybe this sequence now belongs to another scene
+			const int absoluteStart = data.getAbsoluteStartForSequence(sequenceData);
 			data.setSequencePropertiesForAbsoluteStart(sequenceData, absoluteStart);
 		}
 	}

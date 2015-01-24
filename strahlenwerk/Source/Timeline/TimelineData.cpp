@@ -218,15 +218,15 @@ void TimelineData::setSceneShaderSource(ValueTree scene, var shaderSource) {
 
 
 // finds the the end time of the last scene
-float TimelineData::getLastSceneEndTime() {
+int TimelineData::getLastSceneEndTime() {
 	const int numScenes = getNumScenes();
-	float maxEndTime = 0.;
+	int maxEndTime = 0;
 
 	for (int i = 0; i < numScenes; i++) {
 		ValueTree scene = getScene(i);
-		const float start = getSceneStart(scene);
-		const float duration = getSceneDuration(scene);
-		const float end = start + duration;
+		const int start = getSceneStart(scene);
+		const int duration = getSceneDuration(scene);
+		const int end = start + duration;
 		maxEndTime = jmax(maxEndTime, end);
 	}
 
@@ -235,10 +235,10 @@ float TimelineData::getLastSceneEndTime() {
 
 // returns the active scene for a timepoint
 // a invalid tree is returned if there is none
-ValueTree TimelineData::getSceneForTime(const float absoluteTime) {
+ValueTree TimelineData::getSceneForTime(const int absoluteTime) {
 	const int numScenes = getNumScenes();
 	/*
-	// needs convertion to new TimelineData functions and float
+	// needs convertion to new TimelineData functions
 	// matches if the time is inside the scene and also if after the end
 	int smallestDistance = INT_MAX;
 	int bestScene = 0;
@@ -260,9 +260,9 @@ ValueTree TimelineData::getSceneForTime(const float absoluteTime) {
 	// matches only if inside scene
 	for (int i = 0; i < numScenes; i++) {
 		ValueTree scene = getScene(i);
-		const float start = getSceneStart(scene);
-		const float duration = getSceneDuration(scene);
-		const float distance = absoluteTime - start;
+		const int start = getSceneStart(scene);
+		const int duration = getSceneDuration(scene);
+		const int distance = absoluteTime - start;
 		if (isPositiveAndBelow(distance, duration)) {
 			return scene;
 		}
@@ -274,7 +274,7 @@ ValueTree TimelineData::getSceneForTime(const float absoluteTime) {
 
 // returns the scene that should be displayed at the current time
 ValueTree TimelineData::getCurrentScene() {
-	return getSceneForTime(AudioManager::getAudioManager().getTimeInBeats());
+	return getSceneForTime(AudioManager::getAudioManager().getTime());
 }
 
 // returns a scene Id that is currently not used
@@ -479,7 +479,7 @@ ValueTree TimelineData::addSequence(ValueTree uniform, ValueTree sequence, int p
 // adds a sequence with the given vars to a uniform at position
 // returns the assembled sequence
 // position defaults to -1 (append to end)
-ValueTree TimelineData::addSequence(ValueTree uniform, float absoluteStart, var duration, var interpolation, int position) {
+ValueTree TimelineData::addSequence(ValueTree uniform, int absoluteStart, var duration, var interpolation, int position) {
 	ValueTree sequence(treeId::sequence);
 	setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
 	setSequenceDuration(sequence, duration);
@@ -567,35 +567,34 @@ void TimelineData::setSequenceInterpolation(ValueTree sequence, var interpolatio
 
 // sets the sceneId and relative start time of a sequence for a given absolute start time
 // return true when the scene for this sequence is a new one, false otherwise
-void TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, float absoluteStart) {
+void TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart) {
 			ValueTree sceneForSequence = getSceneForTime(absoluteStart);
 			var sceneId = getSceneId(sceneForSequence);
 			setSequenceSceneId(sequence, sceneId);
 
-			const float sceneStart = getSceneStart(sceneForSequence);
+			const int sceneStart = getSceneStart(sceneForSequence);
 			var relativeStart = absoluteStart - sceneStart;
 			setSequenceStart(sequence, relativeStart);
 }
 
 // returns the start time of the sequence in absolute time
 // and not relative to the scene start time
-float TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
-	const float sceneStart = getSceneStart(getScene(getSequenceSceneId(sequence)));
-	const float sequenceStart = getSequenceStart(sequence);
+int TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
+	const int sceneStart = getSceneStart(getScene(getSequenceSceneId(sequence)));
+	const int sequenceStart = getSequenceStart(sequence);
 	return sceneStart + sequenceStart;
 }
 
 // returns the active sequence of a uniform for a timepoint
 // a invalid tree is returned if there is none
-ValueTree TimelineData::getSequenceForTime(ValueTree uniform, const float absoluteTime) {
-	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
+ValueTree TimelineData::getSequenceForTime(ValueTree uniform, const int absoluteTime) {
 	const int numSequences = getNumSequences(uniform);
 	for (int i = 0; i < numSequences; i++) {
 		ValueTree sequence = getSequence(uniform, i);
-		const float start = getAbsoluteStartForSequence(sequence);
-		const float duration = getSequenceDuration(sequence);
-		const float relativeTime = absoluteTime - start;
-		if (isPositiveAndNotGreaterThan(relativeTime + epsilon, duration + 2.f * epsilon)) {
+		const int start = getAbsoluteStartForSequence(sequence);
+		const int duration = getSequenceDuration(sequence);
+		const int relativeTime = absoluteTime - start;
+		if (isPositiveAndNotGreaterThan(relativeTime, duration)) {
 			return sequence;
 		}
 	}
@@ -605,7 +604,7 @@ ValueTree TimelineData::getSequenceForTime(ValueTree uniform, const float absolu
 
 // returns the sequence of a uniform that should be used at the current time
 ValueTree TimelineData::getCurrentSequence(ValueTree uniform) {
-	return getSequenceForTime(uniform, AudioManager::getAudioManager().getTimeInBeats());
+	return getSequenceForTime(uniform, AudioManager::getAudioManager().getTime());
 }
 
 // returns the uniform the sequence belongs to
@@ -638,15 +637,14 @@ ValueTree TimelineData::getKeyframe(ValueTree sequence, const int nthKeyframe) {
 }
 
 ValueTree TimelineData::getKeyframe(ValueTree sequence, const var& position) {
-	const float epsilon = ZoomFactor::getZoomFactor().getEpsilon();
-	const float wantedPosition = position;
+	const int wantedPosition = position;
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 
 	const int numKeyframes = getNumKeyframes(sequence);
 	for (int i = 0; i < numKeyframes; i++) {
 		ValueTree keyframe = getKeyframe(sequence, i);
-		const float keyframePosition = getKeyframePosition(keyframe);
-		if (wantedPosition >= keyframePosition - epsilon && wantedPosition <= keyframePosition + epsilon) {
+		const int keyframePosition = getKeyframePosition(keyframe);
+		if (wantedPosition == keyframePosition) {
 			return keyframe;
 		}
 	}

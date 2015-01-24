@@ -74,12 +74,14 @@ void AudioManager::togglePlayPause() {
 	}
 }
 
-float AudioManager::getTimeInBeats() {
-	return transportSource.getCurrentPosition() * (getBpm() / 60.);
+// time is returned as milli beats
+int AudioManager::getTime() {
+	return transportSource.getCurrentPosition() * (getBpm() / 60.) * 1000.;
 }
 
-void AudioManager::setTime(float newTimeInBeats) {
-	transportSource.setPosition(newTimeInBeats / (getBpm() / 60.));
+// newTime should be in milli beats
+void AudioManager::setTime(int newTime) {
+	transportSource.setPosition(newTime / (getBpm() / 60.) / 1000.);
 	sendChangeMessage();
 }
 

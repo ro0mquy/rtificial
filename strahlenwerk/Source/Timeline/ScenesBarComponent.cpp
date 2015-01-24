@@ -25,14 +25,14 @@ ScenesBarComponent::~ScenesBarComponent() {
 }
 
 void ScenesBarComponent::updateSize() {
-	const float paddingAfterLastScene = 300 + 18; // + getLookAndFeel().getDefaultScrollbarWidth(); // TODO: do this in a more dynamic way
-	const float endTime = data.getLastSceneEndTime() * zoomFactor;
+	const int paddingAfterLastScene = 300 + 18; // + getLookAndFeel().getDefaultScrollbarWidth(); // TODO: do this in a more dynamic way
+	const int endTime = data.getLastSceneEndTime() * zoomFactor;
 
 	const Viewport* parentViewport = findParentComponentOfClass<Viewport>();
 	const int viewportWidth = parentViewport->getMaximumVisibleWidth();
 	const int viewportHeight = parentViewport->getMaximumVisibleHeight();
 
-	const int width = jmax(roundFloatToInt(endTime + paddingAfterLastScene), viewportWidth);
+	const int width = jmax(endTime + paddingAfterLastScene, viewportWidth);
 	setSize(width, viewportHeight);
 }
 
@@ -43,7 +43,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 	auto& audioManager = AudioManager::getAudioManager();
 	auto& audioThumb = audioManager.getThumbnail();
 	const float beatsPerSecond = audioManager.getBpm() / 60.;
-	const float timeAtRightBorder = getWidth() / zoomFactor / beatsPerSecond;
+	const float timeAtRightBorder = getWidth() / zoomFactor / beatsPerSecond / 1000.;
 
 	Rectangle<int> halfVisibleRect = getLocalBounds();
 	halfVisibleRect.setHeight(2 * halfVisibleRect.getHeight());
@@ -75,7 +75,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 
 		if (longLine) {
 			g.setColour(findColour(ScenesBarComponent::textColourId));
-			g.drawSingleLineText(String(i * gridWidth), i*lineDistance + 1, .8 * g.getCurrentFont().getHeight());
+			g.drawSingleLineText(String(i * gridWidth / 1000.), i*lineDistance + 1, .8 * g.getCurrentFont().getHeight());
 		}
 	}
 
@@ -126,15 +126,15 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 	// invalid data happens on no left click or no command down
 	if (currentlyCreatedSceneData.isValid()) {
-		const float mouseDown = event.getMouseDownX() / zoomFactor;
-		const float mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
+		const int mouseDown = event.getMouseDownX() / zoomFactor;
+		const int mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
 
-		const float mousePos = event.x / zoomFactor;
-		const float mousePosGrid = zoomFactor.snapValueToGrid(mousePos);
+		const int mousePos = event.x / zoomFactor;
+		const int mousePosGrid = zoomFactor.snapValueToGrid(mousePos);
 
-		const float distanceGrid = mousePosGrid - mouseDownGrid;
-		const float absDistanceGrid = std::abs(distanceGrid);
-		const float startGrid = mouseDownGrid + jmin(0.f, distanceGrid); // subtract distance if negative
+		const int distanceGrid = mousePosGrid - mouseDownGrid;
+		const int absDistanceGrid = std::abs(distanceGrid);
+		const int startGrid = mouseDownGrid + jmin(0, distanceGrid); // subtract distance if negative
 
 		data.setSceneStart(currentlyCreatedSceneData, startGrid);
 		data.setSceneDuration(currentlyCreatedSceneData, absDistanceGrid);
@@ -146,7 +146,7 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	// invalid data happens on no left click or no command down
 	if (currentlyCreatedSceneData.isValid()) {
-		if (0. == float(data.getSceneDuration(currentlyCreatedSceneData))) {
+		if (0 == int(data.getSceneDuration(currentlyCreatedSceneData))) {
 			data.removeScene(currentlyCreatedSceneData);
 		}
 		currentlyCreatedSceneData = ValueTree();

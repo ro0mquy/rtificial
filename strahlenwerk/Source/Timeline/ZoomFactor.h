@@ -17,16 +17,17 @@ class ZoomFactor :
 		ZoomFactor& operator*=(const float zoomLevelFactor);
 		ZoomFactor& operator/=(const float zoomLevelDivisor);
 
-		float timeToPixels(const float time);
-		float pixelsToTime(const float pixels);
+		float timeToPixels(const int time);
+		int pixelsToTime(const float pixels);
 
 		float getGridWidth();
-		float snapValueToGrid(const float valueAsTime);
-		float getEpsilon();
+		int snapValueToGrid(const int valueAsTime);
 
 	private:
 		float zoomLevel;
 		std::mutex zoomMutex;
+
+		static constexpr float initialZoomLevel = .02;
 };
 
 #endif // ZOOMFACTOR_H

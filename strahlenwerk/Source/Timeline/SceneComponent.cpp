@@ -44,10 +44,10 @@ SceneComponent::~SceneComponent() {
 }
 
 void SceneComponent::updateBounds() {
-	const float start = (float) data.getSceneStart(sceneData) * zoomFactor;
-	const float duration = (float) data.getSceneDuration(sceneData) * zoomFactor;
+	const int start = (int) data.getSceneStart(sceneData) * zoomFactor;
+	const int duration = (int) data.getSceneDuration(sceneData) * zoomFactor;
 
-	const float padding = 0;
+	const int padding = 0;
 	setBounds(start, padding, duration, getParentHeight() - 2*padding);
 }
 
@@ -57,28 +57,28 @@ void SceneComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds)
 
 	if (xChanged && !widthChanged) {
 		// dragging
-		const float newX = newBounds.getX() / zoomFactor;
-		const float newStart = zoomFactor.snapValueToGrid(newX);
+		const int newX = newBounds.getX() / zoomFactor;
+		const int newStart = zoomFactor.snapValueToGrid(newX);
 		data.setSceneStart(sceneData, newStart);
 	} else if (xChanged && widthChanged) {
 		// stretching left
-		const float newX = newBounds.getX() / zoomFactor;
-		const float newStart = zoomFactor.snapValueToGrid(newX);
+		const int newX = newBounds.getX() / zoomFactor;
+		const int newStart = zoomFactor.snapValueToGrid(newX);
 
 		// calculate the new width through the change of X
 		// so that the right end stays where it is
 		// otherwise the duration and not the right side would be snapped to grid
-		const float oldStart = data.getSceneStart(sceneData);
-		const float deltaStart = newStart - oldStart;
-		const float oldDuration = data.getSceneDuration(sceneData);
-		const float newDuration = oldDuration - deltaStart;
+		const int oldStart = data.getSceneStart(sceneData);
+		const int deltaStart = newStart - oldStart;
+		const int oldDuration = data.getSceneDuration(sceneData);
+		const int newDuration = oldDuration - deltaStart;
 
 		data.setSceneStart(sceneData, newStart);
 		data.setSceneDuration(sceneData, newDuration);
 	} else if (!xChanged && widthChanged) {
 		// stretching right
-		const float newWidth = newBounds.getWidth() / zoomFactor;
-		const float newDuration = zoomFactor.snapValueToGrid(newWidth);
+		const int newWidth = newBounds.getWidth() / zoomFactor;
+		const int newDuration = zoomFactor.snapValueToGrid(newWidth);
 		data.setSceneDuration(sceneData, newDuration);
 	}
 }

@@ -19,7 +19,7 @@ TimeMarkerComponent::~TimeMarkerComponent() {
 
 void TimeMarkerComponent::updatePosition() {
 	// draw time marker
-	const float newCenter = audioManager.getTimeInBeats() * zoomFactor;
+	const float newCenter = audioManager.getTime() * zoomFactor;
 	const int newX = roundFloatToInt(newCenter - getWidth() / 2.);
 	setTopLeftPosition(newX, getY());
 }

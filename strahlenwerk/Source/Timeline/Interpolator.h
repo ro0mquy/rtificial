@@ -22,12 +22,12 @@ class Interpolator {
 		UniformState getUniformStateFromTimelineData(ValueTree uniformData);
 
 	private:
-		UniformState calculateInterpolatedState(ValueTree sequence, const float relativeCurrentTime);
+		UniformState calculateInterpolatedState(ValueTree sequence, const int relativeCurrentTime);
 
 		// functions for interpolation methods
-		UniformState interpolationMethodStep(ValueTree sequence, const float currentTime);
-		UniformState interpolationMethodLinear(ValueTree sequence, const float currentTime);
-		UniformState interpolationMethodCcrSpline(ValueTree sequence, const float currentTime);
+		UniformState interpolationMethodStep(ValueTree sequence, const int currentTime);
+		UniformState interpolationMethodLinear(ValueTree sequence, const int currentTime);
+		UniformState interpolationMethodCcrSpline(ValueTree sequence, const int currentTime);
 
 		TimelineData& data;
 		OwnedArray<SpecialUniformController> specialUniformControllers;

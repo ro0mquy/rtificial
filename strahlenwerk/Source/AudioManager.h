@@ -17,8 +17,8 @@ class AudioManager :
 		void loadFile(const File& audioFile);
 		void loadEnvelopes(const File& envelopeFile);
 		void togglePlayPause();
-		float getTimeInBeats();
-		void setTime(float newTimeInBeats);
+		int getTime();
+		void setTime(int newTimeInBeats);
 		float* getCurrentEnvelopes();
 
 		AudioThumbnail& getThumbnail();

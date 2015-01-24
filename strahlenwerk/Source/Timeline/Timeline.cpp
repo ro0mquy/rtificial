@@ -92,8 +92,8 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 		}
 
 		const MouseEvent eventSeqView = event.getEventRelativeTo(&sequenceView);
-		const float newTime = jmax(eventSeqView.x, 0) / zoomFactor;
-		const float newTimeSnapped = zoomFactor.snapValueToGrid(newTime);
+		const int newTime = jmax(eventSeqView.x, 0) / zoomFactor;
+		const int newTimeSnapped = zoomFactor.snapValueToGrid(newTime);
 		AudioManager::getAudioManager().setTime(newTimeSnapped);
 	} else {
 		Component::mouseDrag(event);

@@ -15,7 +15,8 @@ bool TimeController::wantControlUniform(String& uniformName) {
 }
 
 Interpolator::UniformState TimeController::getUniformState(String& /*uniformName*/) {
-	const float currentTime = AudioManager::getAudioManager().getTimeInBeats();
+	// time gets stored in milli beats, return normal beats
+	const float currentTime = AudioManager::getAudioManager().getTime() / 1000.;
 	ValueTree timeValue(treeId::controlledValue);
 	data.setFloatToValue(timeValue, currentTime);
 	return Interpolator::UniformState(timeValue, false);
@@ -225,7 +226,7 @@ void CameraController::setKeyframeAtCurrentPosition() {
 		getCameraFromCurrentPosition();
 	}
 
-	const float currentTime = AudioManager::getAudioManager().getTimeInBeats();
+	const int currentTime = AudioManager::getAudioManager().getTime();
 
 	ValueTree positionUniform = data.getUniform(var(cameraPositionName));
 	ValueTree currentPosSequence = data.getSequenceForTime(positionUniform, currentTime);
