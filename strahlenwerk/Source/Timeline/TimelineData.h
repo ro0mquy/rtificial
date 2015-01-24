@@ -52,6 +52,7 @@ class TimelineData {
 		ValueTree getSceneForTime(const int time);
 		ValueTree getCurrentScene();
 		int getNewSceneId();
+		int compareScenes(const ValueTree& first, const ValueTree& second);
 
 
 		// uniform stuff
@@ -105,7 +106,6 @@ class TimelineData {
 		ValueTree getCurrentSequence(ValueTree uniform);
 		ValueTree getSequenceParentUniform(ValueTree sequence);
 		int compareSequences(const ValueTree& first, const ValueTree& second);
-		int compareElements(const ValueTree& first, const ValueTree& second);
 
 
 		// keyframe stuff

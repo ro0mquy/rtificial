@@ -122,7 +122,7 @@ bool TimelineData::isScene(ValueTree scene) {
 
 // adds a scene to the scenes array at a given position
 // returns the scene
-// position defaults to -1 (append to end)
+// position defaults to -1 (add sorted)
 ValueTree TimelineData::addScene(ValueTree scene, int position) {
 	jassert(isScene(scene));
 	addSceneUnchecked(scene, position);
@@ -131,7 +131,7 @@ ValueTree TimelineData::addScene(ValueTree scene, int position) {
 
 // adds a scene with the given vars at position
 // returns the assembled scene ValueTree
-// position defaults to -1 (append to end)
+// position defaults to -1 (add sorted)
 ValueTree TimelineData::addScene(var start, var duration, var shaderSource, int position) {
 	var id = getNewSceneId();
 	ValueTree scene(treeId::scene);
@@ -146,10 +146,26 @@ ValueTree TimelineData::addScene(var start, var duration, var shaderSource, int 
 // adds a scene to the scenes array
 // returns the scene again
 // doesn't perform any checking (you should use addScene(ValueTree))
-// position defaults to -1 (append to end)
+// position defaults to -1 (add sorted)
 ValueTree TimelineData::addSceneUnchecked(ValueTree scene, int position) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	getScenesArray().addChild(scene, position, &undoManager);
+	if (position >= 0) {
+		getScenesArray().addChild(scene, position, &undoManager);
+		return scene;
+	}
+
+	const int numScenes = getNumScenes();
+	int sortedPosition = 0;
+	for (; sortedPosition < numScenes; sortedPosition++) {
+		ValueTree otherScene = getScene(sortedPosition);
+		if (compareScenes(scene, otherScene) < 0) {
+			// break if the new scene comes before the currently checked one
+			break;
+		}
+		// if the new scene comes last sortedPosition will contain numScenes
+		// and the new scene will be added at the end
+	}
+	getScenesArray().addChild(scene, sortedPosition, &undoManager);
 	return scene;
 }
 
@@ -279,16 +295,42 @@ ValueTree TimelineData::getCurrentScene() {
 
 // returns a scene Id that is currently not used
 int TimelineData::getNewSceneId() {
-	int biggestId = 99; // some room for $stuff
+	Random rand;
+	int candidateId = 100;
+	bool idInUse = true;
+	int counter = 0;
 	const int numScenes = getNumScenes();
 
-	for (int i = 0; i < numScenes; i++) {
-		ValueTree scene = getScene(i);
-		const int currentId = getSceneId(scene);
-		biggestId = jmax(biggestId, currentId);
+	while (idInUse) {
+		candidateId = rand.nextInt(Range<int>(100, 1000));
+
+		idInUse = false;
+		for (int i = 0; i < numScenes; i++) {
+			ValueTree scene = getScene(i);
+			const int currentId = getSceneId(scene);
+			if (candidateId == currentId) {
+				idInUse = true;
+				break;
+			}
+		}
+
+		counter++;
+		if (counter > 100000) {
+			// all IDs from 100 to 1000 in use?
+			jassertfalse;
+			break;
+		}
 	}
-	// we need a unused id, so increment by one;
-	return biggestId + 1;
+
+	return candidateId;
+}
+
+// comparator function for scenes
+// < 0 if first before second, = 0 if equal, > 0 if first after second
+int TimelineData::compareScenes(const ValueTree& first, const ValueTree& second) {
+	const int firstId = getSceneId(first);
+	const int secondId = getSceneId(second);
+	return firstId - secondId;
 }
 
 
