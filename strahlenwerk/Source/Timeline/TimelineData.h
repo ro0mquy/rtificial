@@ -76,7 +76,6 @@ class TimelineData {
 
 		int getUniformIndex(ValueTree uniform);
 		int compareUniforms(const ValueTree& first, const ValueTree& second);
-		int compareElements(const ValueTree& first, const ValueTree& second);
 
 
 		// sequence stuff
@@ -105,6 +104,8 @@ class TimelineData {
 		ValueTree getSequenceForTime(ValueTree uniform, const int absoluteTime);
 		ValueTree getCurrentSequence(ValueTree uniform);
 		ValueTree getSequenceParentUniform(ValueTree sequence);
+		int compareSequences(const ValueTree& first, const ValueTree& second);
+		int compareElements(const ValueTree& first, const ValueTree& second);
 
 
 		// keyframe stuff

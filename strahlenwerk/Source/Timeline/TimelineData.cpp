@@ -366,7 +366,6 @@ ValueTree TimelineData::addUniformUnchecked(ValueTree uniform) {
 		// and the new uniform will be added at the end
 	}
 	getUniformsArray().addChild(uniform, sortedPosition, &undoManager);
-	getUniformsArray().sort(*this, nullptr, false); // TODO: remove this sort and compareElements()
 	return uniform;
 }
 
@@ -428,9 +427,6 @@ int TimelineData::compareUniforms(const ValueTree& first, const ValueTree& secon
 		String secondName = getUniformName(second);
 		return firstName.compareNatural(secondName);
 }
-int TimelineData::compareElements(const ValueTree& first, const ValueTree& second) {
-	return compareUniforms(first, second);
-}
 
 
 
@@ -469,7 +465,7 @@ bool TimelineData::isSequence(ValueTree sequence) {
 // adds a sequence to the sequences array of a uniform at a given position
 // don't initializes the keyframes array
 // returns the sequence again
-// position defaults to -1 (append to end)
+// position defaults to -1 (add sorted)
 ValueTree TimelineData::addSequence(ValueTree uniform, ValueTree sequence, int position) {
 	jassert(isSequence(sequence));
 	addSequenceUnchecked(uniform, sequence, position);
@@ -478,7 +474,7 @@ ValueTree TimelineData::addSequence(ValueTree uniform, ValueTree sequence, int p
 
 // adds a sequence with the given vars to a uniform at position
 // returns the assembled sequence
-// position defaults to -1 (append to end)
+// position defaults to -1 (add sorted)
 ValueTree TimelineData::addSequence(ValueTree uniform, int absoluteStart, var duration, var interpolation, int position) {
 	ValueTree sequence(treeId::sequence);
 	setSequencePropertiesForAbsoluteStart(sequence, absoluteStart);
@@ -492,10 +488,26 @@ ValueTree TimelineData::addSequence(ValueTree uniform, int absoluteStart, var du
 // adds a sequence to the sequences array of a uniform
 // returns the sequence again
 // doesn't perform any checking (you should use addSequence(ValueTree))
-// position defaults to -1 (append to end)
+// position defaults to -1 (add sorted)
 ValueTree TimelineData::addSequenceUnchecked(ValueTree uniform, ValueTree sequence, int position) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	getSequencesArray(uniform).addChild(sequence, position, &undoManager);
+	if (position >= 0) {
+		getSequencesArray(uniform).addChild(sequence, position, &undoManager);
+		return sequence;
+	}
+
+	const int numSequences = getNumSequences(uniform);
+	int sortedPosition = 0;
+	for (; sortedPosition < numSequences; sortedPosition++) {
+		ValueTree otherSequence = getSequence(uniform, sortedPosition);
+		if (compareSequences(sequence, otherSequence) < 0) {
+			// break if the new sequence comes before the currently checked one
+			break;
+		}
+		// if the new sequence comes last sortedPosition will contain numSequences
+		// and the new sequence will be added at the end
+	}
+	getSequencesArray(uniform).addChild(sequence, sortedPosition, &undoManager);
 	return sequence;
 }
 
@@ -612,6 +624,24 @@ ValueTree TimelineData::getCurrentSequence(ValueTree uniform) {
 ValueTree TimelineData::getSequenceParentUniform(ValueTree sequence) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return sequence.getParent().getParent();
+}
+
+// comparator function for sequences
+// sort at first for sceneIds, then for start time
+// < 0 if first before second, = 0 if equal, > 0 if first after second
+int TimelineData::compareSequences(const ValueTree& first, const ValueTree& second) {
+	const int firstId = getSequenceSceneId(first);
+	const int secondId = getSequenceSceneId(second);
+	const int difference = firstId - secondId;
+
+	if (difference != 0) {
+		return difference;
+	}
+
+	// same sceneId
+	const int firstStart = getSequenceStart(first);
+	const int secondStart = getSequenceStart(second);
+	return firstStart - secondStart;
 }
 
 
