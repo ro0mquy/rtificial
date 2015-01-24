@@ -49,13 +49,17 @@ void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 		std::cerr << dataXml.getLastParseError() << std::endl;
 		valueTree = ValueTree(treeId::timelineTree);
 	} else {
+		treeMutex.lock();
 		valueTree = ValueTree::fromXml(*dataElement);
+		treeMutex.unlock();
 		delete dataElement;
 	}
 }
 
 void TimelineData::writeTimelineDataToFile(const File& dataFile) {
+	treeMutex.lock();
 	XmlElement* xmlElement = valueTree.createXml();
+	treeMutex.unlock();
 	if (!xmlElement->writeToFile(dataFile, "")) {
 		std::cerr << "Couldn't write timeline to file" << std::endl;
 	}
@@ -85,7 +89,7 @@ std::recursive_mutex& TimelineData::getMutex() {
 // retrieves the scenes array
 ValueTree TimelineData::getScenesArray() {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	return valueTree.getOrCreateChildWithName(treeId::scenesArray, &undoManager);
+	return valueTree.getOrCreateChildWithName(treeId::scenesArray, nullptr);
 }
 
 // returns the number of total scenes
@@ -338,7 +342,7 @@ int TimelineData::compareScenes(const ValueTree& first, const ValueTree& second)
 // retrieves the uniforms array
 ValueTree TimelineData::getUniformsArray() {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	return valueTree.getOrCreateChildWithName(treeId::uniformsArray, &undoManager);
+	return valueTree.getOrCreateChildWithName(treeId::uniformsArray, nullptr);
 }
 
 // returns the number of total uniforms
@@ -433,7 +437,7 @@ ValueTree TimelineData::getUniformStandardValue(ValueTree uniform) {
 // gets or creates the standard value for a uniform
 ValueTree TimelineData::getOrCreateUniformStandardValue(ValueTree uniform) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	return uniform.getOrCreateChildWithName(treeId::uniformStandardValue, &undoManager);
+	return uniform.getOrCreateChildWithName(treeId::uniformStandardValue, nullptr);
 }
 
 
@@ -475,7 +479,7 @@ int TimelineData::compareUniforms(const ValueTree& first, const ValueTree& secon
 // retrieves the sequences array for a given uniform
 ValueTree TimelineData::getSequencesArray(ValueTree uniform) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	return uniform.getOrCreateChildWithName(treeId::sequencesArray, &undoManager);
+	return uniform.getOrCreateChildWithName(treeId::sequencesArray, nullptr);
 }
 
 // returns the total number of sequences for a uniform
@@ -680,7 +684,7 @@ int TimelineData::compareSequences(const ValueTree& first, const ValueTree& seco
 		return difference;
 	}
 
-	// same sceneId
+	// same sceneId, compare start times
 	const int firstStart = getSequenceStart(first);
 	const int secondStart = getSequenceStart(second);
 	return firstStart - secondStart;
@@ -691,7 +695,7 @@ int TimelineData::compareSequences(const ValueTree& first, const ValueTree& seco
 // returns the keyframes array for a sequence
 ValueTree TimelineData::getKeyframesArray(ValueTree sequence) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	return sequence.getOrCreateChildWithName(treeId::keyframesArray, &undoManager);
+	return sequence.getOrCreateChildWithName(treeId::keyframesArray, nullptr);
 }
 
 // returns the total number of keyframes for a sequence
@@ -814,7 +818,7 @@ var TimelineData::getKeyframePosition(ValueTree keyframe) {
 // gets the value for a keyframe
 ValueTree TimelineData::getKeyframeValue(ValueTree keyframe) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	return keyframe.getOrCreateChildWithName(treeId::keyframeValue, &undoManager);
+	return keyframe.getOrCreateChildWithName(treeId::keyframeValue, nullptr);
 }
 
 
