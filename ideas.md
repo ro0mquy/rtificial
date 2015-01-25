@@ -27,6 +27,7 @@
 * https://d2ip58kv7n8yjd.cloudfront.net/p/assets/images/images/000/061/895/large/046_ebifa_fullHD.jpg?1399767110
 * https://d2ip58kv7n8yjd.cloudfront.net/p/assets/images/images/000/044/422/large/horizon-of-heaven-fullres.jpg?1398709436
 * https://d2ip58kv7n8yjd.cloudfront.net/p/assets/images/images/000/043/872/large/3.jpg?1398689737
+* https://www.flickr.com/photos/grnidmonstress/sets/72157649253743571/
 
 ## Weitere Quellen der Inspiration:
 * http://cghubs.com/
