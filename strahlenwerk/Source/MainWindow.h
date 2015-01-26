@@ -10,7 +10,8 @@
    */
 class MainWindow : public DocumentWindow,
 	public ApplicationCommandTarget,
-	public MenuBarModel
+	public MenuBarModel,
+	public ChangeListener
 {
 	public:
 		MainWindow();
@@ -28,6 +29,8 @@ class MainWindow : public DocumentWindow,
 		StringArray getMenuBarNames() override;
 		PopupMenu getMenuForIndex(int topLevelMenuIndex, const String& menuName) override;
 		void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
+
+		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 	private:
 		MainContentComponent mainContentComponent;

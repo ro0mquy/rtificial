@@ -33,6 +33,8 @@ MainWindow::MainWindow() :
 	getApplicationCommandManager().registerAllCommandsForTarget(this);
 	addKeyListener(getApplicationCommandManager().getKeyMappings());
 	setApplicationCommandManagerToWatch(&getApplicationCommandManager());
+
+	TimelineData::getTimelineData().getUndoManager().addChangeListener(this);
 }
 
 MainWindow::~MainWindow() {
@@ -167,13 +169,27 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			break;
 
 		case TimelineData::undoAction:
-			result.setInfo("Undo", "Undo last action", programCategory, 0);
-			result.addDefaultKeypress('z', ModifierKeys::commandModifier);
+			{
+				const UndoManager& undoMgr = TimelineData::getTimelineData().getUndoManager();
+				const bool isActive = undoMgr.canUndo();
+				const String actionName = "Undo " + undoMgr.getUndoDescription();
+
+				result.setInfo(actionName, actionName, programCategory, 0);
+				result.setActive(isActive);
+				result.addDefaultKeypress('z', ModifierKeys::commandModifier);
+			}
 			break;
 
 		case TimelineData::redoAction:
-			result.setInfo("Redo", "Redo last action", programCategory, 0);
-			result.addDefaultKeypress('z', ModifierKeys::commandModifier | ModifierKeys::shiftModifier);
+			{
+				const UndoManager& undoMgr = TimelineData::getTimelineData().getUndoManager();
+				const bool isActive = undoMgr.canRedo();
+				const String actionName = "Redo " + undoMgr.getRedoDescription();
+
+				result.setInfo(actionName, actionName, programCategory, 0);
+				result.setActive(isActive);
+				result.addDefaultKeypress('z', ModifierKeys::commandModifier | ModifierKeys::shiftModifier);
+			}
 			break;
 
 		default:
@@ -236,6 +252,11 @@ void MainWindow::menuItemSelected(int menuItemID, int /*topLevelMenuIndex*/) {
 	if (menuItemID == 23) {
 		// dummy
 	}
+}
+
+void MainWindow::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	// undoManager changed
+	getApplicationCommandManager().commandStatusChanged();
 }
 
 void MainWindow::performToggleFullscreen() {
