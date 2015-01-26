@@ -5,6 +5,7 @@
 #include <Timeline/SpecialUniformController.h>
 #include <OpenGLComponent.h>
 #include <Project/Project.h>
+#include <Timeline/TimelineData.h>
 
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()
@@ -87,7 +88,8 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		CameraController::resetCameraPosition,
 		CameraController::resetCameraRotation,
 		Renderer::makeDemo,
-
+		TimelineData::undoAction,
+		TimelineData::redoAction,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -164,6 +166,16 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.addDefaultKeypress('d', ModifierKeys::commandModifier);
 			break;
 
+		case TimelineData::undoAction:
+			result.setInfo("Undo", "Undo last action", programCategory, 0);
+			result.addDefaultKeypress('z', ModifierKeys::commandModifier);
+			break;
+
+		case TimelineData::redoAction:
+			result.setInfo("Redo", "Redo last action", programCategory, 0);
+			result.addDefaultKeypress('z', ModifierKeys::commandModifier | ModifierKeys::shiftModifier);
+			break;
+
 		default:
 			break;
 
@@ -209,6 +221,8 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, CameraController::setKeyframe);
 		menu.addCommandItem(commandManager, CameraController::resetCameraPosition);
 		menu.addCommandItem(commandManager, CameraController::resetCameraRotation);
+		menu.addCommandItem(commandManager, TimelineData::undoAction);
+		menu.addCommandItem(commandManager, TimelineData::redoAction);
 		menu.addCommandItem(commandManager, MainWindow::quitProgram);
 	} else if (topLevelMenuIndex == 1) {
 		menu.addCommandItem(commandManager, Renderer::makeDemo);

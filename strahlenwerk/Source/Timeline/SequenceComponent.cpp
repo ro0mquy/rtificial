@@ -266,8 +266,10 @@ void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& 
 	// TODO: react on removal of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
 		auto keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
-		jassert(keyframeComponent != nullptr);
-		keyframeComponentsArray.removeObject(keyframeComponent);
+		// keyframe could be start or end keyframe
+		if (keyframeComponent != nullptr) {
+			keyframeComponentsArray.removeObject(keyframeComponent);
+		}
 	} else if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
 		// uniform got inserted, row number may changed
 		updateBounds();

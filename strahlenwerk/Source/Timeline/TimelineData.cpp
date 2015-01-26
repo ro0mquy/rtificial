@@ -1,6 +1,7 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include <StrahlenwerkApplication.h>
+#include <MainWindow.h>
 #include <AudioManager.h>
 #include <glm/glm.hpp>
 #include "Splines.h"
@@ -9,6 +10,7 @@
 TimelineData::TimelineData(const File& dataFile) :
 	interpolator(*this)
 {
+	MainWindow::getApplicationCommandManager().addListener(this);
 	readTimelineDataFromFile(dataFile);
 }
 
@@ -16,6 +18,7 @@ TimelineData::TimelineData() :
 	valueTree(treeId::timelineTree),
 	interpolator(*this)
 {
+	MainWindow::getApplicationCommandManager().addListener(this);
 	for (int i = 0; i < 4; i++) {
 		addScene(300 * i, 50 * (i + 1), String(i) + String(41 * i) + ".glsl");
 	}
@@ -82,6 +85,24 @@ void TimelineData::removeListenerFromTree(ValueTree::Listener* listener) {
 //  it locks for the current context and unlocks on destruction
 std::recursive_mutex& TimelineData::getMutex() {
 	return treeMutex;
+}
+
+UndoManager& TimelineData::getUndoManager() {
+	return undoManager;
+}
+
+void TimelineData::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
+	switch (info.commandID) {
+		case TimelineData::undoAction:
+			getUndoManager().undo();
+			break;
+		case TimelineData::redoAction:
+			getUndoManager().redo();
+			break;
+	}
+}
+
+void TimelineData::applicationCommandListChanged() {
 }
 
 

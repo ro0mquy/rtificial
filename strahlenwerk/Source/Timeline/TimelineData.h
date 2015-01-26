@@ -6,7 +6,9 @@
 #include <glm/fwd.hpp>
 #include "Interpolator.h"
 
-class TimelineData {
+class TimelineData :
+	private ApplicationCommandManagerListener
+{
 	public:
 		TimelineData(const File& dataFile);
 		TimelineData();
@@ -22,6 +24,10 @@ class TimelineData {
 		void removeListenerFromTree(ValueTree::Listener* listener);
 
 		std::recursive_mutex& getMutex();
+		UndoManager& getUndoManager();
+
+		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
+		void applicationCommandListChanged() override;
 
 
 		// scene related stuff
@@ -206,6 +212,11 @@ class TimelineData {
 
 		ValueTree mixValues(ValueTree value1, ValueTree value2, const float t);
 		ValueTree calculateCcrSplineForValues(ValueTree valueP0, ValueTree P1, ValueTree P2, ValueTree P3, const float t);
+
+		enum CommandIDs {
+			undoAction = 0x7f41fa00,
+			redoAction,
+		};
 
 	private:
 		ValueTree valueTree;
