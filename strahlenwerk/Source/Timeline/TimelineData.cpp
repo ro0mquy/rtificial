@@ -1193,87 +1193,87 @@ Value TimelineData::getValueColorBAsValue(ValueTree value) {
 
 // TODO: some checking maybe
 // set boolState of a bool value
-void TimelineData::setValueBoolState(ValueTree value, var boolState) {
+void TimelineData::setValueBoolState(ValueTree value, var boolState, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueBoolState, boolState, &undoManager);
+	value.setProperty(treeId::valueBoolState, boolState, useUndoManager ? &undoManager : nullptr);
 }
 
 // set floatX of a float value
-void TimelineData::setValueFloatX(ValueTree value, var floatX) {
+void TimelineData::setValueFloatX(ValueTree value, var floatX, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueFloatX, floatX, &undoManager);
+	value.setProperty(treeId::valueFloatX, floatX, useUndoManager ? &undoManager : nullptr);
 }
 
 // set vec2X of a vec2 value
-void TimelineData::setValueVec2X(ValueTree value, var vec2X) {
+void TimelineData::setValueVec2X(ValueTree value, var vec2X, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueVec2X, vec2X, &undoManager);
+	value.setProperty(treeId::valueVec2X, vec2X, useUndoManager ? &undoManager : nullptr);
 }
 
 // set vec2Y of a vec2 value
-void TimelineData::setValueVec2Y(ValueTree value, var vec2Y) {
+void TimelineData::setValueVec2Y(ValueTree value, var vec2Y, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueVec2Y, vec2Y, &undoManager);
+	value.setProperty(treeId::valueVec2Y, vec2Y, useUndoManager ? &undoManager : nullptr);
 }
 
 // set vec3X of a vec3 value
-void TimelineData::setValueVec3X(ValueTree value, var vec3X) {
+void TimelineData::setValueVec3X(ValueTree value, var vec3X, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueVec3X, vec3X, &undoManager);
+	value.setProperty(treeId::valueVec3X, vec3X, useUndoManager ? &undoManager : nullptr);
 }
 
 // set vec3Y of a vec3 value
-void TimelineData::setValueVec3Y(ValueTree value, var vec3Y) {
+void TimelineData::setValueVec3Y(ValueTree value, var vec3Y, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueVec3Y, vec3Y, &undoManager);
+	value.setProperty(treeId::valueVec3Y, vec3Y, useUndoManager ? &undoManager : nullptr);
 }
 
 // set vec3Z of a vec3 value
-void TimelineData::setValueVec3Z(ValueTree value, var vec3Z) {
+void TimelineData::setValueVec3Z(ValueTree value, var vec3Z, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueVec3Z, vec3Z, &undoManager);
+	value.setProperty(treeId::valueVec3Z, vec3Z, useUndoManager ? &undoManager : nullptr);
 }
 
 // set vec4X of a vec4 value
-void TimelineData::setValueVec4X(ValueTree value, var vec4X) {
+void TimelineData::setValueVec4X(ValueTree value, var vec4X, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueVec4X, vec4X, &undoManager);
+	value.setProperty(treeId::valueVec4X, vec4X, useUndoManager ? &undoManager : nullptr);
 }
 
 // set vec4Y of a vec4 value
-void TimelineData::setValueVec4Y(ValueTree value, var vec4Y) {
+void TimelineData::setValueVec4Y(ValueTree value, var vec4Y, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueVec4Y, vec4Y, &undoManager);
+	value.setProperty(treeId::valueVec4Y, vec4Y, useUndoManager ? &undoManager : nullptr);
 }
 
 // set vec4Z of a vec4 value
-void TimelineData::setValueVec4Z(ValueTree value, var vec4Z) {
+void TimelineData::setValueVec4Z(ValueTree value, var vec4Z, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueVec4Z, vec4Z, &undoManager);
+	value.setProperty(treeId::valueVec4Z, vec4Z, useUndoManager ? &undoManager : nullptr);
 }
 
 // set vec4W of a vec4 value
-void TimelineData::setValueVec4W(ValueTree value, var vec4W) {
+void TimelineData::setValueVec4W(ValueTree value, var vec4W, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueVec4W, vec4W, &undoManager);
+	value.setProperty(treeId::valueVec4W, vec4W, useUndoManager ? &undoManager : nullptr);
 }
 
 // set colorR of a color value
-void TimelineData::setValueColorR(ValueTree value, var colorR) {
+void TimelineData::setValueColorR(ValueTree value, var colorR, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueColorR, colorR, &undoManager);
+	value.setProperty(treeId::valueColorR, colorR, useUndoManager ? &undoManager : nullptr);
 }
 
 // set colorG of a color value
-void TimelineData::setValueColorG(ValueTree value, var colorG) {
+void TimelineData::setValueColorG(ValueTree value, var colorG, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueColorG, colorG, &undoManager);
+	value.setProperty(treeId::valueColorG, colorG, useUndoManager ? &undoManager : nullptr);
 }
 
 // set colorB of a color value
-void TimelineData::setValueColorB(ValueTree value, var colorB) {
+void TimelineData::setValueColorB(ValueTree value, var colorB, bool useUndoManager) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
-	value.setProperty(treeId::valueColorB, colorB, &undoManager);
+	value.setProperty(treeId::valueColorB, colorB, useUndoManager ? &undoManager : nullptr);
 }
 
 
@@ -1327,50 +1327,50 @@ glm::vec3 TimelineData::getColorFromValue(ValueTree value) {
 
 
 // sets the contents of a float value to the numbers from a float
-void TimelineData::setFloatToValue(ValueTree value, float scalar) {
+void TimelineData::setFloatToValue(ValueTree value, float scalar, bool useUndoManager) {
 	jassert(isValueFloat(value) || getNumValueProperties(value) == 0);
-	setValueFloatX(value, scalar);
+	setValueFloatX(value, scalar, useUndoManager);
 }
 
 // sets the contents of a vec2 value to the numbers from a glm::vec2
-void TimelineData::setVec2ToValue(ValueTree value, glm::vec2 vector) {
+void TimelineData::setVec2ToValue(ValueTree value, glm::vec2 vector, bool useUndoManager) {
 	jassert(isValueVec2(value) || getNumValueProperties(value) == 0);
-	setValueVec2X(value, vector.x);
-	setValueVec2Y(value, vector.y);
+	setValueVec2X(value, vector.x, useUndoManager);
+	setValueVec2Y(value, vector.y, useUndoManager);
 }
 
 // sets the contents of a vec3 value to the numbers from a glm::vec3
-void TimelineData::setVec3ToValue(ValueTree value, glm::vec3 vector) {
+void TimelineData::setVec3ToValue(ValueTree value, glm::vec3 vector, bool useUndoManager) {
 	jassert(isValueVec3(value) || getNumValueProperties(value) == 0);
-	setValueVec3X(value, vector.x);
-	setValueVec3Y(value, vector.y);
-	setValueVec3Z(value, vector.z);
+	setValueVec3X(value, vector.x, useUndoManager);
+	setValueVec3Y(value, vector.y, useUndoManager);
+	setValueVec3Z(value, vector.z, useUndoManager);
 }
 
 // sets the contents of a vec4 value to the numbers from a glm::vec4
-void TimelineData::setVec4ToValue(ValueTree value, glm::vec4 vector) {
+void TimelineData::setVec4ToValue(ValueTree value, glm::vec4 vector, bool useUndoManager) {
 	jassert(isValueVec4(value) || getNumValueProperties(value) == 0);
-	setValueVec4X(value, vector.x);
-	setValueVec4Y(value, vector.y);
-	setValueVec4Z(value, vector.z);
-	setValueVec4W(value, vector.w);
+	setValueVec4X(value, vector.x, useUndoManager);
+	setValueVec4Y(value, vector.y, useUndoManager);
+	setValueVec4Z(value, vector.z, useUndoManager);
+	setValueVec4W(value, vector.w, useUndoManager);
 }
 
 // sets the contents of a vec4 value to the numbers from a glm::quat
-void TimelineData::setQuatToValue(ValueTree value, glm::quat vector) {
+void TimelineData::setQuatToValue(ValueTree value, glm::quat vector, bool useUndoManager) {
 	jassert(isValueVec4(value) || getNumValueProperties(value) == 0);
-	setValueVec4X(value, vector.x);
-	setValueVec4Y(value, vector.y);
-	setValueVec4Z(value, vector.z);
-	setValueVec4W(value, vector.w);
+	setValueVec4X(value, vector.x, useUndoManager);
+	setValueVec4Y(value, vector.y, useUndoManager);
+	setValueVec4Z(value, vector.z, useUndoManager);
+	setValueVec4W(value, vector.w, useUndoManager);
 }
 
 // sets the contents of a color value to the numbers from a glm::vec2
-void TimelineData::setColorToValue(ValueTree value, glm::vec3 vector) {
+void TimelineData::setColorToValue(ValueTree value, glm::vec3 vector, bool useUndoManager) {
 	jassert(isValueColor(value) || getNumValueProperties(value) == 0);
-	setValueColorR(value, vector.r);
-	setValueColorG(value, vector.g);
-	setValueColorB(value, vector.b);
+	setValueColorR(value, vector.r, useUndoManager);
+	setValueColorG(value, vector.g, useUndoManager);
+	setValueColorB(value, vector.b, useUndoManager);
 }
 
 
@@ -1385,7 +1385,7 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		const float floatInterpolated = glm::mix(floatX1, floatX2, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setValueFloatX(interpolatedValue, floatInterpolated);
+		setValueFloatX(interpolatedValue, floatInterpolated, false);
 		return interpolatedValue;
 	} else if (isValueVec2(value1)) {
 		jassert(isValueVec2(value2));
@@ -1394,7 +1394,7 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		const glm::vec2 vec2Interpolated = glm::mix(vec21, vec22, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setVec2ToValue(interpolatedValue, vec2Interpolated);
+		setVec2ToValue(interpolatedValue, vec2Interpolated, false);
 		return interpolatedValue;
 	} else if (isValueVec3(value1)) {
 		jassert(isValueVec3(value2));
@@ -1403,7 +1403,7 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		const glm::vec3 vec3Interpolated = glm::mix(vec31, vec32, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setVec3ToValue(interpolatedValue, vec3Interpolated);
+		setVec3ToValue(interpolatedValue, vec3Interpolated, false);
 		return interpolatedValue;
 	} else if (isValueVec4(value1)) {
 		jassert(isValueVec4(value2));
@@ -1412,7 +1412,7 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		const glm::quat quatInterpolated = glm::slerp(quat1, quat2, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setQuatToValue(interpolatedValue, quatInterpolated);
+		setQuatToValue(interpolatedValue, quatInterpolated, false);
 		return interpolatedValue;
 	} else if (isValueColor(value1)) {
 		jassert(isValueColor(value2));
@@ -1422,7 +1422,7 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		const glm::vec3 colorInterpolated = glm::mix(color1, color2, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setColorToValue(interpolatedValue, colorInterpolated);
+		setColorToValue(interpolatedValue, colorInterpolated, false);
 		return interpolatedValue;
 	} else if (isValueBool(value1)) {
 		jassert(isValueBool(value2));
@@ -1451,7 +1451,7 @@ ValueTree TimelineData::calculateCcrSplineForValues(ValueTree valueP0, ValueTree
 		const glm::vec3 interpolatedP = CentripetalCatmullRomSpline(P0, P1, P2, P3, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setVec3ToValue(interpolatedValue, interpolatedP);
+		setVec3ToValue(interpolatedValue, interpolatedP, false);
 		return interpolatedValue;
 	} else if (isValueVec4(valueP1)) {
 		jassert(isValueVec4(valueP2));
@@ -1500,7 +1500,7 @@ ValueTree TimelineData::calculateCcrSplineForValues(ValueTree valueP0, ValueTree
 		const glm::quat interpolatedP = CentripetalCatmullRomSpline(P0, P1, P2, P3, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setQuatToValue(interpolatedValue, interpolatedP);
+		setQuatToValue(interpolatedValue, interpolatedP, false);
 		return interpolatedValue;
 	} else if (isValueVec2(valueP1)) {
 		jassert(isValueVec2(valueP2));
@@ -1515,7 +1515,7 @@ ValueTree TimelineData::calculateCcrSplineForValues(ValueTree valueP0, ValueTree
 		const glm::vec2 interpolatedP = CentripetalCatmullRomSpline(P0, P1, P2, P3, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setVec2ToValue(interpolatedValue, interpolatedP);
+		setVec2ToValue(interpolatedValue, interpolatedP, false);
 		return interpolatedValue;
 	} else if (isValueFloat(valueP1)) {
 		jassert(isValueFloat(valueP2));
@@ -1530,7 +1530,7 @@ ValueTree TimelineData::calculateCcrSplineForValues(ValueTree valueP0, ValueTree
 		const float interpolatedP = CentripetalCatmullRomSpline(P0, P1, P2, P3, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setFloatToValue(interpolatedValue, interpolatedP);
+		setFloatToValue(interpolatedValue, interpolatedP, false);
 		return interpolatedValue;
 	}
 

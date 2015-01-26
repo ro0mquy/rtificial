@@ -18,7 +18,7 @@ Interpolator::UniformState TimeController::getUniformState(String& /*uniformName
 	// time gets stored in milli beats, return normal beats
 	const float currentTime = AudioManager::getAudioManager().getTime() / 1000.;
 	ValueTree timeValue(treeId::controlledValue);
-	data.setFloatToValue(timeValue, currentTime);
+	data.setFloatToValue(timeValue, currentTime, false);
 	return Interpolator::UniformState(timeValue, false);
 }
 
@@ -63,12 +63,12 @@ Interpolator::UniformState CameraController::getUniformState(String& uniformName
 		cameraMutex.lock();
 		glm::vec3 tmpPosition = position;
 		cameraMutex.unlock();
-		data.setVec3ToValue(tree, tmpPosition);
+		data.setVec3ToValue(tree, tmpPosition, false);
 	} else if (uniformName == cameraRotationName) {
 		cameraMutex.lock();
 		glm::quat tmpRotation = rotation;
 		cameraMutex.unlock();
-		data.setQuatToValue(tree, tmpRotation);
+		data.setQuatToValue(tree, tmpRotation, false);
 	}
 	return Interpolator::UniformState(tree, false);
 }
