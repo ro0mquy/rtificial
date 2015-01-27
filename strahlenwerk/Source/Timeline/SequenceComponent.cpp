@@ -139,6 +139,7 @@ void SequenceComponent::paint(Graphics& g) {
 void SequenceComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown()) {
+		data.getUndoManager().beginNewTransaction("Drag Sequence");
 		beginDragAutoRepeat(10); // time between drag events
 		startDraggingComponent(this, event);
 	} else {
@@ -178,6 +179,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 				return;
 			}
 
+			data.getUndoManager().beginNewTransaction("Create Keyframe");
 			data.addKeyframe(sequenceData, mouseDownGrid);
 
 		} else if (m.isPopupMenu()) {
@@ -201,6 +203,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 			}
 
 			// set method to selected one
+			data.getUndoManager().beginNewTransaction("Change Interpolation");
 			data.setSequenceInterpolation(sequenceData, interpolationMethods[menuResult - 1]);
 
 		} else if (m.isMiddleButtonDown()) {
@@ -214,6 +217,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 				return;
 			}
 
+			data.getUndoManager().beginNewTransaction("Remove Sequence");
 			data.removeSequence(sequenceData);
 			// this component gets deleted after this, so don't do stupid things
 		}

@@ -121,6 +121,7 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 		const int absoluteStartGrid = zoomFactor.snapValueToGrid(absoluteStart);
 		var sequenceDuration = 0.f;
 		var sequenceInterpolation = "linear";
+		data.getUndoManager().beginNewTransaction("Create Sequence");
 		currentlyCreatedSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
 	} else {
 		McbComponent::mouseDown(event);
@@ -153,6 +154,7 @@ void SequenceViewComponent::mouseUp(const MouseEvent& event) {
 	if (currentlyCreatedSequenceData.isValid()) {
 		if (0 == int(data.getSequenceDuration(currentlyCreatedSequenceData))) {
 			data.removeSequence(currentlyCreatedSequenceData);
+			data.getUndoManager().undoCurrentTransactionOnly();
 		}
 		currentlyCreatedSequenceData = ValueTree();
 	} else {

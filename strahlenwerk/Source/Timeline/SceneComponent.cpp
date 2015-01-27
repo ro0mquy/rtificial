@@ -101,6 +101,7 @@ void SceneComponent::paint(Graphics& g) {
 void SceneComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown()) {
+		data.getUndoManager().beginNewTransaction("Drag Scene");
 		beginDragAutoRepeat(10); // time between drag events
 		startDraggingComponent(this, event);
 	} else {
@@ -143,6 +144,7 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 			}
 		}
 
+		data.getUndoManager().beginNewTransaction("Delete Scene");
 		data.removeScene(sceneData);
 		// this component gets deleted after this, so don't do stupid things
 	} else {

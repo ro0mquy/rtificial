@@ -226,6 +226,8 @@ void CameraController::setKeyframeAtCurrentPosition() {
 		getCameraFromCurrentPosition();
 	}
 
+	data.getUndoManager().beginNewTransaction("Set Camera");
+
 	const int currentTime = AudioManager::getAudioManager().getTime();
 
 	ValueTree positionUniform = data.getUniform(var(cameraPositionName));

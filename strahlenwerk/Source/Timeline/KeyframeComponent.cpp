@@ -62,6 +62,7 @@ void KeyframeComponent::paint(Graphics& g) {
 void KeyframeComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown()) {
+		data.getUndoManager().beginNewTransaction("Move Keyframe");
 		startDraggingComponent(this, event);
 	} else {
 		McbComponent::mouseDown(event);
@@ -89,6 +90,7 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 			return;
 		}
 
+		data.getUndoManager().beginNewTransaction("Delete Keyframe");
 		data.removeKeyframe(keyframeData);
 		// this component gets deleted after this, so don't do stupid things
 	} else {

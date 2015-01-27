@@ -117,6 +117,7 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 		var sceneStart = event.getMouseDownX() / zoomFactor;
 		var sceneDuration = 0.f;
 		var sceneShaderSource = "szenchen" + String(data.getNewSceneId());
+		data.getUndoManager().beginNewTransaction("Create Scene");
 		currentlyCreatedSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
 	} else {
 		McbComponent::mouseDown(event);
@@ -148,6 +149,7 @@ void ScenesBarComponent::mouseUp(const MouseEvent& event) {
 	if (currentlyCreatedSceneData.isValid()) {
 		if (0 == int(data.getSceneDuration(currentlyCreatedSceneData))) {
 			data.removeScene(currentlyCreatedSceneData);
+			data.getUndoManager().undoCurrentTransactionOnly();
 		}
 		currentlyCreatedSceneData = ValueTree();
 	} else {
