@@ -148,6 +148,7 @@ class TimelineData :
 		bool isValueVec3(ValueTree value);
 		bool isValueVec4(ValueTree value);
 		bool isValueColor(ValueTree value);
+		bool isValueQuat(ValueTree value);
 
 		var getValueBoolState(ValueTree value);
 		var getValueFloatX(ValueTree value);
@@ -163,6 +164,10 @@ class TimelineData :
 		var getValueColorR(ValueTree value);
 		var getValueColorG(ValueTree value);
 		var getValueColorB(ValueTree value);
+		var getValueQuatX(ValueTree value);
+		var getValueQuatY(ValueTree value);
+		var getValueQuatZ(ValueTree value);
+		var getValueQuatW(ValueTree value);
 
 		Value getValueBoolStateAsValue(ValueTree value);
 		Value getValueFloatXAsValue(ValueTree value);
@@ -178,6 +183,10 @@ class TimelineData :
 		Value getValueColorRAsValue(ValueTree value);
 		Value getValueColorGAsValue(ValueTree value);
 		Value getValueColorBAsValue(ValueTree value);
+		Value getValueQuatXAsValue(ValueTree value);
+		Value getValueQuatYAsValue(ValueTree value);
+		Value getValueQuatZAsValue(ValueTree value);
+		Value getValueQuatWAsValue(ValueTree value);
 
 		void setValueBoolState(ValueTree value, var boolState, bool useUndoManager = true);
 		void setValueFloatX(ValueTree value, var floatX, bool useUndoManager = true);
@@ -193,6 +202,10 @@ class TimelineData :
 		void setValueColorR(ValueTree value, var colorR, bool useUndoManager = true);
 		void setValueColorG(ValueTree value, var colorG, bool useUndoManager = true);
 		void setValueColorB(ValueTree value, var colorB, bool useUndoManager = true);
+		void setValueQuatX(ValueTree value, var quatX, bool useUndoManager = true);
+		void setValueQuatY(ValueTree value, var quatY, bool useUndoManager = true);
+		void setValueQuatZ(ValueTree value, var quatZ, bool useUndoManager = true);
+		void setValueQuatW(ValueTree value, var quatW, bool useUndoManager = true);
 
 
 		// math stuff (glm, ...)
@@ -200,15 +213,15 @@ class TimelineData :
 		glm::vec2 getVec2FromValue(ValueTree value);
 		glm::vec3 getVec3FromValue(ValueTree value);
 		glm::vec4 getVec4FromValue(ValueTree value);
-		glm::quat getQuatFromValue(ValueTree value);
 		glm::vec3 getColorFromValue(ValueTree value);
+		glm::quat getQuatFromValue(ValueTree value);
 
 		void setFloatToValue(ValueTree value, float scalar, bool useUndoManager = true);
 		void setVec2ToValue(ValueTree value, glm::vec2 vector, bool useUndoManager = true);
 		void setVec3ToValue(ValueTree value, glm::vec3 vector, bool useUndoManager = true);
 		void setVec4ToValue(ValueTree value, glm::vec4 vector, bool useUndoManager = true);
-		void setQuatToValue(ValueTree value, glm::quat vector, bool useUndoManager = true);
 		void setColorToValue(ValueTree value, glm::vec3 vector, bool useUndoManager = true);
+		void setQuatToValue(ValueTree value, glm::quat vector, bool useUndoManager = true);
 
 		ValueTree mixValues(ValueTree value1, ValueTree value2, const float t);
 		ValueTree calculateCcrSplineForValues(ValueTree valueP0, ValueTree P1, ValueTree P2, ValueTree P3, const float t);

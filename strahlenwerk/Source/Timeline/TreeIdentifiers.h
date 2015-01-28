@@ -77,6 +77,11 @@ namespace treeId {
 									const Identifier valueColorR("valueColorR");
 									const Identifier valueColorG("valueColorG");
 									const Identifier valueColorB("valueColorB");
+									// quat
+									const Identifier valueQuatX("valueQuatX");
+									const Identifier valueQuatY("valueQuatY");
+									const Identifier valueQuatZ("valueQuatZ");
+									const Identifier valueQuatW("valueQuatW");
 
 	// extra value type for interpolated stuff
 	const Identifier interpolatedValue("interpolatedValue");

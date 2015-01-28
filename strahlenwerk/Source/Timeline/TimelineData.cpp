@@ -989,15 +989,20 @@ bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 		setValueVec3Y(valueData, 0.);
 		setValueVec3Z(valueData, 0.);
 	} else if (valueType == "vec4") {
-		// vec4 is mostly a rotation, (0, 0, 0, 1) is the identity rotation
 		setValueVec4X(valueData, 0.);
 		setValueVec4Y(valueData, 0.);
 		setValueVec4Z(valueData, 0.);
-		setValueVec4W(valueData, 1.);
+		setValueVec4W(valueData, 0.);
 	} else if (valueType == "color") {
 		setValueColorR(valueData, .18);
 		setValueColorG(valueData, .18);
 		setValueColorB(valueData, .18);
+	} else if (valueType == "quat") {
+		// (0, 0, 0, 1) is the identity rotation
+		setValueQuatX(valueData, 0.);
+		setValueQuatY(valueData, 0.);
+		setValueQuatZ(valueData, 0.);
+		setValueQuatW(valueData, 1.);
 	} else {
 		return false;
 	}
@@ -1039,6 +1044,12 @@ bool TimelineData::isValueVec4(ValueTree value) {
 bool TimelineData::isValueColor(ValueTree value) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return value.hasProperty(treeId::valueColorR);
+}
+
+// checks if the value is of type quat
+bool TimelineData::isValueQuat(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.hasProperty(treeId::valueQuatX);
 }
 
 
@@ -1126,6 +1137,30 @@ var TimelineData::getValueColorB(ValueTree value) {
 	return value.getProperty(treeId::valueColorB);
 }
 
+// get quatX of a quat value
+var TimelineData::getValueQuatX(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueQuatX);
+}
+
+// get quatY of a quat value
+var TimelineData::getValueQuatY(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueQuatY);
+}
+
+// get quatZ of a quat value
+var TimelineData::getValueQuatZ(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueQuatZ);
+}
+
+// get quatW of a quat value
+var TimelineData::getValueQuatW(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getProperty(treeId::valueQuatW);
+}
+
 
 // get boolState of a bool value as a juce::Value
 Value TimelineData::getValueBoolStateAsValue(ValueTree value) {
@@ -1209,6 +1244,30 @@ Value TimelineData::getValueColorGAsValue(ValueTree value) {
 Value TimelineData::getValueColorBAsValue(ValueTree value) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return value.getPropertyAsValue(treeId::valueColorB, &undoManager);
+}
+
+// get quatX of a quat value as a juce::Value
+Value TimelineData::getValueQuatXAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueQuatX, &undoManager);
+}
+
+// get quatY of a quat value as a juce::Value
+Value TimelineData::getValueQuatYAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueQuatY, &undoManager);
+}
+
+// get quatZ of a quat value as a juce::Value
+Value TimelineData::getValueQuatZAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueQuatZ, &undoManager);
+}
+
+// get quatW of a quat value as a juce::Value
+Value TimelineData::getValueQuatWAsValue(ValueTree value) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return value.getPropertyAsValue(treeId::valueQuatW, &undoManager);
 }
 
 
@@ -1297,6 +1356,30 @@ void TimelineData::setValueColorB(ValueTree value, var colorB, bool useUndoManag
 	value.setProperty(treeId::valueColorB, colorB, useUndoManager ? &undoManager : nullptr);
 }
 
+// set quatX of a quat value
+void TimelineData::setValueQuatX(ValueTree value, var quatX, bool useUndoManager) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueQuatX, quatX, useUndoManager ? &undoManager : nullptr);
+}
+
+// set quatY of a quat value
+void TimelineData::setValueQuatY(ValueTree value, var quatY, bool useUndoManager) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueQuatY, quatY, useUndoManager ? &undoManager : nullptr);
+}
+
+// set quatZ of a quat value
+void TimelineData::setValueQuatZ(ValueTree value, var quatZ, bool useUndoManager) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueQuatZ, quatZ, useUndoManager ? &undoManager : nullptr);
+}
+
+// set quatW of a quat value
+void TimelineData::setValueQuatW(ValueTree value, var quatW, bool useUndoManager) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	value.setProperty(treeId::valueQuatW, quatW, useUndoManager ? &undoManager : nullptr);
+}
+
 
 
 // returns a float value as a float
@@ -1329,21 +1412,21 @@ glm::vec4 TimelineData::getVec4FromValue(ValueTree value) {
 	return glm::vec4(vec4X, vec4Y, vec4Z, vec4W);
 }
 
-// returns a vec4 value as a glm::quat
-glm::quat TimelineData::getQuatFromValue(ValueTree value) {
-	const float quatX = getValueVec4X(value);
-	const float quatY = getValueVec4Y(value);
-	const float quatZ = getValueVec4Z(value);
-	const float quatW = getValueVec4W(value);
-	return glm::quat(quatW, quatX, quatY, quatZ);
-}
-
 // returns a color value as a glm::vec3
 glm::vec3 TimelineData::getColorFromValue(ValueTree value) {
 	const float colorR = getValueColorR(value);
 	const float colorG = getValueColorG(value);
 	const float colorB = getValueColorB(value);
 	return glm::vec3(colorR, colorG, colorB);
+}
+
+// returns a quat value as a glm::quat
+glm::quat TimelineData::getQuatFromValue(ValueTree value) {
+	const float quatX = getValueQuatX(value);
+	const float quatY = getValueQuatY(value);
+	const float quatZ = getValueQuatZ(value);
+	const float quatW = getValueQuatW(value);
+	return glm::quat(quatW, quatX, quatY, quatZ);
 }
 
 
@@ -1377,21 +1460,21 @@ void TimelineData::setVec4ToValue(ValueTree value, glm::vec4 vector, bool useUnd
 	setValueVec4W(value, vector.w, useUndoManager);
 }
 
-// sets the contents of a vec4 value to the numbers from a glm::quat
-void TimelineData::setQuatToValue(ValueTree value, glm::quat vector, bool useUndoManager) {
-	jassert(isValueVec4(value) || getNumValueProperties(value) == 0);
-	setValueVec4X(value, vector.x, useUndoManager);
-	setValueVec4Y(value, vector.y, useUndoManager);
-	setValueVec4Z(value, vector.z, useUndoManager);
-	setValueVec4W(value, vector.w, useUndoManager);
-}
-
 // sets the contents of a color value to the numbers from a glm::vec2
 void TimelineData::setColorToValue(ValueTree value, glm::vec3 vector, bool useUndoManager) {
 	jassert(isValueColor(value) || getNumValueProperties(value) == 0);
 	setValueColorR(value, vector.r, useUndoManager);
 	setValueColorG(value, vector.g, useUndoManager);
 	setValueColorB(value, vector.b, useUndoManager);
+}
+
+// sets the contents of a quat value to the numbers from a glm::quat
+void TimelineData::setQuatToValue(ValueTree value, glm::quat vector, bool useUndoManager) {
+	jassert(isValueQuat(value) || getNumValueProperties(value) == 0);
+	setValueQuatX(value, vector.x, useUndoManager);
+	setValueQuatY(value, vector.y, useUndoManager);
+	setValueQuatZ(value, vector.z, useUndoManager);
+	setValueQuatW(value, vector.w, useUndoManager);
 }
 
 
