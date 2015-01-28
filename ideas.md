@@ -21,6 +21,7 @@
 * "Zyklotron": Tron das Spiel in Polarkoordinaten. Bewegung in ê⃗_φ und ê⃗_r Richtung. Wand im Ursprung. Gitternetz mit Radar.
 * Beginn: 2D Waveform, dann Drehung der Kamera in Raum, sodass Waveform eine Fläche ist. Fläche wird überfolgen und ist "Landschaft"
 * zb mit Voxelrenderer: [DLA](http://en.wikipedia.org/wiki/Diffusion-limited_aggregation) (wahrscheinlich mit precalc)
+* "long take demo" (mit guten splines)
 
 ## Bilder
 * http://projectosxar.deviantart.com/art/Through-the-Gap-455732816
