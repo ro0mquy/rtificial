@@ -31,7 +31,7 @@ void Shader::load(std::string source) {
 
 	applyIncludes();
 
-	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float|bool)[ \t]+(\w+)[ \t]*;[ \t]*(// (color))?)regex");
+	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float|bool)[ \t]+(\w+)[ \t]*;[ \t]*(// (color|quat))?)regex");
 	const std::sregex_iterator end;
 
 	std::vector<std::pair<size_t, int>> matches;
@@ -58,7 +58,11 @@ void Shader::load(std::string source) {
 			}
 		}
 		else if(typeString == "vec4") {
-			type = UniformType::VEC4;
+			if (match[5] == "quat") {
+				type = UniformType::QUAT;
+			} else {
+				type = UniformType::VEC4;
+			}
 		}
 		const Uniform* uniform = registerUniform(name, type);
 		if(uniform == nullptr) {

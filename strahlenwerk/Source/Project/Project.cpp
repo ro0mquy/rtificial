@@ -528,6 +528,9 @@ void Project::addUniforms(const Shader& shader) {
 			case UniformType::VEC4:
 				type = "vec4";
 				break;
+			case UniformType::QUAT:
+				type = "quat";
+				break;
 		}
 		timelineData.addUniform(var(uniform->name), type);
 	}

@@ -2,7 +2,7 @@
 #define UNIFORMTYPE_H
 
 enum class UniformType {
-	BOOL, FLOAT, VEC2, VEC3, VEC4, COLOR
+	BOOL, FLOAT, VEC2, VEC3, VEC4, COLOR, QUAT
 };
 
 #endif
