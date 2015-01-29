@@ -1511,12 +1511,12 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 		return interpolatedValue;
 	} else if (isValueVec4(value1)) {
 		jassert(isValueVec4(value2));
-		const glm::quat quat1 = getQuatFromValue(value1);
-		const glm::quat quat2 = getQuatFromValue(value2);
-		const glm::quat quatInterpolated = glm::slerp(quat1, quat2, t);
+		const glm::vec4 vec41 = getVec4FromValue(value1);
+		const glm::vec4 vec42 = getVec4FromValue(value2);
+		const glm::vec4 vec4Interpolated = glm::mix(vec41, vec42, t);
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
-		setQuatToValue(interpolatedValue, quatInterpolated, false);
+		setVec4ToValue(interpolatedValue, vec4Interpolated, false);
 		return interpolatedValue;
 	} else if (isValueColor(value1)) {
 		jassert(isValueColor(value2));
@@ -1527,6 +1527,15 @@ ValueTree TimelineData::mixValues(ValueTree value1, ValueTree value2, const floa
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
 		setColorToValue(interpolatedValue, colorInterpolated, false);
+		return interpolatedValue;
+	} else if (isValueQuat(value1)) {
+		jassert(isValueQuat(value2));
+		const glm::quat quat1 = getQuatFromValue(value1);
+		const glm::quat quat2 = getQuatFromValue(value2);
+		const glm::quat quatInterpolated = glm::slerp(quat1, quat2, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setQuatToValue(interpolatedValue, quatInterpolated, false);
 		return interpolatedValue;
 	} else if (isValueBool(value1)) {
 		jassert(isValueBool(value2));
@@ -1557,8 +1566,8 @@ ValueTree TimelineData::calculateCcrSplineForValues(ValueTree valueP0, ValueTree
 		ValueTree interpolatedValue(treeId::interpolatedValue);
 		setVec3ToValue(interpolatedValue, interpolatedP, false);
 		return interpolatedValue;
-	} else if (isValueVec4(valueP1)) {
-		jassert(isValueVec4(valueP2));
+	} else if (isValueQuat(valueP1)) {
+		jassert(isValueQuat(valueP2));
 
 		const glm::quat P1 = getQuatFromValue(valueP1);
 		const glm::quat P2 = getQuatFromValue(valueP2);
@@ -1635,6 +1644,21 @@ ValueTree TimelineData::calculateCcrSplineForValues(ValueTree valueP0, ValueTree
 
 		ValueTree interpolatedValue(treeId::interpolatedValue);
 		setFloatToValue(interpolatedValue, interpolatedP, false);
+		return interpolatedValue;
+	} else if (isValueVec4(valueP1)) {
+		jassert(isValueVec4(valueP2));
+
+		const glm::vec4 P1 = getVec4FromValue(valueP1);
+		const glm::vec4 P2 = getVec4FromValue(valueP2);
+
+		// if values are invalid, mirror P2/P1 at P1/P2
+		const glm::vec4 P0 = valueP0.isValid() ? getVec4FromValue(valueP0) : P1 - (P2 - P1);
+		const glm::vec4 P3 = valueP3.isValid() ? getVec4FromValue(valueP3) : P2 - (P1 - P2);
+
+		const glm::vec4 interpolatedP = CentripetalCatmullRomSpline(P0, P1, P2, P3, t);
+
+		ValueTree interpolatedValue(treeId::interpolatedValue);
+		setVec4ToValue(interpolatedValue, interpolatedP, false);
 		return interpolatedValue;
 	}
 
