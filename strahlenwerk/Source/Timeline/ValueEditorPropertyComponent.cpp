@@ -163,10 +163,17 @@ class Vec4EditorPropertyComponent : public ValueEditorPropertyComponent {
 
 		void useValueData(ValueTree valueData) override {
 			TimelineData& data = TimelineData::getTimelineData();
-			floatX.referTo(data.getValueVec4XAsValue(valueData));
-			floatY.referTo(data.getValueVec4YAsValue(valueData));
-			floatZ.referTo(data.getValueVec4ZAsValue(valueData));
-			floatW.referTo(data.getValueVec4WAsValue(valueData));
+			if (data.isValueQuat(valueData)) {
+				floatX.referTo(data.getValueQuatXAsValue(valueData));
+				floatY.referTo(data.getValueQuatYAsValue(valueData));
+				floatZ.referTo(data.getValueQuatZAsValue(valueData));
+				floatW.referTo(data.getValueQuatWAsValue(valueData));
+			} else {
+				floatX.referTo(data.getValueVec4XAsValue(valueData));
+				floatY.referTo(data.getValueVec4YAsValue(valueData));
+				floatZ.referTo(data.getValueVec4ZAsValue(valueData));
+				floatW.referTo(data.getValueVec4WAsValue(valueData));
+			}
 			sliderX.getValueObject().referTo(floatX);
 			sliderY.getValueObject().referTo(floatY);
 			sliderZ.getValueObject().referTo(floatZ);
@@ -282,6 +289,8 @@ ValueEditorPropertyComponent* ValueEditorPropertyComponent::newValueEditorProper
 		return new Vec4EditorPropertyComponent(propertyName, valueData);
 	} else if (data.isValueColor(valueData)) {
 		return new ColorEditorPropertyComponent(propertyName, valueData);
+	} else if (data.isValueQuat(valueData)) {
+		return new Vec4EditorPropertyComponent(propertyName, valueData);
 	}
 	return new ValueEditorPropertyComponent(propertyName);
 }

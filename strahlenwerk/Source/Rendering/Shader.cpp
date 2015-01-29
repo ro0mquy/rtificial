@@ -243,6 +243,15 @@ void Shader::loadUniformValues() {
 					context.extensions.glUniform3f(location, vec3X, vec3Y, vec3Z);
 				}
 				break;
+			case UniformType::VEC4:
+				{
+					const float vec4X = data.getValueVec4X(value);
+					const float vec4Y = data.getValueVec4Y(value);
+					const float vec4Z = data.getValueVec4Z(value);
+					const float vec4W = data.getValueVec4W(value);
+					context.extensions.glUniform4f(location, vec4X, vec4Y, vec4Z, vec4W);
+				}
+				break;
 			case UniformType::COLOR:
 				{
 					const float colorR = data.getValueColorR(value);
@@ -251,13 +260,13 @@ void Shader::loadUniformValues() {
 					context.extensions.glUniform3f(location, colorR, colorG, colorB);
 				}
 				break;
-			case UniformType::VEC4:
+			case UniformType::QUAT:
 				{
-					const float vec4X = data.getValueVec4X(value);
-					const float vec4Y = data.getValueVec4Y(value);
-					const float vec4Z = data.getValueVec4Z(value);
-					const float vec4W = data.getValueVec4W(value);
-					context.extensions.glUniform4f(location, vec4X, vec4Y, vec4Z, vec4W);
+					const float quatX = data.getValueQuatX(value);
+					const float quatY = data.getValueQuatY(value);
+					const float quatZ = data.getValueQuatZ(value);
+					const float quatW = data.getValueQuatW(value);
+					context.extensions.glUniform4f(location, quatX, quatY, quatZ, quatW);
 				}
 				break;
 		}
