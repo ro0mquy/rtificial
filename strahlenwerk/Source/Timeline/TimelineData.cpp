@@ -54,6 +54,7 @@ void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 	} else {
 		treeMutex.lock();
 		valueTree = ValueTree::fromXml(*dataElement);
+		getUndoManager().clearUndoHistory();
 		treeMutex.unlock();
 		delete dataElement;
 	}
