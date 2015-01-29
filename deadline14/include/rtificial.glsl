@@ -1,7 +1,7 @@
 // fancy functions TODO
 
 uniform vec3 camera_position;
-uniform vec4 camera_rotation;
+uniform vec4 camera_rotation; // quat
 
 layout(location = 33) uniform float time;
 
