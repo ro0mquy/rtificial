@@ -18,7 +18,7 @@ ifeq ($(CONFIG),Debug)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION" -D "JUCE_APP_VERSION_HEX=0x0" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../juce_modules
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION" -D "JUCE_APP_VERSION_HEX=0x0" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../juce_modules
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0 -std=c++11 -Wall -Wextra -I../../Source -I../../Lib/include
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -lefsw -L../../Lib/lib
@@ -39,7 +39,7 @@ ifeq ($(CONFIG),Release)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "NDEBUG=1" -D "JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION" -D "JUCE_APP_VERSION_HEX=0x0" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../juce_modules
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION" -D "JUCE_APP_VERSION_HEX=0x0" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../juce_modules
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -O3 -std=c++11 -Wall -Wextra -I../../Source -I../../Lib/include
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -fvisibility=hidden -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -lefsw -L../../Lib/lib
@@ -68,6 +68,7 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/JsonExporter_56469f78.o \
   $(OBJDIR)/SpecialUniformController_926d55c6.o \
   $(OBJDIR)/TimeMarkerComponent_32217cf1.o \
   $(OBJDIR)/MouseCallbackClasses_88049c4b.o \
@@ -205,6 +206,11 @@ $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
 $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling UniformManager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/JsonExporter_56469f78.o: ../../Source/Timeline/JsonExporter.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling JsonExporter.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SpecialUniformController_926d55c6.o: ../../Source/Timeline/SpecialUniformController.cpp

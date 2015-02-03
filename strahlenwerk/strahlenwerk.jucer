@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="gxTjTP" name="strahlenwerk" projectType="guiapp" version=""
               bundleIdentifier="org.rtificial.strahlenwerk" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.0" companyName="rtificial" companyWebsite="http://rtificial.org"
+              jucerVersion="3.1.1" companyName="rtificial" companyWebsite="http://rtificial.org"
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" companyEmail="mail@rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
@@ -74,6 +74,9 @@
         <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
       </GROUP>
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
+        <FILE id="chWk8Q" name="JsonExporter.cpp" compile="1" resource="0"
+              file="Source/Timeline/JsonExporter.cpp"/>
+        <FILE id="ZhErca" name="JsonExporter.h" compile="0" resource="0" file="Source/Timeline/JsonExporter.h"/>
         <FILE id="PrQ55n" name="SpecialUniformController.cpp" compile="1" resource="0"
               file="Source/Timeline/SpecialUniformController.cpp"/>
         <FILE id="PP9zqk" name="SpecialUniformController.h" compile="0" resource="0"
