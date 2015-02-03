@@ -137,15 +137,14 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Sidebar\Sidebar.cpp"/>
-    <ClCompile Include="..\..\Source\Project\FileWatchMessageThreadListener.cpp"/>
-    <ClCompile Include="..\..\Source\Project\Project.cpp"/>
-    <ClCompile Include="..\..\Source\Project\ProjectFileLoader.cpp"/>
     <ClCompile Include="..\..\Source\ColorPicker\LabColorPropertyComponent.cpp"/>
     <ClCompile Include="..\..\Source\ColorPicker\ColorSpaceMarker.cpp"/>
     <ClCompile Include="..\..\Source\ColorPicker\LabColor.cpp"/>
     <ClCompile Include="..\..\Source\ColorPicker\LabColorPicker.cpp"/>
     <ClCompile Include="..\..\Source\ColorPicker\LabColorSpaceView.cpp"/>
+    <ClCompile Include="..\..\Source\Project\FileWatchMessageThreadListener.cpp"/>
+    <ClCompile Include="..\..\Source\Project\Project.cpp"/>
+    <ClCompile Include="..\..\Source\Project\ProjectFileLoader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Scenes.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipelineLoader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipeline.cpp"/>
@@ -154,6 +153,7 @@
     <ClCompile Include="..\..\Source\Rendering\SceneShader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Uniform.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\Sidebar.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\JsonExporter.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\SpecialUniformController.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\TimeMarkerComponent.cpp"/>
@@ -171,13 +171,13 @@
     <ClCompile Include="..\..\Source\Timeline\SequenceViewComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\Timeline.cpp"/>
     <ClCompile Include="..\..\Source\AudioManager.cpp"/>
-    <ClCompile Include="..\..\Source\StrahlenwerkApplication.cpp"/>
-    <ClCompile Include="..\..\Source\MainWindow.cpp"/>
     <ClCompile Include="..\..\Source\MainContentComponent.cpp"/>
+    <ClCompile Include="..\..\Source\MainWindow.cpp"/>
     <ClCompile Include="..\..\Source\OpenGLComponent.cpp"/>
     <ClCompile Include="..\..\Source\OpenGLTargetComponent.cpp"/>
     <ClCompile Include="..\..\Source\Renderer.cpp"/>
     <ClCompile Include="..\..\Source\RtificialLookAndFeel.cpp"/>
+    <ClCompile Include="..\..\Source\StrahlenwerkApplication.cpp"/>
     <ClCompile Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1267,16 +1267,15 @@
     <ClCompile Include="..\..\juce_modules\juce_opengl\juce_opengl.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Sidebar\Sidebar.h"/>
-    <ClInclude Include="..\..\Source\Project\FileWatchMessageThreadListener.h"/>
-    <ClInclude Include="..\..\Source\Project\Project.h"/>
-    <ClInclude Include="..\..\Source\Project\ProjectFileLoader.h"/>
-    <ClInclude Include="..\..\Source\Project\ProjectListener.h"/>
     <ClInclude Include="..\..\Source\ColorPicker\LabColorPropertyComponent.h"/>
     <ClInclude Include="..\..\Source\ColorPicker\ColorSpaceMarker.h"/>
     <ClInclude Include="..\..\Source\ColorPicker\LabColor.h"/>
     <ClInclude Include="..\..\Source\ColorPicker\LabColorPicker.h"/>
     <ClInclude Include="..\..\Source\ColorPicker\LabColorSpaceView.h"/>
+    <ClInclude Include="..\..\Source\Project\FileWatchMessageThreadListener.h"/>
+    <ClInclude Include="..\..\Source\Project\Project.h"/>
+    <ClInclude Include="..\..\Source\Project\ProjectFileLoader.h"/>
+    <ClInclude Include="..\..\Source\Project\ProjectListener.h"/>
     <ClInclude Include="..\..\Source\Rendering\Scenes.h"/>
     <ClInclude Include="..\..\Source\Rendering\DefaultShader.h"/>
     <ClInclude Include="..\..\Source\Rendering\glcorearb.h"/>
@@ -1288,6 +1287,7 @@
     <ClInclude Include="..\..\Source\Rendering\Uniform.h"/>
     <ClInclude Include="..\..\Source\Rendering\UniformManager.h"/>
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\Sidebar.h"/>
     <ClInclude Include="..\..\Source\Timeline\JsonExporter.h"/>
     <ClInclude Include="..\..\Source\Timeline\SpecialUniformController.h"/>
     <ClInclude Include="..\..\Source\Timeline\Splines.h"/>
@@ -1307,16 +1307,16 @@
     <ClInclude Include="..\..\Source\Timeline\TreeIdentifiers.h"/>
     <ClInclude Include="..\..\Source\Timeline\Timeline.h"/>
     <ClInclude Include="..\..\Source\AudioManager.h"/>
-    <ClInclude Include="..\..\Source\StrahlenwerkApplication.h"/>
-    <ClInclude Include="..\..\Source\PropertyNames.h"/>
-    <ClInclude Include="..\..\Source\MainWindow.h"/>
-    <ClInclude Include="..\..\Source\MainContentComponent.h"/>
     <ClInclude Include="..\..\Source\BoxLayout.h"/>
+    <ClInclude Include="..\..\Source\MainContentComponent.h"/>
+    <ClInclude Include="..\..\Source\MainWindow.h"/>
     <ClInclude Include="..\..\Source\OpenGLComponent.h"/>
     <ClInclude Include="..\..\Source\OpenGLTargetComponent.h"/>
+    <ClInclude Include="..\..\Source\PropertyNames.h"/>
     <ClInclude Include="..\..\Source\Renderer.h"/>
-    <ClInclude Include="..\..\Source\RtificialLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\RtColourIds.h"/>
+    <ClInclude Include="..\..\Source\RtificialLookAndFeel.h"/>
+    <ClInclude Include="..\..\Source\StrahlenwerkApplication.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>

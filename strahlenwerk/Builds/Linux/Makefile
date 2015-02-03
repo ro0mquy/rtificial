@@ -19,7 +19,7 @@ ifeq ($(CONFIG),Debug)
   endif
 
   CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION" -D "JUCE_APP_VERSION_HEX=0x0" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../juce_modules
-  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0 -std=c++11 -Wall -Wextra -I../../Source -I../../Lib/include
+  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0 -Wall -Wextra -I../../Source -I../../Lib/include
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -lefsw -L../../Lib/lib
   LDDEPS :=
@@ -40,7 +40,7 @@ ifeq ($(CONFIG),Release)
   endif
 
   CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION" -D "JUCE_APP_VERSION_HEX=0x0" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../juce_modules
-  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -O3 -std=c++11 -Wall -Wextra -I../../Source -I../../Lib/include
+  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -O3 -Wall -Wextra -I../../Source -I../../Lib/include
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -fvisibility=hidden -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -lefsw -L../../Lib/lib
   LDDEPS :=
@@ -51,15 +51,14 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
-  $(OBJDIR)/Sidebar_eccfc76a.o \
-  $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o \
-  $(OBJDIR)/Project_dae16ce4.o \
-  $(OBJDIR)/ProjectFileLoader_546d9f73.o \
   $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o \
   $(OBJDIR)/ColorSpaceMarker_454a1924.o \
   $(OBJDIR)/LabColor_145742fd.o \
   $(OBJDIR)/LabColorPicker_2909daab.o \
   $(OBJDIR)/LabColorSpaceView_bf2be298.o \
+  $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o \
+  $(OBJDIR)/Project_dae16ce4.o \
+  $(OBJDIR)/ProjectFileLoader_546d9f73.o \
   $(OBJDIR)/Scenes_9b218bf3.o \
   $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
@@ -68,6 +67,7 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/Sidebar_eccfc76a.o \
   $(OBJDIR)/JsonExporter_56469f78.o \
   $(OBJDIR)/SpecialUniformController_926d55c6.o \
   $(OBJDIR)/TimeMarkerComponent_32217cf1.o \
@@ -85,13 +85,13 @@ OBJECTS := \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
   $(OBJDIR)/Timeline_d3785850.o \
   $(OBJDIR)/AudioManager_e2e40c00.o \
-  $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
-  $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/MainContentComponent_19da5e66.o \
+  $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
   $(OBJDIR)/OpenGLTargetComponent_5695ea9e.o \
   $(OBJDIR)/Renderer_d34861cc.o \
   $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
+  $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
   $(OBJDIR)/BinaryData_ce4232d4.o \
   $(OBJDIR)/juce_audio_basics_832d1cec.o \
   $(OBJDIR)/juce_audio_devices_f204e6aa.o \
@@ -123,26 +123,6 @@ strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
-$(OBJDIR)/Sidebar_eccfc76a.o: ../../Source/Sidebar/Sidebar.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Sidebar.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o: ../../Source/Project/FileWatchMessageThreadListener.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling FileWatchMessageThreadListener.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/Project_dae16ce4.o: ../../Source/Project/Project.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Project.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/ProjectFileLoader_546d9f73.o: ../../Source/Project/ProjectFileLoader.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ProjectFileLoader.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o: ../../Source/ColorPicker/LabColorPropertyComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling LabColorPropertyComponent.cpp"
@@ -166,6 +146,21 @@ $(OBJDIR)/LabColorPicker_2909daab.o: ../../Source/ColorPicker/LabColorPicker.cpp
 $(OBJDIR)/LabColorSpaceView_bf2be298.o: ../../Source/ColorPicker/LabColorSpaceView.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling LabColorSpaceView.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o: ../../Source/Project/FileWatchMessageThreadListener.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling FileWatchMessageThreadListener.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Project_dae16ce4.o: ../../Source/Project/Project.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Project.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ProjectFileLoader_546d9f73.o: ../../Source/Project/ProjectFileLoader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ProjectFileLoader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Scenes_9b218bf3.o: ../../Source/Rendering/Scenes.cpp
@@ -206,6 +201,11 @@ $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
 $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling UniformManager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Sidebar_eccfc76a.o: ../../Source/Sidebar/Sidebar.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Sidebar.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/JsonExporter_56469f78.o: ../../Source/Timeline/JsonExporter.cpp
@@ -293,19 +293,14 @@ $(OBJDIR)/AudioManager_e2e40c00.o: ../../Source/AudioManager.cpp
 	@echo "Compiling AudioManager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/StrahlenwerkApplication_a618e10d.o: ../../Source/StrahlenwerkApplication.cpp
+$(OBJDIR)/MainContentComponent_19da5e66.o: ../../Source/MainContentComponent.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling StrahlenwerkApplication.cpp"
+	@echo "Compiling MainContentComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling MainWindow.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/MainContentComponent_19da5e66.o: ../../Source/MainContentComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling MainContentComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/OpenGLComponent_fe08fa6f.o: ../../Source/OpenGLComponent.cpp
@@ -326,6 +321,11 @@ $(OBJDIR)/Renderer_d34861cc.o: ../../Source/Renderer.cpp
 $(OBJDIR)/RtificialLookAndFeel_95d2050c.o: ../../Source/RtificialLookAndFeel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling RtificialLookAndFeel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/StrahlenwerkApplication_a618e10d.o: ../../Source/StrahlenwerkApplication.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling StrahlenwerkApplication.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp

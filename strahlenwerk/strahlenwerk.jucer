@@ -6,24 +6,6 @@
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" companyEmail="mail@rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
-      <GROUP id="{404891A8-3B49-932E-BF9F-4C13EB6EC98C}" name="Sidebar">
-        <FILE id="HgQiIA" name="Sidebar.cpp" compile="1" resource="0" file="Source/Sidebar/Sidebar.cpp"/>
-        <FILE id="YGLoPF" name="Sidebar.h" compile="0" resource="0" file="Source/Sidebar/Sidebar.h"/>
-      </GROUP>
-      <GROUP id="{2F8C8947-A000-8782-DCEE-325B39EF8569}" name="Project">
-        <FILE id="Cwvro6" name="FileWatchMessageThreadListener.cpp" compile="1"
-              resource="0" file="Source/Project/FileWatchMessageThreadListener.cpp"/>
-        <FILE id="uvrfMS" name="FileWatchMessageThreadListener.h" compile="0"
-              resource="0" file="Source/Project/FileWatchMessageThreadListener.h"/>
-        <FILE id="CAaVEs" name="Project.cpp" compile="1" resource="0" file="Source/Project/Project.cpp"/>
-        <FILE id="RBYdRB" name="Project.h" compile="0" resource="0" file="Source/Project/Project.h"/>
-        <FILE id="xSeEwC" name="ProjectFileLoader.cpp" compile="1" resource="0"
-              file="Source/Project/ProjectFileLoader.cpp"/>
-        <FILE id="mLNBl0" name="ProjectFileLoader.h" compile="0" resource="0"
-              file="Source/Project/ProjectFileLoader.h"/>
-        <FILE id="K9ZyLm" name="ProjectListener.h" compile="0" resource="0"
-              file="Source/Project/ProjectListener.h"/>
-      </GROUP>
       <GROUP id="{9C99C7A8-0996-8168-C568-0719FAFA83A9}" name="ColorPicker">
         <FILE id="vnJdlh" name="LabColorPropertyComponent.cpp" compile="1"
               resource="0" file="Source/ColorPicker/LabColorPropertyComponent.cpp"/>
@@ -43,6 +25,20 @@
               file="Source/ColorPicker/LabColorSpaceView.cpp"/>
         <FILE id="nYTv9B" name="LabColorSpaceView.h" compile="0" resource="0"
               file="Source/ColorPicker/LabColorSpaceView.h"/>
+      </GROUP>
+      <GROUP id="{2F8C8947-A000-8782-DCEE-325B39EF8569}" name="Project">
+        <FILE id="Cwvro6" name="FileWatchMessageThreadListener.cpp" compile="1"
+              resource="0" file="Source/Project/FileWatchMessageThreadListener.cpp"/>
+        <FILE id="uvrfMS" name="FileWatchMessageThreadListener.h" compile="0"
+              resource="0" file="Source/Project/FileWatchMessageThreadListener.h"/>
+        <FILE id="CAaVEs" name="Project.cpp" compile="1" resource="0" file="Source/Project/Project.cpp"/>
+        <FILE id="RBYdRB" name="Project.h" compile="0" resource="0" file="Source/Project/Project.h"/>
+        <FILE id="xSeEwC" name="ProjectFileLoader.cpp" compile="1" resource="0"
+              file="Source/Project/ProjectFileLoader.cpp"/>
+        <FILE id="mLNBl0" name="ProjectFileLoader.h" compile="0" resource="0"
+              file="Source/Project/ProjectFileLoader.h"/>
+        <FILE id="K9ZyLm" name="ProjectListener.h" compile="0" resource="0"
+              file="Source/Project/ProjectListener.h"/>
       </GROUP>
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
         <FILE id="HoNJcz" name="Scenes.cpp" compile="1" resource="0" file="Source/Rendering/Scenes.cpp"/>
@@ -72,6 +68,10 @@
         <FILE id="C5Kae6" name="UniformManager.h" compile="0" resource="0"
               file="Source/Rendering/UniformManager.h"/>
         <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
+      </GROUP>
+      <GROUP id="{404891A8-3B49-932E-BF9F-4C13EB6EC98C}" name="Sidebar">
+        <FILE id="HgQiIA" name="Sidebar.cpp" compile="1" resource="0" file="Source/Sidebar/Sidebar.cpp"/>
+        <FILE id="YGLoPF" name="Sidebar.h" compile="0" resource="0" file="Source/Sidebar/Sidebar.h"/>
       </GROUP>
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
         <FILE id="chWk8Q" name="JsonExporter.cpp" compile="1" resource="0"
@@ -136,19 +136,14 @@
       <FILE id="HGrrNS" name="AudioManager.cpp" compile="1" resource="0"
             file="Source/AudioManager.cpp"/>
       <FILE id="HjueeN" name="AudioManager.h" compile="0" resource="0" file="Source/AudioManager.h"/>
+      <FILE id="oLyckP" name="BoxLayout.h" compile="0" resource="0" file="Source/BoxLayout.h"/>
       <FILE id="t84HiX" name="juce" compile="0" resource="1" file="Source/juce"/>
-      <FILE id="UVEyS3" name="StrahlenwerkApplication.cpp" compile="1" resource="0"
-            file="Source/StrahlenwerkApplication.cpp"/>
-      <FILE id="ucF2Fs" name="StrahlenwerkApplication.h" compile="0" resource="0"
-            file="Source/StrahlenwerkApplication.h"/>
-      <FILE id="H0wOnu" name="PropertyNames.h" compile="0" resource="0" file="Source/PropertyNames.h"/>
-      <FILE id="jzZlkA" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
-      <FILE id="RCWYjO" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
       <FILE id="LokCeX" name="MainContentComponent.cpp" compile="1" resource="0"
             file="Source/MainContentComponent.cpp"/>
       <FILE id="kt9k5n" name="MainContentComponent.h" compile="0" resource="0"
             file="Source/MainContentComponent.h"/>
-      <FILE id="oLyckP" name="BoxLayout.h" compile="0" resource="0" file="Source/BoxLayout.h"/>
+      <FILE id="jzZlkA" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
+      <FILE id="RCWYjO" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
       <FILE id="ETqG8P" name="OpenGLComponent.cpp" compile="1" resource="0"
             file="Source/OpenGLComponent.cpp"/>
       <FILE id="TyU334" name="OpenGLComponent.h" compile="0" resource="0"
@@ -157,17 +152,22 @@
             file="Source/OpenGLTargetComponent.cpp"/>
       <FILE id="jOGiUW" name="OpenGLTargetComponent.h" compile="0" resource="0"
             file="Source/OpenGLTargetComponent.h"/>
+      <FILE id="H0wOnu" name="PropertyNames.h" compile="0" resource="0" file="Source/PropertyNames.h"/>
       <FILE id="SkmHDQ" name="Renderer.cpp" compile="1" resource="0" file="Source/Renderer.cpp"/>
       <FILE id="vkHWw8" name="Renderer.h" compile="0" resource="0" file="Source/Renderer.h"/>
+      <FILE id="P4IG3t" name="RtColourIds.h" compile="0" resource="0" file="Source/RtColourIds.h"/>
       <FILE id="SrFBU6" name="RtificialLookAndFeel.cpp" compile="1" resource="0"
             file="Source/RtificialLookAndFeel.cpp"/>
       <FILE id="Wciucj" name="RtificialLookAndFeel.h" compile="0" resource="0"
             file="Source/RtificialLookAndFeel.h"/>
-      <FILE id="P4IG3t" name="RtColourIds.h" compile="0" resource="0" file="Source/RtColourIds.h"/>
+      <FILE id="UVEyS3" name="StrahlenwerkApplication.cpp" compile="1" resource="0"
+            file="Source/StrahlenwerkApplication.cpp"/>
+      <FILE id="ucF2Fs" name="StrahlenwerkApplication.h" compile="0" resource="0"
+            file="Source/StrahlenwerkApplication.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-std=c++11 -Wall -Wextra -I../../Source -I../../Lib/include"
+    <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-Wall -Wextra -I../../Source -I../../Lib/include"
                 externalLibraries="efsw" extraLinkerFlags="-L../../Lib/lib">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="" isDebug="1" optimisation="1" targetName="strahlenwerk"/>
