@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include "Splines.h"
 #include "ZoomFactor.h"
+#include "JsonExporter.h"
 
 TimelineData::TimelineData(const File& dataFile) :
 	interpolator(*this)
@@ -62,12 +63,19 @@ void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 
 void TimelineData::writeTimelineDataToFile(const File& dataFile) {
 	treeMutex.lock();
-	XmlElement* xmlElement = valueTree.createXml();
+	var jsonRepresentation = JsonExporter::toJson(valueTree);
 	treeMutex.unlock();
-	if (!xmlElement->writeToFile(dataFile, "")) {
-		std::cerr << "Couldn't write timeline to file" << std::endl;
+	// write to a temporary file and replace the original when successful
+	// to avoid corrupting files
+	TemporaryFile tempFile(dataFile);
+	const std::unique_ptr<FileOutputStream> stream(tempFile.getFile().createOutputStream());
+	if (stream != nullptr) {
+		JSON::writeToStream(*stream, jsonRepresentation);
+		if (tempFile.overwriteTargetFileWithTemporary()) {
+			return;
+		}
 	}
-	delete xmlElement;
+	std::cerr << "Couldn't write timeline to file" << std::endl;
 }
 
 void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
