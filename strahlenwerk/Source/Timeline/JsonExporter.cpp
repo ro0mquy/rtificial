@@ -35,6 +35,10 @@ var JsonExporter::toJson(ValueTree tree) {
 }
 
 ValueTree JsonExporter::fromJson(var json, Identifier rootType) {
+	if (json == var::null) {
+		return ValueTree(rootType);
+	}
+
 	// everything is an object!
 	jassert(json.isObject() && !json.isArray());
 
