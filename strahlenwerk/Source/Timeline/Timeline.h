@@ -24,7 +24,7 @@ class Timeline : public Component
 		class ViewportCallback : public Viewport {
 			private:
 				// make a callback to Timeline if one of the viewports changed
-				void visibleAreaChanged(const Rectangle<int>& newVisibleArea) override {
+				void visibleAreaChanged(const juce::Rectangle<int>& newVisibleArea) override {
 					Timeline* timelineParent = findParentComponentOfClass<Timeline>();
 
 					if (timelineParent != nullptr) {

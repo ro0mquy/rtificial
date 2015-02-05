@@ -58,7 +58,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\juce_modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR;JUCER_VS2013_78A5020=1;JUCE_APP_VERSION;JUCE_APP_VERSION_HEX=0x0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR;NOMINMAX;JUCER_VS2013_78A5020=1;JUCE_APP_VERSION;JUCE_APP_VERSION_HEX=0x0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -102,7 +102,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\juce_modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR;JUCER_VS2013_78A5020=1;JUCE_APP_VERSION;JUCE_APP_VERSION_HEX=0x0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR;NOMINMAX;JUCER_VS2013_78A5020=1;JUCE_APP_VERSION;JUCE_APP_VERSION_HEX=0x0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -145,6 +145,7 @@
     <ClCompile Include="..\..\Source\Project\FileWatchMessageThreadListener.cpp"/>
     <ClCompile Include="..\..\Source\Project\Project.cpp"/>
     <ClCompile Include="..\..\Source\Project\ProjectFileLoader.cpp"/>
+    <ClCompile Include="..\..\Source\Rendering\glcorert.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Scenes.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipelineLoader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipeline.cpp"/>
@@ -200,6 +201,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_basics\midi\juce_MidiMessageSequence.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_basics\effects\juce_FFT.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
@@ -1279,6 +1283,7 @@
     <ClInclude Include="..\..\Source\Rendering\Scenes.h"/>
     <ClInclude Include="..\..\Source\Rendering\DefaultShader.h"/>
     <ClInclude Include="..\..\Source\Rendering\glcorearb.h"/>
+    <ClInclude Include="..\..\Source\Rendering\glcorert.h"/>
     <ClInclude Include="..\..\Source\Rendering\PostprocPipelineLoader.h"/>
     <ClInclude Include="..\..\Source\Rendering\PostprocPipeline.h"/>
     <ClInclude Include="..\..\Source\Rendering\PostprocShader.h"/>
@@ -1326,6 +1331,7 @@
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\midi\juce_MidiMessage.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\midi\juce_MidiMessageSequence.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_Decibels.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_FFT.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_IIRFilter.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_LagrangeInterpolator.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_Reverb.h"/>

@@ -8,7 +8,7 @@
 
 class SceneShader : public Shader {
 	public:
-		using Shader::Shader;
+		SceneShader(OpenGLContext& context, std::string name) : Shader(context, name) {}
 		bool isUniformActive(int id);
 
 	private:

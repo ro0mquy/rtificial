@@ -41,10 +41,12 @@
               file="Source/Project/ProjectListener.h"/>
       </GROUP>
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
+        <FILE id="EieqmQ" name="glcorert.cpp" compile="1" resource="0" file="Source/Rendering/glcorert.cpp"/>
         <FILE id="HoNJcz" name="Scenes.cpp" compile="1" resource="0" file="Source/Rendering/Scenes.cpp"/>
         <FILE id="iDoI0A" name="Scenes.h" compile="0" resource="0" file="Source/Rendering/Scenes.h"/>
         <FILE id="a6SDMx" name="DefaultShader.h" compile="0" resource="0" file="Source/Rendering/DefaultShader.h"/>
         <FILE id="ac46aX" name="glcorearb.h" compile="0" resource="0" file="Source/Rendering/glcorearb.h"/>
+        <FILE id="tsu6iP" name="glcorert.h" compile="0" resource="0" file="Source/Rendering/glcorert.h"/>
         <FILE id="fbU4Ku" name="PostprocPipelineLoader.cpp" compile="1" resource="0"
               file="Source/Rendering/PostprocPipelineLoader.cpp"/>
         <FILE id="ssUGvM" name="PostprocPipelineLoader.h" compile="0" resource="0"
@@ -189,7 +191,8 @@
       </MODULEPATHS>
     </LINUX_MAKE>
     <VS2013 targetFolder="Builds/VisualStudio2013" externalLibraries="efsw"
-            extraCompilerFlags="/I..\..\Source /I..\..\Lib\include" extraLinkerFlags="/LIBPATH:&quot;..\..\Lib\lib&quot;">
+            extraCompilerFlags="/I..\..\Source /I..\..\Lib\include" extraLinkerFlags="/LIBPATH:&quot;..\..\Lib\lib&quot;"
+            extraDefs="NOMINMAX">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="strahlenwerk"/>

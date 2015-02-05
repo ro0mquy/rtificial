@@ -87,12 +87,21 @@ Download `glm` from [its home page](http://glm.g-truc.net) and unpack it. Move `
 
 Download `premake` from [its home page](http://industriousone.com/premake/download) and unpack it. Now download the [`efsw` zip-ball](https://bitbucket.org/SpartanJ/efsw/downloads) and unpack it. Now create a Visual Studio project by running the following in `cmd.exe`:
 
-    path\to\premake4.exe vs2013
+    path\to\premake4.exe vs2010
 
-Open the project `.\make\Windows\efsw-static.vcxproj` in Visual Studio and compile it. Now move `.\lib\efsw-static-debug.lib` to `rtificial\strahlenwerk\Lib\lib\efsw.lib` and the folder `.\include\efsw` to `rtificial\strahlenwerk\Lib\include\efsw`. You don't need the rest.
+Open the project `.\make\Windows\efsw-static.vcxproj` in Visual Studio and compile it. Now move `.\lib\efsw-debug.lib` to `rtificial\strahlenwerk\Lib\lib\efsw.obj` and the folder `.\include\efsw` to `rtificial\strahlenwerk\Lib\include\efsw`. Copy `.\lib\efsw-debug.dll` to `rtificial\strahlenwerk\Builds\VisualStudio2013\Debug\efsw-debug.dll`. You don't need the rest.
 
 #### Building and running
-Open `rtificial\strahlenwerk\Builds\VisualStudio2013\strahlenwerk.vcxproj` in Visual Studio and hit `F7` to build, `F5` to build-and-run with the debugger and `Ctrl+F5` to build-and-run without the debugger. Hopefully nothing breaks, good luck with that!
+Open `rtificial\strahlenwerk\Builds\VisualStudio2013\strahlenwerk.vcxproj` in Visual Studio and hit `F7` to build, `F5` to build-and-run with the debugger and `Ctrl+F5` to build-and-run without the debugger. Hopefully nothing breaks, good luck with that! And you don't even need to reboot your computer twice and wait for a myriad of "finishing updates" to complete. It just runs!
+
+You probably need to create the directory `%APPDATA%\strahlenwerk` (most likely `C:\Users\<username>\AppData\Roaming\strahlenwerk`) and create a file `strahlenwerk.settings` in there containing the following:
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    
+    <PROPERTIES>
+      <VALUE name="project_dir" val="C:\absolute\path\to\a\project"/>
+    </PROPERTIES
+
 
 ## Scene directory contents
 ### Directory structure

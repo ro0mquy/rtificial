@@ -4,6 +4,8 @@
 #include <juce>
 #include <mutex>
 
+static const float initialZoomLevel = .02;
+
 class ZoomFactor :
 	public ChangeBroadcaster
 {
@@ -26,8 +28,6 @@ class ZoomFactor :
 	private:
 		float zoomLevel;
 		std::mutex zoomMutex;
-
-		static constexpr float initialZoomLevel = .02;
 };
 
 #endif // ZOOMFACTOR_H

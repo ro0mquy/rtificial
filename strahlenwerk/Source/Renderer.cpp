@@ -40,6 +40,7 @@ Renderer::~Renderer() {
 }
 
 void Renderer::newOpenGLContextCreated() {
+	initializeOpenGLFunctions();
 }
 
 void Renderer::openGLContextClosing() {
