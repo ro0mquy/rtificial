@@ -47,16 +47,15 @@ Interpolator& TimelineData::getInterpolator() {
 void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 	var jsonRepresentation;
 	const Result result = JSON::parse(dataFile.loadFileAsString(), jsonRepresentation);
+
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	getUndoManager().clearUndoHistory();
+
 	if (result.wasOk()) {
-		ValueTree newValueTree = JsonExporter::fromJson(jsonRepresentation, treeId::timelineTree);
-		treeMutex.lock();
-		valueTree = newValueTree;
-		getUndoManager().clearUndoHistory();
-		treeMutex.unlock();
-	}
-	else {
-		std::cerr << "Failed to parse timeline from file" << std::endl;
-		std::cerr << result.getErrorMessage() << std::endl;
+		valueTree = JsonExporter::fromJson(jsonRepresentation, treeId::timelineTree);
+	} else {
+		std::cerr << "Failed to parse timeline from file\n";
+		std::cerr << result.getErrorMessage() << '\n';
 		valueTree = ValueTree(treeId::timelineTree);
 	}
 }
