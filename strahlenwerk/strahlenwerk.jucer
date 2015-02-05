@@ -41,6 +41,10 @@
               file="Source/Project/ProjectListener.h"/>
       </GROUP>
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
+        <FILE id="xY9uWi" name="EnvironmentMap.cpp" compile="1" resource="0"
+              file="Source/Rendering/EnvironmentMap.cpp"/>
+        <FILE id="VRwKFM" name="EnvironmentMap.h" compile="0" resource="0"
+              file="Source/Rendering/EnvironmentMap.h"/>
         <FILE id="HoNJcz" name="Scenes.cpp" compile="1" resource="0" file="Source/Rendering/Scenes.cpp"/>
         <FILE id="iDoI0A" name="Scenes.h" compile="0" resource="0" file="Source/Rendering/Scenes.h"/>
         <FILE id="a6SDMx" name="DefaultShader.h" compile="0" resource="0" file="Source/Rendering/DefaultShader.h"/>

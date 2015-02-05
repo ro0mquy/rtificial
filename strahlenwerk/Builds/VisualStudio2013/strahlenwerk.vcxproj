@@ -145,6 +145,7 @@
     <ClCompile Include="..\..\Source\Project\FileWatchMessageThreadListener.cpp"/>
     <ClCompile Include="..\..\Source\Project\Project.cpp"/>
     <ClCompile Include="..\..\Source\Project\ProjectFileLoader.cpp"/>
+    <ClCompile Include="..\..\Source\Rendering\EnvironmentMap.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Scenes.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipelineLoader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipeline.cpp"/>
@@ -200,6 +201,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_basics\midi\juce_MidiMessageSequence.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_basics\effects\juce_FFT.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
@@ -1276,6 +1280,7 @@
     <ClInclude Include="..\..\Source\Project\Project.h"/>
     <ClInclude Include="..\..\Source\Project\ProjectFileLoader.h"/>
     <ClInclude Include="..\..\Source\Project\ProjectListener.h"/>
+    <ClInclude Include="..\..\Source\Rendering\EnvironmentMap.h"/>
     <ClInclude Include="..\..\Source\Rendering\Scenes.h"/>
     <ClInclude Include="..\..\Source\Rendering\DefaultShader.h"/>
     <ClInclude Include="..\..\Source\Rendering\glcorearb.h"/>
@@ -1326,6 +1331,7 @@
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\midi\juce_MidiMessage.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\midi\juce_MidiMessageSequence.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_Decibels.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_FFT.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_IIRFilter.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_LagrangeInterpolator.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\effects\juce_Reverb.h"/>
