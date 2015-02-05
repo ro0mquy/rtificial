@@ -83,13 +83,31 @@ void Shader::load(std::string source) {
 /**
  * Only call this from the OpenGL thread!
  */
-void Shader::draw(int width, int height) {
-	onBeforeDraw();
-
-	if(sourceChanged) {
+void Shader::use() {
+	if (sourceChanged) {
 		recompile();
 	}
-	if(!shaderOk) {
+	program.use();
+}
+
+/**
+ * Only call this from the OpenGL thread!
+ */
+void Shader::draw(int width, int height) {
+	if (sourceChanged) {
+		recompile();
+	}
+	drawWithoutRecompile(width, height);
+}
+
+/**
+ * Only call this from the OpenGL thread!
+ */
+void Shader::drawWithoutRecompile(int width, int height) {
+	// TODO investigate why this needs to be placed before shaderOk check
+	onBeforeDraw();
+
+	if (!shaderOk) {
 		return;
 	}
 
@@ -113,6 +131,7 @@ void Shader::draw(int width, int height) {
 	glGetError(); // clear error
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	context.extensions.glDisableVertexAttribArray(attributeCoord);
+
 }
 
 const std::vector<int>& Shader::getUniformIds() const {

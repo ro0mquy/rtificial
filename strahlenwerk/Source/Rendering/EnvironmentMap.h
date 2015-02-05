@@ -3,19 +3,20 @@
 
 #include <juce>
 
-class SceneShader;
+class Shader;
 
 class EnvironmentMap {
 	public:
 		~EnvironmentMap();
 
 		void create(unsigned int width, unsigned int height);
-		void render(SceneShader& shader);
+		void render(Shader& shader);
 		void bind(GLenum textureUnit);
 
 	private:
 		GLuint texture;
 		bool deleteTexture = false;
+		unsigned int width, height;
 };
 
 #endif  // ENVIRONMENTMAP_H

@@ -15,7 +15,9 @@ class Shader {
 		virtual ~Shader();
 
 		void load(std::string source);
-		void draw(int widht, int height);
+		void use();
+		void draw(int width, int height);
+		void drawWithoutRecompile(int width, int height);
 		const std::vector<int>& getUniformIds() const;
 		const std::string& getName() const;
 		const std::string& getSource() const;
