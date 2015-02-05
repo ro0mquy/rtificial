@@ -48,7 +48,7 @@ void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 	var jsonRepresentation;
 	const Result result = JSON::parse(dataFile.loadFileAsString(), jsonRepresentation);
 	if (result.wasOk()) {
-		ValueTree newValueTree = JsonExporter::fromJson(jsonRepresentation);
+		ValueTree newValueTree = JsonExporter::fromJson(jsonRepresentation, treeId::timelineTree);
 		treeMutex.lock();
 		valueTree = newValueTree;
 		getUndoManager().clearUndoHistory();
