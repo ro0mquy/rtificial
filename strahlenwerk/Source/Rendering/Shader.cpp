@@ -5,6 +5,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <unordered_set>
 
 #include "UniformManager.h"
 #include "UniformType.h"
@@ -30,6 +31,7 @@ void Shader::load(std::string source) {
 	fragmentSource = source;
 
 	applyIncludes();
+	addRtUniforms();
 
 	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float|bool)[ \t]+(\w+)[ \t]*;[ \t]*(// (color|quat))?)regex");
 	const std::sregex_iterator end;
@@ -202,6 +204,45 @@ void Shader::applyIncludes() {
 		fragmentSource.replace(position + offset, length, replacement);
 		offset += int(replacement.length()) - length;
 	}
+}
+
+void Shader::addRtUniforms() {
+	const std::regex uniformRegex(R"regex(\w+_rt_(float|vec[234]|color|quat))regex");
+
+	std::sregex_iterator matches_begin(fragmentSource.begin(), fragmentSource.end(), uniformRegex);
+	const std::sregex_iterator end;
+
+	std::unordered_set<std::string> rtUniformMatches;
+
+	for(std::sregex_iterator it = matches_begin; it != end; ++it) {
+		const std::smatch& match = *it;
+		const std::string& name = match[0];
+		rtUniformMatches.insert(name);
+	}
+
+	std::string declarations;
+	for (const std::string& name : rtUniformMatches) {
+		const std::string& type = name.substr(name.find_last_of('_') + 1);
+		std::cout << name << ": " << type << '\n';
+
+		std::string declType;
+		std::string declComment;
+		if (type == "color") {
+			declType = "vec3";
+			declComment = " // " + type;
+		} else if (type == "quat") {
+			declType = "vec4";
+			declComment = " // " + type;
+		} else {
+			declType = type;
+		}
+
+		declarations += "uniform " + declType + " " + name + ";" + declComment + "\n";
+	}
+
+	const size_t posOfVersion = fragmentSource.find("#version");
+	const size_t posToInsert = fragmentSource.find_first_of('\n', posOfVersion);
+	fragmentSource.insert(posToInsert + 1, declarations);
 }
 
 /**
