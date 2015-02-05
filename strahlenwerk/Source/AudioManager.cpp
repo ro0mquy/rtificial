@@ -58,11 +58,10 @@ void AudioManager::loadFile(const File& audioFile) {
 
 void AudioManager::loadEnvelopes(const File& envelopeFile) {
 	if(envelopeFile.exists()) {
-		auto stream = envelopeFile.createInputStream();
+		const std::unique_ptr<FileInputStream> stream(envelopeFile.createInputStream());
 		envelopeData = std::unique_ptr<float>(new float[stream->getTotalLength() / sizeof(float)]);
 		envelopesSize = stream->getTotalLength() / sizeof(float);
 		stream->read(&(*envelopeData), stream->getTotalLength());
-		delete stream;
 	}
 }
 

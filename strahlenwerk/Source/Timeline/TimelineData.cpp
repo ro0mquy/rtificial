@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include "Splines.h"
 #include "ZoomFactor.h"
+#include "JsonExporter.h"
 
 TimelineData::TimelineData(const File& dataFile) :
 	interpolator(*this)
@@ -44,30 +45,37 @@ Interpolator& TimelineData::getInterpolator() {
 }
 
 void TimelineData::readTimelineDataFromFile(const File& dataFile) {
-	XmlDocument dataXml(dataFile);
-	dataXml.setEmptyTextElementsIgnored(false);
-	XmlElement* dataElement = dataXml.getDocumentElement();
-	if (dataElement == nullptr) {
-		std::cerr << "Failed to parse timeline from file" << std::endl;
-		std::cerr << dataXml.getLastParseError() << std::endl;
-		valueTree = ValueTree(treeId::timelineTree);
-	} else {
+	var jsonRepresentation;
+	const Result result = JSON::parse(dataFile.loadFileAsString(), jsonRepresentation);
+	if (result.wasOk()) {
+		ValueTree newValueTree = JsonExporter::fromJson(jsonRepresentation, treeId::timelineTree);
 		treeMutex.lock();
-		valueTree = ValueTree::fromXml(*dataElement);
+		valueTree = newValueTree;
 		getUndoManager().clearUndoHistory();
 		treeMutex.unlock();
-		delete dataElement;
+	}
+	else {
+		std::cerr << "Failed to parse timeline from file" << std::endl;
+		std::cerr << result.getErrorMessage() << std::endl;
+		valueTree = ValueTree(treeId::timelineTree);
 	}
 }
 
 void TimelineData::writeTimelineDataToFile(const File& dataFile) {
 	treeMutex.lock();
-	XmlElement* xmlElement = valueTree.createXml();
+	const var jsonRepresentation = JsonExporter::toJson(valueTree);
 	treeMutex.unlock();
-	if (!xmlElement->writeToFile(dataFile, "")) {
-		std::cerr << "Couldn't write timeline to file" << std::endl;
+	// write to a temporary file and replace the original when successful
+	// to avoid corrupting files
+	TemporaryFile tempFile(dataFile);
+	const std::unique_ptr<FileOutputStream> stream(tempFile.getFile().createOutputStream());
+	if (stream != nullptr) {
+		JSON::writeToStream(*stream, jsonRepresentation);
+		if (tempFile.overwriteTargetFileWithTemporary()) {
+			return;
+		}
 	}
-	delete xmlElement;
+	std::cerr << "Couldn't write timeline to file" << std::endl;
 }
 
 void TimelineData::addListenerToTree(ValueTree::Listener* listener) {

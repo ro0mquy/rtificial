@@ -27,7 +27,7 @@ File ProjectFileLoader::getMappingFile() {
 }
 
 File ProjectFileLoader::getTimelineDataFile() {
-	return projectDir.getChildFile("timeline.xml");
+	return projectDir.getChildFile("timeline.json");
 }
 
 File ProjectFileLoader::getAudioFile() {
