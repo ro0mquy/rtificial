@@ -14,28 +14,32 @@ ProjectFileLoader::ProjectFileLoader(std::string projectRoot) :
 {
 }
 
-std::vector<File> ProjectFileLoader::listPostprocFiles() {
+std::vector<File> ProjectFileLoader::listPostprocFiles() const {
 	return listFiles(postprocDir);
 }
 
-std::vector<File> ProjectFileLoader::listSceneFiles() {
+std::vector<File> ProjectFileLoader::listSceneFiles() const {
 	return listFiles(sceneDir);
 }
 
-File ProjectFileLoader::getMappingFile() {
+File ProjectFileLoader::getMappingFile() const {
 	return projectDir.getChildFile("mapping.txt");
 }
 
-File ProjectFileLoader::getTimelineDataFile() {
+File ProjectFileLoader::getTimelineDataFile() const {
 	return projectDir.getChildFile("timeline.json");
 }
 
-File ProjectFileLoader::getAudioFile() {
+File ProjectFileLoader::getAudioFile() const {
 	return projectDir.getChildFile("music.ogg");
 }
 
-File ProjectFileLoader::getEnvelopeFile() {
+File ProjectFileLoader::getEnvelopeFile() const {
 	return projectDir.getChildFile("envelopes.out");
+}
+
+File ProjectFileLoader::getBakeFile() const {
+	return projectDir.getChildFile("uniforms.baked");
 }
 
 const File& ProjectFileLoader::getSceneDir() const {

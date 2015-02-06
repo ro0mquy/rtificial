@@ -31,6 +31,7 @@ class Shader {
 		void recompile();
 		void applyIncludes();
 		void addRtUniforms();
+		void applyBakedUniforms();
 		void loadUniformValues();
 
 		virtual void onBeforeLoad();

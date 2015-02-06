@@ -9,12 +9,13 @@ class ProjectFileLoader {
 	public:
 		ProjectFileLoader(std::string projectRoot);
 
-		std::vector<File> listPostprocFiles();
-		std::vector<File> listSceneFiles();
-		File getMappingFile();
-		File getTimelineDataFile();
-		File getAudioFile();
-		File getEnvelopeFile();
+		std::vector<File> listPostprocFiles() const;
+		std::vector<File> listSceneFiles() const;
+		File getMappingFile() const;
+		File getTimelineDataFile() const;
+		File getAudioFile() const;
+		File getEnvelopeFile() const;
+		File getBakeFile() const;
 
 		const File& getSceneDir() const;
 		const File& getPostprocDir() const;

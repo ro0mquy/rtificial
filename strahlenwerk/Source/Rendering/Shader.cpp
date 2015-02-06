@@ -1,6 +1,7 @@
 #include "Shader.h"
 
 #include <sstream>
+#include <fstream>
 #include <regex>
 #include <vector>
 #include <utility>
@@ -32,6 +33,7 @@ void Shader::load(std::string source) {
 
 	applyIncludes();
 	addRtUniforms();
+	applyBakedUniforms();
 
 	const std::regex uniformRegex(R"regex((^|\n)[ \t]*uniform[ \t]+(vec[234]|float|bool)[ \t]+(\w+)[ \t]*;[ \t]*(// (color|quat))?)regex");
 	const std::sregex_iterator end;
@@ -243,6 +245,29 @@ void Shader::addRtUniforms() {
 	const size_t posOfVersion = fragmentSource.find("#version");
 	const size_t posToInsert = fragmentSource.find_first_of('\n', posOfVersion);
 	fragmentSource.insert(posToInsert + 1, declarations);
+}
+
+void Shader::applyBakedUniforms() {
+	const File bakefile = StrahlenwerkApplication::getInstance()->getProject().getLoader().getBakeFile();
+	StringArray linesArray;
+	bakefile.readLines(linesArray);
+	const int numLines = linesArray.size();
+
+	for (int i = 0; i < numLines; i++) {
+		String line = linesArray[i];
+		line = line.upToFirstOccurrenceOf("#", false, false);
+		line = line.trim();
+		if (line.isEmpty()) {
+			continue;
+		}
+
+		const String name = line.upToFirstOccurrenceOf(" ", false, false);
+		const String value = line.fromFirstOccurrenceOf(" ", false, false);
+
+		const std::regex toBeReplaced(R"regex(uniform (\w+) )regex" + name.toStdString());
+		const std::string replacement("const $1 " + name.toStdString() + " = " + value.toStdString());
+		fragmentSource = std::regex_replace(fragmentSource, toBeReplaced, replacement);
+	}
 }
 
 /**
