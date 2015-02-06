@@ -104,7 +104,7 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 	switch (commandID) {
 
 		case MainWindow::quitProgram:
-			result.setInfo("Quit!", "Shuts down all the Beam Factory!", programCategory, 0);
+			result.setInfo("Quit", "Shuts down all the strahlenwerk!", programCategory, 0);
 			result.addDefaultKeypress('q', ModifierKeys::commandModifier);
 			break;
 
@@ -218,7 +218,7 @@ bool MainWindow::perform(const InvocationInfo& info) {
 // it provides the content for a menu bar
 
 StringArray MainWindow::getMenuBarNames() {
-	const char* const names[] = { "File", "Build", nullptr };
+	const char* const names[] = { "File", "Edit", "View", "Timeline", "Help", nullptr };
 	return StringArray(names);
 }
 
@@ -227,21 +227,31 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 	ApplicationCommandManager* commandManager = &getApplicationCommandManager();
 	PopupMenu menu;
 
-	if (topLevelMenuIndex == 0) {
+	if (topLevelMenuIndex == 0 /* File */) {
 		menu.addCommandItem(commandManager, Project::openProject);
-		menu.addCommandItem(commandManager, Project::saveTimeline);
 		menu.addCommandItem(commandManager, Project::reloadShaderFiles);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, Project::saveTimeline);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, Renderer::makeDemo);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, MainWindow::quitProgram);
+	} else if (topLevelMenuIndex == 1 /* Edit */) {
+		menu.addCommandItem(commandManager, TimelineData::undoAction);
+		menu.addCommandItem(commandManager, TimelineData::redoAction);
+	} else if (topLevelMenuIndex == 2 /* View */) {
 		menu.addCommandItem(commandManager, OpenGLComponent::toggleGrid);
 		menu.addCommandItem(commandManager, Renderer::toggleHalfResolution);
 		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);
+	} else if (topLevelMenuIndex == 3 /* Timeline */) {
 		menu.addCommandItem(commandManager, CameraController::setKeyframe);
+		menu.addSeparator();
 		menu.addCommandItem(commandManager, CameraController::resetCameraPosition);
 		menu.addCommandItem(commandManager, CameraController::resetCameraRotation);
-		menu.addCommandItem(commandManager, TimelineData::undoAction);
-		menu.addCommandItem(commandManager, TimelineData::redoAction);
-		menu.addCommandItem(commandManager, MainWindow::quitProgram);
-	} else if (topLevelMenuIndex == 1) {
-		menu.addCommandItem(commandManager, Renderer::makeDemo);
+	} else if (topLevelMenuIndex == 4 /* Help */) {
+		menu.addItem(41, "No Help available. You are lost.", false);
+		menu.addSeparator();
+		menu.addItem(42, "About");
 	}
 
 	return menu;
@@ -249,8 +259,10 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 
 // react on menu items that are not handled by the commandManager
 void MainWindow::menuItemSelected(int menuItemID, int /*topLevelMenuIndex*/) {
-	if (menuItemID == 23) {
-		// dummy
+	if (menuItemID == 42) {
+		AlertWindow aboutWindow("About", "Strahlenwerk is brought to you by rtificial.", AlertWindow::AlertIconType::InfoIcon);
+		aboutWindow.addButton("Close", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
+		aboutWindow.runModalLoop();
 	}
 }
 
