@@ -73,6 +73,14 @@ void AudioManager::togglePlayPause() {
 	}
 }
 
+void AudioManager::performMute() {
+	if (transportSource.getGain() == 0.0) {
+		transportSource.setGain(1.0);
+	} else {
+		transportSource.setGain(0.0);
+	}
+}
+
 // time is returned as milli beats
 int AudioManager::getTime() {
 	return transportSource.getCurrentPosition() * (getBpm() / 60.) * 1000.;
@@ -110,6 +118,9 @@ void AudioManager::applicationCommandInvoked(const ApplicationCommandTarget::Inv
 		case CameraController::playPauseWithAnimation:
 		case CameraController::playPauseWithoutAnimation:
 			togglePlayPause();
+			break;
+		case AudioManager::toggleMute:
+			performMute();
 			break;
 	}
 }

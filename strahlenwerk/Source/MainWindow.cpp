@@ -6,6 +6,7 @@
 #include <OpenGLComponent.h>
 #include <Project/Project.h>
 #include <Timeline/TimelineData.h>
+#include <AudioManager.h>
 
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()
@@ -92,6 +93,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Renderer::makeDemo,
 		TimelineData::undoAction,
 		TimelineData::redoAction,
+		AudioManager::toggleMute,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -164,8 +166,13 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			break;
 
 		case Renderer::makeDemo:
-			result.setInfo("Make demo", "Make a demo about it!", programCategory, 0);
+			result.setInfo("Make Demo", "Make a demo about it!", programCategory, 0);
 			result.addDefaultKeypress('d', ModifierKeys::commandModifier);
+			break;
+
+		case AudioManager::toggleMute:
+			result.setInfo("Toggle Audio Mute", "Mutes or unmutes the audio track", programCategory, 0);
+			result.addDefaultKeypress('m', ModifierKeys::commandModifier);
 			break;
 
 		case TimelineData::undoAction:
@@ -248,6 +255,8 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, CameraController::resetCameraPosition);
 		menu.addCommandItem(commandManager, CameraController::resetCameraRotation);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, AudioManager::toggleMute);
 	} else if (topLevelMenuIndex == 4 /* Help */) {
 		menu.addItem(41, "No Help available. You are lost.", false);
 		menu.addSeparator();
