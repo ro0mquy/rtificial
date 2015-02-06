@@ -2,6 +2,7 @@
 #include "StrahlenwerkApplication.h"
 #include <MainWindow.h>
 #include <Timeline/SpecialUniformController.h>
+#include <PropertyNames.h>
 
 AudioManager::AudioManager() :
 	transportSource(*this),
@@ -26,6 +27,10 @@ AudioManager::AudioManager() :
 
 	deviceManager.addAudioCallback(&player);
 	player.setSource(&transportSource);
+
+	PropertySet& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	const bool muted = properties.getBoolValue(PropertyNames::AudioMuted);
+	transportSource.setGain(muted ? 0.0 : 1.0);
 
 	MainWindow::getApplicationCommandManager().addListener(this);
 }
@@ -74,10 +79,15 @@ void AudioManager::togglePlayPause() {
 }
 
 void AudioManager::performMute() {
-	if (transportSource.getGain() == 0.0) {
-		transportSource.setGain(1.0);
-	} else {
+	PropertySet& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	const bool previous = properties.getBoolValue(PropertyNames::AudioMuted);
+	const bool muted = !previous;
+	properties.setValue(PropertyNames::AudioMuted, muted);
+
+	if (muted) {
 		transportSource.setGain(0.0);
+	} else {
+		transportSource.setGain(1.0);
 	}
 }
 
