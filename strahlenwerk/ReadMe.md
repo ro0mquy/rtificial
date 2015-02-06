@@ -34,11 +34,13 @@
 
 ### General
 * `[Ctrl]+Q` quit
-* `[F5]` reload shaders
+* `[Ctrl]+R` reload shaders
+* `[Ctrl]+[Shift]+R` reload timeline
 * `[Ctrl]+O` open a project directory
 * `F` Toggle fullscreen
 * `G` Toggle Rule of Thirds grid
 * `[Ctrl]+D` Make demo
+* `[Ctrl]+M` Toggle audio mute
 
 (Shader is also reloaded on file change)
 
