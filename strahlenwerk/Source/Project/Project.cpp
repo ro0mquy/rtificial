@@ -70,7 +70,7 @@ void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
 	watchFiles(dir);
 	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::PROJECT_DIR, var(dir));
-	timelineData.readTimelineDataFromFile(loader.getTimelineDataFile());
+	reloadTimelineData();
 	reloadShaders();
 }
 
@@ -417,6 +417,9 @@ void Project::applicationCommandInvoked(const ApplicationCommandTarget::Invocati
 		case Project::saveTimeline:
 			saveTimelineData();
 			break;
+		case Project::reloadTimeline:
+			reloadTimelineData();
+			break;
 	}
 }
 
@@ -561,6 +564,10 @@ void Project::reloadScenes() {
 		std::cerr << "No shaders loaded" << std::endl;
 	}
 	scenesChanged();
+}
+
+void Project::reloadTimelineData() {
+	timelineData.readTimelineDataFromFile(loader.getTimelineDataFile());
 }
 
 void Project::reloadAudio() {

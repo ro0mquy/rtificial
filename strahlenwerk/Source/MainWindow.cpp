@@ -83,6 +83,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Project::openProject,
 		Project::reloadShaderFiles,
 		Project::saveTimeline,
+		Project::reloadTimeline,
 		OpenGLComponent::toggleGrid,
 		Renderer::toggleHalfResolution,
 		CameraController::playPauseWithAnimation,
@@ -128,6 +129,11 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 		case Project::saveTimeline:
 			result.setInfo("Save Timeline", "Save the timeline data to a file", programCategory, 0);
 			result.addDefaultKeypress('s', ModifierKeys::commandModifier);
+			break;
+
+		case Project::reloadTimeline:
+			result.setInfo("Reload Timeline", "Reload Timeline data from file and discard local changes", programCategory, 0);
+			result.addDefaultKeypress('r', ModifierKeys::commandModifier | ModifierKeys::shiftModifier);
 			break;
 
 		case CameraController::playPauseWithAnimation:
@@ -237,6 +243,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 	if (topLevelMenuIndex == 0 /* File */) {
 		menu.addCommandItem(commandManager, Project::openProject);
 		menu.addCommandItem(commandManager, Project::reloadShaderFiles);
+		menu.addCommandItem(commandManager, Project::reloadTimeline);
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, Project::saveTimeline);
 		menu.addSeparator();
