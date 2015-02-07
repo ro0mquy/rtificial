@@ -44,6 +44,18 @@ Interpolator& TimelineData::getInterpolator() {
 	return interpolator;
 }
 
+// use this if you want to operate directly on the data
+// this may be helpful:
+//  std::lock_guard<std::recursive_mutex> lock(data.getMutex());
+//  it locks for the current context and unlocks on destruction
+std::recursive_mutex& TimelineData::getMutex() {
+	return treeMutex;
+}
+
+UndoManager& TimelineData::getUndoManager() {
+	return undoManager;
+}
+
 void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 	var jsonRepresentation;
 	const Result result = JSON::parse(dataFile.loadFileAsString(), jsonRepresentation);
@@ -85,18 +97,6 @@ void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
 void TimelineData::removeListenerFromTree(ValueTree::Listener* listener) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	valueTree.removeListener(listener);
-}
-
-// use this if you want to operate directly on the data
-// this may be helpful:
-//  std::lock_guard<std::recursive_mutex> lock(data.getMutex());
-//  it locks for the current context and unlocks on destruction
-std::recursive_mutex& TimelineData::getMutex() {
-	return treeMutex;
-}
-
-UndoManager& TimelineData::getUndoManager() {
-	return undoManager;
 }
 
 void TimelineData::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
@@ -517,6 +517,12 @@ ValueTree TimelineData::addUniformUnchecked(ValueTree uniform) {
 	return uniform;
 }
 
+// removes a uniform from the uniformsArray
+void TimelineData::removeUniform(ValueTree uniform) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	getUniformsArray().removeChild(uniform, &undoManager);
+}
+
 
 // gets the name of a uniform
 var TimelineData::getUniformName(ValueTree uniform) {
@@ -574,6 +580,16 @@ int TimelineData::compareUniforms(const ValueTree& first, const ValueTree& secon
 		String firstName = getUniformName(first);
 		String secondName = getUniformName(second);
 		return firstName.compareNatural(secondName);
+}
+
+void TimelineData::bakeUniform(ValueTree uniform) {
+	const String name = getUniformName(uniform);
+	const String value = getValueAsString(getUniformStandardValue(uniform));
+
+	const File bakefile = StrahlenwerkApplication::getInstance()->getProject().getLoader().getBakeFile();
+	bakefile.appendText(name + " " + value + "\n");
+
+	removeUniform(uniform);
 }
 
 
@@ -1017,6 +1033,27 @@ bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 	return true;
 }
 
+// returns the value as a string
+// it uses glsl-style initalizer
+String TimelineData::getValueAsString(ValueTree value) {
+	if (isValueFloat(value)) {
+		return getValueFloatX(value);
+	} else if (isValueVec2(value)) {
+		return "vec2(" + getValueVec2X(value).toString() + ", " + getValueVec2Y(value).toString() + ")";
+	} else if (isValueVec3(value)) {
+		return "vec3(" + getValueVec3X(value).toString() + ", " + getValueVec3Y(value).toString() + ", " + getValueVec3Z(value).toString() + ")";
+	} else if (isValueVec4(value)) {
+		return "vec4(" + getValueVec4X(value).toString() + ", " + getValueVec4Y(value).toString() + ", " + getValueVec4Z(value).toString() + ", " + getValueVec4W(value).toString() + ")";
+	} else if (isValueColor(value)) {
+		return "vec3(" + getValueColorR(value).toString() + ", " + getValueColorG(value).toString() + ", " + getValueColorB(value).toString() + ")";
+	} else if (isValueQuat(value)) {
+		return "vec4(" + getValueQuatX(value).toString() + ", " + getValueQuatY(value).toString() + ", " + getValueQuatZ(value).toString() + ", " + getValueQuatW(value).toString() + ")";
+	} else if (isValueBool(value)) {
+		return getBoolFromValue(value) ? "true" : "false";
+	}
+	return String();
+}
+
 
 // checks if the value is of type bool
 bool TimelineData::isValueBool(ValueTree value) {
@@ -1389,6 +1426,12 @@ void TimelineData::setValueQuatW(ValueTree value, var quatW, bool useUndoManager
 }
 
 
+
+// returns a bool value as a bool
+bool TimelineData::getBoolFromValue(ValueTree value) {
+	const bool boolState = getValueBoolState(value);
+	return boolState;
+}
 
 // returns a float value as a float
 float TimelineData::getFloatFromValue(ValueTree value) {

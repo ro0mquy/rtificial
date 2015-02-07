@@ -63,18 +63,44 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 		return;
 	}
 
-	ValueTree uniformData = data.getUniform(numUniform);
-	const String uniformName = data.getUniformName(uniformData);
-	ValueTree valueData = data.getUniformStandardValue(uniformData);
-	jassert(valueData.isValid());
+	const ModifierKeys& m = event.mods;
+	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
 
-	PropertyComponent* valueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(uniformName, valueData);
-	valueEditor->setSize(editorWidth, valueEditor->getPreferredHeight());
+		ValueTree uniformData = data.getUniform(numUniform);
+		const int numSequences = data.getNumSequences(uniformData);
 
-	// bounding rectangle of this uniform
-	const Rectangle<int> rect(0, numUniform * rowHeight, getWidth(), rowHeight);
-	CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
-	callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
+		if (numSequences == 0) {
+			AlertWindow reallyBakeWindow("Bake Uniform", "Store the default value of this Uniform into the Bake File", AlertWindow::WarningIcon);
+			reallyBakeWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
+			reallyBakeWindow.addButton("Bake", 1, KeyPress('b'), KeyPress(KeyPress::spaceKey));
+
+			const int returnedChoice = reallyBakeWindow.runModalLoop();
+			if (returnedChoice == 1) {
+				data.bakeUniform(uniformData);
+			}
+		} else {
+			AlertWindow cantBakeWindow("Bake Uniform failed", "There are some Sequences left for this Uniform. Delete them before Baking!", AlertWindow::WarningIcon);
+			cantBakeWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
+
+			cantBakeWindow.runModalLoop();
+		}
+
+
+	} else if (event.mouseWasClicked() && m.isLeftButtonDown()) {
+
+		ValueTree uniformData = data.getUniform(numUniform);
+		const String uniformName = data.getUniformName(uniformData);
+		ValueTree valueData = data.getUniformStandardValue(uniformData);
+		jassert(valueData.isValid());
+
+		PropertyComponent* valueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(uniformName, valueData);
+		valueEditor->setSize(editorWidth, valueEditor->getPreferredHeight());
+
+		// bounding rectangle of this uniform
+		const Rectangle<int> rect(0, numUniform * rowHeight, getWidth(), rowHeight);
+		CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
+		callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
+	}
 }
 
 void UniformsBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {

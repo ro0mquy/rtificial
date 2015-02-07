@@ -434,16 +434,18 @@ void Project::handleFileAction(
 		std::string /*oldFilename*/)
 {
 	const auto changedFile = File(dir + filename);
-	if(   (changedFile.getParentDirectory() == loader.getPostprocDir() && changedFile.hasFileExtension("glsl"))
-	   || (File(dir + filename) == loader.getMappingFile())
+	if (   (changedFile.getParentDirectory() == loader.getPostprocDir() && changedFile.hasFileExtension("glsl"))
+	    || (changedFile == loader.getMappingFile())
 	) {
 		reloadPostproc();
-	} else if(changedFile.getParentDirectory() == loader.getSceneDir() && changedFile.hasFileExtension("glsl")) {
+	} else if (changedFile.getParentDirectory() == loader.getSceneDir() && changedFile.hasFileExtension("glsl")) {
 		// TODO find a way for reloading only changed scenes
 		reloadScenes();
-	} else if(changedFile.getParentDirectory() == loader.getIncludeDir() && changedFile.hasFileExtension("glsl")) {
+	} else if ((changedFile.getParentDirectory() == loader.getIncludeDir() && changedFile.hasFileExtension("glsl"))
+	        || (changedFile == loader.getBakeFile())
+	) {
 		reloadShaders();
-	} else if(changedFile == loader.getAudioFile()) {
+	} else if (changedFile == loader.getAudioFile()) {
 		reloadAudio();
 	}
 }
