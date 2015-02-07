@@ -2,9 +2,10 @@
 #define RTIFICIALLOOKANDFEEL_H
 
 #include <juce>
+#include "BlenderLookAndFeel.h"
 #include "RtColourIds.h"
 
-class RtificialLookAndFeel : public LookAndFeel_V3
+class RtificialLookAndFeel : public BlenderLookAndFeel
 {
 	public:
 		RtificialLookAndFeel();

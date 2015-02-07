@@ -138,6 +138,11 @@
       <FILE id="HGrrNS" name="AudioManager.cpp" compile="1" resource="0"
             file="Source/AudioManager.cpp"/>
       <FILE id="HjueeN" name="AudioManager.h" compile="0" resource="0" file="Source/AudioManager.h"/>
+      <FILE id="ZTLNtO" name="BlenderLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/BlenderLookAndFeel.cpp"/>
+      <FILE id="AMxh7S" name="BlenderLookAndFeel.h" compile="0" resource="0"
+            file="Source/BlenderLookAndFeel.h"/>
+      <FILE id="kJjrjd" name="BlenderTheme.h" compile="0" resource="0" file="Source/BlenderTheme.h"/>
       <FILE id="oLyckP" name="BoxLayout.h" compile="0" resource="0" file="Source/BoxLayout.h"/>
       <FILE id="t84HiX" name="juce" compile="0" resource="1" file="Source/juce"/>
       <FILE id="LokCeX" name="MainContentComponent.cpp" compile="1" resource="0"

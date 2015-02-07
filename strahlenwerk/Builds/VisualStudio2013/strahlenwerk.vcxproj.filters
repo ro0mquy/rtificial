@@ -409,6 +409,9 @@
     <ClCompile Include="..\..\Source\AudioManager.cpp">
       <Filter>strahlenwerk\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\BlenderLookAndFeel.cpp">
+      <Filter>strahlenwerk\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\MainContentComponent.cpp">
       <Filter>strahlenwerk\Source</Filter>
     </ClCompile>
@@ -1738,6 +1741,12 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AudioManager.h">
+      <Filter>strahlenwerk\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\BlenderLookAndFeel.h">
+      <Filter>strahlenwerk\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\BlenderTheme.h">
       <Filter>strahlenwerk\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\BoxLayout.h">

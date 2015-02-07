@@ -172,6 +172,7 @@
     <ClCompile Include="..\..\Source\Timeline\SequenceViewComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\Timeline.cpp"/>
     <ClCompile Include="..\..\Source\AudioManager.cpp"/>
+    <ClCompile Include="..\..\Source\BlenderLookAndFeel.cpp"/>
     <ClCompile Include="..\..\Source\MainContentComponent.cpp"/>
     <ClCompile Include="..\..\Source\MainWindow.cpp"/>
     <ClCompile Include="..\..\Source\OpenGLComponent.cpp"/>
@@ -1312,6 +1313,8 @@
     <ClInclude Include="..\..\Source\Timeline\TreeIdentifiers.h"/>
     <ClInclude Include="..\..\Source\Timeline\Timeline.h"/>
     <ClInclude Include="..\..\Source\AudioManager.h"/>
+    <ClInclude Include="..\..\Source\BlenderLookAndFeel.h"/>
+    <ClInclude Include="..\..\Source\BlenderTheme.h"/>
     <ClInclude Include="..\..\Source\BoxLayout.h"/>
     <ClInclude Include="..\..\Source\MainContentComponent.h"/>
     <ClInclude Include="..\..\Source\MainWindow.h"/>
