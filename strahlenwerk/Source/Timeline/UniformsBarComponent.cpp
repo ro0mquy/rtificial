@@ -76,6 +76,7 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 
 			const int returnedChoice = reallyBakeWindow.runModalLoop();
 			if (returnedChoice == 1) {
+				data.getUndoManager().beginNewTransaction("Bake Uniform");
 				data.bakeUniform(uniformData);
 			}
 		} else {
