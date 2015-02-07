@@ -79,7 +79,7 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 				data.bakeUniform(uniformData);
 			}
 		} else {
-			AlertWindow cantBakeWindow("Bake Uniform failed", "There are some Sequences left for this Uniform. Delete them before Baking!", AlertWindow::WarningIcon);
+			AlertWindow cantBakeWindow("Bake Uniform failed", "There are some Sequences left for this Uniform. Don't wanna burn those! Delete them before Baking!", AlertWindow::WarningIcon);
 			cantBakeWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
 
 			cantBakeWindow.runModalLoop();
