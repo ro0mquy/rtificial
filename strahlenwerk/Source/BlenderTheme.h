@@ -38,6 +38,18 @@ class BlenderTheme {
 			/* ShadeDown */ -0.15f,
 		};
 
+		BlenderThemeComponent Option {
+			/* Outline       */ Colour(0xff000000),
+			/* Item          */ Colour(0xffffffff),
+			/* Inner         */ Colour(0xff464646),
+			/* InnerSelected */ Colour(0xff464646),
+			/* Text          */ Colour(0xff000000),
+			/* TextSelected  */ Colour(0xffffffff),
+			/* Shaded    */   true,
+			/* ShadeTop  */  0.15f,
+			/* ShadeDown */ -0.15f,
+		};
+
 		BlenderThemeStyles Styles {
 			/* menuShadowStrength */  0.5f,
 			/* menushadowWidth    */ 12.0f,
