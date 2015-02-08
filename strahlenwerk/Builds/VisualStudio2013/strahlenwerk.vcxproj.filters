@@ -355,8 +355,14 @@
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\Sidebar.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\Selection.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\JsonExporter.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
@@ -1680,8 +1686,14 @@
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\Sidebar.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\Selection.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\JsonExporter.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>

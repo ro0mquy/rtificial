@@ -68,7 +68,9 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/InspectorComponent_96983e82.o \
   $(OBJDIR)/Sidebar_eccfc76a.o \
+  $(OBJDIR)/Selection_45a84fa7.o \
   $(OBJDIR)/JsonExporter_56469f78.o \
   $(OBJDIR)/SpecialUniformController_926d55c6.o \
   $(OBJDIR)/TimeMarkerComponent_32217cf1.o \
@@ -209,9 +211,19 @@ $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	@echo "Compiling UniformManager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/InspectorComponent_96983e82.o: ../../Source/Sidebar/InspectorComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling InspectorComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/Sidebar_eccfc76a.o: ../../Source/Sidebar/Sidebar.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Sidebar.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Selection_45a84fa7.o: ../../Source/Timeline/Selection.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Selection.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/JsonExporter_56469f78.o: ../../Source/Timeline/JsonExporter.cpp
