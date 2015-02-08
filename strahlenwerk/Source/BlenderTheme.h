@@ -1,6 +1,8 @@
 #ifndef BLENDER_THEME_H
 #define BLENDER_THEME_H
 
+#include <juce>
+
 class BlenderThemeComponent {
 	public:
 		Colour outline;
@@ -10,8 +12,16 @@ class BlenderThemeComponent {
 		Colour text;
 		Colour textSelected;
 		bool shaded;
-		int shadeTop;
-		int shadeDown;
+		float shadeTop;
+		float shadeDown;
+};
+
+class BlenderThemeStyles {
+	public:
+		float menuShadowStrength;
+		float menushadowWidth;
+		float IconAlpha;
+		Colour widgetEmboss;
 };
 
 class BlenderTheme {
@@ -23,9 +33,16 @@ class BlenderTheme {
 			/* InnerSelected */ Colour(0xff646464),
 			/* Text          */ Colour(0xff000000),
 			/* TextSelected  */ Colour(0xffffffff),
-			/* Shaded    */ true,
-			/* ShadeTop  */   15,
-			/* ShadeDown */  -15,
+			/* Shaded    */   true,
+			/* ShadeTop  */  0.15f,
+			/* ShadeDown */ -0.15f,
+		};
+
+		BlenderThemeStyles Styles {
+			/* menuShadowStrength */  0.5f,
+			/* menushadowWidth    */ 12.0f,
+			/* IconAlpha          */  1.0f,
+			/* widgetEmboss       */ Colour(0xffffffff).withAlpha(0.1f),
 		};
 };
 

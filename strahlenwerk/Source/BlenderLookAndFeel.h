@@ -11,6 +11,10 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		BlenderTheme theme;
 
 		void drawButtonBackground (Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown);
+		void drawButtonText(Graphics& g, TextButton& button, bool isMouseOverButton, bool isButtonDown);
+
+	private:
+		const float cornerRadius = 4.0f;
 
 };
 
