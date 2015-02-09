@@ -166,61 +166,61 @@ void SequenceComponent::mouseDrag(const MouseEvent& event) {
 
 void SequenceComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (event.mouseWasClicked() && m.isCommandDown() && (m.isLeftButtonDown() || m.isMiddleButtonDown() || m.isPopupMenu())) {
-		if (m.isLeftButtonDown()) {
-			// add keyframe
-			// TODO: compute with absolute time values
-			const int mouseDown = event.getMouseDownX() / zoomFactor;
-			const int mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
+	if (event.mouseWasClicked() && m.isCommandDown() && m.isLeftButtonDown()) {
+		// add keyframe
+		// TODO: compute with absolute time values
+		const int mouseDown = event.getMouseDownX() / zoomFactor;
+		const int mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
 
-			const int sequenceDuration = data.getSequenceDuration(sequenceData);
-			if (mouseDownGrid <= 0 || mouseDownGrid >= sequenceDuration) {
-				// don't set keyframe at start or end
-				return;
-			}
-
-			data.getUndoManager().beginNewTransaction("Create Keyframe");
-			data.addKeyframe(sequenceData, mouseDownGrid);
-
-		} else if (m.isPopupMenu()) {
-			String interpolationMethods[] = { "step", "linear", "ccrSpline" };
-			const int numMethods = numElementsInArray(interpolationMethods);
-			const String currentMethod = data.getSequenceInterpolation(sequenceData);
-			int currentMethodId = 0;
-
-			PopupMenu menu;
-			for (int i = 0; i < numMethods; i++) {
-				const String& itemText = interpolationMethods[i];
-				const bool isTicked = itemText == currentMethod;
-				if (isTicked) { currentMethodId = i+1; }
-				menu.addItem(i+1, itemText, true, isTicked);
-			}
-
-			const int menuResult = menu.showAt(this, currentMethodId, getWidth(), 1, getHeight());
-			if (menuResult == 0) {
-				// user dismissed menu
-				return;
-			}
-
-			// set method to selected one
-			data.getUndoManager().beginNewTransaction("Change Interpolation");
-			data.setSequenceInterpolation(sequenceData, interpolationMethods[menuResult - 1]);
-
-		} else if (m.isMiddleButtonDown()) {
-			// delete sequence
-			AlertWindow reallyDeleteWindow("Sequence", L"Delëte this Sequence for a Long Time?", AlertWindow::WarningIcon);
-			reallyDeleteWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
-			reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
-
-			const int returnedChoice = reallyDeleteWindow.runModalLoop();
-			if (returnedChoice != 1) {
-				return;
-			}
-
-			data.getUndoManager().beginNewTransaction("Remove Sequence");
-			data.removeSequence(sequenceData);
-			// this component gets deleted after this, so don't do stupid things
+		const int sequenceDuration = data.getSequenceDuration(sequenceData);
+		if (mouseDownGrid <= 0 || mouseDownGrid >= sequenceDuration) {
+			// don't set keyframe at start or end
+			return;
 		}
+
+		data.getUndoManager().beginNewTransaction("Create Keyframe");
+		data.addKeyframe(sequenceData, mouseDownGrid);
+
+	} else if (event.mouseWasClicked() && m.isCommandDown() && m.isPopupMenu()) {
+		String interpolationMethods[] = { "step", "linear", "ccrSpline" };
+		const int numMethods = numElementsInArray(interpolationMethods);
+		const String currentMethod = data.getSequenceInterpolation(sequenceData);
+		int currentMethodId = 0;
+
+		PopupMenu menu;
+		for (int i = 0; i < numMethods; i++) {
+			const String& itemText = interpolationMethods[i];
+			const bool isTicked = itemText == currentMethod;
+			if (isTicked) { currentMethodId = i+1; }
+			menu.addItem(i+1, itemText, true, isTicked);
+		}
+
+		const int menuResult = menu.showAt(this, currentMethodId, getWidth(), 1, getHeight());
+		if (menuResult == 0) {
+			// user dismissed menu
+			return;
+		}
+
+		// set method to selected one
+		data.getUndoManager().beginNewTransaction("Change Interpolation");
+		data.setSequenceInterpolation(sequenceData, interpolationMethods[menuResult - 1]);
+
+	} else if (event.mouseWasClicked() && m.isCommandDown() && m.isMiddleButtonDown()) {
+		// delete sequence
+		AlertWindow reallyDeleteWindow("Sequence", L"Delëte this Sequence for a Long Time?", AlertWindow::WarningIcon);
+		reallyDeleteWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
+		reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
+
+		const int returnedChoice = reallyDeleteWindow.runModalLoop();
+		if (returnedChoice != 1) {
+			return;
+		}
+
+		data.getUndoManager().beginNewTransaction("Remove Sequence");
+		data.removeSequence(sequenceData);
+		// this component gets deleted after this, so don't do stupid things
+	} else if (event.mouseWasClicked() && m.isShiftDown() && m.isLeftButtonDown()) {
+		data.getSelection().set(sequenceData);
 	} else {
 		McbComponent::mouseUp(event);
 	}

@@ -100,6 +100,16 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 	}
 }
 
+void Timeline::mouseUp(const MouseEvent& event) {
+	const MouseEvent eventViewportSeqView = event.getEventRelativeTo(&viewportSequenceView);
+	const bool isNotInUniBar = eventViewportSeqView.getMouseDownX() >= 0 && eventViewportSeqView.x >= 0;
+
+	const ModifierKeys& m = event.mods;
+	if (isNotInUniBar && m.isLeftButtonDown() && m.isShiftDown()) {
+		TimelineData::getTimelineData().getSelection().clear();
+	}
+}
+
 ZoomFactor& Timeline::getZoomFactor() {
 	return zoomFactor;
 }

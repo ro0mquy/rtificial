@@ -15,8 +15,14 @@ class InspectorComponent :
 
 		void changeListenerCallback(ChangeBroadcaster* source);
 
+		void paint(Graphics& g) override;
+
 	private:
 		Selection& selection;
+		ValueTree singleSelectedTree;
+
+		void drawSequencePreview(Graphics& g, Rectangle<int> bounds, ValueTree sequence);
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorComponent)
 };
 

@@ -13,6 +13,7 @@ class Selection :
 		ValueTree* operator[](const int index);
 		void set(ValueTree tree);
 		void add(ValueTree tree);
+		void clear();
 
 	private:
 		OwnedArray<ValueTree> selectedTrees;

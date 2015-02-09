@@ -21,3 +21,8 @@ void Selection::add(ValueTree tree) {
 	selectedTrees.add(new ValueTree(tree));
 	sendChangeMessage();
 }
+
+void Selection::clear() {
+	selectedTrees.clear();
+	sendChangeMessage();
+}
