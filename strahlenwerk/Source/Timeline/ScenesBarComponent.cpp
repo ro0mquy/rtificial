@@ -53,8 +53,6 @@ void ScenesBarComponent::paint(Graphics& g) {
 	//audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 1, 1.);
 
 	// draw ticks
-	g.setColour(findColour(ScenesBarComponent::tickColourId));
-
 	const float gridWidth              = zoomFactor.getGridWidth();
 	const float lineDistance           = gridWidth * zoomFactor;
 	const int longLineDistance         = 4; // every nth tick is a long line
@@ -65,6 +63,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 	const int height = getHeight();
 	for(int i = 0; i*lineDistance < width; i++){
 		const bool longLine = (i%longLineDistance == 0);
+		g.setColour(findColour(ScenesBarComponent::tickColourId));
 		g.drawLine(
 				i*lineDistance + 0.5,
 				0,

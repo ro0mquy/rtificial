@@ -13,7 +13,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	// ScenesBarComponent
 	setColour(ScenesBarComponent::tickColourId, Colours::white);
 	setColour(ScenesBarComponent::waveformColourId, Colours::white);
-	setColour(ScenesBarComponent::textColourId, Colours::black);
+	setColour(ScenesBarComponent::textColourId, Colours::white);
 
 	// SceneComponent
 	setColour(SceneComponent::outlineColourId, Colours::yellow);
