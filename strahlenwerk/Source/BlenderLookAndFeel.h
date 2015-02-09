@@ -16,11 +16,15 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		Path getTickShape(const float height);
 		void drawTickBox(Graphics& g, Component& component, float x, float y, float w, float h, const bool ticked, const bool isEnabled, const bool isMouseOverButton, const bool isButtonDown);
 
+		bool areScrollbarButtonsVisible();
+		int getDefaultScrollbarWidth();
+		void drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x_, int y_, int width, int height, bool isScrollbarVertical, int thumbStartPosition, int thumbSize, bool isMouseOver, bool isMouseDown);
+
 	private:
 		const float cornerRadius = 4.0f;
+		const float emboss = 1.0f;
 
 		void drawBox(Graphics& g, Path& outline, float width, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted);
-
 };
 
 #endif

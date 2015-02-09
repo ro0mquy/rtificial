@@ -50,6 +50,18 @@ class BlenderTheme {
 			/* ShadeDown */ -0.15f,
 		};
 
+		BlenderThemeComponent ScrollBar {
+			/* Outline       */ Colour(0xff323232),
+			/* Item          */ Colour(0xff808080),
+			/* Inner         */ Colour(0xff505050).withAlpha(0.706f),
+			/* InnerSelected */ Colour(0xff646464).withAlpha(0.706f),
+			/* Text          */ Colour(0xff000000),
+			/* TextSelected  */ Colour(0xffffffff),
+			/* Shaded    */   true,
+			/* ShadeTop  */  0.05f,
+			/* ShadeDown */ -0.05f,
+		};
+
 		BlenderThemeStyles Styles {
 			/* menuShadowStrength */  0.5f,
 			/* menushadowWidth    */ 12.0f,

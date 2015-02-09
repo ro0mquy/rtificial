@@ -1,7 +1,5 @@
 #include "BlenderLookAndFeel.h"
 
-#include <iostream>
-
 BlenderLookAndFeel::BlenderLookAndFeel() {
 	BlenderTheme theme;
 
@@ -9,12 +7,16 @@ BlenderLookAndFeel::BlenderLookAndFeel() {
 	setColour(TextButton::buttonOnColourId, theme.Tool.innerSelected);
 	setColour(TextButton::textColourOffId, theme.Tool.text);
 	setColour(TextButton::textColourOnId, theme.Tool.textSelected);
+
+	setColour(ScrollBar::backgroundColourId, Colours::transparentBlack);
+	setColour(ScrollBar::thumbColourId, theme.ScrollBar.item);
+	setColour(ScrollBar::trackColourId, theme.ScrollBar.inner);
 }
 
 void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted) {
 	// emboss
 	g.setColour(theme.Styles.widgetEmboss);
-	g.strokePath(outline, PathStrokeType(1.0f), AffineTransform::translation(0.0f, 1.0f));
+	g.strokePath(outline, PathStrokeType(emboss), AffineTransform::translation(0.0f, emboss));
 
 	// background
 	if (themeComponent.shaded) {
@@ -42,7 +44,7 @@ void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, cons
     const bool flatOnBottom = button.isConnectedOnBottom();
 
 	const float width = button.getWidth() - 1.0f;
-	const float height = button.getHeight() - 2.0f; // emboss
+	const float height = button.getHeight() - 1.0f - emboss;
 
 	Colour baseColor = backgroundColour;
 	if (isButtonDown) {
@@ -113,8 +115,8 @@ void BlenderLookAndFeel::drawTickBox(Graphics& g, Component& component, float x,
 	const BlenderThemeComponent themeComponent = theme.Option;
 	const Colour baseColor = ticked ? themeComponent.innerSelected : themeComponent.inner;
 
-	w -= 2.0f;
-	h -= 2.0f;
+	w -= 2.0f + emboss;
+	h -= 2.0f + emboss;
 
 	Path outline;
 	outline.addRoundedRectangle(x + 0.5, y + 0.5f, w, h, cornerRadius);
@@ -132,4 +134,120 @@ void BlenderLookAndFeel::drawTickBox(Graphics& g, Component& component, float x,
         const AffineTransform trans(AffineTransform().translated(x + 0.1f*w, y));
         g.strokePath (tick, PathStrokeType(2.0f), trans);
     }
+}
+
+bool BlenderLookAndFeel::areScrollbarButtonsVisible() {
+	return false;
+}
+
+int BlenderLookAndFeel::getDefaultScrollbarWidth() {
+	/*
+	 *  2px padding *2
+	 *  1px outline *2
+	 * 12px inner
+	 */
+	return 18;
+}
+
+void BlenderLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x_, int y_, int width, int height, bool isScrollbarVertical, int thumbStartPosition, int thumbSize, bool isMouseOver, bool isMouseDown) {
+	const float x = x_ + 0.5f;
+	const float y = y_ + 0.5f;
+	width -= 1; // no idea why
+	const float trackIndent = 2.0f;
+	const float tbCornerRadius = ((isScrollbarVertical ? width : height) - 2*trackIndent) * 0.5f;
+
+	Path trackPath;
+	trackPath.addRoundedRectangle(
+		x + trackIndent,
+		y + trackIndent,
+		width - 2*trackIndent,
+		height - 2*trackIndent - emboss,
+		tbCornerRadius
+	);
+
+	// emboss
+	g.setColour(theme.Styles.widgetEmboss);
+	g.strokePath(trackPath, PathStrokeType(emboss), AffineTransform::translation(0.0f, emboss));
+
+
+	// track
+	Colour trackColor(scrollbar.findColour(ScrollBar::trackColourId, true));
+	if (theme.ScrollBar.shaded) {
+		if (isScrollbarVertical) {
+			g.setGradientFill(
+				ColourGradient(
+					trackColor.brighter(theme.ScrollBar.shadeDown), x + trackIndent, 0.0f,
+					trackColor.brighter(theme.ScrollBar.shadeTop), width - 2*trackIndent, 0.0f,
+					false
+				)
+			);
+		} else {
+			g.setGradientFill(
+				ColourGradient(
+					trackColor.brighter(theme.ScrollBar.shadeDown), 0.0f, y + trackIndent,
+					trackColor.brighter(theme.ScrollBar.shadeTop), 0.0f, height - 2*trackIndent - emboss,
+					false
+				)
+			);
+		}
+	} else {
+		g.setColour(trackColor);
+	}
+	g.fillPath(trackPath);
+
+	g.setColour(theme.ScrollBar.outline);
+	g.strokePath(trackPath, PathStrokeType(1.0f));
+
+
+	// thumb
+    Path thumbPath;
+	if (thumbSize > 0) {
+		if (isScrollbarVertical) {
+			thumbPath.addRoundedRectangle(
+				x + trackIndent,
+				thumbStartPosition + trackIndent,
+				width - 2*trackIndent,
+				thumbSize - 2*trackIndent - emboss,
+				tbCornerRadius
+			);
+		} else {
+			thumbPath.addRoundedRectangle(
+				thumbStartPosition + trackIndent,
+				y + trackIndent,
+				thumbSize - 2*trackIndent,
+				height - 2*trackIndent - emboss,
+				tbCornerRadius
+			);
+		}
+	}
+
+    Colour thumbColor(scrollbar.findColour(ScrollBar::thumbColourId, true));
+    if (isMouseDown) {
+        thumbColor = thumbColor.brighter(0.1f);
+	}
+	if (theme.ScrollBar.shaded) {
+		if (isScrollbarVertical) {
+			g.setGradientFill(
+				ColourGradient(
+					thumbColor.brighter(theme.ScrollBar.shadeTop), x + trackIndent, 0.0f,
+					thumbColor.brighter(theme.ScrollBar.shadeDown), width - 2*trackIndent, 0.0f,
+					false
+				)
+			);
+		} else {
+			g.setGradientFill(
+				ColourGradient(
+					thumbColor.brighter(theme.ScrollBar.shadeTop), 0.0f, y + trackIndent,
+					thumbColor.brighter(theme.ScrollBar.shadeDown), 0.0f, height - 2*trackIndent - emboss,
+					false
+				)
+			);
+		}
+	} else {
+		g.setColour(thumbColor);
+	}
+    g.fillPath(thumbPath);
+
+	g.setColour(theme.ScrollBar.outline);
+    g.strokePath(thumbPath, PathStrokeType (1.0f));
 }
