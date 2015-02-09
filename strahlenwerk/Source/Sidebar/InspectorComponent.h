@@ -2,6 +2,7 @@
 #define INSPECTORCOMPONENT_H
 
 #include <juce>
+#include "SequencePreviewComponent.h"
 
 class Selection;
 
@@ -20,8 +21,7 @@ class InspectorComponent :
 	private:
 		Selection& selection;
 		ValueTree singleSelectedTree;
-
-		void drawSequencePreview(Graphics& g, Rectangle<int> bounds, ValueTree sequence);
+		SequencePreviewComponent sequencePreview;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorComponent)
 };

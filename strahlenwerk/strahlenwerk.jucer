@@ -72,6 +72,10 @@
         <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
       </GROUP>
       <GROUP id="{404891A8-3B49-932E-BF9F-4C13EB6EC98C}" name="Sidebar">
+        <FILE id="ybEYFF" name="SequencePreviewComponent.cpp" compile="1" resource="0"
+              file="Source/Sidebar/SequencePreviewComponent.cpp"/>
+        <FILE id="SmVfgo" name="SequencePreviewComponent.h" compile="0" resource="0"
+              file="Source/Sidebar/SequencePreviewComponent.h"/>
         <FILE id="jXn5Iw" name="InspectorComponent.cpp" compile="1" resource="0"
               file="Source/Sidebar/InspectorComponent.cpp"/>
         <FILE id="PfhqyI" name="InspectorComponent.h" compile="0" resource="0"

@@ -68,6 +68,7 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/SequencePreviewComponent_e9b3d172.o \
   $(OBJDIR)/InspectorComponent_96983e82.o \
   $(OBJDIR)/Sidebar_eccfc76a.o \
   $(OBJDIR)/Selection_45a84fa7.o \
@@ -209,6 +210,11 @@ $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
 $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling UniformManager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/SequencePreviewComponent_e9b3d172.o: ../../Source/Sidebar/SequencePreviewComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SequencePreviewComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/InspectorComponent_96983e82.o: ../../Source/Sidebar/InspectorComponent.cpp
