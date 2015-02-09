@@ -70,7 +70,7 @@ void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, cons
 	drawBox(g, outline, width, height, theme.Tool, baseColor, isButtonDown);
 }
 
-void BlenderLookAndFeel::drawButtonText(Graphics& g, TextButton& button, bool isMouseOverButton, bool isButtonDown) {
+void BlenderLookAndFeel::drawButtonText(Graphics& g, TextButton& button, bool /*isMouseOverButton*/, bool isButtonDown) {
     Font font(getTextButtonFont(button, button.getHeight() - 2.0f));
     g.setFont(font);
 
@@ -111,7 +111,7 @@ Path BlenderLookAndFeel::getTickShape(const float height) {
     return p;
 }
 
-void BlenderLookAndFeel::drawTickBox(Graphics& g, Component& component, float x, float y, float w, float h, const bool ticked, const bool isEnabled, const bool isMouseOverButton, const bool isButtonDown) {
+void BlenderLookAndFeel::drawTickBox(Graphics& g, Component& /*component*/, float x, float y, float w, float h, const bool ticked, const bool isEnabled, const bool /*isMouseOverButton*/, const bool /*isButtonDown*/) {
 	const BlenderThemeComponent themeComponent = theme.Option;
 	const Colour baseColor = ticked ? themeComponent.innerSelected : themeComponent.inner;
 
@@ -149,7 +149,7 @@ int BlenderLookAndFeel::getDefaultScrollbarWidth() {
 	return 18;
 }
 
-void BlenderLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x_, int y_, int width, int height, bool isScrollbarVertical, int thumbStartPosition, int thumbSize, bool isMouseOver, bool isMouseDown) {
+void BlenderLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x_, int y_, int width, int height, bool isScrollbarVertical, int thumbStartPosition, int thumbSize, bool /*isMouseOver*/, bool isMouseDown) {
 	const float x = x_ + 0.5f;
 	const float y = y_ + 0.5f;
 	width -= 1; // no idea why
