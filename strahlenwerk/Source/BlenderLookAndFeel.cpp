@@ -1,8 +1,12 @@
 #include "BlenderLookAndFeel.h"
 
-BlenderLookAndFeel::BlenderLookAndFeel() {
-	BlenderTheme theme;
+BlenderLookAndFeel::BlenderLookAndFeel() :
+	BlenderLookAndFeel(BlenderTheme())
+{}
 
+BlenderLookAndFeel::BlenderLookAndFeel(BlenderTheme theme_) :
+	theme(theme_)
+{
 	setColour(TextButton::buttonColourId, theme.Tool.inner);
 	setColour(TextButton::buttonOnColourId, theme.Tool.innerSelected);
 	setColour(TextButton::textColourOffId, theme.Tool.text);
