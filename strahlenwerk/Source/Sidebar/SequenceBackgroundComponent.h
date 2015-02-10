@@ -20,6 +20,8 @@ class SequenceBackgroundComponent :
 
 		void resized() override;
 		void paint(Graphics& g) override;
+		void mouseDown(const MouseEvent& event) override;
+		void mouseDrag(const MouseEvent& event) override;
 
 		void changeListenerCallback(ChangeBroadcaster* source);
 

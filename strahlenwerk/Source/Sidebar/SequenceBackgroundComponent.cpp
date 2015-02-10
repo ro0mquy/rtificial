@@ -4,6 +4,7 @@
 #include <Timeline/TreeIdentifiers.h>
 #include <Timeline/ZoomFactor.h>
 #include <Timeline/ScenesBarComponent.h>
+#include <AudioManager.h>
 
 SequenceBackgroundComponent::SequenceBackgroundComponent(ValueTree sequenceData_) :
 	sequenceData(sequenceData_),
@@ -61,6 +62,39 @@ void SequenceBackgroundComponent::paint(Graphics& g) {
 			g.setColour(findColour(ScenesBarComponent::textColourId));
 			g.drawSingleLineText(String(i / 1000.), (i - sequenceStart) * scaleFactor + 1, .8 * g.getCurrentFont().getHeight());
 		}
+	}
+}
+
+void SequenceBackgroundComponent::mouseDown(const MouseEvent& event) {
+	const ModifierKeys& m = event.mods;
+	if (m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
+		// set current Time
+		mouseDrag(event);
+	} else {
+		Component::mouseDown(event);
+	}
+}
+
+void SequenceBackgroundComponent::mouseDrag(const MouseEvent& event) {
+	const ModifierKeys& m = event.mods;
+	if (m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
+		if (CameraController::globalCameraController != nullptr) {
+			if (m.isShiftDown()) {
+				CameraController::globalCameraController->releaseControl();
+			} else {
+				CameraController::globalCameraController->takeOverControl();
+			}
+		}
+
+		const int sequenceStart = data.getAbsoluteStartForSequence(sequenceData);
+		const float sequenceDuration = data.getSequenceDuration(sequenceData);
+
+		const int relativeNewTime = (float) jmax(event.x, 0) / getWidth() * sequenceDuration;
+		const int absoluteNewTime = sequenceStart + relativeNewTime;
+		const int absoluteNewTimeGrid = zoomFactor.snapValueToGrid(absoluteNewTime);
+		AudioManager::getAudioManager().setTime(absoluteNewTimeGrid);
+	} else {
+		Component::mouseDrag(event);
 	}
 }
 

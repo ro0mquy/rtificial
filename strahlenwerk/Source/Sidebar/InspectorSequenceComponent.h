@@ -3,13 +3,14 @@
 
 #include <juce>
 
+#include <Timeline/MouseCallbackClasses.h>
 #include <Timeline/KeyframeComponent.h>
 
 class TimelineData;
 class ZoomFactor;
 
 class InspectorSequenceComponent :
-	public Component,
+	public McbComponent,
 	private ValueTree::Listener
 {
 	public:

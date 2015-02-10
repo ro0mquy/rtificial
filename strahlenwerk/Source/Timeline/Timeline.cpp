@@ -83,7 +83,7 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 
 	const ModifierKeys& m = event.mods;
 	if (isNotInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
-		if (CameraController::globalCameraController) {
+		if (CameraController::globalCameraController != nullptr) {
 			if (m.isShiftDown()) {
 				CameraController::globalCameraController->releaseControl();
 			} else {

@@ -8,6 +8,7 @@ TimeMarkerComponent::TimeMarkerComponent() :
 	audioManager(AudioManager::getAudioManager())
 {
 	audioManager.addChangeListener(this);
+	setInterceptsMouseClicks(false, false);
 	setOpaque(true);
 	setAlwaysOnTop(true);
 }
