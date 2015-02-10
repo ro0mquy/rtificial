@@ -57,6 +57,8 @@ void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, cons
 	const float width = button.getWidth() - 1.0f;
 	const float height = button.getHeight() - 1.0f - emboss;
 
+	const float proportionalCornerRadius = (cornerRadius / 20.0f /*default button height*/) * height;
+
 	Colour baseColor = backgroundColour;
 	if (isButtonDown) {
 		baseColor = theme.Tool.innerSelected;
@@ -70,8 +72,8 @@ void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, cons
 		0.5f,
 		width,
 		height,
-		cornerRadius,
-		cornerRadius,
+		proportionalCornerRadius,
+		proportionalCornerRadius,
 		! (flatOnLeft  || flatOnTop),
 		! (flatOnRight || flatOnTop),
 		! (flatOnLeft  || flatOnBottom),
