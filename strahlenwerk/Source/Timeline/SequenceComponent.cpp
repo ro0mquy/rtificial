@@ -92,7 +92,7 @@ void SequenceComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 }
 
 void SequenceComponent::addKeyframeComponent(ValueTree keyframeData) {
-	auto keyframeComponent = new KeyframeComponent(keyframeData, zoomFactor);
+	auto keyframeComponent = new TimelineKeyframeComponent(keyframeData, zoomFactor);
 	addAndMakeVisible(keyframeComponent);
 	keyframeComponentsArray.add(keyframeComponent);
 }

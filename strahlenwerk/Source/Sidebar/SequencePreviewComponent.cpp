@@ -5,6 +5,7 @@
 #include <Timeline/ScenesBarComponent.h>
 #include <Timeline/SequenceComponent.h>
 #include <Timeline/TimeMarkerComponent.h>
+#include <Timeline/KeyframeComponent.h>
 #include <AudioManager.h>
 
 SequencePreviewComponent::SequencePreviewComponent() :
@@ -13,10 +14,10 @@ SequencePreviewComponent::SequencePreviewComponent() :
 }
 
 SequencePreviewComponent::SequencePreviewComponent(ValueTree sequenceData_) :
-	sequenceData(sequenceData_),
 	data(TimelineData::getTimelineData()),
 	audioManager(AudioManager::getAudioManager())
 {
+	setSequenceData(sequenceData_);
 }
 
 void SequencePreviewComponent::paint(Graphics& g) {
@@ -81,5 +82,24 @@ void SequencePreviewComponent::paintOverChildren(Graphics& g) {
 
 void SequencePreviewComponent::setSequenceData(ValueTree sequenceData_) {
 	sequenceData = sequenceData_;
+	addAllKeyframeComponents();
 	repaint();
+}
+
+void SequencePreviewComponent::addKeyframeComponent(ValueTree keyframeData) {
+	ZoomFactor& zoomFactor = ZoomFactor::getZoomFactor();
+	auto keyframeComponent = new InspectorKeyframeComponent(*this, keyframeData, zoomFactor);
+	addAndMakeVisible(keyframeComponent);
+	keyframeComponentsArray.add(keyframeComponent);
+}
+
+void SequencePreviewComponent::addAllKeyframeComponents() {
+	keyframeComponentsArray.clearQuick(true);
+	const int numKeyframes = data.getNumKeyframes(sequenceData);
+
+	// don't create a component for first and last keyframe
+	for (int i = 1; i < numKeyframes - 1; i++) {
+		ValueTree keyframeData = data.getKeyframe(sequenceData, i);
+		addKeyframeComponent(keyframeData);
+	}
 }

@@ -6,6 +6,7 @@
 class TimelineData;
 class ZoomFactor;
 class AudioManager;
+class KeyframeComponent;
 
 class SequencePreviewComponent :
 	public Component
@@ -18,11 +19,16 @@ class SequencePreviewComponent :
 		void paintOverChildren(Graphics& g) override;
 
 		void setSequenceData(ValueTree sequenceData_);
+		void addKeyframeComponent(ValueTree keyframeData);
+		void addAllKeyframeComponents();
+		AffineTransform getKeyframeTransform();
+
+		ValueTree sequenceData;
 
 	private:
-		ValueTree sequenceData;
 		TimelineData& data;
 		AudioManager& audioManager;
+		OwnedArray<KeyframeComponent> keyframeComponentsArray;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequencePreviewComponent)
 };
