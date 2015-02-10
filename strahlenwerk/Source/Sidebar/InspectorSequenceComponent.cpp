@@ -1,63 +1,33 @@
 #include "InspectorSequenceComponent.h"
 
 #include <Timeline/TimelineData.h>
-#include <Timeline/TreeIdentifiers.h>
 #include <Timeline/ZoomFactor.h>
-#include <Timeline/ScenesBarComponent.h>
 #include <Timeline/SequenceComponent.h>
-#include <AudioManager.h>
 
 InspectorSequenceComponent::InspectorSequenceComponent(ValueTree sequenceData_) :
 	sequenceData(sequenceData_),
 	data(TimelineData::getTimelineData()),
-	audioManager(AudioManager::getAudioManager()),
-	zoomFactor(ZoomFactor::getZoomFactor()),
-	timeMarker(sequenceData)
+	zoomFactor(ZoomFactor::getZoomFactor())
 {
 	data.addListenerToTree(this);
 	addAllKeyframeComponents();
-	addAndMakeVisible(timeMarker);
 }
 
 InspectorSequenceComponent::~InspectorSequenceComponent() {
 	data.removeListenerFromTree(this);
 }
 
-void InspectorSequenceComponent::paint(Graphics& g) {
-	const int sequenceStart = data.getAbsoluteStartForSequence(sequenceData);
-	const int sequenceDuration = data.getSequenceDuration(sequenceData);
-	const int sequenceEnd = sequenceStart + sequenceDuration;
-
-	const float scaleFactor = float(getWidth()) / float(sequenceDuration);
-
-	// draw ticks
-	const int gridWidth = zoomFactor.getGridWidth();
-	const int firstLine = sequenceStart + ((gridWidth - (sequenceStart % gridWidth)) % gridWidth); // round up if not already on the grid
-
-	const int longLineDistance = 4; // every nth tick is a long line
-	const float longLineHeight = 30. / 2.;
-	const float lineHeight = longLineHeight / 2.;
-
-	for (int i = firstLine; i <= sequenceEnd; i += gridWidth) {
-		const bool longLine = ((i / gridWidth) % longLineDistance == 0);
-		g.setColour(findColour(ScenesBarComponent::tickColourId));
-		g.drawLine(
-				(i - sequenceStart) * scaleFactor + 0.5,
-				0,
-				(i - sequenceStart) * scaleFactor + 0.5,
-				longLine ? longLineHeight : lineHeight,
-				1
-			);
-
-		if (longLine) {
-			g.setColour(findColour(ScenesBarComponent::textColourId));
-			g.drawSingleLineText(String(i / 1000.), (i - sequenceStart) * scaleFactor + 1, .8 * g.getCurrentFont().getHeight());
-		}
+void InspectorSequenceComponent::resized() {
+	const int numKeyframes = keyframeComponentsArray.size();
+	for (int i = 0; i < numKeyframes; i++) {
+		keyframeComponentsArray.getUnchecked(i)->updateBounds();
 	}
+}
 
+void InspectorSequenceComponent::paint(Graphics& g) {
 	// draw sequence
 	const float cornerSize = 5.0;
-	Rectangle<float> boundsSequence = getLocalBounds().toFloat().withTrimmedTop(longLineHeight);
+	Rectangle<float> boundsSequence = getLocalBounds().toFloat();
 
 	g.setColour(findColour(SequenceComponent::fillColourId));
 	g.fillRoundedRectangle(boundsSequence, cornerSize);
@@ -119,16 +89,7 @@ void InspectorSequenceComponent::mouseUp(const MouseEvent& event) {
 }
 
 // ValueTree::Listener callbacks
-void InspectorSequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
-	if (parentTree == sequenceData) {
-		// any of the sequence properties changed
-		repaint();
-	} else if (property == treeId::sceneStart) {
-		if (parentTree == data.getScene(data.getSequenceSceneId(sequenceData))) {
-			// the scene this sequence belongs to has been moved
-			repaint();
-		}
-	}
+void InspectorSequenceComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
 }
 
 void InspectorSequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {

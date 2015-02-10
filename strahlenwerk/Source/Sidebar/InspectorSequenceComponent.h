@@ -4,11 +4,9 @@
 #include <juce>
 
 #include <Timeline/KeyframeComponent.h>
-#include <Timeline/TimeMarkerComponent.h>
 
 class TimelineData;
 class ZoomFactor;
-class AudioManager;
 
 class InspectorSequenceComponent :
 	public Component,
@@ -18,6 +16,7 @@ class InspectorSequenceComponent :
 		InspectorSequenceComponent(ValueTree sequenceData_);
 		~InspectorSequenceComponent();
 
+		void resized() override;
 		void paint(Graphics& g) override;
 
 		void addKeyframeComponent(ValueTree keyframeData);
@@ -36,9 +35,7 @@ class InspectorSequenceComponent :
 
 	private:
 		TimelineData& data;
-		AudioManager& audioManager;
 		ZoomFactor& zoomFactor;
-		InspectorTimeMarkerComponent timeMarker;
 		OwnedArray<KeyframeComponent> keyframeComponentsArray;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorSequenceComponent)

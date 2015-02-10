@@ -22,16 +22,27 @@ void InspectorComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 		sequencePreview = nullptr;
 	} else if (selectionSize == 1) {
 		singleSelectedTree = *selection[0];
-		sequencePreview = new InspectorSequenceComponent(singleSelectedTree);
+		sequencePreview = new SequenceBackgroundComponent(singleSelectedTree);
 
-		Rectangle<int> previewRect = Rectangle<int>(0, 0, getWidth(), 100).reduced(30);
-		sequencePreview->setBounds(previewRect);
+		resized();
 		addAndMakeVisible(sequencePreview);
 	} else {
 		singleSelectedTree = ValueTree();
 		sequencePreview = nullptr;
 	}
 	repaint();
+}
+
+void InspectorComponent::resized() {
+	if (sequencePreview != nullptr) {
+		const int scenesBarHeightHalf = 30 / 2;
+		const int rowHeight = 20;
+		const int reduceAmount = 30;
+		Rectangle<int> previewRect = Rectangle<int>(0, 0, getWidth(), scenesBarHeightHalf + rowHeight + 2 * reduceAmount);
+		previewRect.reduce(reduceAmount, reduceAmount);
+
+		sequencePreview->setBounds(previewRect);
+	}
 }
 
 void InspectorComponent::paint(Graphics& g) {
