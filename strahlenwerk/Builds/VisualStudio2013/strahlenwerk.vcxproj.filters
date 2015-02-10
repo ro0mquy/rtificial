@@ -355,7 +355,7 @@
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Sidebar\SequencePreviewComponent.cpp">
+    <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp">
@@ -1689,7 +1689,7 @@
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Sidebar\SequencePreviewComponent.h">
+    <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h">

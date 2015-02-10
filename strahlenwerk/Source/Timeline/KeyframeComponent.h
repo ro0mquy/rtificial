@@ -6,7 +6,7 @@
 
 class TimelineData;
 class ZoomFactor;
-class SequencePreviewComponent;
+class InspectorSequenceComponent;
 
 class KeyframeComponent :
 	public McbComponent,
@@ -85,13 +85,13 @@ class InspectorKeyframeComponent :
 	public KeyframeComponent
 {
 	public:
-		InspectorKeyframeComponent(SequencePreviewComponent& sequenceComponent_, ValueTree keyframeData_, ZoomFactor& zoomFactor_);
+		InspectorKeyframeComponent(InspectorSequenceComponent& sequenceComponent_, ValueTree keyframeData_, ZoomFactor& zoomFactor_);
 
 		float timeToPixels(const int time) override;
 		int pixelsToTime(const float pixels) override;
 
 	private:
-		SequencePreviewComponent& sequenceComponent;
+		InspectorSequenceComponent& sequenceComponent;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorKeyframeComponent)
 };

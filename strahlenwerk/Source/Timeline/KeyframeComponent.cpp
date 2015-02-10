@@ -2,7 +2,7 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include "ZoomFactor.h"
-#include <Sidebar/SequencePreviewComponent.h>
+#include <Sidebar/InspectorSequenceComponent.h>
 
 KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
 	keyframeData(keyframeData_),
@@ -147,7 +147,7 @@ void TimelineKeyframeComponent::changeListenerCallback(ChangeBroadcaster* /*sour
 }
 
 
-InspectorKeyframeComponent::InspectorKeyframeComponent(SequencePreviewComponent& sequenceComponent_, ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
+InspectorKeyframeComponent::InspectorKeyframeComponent(InspectorSequenceComponent& sequenceComponent_, ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
 	KeyframeComponent(keyframeData_, zoomFactor_),
 	sequenceComponent(sequenceComponent_)
 {

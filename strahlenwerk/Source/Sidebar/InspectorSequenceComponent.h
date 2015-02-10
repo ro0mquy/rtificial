@@ -1,19 +1,19 @@
-#ifndef SEQUENCEPREVIEWCOMPONENT_H
-#define SEQUENCEPREVIEWCOMPONENT_H
+#ifndef INSPECTORSEQUENCECOMPONENT_H
+#define INSPECTORSEQUENCECOMPONENT_H
 
 #include <juce>
+#include <Timeline/KeyframeComponent.h>
 
 class TimelineData;
 class ZoomFactor;
 class AudioManager;
-class KeyframeComponent;
 
-class SequencePreviewComponent :
+class InspectorSequenceComponent :
 	public Component
 {
 	public:
-		SequencePreviewComponent();
-		SequencePreviewComponent(ValueTree sequenceData_);
+		InspectorSequenceComponent();
+		InspectorSequenceComponent(ValueTree sequenceData_);
 
 		void paint(Graphics& g) override;
 		void paintOverChildren(Graphics& g) override;
@@ -30,7 +30,7 @@ class SequencePreviewComponent :
 		AudioManager& audioManager;
 		OwnedArray<KeyframeComponent> keyframeComponentsArray;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequencePreviewComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorSequenceComponent)
 };
 
-#endif // SEQUENCEPREVIEWCOMPONENT_H
+#endif // INSPECTORSEQUENCECOMPONENT_H

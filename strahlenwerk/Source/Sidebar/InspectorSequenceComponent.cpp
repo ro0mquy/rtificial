@@ -1,26 +1,25 @@
-#include "SequencePreviewComponent.h"
+#include "InspectorSequenceComponent.h"
 
 #include <Timeline/TimelineData.h>
 #include <Timeline/ZoomFactor.h>
 #include <Timeline/ScenesBarComponent.h>
 #include <Timeline/SequenceComponent.h>
 #include <Timeline/TimeMarkerComponent.h>
-#include <Timeline/KeyframeComponent.h>
 #include <AudioManager.h>
 
-SequencePreviewComponent::SequencePreviewComponent() :
-	SequencePreviewComponent(ValueTree())
+InspectorSequenceComponent::InspectorSequenceComponent() :
+	InspectorSequenceComponent(ValueTree())
 {
 }
 
-SequencePreviewComponent::SequencePreviewComponent(ValueTree sequenceData_) :
+InspectorSequenceComponent::InspectorSequenceComponent(ValueTree sequenceData_) :
 	data(TimelineData::getTimelineData()),
 	audioManager(AudioManager::getAudioManager())
 {
 	setSequenceData(sequenceData_);
 }
 
-void SequencePreviewComponent::paint(Graphics& g) {
+void InspectorSequenceComponent::paint(Graphics& g) {
 	const int sequenceStart = data.getAbsoluteStartForSequence(sequenceData);
 	const int sequenceDuration = data.getSequenceDuration(sequenceData);
 	const int sequenceEnd = sequenceStart + sequenceDuration;
@@ -63,7 +62,7 @@ void SequencePreviewComponent::paint(Graphics& g) {
 	g.drawRoundedRectangle(boundsSequence, cornerSize, 1);
 }
 
-void SequencePreviewComponent::paintOverChildren(Graphics& g) {
+void InspectorSequenceComponent::paintOverChildren(Graphics& g) {
 	// draw time marker
 	const int timeMarkerWidth = 2;
 
@@ -80,20 +79,20 @@ void SequencePreviewComponent::paintOverChildren(Graphics& g) {
 	g.fillRect(timeMarkerRect);
 }
 
-void SequencePreviewComponent::setSequenceData(ValueTree sequenceData_) {
+void InspectorSequenceComponent::setSequenceData(ValueTree sequenceData_) {
 	sequenceData = sequenceData_;
 	addAllKeyframeComponents();
 	repaint();
 }
 
-void SequencePreviewComponent::addKeyframeComponent(ValueTree keyframeData) {
+void InspectorSequenceComponent::addKeyframeComponent(ValueTree keyframeData) {
 	ZoomFactor& zoomFactor = ZoomFactor::getZoomFactor();
 	auto keyframeComponent = new InspectorKeyframeComponent(*this, keyframeData, zoomFactor);
 	addAndMakeVisible(keyframeComponent);
 	keyframeComponentsArray.add(keyframeComponent);
 }
 
-void SequencePreviewComponent::addAllKeyframeComponents() {
+void InspectorSequenceComponent::addAllKeyframeComponents() {
 	keyframeComponentsArray.clearQuick(true);
 	const int numKeyframes = data.getNumKeyframes(sequenceData);
 
