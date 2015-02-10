@@ -7,6 +7,7 @@
 #include "Timeline/KeyframeComponent.h"
 #include "Timeline/TimeMarkerComponent.h"
 #include "Sidebar/Sidebar.h"
+#include "Sidebar/InspectorComponent.h"
 #include "RtColourIds.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
@@ -45,6 +46,9 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 
 	// Sidebar
 	setColour(Sidebar::tabBackgroundColourId, Colours::darkgrey);
+
+	// InspectorComponent
+	setColour(InspectorComponent::textColourId, Colours::black);
 
 	// RtColourIds
 	setColour(RtColourIds::outlineColourId, Colours::black);

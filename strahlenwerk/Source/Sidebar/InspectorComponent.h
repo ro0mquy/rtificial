@@ -19,6 +19,10 @@ class InspectorComponent :
 		void resized() override;
 		void paint(Graphics& g) override;
 
+		enum ColourIds {
+			textColourId = 0x2c34a01,
+		};
+
 	private:
 		Selection& selection;
 		ValueTree singleSelectedTree;
