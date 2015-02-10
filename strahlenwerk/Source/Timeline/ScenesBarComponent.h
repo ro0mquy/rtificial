@@ -49,7 +49,7 @@ class ScenesBarComponent :
 	private:
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
-		TimeMarkerComponent timeMarker;
+		TimelineTimeMarkerComponent timeMarker;
 		OwnedArray<SceneComponent> sceneComponentsArray;
 
 		ValueTree currentlyCreatedSceneData;

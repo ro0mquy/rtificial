@@ -6,15 +6,17 @@
 
 class AudioManager;
 class ZoomFactor;
+class TimelineData;
 
 class TimeMarkerComponent :
 	public McbComponent,
-	private ChangeListener
+	protected ChangeListener
 {
 	public:
-		TimeMarkerComponent(ZoomFactor& zoomFactor_);
+		TimeMarkerComponent();
 		~TimeMarkerComponent();
 
+		virtual float getCurrentPosition() = 0;
 		void updatePosition();
 		void updateSize();
 
@@ -26,11 +28,41 @@ class TimeMarkerComponent :
 			fillColourId = 0x9295300,
 		};
 
-	private:
+	protected:
 		AudioManager& audioManager;
+
+	private:
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimeMarkerComponent)
+};
+
+class TimelineTimeMarkerComponent :
+	public TimeMarkerComponent
+{
+	public:
+		TimelineTimeMarkerComponent(ZoomFactor& zoomFactor_);
+		~TimelineTimeMarkerComponent();
+
+		float getCurrentPosition() override;
+
+	private:
 		ZoomFactor& zoomFactor;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimeMarkerComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineTimeMarkerComponent)
+};
+
+class InspectorTimeMarkerComponent :
+	public TimeMarkerComponent
+{
+	public:
+		InspectorTimeMarkerComponent(ValueTree sequenceData_);
+
+		float getCurrentPosition() override;
+
+	private:
+		ValueTree sequenceData;
+		TimelineData& data;
+
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorTimeMarkerComponent)
 };
 
 #endif // TIMEMARKERCOMPONENT_H
