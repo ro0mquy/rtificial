@@ -168,18 +168,20 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (event.mouseWasClicked() && m.isCommandDown() && m.isLeftButtonDown()) {
 		// add keyframe
-		// TODO: compute with absolute time values
-		const int mouseDown = event.getMouseDownX() / zoomFactor;
-		const int mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
-
+		const int sequenceStart = data.getAbsoluteStartForSequence(sequenceData);
 		const int sequenceDuration = data.getSequenceDuration(sequenceData);
-		if (mouseDownGrid <= 0 || mouseDownGrid >= sequenceDuration) {
-			// don't set keyframe at start or end
-			return;
-		}
 
-		data.getUndoManager().beginNewTransaction("Create Keyframe");
-		data.addKeyframe(sequenceData, mouseDownGrid);
+		const int relativeMouseDown = event.getMouseDownX() / zoomFactor;
+		const int absoluteMouseDown = relativeMouseDown + sequenceStart;
+
+		const int absoluteMouseDownGrid = zoomFactor.snapValueToGrid(absoluteMouseDown);
+		const int relativeMouseDownGrid = absoluteMouseDownGrid - sequenceStart;
+
+		if (relativeMouseDownGrid > 0 && relativeMouseDownGrid < sequenceDuration) {
+			// don't set keyframe at start or end
+			data.getUndoManager().beginNewTransaction("Create Keyframe");
+			data.addKeyframe(sequenceData, relativeMouseDownGrid);
+		}
 
 	} else if (event.mouseWasClicked() && m.isCommandDown() && m.isPopupMenu()) {
 		String interpolationMethods[] = { "step", "linear", "ccrSpline" };

@@ -44,9 +44,20 @@ void KeyframeComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 
 	if (xChanged) {
 		// dragging
-		const int newCentreX = keyframeComponent.pixelsToTime(newBounds.getCentreX());
-		const int newPosition = zoomFactor.snapValueToGrid(newCentreX);
-		data.setKeyframePosition(keyframeData, newPosition);
+		ValueTree parentSequenceData = data.getKeyframeParentSequence(keyframeData);
+		const int sequenceStart = data.getAbsoluteStartForSequence(parentSequenceData);
+		const int sequenceDuration = data.getSequenceDuration(parentSequenceData);
+
+		const int relativeNewPosition = keyframeComponent.pixelsToTime(newBounds.getCentreX());
+		const int absoluteNewPosition = relativeNewPosition + sequenceStart;
+
+		const int absoluteNewPositionGrid = zoomFactor.snapValueToGrid(absoluteNewPosition);
+		const int relativeNewPositionGrid = absoluteNewPositionGrid - sequenceStart;
+
+		if (relativeNewPositionGrid > 0 && relativeNewPositionGrid < sequenceDuration) {
+			// don't set keyframe at start or end
+			data.setKeyframePosition(keyframeData, relativeNewPositionGrid);
+		}
 	}
 }
 
