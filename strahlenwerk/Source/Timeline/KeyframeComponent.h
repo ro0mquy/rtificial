@@ -11,7 +11,7 @@ class InspectorSequenceComponent;
 class KeyframeComponent :
 	public McbComponent,
 	private ComponentDragger,
-	private ValueTree::Listener
+	protected ValueTree::Listener
 {
 	public:
 		KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_);
@@ -86,9 +86,12 @@ class InspectorKeyframeComponent :
 {
 	public:
 		InspectorKeyframeComponent(InspectorSequenceComponent& sequenceComponent_, ValueTree keyframeData_, ZoomFactor& zoomFactor_);
+		~InspectorKeyframeComponent();
 
 		float timeToPixels(const int time) override;
 		int pixelsToTime(const float pixels) override;
+
+		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
 
 	private:
 		InspectorSequenceComponent& sequenceComponent;

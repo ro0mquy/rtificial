@@ -162,6 +162,11 @@ InspectorKeyframeComponent::InspectorKeyframeComponent(InspectorSequenceComponen
 	KeyframeComponent(keyframeData_, zoomFactor_),
 	sequenceComponent(sequenceComponent_)
 {
+	sequenceComponent.sequenceData.addListener(this);
+}
+
+InspectorKeyframeComponent::~InspectorKeyframeComponent() {
+	sequenceComponent.sequenceData.removeListener(this);
 }
 
 float InspectorKeyframeComponent::timeToPixels(const int time) {
@@ -174,4 +179,12 @@ int InspectorKeyframeComponent::pixelsToTime(const float pixels) {
 	const float sequenceDuration = data.getSequenceDuration(sequenceComponent.sequenceData);
 	const float sequenceWidth = sequenceComponent.getWidth();
 	return pixels / sequenceWidth * sequenceDuration;
+}
+
+void InspectorKeyframeComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+	// parent is keyframe or parent sequence
+	if (property == treeId::sequenceDuration) {
+		updateBounds();
+	}
+	KeyframeComponent::valueTreePropertyChanged(parentTree, property);
 }
