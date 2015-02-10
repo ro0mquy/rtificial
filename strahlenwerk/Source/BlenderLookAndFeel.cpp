@@ -15,6 +15,12 @@ BlenderLookAndFeel::BlenderLookAndFeel(BlenderTheme theme_) :
 	setColour(ScrollBar::backgroundColourId, Colours::transparentBlack);
 	setColour(ScrollBar::thumbColourId, theme.ScrollBar.item);
 	setColour(ScrollBar::trackColourId, theme.ScrollBar.inner);
+
+	setColour(PopupMenu::backgroundColourId, theme.MenuBack.inner);
+	setColour(PopupMenu::textColourId, theme.MenuItem.text);
+	setColour(PopupMenu::headerTextColourId, theme.MenuBack.text);
+	setColour(PopupMenu::highlightedBackgroundColourId, theme.MenuItem.innerSelected);
+	setColour(PopupMenu::highlightedTextColourId, theme.MenuItem.textSelected);
 }
 
 void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted) {
@@ -40,6 +46,7 @@ void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, fl
 	g.setColour(themeComponent.outline);
 	g.strokePath(outline, PathStrokeType(1.0f));
 }
+
 
 void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) {
     const bool flatOnLeft   = button.isConnectedOnLeft();
@@ -84,7 +91,7 @@ void BlenderLookAndFeel::drawButtonText(Graphics& g, TextButton& button, bool /*
 	} else {
 		textColour = button.findColour(TextButton::textColourOffId);
 	}
-	if ( ! button.isEnabled()) {
+	if (! button.isEnabled()) {
 		textColour = textColour.withMultipliedAlpha(0.5f);
 	}
 	g.setColour(textColour);
@@ -106,11 +113,12 @@ void BlenderLookAndFeel::drawButtonText(Graphics& g, TextButton& button, bool /*
 	);
 }
 
+
 Path BlenderLookAndFeel::getTickShape(const float height) {
     Path p;
-	p.startNewSubPath(1.0f, 1.0f);
-	p.lineTo(2.0f, 2.0f);
-	p.lineTo(3.8f, 0.0f);
+	p.startNewSubPath(0.0f, 1.0f);
+	p.lineTo(1.0f, 2.0f);
+	p.lineTo(2.8f, 0.0f);
     p.scaleToFit (0, 0, height * 2.0f, height, true);
     return p;
 }
@@ -127,18 +135,19 @@ void BlenderLookAndFeel::drawTickBox(Graphics& g, Component& /*component*/, floa
 	drawBox(g, outline, w, h, themeComponent, baseColor, ticked);
 
     if (ticked) {
-        Path tick = getTickShape( 0.6f * h);
+        Path tick = getTickShape(0.6f * h);
 
 		Colour tickColor = themeComponent.item;
-		if ( ! isEnabled) {
+		if (! isEnabled) {
 			tickColor = tickColor.withMultipliedAlpha(0.5f);
 		}
         g.setColour(tickColor);
 
         const AffineTransform trans(AffineTransform().translated(x + 0.1f*w, y));
-        g.strokePath (tick, PathStrokeType(2.0f), trans);
+        g.strokePath(tick, PathStrokeType(2.0f), trans);
     }
 }
+
 
 bool BlenderLookAndFeel::areScrollbarButtonsVisible() {
 	return false;
@@ -254,4 +263,196 @@ void BlenderLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x
 
 	g.setColour(theme.ScrollBar.outline);
     g.strokePath(thumbPath, PathStrokeType (1.0f));
+}
+
+
+int BlenderLookAndFeel::getDefaultMenuBarHeight() {
+	return 25;
+}
+
+void BlenderLookAndFeel::drawMenuBarBackground(Graphics& g, int width, int height, bool /*isMouseOverBar*/, MenuBarComponent& /*menuBar*/) {
+	g.setColour(theme.SpaceSettings.header);
+    g.fillRect(Rectangle<int>(width, height));
+
+	g.setColour(bevelColourTop.withAlpha(bevelAlpha));
+	g.drawLine(
+		0.5f,
+		bevel / 2.0f + bevelOffset,
+		width - bevel / 2.0f - bevelOffset,
+		bevel / 2.0f + bevelOffset,
+		bevel
+	);
+	g.drawLine(
+		0.5f,
+		bevel / 2.0f + bevelOffset,
+		0.5f,
+		height - bevelOffset,
+		bevel
+	);
+
+	g.setColour(bevelColourDown.withAlpha(bevelAlpha));
+	g.drawLine(
+		0.5f,
+		height - 0.5f,
+		width - bevelOffset - bevel / 2.0f,
+		height - 0.5f,
+		bevel
+	);
+	g.drawLine(
+		width - 0.5f - bevelOffset,
+		bevel / 2.0f + bevelOffset,
+		width - 0.5f - bevelOffset,
+		height,
+		bevel
+	);
+}
+
+int BlenderLookAndFeel::getMenuBarItemWidth(MenuBarComponent& menuBar, int itemIndex, const String& itemText) {
+    return getMenuBarFont(menuBar, itemIndex, itemText).getStringWidth(itemText) + (2.0f + 4.0f)*menuBarItemIoffset;
+}
+
+void BlenderLookAndFeel::drawMenuBarItem(Graphics& g, int width_, int height_, int itemIndex, const String& itemText, bool isMouseOverItem, bool isMenuOpen, bool /*isMouseOverBar*/, MenuBarComponent& menuBar) {
+	const float width = width_ - 2.0f*menuBarItemIoffset;
+	const float height = height_ - 2.0*menuBarItemIoffset;
+
+	Colour textColor = theme.Pulldown.text;
+    if (! menuBar.isEnabled()) {
+        textColor = textColor.withMultipliedAlpha(disabledAlpha);
+	}
+
+	if (isMenuOpen || isMouseOverItem) {
+		textColor = theme.Pulldown.textSelected;
+
+		BlenderThemeComponent themeComponent = theme.Pulldown;
+		themeComponent.outline = themeComponent.innerSelected;
+
+		Path outline;
+		outline.addRoundedRectangle(0.5 + menuBarItemIoffset, 0.5f + menuBarItemIoffset, width, height, cornerRadius);
+		drawBox(g, outline, width, height, themeComponent, themeComponent.innerSelected, false);
+	}
+
+	g.setColour(textColor);
+    g.setFont (getMenuBarFont (menuBar, itemIndex, itemText));
+    g.drawFittedText (itemText, menuBarItemIoffset, menuBarItemIoffset, width, height, Justification::centred, 1);
+}
+
+void BlenderLookAndFeel::drawPopupMenuBackground(Graphics& g, int width, int height) {
+	Path outline;
+	outline.addRoundedRectangle(
+		0.5f,
+		0.5f,
+		width - 0.5f,
+		height - 0.5f,
+		cornerRadius * 1.5f, // whatever…
+		cornerRadius * 1.5f,
+		false,
+		false,
+		true,
+		true
+	);
+
+	g.setColour(findColour(PopupMenu::backgroundColourId));
+	g.fillPath(outline);
+
+	g.setColour(theme.MenuBack.outline);
+	g.strokePath(outline, PathStrokeType(1.0f));
+}
+
+void BlenderLookAndFeel::drawPopupMenuItem (Graphics& g, const Rectangle<int>& area, const bool isSeparator, const bool isActive, const bool isHighlighted, const bool isTicked, const bool hasSubMenu, const String& text, const String& shortcutKeyText, const Drawable* icon, const Colour* const textColourToUse) {
+    if(isSeparator) {
+		g.setColour(bevelColourTop.withAlpha(bevelAlpha));
+		g.drawLine(area.getX() + 0.5f, area.getCentreY() + 0.5f, area.getWidth(), area.getCentreY() + 0.5f, 1.0f);
+    } else {
+        Colour textColour(findColour(PopupMenu::textColourId));
+
+        if (textColourToUse != nullptr) {
+            textColour = *textColourToUse;
+		}
+
+        Rectangle<int> r(area.reduced(1));
+
+		Colour baseColor = theme.MenuItem.inner;
+		Colour textColor = findColour(PopupMenu::textColourId);
+        if (isHighlighted) {
+			baseColor = findColour(PopupMenu::highlightedBackgroundColourId);
+			textColor = findColour(PopupMenu::highlightedTextColourId);
+		}
+        if (! isActive) {
+			baseColor = baseColor.withMultipliedAlpha(disabledAlpha);
+			textColor = textColor.withMultipliedAlpha(disabledAlpha);
+		}
+		if (theme.MenuItem.shaded) {
+			g.setGradientFill(
+				ColourGradient(
+					baseColor.brighter(theme.MenuItem.shadeTop), 0.0f, 0.0f,
+					baseColor.brighter(theme.MenuBack.shadeDown), 0.0f, r.getHeight(),
+					false
+				)
+			);
+		} else {
+			g.setColour(baseColor);
+		}
+		g.fillRect(r);
+
+		g.setColour(textColor);
+
+		Font font(getPopupMenuFont());
+		const float maxFontHeight = area.getHeight() / 1.3f;
+		if (font.getHeight() > maxFontHeight) {
+			font.setHeight(maxFontHeight);
+		}
+		g.setFont(font);
+
+		Rectangle<float> iconArea(r.removeFromLeft((r.getHeight() * 5.0f) / 4.0f).reduced(3).toFloat());
+		if (icon != nullptr) {
+			icon->drawWithin(g, iconArea, RectanglePlacement::centred | RectanglePlacement::onlyReduceInSize, 1.0f);
+		} else if (isTicked) {
+			const float tickHeight = iconArea.getHeight() * 3.0f/5.0f;
+			const Path tick(getTickShape(tickHeight));
+			const AffineTransform trans = AffineTransform::translation(
+				iconArea.getCentreX() - tick.getBounds().getWidth()/2.0f,
+				iconArea.getCentreY() - tickHeight/2.0f
+			);
+			g.strokePath(tick, PathStrokeType(2.0f), trans);
+		}
+
+		if (hasSubMenu) {
+			const float arrowH = 0.6f * getPopupMenuFont().getAscent();
+
+			const float x = float(r.removeFromRight(int(arrowH)).getX());
+			const float halfH = float(r.getCentreY());
+
+			Path p;
+			p.addTriangle(
+				x,
+				halfH - arrowH * 0.5f,
+				x,
+				halfH + arrowH * 0.5f,
+				x + arrowH * 0.6f,
+				halfH
+			);
+
+			g.fillPath (p);
+		}
+
+		r.removeFromRight(3);
+		g.drawFittedText(text, r, Justification::centredLeft, 1);
+
+		if (shortcutKeyText.isNotEmpty()) {
+			// remove to have Blender look
+			// /*
+			Font f2(font);
+			f2.setHeight(f2.getHeight() * 0.75f);
+			f2.setHorizontalScale(0.95f);
+			g.setFont(f2);
+			// */
+
+			String shortcutString(shortcutKeyText);
+			if (shortcutString.startsWith("shortcut:")) {
+				shortcutString = shortcutString.replace("shortcut:", "").removeCharacters("'").trim();
+			}
+
+			g.drawText(shortcutString, r, Justification::centredRight, true);
+		}
+	}
 }
