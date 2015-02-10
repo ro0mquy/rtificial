@@ -7,16 +7,13 @@
 #include <Timeline/TimeMarkerComponent.h>
 #include <AudioManager.h>
 
-InspectorSequenceComponent::InspectorSequenceComponent() :
-	InspectorSequenceComponent(ValueTree())
-{
-}
-
 InspectorSequenceComponent::InspectorSequenceComponent(ValueTree sequenceData_) :
+	sequenceData(sequenceData_),
 	data(TimelineData::getTimelineData()),
-	audioManager(AudioManager::getAudioManager())
+	audioManager(AudioManager::getAudioManager()),
+	zoomFactor(ZoomFactor::getZoomFactor())
 {
-	setSequenceData(sequenceData_);
+	addAllKeyframeComponents();
 }
 
 void InspectorSequenceComponent::paint(Graphics& g) {
@@ -27,7 +24,7 @@ void InspectorSequenceComponent::paint(Graphics& g) {
 	const float scaleFactor = float(getWidth()) / float(sequenceDuration);
 
 	// draw ticks
-	const int gridWidth = ZoomFactor::getZoomFactor().getGridWidth();
+	const int gridWidth = zoomFactor.getGridWidth();
 	const int firstLine = sequenceStart + ((gridWidth - (sequenceStart % gridWidth)) % gridWidth); // round up if not already on the grid
 
 	const int longLineDistance = 4; // every nth tick is a long line
@@ -79,14 +76,7 @@ void InspectorSequenceComponent::paintOverChildren(Graphics& g) {
 	g.fillRect(timeMarkerRect);
 }
 
-void InspectorSequenceComponent::setSequenceData(ValueTree sequenceData_) {
-	sequenceData = sequenceData_;
-	addAllKeyframeComponents();
-	repaint();
-}
-
 void InspectorSequenceComponent::addKeyframeComponent(ValueTree keyframeData) {
-	ZoomFactor& zoomFactor = ZoomFactor::getZoomFactor();
 	auto keyframeComponent = new InspectorKeyframeComponent(*this, keyframeData, zoomFactor);
 	addAndMakeVisible(keyframeComponent);
 	keyframeComponentsArray.add(keyframeComponent);

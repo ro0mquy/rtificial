@@ -21,7 +21,7 @@ class InspectorComponent :
 	private:
 		Selection& selection;
 		ValueTree singleSelectedTree;
-		InspectorSequenceComponent sequencePreview;
+		ScopedPointer<InspectorSequenceComponent> sequencePreview;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorComponent)
 };

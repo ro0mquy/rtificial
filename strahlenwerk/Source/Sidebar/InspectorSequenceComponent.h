@@ -12,13 +12,11 @@ class InspectorSequenceComponent :
 	public Component
 {
 	public:
-		InspectorSequenceComponent();
 		InspectorSequenceComponent(ValueTree sequenceData_);
 
 		void paint(Graphics& g) override;
 		void paintOverChildren(Graphics& g) override;
 
-		void setSequenceData(ValueTree sequenceData_);
 		void addKeyframeComponent(ValueTree keyframeData);
 		void addAllKeyframeComponents();
 		AffineTransform getKeyframeTransform();
@@ -28,6 +26,7 @@ class InspectorSequenceComponent :
 	private:
 		TimelineData& data;
 		AudioManager& audioManager;
+		ZoomFactor& zoomFactor;
 		OwnedArray<KeyframeComponent> keyframeComponentsArray;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorSequenceComponent)

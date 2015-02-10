@@ -19,17 +19,17 @@ void InspectorComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 
 	if (selectionSize == 0) {
 		singleSelectedTree = ValueTree();
-		removeChildComponent(&sequencePreview);
+		sequencePreview = nullptr;
 	} else if (selectionSize == 1) {
 		singleSelectedTree = *selection[0];
-		sequencePreview.setSequenceData(singleSelectedTree);
+		sequencePreview = new InspectorSequenceComponent(singleSelectedTree);
 
 		Rectangle<int> previewRect = Rectangle<int>(0, 0, getWidth(), 100).reduced(30);
-		sequencePreview.setBounds(previewRect);
+		sequencePreview->setBounds(previewRect);
 		addAndMakeVisible(sequencePreview);
 	} else {
 		singleSelectedTree = ValueTree();
-		removeChildComponent(&sequencePreview);
+		sequencePreview = nullptr;
 	}
 	repaint();
 }
