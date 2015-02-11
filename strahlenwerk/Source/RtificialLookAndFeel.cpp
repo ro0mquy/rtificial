@@ -36,6 +36,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	// SequenceComponent
 	setColour(SequenceComponent::outlineColourId, Colours::red);
 	setColour(SequenceComponent::fillColourId, findColour(SequenceComponent::outlineColourId).withAlpha(0.4f));
+	setColour(SequenceComponent::highlightedFillColourId, findColour(SequenceComponent::fillColourId).withAlpha(0.8f));
 	setColour(SequenceComponent::textColourId, Colours::white);
 
 	// KeyframeComponent

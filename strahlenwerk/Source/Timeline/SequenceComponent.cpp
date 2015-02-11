@@ -11,8 +11,9 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 	zoomFactor(zoomFactor_),
 	resizableBorder(this, &constrainer)
 {
-	// register for changes of the whole timeline tree
+	// register for changes of the whole timeline tree and selections
 	data.addListenerToTree(this);
+	data.getSelection().addChangeListener(this);
 
 	// register for zoom factor changes
 	zoomFactor.addChangeListener(this);
@@ -45,6 +46,7 @@ SequenceComponent::Positioner::Positioner(Component& component, ValueTree sequen
 
 SequenceComponent::~SequenceComponent() {
 	data.removeListenerFromTree(this);
+	data.getSelection().removeChangeListener(this);
 	zoomFactor.removeChangeListener(this);
 }
 
@@ -125,7 +127,12 @@ void SequenceComponent::paint(Graphics& g) {
 	seqRect.removeFromTop(0.5);
 	seqRect.removeFromBottom(1.5);
 
-	g.setColour(findColour(SequenceComponent::fillColourId));
+	Colour fillColor = findColour(SequenceComponent::fillColourId);
+	if (data.getSelection().contains(sequenceData)) {
+		fillColor = findColour(SequenceComponent::highlightedFillColourId);
+	}
+
+	g.setColour(fillColor);
 	g.fillRoundedRectangle(seqRect, cornerSize);
 
 	g.setColour(findColour(SequenceComponent::outlineColourId));
@@ -234,10 +241,14 @@ void SequenceComponent::resized() {
 	resizableBorder.setBounds(getLocalBounds());
 }
 
-void SequenceComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+void SequenceComponent::changeListenerCallback(ChangeBroadcaster* source) {
 	// zoomFactor update
-	constrainer.setMinimumWidth(zoomFactor.getGridWidth() * zoomFactor);
-	updateBounds();
+	if (source == &zoomFactor) {
+		constrainer.setMinimumWidth(zoomFactor.getGridWidth() * zoomFactor);
+		updateBounds();
+	} else if (source == &data.getSelection()) {
+		repaint();
+	}
 }
 
 // ValueTree::Listener callbacks
