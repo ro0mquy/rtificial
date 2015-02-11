@@ -46,21 +46,30 @@ void SequenceBackgroundComponent::paint(Graphics& g) {
 	const int longLineDistance = 4; // every nth tick is a long line
 	const float longLineHeight = 30. /* scenesBarHeight */ / 2.;
 	const float lineHeight = longLineHeight / 2.;
+	const float maxX = getWidth() - .5;
 
 	for (int i = firstLine; i <= sequenceEnd; i += gridWidth) {
 		const bool longLine = ((i / gridWidth) % longLineDistance == 0);
 		g.setColour(findColour(ScenesBarComponent::tickColourId));
 		g.drawLine(
-				(i - sequenceStart) * scaleFactor + 0.5,
+				jmin((i - sequenceStart) * scaleFactor + 0.5f, maxX),
 				0,
-				(i - sequenceStart) * scaleFactor + 0.5,
+				jmin((i - sequenceStart) * scaleFactor + 0.5f, maxX),
 				longLine ? longLineHeight : lineHeight,
 				1
 			);
 
 		if (longLine) {
+			const String nthBeat(i / 1000.);
+			float posX = (i - sequenceStart) * scaleFactor + 1.f;
+			const float baseLineY = .8 * g.getCurrentFont().getHeight();
+			Justification justific = Justification::left;
+			if (posX > maxX) {
+				justific = Justification::right;
+				posX -= 2.f;
+			}
 			g.setColour(findColour(ScenesBarComponent::textColourId));
-			g.drawSingleLineText(String(i / 1000.), (i - sequenceStart) * scaleFactor + 1, .8 * g.getCurrentFont().getHeight());
+			g.drawSingleLineText(nthBeat, posX, baseLineY, justific);
 		}
 	}
 }
