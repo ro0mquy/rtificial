@@ -184,6 +184,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		}
 
 	} else if (event.mouseWasClicked() && m.isCommandDown() && m.isPopupMenu()) {
+		// select interpolation method
 		String interpolationMethods[] = { "step", "linear", "ccrSpline" };
 		const int numMethods = numElementsInArray(interpolationMethods);
 		const String currentMethod = data.getSequenceInterpolation(sequenceData);
@@ -221,7 +222,8 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		data.getUndoManager().beginNewTransaction("Remove Sequence");
 		data.removeSequence(sequenceData);
 		// this component gets deleted after this, so don't do stupid things
-	} else if (event.mouseWasClicked() && m.isShiftDown() && m.isLeftButtonDown()) {
+	} else if (event.mouseWasClicked() && m.isShiftDown() && m.isRightButtonDown()) {
+		// add sequence to selection
 		data.getSelection().set(sequenceData);
 	} else {
 		McbComponent::mouseUp(event);
