@@ -14,6 +14,7 @@ class Selection :
 		void set(ValueTree tree);
 		void add(ValueTree tree);
 		void clear();
+		bool contains(ValueTree treeToCheckFor);
 
 	private:
 		OwnedArray<ValueTree> selectedTrees;
