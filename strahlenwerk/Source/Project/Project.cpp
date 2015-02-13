@@ -58,7 +58,7 @@ std::unique_ptr<PostprocPipeline> Project::getPostproc() {
 	return std::move(postproc);
 }
 
-std::unique_ptr<Scenes> Project::getScenes() {
+std::unique_ptr<Scenes<SceneShader>> Project::getScenes() {
 	return std::move(scenes);
 }
 
@@ -86,7 +86,7 @@ int Project::compareElements(const ValueTree& first, const ValueTree& second) {
 	return startFirst - startSecond;
 }
 
-void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
+void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) {
 	const File& buildDir = loader.getBuildDir();
 	buildDir.deleteRecursively();
 	buildDir.createDirectory();
@@ -153,7 +153,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	interfaceHeaderContent += "extern Shader scenes[" + std::to_string(sceneShaders) + "];\n";
 
 	for(int i = 0; i < sceneShaders; i++) {
-		const Shader& shader = scenes.getShader(i);
+		const Shader& shader = scenes.getObject(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
 		shaderFile.replaceWithText(shader.getSource());//std::regex_replace(shader.getSource(), search, replacement));
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
@@ -206,7 +206,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 		int shaderId = -1;
 		for(int i = 0; i < sceneShaders; i++) {
-			if(scenes.getShader(i).getName() == shaderSource) {
+			if(scenes.getObject(i).getName() == shaderSource) {
 				shaderId = i;
 				break;
 			}
@@ -564,7 +564,7 @@ void Project::reloadScenes() {
 		addUniforms(*shader);
 	}
 	if(!shaders.empty()) {
-		scenes = std::unique_ptr<Scenes>(new Scenes(std::move(shaders)));
+		scenes = std::unique_ptr<Scenes<SceneShader>>(new Scenes<SceneShader>(std::move(shaders)));
 	} else {
 		std::cerr << "No shaders loaded" << std::endl;
 	}

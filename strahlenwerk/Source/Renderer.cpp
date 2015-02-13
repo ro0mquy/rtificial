@@ -63,11 +63,11 @@ void Renderer::renderOpenGL() {
 	} else {
 		auto& data = TimelineData::getTimelineData();
 		const String shaderName = data.getSceneShaderSource(data.getCurrentScene());
-		const int shaderId = scenes->getShaderId(shaderName.toStdString());
+		const int shaderId = scenes->getObjectId(shaderName.toStdString());
 		if(shaderId == -1) {
 			lastFrameDuration = defaultPostproc->render(defaultShader, width, height);
 		} else {
-			lastFrameDuration = postproc->render(scenes->getShader(shaderId), width, height);
+			lastFrameDuration = postproc->render(scenes->getObject(shaderId), width, height);
 		}
 	}
 	renderMutex.unlock();

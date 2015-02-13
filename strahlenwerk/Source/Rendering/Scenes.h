@@ -7,20 +7,39 @@
 #include <memory>
 #include <unordered_map>
 
-class SceneShader;
-
+template<typename SceneObject>
 class Scenes {
 	public:
-		Scenes(std::vector<std::unique_ptr<SceneShader>> shaders);
-		~Scenes();
+		Scenes(std::vector<std::unique_ptr<SceneObject>> objects_) :
+			objects(std::move(objects_))
+		{
+			unsigned int i = 0;
+			for(const auto& object : objects) {
+				objectLookup.emplace(object->getName(), i);
+				i++;
+			}
+		}
 
-		SceneShader& getShader(int n) const;
-		int getShaderId(const std::string& name) const;
-		int getNumShaders() const;
+		SceneObject& getObject(int n) const {
+			return *objects[n];
+		}
+
+		int getObjectId(const std::string& name) const {
+			const auto it = objectLookup.find(name);
+			if(it == objectLookup.end()) {
+				return -1;
+			} else {
+				return it->second;
+			}
+		}
+
+		unsigned int getNumShaders() const {
+			return objects.size();
+		}
 
 	private:
-		std::vector<std::unique_ptr<SceneShader>> shaders;
-		std::unordered_map<std::string, int> shaderLookup;
+		std::vector<std::unique_ptr<SceneObject>> objects;
+		std::unordered_map<std::string, unsigned int> objectLookup;
 };
 
 #endif

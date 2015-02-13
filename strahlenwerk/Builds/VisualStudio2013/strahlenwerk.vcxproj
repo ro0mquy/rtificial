@@ -148,7 +148,6 @@
     <ClCompile Include="..\..\Source\Rendering\AmbientLight.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\EnvironmentMap.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\glcorert.cpp"/>
-    <ClCompile Include="..\..\Source\Rendering\Scenes.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipelineLoader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipeline.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\PostprocShader.cpp"/>

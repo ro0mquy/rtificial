@@ -62,7 +62,6 @@ OBJECTS := \
   $(OBJDIR)/AmbientLight_2567d32a.o \
   $(OBJDIR)/EnvironmentMap_3b0268d5.o \
   $(OBJDIR)/glcorert_b13e1c72.o \
-  $(OBJDIR)/Scenes_9b218bf3.o \
   $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
   $(OBJDIR)/PostprocShader_df5d2107.o \
@@ -179,11 +178,6 @@ $(OBJDIR)/EnvironmentMap_3b0268d5.o: ../../Source/Rendering/EnvironmentMap.cpp
 $(OBJDIR)/glcorert_b13e1c72.o: ../../Source/Rendering/glcorert.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling glcorert.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/Scenes_9b218bf3.o: ../../Source/Rendering/Scenes.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Scenes.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/PostprocPipelineLoader_51edf977.o: ../../Source/Rendering/PostprocPipelineLoader.cpp

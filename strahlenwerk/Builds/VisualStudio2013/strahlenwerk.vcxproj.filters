@@ -337,9 +337,6 @@
     <ClCompile Include="..\..\Source\Rendering\glcorert.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Rendering\Scenes.cpp">
-      <Filter>strahlenwerk\Source\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipelineLoader.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>

@@ -49,7 +49,6 @@
         <FILE id="VRwKFM" name="EnvironmentMap.h" compile="0" resource="0"
               file="Source/Rendering/EnvironmentMap.h"/>
         <FILE id="EieqmQ" name="glcorert.cpp" compile="1" resource="0" file="Source/Rendering/glcorert.cpp"/>
-        <FILE id="HoNJcz" name="Scenes.cpp" compile="1" resource="0" file="Source/Rendering/Scenes.cpp"/>
         <FILE id="iDoI0A" name="Scenes.h" compile="0" resource="0" file="Source/Rendering/Scenes.h"/>
         <FILE id="a6SDMx" name="DefaultShader.h" compile="0" resource="0" file="Source/Rendering/DefaultShader.h"/>
         <FILE id="ac46aX" name="glcorearb.h" compile="0" resource="0" file="Source/Rendering/glcorearb.h"/>

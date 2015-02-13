@@ -8,6 +8,7 @@
 #include "Project/ProjectListener.h"
 
 class PostprocPipeline;
+template<typename SceneObject>
 class Scenes;
 
 class Renderer :
@@ -39,11 +40,11 @@ class Renderer :
 		SceneShader defaultShader;
 		std::unique_ptr<PostprocPipeline> defaultPostproc;
 		std::unique_ptr<PostprocPipeline> postproc;
-		std::unique_ptr<Scenes> scenes;
+		std::unique_ptr<Scenes<SceneShader>> scenes;
 		std::mutex renderMutex;
 		int width, height;
 		std::vector<std::unique_ptr<PostprocPipeline>> postprocDeletionQueue;
-		std::vector<std::unique_ptr<Scenes>> scenesDeletionQueue;
+		std::vector<std::unique_ptr<Scenes<SceneShader>>> scenesDeletionQueue;
 		uint64_t lastFrameDuration = 0;
 
 		void performMakeDemo();

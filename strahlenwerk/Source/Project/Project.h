@@ -13,10 +13,10 @@ class PostprocShader;
 class SceneShader;
 class PostprocPipeline;
 class ProjectListener;
+template<typename SceneObject>
 class Scenes;
 class Shader;
 class AudioManager;
-class Scenes;
 
 class Project :
 	private efsw::FileWatchListener,
@@ -32,12 +32,12 @@ class Project :
 		void saveTimelineData();
 		void contextChanged(OpenGLContext& context);
 		std::unique_ptr<PostprocPipeline> getPostproc();
-		std::unique_ptr<Scenes> getScenes();
+		std::unique_ptr<Scenes<SceneShader>> getScenes();
 		TimelineData& getTimelineData();
 		void loadDirectory(const std::string& dir);
 		const ProjectFileLoader& getLoader() const;
 		int compareElements(const ValueTree& first, const ValueTree& second);
-		void makeDemo(Scenes& scenes, PostprocPipeline& postproc);
+		void makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc);
 
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
 		void applicationCommandListChanged() override;
@@ -73,7 +73,7 @@ class Project :
 		void reloadAmbientLights();
 
 		std::unique_ptr<PostprocPipeline> postproc;
-		std::unique_ptr<Scenes> scenes;
+		std::unique_ptr<Scenes<SceneShader>> scenes;
 		std::vector<ProjectListener*> listeners;
 		OpenGLContext* context;
 		ProjectFileLoader loader;
