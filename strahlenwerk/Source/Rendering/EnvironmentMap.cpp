@@ -1,5 +1,5 @@
 #define GL_GLEXT_PROTOTYPES
-#include "glcorearb.h"
+#include "glcorert.h"
 
 #include "EnvironmentMap.h"
 #include "Shader.h"
