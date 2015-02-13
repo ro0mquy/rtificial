@@ -328,6 +328,9 @@
     <ClCompile Include="..\..\Source\Project\ProjectFileLoader.cpp">
       <Filter>strahlenwerk\Source\Project</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Rendering\AmbientLight.cpp">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Rendering\EnvironmentMap.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
@@ -1646,6 +1649,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Project\ProjectListener.h">
       <Filter>strahlenwerk\Source\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Rendering\AmbientLight.h">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\EnvironmentMap.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>

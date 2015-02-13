@@ -59,6 +59,7 @@ OBJECTS := \
   $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o \
   $(OBJDIR)/Project_dae16ce4.o \
   $(OBJDIR)/ProjectFileLoader_546d9f73.o \
+  $(OBJDIR)/AmbientLight_2567d32a.o \
   $(OBJDIR)/EnvironmentMap_3b0268d5.o \
   $(OBJDIR)/glcorert_b13e1c72.o \
   $(OBJDIR)/Scenes_9b218bf3.o \
@@ -163,6 +164,11 @@ $(OBJDIR)/Project_dae16ce4.o: ../../Source/Project/Project.cpp
 $(OBJDIR)/ProjectFileLoader_546d9f73.o: ../../Source/Project/ProjectFileLoader.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ProjectFileLoader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/AmbientLight_2567d32a.o: ../../Source/Rendering/AmbientLight.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling AmbientLight.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/EnvironmentMap_3b0268d5.o: ../../Source/Rendering/EnvironmentMap.cpp

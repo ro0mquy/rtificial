@@ -145,6 +145,7 @@
     <ClCompile Include="..\..\Source\Project\FileWatchMessageThreadListener.cpp"/>
     <ClCompile Include="..\..\Source\Project\Project.cpp"/>
     <ClCompile Include="..\..\Source\Project\ProjectFileLoader.cpp"/>
+    <ClCompile Include="..\..\Source\Rendering\AmbientLight.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\EnvironmentMap.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\glcorert.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Scenes.cpp"/>
@@ -1281,6 +1282,7 @@
     <ClInclude Include="..\..\Source\Project\Project.h"/>
     <ClInclude Include="..\..\Source\Project\ProjectFileLoader.h"/>
     <ClInclude Include="..\..\Source\Project\ProjectListener.h"/>
+    <ClInclude Include="..\..\Source\Rendering\AmbientLight.h"/>
     <ClInclude Include="..\..\Source\Rendering\EnvironmentMap.h"/>
     <ClInclude Include="..\..\Source\Rendering\Scenes.h"/>
     <ClInclude Include="..\..\Source\Rendering\DefaultShader.h"/>
