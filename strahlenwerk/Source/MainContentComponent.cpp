@@ -26,16 +26,16 @@ Timeline& MainContentComponent::getTimeline() {
 
 void MainContentComponent::setDefaultLayout() {
 	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
-	const int glComponentWidth = properties.getIntValue(PropertyNames::OpenGLWidth, 400);
-	const int glComponentHeight = properties.getIntValue(PropertyNames::OpenGLHeight, 300);
+	const double glComponentWidth = properties.getDoubleValue(PropertyNames::OpenGLWidth, .5);
+	const double glComponentHeight = properties.getDoubleValue(PropertyNames::OpenGLHeight, .5);
 
-	horizontalLayout.setItemLayout(0, 200, -1., getWidth() - glComponentWidth - 8);
+	horizontalLayout.setItemLayout(0, 200, -1., getWidth() * (1. - glComponentWidth) - 8);
 	horizontalLayout.setItemLayout(1, 8, 8, 8);
-	horizontalLayout.setItemLayout(2, 160, -1., glComponentWidth);
+	horizontalLayout.setItemLayout(2, 160, -1., -glComponentWidth);
 
-	verticalLayout.setItemLayout(0, 90, -1., glComponentHeight);
+	verticalLayout.setItemLayout(0, 90, -1., -glComponentHeight);
 	verticalLayout.setItemLayout(1, 8, 8, 8);
-	verticalLayout.setItemLayout(2, 200, -1., getHeight() - glComponentHeight - 8 );
+	verticalLayout.setItemLayout(2, 200, -1., getHeight() * (1. - glComponentHeight) - 8);
 	verticalBoxLayout.resized();
 }
 

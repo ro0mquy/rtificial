@@ -40,8 +40,11 @@ void OpenGLComponent::resized() {
 
 	if (Desktop::getInstance().getKioskModeComponent() == nullptr) {
 		auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
-		properties.setValue(PropertyNames::OpenGLWidth, getWidth());
-		properties.setValue(PropertyNames::OpenGLHeight, getHeight());
+		const Component* mainContent = findParentComponentOfClass<MainContentComponent>();
+		if (mainContent != nullptr) {
+			properties.setValue(PropertyNames::OpenGLWidth, double(getWidth()) / double(mainContent->getWidth()));
+			properties.setValue(PropertyNames::OpenGLHeight, double(getHeight()) / double(mainContent->getHeight()));
+		}
 	}
 }
 
