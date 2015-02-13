@@ -45,6 +45,7 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		const Colour bevelColourTop = Colours::white;
 		const Colour bevelColourDown = Colours::black;
 
+		Colour shadeColour(Colour inColour, int shade);
 		void drawBox(Graphics& g, Path& outline, float width, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted);
 		void drawBevel(Graphics& g, float width, float height);
 };

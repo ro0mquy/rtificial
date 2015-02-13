@@ -11,8 +11,8 @@ struct BlenderThemeComponent {
 	Colour text;
 	Colour textSelected;
 	bool shaded;
-	float shadeTop;
-	float shadeDown;
+	int shadeTop;
+	int shadeDown;
 };
 
 struct BlenderThemeStyles {
@@ -50,9 +50,9 @@ class BlenderTheme {
 			/* InnerSelected */ Colour(0xff646464),
 			/* Text          */ Colour(0xff000000),
 			/* TextSelected  */ Colour(0xffffffff),
-			/* Shaded    */   true,
-			/* ShadeTop  */  0.15f,
-			/* ShadeDown */ -0.15f,
+			/* Shaded    */ true,
+			/* ShadeTop  */   15,
+			/* ShadeDown */  -15,
 		};
 
 		BlenderThemeComponent Option {
@@ -62,9 +62,9 @@ class BlenderTheme {
 			/* InnerSelected */ Colour(0xff464646),
 			/* Text          */ Colour(0xff000000),
 			/* TextSelected  */ Colour(0xffffffff),
-			/* Shaded    */   true,
-			/* ShadeTop  */  0.15f,
-			/* ShadeDown */ -0.15f,
+			/* Shaded    */ true,
+			/* ShadeTop  */   15,
+			/* ShadeDown */  -15,
 		};
 
 		BlenderThemeComponent Pulldown {
@@ -74,9 +74,9 @@ class BlenderTheme {
 			/* InnerSelected */ Colour(0xff5680c2),
 			/* Text          */ Colour(0xff000000),
 			/* TextSelected  */ Colour(0xff000000),
-			/* Shaded    */  false,
-			/* ShadeTop  */  0.25f,
-			/* ShadeDown */ -0.20f,
+			/* Shaded    */ false,
+			/* ShadeTop  */   25,
+			/* ShadeDown */  -20,
 		};
 
 		BlenderThemeComponent MenuBack {
@@ -86,9 +86,9 @@ class BlenderTheme {
 			/* InnerSelected */ Colour(0xff2d2d2d).withAlpha(0.902f),
 			/* Text          */ Colour(0xffa0a0a0),
 			/* TextSelected  */ Colour(0xffffffff),
-			/* Shaded    */  false,
-			/* ShadeTop  */  0.25f,
-			/* ShadeDown */ -0.20f,
+			/* Shaded    */ false,
+			/* ShadeTop  */   25,
+			/* ShadeDown */  -20,
 		};
 
 		BlenderThemeComponent MenuItem {
@@ -98,9 +98,9 @@ class BlenderTheme {
 			/* InnerSelected */ Colour(0xff5680c2),
 			/* Text          */ Colour(0xffffffff),
 			/* TextSelected  */ Colour(0xff000000),
-			/* Shaded    */   true,
-			/* ShadeTop  */  0.38f,
-			/* ShadeDown */  0.00f,
+			/* Shaded    */ true,
+			/* ShadeTop  */   38,
+			/* ShadeDown */    0,
 		};
 
 		BlenderThemeComponent ScrollBar {
@@ -110,9 +110,9 @@ class BlenderTheme {
 			/* InnerSelected */ Colour(0xff646464).withAlpha(0.706f),
 			/* Text          */ Colour(0xff000000),
 			/* TextSelected  */ Colour(0xffffffff),
-			/* Shaded    */   true,
-			/* ShadeTop  */  0.05f,
-			/* ShadeDown */ -0.05f,
+			/* Shaded    */ true,
+			/* ShadeTop  */    5,
+			/* ShadeDown */   -5,
 		};
 
 
@@ -120,7 +120,7 @@ class BlenderTheme {
 			/* menuShadowStrength */  0.5f,
 			/* menushadowWidth    */ 12.0f,
 			/* IconAlpha          */  1.0f,
-			/* widgetEmboss       */ Colour(0xffffffff).withAlpha(0.1f),
+			/* widgetEmboss       */ Colour(0xffffffff).withAlpha(0.075f),
 		};
 
 		BlenderThemeSpaceSettings SpaceSettings {

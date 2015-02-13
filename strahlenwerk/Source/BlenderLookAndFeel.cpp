@@ -25,6 +25,15 @@ BlenderLookAndFeel::BlenderLookAndFeel(BlenderTheme theme_) :
 	setColour(PopupMenu::highlightedTextColourId, theme.MenuItem.textSelected);
 }
 
+
+Colour BlenderLookAndFeel::shadeColour(Colour inColour, int shade) {
+	return Colour(
+		uint8(inColour.getRed()   + shade),
+		uint8(inColour.getGreen() + shade),
+		uint8(inColour.getBlue()  + shade)
+	);
+}
+
 void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted) {
 	// emboss
 	g.setColour(theme.Styles.widgetEmboss);
@@ -34,8 +43,8 @@ void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, fl
 	if (themeComponent.shaded) {
 		g.setGradientFill(
 			ColourGradient(
-				baseColor.brighter(shadeInverted ? themeComponent.shadeDown : themeComponent.shadeTop), 0.0f, 0.0f,
-				baseColor.brighter(shadeInverted ? themeComponent.shadeTop : themeComponent.shadeDown), 0.0f, height,
+				shadeColour(baseColor, shadeInverted ? themeComponent.shadeDown : themeComponent.shadeTop), 0.0f, 0.0f,
+				shadeColour(baseColor, shadeInverted ? themeComponent.shadeTop : themeComponent.shadeDown), 0.0f, height,
 				false
 			)
 		);
@@ -233,16 +242,16 @@ void BlenderLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x
 		if (isScrollbarVertical) {
 			g.setGradientFill(
 				ColourGradient(
-					trackColor.brighter(theme.ScrollBar.shadeDown), x + trackIndent, 0.0f,
-					trackColor.brighter(theme.ScrollBar.shadeTop), width - 2*trackIndent, 0.0f,
+					shadeColour(trackColor, theme.ScrollBar.shadeDown), x + trackIndent, 0.0f,
+					shadeColour(trackColor, theme.ScrollBar.shadeTop), width - 2*trackIndent, 0.0f,
 					false
 				)
 			);
 		} else {
 			g.setGradientFill(
 				ColourGradient(
-					trackColor.brighter(theme.ScrollBar.shadeDown), 0.0f, y + trackIndent,
-					trackColor.brighter(theme.ScrollBar.shadeTop), 0.0f, height - 2*trackIndent - emboss,
+					shadeColour(trackColor, theme.ScrollBar.shadeDown), 0.0f, y + trackIndent,
+					shadeColour(trackColor, theme.ScrollBar.shadeTop), 0.0f, height - 2*trackIndent - emboss,
 					false
 				)
 			);
@@ -286,16 +295,16 @@ void BlenderLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x
 		if (isScrollbarVertical) {
 			g.setGradientFill(
 				ColourGradient(
-					thumbColor.brighter(theme.ScrollBar.shadeTop), x + trackIndent, 0.0f,
-					thumbColor.brighter(theme.ScrollBar.shadeDown), width - 2*trackIndent, 0.0f,
+					shadeColour(thumbColor, theme.ScrollBar.shadeTop), x + trackIndent, 0.0f,
+					shadeColour(thumbColor, theme.ScrollBar.shadeDown), width - 2*trackIndent, 0.0f,
 					false
 				)
 			);
 		} else {
 			g.setGradientFill(
 				ColourGradient(
-					thumbColor.brighter(theme.ScrollBar.shadeTop), 0.0f, y + trackIndent,
-					thumbColor.brighter(theme.ScrollBar.shadeDown), 0.0f, height - 2*trackIndent - emboss,
+					shadeColour(thumbColor, theme.ScrollBar.shadeTop), 0.0f, y + trackIndent,
+					shadeColour(thumbColor, theme.ScrollBar.shadeDown), 0.0f, height - 2*trackIndent - emboss,
 					false
 				)
 			);
@@ -393,11 +402,12 @@ void BlenderLookAndFeel::drawPopupMenuItem (Graphics& g, const Rectangle<int>& a
 			baseColor = baseColor.withMultipliedAlpha(disabledAlpha);
 			textColor = textColor.withMultipliedAlpha(disabledAlpha);
 		}
-		if (theme.MenuItem.shaded) {
+
+		if (theme.MenuItem.shaded && !baseColor.isTransparent()) {
 			g.setGradientFill(
 				ColourGradient(
-					baseColor.brighter(theme.MenuItem.shadeTop), 0.0f, 0.0f,
-					baseColor.brighter(theme.MenuBack.shadeDown), 0.0f, r.getHeight(),
+					shadeColour(baseColor, theme.MenuItem.shadeTop), 0.0f, 0.0f,
+					shadeColour(baseColor, theme.MenuItem.shadeDown), 0.0f, r.getHeight(),
 					false
 				)
 			);
