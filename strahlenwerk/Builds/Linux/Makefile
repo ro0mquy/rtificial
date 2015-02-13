@@ -68,11 +68,12 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
-  $(OBJDIR)/ValueSlider_d188aa40.o \
   $(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o \
   $(OBJDIR)/InspectorSequenceComponent_294b0841.o \
   $(OBJDIR)/InspectorComponent_96983e82.o \
   $(OBJDIR)/Sidebar_eccfc76a.o \
+  $(OBJDIR)/ValueSlider_d188aa40.o \
+  $(OBJDIR)/ValueEditorPropertyComponent_ae881406.o \
   $(OBJDIR)/Selection_45a84fa7.o \
   $(OBJDIR)/JsonExporter_56469f78.o \
   $(OBJDIR)/SpecialUniformController_926d55c6.o \
@@ -82,7 +83,6 @@ OBJECTS := \
   $(OBJDIR)/ZoomFactor_9cf7cc11.o \
   $(OBJDIR)/Interpolator_e73f9cd6.o \
   $(OBJDIR)/KeyframeComponent_bb6b78ca.o \
-  $(OBJDIR)/ValueEditorPropertyComponent_c62ae299.o \
   $(OBJDIR)/SequenceComponent_10a22e57.o \
   $(OBJDIR)/UniformsBarComponent_d6185a18.o \
   $(OBJDIR)/SceneComponent_2e62f260.o \
@@ -214,11 +214,6 @@ $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	@echo "Compiling UniformManager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/ValueSlider_d188aa40.o: ../../Source/Sidebar/ValueSlider.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ValueSlider.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o: ../../Source/Sidebar/SequenceBackgroundComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling SequenceBackgroundComponent.cpp"
@@ -237,6 +232,16 @@ $(OBJDIR)/InspectorComponent_96983e82.o: ../../Source/Sidebar/InspectorComponent
 $(OBJDIR)/Sidebar_eccfc76a.o: ../../Source/Sidebar/Sidebar.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Sidebar.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ValueSlider_d188aa40.o: ../../Source/Sidebar/ValueSlider.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ValueSlider.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ValueEditorPropertyComponent_ae881406.o: ../../Source/Sidebar/ValueEditorPropertyComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ValueEditorPropertyComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Selection_45a84fa7.o: ../../Source/Timeline/Selection.cpp
@@ -282,11 +287,6 @@ $(OBJDIR)/Interpolator_e73f9cd6.o: ../../Source/Timeline/Interpolator.cpp
 $(OBJDIR)/KeyframeComponent_bb6b78ca.o: ../../Source/Timeline/KeyframeComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling KeyframeComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/ValueEditorPropertyComponent_c62ae299.o: ../../Source/Timeline/ValueEditorPropertyComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ValueEditorPropertyComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SequenceComponent_10a22e57.o: ../../Source/Timeline/SequenceComponent.cpp

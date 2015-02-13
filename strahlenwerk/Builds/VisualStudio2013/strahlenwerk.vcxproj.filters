@@ -355,9 +355,6 @@
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Sidebar\ValueSlider.cpp">
-      <Filter>strahlenwerk\Source\Sidebar</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
@@ -368,6 +365,12 @@
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\Sidebar.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\ValueSlider.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\Selection.cpp">
@@ -395,9 +398,6 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\KeyframeComponent.cpp">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\ValueEditorPropertyComponent.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\SequenceComponent.cpp">
@@ -1695,9 +1695,6 @@
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Sidebar\ValueSlider.h">
-      <Filter>strahlenwerk\Source\Sidebar</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
@@ -1708,6 +1705,12 @@
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\Sidebar.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\ValueSlider.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\Selection.h">
@@ -1738,9 +1741,6 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\KeyframeComponent.h">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\ValueEditorPropertyComponent.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\SequenceComponent.h">

@@ -5,9 +5,8 @@
 static const double sliderRange = 1000.;
 static const double sliderStepSize = .001;
 
-ValueSlider::ValueSlider(Value valueData_, const String transactionName_) :
+ValueSlider::ValueSlider(const String transactionName_) :
 	Slider(Slider::IncDecButtons, Slider::TextBoxLeft),
-	valueData(valueData_),
 	transactionName(transactionName_)
 {
 	setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);

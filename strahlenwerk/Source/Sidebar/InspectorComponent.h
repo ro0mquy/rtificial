@@ -3,7 +3,7 @@
 
 #include <juce>
 #include <Sidebar/SequenceBackgroundComponent.h>
-#include <Timeline/ValueEditorPropertyComponent.h>
+#include <Sidebar/ValueEditorPropertyComponent.h>
 
 class Selection;
 

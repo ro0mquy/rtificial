@@ -4,9 +4,6 @@
 #include <ColorPicker/LabColor.h>
 #include <ColorPicker/LabColorPicker.h>
 
-static const double sliderRange = 1000.;
-static const double sliderStepSize = .001;
-
 class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
 		BoolEditorPropertyComponent(const String& name, ValueTree valueData) :
@@ -33,7 +30,7 @@ class FloatEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
 		FloatEditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 1),
-			sliderX(Value(), "Changed " + name + " Value")
+			sliderX("Changed " + name + " Value")
 		{
 			useValueData(valueData);
 			addAndMakeVisible(sliderX);
@@ -54,15 +51,9 @@ class Vec2EditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
 		Vec2EditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 2),
-			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
-			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft)
+			sliderX("Changed " + name + " Value"),
+			sliderY("Changed " + name + " Value")
 		{
-			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderY.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderX.setMouseDragSensitivity(500 * sliderRange);
-			sliderY.setMouseDragSensitivity(500 * sliderRange);
 			useValueData(valueData);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
@@ -70,17 +61,13 @@ class Vec2EditorPropertyComponent : public ValueEditorPropertyComponent {
 
 		void useValueData(ValueTree valueData) override {
 			TimelineData& data = TimelineData::getTimelineData();
-			floatX.referTo(data.getValueVec2XAsValue(valueData));
-			floatY.referTo(data.getValueVec2YAsValue(valueData));
-			sliderX.getValueObject().referTo(floatX);
-			sliderY.getValueObject().referTo(floatY);
+			sliderX.setValueData(data.getValueVec2XAsValue(valueData));
+			sliderY.setValueData(data.getValueVec2YAsValue(valueData));
 		}
 
 	private:
-		Value floatX;
-		Value floatY;
-		Slider sliderX;
-		Slider sliderY;
+		ValueSlider sliderX;
+		ValueSlider sliderY;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec2EditorPropertyComponent)
 };
@@ -89,19 +76,10 @@ class Vec3EditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
 		Vec3EditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 3),
-			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
-			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft),
-			sliderZ(Slider::IncDecButtons, Slider::TextBoxLeft)
+			sliderX("Changed " + name + " Value"),
+			sliderY("Changed " + name + " Value"),
+			sliderZ("Changed " + name + " Value")
 		{
-			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderZ.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderY.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderZ.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderX.setMouseDragSensitivity(500 * sliderRange);
-			sliderY.setMouseDragSensitivity(500 * sliderRange);
-			sliderZ.setMouseDragSensitivity(500 * sliderRange);
 			useValueData(valueData);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
@@ -110,21 +88,15 @@ class Vec3EditorPropertyComponent : public ValueEditorPropertyComponent {
 
 		void useValueData(ValueTree valueData) override {
 			TimelineData& data = TimelineData::getTimelineData();
-			floatX.referTo(data.getValueVec3XAsValue(valueData));
-			floatY.referTo(data.getValueVec3YAsValue(valueData));
-			floatZ.referTo(data.getValueVec3ZAsValue(valueData));
-			sliderX.getValueObject().referTo(floatX);
-			sliderY.getValueObject().referTo(floatY);
-			sliderZ.getValueObject().referTo(floatZ);
+			sliderX.setValueData(data.getValueVec3XAsValue(valueData));
+			sliderY.setValueData(data.getValueVec3YAsValue(valueData));
+			sliderZ.setValueData(data.getValueVec3ZAsValue(valueData));
 		}
 
 	private:
-		Value floatX;
-		Value floatY;
-		Value floatZ;
-		Slider sliderX;
-		Slider sliderY;
-		Slider sliderZ;
+		ValueSlider sliderX;
+		ValueSlider sliderY;
+		ValueSlider sliderZ;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec3EditorPropertyComponent)
 };
@@ -133,23 +105,11 @@ class Vec4EditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
 		Vec4EditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 4),
-			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft),
-			sliderY(Slider::IncDecButtons, Slider::TextBoxLeft),
-			sliderZ(Slider::IncDecButtons, Slider::TextBoxLeft),
-			sliderW(Slider::IncDecButtons, Slider::TextBoxLeft)
+			sliderX("Changed " + name + " Value"),
+			sliderY("Changed " + name + " Value"),
+			sliderZ("Changed " + name + " Value"),
+			sliderW("Changed " + name + " Value")
 		{
-			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderY.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderZ.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderW.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderY.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderZ.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderW.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderX.setMouseDragSensitivity(500 * sliderRange);
-			sliderY.setMouseDragSensitivity(500 * sliderRange);
-			sliderZ.setMouseDragSensitivity(500 * sliderRange);
-			sliderW.setMouseDragSensitivity(500 * sliderRange);
 			useValueData(valueData);
 			addAndMakeVisible(sliderX);
 			addAndMakeVisible(sliderY);
@@ -160,31 +120,23 @@ class Vec4EditorPropertyComponent : public ValueEditorPropertyComponent {
 		void useValueData(ValueTree valueData) override {
 			TimelineData& data = TimelineData::getTimelineData();
 			if (data.isValueQuat(valueData)) {
-				floatX.referTo(data.getValueQuatXAsValue(valueData));
-				floatY.referTo(data.getValueQuatYAsValue(valueData));
-				floatZ.referTo(data.getValueQuatZAsValue(valueData));
-				floatW.referTo(data.getValueQuatWAsValue(valueData));
+				sliderX.setValueData(data.getValueQuatXAsValue(valueData));
+				sliderY.setValueData(data.getValueQuatYAsValue(valueData));
+				sliderZ.setValueData(data.getValueQuatZAsValue(valueData));
+				sliderW.setValueData(data.getValueQuatWAsValue(valueData));
 			} else {
-				floatX.referTo(data.getValueVec4XAsValue(valueData));
-				floatY.referTo(data.getValueVec4YAsValue(valueData));
-				floatZ.referTo(data.getValueVec4ZAsValue(valueData));
-				floatW.referTo(data.getValueVec4WAsValue(valueData));
+				sliderX.setValueData(data.getValueVec4XAsValue(valueData));
+				sliderY.setValueData(data.getValueVec4YAsValue(valueData));
+				sliderZ.setValueData(data.getValueVec4ZAsValue(valueData));
+				sliderW.setValueData(data.getValueVec4WAsValue(valueData));
 			}
-			sliderX.getValueObject().referTo(floatX);
-			sliderY.getValueObject().referTo(floatY);
-			sliderZ.getValueObject().referTo(floatZ);
-			sliderW.getValueObject().referTo(floatW);
 		}
 
 	private:
-		Value floatX;
-		Value floatY;
-		Value floatZ;
-		Value floatW;
-		Slider sliderX;
-		Slider sliderY;
-		Slider sliderZ;
-		Slider sliderW;
+		ValueSlider sliderX;
+		ValueSlider sliderY;
+		ValueSlider sliderZ;
+		ValueSlider sliderW;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec4EditorPropertyComponent)
 };
