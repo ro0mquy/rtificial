@@ -81,6 +81,10 @@ void Renderer::scenesChanged() {
 	reloadScenes();
 }
 
+void Renderer::ambientLightsChanged() {
+	reloadAmbientLights();
+}
+
 void Renderer::setSize(int _width, int _height) {
 	renderMutex.lock();
 	width = _width;
@@ -108,30 +112,38 @@ void Renderer::performToggleHalfResolution() {
 
 void Renderer::reloadPostproc() {
 	auto newPostproc = StrahlenwerkApplication::getInstance()->getProject().getPostproc();
-	renderMutex.lock();
-	if(newPostproc != nullptr) {
-		if(defaultPostproc == nullptr) {
-			defaultPostproc = std::move(postproc);
+	{
+		std::lock_guard<std::mutex> lock(renderMutex);
+		if(newPostproc != nullptr) {
+			if(defaultPostproc == nullptr) {
+				defaultPostproc = std::move(postproc);
+			} else {
+				postprocDeletionQueue.push_back(std::move(postproc));
+			}
+			postproc = std::move(newPostproc);
 		} else {
-			postprocDeletionQueue.push_back(std::move(postproc));
-		}
-		postproc = std::move(newPostproc);
-	} else {
-		if(defaultPostproc != nullptr) {
-			postproc = std::move(defaultPostproc);
+			if(defaultPostproc != nullptr) {
+				postproc = std::move(defaultPostproc);
+			}
 		}
 	}
-	renderMutex.unlock();
 	context.triggerRepaint();
 }
 
 void Renderer::reloadScenes() {
 	auto newScenes = StrahlenwerkApplication::getInstance()->getProject().getScenes();
-	renderMutex.lock();
-	scenesDeletionQueue.push_back(std::move(scenes));
-	scenes = std::move(newScenes);
-	renderMutex.unlock();
+	{
+		std::lock_guard<std::mutex> lock(renderMutex);
+		scenesDeletionQueue.push_back(std::move(scenes));
+		scenes = std::move(newScenes);
+	}
 	context.triggerRepaint();
+}
+
+void Renderer::reloadAmbientLights() {
+	{
+		std::lock_guard<std::mutex> lock(renderMutex);
+	}
 }
 
 void Renderer::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {

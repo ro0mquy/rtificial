@@ -5,6 +5,7 @@ class ProjectListener {
 	public:
 		virtual void postprocChanged() {}
 		virtual void scenesChanged() {}
+		virtual void ambientLightsChanged() {}
 };
 
 #endif

@@ -25,6 +25,7 @@ class Renderer :
 		void renderOpenGL() override;
 		void postprocChanged() override;
 		void scenesChanged() override;
+		void ambientLightsChanged() override;
 		void setSize(int width, int height);
 		uint64_t getLastFrameDuration();
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
@@ -51,6 +52,7 @@ class Renderer :
 		void performToggleHalfResolution();
 		void reloadPostproc();
 		void reloadScenes();
+		void reloadAmbientLights();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Renderer)
 };

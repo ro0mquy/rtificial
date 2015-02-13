@@ -17,6 +17,7 @@ template<typename SceneObject>
 class Scenes;
 class Shader;
 class AudioManager;
+class AmbientLight;
 
 class Project :
 	private efsw::FileWatchListener,
@@ -60,9 +61,11 @@ class Project :
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
 		std::vector<std::unique_ptr<SceneShader>> loadSceneShaders();
+		std::vector<std::unique_ptr<Shader>> loadEnvironmentShaders();
 		std::vector<std::pair<std::string, std::string>> listShaderSources(const std::vector<File>& files);
 		void postprocChanged();
 		void scenesChanged();
+		void ambientLightsChanged();
 		void watchFiles(const std::string& dir);
 		void addUniforms(const Shader& shader);
 		void reloadPostproc();
@@ -74,6 +77,7 @@ class Project :
 
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes<SceneShader>> scenes;
+		std::unique_ptr<Scenes<AmbientLight>> ambientLights;
 		std::vector<ProjectListener*> listeners;
 		OpenGLContext* context;
 		ProjectFileLoader loader;

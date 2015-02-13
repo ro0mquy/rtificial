@@ -11,6 +11,7 @@ class ProjectFileLoader {
 
 		std::vector<File> listPostprocFiles() const;
 		std::vector<File> listSceneFiles() const;
+		std::vector<File> listEnvironmentFiles() const;
 		File getMappingFile() const;
 		File getTimelineDataFile() const;
 		File getAudioFile() const;

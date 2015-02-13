@@ -23,6 +23,10 @@ std::vector<File> ProjectFileLoader::listSceneFiles() const {
 	return listFiles(sceneDir);
 }
 
+std::vector<File> ProjectFileLoader::listEnvironmentFiles() const {
+	return listFiles(environmentsDir);
+}
+
 File ProjectFileLoader::getMappingFile() const {
 	return projectDir.getChildFile("mapping.txt");
 }
