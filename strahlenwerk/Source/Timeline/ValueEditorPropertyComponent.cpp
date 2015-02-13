@@ -1,5 +1,6 @@
 #include "ValueEditorPropertyComponent.h"
-#include "TimelineData.h"
+#include <Timeline/TimelineData.h>
+#include <Sidebar/ValueSlider.h>
 #include <ColorPicker/LabColor.h>
 #include <ColorPicker/LabColorPicker.h>
 
@@ -32,24 +33,19 @@ class FloatEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
 		FloatEditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 1),
-			sliderX(Slider::IncDecButtons, Slider::TextBoxLeft)
+			sliderX(Value(), "Changed " + name + " Value")
 		{
-			sliderX.setIncDecButtonsMode(Slider::incDecButtonsDraggable_Horizontal);
-			sliderX.setRange(-sliderRange, sliderRange, sliderStepSize);
-			sliderX.setMouseDragSensitivity(500 * sliderRange);
 			useValueData(valueData);
 			addAndMakeVisible(sliderX);
 		}
 
 		void useValueData(ValueTree valueData) override {
 			TimelineData& data = TimelineData::getTimelineData();
-			floatX.referTo(data.getValueFloatXAsValue(valueData));
-			sliderX.getValueObject().referTo(floatX);
+			sliderX.setValueData(data.getValueFloatXAsValue(valueData));
 		}
 
 	private:
-		Value floatX;
-		Slider sliderX;
+		ValueSlider sliderX;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FloatEditorPropertyComponent)
 };

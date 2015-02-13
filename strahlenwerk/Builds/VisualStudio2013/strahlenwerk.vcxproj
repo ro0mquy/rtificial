@@ -154,6 +154,7 @@
     <ClCompile Include="..\..\Source\Rendering\SceneShader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Uniform.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\ValueSlider.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp"/>
@@ -1296,6 +1297,7 @@
     <ClInclude Include="..\..\Source\Rendering\Uniform.h"/>
     <ClInclude Include="..\..\Source\Rendering\UniformManager.h"/>
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\ValueSlider.h"/>
     <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h"/>
