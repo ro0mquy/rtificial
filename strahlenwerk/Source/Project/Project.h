@@ -54,6 +54,7 @@ class Project :
 			reloadShaderFiles,
 			saveTimeline,
 			reloadTimeline,
+			reloadEnvironments,
 		};
 
 	private:
@@ -69,6 +70,7 @@ class Project :
 		void reloadAudio();
 		void reloadTimelineData();
 		void performOpenProject();
+		void reloadAmbientLights();
 
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes> scenes;

@@ -21,6 +21,7 @@ class ProjectFileLoader {
 		const File& getPostprocDir() const;
 		const File& getIncludeDir() const;
 		const File& getBuildDir() const;
+		const File& getEnvironmentsDir() const;
 
 		static std::string loadFile(const std::string& path);
 
@@ -32,5 +33,6 @@ class ProjectFileLoader {
 		File sceneDir;
 		File includeDir;
 		File buildDir;
+		File environmentsDir;
 };
 #endif

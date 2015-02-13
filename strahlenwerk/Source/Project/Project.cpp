@@ -420,6 +420,9 @@ void Project::applicationCommandInvoked(const ApplicationCommandTarget::Invocati
 		case Project::reloadTimeline:
 			reloadTimelineData();
 			break;
+		case Project::reloadEnvironments:
+			reloadAmbientLights();
+			break;
 	}
 }
 
@@ -583,4 +586,8 @@ void Project::performOpenProject() {
 		auto path = fileChooser.getResult().getFullPathName().toStdString();
 		loadDirectory(path);
 	}
+}
+
+void Project::reloadAmbientLights() {
+	// TODO
 }

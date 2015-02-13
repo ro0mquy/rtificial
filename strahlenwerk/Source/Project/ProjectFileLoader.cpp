@@ -10,7 +10,8 @@ ProjectFileLoader::ProjectFileLoader(std::string projectRoot) :
 	postprocDir(projectDir.getChildFile("postproc")),
 	sceneDir(projectDir.getChildFile("scenes")),
 	includeDir(projectDir.getChildFile("include")),
-	buildDir(projectDir.getChildFile("build"))
+	buildDir(projectDir.getChildFile("build")),
+	environmentsDir(projectDir.getChildFile("environments"))
 {
 }
 
@@ -56,6 +57,10 @@ const File& ProjectFileLoader::getIncludeDir() const {
 
 const File& ProjectFileLoader::getBuildDir() const {
 	return buildDir;
+}
+
+const File& ProjectFileLoader::getEnvironmentsDir() const {
+	return environmentsDir;
 }
 
 std::string ProjectFileLoader::loadFile(const std::string& path) {
