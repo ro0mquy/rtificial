@@ -39,6 +39,7 @@ void ScenesBarComponent::updateSize() {
 void ScenesBarComponent::paint(Graphics& g) {
 	// höhö G-Punkt
 
+	/*
 	// draw waveform thumb nail
 	auto& audioManager = AudioManager::getAudioManager();
 	auto& audioThumb = audioManager.getThumbnail();
@@ -51,6 +52,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 	g.setColour(findColour(ScenesBarComponent::waveformColourId));
 	audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 0, 1.);
 	//audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 1, 1.);
+	// */
 
 	// draw ticks
 	g.setColour(findColour(ScenesBarComponent::tickColourId));

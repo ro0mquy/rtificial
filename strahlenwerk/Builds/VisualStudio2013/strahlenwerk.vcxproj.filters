@@ -331,6 +331,9 @@
     <ClCompile Include="..\..\Source\Rendering\EnvironmentMap.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Rendering\glcorert.cpp">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Rendering\Scenes.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
@@ -1654,6 +1657,9 @@
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\glcorearb.h">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Rendering\glcorert.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\PostprocPipelineLoader.h">

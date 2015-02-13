@@ -26,12 +26,12 @@ struct Input : public Connector {
 struct Output : public Connector {
 	int maxLod = 0;
 
-	using Connector::Connector;
+	Output(std::string name, int components) : Connector(name, components) {}
 };
 
 class PostprocShader : public Shader {
 	public:
-		using Shader::Shader;
+		PostprocShader(OpenGLContext& context, std::string name) : Shader(context, name) {}
 		~PostprocShader();
 
 		const std::vector<Input>& getInputs() const;

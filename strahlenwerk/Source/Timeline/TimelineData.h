@@ -71,6 +71,7 @@ class TimelineData :
 		ValueTree addUniform(ValueTree uniform);
 		ValueTree addUniform(var name, var type);
 		ValueTree addUniformUnchecked(ValueTree uniform);
+		void removeUniform(ValueTree uniform);
 
 		var getUniformName(ValueTree uniform);
 		var getUniformType(ValueTree uniform);
@@ -83,6 +84,7 @@ class TimelineData :
 
 		int getUniformIndex(ValueTree uniform);
 		int compareUniforms(const ValueTree& first, const ValueTree& second);
+		void bakeUniform(ValueTree uniform);
 
 
 		// sequence stuff
@@ -141,6 +143,7 @@ class TimelineData :
 		// value stuff
 		int getNumValueProperties(ValueTree value);
 		bool initializeValue(ValueTree valueData, String valueType);
+		String getValueAsString(ValueTree value);
 
 		bool isValueBool(ValueTree value);
 		bool isValueFloat(ValueTree value);
@@ -209,6 +212,7 @@ class TimelineData :
 
 
 		// math stuff (glm, ...)
+		bool getBoolFromValue(ValueTree value);
 		float getFloatFromValue(ValueTree value);
 		glm::vec2 getVec2FromValue(ValueTree value);
 		glm::vec3 getVec3FromValue(ValueTree value);

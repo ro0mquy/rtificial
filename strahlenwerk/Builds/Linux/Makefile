@@ -60,6 +60,7 @@ OBJECTS := \
   $(OBJDIR)/Project_dae16ce4.o \
   $(OBJDIR)/ProjectFileLoader_546d9f73.o \
   $(OBJDIR)/EnvironmentMap_3b0268d5.o \
+  $(OBJDIR)/glcorert_b13e1c72.o \
   $(OBJDIR)/Scenes_9b218bf3.o \
   $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
@@ -167,6 +168,11 @@ $(OBJDIR)/ProjectFileLoader_546d9f73.o: ../../Source/Project/ProjectFileLoader.c
 $(OBJDIR)/EnvironmentMap_3b0268d5.o: ../../Source/Rendering/EnvironmentMap.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling EnvironmentMap.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/glcorert_b13e1c72.o: ../../Source/Rendering/glcorert.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling glcorert.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Scenes_9b218bf3.o: ../../Source/Rendering/Scenes.cpp

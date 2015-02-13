@@ -53,6 +53,7 @@ class Project :
 			openProject = 0x7f41da00,
 			reloadShaderFiles,
 			saveTimeline,
+			reloadTimeline,
 		};
 
 	private:
@@ -66,6 +67,7 @@ class Project :
 		void reloadPostproc();
 		void reloadScenes();
 		void reloadAudio();
+		void reloadTimelineData();
 		void performOpenProject();
 
 		std::unique_ptr<PostprocPipeline> postproc;

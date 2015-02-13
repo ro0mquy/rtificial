@@ -9,6 +9,7 @@ namespace PropertyNames {
 	const static String OpenGLWidth = "opengl_component_width";
 	const static String OpenGLHeight = "opengl_component_height";
 	const static String HalfResolutionEnabled = "half_resolution_enabled";
+	const static String AudioMuted = "audio_muted";
 };
 
 #endif

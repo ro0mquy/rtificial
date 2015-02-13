@@ -2,7 +2,7 @@
 #define POSTPROCPIPELINE_H
 
 #define GL_GLEXT_PROTOTYPES
-#include "glcorearb.h"
+#include "glcorert.h"
 
 #include <vector>
 #include <memory>

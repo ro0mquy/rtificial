@@ -6,6 +6,7 @@
 #include <OpenGLComponent.h>
 #include <Project/Project.h>
 #include <Timeline/TimelineData.h>
+#include <AudioManager.h>
 
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()
@@ -82,6 +83,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Project::openProject,
 		Project::reloadShaderFiles,
 		Project::saveTimeline,
+		Project::reloadTimeline,
 		OpenGLComponent::toggleGrid,
 		Renderer::toggleHalfResolution,
 		CameraController::playPauseWithAnimation,
@@ -92,6 +94,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Renderer::makeDemo,
 		TimelineData::undoAction,
 		TimelineData::redoAction,
+		AudioManager::toggleMute,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -104,7 +107,7 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 	switch (commandID) {
 
 		case MainWindow::quitProgram:
-			result.setInfo("Quit!", "Shuts down all the Beam Factory!", programCategory, 0);
+			result.setInfo("Quit", "Shuts down all the strahlenwerk!", programCategory, 0);
 			result.addDefaultKeypress('q', ModifierKeys::commandModifier);
 			break;
 
@@ -126,6 +129,11 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 		case Project::saveTimeline:
 			result.setInfo("Save Timeline", "Save the timeline data to a file", programCategory, 0);
 			result.addDefaultKeypress('s', ModifierKeys::commandModifier);
+			break;
+
+		case Project::reloadTimeline:
+			result.setInfo("Reload Timeline", "Reload Timeline data from file and discard local changes", programCategory, 0);
+			result.addDefaultKeypress('r', ModifierKeys::commandModifier | ModifierKeys::shiftModifier);
 			break;
 
 		case CameraController::playPauseWithAnimation:
@@ -164,8 +172,13 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			break;
 
 		case Renderer::makeDemo:
-			result.setInfo("Make demo", "Make a demo about it!", programCategory, 0);
+			result.setInfo("Make Demo", "Make a demo about it!", programCategory, 0);
 			result.addDefaultKeypress('d', ModifierKeys::commandModifier);
+			break;
+
+		case AudioManager::toggleMute:
+			result.setInfo("Toggle Audio Mute", "Mutes or unmutes the audio track", programCategory, 0);
+			result.addDefaultKeypress('m', ModifierKeys::commandModifier);
 			break;
 
 		case TimelineData::undoAction:
@@ -218,7 +231,7 @@ bool MainWindow::perform(const InvocationInfo& info) {
 // it provides the content for a menu bar
 
 StringArray MainWindow::getMenuBarNames() {
-	const char* const names[] = { "File", "Build", nullptr };
+	const char* const names[] = { "File", "Edit", "View", "Timeline", "Help", nullptr };
 	return StringArray(names);
 }
 
@@ -227,21 +240,34 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 	ApplicationCommandManager* commandManager = &getApplicationCommandManager();
 	PopupMenu menu;
 
-	if (topLevelMenuIndex == 0) {
+	if (topLevelMenuIndex == 0 /* File */) {
 		menu.addCommandItem(commandManager, Project::openProject);
-		menu.addCommandItem(commandManager, Project::saveTimeline);
 		menu.addCommandItem(commandManager, Project::reloadShaderFiles);
+		menu.addCommandItem(commandManager, Project::reloadTimeline);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, Project::saveTimeline);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, Renderer::makeDemo);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, MainWindow::quitProgram);
+	} else if (topLevelMenuIndex == 1 /* Edit */) {
+		menu.addCommandItem(commandManager, TimelineData::undoAction);
+		menu.addCommandItem(commandManager, TimelineData::redoAction);
+	} else if (topLevelMenuIndex == 2 /* View */) {
 		menu.addCommandItem(commandManager, OpenGLComponent::toggleGrid);
 		menu.addCommandItem(commandManager, Renderer::toggleHalfResolution);
 		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);
+	} else if (topLevelMenuIndex == 3 /* Timeline */) {
 		menu.addCommandItem(commandManager, CameraController::setKeyframe);
+		menu.addSeparator();
 		menu.addCommandItem(commandManager, CameraController::resetCameraPosition);
 		menu.addCommandItem(commandManager, CameraController::resetCameraRotation);
-		menu.addCommandItem(commandManager, TimelineData::undoAction);
-		menu.addCommandItem(commandManager, TimelineData::redoAction);
-		menu.addCommandItem(commandManager, MainWindow::quitProgram);
-	} else if (topLevelMenuIndex == 1) {
-		menu.addCommandItem(commandManager, Renderer::makeDemo);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, AudioManager::toggleMute);
+	} else if (topLevelMenuIndex == 4 /* Help */) {
+		menu.addItem(41, "No Help available. You are lost.", false);
+		menu.addSeparator();
+		menu.addItem(42, "About");
 	}
 
 	return menu;
@@ -249,8 +275,10 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 
 // react on menu items that are not handled by the commandManager
 void MainWindow::menuItemSelected(int menuItemID, int /*topLevelMenuIndex*/) {
-	if (menuItemID == 23) {
-		// dummy
+	if (menuItemID == 42) {
+		AlertWindow aboutWindow("About", "Strahlenwerk is brought to you by rtificial.", AlertWindow::AlertIconType::InfoIcon);
+		aboutWindow.addButton("Close", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
+		aboutWindow.runModalLoop();
 	}
 }
 

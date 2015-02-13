@@ -10,6 +10,8 @@
 class TimelineData;
 class Interpolator;
 
+static const int timerInterval = 15;
+
 class SpecialUniformController {
 	public:
 		SpecialUniformController(TimelineData& data_) : data(data_) {}
@@ -37,7 +39,7 @@ class TimeController :
 	public SpecialUniformController
 {
 	public:
-		using SpecialUniformController::SpecialUniformController;
+		TimeController(TimelineData& data_) : SpecialUniformController(data_) {}
 		bool shouldAddUniformToTimlineData(String& uniformName) override;
 		bool wantControlUniform(String& uniformName) override;
 		std::pair<ValueTree, bool> getUniformState(String& uniformName) override;
@@ -97,7 +99,6 @@ class CameraController :
 		glm::quat rotation;
 		bool hasControl;
 
-		static constexpr int timerInterval = 15;
 		const String cameraPositionName;
 		const String cameraRotationName;
 

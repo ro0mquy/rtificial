@@ -1,10 +1,11 @@
 #define GL_GLEXT_PROTOTYPES
-#include "glcorearb.h"
+#include "glcorert.h"
 
 #include "PostprocShader.h"
 
 #include <vector>
 #include <utility>
+#include <algorithm>
 
 
 PostprocShader::~PostprocShader() {
@@ -179,7 +180,8 @@ void PostprocShader::createFBO(int width, int height) {
 
 	const auto& outputs = getOutputs();
 	const int n = outputs.size();
-	GLenum drawBuffers[n];
+	std::vector<GLenum> drawBuffers;
+	drawBuffers.resize(n);
 	textures.resize(n);
 	glGenTextures(n, &textures[0]);
 
@@ -226,7 +228,7 @@ void PostprocShader::createFBO(int width, int height) {
 		drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
 	}
 
-	glDrawBuffers(n, drawBuffers);
+	glDrawBuffers(n, drawBuffers.data());
 	fbo_created = true;
 }
 

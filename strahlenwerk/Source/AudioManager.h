@@ -17,6 +17,7 @@ class AudioManager :
 		void loadFile(const File& audioFile);
 		void loadEnvelopes(const File& envelopeFile);
 		void togglePlayPause();
+		void performMute();
 		int getTime();
 		void setTime(int newTimeInBeats);
 		float* getCurrentEnvelopes();
@@ -26,6 +27,10 @@ class AudioManager :
 
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
 		void applicationCommandListChanged() override;
+
+		enum CommandIDs {
+			toggleMute = 0x47e1da00,
+		};
 
 	private:
 		class AudioTransportSourceWithCallback :

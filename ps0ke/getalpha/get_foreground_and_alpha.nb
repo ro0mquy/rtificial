@@ -1,0 +1,120 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      3301,        110]
+NotebookOptionsPosition[      2955,         93]
+NotebookOutlinePosition[      3294,        108]
+CellTagsIndexPosition[      3251,        105]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "Find a foreground color ",
+ StyleBox["f", "Code"],
+ " and its alpha-value ",
+ StyleBox["\[Alpha]", "Code"],
+ " by comparing two known background and composite colors ",
+ StyleBox["b1", "Code"],
+ ", ",
+ StyleBox["c1", "Code"],
+ " and ",
+ StyleBox["b2", "Code"],
+ ", ",
+ StyleBox["c2", "Code"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.632501137454371*^9, 3.632501221088469*^9}, {
+  3.632501256148308*^9, 3.632501303272563*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"Solve", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"c1", " ", "\[Equal]", " ", 
+        RowBox[{
+         RowBox[{"f", " ", "\[Alpha]"}], " ", "+", 
+         RowBox[{"b1", " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "-", "\[Alpha]"}], ")"}]}]}]}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"c2", " ", "\[Equal]", " ", 
+        RowBox[{
+         RowBox[{"f", " ", "\[Alpha]"}], " ", "+", " ", 
+         RowBox[{"b2", " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "-", "\[Alpha]"}], ")"}]}]}]}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"f", ",", "\[Alpha]"}], "}"}]}], "\[IndentingNewLine]", "]"}], 
+   " ", "/.", " ", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"b1", "\[Rule]", 
+      RowBox[{"104", "/", "255"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{"c1", "\[Rule]", 
+      RowBox[{"92", "/", "255"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{"b2", "\[Rule]", 
+      RowBox[{"33", "/", "255"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{"c2", "\[Rule]", 
+      RowBox[{"29", "/", "255"}]}]}], "\[IndentingNewLine]", "}"}]}], " ", "//",
+   "N"}]], "Input",
+ CellChangeTimes->{{3.632498764355412*^9, 3.632498939576234*^9}, {
+  3.632499001023747*^9, 3.6324990367866507`*^9}, {3.632499085348576*^9, 
+  3.6324991353695087`*^9}, {3.632499168462471*^9, 3.632499174474306*^9}, {
+  3.632499627098737*^9, 3.632499650681633*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"f", "\[Rule]", 
+     RowBox[{"-", "0.00980392156862745`"}]}], ",", 
+    RowBox[{"\[Alpha]", "\[Rule]", "0.11267605633802817`"}]}], "}"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{
+  3.6324988695450974`*^9, {3.6324991088797483`*^9, 3.632499116848608*^9}, {
+   3.632499169996202*^9, 3.6324991781823177`*^9}, 3.632499652291403*^9}]
+}, Open  ]]
+},
+WindowSize->{808, 753},
+WindowMargins->{{Automatic, 778}, {147, Automatic}},
+FrontEndVersion->"10.0 for Linux x86 (64-bit) (December 4, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 442, 16, 51, "Text"],
+Cell[CellGroupData[{
+Cell[1025, 40, 1514, 38, 231, "Input"],
+Cell[2542, 80, 397, 10, 32, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
