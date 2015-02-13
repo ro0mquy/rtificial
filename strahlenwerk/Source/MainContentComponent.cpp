@@ -1,6 +1,7 @@
 #include "MainContentComponent.h"
 #include <StrahlenwerkApplication.h>
 #include <PropertyNames.h>
+#include <RtificialLookAndFeel.h>
 
 MainContentComponent::MainContentComponent() :
 	verticalResizer(&verticalLayout, 1, false),

@@ -6,13 +6,15 @@
 #include "Timeline/SequenceComponent.h"
 #include "Timeline/KeyframeComponent.h"
 #include "Timeline/TimeMarkerComponent.h"
-#include "RtColourIds.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
+	const Colour outlineColor = Colours::black;
+
 	// ScenesBarComponent
 	setColour(ScenesBarComponent::tickColourId, Colours::white);
 	setColour(ScenesBarComponent::waveformColourId, Colours::white);
 	setColour(ScenesBarComponent::textColourId, Colours::black);
+	setColour(ScenesBarComponent::outlineColourId, outlineColor);
 
 	// SceneComponent
 	setColour(SceneComponent::outlineColourId, Colours::yellow);
@@ -41,9 +43,6 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 
 	// TimeMarkerComponent
 	setColour(TimeMarkerComponent::fillColourId, Colours::red);
-
-	// RtColourIds
-	setColour(RtColourIds::outlineColourId, Colours::black);
 }
 
 void RtificialLookAndFeel::drawStretchableLayoutResizerBar(Graphics& g, int w, int h, bool isVerticalBar, bool isMouseOver, bool isMouseDragging) {

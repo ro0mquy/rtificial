@@ -3,7 +3,6 @@
 
 #include <juce>
 #include "BlenderLookAndFeel.h"
-#include "RtColourIds.h"
 
 class RtificialLookAndFeel : public BlenderLookAndFeel
 {

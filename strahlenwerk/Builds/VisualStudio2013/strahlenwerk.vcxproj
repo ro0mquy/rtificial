@@ -1322,7 +1322,6 @@
     <ClInclude Include="..\..\Source\OpenGLTargetComponent.h"/>
     <ClInclude Include="..\..\Source\PropertyNames.h"/>
     <ClInclude Include="..\..\Source\Renderer.h"/>
-    <ClInclude Include="..\..\Source\RtColourIds.h"/>
     <ClInclude Include="..\..\Source\RtificialLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\StrahlenwerkApplication.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

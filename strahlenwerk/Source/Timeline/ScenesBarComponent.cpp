@@ -1,6 +1,5 @@
 #include "ScenesBarComponent.h"
 
-#include <RtificialLookAndFeel.h>
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include "SceneComponent.h"
@@ -80,7 +79,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 	}
 
 	// draw outline
-	g.setColour(findColour(RtColourIds::outlineColourId));
+	g.setColour(findColour(ScenesBarComponent::outlineColourId));
 	g.drawHorizontalLine(height - 1, 0, width);
 }
 

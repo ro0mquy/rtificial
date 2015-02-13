@@ -2,6 +2,7 @@
 #include "TimelineData.h"
 #include "SpecialUniformController.h"
 #include <AudioManager.h>
+#include <RtificialLookAndFeel.h>
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
