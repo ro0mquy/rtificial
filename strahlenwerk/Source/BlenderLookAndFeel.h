@@ -10,6 +10,8 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		BlenderLookAndFeel();
 		BlenderLookAndFeel(BlenderTheme theme);
 
+		void drawStretchableLayoutResizerBar(Graphics& g, int width, int height, bool isVerticalBar, bool isMouseOver, bool isMouseDragging);
+
 		void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) override;
 		void drawButtonText(Graphics& g, TextButton& button, bool isMouseOverButton, bool isButtonDown) override;
 
@@ -44,6 +46,7 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		const Colour bevelColourDown = Colours::black;
 
 		void drawBox(Graphics& g, Path& outline, float width, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted);
+		void drawBevel(Graphics& g, float width, float height);
 };
 
 #endif

@@ -31,11 +31,11 @@ void MainContentComponent::setDefaultLayout() {
 	const int glComponentHeight = properties.getIntValue(PropertyNames::OpenGLHeight, 300);
 
 	horizontalLayout.setItemLayout(0, 200, -1., getWidth() - glComponentWidth - 8);
-	horizontalLayout.setItemLayout(1, 8, 8, 8);
+	horizontalLayout.setItemLayout(1, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth);
 	horizontalLayout.setItemLayout(2, 160, -1., glComponentWidth);
 
 	verticalLayout.setItemLayout(0, 90, -1., glComponentHeight);
-	verticalLayout.setItemLayout(1, 8, 8, 8);
+	verticalLayout.setItemLayout(1, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth);
 	verticalLayout.setItemLayout(2, 200, -1., getHeight() - glComponentHeight - 8 );
 	verticalBoxLayout.resized();
 }

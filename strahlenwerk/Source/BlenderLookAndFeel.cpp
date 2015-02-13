@@ -49,6 +49,46 @@ void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, fl
 	g.strokePath(outline, PathStrokeType(1.0f));
 }
 
+void BlenderLookAndFeel::drawBevel(Graphics& g, float width, float height) {
+	g.setColour(bevelColourTop.withAlpha(bevelAlpha));
+	g.drawLine(
+		0.5f,
+		bevel / 2.0f + bevelOffset,
+		width - bevel / 2.0f - bevelOffset,
+		bevel / 2.0f + bevelOffset,
+		bevel
+	);
+	g.drawLine(
+		0.5f,
+		bevel / 2.0f + bevelOffset,
+		0.5f,
+		height - bevelOffset,
+		bevel
+	);
+
+	g.setColour(bevelColourDown.withAlpha(bevelAlpha));
+	g.drawLine(
+		0.5f,
+		height - 0.5f,
+		width - bevelOffset - bevel / 2.0f,
+		height - 0.5f,
+		bevel
+	);
+	g.drawLine(
+		width - 0.5f - bevelOffset,
+		bevel / 2.0f + bevelOffset,
+		width - 0.5f - bevelOffset,
+		height,
+		bevel
+	);
+}
+
+
+void BlenderLookAndFeel::drawStretchableLayoutResizerBar(Graphics& g, int width, int height, bool /*isVerticalBar*/, bool /*isMouseOver*/, bool /*isMouseDragging*/) {
+	g.fillAll(findColour(ResizableWindow::backgroundColourId));
+	drawBevel(g, float(width), float(height));
+}
+
 
 void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) {
     const bool flatOnLeft   = button.isConnectedOnLeft();
@@ -275,40 +315,8 @@ int BlenderLookAndFeel::getDefaultMenuBarHeight() {
 }
 
 void BlenderLookAndFeel::drawMenuBarBackground(Graphics& g, int width, int height, bool /*isMouseOverBar*/, MenuBarComponent& /*menuBar*/) {
-	g.setColour(theme.SpaceSettings.header);
-    g.fillRect(Rectangle<int>(width, height));
-
-	g.setColour(bevelColourTop.withAlpha(bevelAlpha));
-	g.drawLine(
-		0.5f,
-		bevel / 2.0f + bevelOffset,
-		width - bevel / 2.0f - bevelOffset,
-		bevel / 2.0f + bevelOffset,
-		bevel
-	);
-	g.drawLine(
-		0.5f,
-		bevel / 2.0f + bevelOffset,
-		0.5f,
-		height - bevelOffset,
-		bevel
-	);
-
-	g.setColour(bevelColourDown.withAlpha(bevelAlpha));
-	g.drawLine(
-		0.5f,
-		height - 0.5f,
-		width - bevelOffset - bevel / 2.0f,
-		height - 0.5f,
-		bevel
-	);
-	g.drawLine(
-		width - 0.5f - bevelOffset,
-		bevel / 2.0f + bevelOffset,
-		width - 0.5f - bevelOffset,
-		height,
-		bevel
-	);
+	g.fillAll(theme.SpaceSettings.header);
+	drawBevel(g, float(width), float(height));
 }
 
 int BlenderLookAndFeel::getMenuBarItemWidth(MenuBarComponent& menuBar, int itemIndex, const String& itemText) {
