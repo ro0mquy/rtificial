@@ -22,7 +22,9 @@ struct BlenderThemeStyles {
 	Colour widgetEmboss;
 };
 
+// User Preferences -> Theme Space Settings
 struct BlenderThemeSpaceSettings {
+	Colour windowBackground;
 	Colour title;
 	Colour text;
 	Colour textHighlight;
@@ -122,6 +124,7 @@ class BlenderTheme {
 		};
 
 		BlenderThemeSpaceSettings SpaceSettings {
+			/* windowBackground    */ Colour(0xff727272),
 			/* title               */ Colour(0xff000000),
 			/* text                */ Colour(0xff000000),
 			/* textHighlight       */ Colour(0xffffffff),

@@ -7,6 +7,8 @@ BlenderLookAndFeel::BlenderLookAndFeel() :
 BlenderLookAndFeel::BlenderLookAndFeel(BlenderTheme theme_) :
 	theme(theme_)
 {
+	setColour(ResizableWindow::backgroundColourId, theme.SpaceSettings.windowBackground);
+
 	setColour(TextButton::buttonColourId, theme.Tool.inner);
 	setColour(TextButton::buttonOnColourId, theme.Tool.innerSelected);
 	setColour(TextButton::textColourOffId, theme.Tool.text);

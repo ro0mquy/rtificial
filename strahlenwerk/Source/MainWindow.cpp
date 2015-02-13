@@ -18,7 +18,7 @@ static ScopedPointer<ApplicationCommandManager> applicationCommandManager;
    */
 MainWindow::MainWindow() :
 	DocumentWindow (ProjectInfo::projectName,
-			Colours::darkgrey,
+			findColour(ResizableWindow::backgroundColourId),
 			DocumentWindow::allButtons)
 {
 	setName("strahlenwerk - BER edition");
