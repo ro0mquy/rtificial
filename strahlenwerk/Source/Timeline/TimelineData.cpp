@@ -56,6 +56,10 @@ UndoManager& TimelineData::getUndoManager() {
 	return undoManager;
 }
 
+Selection& TimelineData::getSelection() {
+	return selection;
+}
+
 void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 	var jsonRepresentation;
 	const Result result = JSON::parse(dataFile.loadFileAsString(), jsonRepresentation);

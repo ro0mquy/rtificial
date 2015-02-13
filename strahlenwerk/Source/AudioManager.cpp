@@ -93,11 +93,14 @@ void AudioManager::performMute() {
 
 // time is returned as milli beats
 int AudioManager::getTime() {
-	return transportSource.getCurrentPosition() * (getBpm() / 60.) * 1000.;
+	return roundDoubleToInt(transportSource.getCurrentPosition() * (getBpm() / 60.) * 1000.);
 }
 
 // newTime should be in milli beats
 void AudioManager::setTime(int newTime) {
+	if (newTime == getTime()) {
+		return;
+	}
 	transportSource.setPosition(newTime / (getBpm() / 60.) / 1000.);
 	sendChangeMessage();
 }

@@ -3,7 +3,7 @@
 #include <RtColourIds.h>
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
-#include "ValueEditorPropertyComponent.h"
+#include <Sidebar/ValueEditorPropertyComponent.h>
 
 UniformsBarComponent::UniformsBarComponent() :
 	data(TimelineData::getTimelineData())

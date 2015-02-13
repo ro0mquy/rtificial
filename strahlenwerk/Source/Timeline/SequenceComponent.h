@@ -38,6 +38,7 @@ class SequenceComponent :
 
 		enum ColourIds {
 			fillColourId = 0x4934001,
+			highlightedFillColourId,
 			outlineColourId,
 			textColourId,
 		};

@@ -52,7 +52,7 @@ class SequenceViewComponent :
 
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
-		TimeMarkerComponent timeMarker;
+		TimelineTimeMarkerComponent timeMarker;
 		OwnedArray<SequenceComponent> sequenceComponentsArray;
 
 		ValueTree currentlyCreatedSequenceData;

@@ -2,6 +2,7 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include "ZoomFactor.h"
+#include <Sidebar/InspectorSequenceComponent.h>
 
 KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
 	keyframeData(keyframeData_),
@@ -9,7 +10,6 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFa
 	zoomFactor(zoomFactor_)
 {
 	keyframeData.addListener(this);
-	zoomFactor.addChangeListener(this);
 
 	setPositioner(new Positioner(*this, keyframeData, data, zoomFactor));
 
@@ -19,9 +19,10 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFa
 	setMouseCursor(MouseCursor(MouseCursor::StandardCursorType::DraggingHandCursor));
 }
 
-KeyframeComponent::Positioner::Positioner(Component& component, ValueTree keyframeData_, TimelineData& data_, ZoomFactor& zoomFactor_) :
+KeyframeComponent::Positioner::Positioner(KeyframeComponent& component, ValueTree keyframeData_, TimelineData& data_, ZoomFactor& zoomFactor_) :
 	Component::Positioner(component),
 	keyframeData(keyframeData_),
+	keyframeComponent(component),
 	data(data_),
 	zoomFactor(zoomFactor_)
 {
@@ -29,12 +30,11 @@ KeyframeComponent::Positioner::Positioner(Component& component, ValueTree keyfra
 
 KeyframeComponent::~KeyframeComponent() {
 	keyframeData.removeListener(this);
-	zoomFactor.removeChangeListener(this);
 }
 
 void KeyframeComponent::updateBounds() {
 	const float keyframeWidth = 4.;
-	const float position = (float) data.getKeyframePosition(keyframeData) * zoomFactor;
+	const float position = timeToPixels(data.getKeyframePosition(keyframeData));
 	const int height = getParentHeight();
 	setBounds(roundFloatToInt(position - keyframeWidth / 2), 0, roundFloatToInt(keyframeWidth), height);
 }
@@ -44,9 +44,20 @@ void KeyframeComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 
 	if (xChanged) {
 		// dragging
-		const int newCentreX = newBounds.getCentreX() / zoomFactor;
-		const int newPosition = zoomFactor.snapValueToGrid(newCentreX);
-		data.setKeyframePosition(keyframeData, newPosition);
+		ValueTree parentSequenceData = data.getKeyframeParentSequence(keyframeData);
+		const int sequenceStart = data.getAbsoluteStartForSequence(parentSequenceData);
+		const int sequenceDuration = data.getSequenceDuration(parentSequenceData);
+
+		const int relativeNewPosition = keyframeComponent.pixelsToTime(newBounds.getCentreX());
+		const int absoluteNewPosition = relativeNewPosition + sequenceStart;
+
+		const int absoluteNewPositionGrid = zoomFactor.snapValueToGrid(absoluteNewPosition);
+		const int relativeNewPositionGrid = absoluteNewPositionGrid - sequenceStart;
+
+		if (relativeNewPositionGrid > 0 && relativeNewPositionGrid < sequenceDuration) {
+			// don't set keyframe at start or end
+			data.setKeyframePosition(keyframeData, relativeNewPositionGrid);
+		}
 	}
 }
 
@@ -102,11 +113,6 @@ void KeyframeComponent::parentHierarchyChanged() {
 	updateBounds();
 }
 
-void KeyframeComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
-	// zoomFactor update
-	updateBounds();
-}
-
 // ValueTree::Listener callbacks
 void KeyframeComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& property) {
 	// parent is always the keyframeData tree
@@ -125,4 +131,60 @@ void KeyframeComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
 }
 
 void KeyframeComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
+}
+
+
+TimelineKeyframeComponent::TimelineKeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
+	KeyframeComponent(keyframeData_, zoomFactor_)
+{
+	zoomFactor.addChangeListener(this);
+}
+
+TimelineKeyframeComponent::~TimelineKeyframeComponent() {
+	zoomFactor.removeChangeListener(this);
+}
+
+float TimelineKeyframeComponent::timeToPixels(const int time) {
+	return zoomFactor.timeToPixels(time);
+}
+
+int TimelineKeyframeComponent::pixelsToTime(const float pixels) {
+	return zoomFactor.pixelsToTime(pixels);
+}
+
+void TimelineKeyframeComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	// zoomFactor update
+	updateBounds();
+}
+
+
+InspectorKeyframeComponent::InspectorKeyframeComponent(InspectorSequenceComponent& sequenceComponent_, ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
+	KeyframeComponent(keyframeData_, zoomFactor_),
+	sequenceComponent(sequenceComponent_)
+{
+	sequenceComponent.sequenceData.addListener(this);
+}
+
+InspectorKeyframeComponent::~InspectorKeyframeComponent() {
+	sequenceComponent.sequenceData.removeListener(this);
+}
+
+float InspectorKeyframeComponent::timeToPixels(const int time) {
+	const float sequenceDuration = data.getSequenceDuration(sequenceComponent.sequenceData);
+	const float sequenceWidth = sequenceComponent.getWidth();
+	return time / sequenceDuration * sequenceWidth;
+}
+
+int InspectorKeyframeComponent::pixelsToTime(const float pixels) {
+	const float sequenceDuration = data.getSequenceDuration(sequenceComponent.sequenceData);
+	const float sequenceWidth = sequenceComponent.getWidth();
+	return pixels / sequenceWidth * sequenceDuration;
+}
+
+void InspectorKeyframeComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+	// parent is keyframe or parent sequence
+	if (property == treeId::sequenceDuration) {
+		updateBounds();
+	}
+	KeyframeComponent::valueTreePropertyChanged(parentTree, property);
 }

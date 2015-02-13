@@ -83,7 +83,7 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 
 	const ModifierKeys& m = event.mods;
 	if (isNotInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
-		if (CameraController::globalCameraController) {
+		if (CameraController::globalCameraController != nullptr) {
 			if (m.isShiftDown()) {
 				CameraController::globalCameraController->releaseControl();
 			} else {
@@ -97,6 +97,17 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 		AudioManager::getAudioManager().setTime(newTimeSnapped);
 	} else {
 		Component::mouseDrag(event);
+	}
+}
+
+void Timeline::mouseUp(const MouseEvent& event) {
+	const MouseEvent eventViewportSeqView = event.getEventRelativeTo(&viewportSequenceView);
+	const bool isNotInUniBar = eventViewportSeqView.getMouseDownX() >= 0 && eventViewportSeqView.x >= 0;
+
+	const ModifierKeys& m = event.mods;
+	if (isNotInUniBar && m.isRightButtonDown() && m.isShiftDown()) {
+		// clear selection
+		TimelineData::getTimelineData().getSelection().clear();
 	}
 }
 

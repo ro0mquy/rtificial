@@ -5,6 +5,7 @@
 #include <juce>
 #include <glm/fwd.hpp>
 #include "Interpolator.h"
+#include "Selection.h"
 
 class TimelineData :
 	private ApplicationCommandManagerListener
@@ -17,14 +18,14 @@ class TimelineData :
 		// misc functions
 		static TimelineData& getTimelineData();
 		Interpolator& getInterpolator();
+		std::recursive_mutex& getMutex();
+		UndoManager& getUndoManager();
+		Selection& getSelection();
 
 		void readTimelineDataFromFile(const File& dataFile);
 		void writeTimelineDataToFile(const File& dataFile);
 		void addListenerToTree(ValueTree::Listener* listener);
 		void removeListenerFromTree(ValueTree::Listener* listener);
-
-		std::recursive_mutex& getMutex();
-		UndoManager& getUndoManager();
 
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
 		void applicationCommandListChanged() override;
@@ -239,6 +240,7 @@ class TimelineData :
 		ValueTree valueTree;
 		UndoManager undoManager;
 		Interpolator interpolator;
+		Selection selection;
 
 		std::recursive_mutex treeMutex;
 

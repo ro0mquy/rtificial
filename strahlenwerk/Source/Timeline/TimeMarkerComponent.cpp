@@ -1,25 +1,24 @@
 #include "TimeMarkerComponent.h"
-#include <AudioManager.h>
-#include "ZoomFactor.h"
 
-TimeMarkerComponent::TimeMarkerComponent(ZoomFactor& zoomFactor_) :
-	audioManager(AudioManager::getAudioManager()),
-	zoomFactor(zoomFactor_)
+#include <AudioManager.h>
+#include <Timeline/ZoomFactor.h>
+#include <Timeline/TimelineData.h>
+
+TimeMarkerComponent::TimeMarkerComponent() :
+	audioManager(AudioManager::getAudioManager())
 {
 	audioManager.addChangeListener(this);
-	zoomFactor.addChangeListener(this);
+	setInterceptsMouseClicks(false, false);
 	setOpaque(true);
 	setAlwaysOnTop(true);
 }
 
 TimeMarkerComponent::~TimeMarkerComponent() {
 	audioManager.removeChangeListener(this);
-	zoomFactor.removeChangeListener(this);
 }
 
 void TimeMarkerComponent::updatePosition() {
-	// draw time marker
-	const float newCenter = audioManager.getTime() * zoomFactor;
+	const float newCenter = getCurrentPosition();
 	const int newX = roundFloatToInt(newCenter - getWidth() / 2.);
 	setTopLeftPosition(newX, getY());
 }
@@ -34,6 +33,9 @@ void TimeMarkerComponent::paint(Graphics& g) {
 }
 
 void TimeMarkerComponent::parentHierarchyChanged() {
+	if (getParentComponent() == nullptr) {
+		return;
+	}
 	updateSize();
 	updatePosition();
 }
@@ -41,4 +43,32 @@ void TimeMarkerComponent::parentHierarchyChanged() {
 void TimeMarkerComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// zoomFactor or time changed
 	updatePosition();
+}
+
+
+TimelineTimeMarkerComponent::TimelineTimeMarkerComponent(ZoomFactor& zoomFactor_) :
+	zoomFactor(zoomFactor_)
+{
+	zoomFactor.addChangeListener(this);
+}
+
+TimelineTimeMarkerComponent::~TimelineTimeMarkerComponent() {
+	zoomFactor.removeChangeListener(this);
+}
+
+float TimelineTimeMarkerComponent::getCurrentPosition() {
+	return audioManager.getTime() * zoomFactor;
+}
+
+
+InspectorTimeMarkerComponent::InspectorTimeMarkerComponent(ValueTree sequenceData_) :
+	sequenceData(sequenceData_),
+	data(TimelineData::getTimelineData())
+{
+}
+
+float InspectorTimeMarkerComponent::getCurrentPosition() {
+	const int sequenceStart = data.getAbsoluteStartForSequence(sequenceData);
+	const float sequenceDuration = data.getSequenceDuration(sequenceData);
+	return float(audioManager.getTime() - sequenceStart) / sequenceDuration * getParentWidth();
 }

@@ -6,13 +6,15 @@
 #include "Timeline/SequenceComponent.h"
 #include "Timeline/KeyframeComponent.h"
 #include "Timeline/TimeMarkerComponent.h"
+#include "Sidebar/Sidebar.h"
+#include "Sidebar/InspectorComponent.h"
 #include "RtColourIds.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
 	// ScenesBarComponent
 	setColour(ScenesBarComponent::tickColourId, Colours::white);
 	setColour(ScenesBarComponent::waveformColourId, Colours::white);
-	setColour(ScenesBarComponent::textColourId, Colours::black);
+	setColour(ScenesBarComponent::textColourId, Colours::white);
 
 	// SceneComponent
 	setColour(SceneComponent::outlineColourId, Colours::yellow);
@@ -34,6 +36,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	// SequenceComponent
 	setColour(SequenceComponent::outlineColourId, Colours::red);
 	setColour(SequenceComponent::fillColourId, findColour(SequenceComponent::outlineColourId).withAlpha(0.4f));
+	setColour(SequenceComponent::highlightedFillColourId, findColour(SequenceComponent::fillColourId).withAlpha(0.8f));
 	setColour(SequenceComponent::textColourId, Colours::white);
 
 	// KeyframeComponent
@@ -41,6 +44,12 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 
 	// TimeMarkerComponent
 	setColour(TimeMarkerComponent::fillColourId, Colours::red);
+
+	// Sidebar
+	setColour(Sidebar::tabBackgroundColourId, Colours::darkgrey);
+
+	// InspectorComponent
+	setColour(InspectorComponent::textColourId, Colours::black);
 
 	// RtColourIds
 	setColour(RtColourIds::outlineColourId, Colours::black);

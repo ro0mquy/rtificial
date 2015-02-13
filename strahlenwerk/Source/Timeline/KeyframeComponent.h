@@ -6,12 +6,12 @@
 
 class TimelineData;
 class ZoomFactor;
+class InspectorSequenceComponent;
 
 class KeyframeComponent :
 	public McbComponent,
 	private ComponentDragger,
-	private ValueTree::Listener,
-	private ChangeListener
+	protected ValueTree::Listener
 {
 	public:
 		KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_);
@@ -22,9 +22,11 @@ class KeyframeComponent :
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
 		void parentHierarchyChanged() override;
-		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 		void updateBounds();
+
+		virtual float timeToPixels(const int time) = 0;
+		virtual int pixelsToTime(const float pixels) = 0;
 
 		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
 		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
@@ -38,18 +40,21 @@ class KeyframeComponent :
 
 		ValueTree keyframeData;
 
-	private:
+	protected:
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
+
+	private:
 		ComponentBoundsConstrainer constrainer;
 
 		class Positioner : public Component::Positioner {
 			public:
-				Positioner(Component& component, ValueTree keyframeData_, TimelineData& data_, ZoomFactor& zoomFactor_);
+				Positioner(KeyframeComponent& component, ValueTree keyframeData_, TimelineData& data_, ZoomFactor& zoomFactor_);
 				void applyNewBounds(const Rectangle<int>& newBounds) override;
 
 			private:
 				ValueTree keyframeData;
+				KeyframeComponent& keyframeComponent;
 				TimelineData& data;
 				ZoomFactor& zoomFactor;
 
@@ -57,6 +62,41 @@ class KeyframeComponent :
 		};
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(KeyframeComponent)
+};
+
+class TimelineKeyframeComponent :
+	public KeyframeComponent,
+	private ChangeListener
+{
+	public:
+		TimelineKeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_);
+		~TimelineKeyframeComponent();
+
+		float timeToPixels(const int time) override;
+		int pixelsToTime(const float pixels) override;
+
+		void changeListenerCallback(ChangeBroadcaster* source) override;
+
+	private:
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineKeyframeComponent)
+};
+
+class InspectorKeyframeComponent :
+	public KeyframeComponent
+{
+	public:
+		InspectorKeyframeComponent(InspectorSequenceComponent& sequenceComponent_, ValueTree keyframeData_, ZoomFactor& zoomFactor_);
+		~InspectorKeyframeComponent();
+
+		float timeToPixels(const int time) override;
+		int pixelsToTime(const float pixels) override;
+
+		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
+
+	private:
+		InspectorSequenceComponent& sequenceComponent;
+
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorKeyframeComponent)
 };
 
 #endif // KEYFRAMECOMPONENT_H
