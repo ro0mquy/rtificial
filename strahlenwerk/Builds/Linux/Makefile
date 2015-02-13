@@ -73,6 +73,7 @@ OBJECTS := \
   $(OBJDIR)/InspectorComponent_96983e82.o \
   $(OBJDIR)/Sidebar_eccfc76a.o \
   $(OBJDIR)/ValueSlider_d188aa40.o \
+  $(OBJDIR)/ValueToggleButton_fed8bf05.o \
   $(OBJDIR)/ValueEditorPropertyComponent_ae881406.o \
   $(OBJDIR)/Selection_45a84fa7.o \
   $(OBJDIR)/JsonExporter_56469f78.o \
@@ -237,6 +238,11 @@ $(OBJDIR)/Sidebar_eccfc76a.o: ../../Source/Sidebar/Sidebar.cpp
 $(OBJDIR)/ValueSlider_d188aa40.o: ../../Source/Sidebar/ValueSlider.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ValueSlider.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ValueToggleButton_fed8bf05.o: ../../Source/Sidebar/ValueToggleButton.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ValueToggleButton.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/ValueEditorPropertyComponent_ae881406.o: ../../Source/Sidebar/ValueEditorPropertyComponent.cpp

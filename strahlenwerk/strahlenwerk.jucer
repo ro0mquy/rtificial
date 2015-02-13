@@ -88,6 +88,10 @@
         <FILE id="YGLoPF" name="Sidebar.h" compile="0" resource="0" file="Source/Sidebar/Sidebar.h"/>
         <FILE id="s6zYi5" name="ValueSlider.cpp" compile="1" resource="0" file="Source/Sidebar/ValueSlider.cpp"/>
         <FILE id="q9qock" name="ValueSlider.h" compile="0" resource="0" file="Source/Sidebar/ValueSlider.h"/>
+        <FILE id="nI8x29" name="ValueToggleButton.cpp" compile="1" resource="0"
+              file="Source/Sidebar/ValueToggleButton.cpp"/>
+        <FILE id="DMZiqT" name="ValueToggleButton.h" compile="0" resource="0"
+              file="Source/Sidebar/ValueToggleButton.h"/>
         <FILE id="BlstJV" name="ValueEditorPropertyComponent.cpp" compile="1"
               resource="0" file="Source/Sidebar/ValueEditorPropertyComponent.cpp"/>
         <FILE id="Ku7pWO" name="ValueEditorPropertyComponent.h" compile="0"

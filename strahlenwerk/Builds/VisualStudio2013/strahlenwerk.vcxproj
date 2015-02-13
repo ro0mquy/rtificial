@@ -159,6 +159,7 @@
     <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\Sidebar.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\ValueSlider.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\ValueToggleButton.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\Selection.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\JsonExporter.cpp"/>
@@ -1302,6 +1303,7 @@
     <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\Sidebar.h"/>
     <ClInclude Include="..\..\Source\Sidebar\ValueSlider.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\ValueToggleButton.h"/>
     <ClInclude Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.h"/>
     <ClInclude Include="..\..\Source\Timeline\Selection.h"/>
     <ClInclude Include="..\..\Source\Timeline\JsonExporter.h"/>

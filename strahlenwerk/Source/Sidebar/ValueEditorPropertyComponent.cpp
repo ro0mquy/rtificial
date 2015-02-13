@@ -1,13 +1,15 @@
 #include "ValueEditorPropertyComponent.h"
 #include <Timeline/TimelineData.h>
 #include <Sidebar/ValueSlider.h>
+#include <Sidebar/ValueToggleButton.h>
 #include <ColorPicker/LabColor.h>
 #include <ColorPicker/LabColorPicker.h>
 
 class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
 		BoolEditorPropertyComponent(const String& name, ValueTree valueData) :
-			ValueEditorPropertyComponent(name, 1)
+			ValueEditorPropertyComponent(name, 1),
+			button("Changed " + name + " Value")
 		{
 			useValueData(valueData);
 			addAndMakeVisible(button);
@@ -15,13 +17,11 @@ class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 
 		void useValueData(ValueTree valueData) override {
 			TimelineData& data = TimelineData::getTimelineData();
-			boolState.referTo(data.getValueBoolStateAsValue(valueData));
-			button.getToggleStateValue().referTo(boolState);
+			button.setValueData(data.getValueBoolStateAsValue(valueData));
 		}
 
 	private:
-		Value boolState;
-		ToggleButton button;
+		ValueToggleButton button;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BoolEditorPropertyComponent)
 };
