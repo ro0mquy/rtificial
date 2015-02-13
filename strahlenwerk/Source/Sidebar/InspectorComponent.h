@@ -3,6 +3,7 @@
 
 #include <juce>
 #include <Sidebar/SequenceBackgroundComponent.h>
+#include <Timeline/ValueEditorPropertyComponent.h>
 
 class Selection;
 
@@ -25,8 +26,14 @@ class InspectorComponent :
 
 	private:
 		Selection& selection;
+		AudioManager& audioManager;
+
 		ValueTree singleSelectedTree;
 		ScopedPointer<SequenceBackgroundComponent> sequencePreview;
+		ScopedPointer<ValueEditorPropertyComponent> keyframeValueEditor;
+
+		void initalizeSequenceEditing();
+		void updateSequenceEditor();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorComponent)
 };
