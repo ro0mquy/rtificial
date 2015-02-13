@@ -11,8 +11,9 @@
 #include "Project/Project.h"
 #include "Rendering/DefaultShader.h"
 #include "Rendering/Scenes.h"
-#include <MainWindow.h>
-#include <PropertyNames.h>
+#include "MainWindow.h"
+#include "PropertyNames.h"
+#include "Rendering/AmbientLight.h"
 
 Renderer::Renderer(OpenGLContext& context) :
 	context(context),
@@ -51,12 +52,14 @@ void Renderer::openGLContextClosing() {
 	postprocDeletionQueue.push_back(std::move(postproc));
 	scenesDeletionQueue.clear();
 	postprocDeletionQueue.clear();
+	ambientLightsDeletionQueue.clear();
 }
 
 void Renderer::renderOpenGL() {
 	renderMutex.lock();
 	scenesDeletionQueue.clear();
 	postprocDeletionQueue.clear();
+	ambientLightsDeletionQueue.clear();
 
 	if(scenes == nullptr) {
 		lastFrameDuration = postproc->render(defaultShader, width, height);
@@ -64,6 +67,12 @@ void Renderer::renderOpenGL() {
 		auto& data = TimelineData::getTimelineData();
 		const String shaderName = data.getSceneShaderSource(data.getCurrentScene());
 		const int shaderId = scenes->getObjectId(shaderName.toStdString());
+		if (ambientLights != nullptr) {
+			const int ambientId = ambientLights->getObjectId(shaderName.toStdString());
+			if (ambientId != -1) {
+				ambientLights->getObject(ambientId).bind();
+			}
+		}
 		if(shaderId == -1) {
 			lastFrameDuration = defaultPostproc->render(defaultShader, width, height);
 		} else {
@@ -141,9 +150,13 @@ void Renderer::reloadScenes() {
 }
 
 void Renderer::reloadAmbientLights() {
+	auto newAmbientLights = StrahlenwerkApplication::getInstance()->getProject().getAmbientLights();
 	{
 		std::lock_guard<std::mutex> lock(renderMutex);
+		ambientLightsDeletionQueue.push_back(std::move(ambientLights));
+		ambientLights = std::move(newAmbientLights);
 	}
+	context.triggerRepaint();
 }
 
 void Renderer::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {

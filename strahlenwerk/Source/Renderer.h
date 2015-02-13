@@ -10,6 +10,7 @@
 class PostprocPipeline;
 template<typename SceneObject>
 class Scenes;
+class AmbientLight;
 
 class Renderer :
 	public OpenGLRenderer,
@@ -42,10 +43,12 @@ class Renderer :
 		std::unique_ptr<PostprocPipeline> defaultPostproc;
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes<SceneShader>> scenes;
+		std::unique_ptr<Scenes<AmbientLight>> ambientLights;
 		std::mutex renderMutex;
 		int width, height;
 		std::vector<std::unique_ptr<PostprocPipeline>> postprocDeletionQueue;
 		std::vector<std::unique_ptr<Scenes<SceneShader>>> scenesDeletionQueue;
+		std::vector<std::unique_ptr<Scenes<AmbientLight>>> ambientLightsDeletionQueue;
 		uint64_t lastFrameDuration = 0;
 
 		void performMakeDemo();

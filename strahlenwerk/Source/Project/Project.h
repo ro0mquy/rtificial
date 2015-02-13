@@ -34,6 +34,7 @@ class Project :
 		void contextChanged(OpenGLContext& context);
 		std::unique_ptr<PostprocPipeline> getPostproc();
 		std::unique_ptr<Scenes<SceneShader>> getScenes();
+		std::unique_ptr<Scenes<AmbientLight>> getAmbientLights();
 		TimelineData& getTimelineData();
 		void loadDirectory(const std::string& dir);
 		const ProjectFileLoader& getLoader() const;

@@ -63,6 +63,10 @@ std::unique_ptr<Scenes<SceneShader>> Project::getScenes() {
 	return std::move(scenes);
 }
 
+std::unique_ptr<Scenes<AmbientLight>> Project::getAmbientLights() {
+	return std::move(ambientLights);
+}
+
 TimelineData& Project::getTimelineData() {
 	return timelineData;
 }
