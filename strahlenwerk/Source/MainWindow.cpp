@@ -18,7 +18,7 @@ static ScopedPointer<ApplicationCommandManager> applicationCommandManager;
    */
 MainWindow::MainWindow() :
 	DocumentWindow (ProjectInfo::projectName,
-			findColour(ResizableWindow::backgroundColourId),
+			LookAndFeel::getDefaultLookAndFeel().findColour(ResizableWindow::backgroundColourId), // nicht mehr kritzelila
 			DocumentWindow::allButtons)
 {
 	setName(StrahlenwerkApplication::getInstance()->getApplicationName()
