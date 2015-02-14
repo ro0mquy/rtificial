@@ -225,7 +225,6 @@ void Shader::addRtUniforms() {
 	std::string declarations;
 	for (const std::string& name : rtUniformMatches) {
 		const std::string& type = name.substr(name.find_last_of('_') + 1);
-		std::cout << name << ": " << type << '\n';
 
 		std::string declType;
 		std::string declComment;
