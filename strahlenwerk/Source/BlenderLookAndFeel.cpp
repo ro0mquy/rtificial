@@ -156,7 +156,7 @@ void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, cons
 }
 
 Font BlenderLookAndFeel::getTextButtonFont(TextButton& /*button*/, int buttonHeight) {
-	return Font(jmax(fontSize, buttonHeight * 0.6f));
+	return Font(jmin(fontSize, buttonHeight * 0.6f));
 }
 
 void BlenderLookAndFeel::drawButtonText(Graphics& g, TextButton& button, bool /*isMouseOverButton*/, bool isButtonDown) {
@@ -174,14 +174,14 @@ void BlenderLookAndFeel::drawButtonText(Graphics& g, TextButton& button, bool /*
 	}
 	g.setColour(textColour);
 
-    const int yIndent = jmin(4, button.proportionOfHeight (0.3f));
-    const int cornerSize = jmin(button.getHeight(), button.getWidth()) / 2;
+	const int yIndent = jmin(4, button.proportionOfHeight (0.3f));
+	const int cornerSize = jmin(button.getHeight(), button.getWidth()) / 2;
 
-    const int fontHeight = roundToInt(font.getHeight() * 0.6f);
-    const int leftIndent  = jmin(fontHeight, 2 + cornerSize / (button.isConnectedOnLeft() ? 4 : 2));
-    const int rightIndent = jmin(fontHeight, 2 + cornerSize / (button.isConnectedOnRight() ? 4 : 2));
+	const int fontHeight = roundToInt(font.getHeight() * 0.6f);
+	const int leftIndent  = jmin(fontHeight, 2 + cornerSize / (button.isConnectedOnLeft() ? 4 : 2));
+	const int rightIndent = jmin(fontHeight, 2 + cornerSize / (button.isConnectedOnRight() ? 4 : 2));
 
-    g.drawFittedText(
+	g.drawFittedText(
 		button.getButtonText(),
 		leftIndent,
 		yIndent,
@@ -212,8 +212,8 @@ void BlenderLookAndFeel::drawTickBox(Graphics& g, Component& /*component*/, floa
 	outline.addRoundedRectangle(x + 0.5, y + 0.5f, w, h, cornerRadius);
 	drawBox(g, outline, w, h, themeComponent, baseColor, ticked);
 
-    if (ticked) {
-        Path tick = getTickShape(0.6f * h);
+	if (ticked) {
+		Path tick = getTickShape(0.6f * h);
 
 		Colour tickColor = themeComponent.item;
 		if (! isEnabled) {
@@ -221,8 +221,8 @@ void BlenderLookAndFeel::drawTickBox(Graphics& g, Component& /*component*/, floa
 		}
         g.setColour(tickColor);
 
-        const AffineTransform trans(AffineTransform().translated(x + 0.1f*w, y));
-        g.strokePath(tick, PathStrokeType(2.0f), trans);
+		const AffineTransform trans(AffineTransform().translated(x + 0.1f*w, y));
+		g.strokePath(tick, PathStrokeType(2.0f), trans);
     }
 }
 
@@ -291,7 +291,7 @@ void BlenderLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x
 
 
 	// thumb
-    Path thumbPath;
+	Path thumbPath;
 	if (thumbSize > 0) {
 		if (isScrollbarVertical) {
 			thumbPath.addRoundedRectangle(
@@ -312,9 +312,9 @@ void BlenderLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x
 		}
 	}
 
-    Colour thumbColor(scrollbar.findColour(ScrollBar::thumbColourId, true));
-    if (isMouseDown) {
-        thumbColor = thumbColor.brighter(0.1f);
+	Colour thumbColor(scrollbar.findColour(ScrollBar::thumbColourId, true));
+	if (isMouseDown) {
+		thumbColor = thumbColor.brighter(0.1f);
 	}
 	if (theme.ScrollBar.shaded) {
 		if (isScrollbarVertical) {
@@ -366,8 +366,8 @@ void BlenderLookAndFeel::drawMenuBarItem(Graphics& g, int width_, int height_, i
 	const float height = height_ - 2.0*menuBarItemIoffset;
 
 	Colour textColor = theme.Pulldown.text;
-    if (! menuBar.isEnabled()) {
-        textColor = textColor.withMultipliedAlpha(disabledAlpha);
+	if (! menuBar.isEnabled()) {
+		textColor = textColor.withMultipliedAlpha(disabledAlpha);
 	}
 
 	if (isMenuOpen || isMouseOverItem) {
@@ -412,26 +412,26 @@ void BlenderLookAndFeel::drawPopupMenuBackground(Graphics& g, int width, int hei
 	g.strokePath(outline, PathStrokeType(1.0f));
 }
 
-void BlenderLookAndFeel::drawPopupMenuItem (Graphics& g, const Rectangle<int>& area, const bool isSeparator, const bool isActive, const bool isHighlighted, const bool isTicked, const bool hasSubMenu, const String& text, const String& shortcutKeyText, const Drawable* icon, const Colour* const textColourToUse) {
-    if(isSeparator) {
+void BlenderLookAndFeel::drawPopupMenuItem(Graphics& g, const Rectangle<int>& area, const bool isSeparator, const bool isActive, const bool isHighlighted, const bool isTicked, const bool hasSubMenu, const String& text, const String& shortcutKeyText, const Drawable* icon, const Colour* const textColourToUse) {
+	if(isSeparator) {
 		g.setColour(bevelColourTop.withAlpha(bevelAlpha));
 		g.drawLine(area.getX() + 0.5f, area.getCentreY() + 0.5f, area.getWidth(), area.getCentreY() + 0.5f, 1.0f);
-    } else {
-        Colour textColour(findColour(PopupMenu::textColourId));
+	} else {
+		Colour textColour(findColour(PopupMenu::textColourId));
 
-        if (textColourToUse != nullptr) {
-            textColour = *textColourToUse;
+		if (textColourToUse != nullptr) {
+			textColour = *textColourToUse;
 		}
 
-        Rectangle<int> r(area.reduced(1));
+		Rectangle<int> r(area.reduced(1));
 
 		Colour baseColor = theme.MenuItem.inner;
 		Colour textColor = findColour(PopupMenu::textColourId);
-        if (isHighlighted) {
+		if (isHighlighted) {
 			baseColor = findColour(PopupMenu::highlightedBackgroundColourId);
 			textColor = findColour(PopupMenu::highlightedTextColourId);
 		}
-        if (! isActive) {
+		if (! isActive) {
 			baseColor = baseColor.withMultipliedAlpha(disabledAlpha);
 			textColor = textColor.withMultipliedAlpha(disabledAlpha);
 		}
