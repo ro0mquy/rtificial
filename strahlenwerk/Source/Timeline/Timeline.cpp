@@ -106,7 +106,7 @@ void Timeline::mouseUp(const MouseEvent& event) {
 	const bool isNotInUniBar = eventViewportSeqView.getMouseDownX() >= 0 && eventViewportSeqView.x >= 0;
 
 	const ModifierKeys& m = event.mods;
-	if (isNotInUniBar && m.isRightButtonDown() && m.isShiftDown()) {
+	if (isNotInUniBar && m.isRightButtonDown() && !m.isAnyModifierKeyDown()) {
 		// clear selection
 		TimelineData::getTimelineData().getSelection().clear();
 	}

@@ -229,7 +229,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		data.getUndoManager().beginNewTransaction("Remove Sequence");
 		data.removeSequence(sequenceData);
 		// this component gets deleted after this, so don't do stupid things
-	} else if (event.mouseWasClicked() && m.isShiftDown() && m.isRightButtonDown()) {
+	} else if (event.mouseWasClicked() && m.isRightButtonDown() && !m.isAnyModifierKeyDown()) {
 		// add sequence to selection
 		data.getSelection().set(sequenceData);
 	} else {
