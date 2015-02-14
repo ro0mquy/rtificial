@@ -48,7 +48,7 @@ Colour BlenderLookAndFeel::shadeColour(Colour inColour, int shade) {
 	);
 }
 
-void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted) {
+void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted, const bool enabled) {
 	// emboss
 	g.setColour(theme.Styles.widgetEmboss);
 	g.strokePath(outline, PathStrokeType(emboss), AffineTransform::translation(0.0f, emboss));
@@ -65,10 +65,16 @@ void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, fl
 	} else {
 		g.setColour(baseColor);
 	}
+	if (! enabled) {
+		g.setOpacity(disabledAlpha);
+	}
 	g.fillPath(outline);
 
 	// outline
 	g.setColour(themeComponent.outline);
+	if (! enabled) {
+		g.setOpacity(disabledAlpha);
+	}
 	g.strokePath(outline, PathStrokeType(1.0f));
 }
 
@@ -148,7 +154,7 @@ void BlenderLookAndFeel::drawButtonBackground(Graphics& g, Button& button, const
 	if (isButtonDown) {
 		baseColor = theme.Tool.innerSelected;
 	} else if (isMouseOverButton) {
-		baseColor = baseColor.brighter(0.2f);
+		baseColor = baseColor.brighter(highlightedBrighter);
 	}
 
 	Path outline;
@@ -165,7 +171,7 @@ void BlenderLookAndFeel::drawButtonBackground(Graphics& g, Button& button, const
 		! (flatOnRight || flatOnBottom)
 	);
 
-	drawBox(g, outline, width, height, theme.Tool, baseColor, isButtonDown);
+	drawBox(g, outline, width, height, theme.Tool, baseColor, isButtonDown, button.isEnabled());
 }
 
 Font BlenderLookAndFeel::getTextButtonFont(TextButton& /*button*/, int buttonHeight) {
@@ -223,7 +229,7 @@ void BlenderLookAndFeel::drawTickBox(Graphics& g, Component& /*component*/, floa
 
 	Path outline;
 	outline.addRoundedRectangle(x + 0.5, y + 0.5f, w, h, cornerRadius);
-	drawBox(g, outline, w, h, themeComponent, baseColor, ticked);
+	drawBox(g, outline, w, h, themeComponent, baseColor, ticked, isEnabled);
 
 	if (ticked) {
 		Path tick = getTickShape(0.6f * h);
@@ -327,7 +333,7 @@ void BlenderLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, int x
 
 	Colour thumbColor(scrollbar.findColour(ScrollBar::thumbColourId, true));
 	if (isMouseDown) {
-		thumbColor = thumbColor.brighter(0.1f);
+		thumbColor = thumbColor.brighter(highlightedBrighter);
 	}
 	if (theme.ScrollBar.shaded) {
 		if (isScrollbarVertical) {
@@ -391,7 +397,7 @@ void BlenderLookAndFeel::drawMenuBarItem(Graphics& g, int width_, int height_, i
 
 		Path outline;
 		outline.addRoundedRectangle(0.5 + menuBarItemIoffset, 0.5f + menuBarItemIoffset, width, height, cornerRadius);
-		drawBox(g, outline, width, height, themeComponent, themeComponent.innerSelected, false);
+		drawBox(g, outline, width, height, themeComponent, themeComponent.innerSelected, false, true);
 	}
 
 	g.setColour(textColor);
@@ -530,7 +536,7 @@ void BlenderLookAndFeel::fillTextEditorBackground(Graphics& g, int width, int he
 		proportionalCornerRadius
 	);
 
-	drawBox(g, outline, width, height, theme.Text, textEditor.findColour(TextEditor::backgroundColourId), false);
+	drawBox(g, outline, width, height, theme.Text, textEditor.findColour(TextEditor::backgroundColourId), false, true);
 }
 
 void BlenderLookAndFeel::drawTextEditorOutline(Graphics& /*g*/, int /*width*/, int /*height*/, TextEditor& /*textEditor*/) {
@@ -548,6 +554,11 @@ void BlenderLookAndFeel::drawLabel(Graphics& g, Label& label) {
 	const float width = label.getLocalBounds().getWidth();
 	const float proportionalCornerRadius = (cornerRadius / componentHeight) * height;
 
+	Colour baseColor = label.findColour(Label::backgroundColourId);
+	if (label.isMouseOver()) {
+		baseColor = baseColor.brighter(highlightedBrighter);
+	}
+
 	Path outline;
 	outline.addRoundedRectangle(
 		0.5f,
@@ -557,7 +568,7 @@ void BlenderLookAndFeel::drawLabel(Graphics& g, Label& label) {
 		proportionalCornerRadius
 	);
 
-	drawBox(g, outline, width, height, theme.Text, label.findColour(Label::backgroundColourId), false);
+	drawBox(g, outline, width, height, theme.Text, baseColor, false, label.isEnabled());
 
 	if (! label.isBeingEdited()) {
 		const Font font = getLabelFont(label);

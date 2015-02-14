@@ -46,6 +46,7 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		const BlenderTheme theme;
 
 		const float disabledAlpha = 0.5f;
+		const float highlightedBrighter = 0.1f;
 
 		const float componentHeight = 20.0f;
 		const float cornerRadius = 4.0f;
@@ -62,7 +63,7 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		const float fontSize = 13.0f;
 
 		Colour shadeColour(Colour inColour, int shade);
-		void drawBox(Graphics& g, Path& outline, float width, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted);
+		void drawBox(Graphics& g, Path& outline, float width, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted, const bool enabled);
 		void drawBevel(Graphics& g, float width, float height);
 };
 
