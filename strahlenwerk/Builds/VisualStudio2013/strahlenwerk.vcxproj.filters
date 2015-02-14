@@ -23,6 +23,9 @@
     <Filter Include="strahlenwerk\Source\Timeline">
       <UniqueIdentifier>{87B668EA-D297-80DD-AE82-CE92D929454A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="strahlenwerk\Resources">
+      <UniqueIdentifier>{8D3EB866-3AC5-F34E-2D85-BB50C34CA12D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
     </Filter>
@@ -3115,6 +3118,9 @@
   <ItemGroup>
     <None Include="..\..\Source\juce">
       <Filter>strahlenwerk\Source</Filter>
+    </None>
+    <None Include="..\..\Resources\dejavu_sans_book.ttf">
+      <Filter>strahlenwerk\Resources</Filter>
     </None>
     <None Include="..\..\juce_modules\juce_audio_basics\juce_module_info">
       <Filter>Juce Modules\juce_audio_basics</Filter>

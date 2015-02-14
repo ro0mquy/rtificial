@@ -171,6 +171,10 @@
       <FILE id="ucF2Fs" name="StrahlenwerkApplication.h" compile="0" resource="0"
             file="Source/StrahlenwerkApplication.h"/>
     </GROUP>
+    <GROUP id="{9EE40B86-1021-AA71-8AD8-AF65CE0A3B7B}" name="Resources">
+      <FILE id="cI2ag8" name="dejavu_sans_book.ttf" compile="0" resource="1"
+            file="Resources/dejavu_sans_book.ttf"/>
+    </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
     <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-Wall -Wextra -I../../Source -I../../Lib/include"

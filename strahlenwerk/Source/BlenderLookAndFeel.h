@@ -10,9 +10,14 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		BlenderLookAndFeel();
 		BlenderLookAndFeel(BlenderTheme theme);
 
+		Typeface::Ptr getTypefaceForFont(const Font& font) override;
+
+		LowLevelGraphicsContext* createGraphicsContext(const Image& imageToRenderOn, const Point<int>& origin, const RectangleList<int>& initialClip) override;
+
 		void drawStretchableLayoutResizerBar(Graphics& g, int width, int height, bool isVerticalBar, bool isMouseOver, bool isMouseDragging);
 
 		void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) override;
+		Font getTextButtonFont(TextButton& button, int buttonHeight) override;
 		void drawButtonText(Graphics& g, TextButton& button, bool isMouseOverButton, bool isButtonDown) override;
 
 		Path getTickShape(const float height) override;
@@ -25,7 +30,9 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		int getDefaultMenuBarHeight() override;
 		void drawMenuBarBackground(Graphics& g, int width, int height, bool isMouseOverBar, MenuBarComponent& menuBar) override;
 		int getMenuBarItemWidth(MenuBarComponent& menuBar, int itemIndex, const String& itemText) override;
+		Font getMenuBarFont(MenuBarComponent& menuBar, int itemIndex, const String& itemText) override;
 		void drawMenuBarItem(Graphics& g, int width, int height, int itemIndex, const String& itemText, bool isMouseOverItem, bool isMenuOpen, bool /*isMouseOverBar*/, MenuBarComponent& menuBar) override;
+		Font getPopupMenuFont() override;
 		void drawPopupMenuBackground(Graphics& g, int width, int height) override;
 		void drawPopupMenuItem (Graphics& g, const Rectangle<int>& area, const bool isSeparator, const bool isActive, const bool isHighlighted, const bool isTicked, const bool hasSubMenu, const String& text, const String& shortcutKeyText, const Drawable* icon, const Colour* const textColourToUse) override;
 
@@ -44,6 +51,8 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		const float bevelAlpha = 0.11f;
 		const Colour bevelColourTop = Colours::white;
 		const Colour bevelColourDown = Colours::black;
+
+		const float fontSize = 13.0f;
 
 		Colour shadeColour(Colour inColour, int shade);
 		void drawBox(Graphics& g, Path& outline, float width, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted);

@@ -1772,6 +1772,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\juce"/>
+    <None Include="..\..\Resources\dejavu_sans_book.ttf"/>
     <None Include="..\..\juce_modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\juce_modules\juce_audio_devices\juce_module_info"/>
     <None Include="..\..\juce_modules\juce_audio_formats\juce_module_info"/>

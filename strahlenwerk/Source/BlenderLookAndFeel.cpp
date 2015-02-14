@@ -1,4 +1,5 @@
 #include "BlenderLookAndFeel.h"
+#include <BinaryData.h>
 
 BlenderLookAndFeel::BlenderLookAndFeel() :
 	BlenderLookAndFeel(BlenderTheme())
@@ -93,6 +94,26 @@ void BlenderLookAndFeel::drawBevel(Graphics& g, float width, float height) {
 }
 
 
+Typeface::Ptr BlenderLookAndFeel::getTypefaceForFont(const Font& font) {
+	if (font.getTypefaceName() == Font::getDefaultSansSerifFontName()) {
+		int size;
+		const char* fontData = BinaryData::getNamedResource("dejavu_sans_book_ttf", size);
+		return Typeface::createSystemTypefaceFor(fontData, size);
+	} else {
+		return Font::getDefaultTypefaceForFont(font);
+	}
+}
+
+
+LowLevelGraphicsContext* BlenderLookAndFeel::createGraphicsContext(const Image& imageToRenderOn, const Point<int>& origin, const RectangleList<int>& initialClip) {
+	LowLevelGraphicsContext* g = LookAndFeel::createGraphicsContext(imageToRenderOn, origin, initialClip);
+	Font font = g->getFont();
+	font.setHeight(fontSize);
+	g->setFont(font);
+	return g;
+}
+
+
 void BlenderLookAndFeel::drawStretchableLayoutResizerBar(Graphics& g, int width, int height, bool /*isVerticalBar*/, bool /*isMouseOver*/, bool /*isMouseDragging*/) {
 	g.fillAll(findColour(ResizableWindow::backgroundColourId));
 	drawBevel(g, float(width), float(height));
@@ -132,6 +153,10 @@ void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, cons
 	);
 
 	drawBox(g, outline, width, height, theme.Tool, baseColor, isButtonDown);
+}
+
+Font BlenderLookAndFeel::getTextButtonFont(TextButton& /*button*/, int buttonHeight) {
+	return Font(jmax(fontSize, buttonHeight * 0.6f));
 }
 
 void BlenderLookAndFeel::drawButtonText(Graphics& g, TextButton& button, bool /*isMouseOverButton*/, bool isButtonDown) {
@@ -329,7 +354,11 @@ void BlenderLookAndFeel::drawMenuBarBackground(Graphics& g, int width, int heigh
 }
 
 int BlenderLookAndFeel::getMenuBarItemWidth(MenuBarComponent& menuBar, int itemIndex, const String& itemText) {
-    return getMenuBarFont(menuBar, itemIndex, itemText).getStringWidth(itemText) + (2.0f + 4.0f)*menuBarItemIoffset;
+	return getMenuBarFont(menuBar, itemIndex, itemText).getStringWidth(itemText) + (2.0f + 4.0f)*menuBarItemIoffset;
+}
+
+Font BlenderLookAndFeel::getMenuBarFont(MenuBarComponent& /*menuBar*/, int /*itemIndex*/, const String& /*itemText*/) {
+	return Font(fontSize);
 }
 
 void BlenderLookAndFeel::drawMenuBarItem(Graphics& g, int width_, int height_, int itemIndex, const String& itemText, bool isMouseOverItem, bool isMenuOpen, bool /*isMouseOverBar*/, MenuBarComponent& menuBar) {
@@ -353,8 +382,12 @@ void BlenderLookAndFeel::drawMenuBarItem(Graphics& g, int width_, int height_, i
 	}
 
 	g.setColour(textColor);
-    g.setFont (getMenuBarFont (menuBar, itemIndex, itemText));
-    g.drawFittedText (itemText, menuBarItemIoffset, menuBarItemIoffset, width, height, Justification::centred, 1);
+	g.setFont(getMenuBarFont(menuBar, itemIndex, itemText));
+	g.drawFittedText(itemText, menuBarItemIoffset, menuBarItemIoffset + 2.0f, width, height, Justification::centred, 1);
+}
+
+Font BlenderLookAndFeel::getPopupMenuFont() {
+	return Font(fontSize);
 }
 
 void BlenderLookAndFeel::drawPopupMenuBackground(Graphics& g, int width, int height) {
@@ -461,14 +494,6 @@ void BlenderLookAndFeel::drawPopupMenuItem (Graphics& g, const Rectangle<int>& a
 		g.drawFittedText(text, r, Justification::centredLeft, 1);
 
 		if (shortcutKeyText.isNotEmpty()) {
-			// remove to have Blender look
-			// /*
-			Font f2(font);
-			f2.setHeight(f2.getHeight() * 0.75f);
-			f2.setHorizontalScale(0.95f);
-			g.setFont(f2);
-			// */
-
 			String shortcutString(shortcutKeyText);
 			if (shortcutString.startsWith("shortcut:")) {
 				shortcutString = shortcutString.replace("shortcut:", "").removeCharacters("'").trim();
