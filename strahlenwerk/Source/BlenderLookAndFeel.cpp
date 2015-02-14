@@ -142,8 +142,8 @@ void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, cons
 	outline.addRoundedRectangle(
 		0.5f,
 		0.5f,
-		width,
-		height,
+		width + (flatOnRight ? 1.0f : 0.0f),
+		height + (flatOnBottom ? 1.0f : 0.0f),
 		proportionalCornerRadius,
 		proportionalCornerRadius,
 		! (flatOnLeft  || flatOnTop),
