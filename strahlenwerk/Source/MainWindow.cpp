@@ -21,7 +21,11 @@ MainWindow::MainWindow() :
 			findColour(ResizableWindow::backgroundColourId),
 			DocumentWindow::allButtons)
 {
-	setName("strahlenwerk - BER edition");
+	setName(StrahlenwerkApplication::getInstance()->getApplicationName()
+		+ " - "
+		+ StrahlenwerkApplication::getInstance()->getApplicationVersion()
+		+ " Edition"
+	);
 	setMenuBar(this);
 	setContentOwned(&mainContentComponent, true);
 
