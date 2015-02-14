@@ -24,6 +24,19 @@ BlenderLookAndFeel::BlenderLookAndFeel(BlenderTheme theme_) :
 	setColour(PopupMenu::headerTextColourId, theme.MenuBack.text);
 	setColour(PopupMenu::highlightedBackgroundColourId, theme.MenuItem.innerSelected);
 	setColour(PopupMenu::highlightedTextColourId, theme.MenuItem.textSelected);
+
+	setColour(Slider::textBoxTextColourId, theme.Text.text);
+	setColour(Slider::textBoxBackgroundColourId, theme.Text.inner);
+	setColour(Slider::textBoxHighlightColourId, theme.Text.item);
+	setColour(Slider::textBoxOutlineColourId, theme.Text.outline);
+
+	setColour(TextEditor::backgroundColourId, theme.Text.inner);
+	setColour(TextEditor::textColourId, theme.Text.text);
+	setColour(TextEditor::highlightColourId, theme.Text.item);
+	setColour(TextEditor::highlightedTextColourId, theme.Text.textSelected);
+	setColour(TextEditor::outlineColourId, theme.Text.outline);
+	setColour(TextEditor::focusedOutlineColourId, theme.Text.outline);
+	setColour(TextEditor::shadowColourId, Colours::transparentBlack);
 }
 
 
@@ -41,7 +54,7 @@ void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, fl
 	g.strokePath(outline, PathStrokeType(emboss), AffineTransform::translation(0.0f, emboss));
 
 	// background
-	if (themeComponent.shaded) {
+	if (themeComponent.shaded && !baseColor.isTransparent()) {
 		g.setGradientFill(
 			ColourGradient(
 				shadeColour(baseColor, shadeInverted ? themeComponent.shadeDown : themeComponent.shadeTop), 0.0f, 0.0f,
@@ -120,7 +133,7 @@ void BlenderLookAndFeel::drawStretchableLayoutResizerBar(Graphics& g, int width,
 }
 
 
-void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) {
+void BlenderLookAndFeel::drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) {
     const bool flatOnLeft   = button.isConnectedOnLeft();
     const bool flatOnRight  = button.isConnectedOnRight();
     const bool flatOnTop    = button.isConnectedOnTop();
@@ -129,7 +142,7 @@ void BlenderLookAndFeel::drawButtonBackground (Graphics& g, Button& button, cons
 	const float width = button.getWidth() - 1.0f;
 	const float height = button.getHeight() - 1.0f - emboss;
 
-	const float proportionalCornerRadius = (cornerRadius / 20.0f /*default button height*/) * height;
+	const float proportionalCornerRadius = (cornerRadius / componentHeight) * height;
 
 	Colour baseColor = backgroundColour;
 	if (isButtonDown) {
@@ -501,5 +514,70 @@ void BlenderLookAndFeel::drawPopupMenuItem(Graphics& g, const Rectangle<int>& ar
 
 			g.drawText(shortcutString, r, Justification::centredRight, true);
 		}
+	}
+}
+
+
+void BlenderLookAndFeel::fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor) {
+	const float proportionalCornerRadius = (cornerRadius / componentHeight) * height;
+
+	Path outline;
+	outline.addRoundedRectangle(
+		0.5f,
+		0.5f,
+		width - 1.0f,
+		height - emboss,
+		proportionalCornerRadius
+	);
+
+	drawBox(g, outline, width, height, theme.Text, textEditor.findColour(TextEditor::backgroundColourId), false);
+}
+
+void BlenderLookAndFeel::drawTextEditorOutline(Graphics& /*g*/, int /*width*/, int /*height*/, TextEditor& /*textEditor*/) {
+}
+
+
+Font BlenderLookAndFeel::getLabelFont(Label& label) {
+    Font font = label.getFont();
+	font.setHeight(jmin(font.getHeight(), fontSize));
+	return font;
+}
+
+void BlenderLookAndFeel::drawLabel(Graphics& g, Label& label) {
+	const float height = label.getLocalBounds().getHeight();
+	const float width = label.getLocalBounds().getWidth();
+	const float proportionalCornerRadius = (cornerRadius / componentHeight) * height;
+
+	Path outline;
+	outline.addRoundedRectangle(
+		0.5f,
+		0.5f,
+		width - 1.0f,
+		height - emboss,
+		proportionalCornerRadius
+	);
+
+	drawBox(g, outline, width, height, theme.Text, label.findColour(Label::backgroundColourId), false);
+
+	if (! label.isBeingEdited()) {
+		const Font font = getLabelFont(label);
+
+		Colour textColor = label.findColour(Label::textColourId);
+		if (! label.isEnabled()) {
+			textColor = textColor.withMultipliedAlpha(disabledAlpha);
+		}
+
+		Rectangle<int> textArea(label.getBorderSize().subtractedFrom(label.getLocalBounds()));
+
+		g.setColour(textColor);
+		g.setFont(font);
+
+		g.drawFittedText (
+			label.getText(),
+			textArea,
+			label.getJustificationType(),
+			jmax(1, int((textArea.getHeight() / font.getHeight()))),
+			label.getMinimumHorizontalScale()
+		);
 	}
 }

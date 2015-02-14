@@ -55,6 +55,18 @@ class BlenderTheme {
 			/* ShadeDown */  -15,
 		};
 
+		BlenderThemeComponent Text {
+			/* Outline       */ Colour(0xff191919),
+			/* Item          */ Colour(0xff5a5a5a),
+			/* Inner         */ Colour(0xff999999),
+			/* InnerSelected */ Colour(0xff999999),
+			/* Text          */ Colour(0xff000000),
+			/* TextSelected  */ Colour(0xffffffff),
+			/* Shaded    */ true,
+			/* ShadeTop  */    0,
+			/* ShadeDown */   25,
+		};
+
 		BlenderThemeComponent Option {
 			/* Outline       */ Colour(0xff000000),
 			/* Item          */ Colour(0xffffffff),

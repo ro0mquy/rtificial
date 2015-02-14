@@ -36,11 +36,18 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		void drawPopupMenuBackground(Graphics& g, int width, int height) override;
 		void drawPopupMenuItem (Graphics& g, const Rectangle<int>& area, const bool isSeparator, const bool isActive, const bool isHighlighted, const bool isTicked, const bool hasSubMenu, const String& text, const String& shortcutKeyText, const Drawable* icon, const Colour* const textColourToUse) override;
 
+		void fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor) override;
+		void drawTextEditorOutline(Graphics& g, int width, int height, TextEditor& textEditor) override;
+
+		Font getLabelFont(Label& label) override;
+		void drawLabel(Graphics& g, Label& label) override;
+
 	private:
 		const BlenderTheme theme;
 
 		const float disabledAlpha = 0.5f;
 
+		const float componentHeight = 20.0f;
 		const float cornerRadius = 4.0f;
 		const float emboss = 1.0f;
 
