@@ -5,6 +5,8 @@
 #include <Timeline/Timeline.h>
 #include <cmath>
 
+static const float initialZoomLevel = .02f;
+
 ZoomFactor::ZoomFactor() :
 	zoomLevel(initialZoomLevel)
 {

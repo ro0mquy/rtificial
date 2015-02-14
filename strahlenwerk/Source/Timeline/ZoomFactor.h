@@ -4,8 +4,6 @@
 #include <juce>
 #include <mutex>
 
-static const float initialZoomLevel = .02;
-
 class ZoomFactor :
 	public ChangeBroadcaster
 {

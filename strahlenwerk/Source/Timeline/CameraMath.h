@@ -4,9 +4,6 @@
 #include <glm/fwd.hpp>
 #include <utility>
 
-static const float movementSpeed = 5.;
-static const float rotationSpeed = 6.28318530718 /*TAU*/ / 4.;
-
 class CameraMath {
 	public:
 		glm::vec3 positionForward(glm::vec3 position, glm::quat rotation, float dtime);

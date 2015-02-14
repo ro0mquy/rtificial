@@ -10,8 +10,6 @@
 class TimelineData;
 class Interpolator;
 
-static const int timerInterval = 15;
-
 class SpecialUniformController {
 	public:
 		SpecialUniformController(TimelineData& data_) : data(data_) {}
@@ -101,6 +99,8 @@ class CameraController :
 
 		const String cameraPositionName;
 		const String cameraRotationName;
+
+		static const int timerInterval = 15;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CameraController)
 };
