@@ -4,6 +4,7 @@
 #include "PropertyNames.h"
 #include "Renderer.h"
 #include "Timeline/Interpolator.h"
+#include "Timeline/TreeIdentifiers.h"
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
@@ -54,7 +55,9 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 	vec3 zAxis(0.f, 0.f, 1.f);
 	TimelineData& data = TimelineData::getTimelineData();
 	Interpolator& interpolator = data.getInterpolator();
-	quat rotation = data.getQuatFromValue(interpolator.getCurrentUniformState("camera_rotation").first);
+	ValueTree defaultRotation(treeId::interpolatedValue);
+	data.initializeValue(defaultRotation, "quat");
+	quat rotation = data.getQuatFromValue(interpolator.getCurrentUniformState("camera_rotation", defaultRotation).first);
 	xAxis = rotation * xAxis;
 	yAxis = rotation * yAxis;
 	zAxis = rotation * zAxis;

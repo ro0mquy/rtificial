@@ -18,6 +18,7 @@ class Interpolator {
 
 		UniformState getCurrentUniformState(ValueTree uniformData);
 		UniformState getCurrentUniformState(const var& name);
+		UniformState getCurrentUniformState(const var& name, ValueTree defaultState);
 
 		UniformState getUniformStateFromTimelineData(ValueTree uniformData);
 

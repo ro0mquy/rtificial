@@ -41,6 +41,14 @@ UniformState Interpolator::getCurrentUniformState(ValueTree uniformData) {
 }
 
 UniformState Interpolator::getCurrentUniformState(const var& name) {
+	UniformState state = getCurrentUniformState(name, ValueTree());
+	if (!state.first.isValid()) {
+		jassertfalse;
+	}
+	return state;
+}
+
+UniformState Interpolator::getCurrentUniformState(const var& name, ValueTree defaultState) {
 	String uniformName = name;
 	for (const auto specUniformCtrl : specialUniformControllers) {
 		if (specUniformCtrl->wantControlUniform(uniformName)) {
@@ -51,8 +59,7 @@ UniformState Interpolator::getCurrentUniformState(const var& name) {
 	// no controller wants this uniform
 	ValueTree uniformData = data.getUniform(name);
 	if (!uniformData.isValid()) {
-		jassertfalse;
-		return UniformState(ValueTree(), false);
+		return UniformState(defaultState, false);
 	}
 	return getUniformStateFromTimelineData(uniformData);
 }
