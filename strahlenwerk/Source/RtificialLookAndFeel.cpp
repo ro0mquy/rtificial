@@ -8,13 +8,15 @@
 #include "Timeline/TimeMarkerComponent.h"
 #include "Sidebar/Sidebar.h"
 #include "Sidebar/InspectorComponent.h"
-#include "RtColourIds.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
+	const Colour outlineColor = Colours::black;
+
 	// ScenesBarComponent
 	setColour(ScenesBarComponent::tickColourId, Colours::white);
 	setColour(ScenesBarComponent::waveformColourId, Colours::white);
 	setColour(ScenesBarComponent::textColourId, Colours::white);
+	setColour(ScenesBarComponent::outlineColourId, outlineColor);
 
 	// SceneComponent
 	setColour(SceneComponent::outlineColourId, Colours::yellow);
@@ -50,22 +52,5 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 
 	// InspectorComponent
 	setColour(InspectorComponent::textColourId, Colours::black);
-
-	// RtColourIds
-	setColour(RtColourIds::outlineColourId, Colours::black);
 }
 
-void RtificialLookAndFeel::drawStretchableLayoutResizerBar(Graphics& g, int w, int h, bool isVerticalBar, bool isMouseOver, bool isMouseDragging) {
-	if (isMouseOver || isMouseDragging){
-		g.fillAll(findColour(RtColourIds::outlineColourId));
-	}
-
-	g.setColour(findColour(RtColourIds::outlineColourId));
-	if(isVerticalBar){
-		g.drawVerticalLine(0, 0, h);
-		g.drawVerticalLine(w-1, 0, h);
-	} else {
-		g.drawHorizontalLine(0, 0, w);
-		g.drawHorizontalLine(h-1, 0, w);
-	}
-}

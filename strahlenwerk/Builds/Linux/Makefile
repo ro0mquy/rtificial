@@ -92,6 +92,7 @@ OBJECTS := \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
   $(OBJDIR)/Timeline_d3785850.o \
   $(OBJDIR)/AudioManager_e2e40c00.o \
+  $(OBJDIR)/BlenderLookAndFeel_a1c31a69.o \
   $(OBJDIR)/MainContentComponent_19da5e66.o \
   $(OBJDIR)/MainWindow_499ac812.o \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
@@ -333,6 +334,11 @@ $(OBJDIR)/Timeline_d3785850.o: ../../Source/Timeline/Timeline.cpp
 $(OBJDIR)/AudioManager_e2e40c00.o: ../../Source/AudioManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling AudioManager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/BlenderLookAndFeel_a1c31a69.o: ../../Source/BlenderLookAndFeel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling BlenderLookAndFeel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/MainContentComponent_19da5e66.o: ../../Source/MainContentComponent.cpp

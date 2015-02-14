@@ -1,6 +1,7 @@
 #include "MainContentComponent.h"
 #include <StrahlenwerkApplication.h>
 #include <PropertyNames.h>
+#include <RtificialLookAndFeel.h>
 
 MainContentComponent::MainContentComponent() :
 	verticalResizer(&verticalLayout, 1, false),
@@ -29,13 +30,13 @@ void MainContentComponent::setDefaultLayout() {
 	const double glComponentWidth = properties.getDoubleValue(PropertyNames::OpenGLWidth, .5);
 	const double glComponentHeight = properties.getDoubleValue(PropertyNames::OpenGLHeight, .5);
 
-	horizontalLayout.setItemLayout(0, 200, -1., getWidth() * (1. - glComponentWidth) - 8);
-	horizontalLayout.setItemLayout(1, 8, 8, 8);
+	horizontalLayout.setItemLayout(0, 200, -1., getWidth() * (1. - glComponentWidth) - RtificialLookAndFeel::strechableLayoutResizerBarWidth);
+	horizontalLayout.setItemLayout(1, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth);
 	horizontalLayout.setItemLayout(2, 160, -1., -glComponentWidth);
 
 	verticalLayout.setItemLayout(0, 90, -1., -glComponentHeight);
-	verticalLayout.setItemLayout(1, 8, 8, 8);
-	verticalLayout.setItemLayout(2, 200, -1., getHeight() * (1. - glComponentHeight) - 8);
+	verticalLayout.setItemLayout(1, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth);
+	verticalLayout.setItemLayout(2, 200, -1., getHeight() * (1. - glComponentHeight) - RtificialLookAndFeel::strechableLayoutResizerBarWidth);
 	verticalBoxLayout.resized();
 }
 

@@ -44,6 +44,7 @@ class ScenesBarComponent :
 			tickColourId = 0x2300100,
 			waveformColourId,
 			textColourId,
+			outlineColourId,
 		};
 
 	private:

@@ -1,6 +1,5 @@
 #include "UniformsBarComponent.h"
 
-#include <RtColourIds.h>
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include <Sidebar/ValueEditorPropertyComponent.h>

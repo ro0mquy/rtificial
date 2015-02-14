@@ -23,6 +23,9 @@
     <Filter Include="strahlenwerk\Source\Timeline">
       <UniqueIdentifier>{87B668EA-D297-80DD-AE82-CE92D929454A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="strahlenwerk\Resources">
+      <UniqueIdentifier>{8D3EB866-3AC5-F34E-2D85-BB50C34CA12D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
     </Filter>
@@ -425,6 +428,9 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\AudioManager.cpp">
+      <Filter>strahlenwerk\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\BlenderLookAndFeel.cpp">
       <Filter>strahlenwerk\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MainContentComponent.cpp">
@@ -1776,6 +1782,12 @@
     <ClInclude Include="..\..\Source\AudioManager.h">
       <Filter>strahlenwerk\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\BlenderLookAndFeel.h">
+      <Filter>strahlenwerk\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\BlenderTheme.h">
+      <Filter>strahlenwerk\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\BoxLayout.h">
       <Filter>strahlenwerk\Source</Filter>
     </ClInclude>
@@ -1795,9 +1807,6 @@
       <Filter>strahlenwerk\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Renderer.h">
-      <Filter>strahlenwerk\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\RtColourIds.h">
       <Filter>strahlenwerk\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\RtificialLookAndFeel.h">
@@ -3145,6 +3154,9 @@
   <ItemGroup>
     <None Include="..\..\Source\juce">
       <Filter>strahlenwerk\Source</Filter>
+    </None>
+    <None Include="..\..\Resources\dejavu_sans_book.ttf">
+      <Filter>strahlenwerk\Resources</Filter>
     </None>
     <None Include="..\..\juce_modules\juce_audio_basics\juce_module_info">
       <Filter>Juce Modules\juce_audio_basics</Filter>

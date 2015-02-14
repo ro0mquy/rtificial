@@ -2,14 +2,14 @@
 #define RTIFICIALLOOKANDFEEL_H
 
 #include <juce>
-#include "RtColourIds.h"
+#include "BlenderLookAndFeel.h"
 
-class RtificialLookAndFeel : public LookAndFeel_V3
+class RtificialLookAndFeel : public BlenderLookAndFeel
 {
 	public:
 		RtificialLookAndFeel();
 
-		void drawStretchableLayoutResizerBar(Graphics& g, int w, int h, bool isVerticalBar, bool isMouseOver, bool isMouseDragging);
+		static const int strechableLayoutResizerBarWidth = 4;
 };
 
 #endif

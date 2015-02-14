@@ -158,7 +158,7 @@
 #endif
 
 #ifndef    JUCE_USE_XRENDER
- //#define JUCE_USE_XRENDER
+ #define   JUCE_USE_XRENDER 1
 #endif
 
 #ifndef    JUCE_USE_XCURSOR
@@ -173,7 +173,7 @@
 #endif
 
 #ifndef    JUCE_ENABLE_LIVE_CONSTANT_EDITOR
- #define   JUCE_ENABLE_LIVE_CONSTANT_EDITOR 0
+ #define   JUCE_ENABLE_LIVE_CONSTANT_EDITOR 1
 #endif
 
 

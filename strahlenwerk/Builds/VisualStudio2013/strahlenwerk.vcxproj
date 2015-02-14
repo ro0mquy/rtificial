@@ -178,6 +178,7 @@
     <ClCompile Include="..\..\Source\Timeline\SequenceViewComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\Timeline.cpp"/>
     <ClCompile Include="..\..\Source\AudioManager.cpp"/>
+    <ClCompile Include="..\..\Source\BlenderLookAndFeel.cpp"/>
     <ClCompile Include="..\..\Source\MainContentComponent.cpp"/>
     <ClCompile Include="..\..\Source\MainWindow.cpp"/>
     <ClCompile Include="..\..\Source\OpenGLComponent.cpp"/>
@@ -1324,6 +1325,8 @@
     <ClInclude Include="..\..\Source\Timeline\TreeIdentifiers.h"/>
     <ClInclude Include="..\..\Source\Timeline\Timeline.h"/>
     <ClInclude Include="..\..\Source\AudioManager.h"/>
+    <ClInclude Include="..\..\Source\BlenderLookAndFeel.h"/>
+    <ClInclude Include="..\..\Source\BlenderTheme.h"/>
     <ClInclude Include="..\..\Source\BoxLayout.h"/>
     <ClInclude Include="..\..\Source\MainContentComponent.h"/>
     <ClInclude Include="..\..\Source\MainWindow.h"/>
@@ -1331,7 +1334,6 @@
     <ClInclude Include="..\..\Source\OpenGLTargetComponent.h"/>
     <ClInclude Include="..\..\Source\PropertyNames.h"/>
     <ClInclude Include="..\..\Source\Renderer.h"/>
-    <ClInclude Include="..\..\Source\RtColourIds.h"/>
     <ClInclude Include="..\..\Source\RtificialLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\StrahlenwerkApplication.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
@@ -1782,6 +1784,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\juce"/>
+    <None Include="..\..\Resources\dejavu_sans_book.ttf"/>
     <None Include="..\..\juce_modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\juce_modules\juce_audio_devices\juce_module_info"/>
     <None Include="..\..\juce_modules\juce_audio_formats\juce_module_info"/>

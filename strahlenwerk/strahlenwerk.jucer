@@ -158,6 +158,11 @@
       <FILE id="HGrrNS" name="AudioManager.cpp" compile="1" resource="0"
             file="Source/AudioManager.cpp"/>
       <FILE id="HjueeN" name="AudioManager.h" compile="0" resource="0" file="Source/AudioManager.h"/>
+      <FILE id="ZTLNtO" name="BlenderLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/BlenderLookAndFeel.cpp"/>
+      <FILE id="AMxh7S" name="BlenderLookAndFeel.h" compile="0" resource="0"
+            file="Source/BlenderLookAndFeel.h"/>
+      <FILE id="kJjrjd" name="BlenderTheme.h" compile="0" resource="0" file="Source/BlenderTheme.h"/>
       <FILE id="oLyckP" name="BoxLayout.h" compile="0" resource="0" file="Source/BoxLayout.h"/>
       <FILE id="t84HiX" name="juce" compile="0" resource="1" file="Source/juce"/>
       <FILE id="LokCeX" name="MainContentComponent.cpp" compile="1" resource="0"
@@ -177,7 +182,6 @@
       <FILE id="H0wOnu" name="PropertyNames.h" compile="0" resource="0" file="Source/PropertyNames.h"/>
       <FILE id="SkmHDQ" name="Renderer.cpp" compile="1" resource="0" file="Source/Renderer.cpp"/>
       <FILE id="vkHWw8" name="Renderer.h" compile="0" resource="0" file="Source/Renderer.h"/>
-      <FILE id="P4IG3t" name="RtColourIds.h" compile="0" resource="0" file="Source/RtColourIds.h"/>
       <FILE id="SrFBU6" name="RtificialLookAndFeel.cpp" compile="1" resource="0"
             file="Source/RtificialLookAndFeel.cpp"/>
       <FILE id="Wciucj" name="RtificialLookAndFeel.h" compile="0" resource="0"
@@ -186,6 +190,10 @@
             file="Source/StrahlenwerkApplication.cpp"/>
       <FILE id="ucF2Fs" name="StrahlenwerkApplication.h" compile="0" resource="0"
             file="Source/StrahlenwerkApplication.h"/>
+    </GROUP>
+    <GROUP id="{9EE40B86-1021-AA71-8AD8-AF65CE0A3B7B}" name="Resources">
+      <FILE id="cI2ag8" name="dejavu_sans_book.ttf" compile="0" resource="1"
+            file="Resources/dejavu_sans_book.ttf"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
@@ -254,7 +262,7 @@
                JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_USE_FLAC="enabled"
                JUCE_USE_OGGVORBIS="enabled" JUCE_USE_MP3AUDIOFORMAT="disabled"
                JUCE_USE_LAME_AUDIO_FORMAT="disabled" JUCE_USE_WINDOWS_MEDIA_FORMAT="disabled"
-               JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="disabled"
+               JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="enabled"
                JUCE_PLUGINHOST_VST="disabled" JUCE_PLUGINHOST_VST3="disabled"
-               JUCE_PLUGINHOST_AU="disabled"/>
+               JUCE_PLUGINHOST_AU="disabled" JUCE_USE_XRENDER="enabled"/>
 </JUCERPROJECT>
