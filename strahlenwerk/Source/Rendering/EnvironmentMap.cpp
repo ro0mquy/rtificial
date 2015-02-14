@@ -19,10 +19,12 @@ void EnvironmentMap::create(unsigned int width_, unsigned int height_) {
 	}
 	glGenTextures(1, &texture);
 	deleteTexture = true;
-	// TODO texture unit
+
+	// could just use the current active texture unit TODO
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
@@ -48,9 +50,10 @@ void EnvironmentMap::render(Shader& shader) {
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
 
-	// TODO texture unit
 	// probably we don't have to bind the texture
 	// glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+	// could just use the current active texture unit TODO
+	glActiveTexture(GL_TEXTURE0);
 
 	// bind each of the 6 faces to one color attachment
 	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_NEGATIVE_X, texture, 0);
