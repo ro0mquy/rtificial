@@ -101,10 +101,6 @@ float torus82(vec3 p, vec2 t) {
 	return length8(q) - t.y;
 }
 
-mat2 rot2D(float theta) {
-	return mat2(cos(theta), -sin(theta), sin(theta), cos(theta));
-}
-
 // smooth minimum, k is the difference between the two values for which to smooth (eg. k = 0.1)
 float smin(float a, float b, float k) {
 	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
@@ -138,3 +134,66 @@ float roundbox(vec3 p, vec3 b, float r) {
 	return slowbox(p, b - r) - r;
 }
 
+vec3 domrep(vec3 p, vec3 c) {
+	return mod(p, c) - .5 * c;
+}
+
+// repeat things
+vec3 domrep(vec3 p, float x, float y, float z) {
+	return domrep(p, vec3(x, y, z));
+}
+
+// hier kommt der witz!
+vec2 min_material(vec2 a, vec2 b) {
+	return mix(a, b, float(a.x > b.x));
+}
+// kam er?
+
+// f: distance function to object
+// p: evaluation point
+// s: scale factor
+#define scale(f, p, s) f((p)/(s))*(s)
+
+// trans*late things - using vectors!!
+// p: point
+// v: translation vector
+vec3 trans(vec3 p, vec3 v) {
+	return p - v;
+}
+
+// trans*late things
+// p: point
+// x: x
+// y: y
+// z: z
+vec3 trans(vec3 p, float x, float y, float z) {
+	return trans(p, vec3(x, y, z));
+}
+
+mat3 rX(float theta) {
+	return mat3(
+		1., 0., 0.,
+		0., cos(theta), sin(theta),
+		0., -sin(theta), cos(theta)
+	);
+}
+
+mat3 rY(float theta) {
+	return mat3(
+		cos(theta), 0., -sin(theta),
+		0., 1., 0.,
+		sin(theta), 0., cos(theta)
+	);
+}
+
+mat3 rZ(float theta) {
+	return mat3(
+		cos(theta), sin(theta), 0.,
+		-sin(theta), cos(theta), 0.,
+		0., 0., 1.
+	);
+}
+
+mat2 rot2D(float theta) {
+	return mat2(cos(theta), -sin(theta), sin(theta), cos(theta));
+}

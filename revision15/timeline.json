@@ -30,12 +30,27 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "focal_length",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      }
+    },
+    {
       "uniformName": "foo",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.18,
         "valueColorG": 0.18,
         "valueColorB": 0.18
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lk_radius_gross_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.466
       },
       "sequencesArray": []
     },
@@ -62,6 +77,12 @@
       "sceneStart": 0,
       "sceneDuration": 8000,
       "sceneShaderSource": "spiral"
+    },
+    {
+      "sceneId": 958,
+      "sceneStart": 10000,
+      "sceneDuration": 10000,
+      "sceneShaderSource": "liebeskugeln"
     }
   ]
 }
