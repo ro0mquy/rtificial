@@ -1006,31 +1006,31 @@ bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 	}
 
 	if (valueType == "bool") {
-		setValueBoolState(valueData, false);
+		setValueBoolState(valueData, false, false);
 	} else if (valueType == "float") {
-		setValueFloatX(valueData, 0.);
+		setValueFloatX(valueData, 0., false);
 	} else if (valueType == "vec2") {
-		setValueVec2X(valueData, 0.);
-		setValueVec2Y(valueData, 0.);
+		setValueVec2X(valueData, 0., false);
+		setValueVec2Y(valueData, 0., false);
 	} else if (valueType == "vec3") {
-		setValueVec3X(valueData, 0.);
-		setValueVec3Y(valueData, 0.);
-		setValueVec3Z(valueData, 0.);
+		setValueVec3X(valueData, 0., false);
+		setValueVec3Y(valueData, 0., false);
+		setValueVec3Z(valueData, 0., false);
 	} else if (valueType == "vec4") {
-		setValueVec4X(valueData, 0.);
-		setValueVec4Y(valueData, 0.);
-		setValueVec4Z(valueData, 0.);
-		setValueVec4W(valueData, 0.);
+		setValueVec4X(valueData, 0., false);
+		setValueVec4Y(valueData, 0., false);
+		setValueVec4Z(valueData, 0., false);
+		setValueVec4W(valueData, 0., false);
 	} else if (valueType == "color") {
-		setValueColorR(valueData, .18);
-		setValueColorG(valueData, .18);
-		setValueColorB(valueData, .18);
+		setValueColorR(valueData, .18, false);
+		setValueColorG(valueData, .18, false);
+		setValueColorB(valueData, .18, false);
 	} else if (valueType == "quat") {
 		// (0, 0, 0, 1) is the identity rotation
-		setValueQuatX(valueData, 0.);
-		setValueQuatY(valueData, 0.);
-		setValueQuatZ(valueData, 0.);
-		setValueQuatW(valueData, 1.);
+		setValueQuatX(valueData, 0., false);
+		setValueQuatY(valueData, 0., false);
+		setValueQuatZ(valueData, 0., false);
+		setValueQuatW(valueData, 1., false);
 	} else {
 		return false;
 	}
