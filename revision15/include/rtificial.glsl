@@ -116,3 +116,25 @@ float smax(float a, float b, float k) {
 	float h = clamp(0.5 - 0.5 * (b - a) / k, 0.0, 1.0 );
 	return mix(b, a, h) + k * h * (1.0 - h);
 }
+
+float box(vec3 p, vec3 b) {
+	p = abs(p) - b;
+	return max(p.x, max(p.y, p.z));
+}
+
+float box2(vec2 p, vec2 b) {
+	p = abs(p) - b;
+	return max(p.x, p.y);
+}
+
+// more accurate than box(), but slower
+float slowbox(vec3 p, vec3 b) {
+	vec3 d = abs(p) - b;
+	return min(max(d.x, max(d.y, d.z)), 0.) + length(max(d, 0.));
+}
+
+// box with rounded corners, r is radius of corners
+float roundbox(vec3 p, vec3 b, float r) {
+	return slowbox(p, b - r) - r;
+}
+
