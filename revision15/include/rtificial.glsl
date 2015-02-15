@@ -5,6 +5,8 @@ uniform float camera_focal_length;
 
 layout(location = 0) uniform vec2 res;
 
+float TAU = 6.28318530718;
+
 // http://molecularmusings.wordpress.com/2013/05/24/a-faster-quaternion-vector-multiplication/
 vec3 quat_rotate(vec3 v, vec4 q) {
 	vec3 t = 2 * cross(q.xyz, v);
@@ -12,8 +14,10 @@ vec3 quat_rotate(vec3 v, vec4 q) {
 	// *hex hex*
 }
 
-vec3 get_direction() {
-	vec3 dir = normalize(vec3((gl_FragCoord.xy - .5 * res) / res.x , -camera_focal_length / .03));
+vec3 get_direction(out float screenDist) {
+	vec3 dir = vec3((gl_FragCoord.xy - .5 * res) / res.x , -camera_focal_length / .03);
+	screenDist = length(vec2(dir.xz));
+	dir = normalize(dir);
 	return quat_rotate(dir, camera_rotation);
 }
 
@@ -62,8 +66,8 @@ float march_adv(vec3 o, vec3 d, float t_min, float t_max, float pixelRadius, int
 	return candidate_t;
 }
 
-float march(vec3 o, vec3 d, float t_max, float pixelRadius) {
-	return march_adv(o, d, .001, t_max, pixelRadius, 128, 1.2, false);
+float march(vec3 o, vec3 d, float t_max, float screenDistX) {
+	return march_adv(o, d, .001, t_max, screenDistX/res.x, 128, 1.2, false);
 }
 
 vec3 calc_normal(vec3 p, bool last_step) {
@@ -77,4 +81,31 @@ vec3 calc_normal(vec3 p, bool last_step) {
 
 float sphere(vec3 p, float s) {
 	return length(p) - s;
+}
+
+float torus(vec3 p, vec2 t) {
+	vec2 q = vec2(length(p.xz) - t.x, p.y);
+	return length(q) - t.y;
+}
+
+float length8(vec2 p) {
+	p *= p;
+	p *= p;
+	p *= p;
+	return pow(p.x + p.y, 1./8.);
+}
+
+float torus82(vec3 p, vec2 t) {
+	vec2 q = vec2(length(p.xz) - t.x, p.y);
+	return length8(q) - t.y;
+}
+
+mat2 rot2D(float theta) {
+	return mat2(cos(theta), -sin(theta), sin(theta), cos(theta));
+}
+
+// smooth minimum, k is the difference between the two values for which to smooth (eg. k = 0.1)
+float smin(float a, float b, float k) {
+	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+	return mix(b, a, h) - k * h * (1.0 - h);
 }

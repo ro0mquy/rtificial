@@ -7,8 +7,9 @@ out vec4 out_color;
 
 void main() {
 	vec3 o = camera_position;
-	vec3 d = get_direction();
-	float t = march(o, d, 50., .001);
+	float screenDist;
+	vec3 d = get_direction(screenDist);
+	float t = march(o, d, 50., screenDist);
 
 	if (isinf(t)) {
 		out_color.rgb = vec3(0.);
