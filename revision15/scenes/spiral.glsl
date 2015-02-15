@@ -1,5 +1,3 @@
-#version 430
-
 #include "rtificial.glsl"
 #line 5
 
@@ -40,22 +38,24 @@ vec2 f(vec3 p, bool last_step) {
 	alpha = mod(alpha, c3) - .5 * c3;
 	p_loecher.xz = r3 * vec2(cos(alpha), sin(alpha));
 	p_loecher.y -= .8 * radius;
-	d = smin(d, max(torus82(p_grosse_dinger, vec2(3., radius)), -(length(p_loecher.zy) - radius * .3)), clamp(spiral_ringe_rt_float * 4., .2, 2.));
+	float d_torus = torus82(p_grosse_dinger, vec2(3., radius));//, -(length(p_loecher.zy) - .5));
 
 	vec3 p_kleine_dinger = p;
 	float r = length(p_kleine_dinger.xz);
 	float phi = atan(p_kleine_dinger.z, p_kleine_dinger.x);
 	float c = TAU / 30.;
 	float cell = floor(phi / c) / 30. * .5 + .5;
-	phi += pow(r, .4) * .4;
+	phi += pow(r, .4) * spiral_spiral_rt_float;
 	phi = mod(phi, c) - .5 * c;
 	p_kleine_dinger.xz = r * vec2(cos(phi), sin(phi));
 	float c2 = 3.;
 	p_kleine_dinger.x -= .5 * c2;
 	p_kleine_dinger.x = mod(p_kleine_dinger.x, c2) - .5 * c2;
 	//p_kleine_dinger.y -= cell * 5.;
+	p_kleine_dinger.xz *= rot2D(radians(spiral_torus_rot_rt_float) * 10.);
 	p_kleine_dinger.yz *= rot2D(radians(20.));
 	p_kleine_dinger.xy *= rot2D(radians(-20.));
 	d = min(d, torus(p_kleine_dinger, vec2(.5, .1)));
+	d = smin(d, d_torus, clamp(spiral_ringe_rt_float * 4., .2, 2.));
 	return vec2(d, 0.);
 }
