@@ -15,7 +15,7 @@ class InspectorComponent :
 		InspectorComponent();
 		~InspectorComponent();
 
-		void changeListenerCallback(ChangeBroadcaster* source);
+		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 		void resized() override;
 		void paint(Graphics& g) override;

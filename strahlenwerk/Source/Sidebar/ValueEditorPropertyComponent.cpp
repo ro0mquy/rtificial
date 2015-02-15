@@ -4,6 +4,7 @@
 #include <Sidebar/ValueToggleButton.h>
 #include <ColorPicker/LabColor.h>
 #include <ColorPicker/LabColorPicker.h>
+#include <ColorPicker/ColorPickerComponent.h>
 
 class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
@@ -146,14 +147,12 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 {
 	public:
 		ColorEditorPropertyComponent(const String& name, ValueTree valueData) :
-			ValueEditorPropertyComponent(name, 1),
-			colorLab(50., 0., 0.)
+			ValueEditorPropertyComponent(name, 1)
 		{
 			useValueData(valueData);
 			colorR.addListener(this);
 			colorG.addListener(this);
 			colorB.addListener(this);
-			colorLab.addListenerForLab(this);
 		}
 
 		void useValueData(ValueTree valueData) override {
@@ -161,12 +160,16 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 			colorR.referTo(data.getValueColorRAsValue(valueData));
 			colorG.referTo(data.getValueColorGAsValue(valueData));
 			colorB.referTo(data.getValueColorBAsValue(valueData));
-			colorLab = LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue());
 		}
 
 		void paint(Graphics& g) override {
 			ValueEditorPropertyComponent::paint(g);
-			g.setColour(colorLab.getSRGBColor());
+
+			const uint8 R = (float) colorR.getValue() * 255;
+			const uint8 G = (float) colorG.getValue() * 255;
+			const uint8 B = (float) colorB.getValue() * 255;
+
+			g.setColour(Colour(R, G, B));
 			g.fillRect(getLookAndFeel().getPropertyComponentContentPosition(*this));
 		}
 
@@ -176,24 +179,18 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 			const Rectangle<int> contentBounds = getLookAndFeel().getPropertyComponentContentPosition(*this);
 			if (!contentBounds.contains(event.getPosition())) return;
 
-			LabColorPicker* popupPicker = new LabColorPicker(colorLab);
+			TimelineData& data = TimelineData::getTimelineData();
+			data.getUndoManager().beginNewTransaction("Changed " + getName() + " Value");
+
+			auto popupPicker = new ColorPickerComponent(colorR, colorG, colorB);
 			popupPicker->setSize(300, 406);
 
 			CallOutBox& callOutBox = CallOutBox::launchAsynchronously(popupPicker, localAreaToGlobal(contentBounds), nullptr);
 			callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
 		}
 
-		void valueChanged(Value& value) {
-			if (value.refersToSameSourceAs(colorR) ||
-					value.refersToSameSourceAs(colorG) ||
-					value.refersToSameSourceAs(colorB)) {
-				//colorLab = LabColor::getLabColorFromFloatRGB(colorR.getValue(), colorG.getValue(), colorB.getValue());
-			} else {
-				Vector3D<float> vectorLab = colorLab.getLinearRGBVector3D();
-				colorR = vectorLab.x;
-				colorG = vectorLab.y;
-				colorB = vectorLab.z;
-			}
+		void valueChanged(Value& /*value*/) {
+			// color values changed
 			repaint();
 		}
 
@@ -201,7 +198,6 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 		Value colorR;
 		Value colorG;
 		Value colorB;
-		LabColor colorLab;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ColorEditorPropertyComponent)
 };

@@ -7,6 +7,10 @@
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
       <GROUP id="{9C99C7A8-0996-8168-C568-0719FAFA83A9}" name="ColorPicker">
+        <FILE id="KD2TSy" name="ColorPickerComponent.cpp" compile="1" resource="0"
+              file="Source/ColorPicker/ColorPickerComponent.cpp"/>
+        <FILE id="hwxm2k" name="ColorPickerComponent.h" compile="0" resource="0"
+              file="Source/ColorPicker/ColorPickerComponent.h"/>
         <FILE id="vnJdlh" name="LabColorPropertyComponent.cpp" compile="1"
               resource="0" file="Source/ColorPicker/LabColorPropertyComponent.cpp"/>
         <FILE id="pEid38" name="LabColorPropertyComponent.h" compile="0" resource="0"

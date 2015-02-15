@@ -137,6 +137,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\ColorPicker\ColorPickerComponent.cpp"/>
     <ClCompile Include="..\..\Source\ColorPicker\LabColorPropertyComponent.cpp"/>
     <ClCompile Include="..\..\Source\ColorPicker\ColorSpaceMarker.cpp"/>
     <ClCompile Include="..\..\Source\ColorPicker\LabColor.cpp"/>
@@ -1278,6 +1279,7 @@
     <ClCompile Include="..\..\juce_modules\juce_opengl\juce_opengl.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ColorPicker\ColorPickerComponent.h"/>
     <ClInclude Include="..\..\Source\ColorPicker\LabColorPropertyComponent.h"/>
     <ClInclude Include="..\..\Source\ColorPicker\ColorSpaceMarker.h"/>
     <ClInclude Include="..\..\Source\ColorPicker\LabColor.h"/>

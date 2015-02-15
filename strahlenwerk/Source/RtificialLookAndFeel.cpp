@@ -8,6 +8,7 @@
 #include "Timeline/TimeMarkerComponent.h"
 #include "Sidebar/Sidebar.h"
 #include "Sidebar/InspectorComponent.h"
+#include "ColorPicker/ColorPickerComponent.h"
 
 RtificialLookAndFeel::RtificialLookAndFeel() {
 	const Colour outlineColor = Colours::black;
@@ -49,6 +50,9 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 
 	// Sidebar
 	setColour(Sidebar::tabBackgroundColourId, Colours::darkgrey);
+
+	// Sidebar
+	setColour(ColorPickerComponent::tabBackgroundColourId, findColour(Sidebar::tabBackgroundColourId));
 
 	// InspectorComponent
 	setColour(InspectorComponent::textColourId, Colours::black);
