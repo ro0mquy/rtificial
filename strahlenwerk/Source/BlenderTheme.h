@@ -43,7 +43,7 @@ struct BlenderThemeSpaceSettings {
 
 class BlenderTheme {
 	public:
-		BlenderThemeComponent Tool {
+		BlenderThemeComponent Tool = BlenderThemeComponent {
 			/* Outline       */ Colour(0xff191919),
 			/* Item          */ Colour(0xff191919),
 			/* Inner         */ Colour(0xff999999),
@@ -55,7 +55,7 @@ class BlenderTheme {
 			/* ShadeDown */  -15,
 		};
 
-		BlenderThemeComponent Text {
+		BlenderThemeComponent Text = BlenderThemeComponent {
 			/* Outline       */ Colour(0xff191919),
 			/* Item          */ Colour(0xff5a5a5a),
 			/* Inner         */ Colour(0xff999999),
@@ -67,7 +67,7 @@ class BlenderTheme {
 			/* ShadeDown */   25,
 		};
 
-		BlenderThemeComponent Option {
+		BlenderThemeComponent Option = BlenderThemeComponent {
 			/* Outline       */ Colour(0xff000000),
 			/* Item          */ Colour(0xffffffff),
 			/* Inner         */ Colour(0xff464646),
@@ -79,7 +79,7 @@ class BlenderTheme {
 			/* ShadeDown */  -15,
 		};
 
-		BlenderThemeComponent Pulldown {
+		BlenderThemeComponent Pulldown = BlenderThemeComponent {
 			/* Outline       */ Colour(0xff000000),
 			/* Item          */ Colour(0xffffffff),
 			/* Inner         */ Colour(0xff3f3f3f),
@@ -91,7 +91,7 @@ class BlenderTheme {
 			/* ShadeDown */  -20,
 		};
 
-		BlenderThemeComponent MenuBack {
+		BlenderThemeComponent MenuBack = BlenderThemeComponent {
 			/* Outline       */ Colour(0xff000000),
 			/* Item          */ Colour(0xff646464),
 			/* Inner         */ Colour(0xff191919).withAlpha(0.902f),
@@ -103,7 +103,7 @@ class BlenderTheme {
 			/* ShadeDown */  -20,
 		};
 
-		BlenderThemeComponent MenuItem {
+		BlenderThemeComponent MenuItem = BlenderThemeComponent {
 			/* Outline       */ Colour(0xff000000),
 			/* Item          */ Colour(0xffacacac).withAlpha(0.502f),
 			/* Inner         */ Colour(0x00000000),
@@ -115,7 +115,7 @@ class BlenderTheme {
 			/* ShadeDown */    0,
 		};
 
-		BlenderThemeComponent ScrollBar {
+		BlenderThemeComponent ScrollBar = BlenderThemeComponent {
 			/* Outline       */ Colour(0xff323232),
 			/* Item          */ Colour(0xff808080),
 			/* Inner         */ Colour(0xff505050).withAlpha(0.706f),
@@ -128,14 +128,14 @@ class BlenderTheme {
 		};
 
 
-		BlenderThemeStyles Styles {
+		BlenderThemeStyles Styles = BlenderThemeStyles {
 			/* menuShadowStrength */  0.5f,
 			/* menushadowWidth    */ 12.0f,
 			/* IconAlpha          */  1.0f,
 			/* widgetEmboss       */ Colour(0xffffffff).withAlpha(0.075f),
 		};
 
-		BlenderThemeSpaceSettings SpaceSettings {
+		BlenderThemeSpaceSettings SpaceSettings = BlenderThemeSpaceSettings {
 			/* windowBackground    */ Colour(0xff727272),
 			/* title               */ Colour(0xff000000),
 			/* text                */ Colour(0xff000000),

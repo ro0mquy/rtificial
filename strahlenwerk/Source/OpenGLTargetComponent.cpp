@@ -44,7 +44,7 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 	const float fontHeight = 12.;
 	g.setColour(Colours::white);
 	g.setFont(Font(Font::getDefaultMonospacedFontName(), fontHeight, 0));
-	const uint64_t frameTime = renderer.getLastFrameDuration();
+	const std::uint64_t frameTime = renderer.getLastFrameDuration();
 	const double frameTimeInMillis = frameTime / 1000000.;
 	const String frameTimeString = String(frameTimeInMillis) + "ms\n" + String(1000. / frameTimeInMillis) + "fps";
 	g.drawMultiLineText(frameTimeString, 10, 12 + fontHeight / 2, getWidth());

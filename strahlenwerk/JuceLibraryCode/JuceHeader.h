@@ -38,7 +38,7 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "strahlenwerk";
-    const char* const  versionString  = "Elbphilharmonie";
+    const char* const  versionString  = "";
     const int          versionNumber  = 0x0;
 }
 #endif

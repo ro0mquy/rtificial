@@ -7,7 +7,7 @@
 #include <windows.h>
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION  Elbphilharmonie,0,0,0
+FILEVERSION  0,0,0,0
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -15,9 +15,7 @@ BEGIN
     BEGIN
       VALUE "CompanyName",  "rtificial\0"
       VALUE "FileDescription",  "strahlenwerk\0"
-      VALUE "FileVersion",  "Elbphilharmonie\0"
       VALUE "ProductName",  "strahlenwerk\0"
-      VALUE "ProductVersion",  "Elbphilharmonie\0"
     END
   END
 

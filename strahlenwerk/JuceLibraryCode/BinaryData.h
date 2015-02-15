@@ -10,7 +10,7 @@
 namespace BinaryData
 {
     extern const char*   juce;
-    const int            juceSize = 43;
+    const int            juceSize = 44;
 
     extern const char*   dejavu_sans_book_ttf;
     const int            dejavu_sans_book_ttfSize = 5657344;

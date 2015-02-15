@@ -23,7 +23,7 @@ MainWindow::MainWindow() :
 {
 	setName(StrahlenwerkApplication::getInstance()->getApplicationName()
 		+ " - "
-		+ StrahlenwerkApplication::getInstance()->getApplicationVersion()
+		+ "Elbphilharmonie" //StrahlenwerkApplication::getInstance()->getApplicationVersion()
 		+ " Edition"
 	);
 	setMenuBar(this);
