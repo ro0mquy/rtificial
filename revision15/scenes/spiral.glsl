@@ -29,17 +29,18 @@ vec2 f(vec3 p, bool last_step) {
 	float alpha = atan(p_grosse_dinger.z, p_grosse_dinger.x);
 	float r2 = length(p_grosse_dinger.xz);
 	float r3 = r2;
-	float cell2 = floor(r2 / 20.);
-	r2 = mod(r2, 20.);
+	float c5 = 20. * spiral_ringe_rt_float;
+	float cell2 = floor(r2 / c5);
+	r2 = mod(r2, c5);
 	p_grosse_dinger.xz = r2 * vec2(cos(alpha), sin(alpha));
-	float radius = 1.;// + cell2 * .2;
+	float radius = 1. * (1.8 - spiral_ringe_rt_float);// + cell2 * .2;
 	p_grosse_dinger.y -= .8 * radius;
 	vec3 p_loecher = p;
 	float c3 = TAU / (10. + cell2 * 15.);
 	alpha = mod(alpha, c3) - .5 * c3;
 	p_loecher.xz = r3 * vec2(cos(alpha), sin(alpha));
 	p_loecher.y -= .8 * radius;
-	d = smin(d, max(torus82(p_grosse_dinger, vec2(3., radius)), -(length(p_loecher.zy) - radius * .3)), .5);
+	d = smin(d, max(torus82(p_grosse_dinger, vec2(3., radius)), -(length(p_loecher.zy) - radius * .3)), clamp(spiral_ringe_rt_float * 4., .2, 2.));
 
 	vec3 p_kleine_dinger = p;
 	float r = length(p_kleine_dinger.xz);

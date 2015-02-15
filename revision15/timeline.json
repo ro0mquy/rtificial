@@ -48,10 +48,10 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "spiral_kuhle_power_rt_float",
+      "uniformName": "spiral_ringe_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.434
+        "valueFloatX": 0.583
       },
       "sequencesArray": []
     }
