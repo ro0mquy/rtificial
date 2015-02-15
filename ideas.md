@@ -22,6 +22,9 @@
 * Beginn: 2D Waveform, dann Drehung der Kamera in Raum, sodass Waveform eine Fläche ist. Fläche wird überfolgen und ist "Landschaft"
 * zb mit Voxelrenderer: [DLA](http://en.wikipedia.org/wiki/Diffusion-limited_aggregation) (wahrscheinlich mit precalc)
 * "long take demo" (mit guten splines)
+* torus/objekte die aus vielen kleinen tori bestehen, objekt ist weiß, kleine tori sind alle farben
+* fußabdrücke im schnee, gefüllt mit neonfarben, spritzer im schnee
+* keyboard tasten, die neonfarben aufleuchten, wenn der entsprechende ton gespielt wird
 
 ## Bilder
 * http://projectosxar.deviantart.com/art/Through-the-Gap-455732816
