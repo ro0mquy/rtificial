@@ -46,6 +46,14 @@
         "valueFloatX": 0
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "spiral_kuhle_power_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.434
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
@@ -53,7 +61,7 @@
       "sceneId": 544,
       "sceneStart": 0,
       "sceneDuration": 8000,
-      "sceneShaderSource": "test"
+      "sceneShaderSource": "spiral"
     }
   ]
 }

@@ -21,19 +21,21 @@ void main() {
 vec2 f(vec3 p, bool last_step) {
 	//p.z += 10.;
 	//return vec2(sphere(p, 1.), 0.);
+	float kuhle_radius = 100.;
+	p.y += 10. * pow((1. - smoothstep(0., kuhle_radius, length(p.xz))), spiral_kuhle_power_rt_float);
 	float d;
 	d = p.y;
 	vec3 p_grosse_dinger = p;
 	float alpha = atan(p_grosse_dinger.z, p_grosse_dinger.x);
 	float r2 = length(p_grosse_dinger.xz);
 	float r3 = r2;
-	float cell2 = r2 / 20.;
+	float cell2 = floor(r2 / 20.);
 	r2 = mod(r2, 20.);
 	p_grosse_dinger.xz = r2 * vec2(cos(alpha), sin(alpha));
-	float radius = 1. + cell2 * .2;
+	float radius = 1.;// + cell2 * .2;
 	p_grosse_dinger.y -= .8 * radius;
 	vec3 p_loecher = p;
-	float c3 = TAU / (10. + cell2 * 10.);
+	float c3 = TAU / (10. + cell2 * 15.);
 	alpha = mod(alpha, c3) - .5 * c3;
 	p_loecher.xz = r3 * vec2(cos(alpha), sin(alpha));
 	p_loecher.y -= .8 * radius;
