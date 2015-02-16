@@ -139,6 +139,54 @@
         "valueFloatX": 0.46
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "super_a_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "super_b_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "super_m_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "super_n1_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "super_n2_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "super_n3_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
@@ -159,6 +207,12 @@
       "sceneStart": 0,
       "sceneDuration": 8000,
       "sceneShaderSource": "spiral"
+    },
+    {
+      "sceneId": 791,
+      "sceneStart": 33000,
+      "sceneDuration": 10000,
+      "sceneShaderSource": "supershape"
     },
     {
       "sceneId": 958,

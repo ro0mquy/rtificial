@@ -151,6 +151,53 @@ float hexprism(vec3 p, vec2 h) {
     return max(q.z - h.y, max((q.x * .866025 + q.y * .5), q.y) - h.x);
 }
 
+// awesome supershapes directly at your hands!
+// a and b control the total size
+// m is the number of spikes
+// n1, n2, n3 control the exact shape
+// http://paulbourke.net/geometry/supershape/
+// http://de.wikipedia.org/wiki/Superformel
+// have fun playing around!
+float supershape(vec2 p, float a, float b, float m, float n1, float n2, float n3) {
+	const float phi = atan(p.y, p.x);
+	const float d = length(p);
+
+	const float m4 = m / 4.;
+
+	const float c = cos(m4 * phi);
+	const float s = sin(m4 * phi);
+
+	const float ca = c / a;
+	const float sb = s / b;
+
+	const float gc = ca < 0. ? -1. : 1.;
+	const float gs = sb < 0. ? -1. : 1.;
+
+	const float absc = ca * gc;
+	const float abss = sb * gs;
+
+	const float ab2 = pow(absc, n2);
+	const float ab3 = pow(abss, n3);
+
+	//const float ab21 = pow(absc, n2 - 1.);
+	//const float ab31 = pow(abss, n3 - 1.);
+	const float ab21 = ab2 / absc;
+	const float ab31 = ab3 / abss;
+
+	const float rw = ab2 + ab3;
+	const float r = pow(rw, -1./n1);
+
+	const float k = -n2 * ab21 * gc / a * s;
+	const float l =  n3 * ab31 * gs / b * c;
+
+	//const float drpre = m4 / n1 * pow(rw, -1./n1 - 1.);
+	const float drpre = m4 / n1 * r / rw;
+	const float dr2 = drpre * drpre * (k * k + 2. * k * l + l * l);
+
+	const float f = (d - r) / sqrt(1 + dr2);
+	return f;
+}
+
 // smooth minimum, k is the difference between the two values for which to smooth (eg. k = 0.1)
 float smin(float a, float b, float k) {
 	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
