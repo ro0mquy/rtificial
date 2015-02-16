@@ -131,6 +131,14 @@
         "valueFloatX": 0
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "steinchen_smoothing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.46
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
@@ -139,6 +147,12 @@
       "sceneStart": 21000,
       "sceneDuration": 10000,
       "sceneShaderSource": "shapemorph"
+    },
+    {
+      "sceneId": 418,
+      "sceneStart": 33000,
+      "sceneDuration": 9000,
+      "sceneShaderSource": "steinchen"
     },
     {
       "sceneId": 544,
