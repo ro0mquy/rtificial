@@ -83,6 +83,14 @@
       ]
     },
     {
+      "uniformName": "sky_max_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1000
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "spiral_ringe_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -187,6 +195,12 @@
       "sceneStart": 44000,
       "sceneDuration": 10000,
       "sceneShaderSource": "supershape"
+	},
+	{
+      "sceneId": 820,
+      "sceneStart": 45000,
+      "sceneDuration": 10000,
+      "sceneShaderSource": "sky"
     },
     {
       "sceneId": 958,
