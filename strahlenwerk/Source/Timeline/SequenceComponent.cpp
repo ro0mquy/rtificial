@@ -31,6 +31,7 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
+	resizableBorder.addMouseListener(this, false);
 	addAndMakeVisible(resizableBorder);
 
 	// add keyframe components
@@ -148,6 +149,11 @@ void SequenceComponent::paint(Graphics& g) {
 }
 
 void SequenceComponent::mouseDown(const MouseEvent& event) {
+	if (event.originalComponent == &resizableBorder) {
+		data.getUndoManager().beginNewTransaction("Resize Sequence");
+		return;
+	}
+
 	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown()) {
 		data.getUndoManager().beginNewTransaction("Drag Sequence");
