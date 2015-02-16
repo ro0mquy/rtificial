@@ -101,6 +101,56 @@ float torus82(vec3 p, vec2 t) {
 	return length8(q) - t.y;
 }
 
+// h.x: height of zweieck, h.y: extruding length
+float zweieck(vec3 p , vec2 h) {
+	vec3 q = abs(p);
+	q.x -= -h.x / 2.;
+	float sp = length(q.xy) - h.x;
+
+	float extrude = q.z - h.y;
+
+	return max(sp, extrude);
+}
+
+// h.x: (fast) height of eineck, h.y: extruding length
+float eineck(vec3 p, vec2 h) {
+	float halbkreis = min(length(p.xy) - h.x * .5, -p.y);
+	halbkreis = max(halbkreis, zweieck(p, h));
+
+	float extrude = abs(p.z) - h.y;
+
+	return max(halbkreis, extrude);
+}
+
+// h.x: width of triangle, h.y: extruding length
+float triprism(vec3 p, vec2 h) {
+    vec3 q = abs(p);
+    return max(q.z - h.y, max(q.x * .866025 + p.y * .5, -p.y) - h.x);
+}
+
+// h.x: width of pentagon, h.y: extruding length
+float pentaprism(vec3 p, vec2 h) {
+	float phi1 = radians(108. / 2.);
+	float phi2 = radians(-18.);
+
+	vec3 q = abs(p);
+	float side1 = q.x * cos(phi1) + p.y * sin(phi1);
+	float side2 = -p.y;
+	float side3 = q.x * cos(phi2) + p.y * sin(phi2);
+
+	float pentagon = max(max(side1, side2), side3) - h.x;
+
+	float extrude = q.z - h.y;
+
+	return max(pentagon, extrude);
+}
+
+// h.x: width of hexagon, h.y: extruding length
+float hexprism(vec3 p, vec2 h) {
+    vec3 q = abs(p);
+    return max(q.z - h.y, max((q.x * .866025 + q.y * .5), q.y) - h.x);
+}
+
 // smooth minimum, k is the difference between the two values for which to smooth (eg. k = 0.1)
 float smin(float a, float b, float k) {
 	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );

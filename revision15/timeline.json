@@ -34,7 +34,8 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "foo",
@@ -43,6 +44,22 @@
         "valueColorR": 0.18,
         "valueColorG": 0.18,
         "valueColorB": 0.18
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kugelkram_kugelmix_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kugelkram_rollen_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -63,15 +80,66 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "shape_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 259,
+          "sequenceStart": 0,
+          "sequenceDuration": 8000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 8000,
+              "keyframeValue": {
+                "valueFloatX": 6
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "spiral_ringe_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.583
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "spiral_spiral_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spiral_torus_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
+    {
+      "sceneId": 259,
+      "sceneStart": 21000,
+      "sceneDuration": 10000,
+      "sceneShaderSource": "shapemorph"
+    },
     {
       "sceneId": 544,
       "sceneStart": 0,
