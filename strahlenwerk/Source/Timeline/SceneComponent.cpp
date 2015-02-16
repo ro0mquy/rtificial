@@ -92,8 +92,7 @@ void SceneComponent::paint(Graphics& g) {
 	RtificialLookAndFeel* laf = dynamic_cast<RtificialLookAndFeel*>(&getLookAndFeel());
 
 	Rectangle<float> sceneRect = getLocalBounds().toFloat();
-	sceneRect.removeFromTop(0.5f);
-	sceneRect.removeFromBottom(1.5f);
+	sceneRect.removeFromBottom(1.0f);
 
 	const bool selected = false;
 

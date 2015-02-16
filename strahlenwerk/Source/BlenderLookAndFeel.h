@@ -42,25 +42,25 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		Font getLabelFont(Label& label) override;
 		void drawLabel(Graphics& g, Label& label) override;
 
-	private:
-		const BlenderTheme theme;
+	protected:
+		BlenderTheme theme;
 
-		const float disabledAlpha = 0.5f;
-		const float highlightedBrighter = 0.1f;
+		float disabledAlpha = 0.5f;
+		float highlightedBrighter = 0.1f;
 
-		const float componentHeight = 20.0f;
-		const float cornerRadius = 4.0f;
-		const float emboss = 1.0f;
+		float componentHeight = 20.0f;
+		float cornerRadius = 4.0f;
+		float emboss = 1.0f;
 
-		const float menuBarItemIoffset = 4.0f;
+		float menuBarItemIoffset = 4.0f;
 
-		const float bevel = 1.0f;
-		const float bevelOffset = 1.0f;
-		const float bevelAlpha = 0.11f;
-		const Colour bevelColourTop = Colours::white;
-		const Colour bevelColourDown = Colours::black;
+		float bevel = 1.0f;
+		float bevelOffset = 1.0f;
+		float bevelAlpha = 0.11f;
+		Colour bevelColourTop = Colours::white;
+		Colour bevelColourDown = Colours::black;
 
-		const float fontSize = 13.0f;
+		float fontSize = 13.0f;
 
 		Colour shadeColour(Colour inColour, int shade);
 		void drawBox(Graphics& g, Path& outline, float width, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted, const bool enabled);

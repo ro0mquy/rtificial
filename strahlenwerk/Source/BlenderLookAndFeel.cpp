@@ -50,8 +50,10 @@ Colour BlenderLookAndFeel::shadeColour(Colour inColour, int shade) {
 
 void BlenderLookAndFeel::drawBox(Graphics& g, Path& outline, float /*width*/, float height, const BlenderThemeComponent& themeComponent, const Colour& baseColor, const bool shadeInverted, const bool enabled) {
 	// emboss
-	g.setColour(theme.Styles.widgetEmboss);
-	g.strokePath(outline, PathStrokeType(emboss), AffineTransform::translation(0.0f, emboss));
+	if ( !baseColor.isTransparent()) {
+		g.setColour(theme.Styles.widgetEmboss);
+		g.strokePath(outline, PathStrokeType(emboss), AffineTransform::translation(0.0f, emboss));
+	}
 
 	// background
 	if (themeComponent.shaded && !baseColor.isTransparent()) {

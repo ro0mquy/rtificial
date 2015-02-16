@@ -126,8 +126,7 @@ void SequenceComponent::paint(Graphics& g) {
 	RtificialLookAndFeel* laf = dynamic_cast<RtificialLookAndFeel*>(&getLookAndFeel());
 
 	Rectangle<float> seqRect = getLocalBounds().toFloat();
-	seqRect.removeFromTop(0.5f);
-	seqRect.removeFromBottom(1.5f);
+	seqRect.removeFromBottom(1.0f);
 
 	const bool selected = data.getSelection().contains(sequenceData);
 

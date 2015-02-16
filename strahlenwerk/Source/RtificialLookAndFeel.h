@@ -21,6 +21,9 @@ class RtificialLookAndFeel : public BlenderLookAndFeel
 
 	private:
 		const float cornerRadius = 4.0f;
+
+		BlenderTheme createBlenderTheme();
+		Path roundedBevelAbovePath(Rectangle<float>& rect, float cs);
 };
 
 #endif
