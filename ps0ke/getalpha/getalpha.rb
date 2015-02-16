@@ -43,6 +43,7 @@ end
 
 
 if alpha[:r] != alpha[:g] or alpha[:r] != alpha[:b] or alpha[:g] != alpha[:b]
+	puts alpha
 	$stderr.puts "alpha values do not match, this cannot be a composite color"
 	exit 2
 end
@@ -50,5 +51,5 @@ end
 # i'm so going to hell for this
 α = alpha[:r]
 
-puts "float: #{α}" 
+puts "float: #{α}"
 puts "hex:    " + (α * 255).to_i.to_s(16)
