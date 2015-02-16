@@ -30,24 +30,6 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "focal_length",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "foo",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.18,
-        "valueColorG": 0.18,
-        "valueColorB": 0.18
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "kugelkram_kugelmix_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -68,14 +50,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 3.466
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "red",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -210,7 +184,7 @@
     },
     {
       "sceneId": 791,
-      "sceneStart": 33000,
+      "sceneStart": 44000,
       "sceneDuration": 10000,
       "sceneShaderSource": "supershape"
     },
