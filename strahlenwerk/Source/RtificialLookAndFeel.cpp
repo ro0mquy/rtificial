@@ -14,9 +14,9 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	const Colour outlineColor = Colours::black;
 
 	// ScenesBarComponent
-	setColour(ScenesBarComponent::tickColourId, Colours::white);
-	setColour(ScenesBarComponent::waveformColourId, Colours::white);
-	setColour(ScenesBarComponent::textColourId, Colours::white);
+	setColour(ScenesBarComponent::tickColourId, Colour(0xff323232));
+	setColour(ScenesBarComponent::waveformColourId, findColour(ScenesBarComponent::tickColourId));
+	setColour(ScenesBarComponent::textColourId, findColour(ScenesBarComponent::tickColourId));
 	setColour(ScenesBarComponent::outlineColourId, outlineColor);
 
 	// SceneComponent
@@ -25,13 +25,13 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(SceneComponent::textColourId, Colours::white);
 
 	// UniformsBarComponent
-	setColour(UniformsBarComponent::evenRowColourId, Colours::grey);
+	setColour(UniformsBarComponent::evenRowColourId, Colours::transparentBlack);
 	setColour(SequenceViewComponent::evenRowColourId, findColour(UniformsBarComponent::evenRowColourId));
-	setColour(UniformsBarComponent::oddRowColourId, Colours::darkgrey);
+	setColour(UniformsBarComponent::oddRowColourId, Colours::white.withAlpha(0.2f));
 	setColour(SequenceViewComponent::oddRowColourId, findColour(UniformsBarComponent::oddRowColourId));
-	setColour(UniformsBarComponent::seperatorColourId, Colours::black);
+	setColour(UniformsBarComponent::seperatorColourId, Colours::transparentBlack);
 	setColour(SequenceViewComponent::seperatorColourId, findColour(UniformsBarComponent::seperatorColourId));
-	setColour(UniformsBarComponent::uniformTextColourId, Colours::white);
+	setColour(UniformsBarComponent::uniformTextColourId, Colours::black);
 
 	// SequenceViewComponent
 	setColour(SequenceViewComponent::inactiveAreaColourId, Colours::black.withAlpha(0.4f));
