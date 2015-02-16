@@ -2,6 +2,7 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include "ZoomFactor.h"
+#include <RtificialLookAndFeel.h>
 
 SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	sceneData(_sceneData),
@@ -13,7 +14,11 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	shaderSourceLabel.getTextValue().referTo(shaderSourceValue);
 	shaderSourceLabel.setEditable(false, true, false);
 	shaderSourceLabel.setJustificationType(Justification::centred);
-	//shaderSourceLabel.setColour(Label::textColourId, findColour(SceneComponent::textColourId)); // TODO: find out why this throws an assertion
+	shaderSourceLabel.setColour(Label::backgroundColourId, Colours::transparentBlack);
+	shaderSourceLabel.setColour(Label::outlineColourId, Colours::transparentBlack);
+	shaderSourceLabel.setColour(Label::outlineWhenEditingColourId, Colours::transparentBlack);
+	shaderSourceLabel.setColour(Label::textColourId, findColour(SceneComponent::textColourId));
+	shaderSourceLabel.setColour(Label::textWhenEditingColourId, findColour(SceneComponent::highlightedTextColourId));
 	addAndMakeVisible(shaderSourceLabel);
 
 	setPositioner(new Positioner(*this, sceneData, data, zoomFactor));
@@ -84,18 +89,26 @@ void SceneComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds)
 }
 
 void SceneComponent::paint(Graphics& g) {
-	const float cornerSize = 5.0;
-	const float outlineThickness = 1.;
+	RtificialLookAndFeel* laf = dynamic_cast<RtificialLookAndFeel*>(&getLookAndFeel());
 
-	Rectangle<float> rect = getLocalBounds().toFloat();
-	rect.removeFromTop(.5);
-	rect.removeFromBottom(1.5);
+	Rectangle<float> sceneRect = getLocalBounds().toFloat();
+	sceneRect.removeFromTop(0.5f);
+	sceneRect.removeFromBottom(1.5f);
 
-	g.setColour(findColour(SceneComponent::fillColourId));
-	g.fillRoundedRectangle(rect, cornerSize);
+	const bool selected = false;
 
-	g.setColour(findColour(SceneComponent::outlineColourId));
-	g.drawRoundedRectangle(rect, cornerSize, outlineThickness);
+	if (nullptr == laf) {
+		Colour fillColor = findColour(SceneComponent::fillColourId);
+		if (selected) {
+			fillColor = findColour(SceneComponent::highlightedFillColourId);
+		}
+		g.fillAll(fillColor);
+
+		g.setColour(findColour(SceneComponent::outlineColourId));
+		g.drawRect(sceneRect, 1);
+	} else {
+		laf->drawScene(g, *this, sceneRect, selected);
+	}
 }
 
 void SceneComponent::mouseDown(const MouseEvent& event) {
@@ -153,8 +166,10 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 }
 
 void SceneComponent::resized() {
-	shaderSourceLabel.setBounds(getLocalBounds());
-	resizableBorder.setBounds(getLocalBounds());
+	Rectangle<int> theBounds = getLocalBounds();
+	theBounds.removeFromBottom(1);
+	shaderSourceLabel.setBounds(theBounds);
+	resizableBorder.setBounds(theBounds);
 }
 
 void SceneComponent::parentHierarchyChanged() {

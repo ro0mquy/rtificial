@@ -41,7 +41,7 @@ class ScenesBarComponent :
 		void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
 
 		enum ColourIds{
-			tickColourId = 0x2300100,
+			tickColourId = 0x23af0100,
 			waveformColourId,
 			textColourId,
 			outlineColourId,

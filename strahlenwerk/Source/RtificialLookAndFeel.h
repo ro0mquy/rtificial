@@ -4,6 +4,7 @@
 #include <juce>
 #include "BlenderLookAndFeel.h"
 
+#include <Timeline/SceneComponent.h>
 #include <Timeline/SequenceComponent.h>
 
 class RtificialLookAndFeel : public BlenderLookAndFeel
@@ -15,6 +16,7 @@ class RtificialLookAndFeel : public BlenderLookAndFeel
 
 		void drawResizableFrame(Graphics& g, int w, int h, const BorderSize<int>& borderSize) override;
 
+		void drawScene(Graphics& g, SceneComponent& sequence, Rectangle<float>& area, const bool selected);
 		void drawSequence(Graphics& g, SequenceComponent& sequence, Rectangle<float>& area, const bool selected);
 
 	private:

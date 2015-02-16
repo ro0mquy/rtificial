@@ -35,8 +35,10 @@ class SceneComponent :
 
 		enum ColourIds {
 			fillColourId = 0x2300103,
-			outlineColourId = 0x2300104,
-			textColourId = 0x2300105,
+			highlightedFillColourId,
+			outlineColourId,
+			textColourId,
+			highlightedTextColourId,
 		};
 
 		ValueTree sceneData;

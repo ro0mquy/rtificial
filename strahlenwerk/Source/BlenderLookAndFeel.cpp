@@ -536,7 +536,10 @@ void BlenderLookAndFeel::fillTextEditorBackground(Graphics& g, int width, int he
 		proportionalCornerRadius
 	);
 
-	drawBox(g, outline, width, height, theme.Text, textEditor.findColour(TextEditor::backgroundColourId), false, true);
+
+	BlenderThemeComponent themeComponent = theme.Text;
+	themeComponent.outline = textEditor.findColour(Label::outlineColourId);
+	drawBox(g, outline, width, height, themeComponent, textEditor.findColour(TextEditor::backgroundColourId), false, true);
 }
 
 void BlenderLookAndFeel::drawTextEditorOutline(Graphics& /*g*/, int /*width*/, int /*height*/, TextEditor& /*textEditor*/) {
@@ -568,7 +571,9 @@ void BlenderLookAndFeel::drawLabel(Graphics& g, Label& label) {
 		proportionalCornerRadius
 	);
 
-	drawBox(g, outline, width, height, theme.Text, baseColor, false, label.isEnabled());
+	BlenderThemeComponent themeComponent = theme.Text;
+	themeComponent.outline = label.findColour(Label::outlineColourId);
+	drawBox(g, outline, width, height, themeComponent, baseColor, false, label.isEnabled());
 
 	if (! label.isBeingEdited()) {
 		const Font font = getLabelFont(label);
