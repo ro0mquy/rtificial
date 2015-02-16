@@ -36,11 +36,14 @@ class SequenceComponent :
 		void valueTreeChildOrderChanged(ValueTree& parentTree) override;
 		void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
+		const String getInterpolationMethod();
+
 		enum ColourIds {
 			fillColourId = 0x4934001,
 			highlightedFillColourId,
 			outlineColourId,
 			textColourId,
+			highlightedTextColourId,
 		};
 
 		ValueTree sequenceData;

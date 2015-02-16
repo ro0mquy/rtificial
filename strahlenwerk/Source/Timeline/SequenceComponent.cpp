@@ -4,6 +4,7 @@
 #include "TreeIdentifiers.h"
 #include "ZoomFactor.h"
 #include "KeyframeComponent.h"
+#include <RtificialLookAndFeel.h>
 
 SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_) :
 	sequenceData(_sequenceData),
@@ -122,25 +123,29 @@ KeyframeComponent* SequenceComponent::getKeyframeComponentForData(ValueTree keyf
 }
 
 void SequenceComponent::paint(Graphics& g) {
-	const float cornerSize = 5.0;
+	RtificialLookAndFeel* laf = dynamic_cast<RtificialLookAndFeel*>(&getLookAndFeel());
+
 	Rectangle<float> seqRect = getLocalBounds().toFloat();
-	seqRect.removeFromTop(0.5);
-	seqRect.removeFromBottom(1.5);
+	seqRect.removeFromTop(0.5f);
+	seqRect.removeFromBottom(1.5f);
 
-	Colour fillColor = findColour(SequenceComponent::fillColourId);
-	if (data.getSelection().contains(sequenceData)) {
-		fillColor = findColour(SequenceComponent::highlightedFillColourId);
+	const bool selected = data.getSelection().contains(sequenceData);
+
+	if (nullptr == laf) {
+		Colour fillColor = findColour(SequenceComponent::fillColourId);
+		if (selected) {
+			fillColor = findColour(SequenceComponent::highlightedFillColourId);
+		}
+		g.fillAll(fillColor);
+
+		g.setColour(findColour(SequenceComponent::outlineColourId));
+		g.drawRect(seqRect, 1);
+
+		g.setColour(findColour(SequenceComponent::textColourId));
+		g.drawText(getInterpolationMethod(), seqRect, Justification::centred, true);
+	} else {
+		laf->drawSequence(g, *this, seqRect, selected);
 	}
-
-	g.setColour(fillColor);
-	g.fillRoundedRectangle(seqRect, cornerSize);
-
-	g.setColour(findColour(SequenceComponent::outlineColourId));
-	g.drawRoundedRectangle(seqRect, cornerSize, 1);
-
-	const String interpolationMethod = data.getSequenceInterpolation(sequenceData);
-	g.setColour(findColour(SequenceComponent::textColourId));
-	g.drawText(interpolationMethod, seqRect, Justification::centred, true);
 }
 
 void SequenceComponent::mouseDown(const MouseEvent& event) {
@@ -303,4 +308,8 @@ void SequenceComponent::valueTreeChildOrderChanged(ValueTree& parentTree) {
 }
 
 void SequenceComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
+}
+
+const String SequenceComponent::getInterpolationMethod() {
+	return data.getSequenceInterpolation(sequenceData);
 }

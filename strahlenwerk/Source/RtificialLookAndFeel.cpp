@@ -29,7 +29,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(SequenceViewComponent::evenRowColourId, findColour(UniformsBarComponent::evenRowColourId));
 	setColour(UniformsBarComponent::oddRowColourId, Colours::white.withAlpha(0.2f));
 	setColour(SequenceViewComponent::oddRowColourId, findColour(UniformsBarComponent::oddRowColourId));
-	setColour(UniformsBarComponent::seperatorColourId, Colours::transparentBlack);
+	setColour(UniformsBarComponent::seperatorColourId, Colour(0xff323232));
 	setColour(SequenceViewComponent::seperatorColourId, findColour(UniformsBarComponent::seperatorColourId));
 	setColour(UniformsBarComponent::uniformTextColourId, Colours::black);
 
@@ -40,7 +40,8 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(SequenceComponent::outlineColourId, Colours::red);
 	setColour(SequenceComponent::fillColourId, findColour(SequenceComponent::outlineColourId).withAlpha(0.4f));
 	setColour(SequenceComponent::highlightedFillColourId, findColour(SequenceComponent::fillColourId).withAlpha(0.8f));
-	setColour(SequenceComponent::textColourId, Colours::white);
+	setColour(SequenceComponent::textColourId, Colours::white.withAlpha(0.75f));
+	setColour(SequenceComponent::highlightedTextColourId, findColour(SequenceComponent::textColourId).withAlpha(0.8f));
 
 	// KeyframeComponent
 	setColour(KeyframeComponent::fillColourId, Colours::steelblue);
@@ -58,3 +59,25 @@ RtificialLookAndFeel::RtificialLookAndFeel() {
 	setColour(InspectorComponent::textColourId, Colours::black);
 }
 
+void RtificialLookAndFeel::drawResizableFrame(Graphics& /*g*/, int /*w*/, int /*h*/, const BorderSize<int>& /*borderSize*/) {
+}
+
+
+void RtificialLookAndFeel::drawSequence(Graphics& g, SequenceComponent& sequence, Rectangle<float>& area, const bool selected) {
+	Colour fillColor = findColour(SequenceComponent::fillColourId);
+	Colour outlineColor = findColour(SequenceComponent::outlineColourId);
+	Colour textColor = findColour(SequenceComponent::textColourId);
+
+	if (selected) {
+		fillColor = findColour(SequenceComponent::highlightedFillColourId);
+		textColor = findColour(SequenceComponent::highlightedTextColourId);
+	}
+	g.setColour(fillColor);
+	g.fillRoundedRectangle(area, cornerRadius);
+
+	g.setColour(outlineColor);
+	g.drawRoundedRectangle(area, cornerRadius, 1);
+
+	g.setColour(textColor);
+	g.drawText(sequence.getInterpolationMethod(), area, Justification::centred, true);
+}
