@@ -361,6 +361,9 @@
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\InfoLogComponent.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
@@ -1671,9 +1674,6 @@
     <ClInclude Include="..\..\Source\Project\ProjectFileLoader.h">
       <Filter>strahlenwerk\Source\Project</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Project\ProjectListener.h">
-      <Filter>strahlenwerk\Source\Project</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\Scenes.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
@@ -1709,6 +1709,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\InfoLogComponent.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>

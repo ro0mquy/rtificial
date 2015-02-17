@@ -5,14 +5,14 @@
 
 #include "Renderer.h"
 #include "OpenGLTargetComponent.h"
-#include <Project/ProjectListener.h>
+#include <Project/Project.h>
 
 class OpenGLComponent :
 	public Component,
 	private ApplicationCommandManagerListener,
 	private ValueTree::Listener,
 	private ChangeListener,
-	private ProjectListener
+	private Project::Listener
 {
 	public:
 		OpenGLComponent();

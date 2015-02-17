@@ -41,8 +41,6 @@
               file="Source/Project/ProjectFileLoader.cpp"/>
         <FILE id="mLNBl0" name="ProjectFileLoader.h" compile="0" resource="0"
               file="Source/Project/ProjectFileLoader.h"/>
-        <FILE id="K9ZyLm" name="ProjectListener.h" compile="0" resource="0"
-              file="Source/Project/ProjectListener.h"/>
       </GROUP>
       <GROUP id="{FD0D5AF9-43C9-B25F-5D3C-4033D39D865A}" name="Rendering">
         <FILE id="EieqmQ" name="glcorert.cpp" compile="1" resource="0" file="Source/Rendering/glcorert.cpp"/>
@@ -76,6 +74,10 @@
         <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
       </GROUP>
       <GROUP id="{404891A8-3B49-932E-BF9F-4C13EB6EC98C}" name="Sidebar">
+        <FILE id="zmIm6k" name="InfoLogComponent.cpp" compile="1" resource="0"
+              file="Source/Sidebar/InfoLogComponent.cpp"/>
+        <FILE id="oed0QQ" name="InfoLogComponent.h" compile="0" resource="0"
+              file="Source/Sidebar/InfoLogComponent.h"/>
         <FILE id="pBsemE" name="SequenceBackgroundComponent.cpp" compile="1"
               resource="0" file="Source/Sidebar/SequenceBackgroundComponent.cpp"/>
         <FILE id="UpgnYw" name="SequenceBackgroundComponent.h" compile="0"

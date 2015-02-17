@@ -8,7 +8,6 @@
 #include "Rendering/SceneShader.h"
 #include "StrahlenwerkApplication.h"
 #include "PropertyNames.h"
-#include "ProjectListener.h"
 #include "Rendering/Scenes.h"
 #include "Rendering/Shader.h"
 #include "Rendering/Uniform.h"
@@ -29,20 +28,25 @@ Project::Project(const std::string& dir, AudioManager& _audioManager) :
 
 Project::~Project() = default;
 
-void Project::registerListener(ProjectListener* listener) {
-	listeners.push_back(listener);
+void Project::addListener(Project::Listener* const listener) {
+	listeners.add(listener);
 }
 
-void Project::unregisterListener(ProjectListener* listener) {
-	const auto pos = std::find(listeners.begin(), listeners.end(), listener);
-	if(pos != listeners.end()) {
-		listeners.erase(pos);
+void Project::removeListener(Project::Listener* const listener) {
+	listeners.remove(listener);
+}
+
+void Project::reloadShaders(bool shouldReloadScenes, bool shouldReloadPostproc) {
+	jassert(shouldReloadScenes || shouldReloadPostproc);
+	clearLog();
+
+	if (shouldReloadPostproc) {
+		reloadPostproc();
 	}
-}
 
-void Project::reloadShaders() {
-	reloadPostproc();
-	reloadScenes();
+	if (shouldReloadScenes) {
+		reloadScenes();
+	}
 }
 
 void Project::saveTimelineData() {
@@ -407,6 +411,20 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	interfaceHeader.replaceWithText(interfaceHeaderContent);
 }
 
+const String& Project::getLog() {
+	return infoLog;
+}
+
+void Project::addToLog(String newString) {
+	infoLog += newString;
+	infoLogChanged();
+}
+
+void Project::clearLog() {
+	infoLog.clear();
+	infoLogChanged();
+}
+
 void Project::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
 	switch (info.commandID) {
 		case Project::openProject:
@@ -438,10 +456,10 @@ void Project::handleFileAction(
 	if (   (changedFile.getParentDirectory() == loader.getPostprocDir() && changedFile.hasFileExtension("glsl"))
 	    || (changedFile == loader.getMappingFile())
 	) {
-		reloadPostproc();
+		reloadShaders(false, true);
 	} else if (changedFile.getParentDirectory() == loader.getSceneDir() && changedFile.hasFileExtension("glsl")) {
 		// TODO find a way for reloading only changed scenes
-		reloadScenes();
+		reloadShaders(true, false);
 	} else if ((changedFile.getParentDirectory() == loader.getIncludeDir() && changedFile.hasFileExtension("glsl"))
 	        || (changedFile == loader.getBakeFile())
 	) {
@@ -480,15 +498,15 @@ std::vector<std::pair<std::string, std::string>> Project::listShaderSources(cons
 }
 
 void Project::postprocChanged() {
-	for(auto listener : listeners) {
-		listener->postprocChanged();
-	}
+	listeners.call(&Project::Listener::postprocChanged);
 }
 
 void Project::scenesChanged() {
-	for(auto listener : listeners) {
-		listener->scenesChanged();
-	}
+	listeners.call(&Project::Listener::scenesChanged);
+}
+
+void Project::infoLogChanged() {
+	listeners.call(&Project::Listener::infoLogChanged);
 }
 
 void Project::watchFiles(const std::string& dir) {

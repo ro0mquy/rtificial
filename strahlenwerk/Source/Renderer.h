@@ -5,14 +5,14 @@
 #include <memory>
 
 #include "Rendering/SceneShader.h"
-#include "Project/ProjectListener.h"
+#include "Project/Project.h"
 
 class PostprocPipeline;
 class Scenes;
 
 class Renderer :
 	public OpenGLRenderer,
-	private ProjectListener,
+	private Project::Listener,
 	private ApplicationCommandManagerListener
 {
 	public:

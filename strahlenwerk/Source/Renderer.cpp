@@ -31,12 +31,12 @@ Renderer::Renderer(OpenGLContext& context) :
 	renderMutex.unlock();
 
 	auto& project = StrahlenwerkApplication::getInstance()->getProject();
-	project.registerListener(this);
+	project.addListener(this);
 	project.contextChanged(context);
 }
 
 Renderer::~Renderer() {
-	StrahlenwerkApplication::getInstance()->getProject().unregisterListener(this);
+	StrahlenwerkApplication::getInstance()->getProject().removeListener(this);
 }
 
 void Renderer::newOpenGLContextCreated() {

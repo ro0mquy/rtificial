@@ -5,4 +5,5 @@ Sidebar::Sidebar() :
 {
 	setOutline(0);
 	addTab("Inspector", findColour(Sidebar::tabBackgroundColourId), &inspectorComponent, false);
+	addTab("Info Log", findColour(Sidebar::tabBackgroundColourId), &infoLogComponent, false);
 }

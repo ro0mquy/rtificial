@@ -16,7 +16,7 @@ OpenGLComponent::OpenGLComponent() :
 	TimelineData::getTimelineData().addListenerToTree(this);
 	CameraController::globalCameraController->addChangeListener(this);
 	AudioManager::getAudioManager().addChangeListener(this);
-	StrahlenwerkApplication::getInstance()->getProject().registerListener(this);
+	StrahlenwerkApplication::getInstance()->getProject().addListener(this);
 
 	setOpaque(true);
 

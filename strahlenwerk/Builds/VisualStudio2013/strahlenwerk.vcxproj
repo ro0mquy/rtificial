@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\Source\Rendering\SceneShader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Uniform.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\InfoLogComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp"/>
@@ -1288,7 +1289,6 @@
     <ClInclude Include="..\..\Source\Project\FileWatchMessageThreadListener.h"/>
     <ClInclude Include="..\..\Source\Project\Project.h"/>
     <ClInclude Include="..\..\Source\Project\ProjectFileLoader.h"/>
-    <ClInclude Include="..\..\Source\Project\ProjectListener.h"/>
     <ClInclude Include="..\..\Source\Rendering\Scenes.h"/>
     <ClInclude Include="..\..\Source\Rendering\DefaultShader.h"/>
     <ClInclude Include="..\..\Source\Rendering\glcorearb.h"/>
@@ -1301,6 +1301,7 @@
     <ClInclude Include="..\..\Source\Rendering\Uniform.h"/>
     <ClInclude Include="..\..\Source\Rendering\UniformManager.h"/>
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\InfoLogComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h"/>

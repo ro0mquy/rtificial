@@ -12,9 +12,10 @@
 #include "UniformType.h"
 #include "Uniform.h"
 #include <StrahlenwerkApplication.h>
+#include <AudioManager.h>
 #include <Timeline/TimelineData.h>
 #include <Timeline/Interpolator.h>
-#include "AudioManager.h"
+#include <Project/Project.h>
 
 Shader::Shader(OpenGLContext& context, std::string name) :
 	context(context),
@@ -161,7 +162,9 @@ void Shader::recompile() {
 	}
 	const bool fragmentOk = program.addFragmentShader(fragmentSource);
 	if(!fragmentOk) {
-		std::cerr << getName() + " Fragment error: " << program.getLastError() << std::endl;
+		String errStr = getName() + "\nFragment error:\n" + program.getLastError() + "\n\n";
+		StrahlenwerkApplication::getInstance()->getProject().addToLog(errStr);
+		std::cerr << errStr;
 	}
 	if(vertexOk && fragmentOk) {
 		program.link();

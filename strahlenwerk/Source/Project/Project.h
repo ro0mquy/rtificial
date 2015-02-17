@@ -26,9 +26,7 @@ class Project :
 		Project(const std::string& dir, AudioManager& audioManager);
 		~Project();
 
-		void registerListener(ProjectListener* listener);
-		void unregisterListener(ProjectListener* listener);
-		void reloadShaders();
+		void reloadShaders(bool reloadScenes = true, bool reloadPostproc = true);
 		void saveTimelineData();
 		void contextChanged(OpenGLContext& context);
 		std::unique_ptr<PostprocPipeline> getPostproc();
@@ -38,6 +36,9 @@ class Project :
 		const ProjectFileLoader& getLoader() const;
 		int compareElements(const ValueTree& first, const ValueTree& second);
 		void makeDemo(Scenes& scenes, PostprocPipeline& postproc);
+		const String& getLog();
+		void addToLog(String newString);
+		void clearLog();
 
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
 		void applicationCommandListChanged() override;
@@ -56,12 +57,23 @@ class Project :
 			reloadTimeline,
 		};
 
+		class Listener {
+			public:
+				virtual void postprocChanged() {}
+				virtual void scenesChanged() {}
+				virtual void infoLogChanged() {}
+		};
+
+		void addListener(Listener* const listener);
+		void removeListener(Listener* const listener);
+
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
 		std::vector<std::unique_ptr<SceneShader>> loadSceneShaders();
 		std::vector<std::pair<std::string, std::string>> listShaderSources(const std::vector<File>& files);
 		void postprocChanged();
 		void scenesChanged();
+		void infoLogChanged();
 		void watchFiles(const std::string& dir);
 		void addUniforms(const Shader& shader);
 		void reloadPostproc();
@@ -72,7 +84,7 @@ class Project :
 
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes> scenes;
-		std::vector<ProjectListener*> listeners;
+		ListenerList<Listener> listeners;
 		OpenGLContext* context;
 		ProjectFileLoader loader;
 		TimelineData timelineData;
@@ -80,6 +92,8 @@ class Project :
 		std::unique_ptr<efsw::FileWatcher> fileWatcher;
 
 		AudioManager& audioManager;
+
+		String infoLog;
 };
 
 #endif
