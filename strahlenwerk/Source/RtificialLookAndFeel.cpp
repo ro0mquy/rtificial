@@ -31,7 +31,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 	// UniformsBarComponent
 	setColour(UniformsBarComponent::evenRowColourId, Colours::transparentBlack);
 	setColour(SequenceViewComponent::evenRowColourId, findColour(UniformsBarComponent::evenRowColourId));
-	setColour(UniformsBarComponent::oddRowColourId, Colours::white.withAlpha(0.05f));
+	setColour(UniformsBarComponent::oddRowColourId, theme.Timeline.grid);
 	setColour(SequenceViewComponent::oddRowColourId, findColour(UniformsBarComponent::oddRowColourId));
 	setColour(UniformsBarComponent::seperatorColourId, Colours::transparentBlack);
 	setColour(SequenceViewComponent::seperatorColourId, findColour(UniformsBarComponent::seperatorColourId));
@@ -51,7 +51,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 	setColour(KeyframeComponent::fillColourId, Colours::white.withAlpha(0.6f));
 
 	// TimeMarkerComponent
-	setColour(TimeMarkerComponent::fillColourId, Colours::red);
+	setColour(TimeMarkerComponent::fillColourId, theme.Timeline.currentFrame);
 
 	// Sidebar
 	setColour(Sidebar::tabBackgroundColourId, Colours::darkgrey);
@@ -65,8 +65,12 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 
 BlenderTheme RtificialLookAndFeel::createBlenderTheme() {
 	BlenderTheme theTheme;
+
 	theTheme.SpaceSettings.windowBackground = Colour(0xff323232);
 	theTheme.SpaceSettings.text = Colours::white.withAlpha(0.8f);
+
+	theTheme.Timeline.grid = Colours::white.withAlpha(0.05f);
+
 	return theTheme;
 }
 

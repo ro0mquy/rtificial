@@ -41,6 +41,11 @@ struct BlenderThemeSpaceSettings {
 	Colour tabOutline;
 };
 
+struct BlenderThemeTimeline {
+	Colour grid;
+	Colour currentFrame;
+};
+
 class BlenderTheme {
 	public:
 		BlenderThemeComponent Tool = BlenderThemeComponent {
@@ -151,6 +156,11 @@ class BlenderTheme {
 			/* tabInactive         */ Colour(0xff535353),
 			/* tabBackground       */ Colour(0xff404040),
 			/* tabOutline          */ Colour(0xff3c3c3c),
+		};
+
+		BlenderThemeTimeline Timeline = BlenderThemeTimeline {
+			/* grid         */ Colour(0xff5b5b5b),
+			/* currentFrame */ Colour(0xff60c040),
 		};
 };
 
