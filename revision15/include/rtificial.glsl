@@ -206,6 +206,16 @@ float smin(float a, float b, float k) {
 	return mix(b, a, h) - k * h * (1.0 - h);
 }
 
+vec2 smin_material(vec2 a, vec2 b, float k) {
+	return vec2(smin(a.x, b.x, k), a.x > b.x ? b.y : a.y);
+}
+
+// be careful when nesting! (just don't)
+vec2 smin_smaterial(vec2 a, vec2 b, float k) {
+	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+	return vec2(mix(b.x, a.x, h) - k * h * (1.0 - h), mix(b.y, a.y, h));
+}
+
 // smooth maximum, k is the difference between the two values for which to smooth (eg. k = 0.1)
 float smax(float a, float b, float k) {
 	float h = clamp(0.5 - 0.5 * (b - a) / k, 0.0, 1.0 );
@@ -231,6 +241,11 @@ float slowbox(vec3 p, vec3 b) {
 // box with rounded corners, r is radius of corners
 float roundbox(vec3 p, vec3 b, float r) {
 	return slowbox(p, b - r) - r;
+}
+
+// n must be normalized
+float plane(vec3 p, vec3 n) {
+	return dot(p, n.xyz);
 }
 
 vec3 domrep(vec3 p, vec3 c) {
