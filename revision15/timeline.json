@@ -54,17 +54,25 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "shape_rt_float",
+      "uniformName": "morph_rotation_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 3.86
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "morph_mix_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.438
       },
       "sequencesArray": [
         {
           "sequenceSceneId": 259,
           "sequenceStart": 0,
           "sequenceDuration": 8000,
-          "sequenceInterpolation": "linear",
+          "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
             {
               "keyframePosition": 0,
@@ -73,14 +81,40 @@
               }
             },
             {
+              "keyframePosition": 2000,
+              "keyframeValue": {
+                "valueFloatX": 2
+              }
+            },
+            {
+              "keyframePosition": 4000,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 6000,
+              "keyframeValue": {
+                "valueFloatX": 0.5
+              }
+            },
+            {
               "keyframePosition": 8000,
               "keyframeValue": {
-                "valueFloatX": 6
+                "valueFloatX": 3
               }
             }
           ]
         }
       ]
+    },
+    {
+      "uniformName": "morph_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.798
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "sky_max_rt_float",
@@ -150,7 +184,7 @@
       "uniformName": "super_n1_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 3.687
       },
       "sequencesArray": []
     },
@@ -158,7 +192,7 @@
       "uniformName": "super_n2_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 7.482
       },
       "sequencesArray": []
     },
@@ -166,7 +200,15 @@
       "uniformName": "super_n3_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 4.571
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "super_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.623
       },
       "sequencesArray": []
     }
@@ -204,7 +246,7 @@
     },
     {
       "sceneId": 820,
-      "sceneStart": 55000,
+      "sceneStart": 56000,
       "sceneDuration": 10000,
       "sceneShaderSource": "sky"
     },

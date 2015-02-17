@@ -4,6 +4,8 @@ uniform vec4 camera_rotation; // quat
 
 uniform float camera_focal_length;
 
+uniform float time;
+
 layout(location = 0) uniform vec2 res;
 
 float TAU = 6.28318530718;

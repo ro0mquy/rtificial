@@ -28,6 +28,8 @@ vec2 f(vec3 p, bool last_step) {
 	float f_super = supershape(p.xz, a, b, m, n1, n2, n3);
 	f_super = max(f_super, abs(p.y) - 1.);
 
-	float f = f_super;
+	float f_super2 = supershape(p.xy, a, b, m, n1, n2, n3);
+
+	float f = smax(f_super, f_super2, super_smooth_rt_float);
 	return vec2(f, 0.);
 }
