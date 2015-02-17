@@ -42,6 +42,9 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		Font getLabelFont(Label& label) override;
 		void drawLabel(Graphics& g, Label& label) override;
 
+		void drawCallOutBoxBackground(CallOutBox& box, Graphics& g, const Path& path, Image& cachedImage) override;
+		int getCallOutBoxBorderSize(const CallOutBox&) override;
+
 	protected:
 		BlenderTheme theme;
 

@@ -37,6 +37,9 @@ BlenderLookAndFeel::BlenderLookAndFeel(BlenderTheme theme_) :
 	setColour(TextEditor::outlineColourId, theme.Text.outline);
 	setColour(TextEditor::focusedOutlineColourId, theme.Text.outline);
 	setColour(TextEditor::shadowColourId, Colours::transparentBlack);
+
+	setColour(PropertyComponent::backgroundColourId, theme.SpaceSettings.text.withAlpha(0.0f));
+	setColour(PropertyComponent::labelTextColourId, theme.SpaceSettings.text);
 }
 
 
@@ -560,7 +563,7 @@ void BlenderLookAndFeel::drawLabel(Graphics& g, Label& label) {
 	const float proportionalCornerRadius = (cornerRadius / componentHeight) * height;
 
 	Colour baseColor = label.findColour(Label::backgroundColourId);
-	if (label.isMouseOver()) {
+	if (label.isMouseOver() && label.isEditable() && label.isEnabled()) {
 		baseColor = baseColor.brighter(highlightedBrighter);
 	}
 
@@ -598,4 +601,26 @@ void BlenderLookAndFeel::drawLabel(Graphics& g, Label& label) {
 			label.getMinimumHorizontalScale()
 		);
 	}
+}
+
+
+void BlenderLookAndFeel::drawCallOutBoxBackground(CallOutBox& box, Graphics& g, const Path& path, Image& cachedImage){
+	if (cachedImage.isNull()) {
+		cachedImage = Image (Image::ARGB, box.getWidth(), box.getHeight(), true);
+		Graphics g2(cachedImage);
+		DropShadow(Colours::black.withAlpha(theme.Styles.menuShadowStrength), theme.Styles.menushadowWidth, Point<int>(0, 2)).drawForPath(g2, path);
+	}
+
+	g.setColour(Colours::black);
+	g.drawImageAt(cachedImage, 0, 0);
+
+	g.setColour(theme.MenuBack.inner);
+	g.fillPath(path);
+
+	g.setColour(theme.MenuBack.outline);
+	g.strokePath(path, PathStrokeType(1.0f));
+}
+
+int BlenderLookAndFeel::getCallOutBoxBorderSize(const CallOutBox&) {
+	return 20;
 }

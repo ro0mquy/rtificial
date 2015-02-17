@@ -17,7 +17,7 @@ struct BlenderThemeComponent {
 
 struct BlenderThemeStyles {
 	float menuShadowStrength;
-	float menushadowWidth;
+	int menushadowWidth;
 	float IconAlpha;
 	Colour widgetEmboss;
 };
@@ -130,7 +130,7 @@ class BlenderTheme {
 
 		BlenderThemeStyles Styles = BlenderThemeStyles {
 			/* menuShadowStrength */  0.5f,
-			/* menushadowWidth    */ 12.0f,
+			/* menushadowWidth    */    12,
 			/* IconAlpha          */  1.0f,
 			/* widgetEmboss       */ Colour(0xffffffff).withAlpha(0.075f),
 		};

@@ -66,6 +66,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 BlenderTheme RtificialLookAndFeel::createBlenderTheme() {
 	BlenderTheme theTheme;
 	theTheme.SpaceSettings.windowBackground = Colour(0xff323232);
+	theTheme.SpaceSettings.text = Colours::white.withAlpha(0.8f);
 	return theTheme;
 }
 
