@@ -72,6 +72,7 @@ void Project::loadDirectory(const std::string& dir) {
 	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::PROJECT_DIR, var(dir));
 	reloadTimelineData();
 	reloadShaders();
+	reloadAudio();
 }
 
 const ProjectFileLoader& Project::getLoader() const {
