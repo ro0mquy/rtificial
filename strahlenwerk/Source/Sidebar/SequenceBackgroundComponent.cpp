@@ -98,8 +98,8 @@ void SequenceBackgroundComponent::mouseDrag(const MouseEvent& event) {
 		const int sequenceStart = data.getAbsoluteStartForSequence(sequenceData);
 		const float sequenceDuration = data.getSequenceDuration(sequenceData);
 
-		const int relativeNewTime = (float) jmax(event.x, 0) / getWidth() * sequenceDuration;
-		const int absoluteNewTime = sequenceStart + relativeNewTime;
+		const int relativeNewTime = (float) event.x / getWidth() * sequenceDuration;
+		const int absoluteNewTime = jmax(sequenceStart + relativeNewTime, 0);
 		const int absoluteNewTimeGrid = zoomFactor.snapValueToGrid(absoluteNewTime);
 		AudioManager::getAudioManager().setTime(absoluteNewTimeGrid);
 	} else {
