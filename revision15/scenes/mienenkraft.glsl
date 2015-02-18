@@ -34,7 +34,7 @@ void main() {
 		if (material_id <= boden_id) {
 			out_color.rgb = vec3(0.2*max(dot(calc_normal(o + t * d, false), normalize(vec3(1., .5, 0.))), 0.) + .1);
 		} else if (material_id <= fels_id) {
-			out_color.rgb = vec3(max(dot(calc_normal(o + t * d, false), normalize(vec3(1., .5, 0.))), 0.) + .1);
+			out_color.rgb = vec3(max(dot(calc_normal(o + t * d, false), normalize(vec3(1., .5, 2.))), 0.) + .1);
 		}
 		out_color.rgb = applyFog(out_color.rgb, t, o, d);
 	}
@@ -81,6 +81,19 @@ vec2 f(vec3 p, bool last_step) {
 	//p_boden = trans(p_boden, huegel);
 	float boden = plane(p_boden, vec3(0.,1.,0.));
 	vec2 obj_boden = vec2(boden, boden_id);
+
+	vec3 p_kristall = p;
+	p_kristall = trans(p_kristall, -25., 0., -35.);
+	p_kristall.xy *= rot2D(TAU * .1);
+	float height_kristall = mk_kristall_h_rt_float;
+	float radius_kristall = mk_kristall_r_rt_float;
+	float size_cap = mk_kristall_cap_rt_float;
+	float r_kristall = radius_kristall * min((height_kristall - radius_kristall) - p_kristall.y, size_cap) / size_cap;
+	//r_kristall = p_kristall.y;
+	p_kristall.y -= height_kristall * .5;
+	float f_kristall = hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));
+
+	obj_fels.x = smin(obj_fels.x, f_kristall, mk_smin_felsen_rt_float);
 
 	return smin_material(obj_fels, obj_boden, mk_smin_boden_rt_float);
 }

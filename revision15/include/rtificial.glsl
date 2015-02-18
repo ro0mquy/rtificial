@@ -328,3 +328,7 @@ float line(vec3 pa, vec3 ba, float r) {
     float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
     return length( pa - ba*h ) - r;
 }
+
+float linstep(float edge0, float edge1, float x) {
+	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
+}

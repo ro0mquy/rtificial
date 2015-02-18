@@ -213,6 +213,30 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "mk_kristall_cap_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.415
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 40
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5.688
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "mk_smin_felsen_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
