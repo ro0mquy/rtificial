@@ -45,10 +45,11 @@ vec2 f(vec3 p, bool last_step) {
 	float phi = atan(p_kleine_dinger.z, p_kleine_dinger.x);
 	float c = TAU / 30.;
 	float cell = floor(phi / c) / 30. * .5 + .5;
-	phi += pow(r, .4) * spiral_spiral_rt_float;
+	float c2 = 3.;
+	float cell_r = floor((r + .5*c2) / c2);
+	phi += pow(cell_r, .4) * spiral_spiral_rt_float;
 	phi = mod(phi, c) - .5 * c;
 	p_kleine_dinger.xz = r * vec2(cos(phi), sin(phi));
-	float c2 = 3.;
 	p_kleine_dinger.x -= .5 * c2;
 	p_kleine_dinger.x = mod(p_kleine_dinger.x, c2) - .5 * c2;
 	//p_kleine_dinger.y -= cell * 5.;

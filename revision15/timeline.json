@@ -30,6 +30,41 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "fluegel_domrep_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.052
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 186,
+          "sequenceStart": 5000,
+          "sequenceDuration": 7000,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 3
+              }
+            },
+            {
+              "keyframePosition": 5000,
+              "keyframeValue": {
+                "valueFloatX": 0.05
+              }
+            },
+            {
+              "keyframePosition": 7000,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "kugelkram_kugelmix_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -230,6 +265,12 @@
     }
   ],
   "scenesArray": [
+    {
+      "sceneId": 186,
+      "sceneStart": 94000,
+      "sceneDuration": 12000,
+      "sceneShaderSource": "fluegel"
+    },
     {
       "sceneId": 248,
       "sceneStart": 68000,

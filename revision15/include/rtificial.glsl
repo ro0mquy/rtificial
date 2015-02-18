@@ -257,6 +257,18 @@ vec3 domrep(vec3 p, float x, float y, float z) {
 	return domrep(p, vec3(x, y, z));
 }
 
+vec2 domrep(vec2 p, vec2 c) {
+	return mod(p, c) - .5 * c;
+}
+
+vec2 domrep(vec2 p, float x, float y) {
+	return domrep(p, vec2(x, y));
+}
+
+float domrep(float p, float c) {
+	return mod(p, c) - .5 * c;
+}
+
 // hier kommt der witz!
 vec2 min_material(vec2 a, vec2 b) {
 	return mix(a, b, float(a.x > b.x));
