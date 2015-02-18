@@ -6,6 +6,19 @@ out vec4 out_color;
 const float boden_id = 0.;
 const float fels_id = 1.;
 
+vec3 applyFog( in vec3  rgb,      // original color of the pixel
+               in float distance, // camera to point distance
+               in vec3  rayOri,   // camera position
+               in vec3  rayDir )  // camera to point vector
+{
+	float b = mk_fog_invheight_rt_float;
+	float c = mk_fog_amount_rt_float;
+    float fogAmount = c * exp(-rayOri.y*b) * (1.0-exp( -distance*rayDir.y*b ))/rayDir.y;
+	fogAmount = clamp(fogAmount, 0., 1.);
+    vec3  fogColor  = vec3(0.5,0.6,0.7);
+    return mix( rgb, fogColor, fogAmount );
+}
+
 void main() {
 	vec3 o = camera_position;
 	float screenDist;
@@ -23,15 +36,16 @@ void main() {
 		} else if (material_id <= fels_id) {
 			out_color.rgb = vec3(max(dot(calc_normal(o + t * d, false), normalize(vec3(1., .5, 0.))), 0.) + .1);
 		}
+		out_color.rgb = applyFog(out_color.rgb, t, o, d);
 	}
 }
 
 vec3 schotter(vec3 p, vec3 domrep_size) {
 	vec3 cell = floor(p/domrep_size);
 	p.xz = domrep(p, domrep_size).xz;
-	p.xy = rot2D(TAU/1. * sin(cell.x) * domrep_size.x)*p.xy;
-	p.xz = rot2D(TAU/1. * cos(cell.y) * domrep_size.y)*p.xz;
-	p.yz = rot2D(TAU/1. * tan(cell.z) * domrep_size.z)*p.yz;
+	p.xy = rot2D(cell.x * domrep_size.x)*p.xy;
+	p.xz = rot2D(cell.y * domrep_size.y)*p.xz;
+	p.yz = rot2D(cell.z * domrep_size.z)*p.yz;
 	return p;
 }
 
@@ -50,7 +64,7 @@ vec2 f(vec3 p, bool last_step) {
 	p_fels_1.xz = rot2D(TAU/3.)*p_fels_1.xz;
 	p_fels_1 = schotter(p_fels_1, domrep_size);
 
-	p_fels_2.xz = rot2D(TAU/2.)*p_fels_2.xz;
+	p_fels_2.xz = rot2D(TAU/4.)*p_fels_2.xz;
 	p_fels_2 = schotter(p_fels_2, domrep_size * 3);
 
 	p_fels_3.xz = rot2D(TAU/6.)*p_fels_3.xz;

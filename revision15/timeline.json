@@ -197,6 +197,22 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "mk_fog_amount_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.8
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_fog_invheight_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.164
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "mk_smin_felsen_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
