@@ -70,7 +70,7 @@ float march_adv(vec3 o, vec3 d, float t_min, float t_max, float pixelRadius, int
 }
 
 float march(vec3 o, vec3 d, float t_max, float screenDistX) {
-	return march_adv(o, d, .001, t_max, screenDistX/res.x, 128, 1.2, false);
+	return march_adv(o, d, .001, t_max, screenDistX/res.x*.5, 128, 1.2, false);
 }
 
 vec3 calc_normal(vec3 p, bool last_step) {
