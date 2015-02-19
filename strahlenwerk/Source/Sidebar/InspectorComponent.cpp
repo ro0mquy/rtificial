@@ -5,14 +5,17 @@
 #include <AudioManager.h>
 
 InspectorComponent::InspectorComponent() :
-	selection(TimelineData::getTimelineData().getSelection()),
+	data(TimelineData::getTimelineData()),
+	selection(data.getSelection()),
 	audioManager(AudioManager::getAudioManager())
 {
+	data.addListenerToTree(this);
 	selection.addChangeListener(this);
 	audioManager.addChangeListener(this);
 }
 
 InspectorComponent::~InspectorComponent() {
+	data.removeListenerFromTree(this);
 	selection.removeChangeListener(this);
 	audioManager.removeChangeListener(this);
 }
@@ -96,4 +99,40 @@ void InspectorComponent::updateSequenceEditor() {
 
 	keyframeValueEditor->useValueData(value);
 	keyframeValueEditor->setEnabled(isOnKeyframe);
+}
+
+// ValueTree::Listener callbacks
+void InspectorComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
+	if (parentTree == singleSelectedTree) {
+		// any of the sequence properties changed
+		updateSequenceEditor();
+	} else if (property == treeId::sceneStart) {
+		if (singleSelectedTree.isValid() && parentTree == data.getScene(data.getSequenceSceneId(singleSelectedTree))) {
+			// the scene this sequence belongs to has been moved
+			updateSequenceEditor();
+		}
+	} else if ((parentTree.hasType(treeId::keyframe) && data.getKeyframeParentSequence(parentTree) == singleSelectedTree) || (parentTree.hasType(treeId::keyframeValue) && data.getKeyframeParentSequence(parentTree.getParent()) == singleSelectedTree)) {
+		// a keyframe from the sequence has changed
+		updateSequenceEditor();
+	}
+}
+
+void InspectorComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& /*childWhichHasBeenAdded*/) {
+	if (singleSelectedTree.isValid() && data.getKeyframesArray(singleSelectedTree) == parentTree) {
+		// a keyframe was added
+		updateSequenceEditor();
+	}
+}
+
+void InspectorComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& /*childWhichHasBeenRemoved*/) {
+	if (singleSelectedTree.isValid() && data.getKeyframesArray(singleSelectedTree) == parentTree) {
+		// a keyframe was removed
+		updateSequenceEditor();
+	}
+}
+
+void InspectorComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+}
+
+void InspectorComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }

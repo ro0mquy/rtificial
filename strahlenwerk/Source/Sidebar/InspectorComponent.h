@@ -5,11 +5,14 @@
 #include <Sidebar/SequenceBackgroundComponent.h>
 #include <Sidebar/ValueEditorPropertyComponent.h>
 
+class TimelineData;
 class Selection;
+class AudioManager;
 
 class InspectorComponent :
 	public Component,
-	public ChangeListener
+	private ValueTree::Listener,
+	private ChangeListener
 {
 	public:
 		InspectorComponent();
@@ -20,11 +23,18 @@ class InspectorComponent :
 		void resized() override;
 		void paint(Graphics& g) override;
 
+		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
+		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
+		void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) override;
+		void valueTreeChildOrderChanged(ValueTree& parentTree) override;
+		void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
+
 		enum ColourIds {
 			textColourId = 0x2c34a01,
 		};
 
 	private:
+		TimelineData& data;
 		Selection& selection;
 		AudioManager& audioManager;
 
