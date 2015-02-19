@@ -43,10 +43,12 @@ vec2 f(vec3 p, bool last_step) {
 	p_filling.xz = r * vec2(cos(phi), sin(phi));
 	p_filling.y -= fluegel_domrep_rt_float * .5;
 	p_filling.z -= fluegel_domrep_rt_float * .5;
-	//p_filling.xz = domrep(p_filling.xz, vec2(fluegel_domrep_rt_float));
-	p_filling = domrep(p_filling, vec3(fluegel_domrep_rt_float));
 
-	float f_filling = box(p_filling, 1.*vec3(.01, .01, .03));
+	p_filling.xz = domrep(p_filling.xz, vec2(fluegel_domrep_rt_float));
+	//p_filling = domrep(p_filling, vec3(fluegel_domrep_rt_float));
+
+	float f_filling = box2(p_filling.xz, 1.*vec2(.01, .05));
+	//float f_filling = box(p_filling, 1.*vec3(.01, .01, .03));
 
 	float d = max(d_fluegel, f_filling);
 	//d = f_filling;

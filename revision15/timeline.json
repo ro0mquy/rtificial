@@ -141,7 +141,7 @@
       "uniformName": "fluegel_domrep_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.052
+        "valueFloatX": 0.1
       },
       "sequencesArray": [
         {
