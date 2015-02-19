@@ -66,6 +66,7 @@ void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	getUndoManager().clearUndoHistory();
+	getSelection().clear();
 
 	if (result.wasOk()) {
 		valueTree = JsonExporter::fromJson(jsonRepresentation, treeId::timelineTree);
