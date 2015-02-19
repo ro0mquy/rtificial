@@ -40,6 +40,7 @@ void main() {
 	}
 }
 
+/*
 vec3 schotter(vec3 p, vec3 domrep_size) {
 	vec3 cell = floor(p/domrep_size);
 	p.xz = domrep(p, domrep_size).xz;
@@ -48,12 +49,92 @@ vec3 schotter(vec3 p, vec3 domrep_size) {
 	p.yz = rot2D(cell.z * domrep_size.z)*p.yz;
 	return p;
 }
+*/
+
+float fels_noise(vec3 p_fels, vec2 domrep_size, vec3 box_size) {
+	vec2 cell_fels = floor(p_fels.xz / domrep_size);
+	p_fels.xz = domrep(p_fels.xz, domrep_size);
+
+	//    1   ^z
+	//  4 0 2  >x
+	//    3
+	vec3 p_fels_0 = p_fels;
+	vec3 p_fels_1 = trans(p_fels, 0., 0., -domrep_size.y);
+	vec3 p_fels_2 = trans(p_fels,  domrep_size.x, 0., 0.);
+	vec3 p_fels_3 = trans(p_fels, 0., 0.,  domrep_size.y);
+	vec3 p_fels_4 = trans(p_fels, -domrep_size.x, 0., 0.);
+
+	vec2 cell_fels_0 = cell_fels;
+	vec2 cell_fels_1 = cell_fels + vec2( 0., -1.);
+	vec2 cell_fels_2 = cell_fels + vec2( 1.,  0.);
+	vec2 cell_fels_3 = cell_fels + vec2( 0.,  1.);
+	vec2 cell_fels_4 = cell_fels + vec2(-1.,  0.);
+
+	p_fels_0.xy *= rot2D(cell_fels_0.x * domrep_size.x * 32.73101);
+	p_fels_1.xy *= rot2D(cell_fels_1.x * domrep_size.x * 32.73101);
+	p_fels_2.xy *= rot2D(cell_fels_2.x * domrep_size.x * 32.73101);
+	p_fels_3.xy *= rot2D(cell_fels_3.x * domrep_size.x * 32.73101);
+	p_fels_4.xy *= rot2D(cell_fels_4.x * domrep_size.x * 32.73101);
+
+	p_fels_0.xz *= rot2D(cell_fels_0.y * domrep_size.y * 49.29012);
+	p_fels_1.xz *= rot2D(cell_fels_1.y * domrep_size.y * 49.29012);
+	p_fels_2.xz *= rot2D(cell_fels_2.y * domrep_size.y * 49.29012);
+	p_fels_3.xz *= rot2D(cell_fels_3.y * domrep_size.y * 49.29012);
+	p_fels_4.xz *= rot2D(cell_fels_4.y * domrep_size.y * 49.29012);
+
+	p_fels_0.yz *= rot2D(cell_fels_0.y * domrep_size.x * 52.40165);
+	p_fels_1.yz *= rot2D(cell_fels_1.y * domrep_size.x * 52.40165);
+	p_fels_2.yz *= rot2D(cell_fels_2.y * domrep_size.x * 52.40165);
+	p_fels_3.yz *= rot2D(cell_fels_3.y * domrep_size.x * 52.40165);
+	p_fels_4.yz *= rot2D(cell_fels_4.y * domrep_size.x * 52.40165);
+
+	float fels_0 = box(p_fels_0, box_size);
+	float fels_1 = box(p_fels_1, box_size);
+	float fels_2 = box(p_fels_2, box_size);
+	float fels_3 = box(p_fels_3, box_size);
+	float fels_4 = box(p_fels_4, box_size);
+
+	float fels_12 = min(fels_1, fels_2);
+	float fels_34 = min(fels_3, fels_4);
+	float fels_1234 = min(fels_12, fels_34);
+	float fels_01234 = smin(fels_0, fels_1234, mk_smin_felsen_rt_float);
+
+	return fels_01234;
+}
 
 vec2 f(vec3 p, bool last_step) {
 	vec3 p_fels = p;
 
+	vec2 domrep_size = vec2(10.);
+	vec3 box_size = vec3(1.5);
+
+	float fels_klein = fels_noise(p_fels, domrep_size, box_size);
+	float fels_mittel = fels_noise(p_fels, 2. * domrep_size, 2. * box_size);
+	float fels_gross = fels_noise(p_fels, 4. * domrep_size, 4. * box_size);
+
+	float fels = smin(fels_klein, fels_mittel, mk_smin_felsen_rt_float);
+	fels = smin(fels, fels_gross, mk_smin_felsen_rt_float);
+
+	float boden = p.y;
+	fels = smin(fels, boden, mk_smin_boden_rt_float);
+
+	vec3 p_kristall = p;
+	p_kristall = trans(p_kristall, -25., 0., -35.);
+	p_kristall.xy *= rot2D(TAU * .1);
+	float height_kristall = mk_kristall_h_rt_float;
+	float radius_kristall = mk_kristall_r_rt_float;
+	float size_cap = mk_kristall_cap_rt_float;
+	float r_kristall = radius_kristall * min((height_kristall - radius_kristall) - p_kristall.y, size_cap) / size_cap;
+	p_kristall.y -= height_kristall * .5;
+	float f_kristall = hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));
+
+	fels = smin(fels, f_kristall, mk_smin_felsen_rt_float);
+
+	vec2 obj_fels = vec2(fels, fels_id);
+	return obj_fels;
+	/*
 	vec3 domrep_size = vec3(6);
-	vec3 cell = p_fels/domrep_size;
+	//vec3 cell = p_fels/domrep_size;
 	//vec3 huegel = vec3(0.,2.5*sin(cell.x *0.05) * 2.5*cos(cell.z * 0.05),0.);
 	//p_fels = trans(p_fels, huegel);
 
@@ -96,4 +177,5 @@ vec2 f(vec3 p, bool last_step) {
 	obj_fels.x = smin(obj_fels.x, f_kristall, mk_smin_felsen_rt_float);
 
 	return smin_material(obj_fels, obj_boden, mk_smin_boden_rt_float);
+	*/
 }
