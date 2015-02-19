@@ -9,6 +9,7 @@ fi
 cmake -G 'Unix Makefiles' -DSTATIC_LIB=ON
 make
 
-cd ..
-mkdir include
-ln -s ../efsw/include/efsw include/efsw
+# these should be already checked into git
+#cd ..
+#mkdir include
+#ln -s ../efsw/include/efsw include/efsw
