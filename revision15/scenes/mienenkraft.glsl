@@ -97,7 +97,7 @@ float fels_noise(vec3 p_fels, vec2 domrep_size, vec3 box_size) {
 	float fels_12 = min(fels_1, fels_2);
 	float fels_34 = min(fels_3, fels_4);
 	float fels_1234 = min(fels_12, fels_34);
-	float fels_01234 = smin(fels_0, fels_1234, mk_smin_felsen_rt_float);
+	float fels_01234 = smin(fels_0, fels_1234, mk_smin_felsen_rt_float * box_size.x);
 
 	return fels_01234;
 }
@@ -109,11 +109,13 @@ vec2 f(vec3 p, bool last_step) {
 	vec3 box_size = vec3(1.5);
 
 	float fels_klein = fels_noise(p_fels, domrep_size, box_size);
+	p_fels.xz *= rot2D(TAU * .1);
 	float fels_mittel = fels_noise(p_fels, 2. * domrep_size, 2. * box_size);
+	p_fels.xz *= rot2D(TAU * .05);
 	float fels_gross = fels_noise(p_fels, 4. * domrep_size, 4. * box_size);
 
-	float fels = smin(fels_klein, fels_mittel, mk_smin_felsen_rt_float);
-	fels = smin(fels, fels_gross, mk_smin_felsen_rt_float);
+	float fels = smin(fels_klein, fels_mittel, mk_smin_felsen_rt_float * 2.);
+	fels = smin(fels, fels_gross, mk_smin_felsen_rt_float * 3.);
 
 	float boden = p.y;
 	fels = smin(fels, boden, mk_smin_boden_rt_float);
