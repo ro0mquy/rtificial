@@ -59,6 +59,7 @@ void AudioManager::loadFile(const File& audioFile) {
 
 		thumbnail.setSource(new FileInputSource(audioFile));
 	}
+	sendChangeMessage();
 }
 
 void AudioManager::loadEnvelopes(const File& envelopeFile) {
