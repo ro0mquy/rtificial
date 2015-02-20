@@ -53,7 +53,26 @@ static glm::quat quat_mirror(glm::quat const& q0, glm::quat const& q1) {
 glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, glm::quat const& P2, glm::quat const& P3, const float rawT) {
 	using namespace glm;
 
-	/* centripetal catmull rom, doesn't work properly
+	/*
+	// uniform catmull rom
+	// interpolate between P1 and P2, so we need a1 and b2
+	const quat a1 = quat_bisect(quat_mirror(P0, P1), P2);
+	const quat b2 = quat_mirror(quat_bisect(quat_mirror(P1, P2), P3), P2);
+
+	const quat p00 = slerp(P1, a1, rawT);
+	const quat p01 = slerp(a1, b2, rawT);
+	const quat p02 = slerp(b2, P2, rawT);
+
+	const quat p10 = slerp(p00, p01, rawT);
+	const quat p11 = slerp(p01, p02, rawT);
+
+	const quat p20 = slerp(p10, p11, rawT);
+
+	return p20;
+	// */
+
+	/*
+	// centripetal catmull rom, doesn't work properly
 	// we calculate with deltas and not absolute times
 	// dot() gives cos(alpha), we want cos to be always >= 0
 	const float dt01 = sqrt(acos(abs(dot(P0, P1))));
@@ -73,24 +92,6 @@ glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, 
 	// */
 
 	/*
-	// uniform catmull rom
-	// interpolate between P1 and P2, so we need a1 and b2
-	const quat a1 = quat_bisect(quat_mirror(P0, P1), P2);
-	const quat b2 = quat_mirror(quat_bisect(quat_mirror(P1, P2), P3), P2);
-
-	const quat p00 = slerp(P1, a1, rawT);
-	const quat p01 = slerp(a1, b2, rawT);
-	const quat p02 = slerp(b2, P2, rawT);
-
-	const quat p10 = slerp(p00, p01, rawT);
-	const quat p11 = slerp(p01, p02, rawT);
-
-	const quat p20 = slerp(p10, p11, rawT);
-
-	return p20;
-	// */
-
-	//*
 	// squad interpolation from Quaternion.pdf
 	// interpolate between P1 and P2, so we need a1 and a2
 	const quat invP1 = inverse(P1);
@@ -105,6 +106,21 @@ glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, 
 	const quat pa12 = slerp(p12, a12, 2.f * rawT * (1.f - rawT));
 
 	return pa12;
+	// */
+
+	//*
+	// catmull rom with slerp instead of lerp
+	// the modified t values are from
+	// Visualizing Quaternions, Chapter 25.5
+	const quat L01 = slerp(P0, P1, rawT + 1.f);
+	const quat L12 = slerp(P1, P2, rawT);
+	const quat L23 = slerp(P2, P3, rawT - 1.f);
+
+	const quat L012 = slerp(L01, L12, (rawT + 1.f) / 2.f);
+	const quat L123 = slerp(L12, L23,  rawT        / 2.f);
+
+	const quat C12 = slerp(L012, L123, rawT);
+	return C12;
 	// */
 }
 
