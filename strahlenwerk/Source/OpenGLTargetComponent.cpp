@@ -74,11 +74,11 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 	g.drawLine(Line<float>(centerPoint, xTip), 4.f);
 	const Point<float> xText = xTip + xTransformed * .1f;
 	g.drawSingleLineText("x", xText.getX(), xText.getY());
-	g.setColour(Colour(0xff0000ff));
+	g.setColour(Colour(0xff00ff00));
 	const Point<float> yText = yTip + yTransformed * .1f;
 	g.drawLine(Line<float>(centerPoint, yTip), 4.f);
 	g.drawSingleLineText("y", yText.getX(), yText.getY());
-	g.setColour(Colour(0xff00ff00));
+	g.setColour(Colour(0xff0000ff));
 	const Point<float> zText = zTip + zTransformed * .1f;
 	g.drawLine(Line<float>(centerPoint, zTip), 4.f);
 	g.drawSingleLineText("z", zText.getX(), zText.getY());
