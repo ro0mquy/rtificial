@@ -69,6 +69,7 @@ OBJECTS := \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
+  $(OBJDIR)/QuaternionEditor_3c7fc27.o \
   $(OBJDIR)/InfoLogComponent_7ff61de3.o \
   $(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o \
   $(OBJDIR)/InspectorSequenceComponent_294b0841.o \
@@ -221,6 +222,11 @@ $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
 $(OBJDIR)/UniformManager_63433de5.o: ../../Source/Rendering/UniformManager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling UniformManager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/QuaternionEditor_3c7fc27.o: ../../Source/Sidebar/QuaternionEditor.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling QuaternionEditor.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/InfoLogComponent_7ff61de3.o: ../../Source/Sidebar/InfoLogComponent.cpp

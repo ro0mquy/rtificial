@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\Source\Rendering\SceneShader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Uniform.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InfoLogComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp"/>
@@ -1301,6 +1302,7 @@
     <ClInclude Include="..\..\Source\Rendering\Uniform.h"/>
     <ClInclude Include="..\..\Source\Rendering\UniformManager.h"/>
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InfoLogComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h"/>

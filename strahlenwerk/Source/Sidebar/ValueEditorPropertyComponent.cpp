@@ -2,6 +2,7 @@
 #include <Timeline/TimelineData.h>
 #include <Sidebar/ValueSlider.h>
 #include <Sidebar/ValueToggleButton.h>
+#include <Sidebar/QuaternionEditor.h>
 #include <ColorPicker/LabColor.h>
 #include <ColorPicker/LabColorPicker.h>
 #include <ColorPicker/ColorPickerComponent.h>
@@ -142,9 +143,7 @@ class Vec4EditorPropertyComponent : public ValueEditorPropertyComponent {
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Vec4EditorPropertyComponent)
 };
 
-class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
-	private Value::Listener
-{
+class ColorEditorPropertyComponent : public ValueEditorPropertyComponent, private Value::Listener {
 	public:
 		ColorEditorPropertyComponent(const String& name, ValueTree valueData) :
 			ValueEditorPropertyComponent(name, 1)
@@ -202,6 +201,33 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent,
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ColorEditorPropertyComponent)
 };
 
+class QuatEditorPropertyComponent : public ValueEditorPropertyComponent {
+	public:
+		QuatEditorPropertyComponent(const String& name, ValueTree valueData) :
+			ValueEditorPropertyComponent(name, 4),
+			quatEditor("Changed " + name + " Value")
+		{
+			useValueData(valueData);
+			addAndMakeVisible(quatEditor);
+			quatEditor.setBounds(getLookAndFeel().getPropertyComponentContentPosition(*this));
+		}
+
+		void useValueData(ValueTree valueData) override {
+			TimelineData& data = TimelineData::getTimelineData();
+			const Value quatX = data.getValueQuatXAsValue(valueData);
+			const Value quatY = data.getValueQuatYAsValue(valueData);
+			const Value quatZ = data.getValueQuatZAsValue(valueData);
+			const Value quatW = data.getValueQuatWAsValue(valueData);
+			quatEditor.setValueData(quatX, quatY, quatZ, quatW);
+		}
+
+	private:
+		QuaternionEditor quatEditor;
+
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(QuatEditorPropertyComponent)
+};
+
+
 ValueEditorPropertyComponent::ValueEditorPropertyComponent(const String& propertyName, int numberOfRows) :
 	PropertyComponent(propertyName, numberOfRows * 25)
 {
@@ -234,7 +260,7 @@ ValueEditorPropertyComponent* ValueEditorPropertyComponent::newValueEditorProper
 	} else if (data.isValueColor(valueData)) {
 		return new ColorEditorPropertyComponent(propertyName, valueData);
 	} else if (data.isValueQuat(valueData)) {
-		return new Vec4EditorPropertyComponent(propertyName, valueData);
+		return new QuatEditorPropertyComponent(propertyName, valueData);
 	}
 	return new ValueEditorPropertyComponent(propertyName);
 }

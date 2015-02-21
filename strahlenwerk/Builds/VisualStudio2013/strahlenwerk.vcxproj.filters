@@ -361,6 +361,9 @@
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\InfoLogComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
@@ -1709,6 +1712,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\InfoLogComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>

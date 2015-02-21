@@ -8,7 +8,7 @@ class ValueSlider :
 	private Value::Listener
 {
 	public:
-		ValueSlider(const String transactionName_);
+		ValueSlider(const String& transactionName_);
 		~ValueSlider();
 
 		void setValueData(const Value& valueData_);
