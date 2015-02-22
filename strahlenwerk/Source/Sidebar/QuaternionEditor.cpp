@@ -3,8 +3,7 @@
 #include <Timeline/TimelineData.h>
 
 QuaternionEditor::QuaternionEditor(const String& transactionName_) :
-	transactionName(transactionName_),
-	orientation(1.f)
+	transactionName(transactionName_)
 {
 	quatX.addListener(this);
 	quatY.addListener(this);

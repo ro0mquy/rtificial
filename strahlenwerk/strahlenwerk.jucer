@@ -74,6 +74,10 @@
         <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
       </GROUP>
       <GROUP id="{404891A8-3B49-932E-BF9F-4C13EB6EC98C}" name="Sidebar">
+        <FILE id="VZrB9d" name="DraggableQuaternion.cpp" compile="1" resource="0"
+              file="Source/Sidebar/DraggableQuaternion.cpp"/>
+        <FILE id="StasNY" name="DraggableQuaternion.h" compile="0" resource="0"
+              file="Source/Sidebar/DraggableQuaternion.h"/>
         <FILE id="ax5XL0" name="QuaternionEditor.cpp" compile="1" resource="0"
               file="Source/Sidebar/QuaternionEditor.cpp"/>
         <FILE id="KjzudO" name="QuaternionEditor.h" compile="0" resource="0"

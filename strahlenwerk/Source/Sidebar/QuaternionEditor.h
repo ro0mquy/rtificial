@@ -2,6 +2,7 @@
 #define QUATERNIONEDITOR_H
 
 #include <juce>
+#include <Sidebar/DraggableQuaternion.h>
 
 class QuaternionEditor :
 	public Component,
@@ -27,7 +28,7 @@ class QuaternionEditor :
 		Value quatW;
 
 		const String transactionName;
-		Draggable3DOrientation orientation;
+		DraggableQuaternion orientation;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(QuaternionEditor)
 };
