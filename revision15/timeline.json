@@ -276,7 +276,8 @@
         "valueQuatY": 0,
         "valueQuatZ": 0,
         "valueQuatW": 1
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "morph_rotation_rt_float",
@@ -434,6 +435,14 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.623
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tonemap_exposure",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
       },
       "sequencesArray": []
     }

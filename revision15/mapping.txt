@@ -15,5 +15,5 @@ bloom_up_2nd.out_color bloom_up_1st.previous
 bloom_down_1st.out_color bloom_up_1st.color
 bloom_up_1st.out_color bloom_up_final.previous
 input.color bloom_up_final.color
-bloom_up_final.out_color test.foo
-test.bar output.color
+bloom_up_final.out_color tonemap.color
+tonemap.out_color output.color
