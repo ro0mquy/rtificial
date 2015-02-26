@@ -154,6 +154,22 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "film_grain_frequency",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.363
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "film_grain_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.031
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "fluegel_domrep_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -201,6 +217,22 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lens_distort_k",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.014
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lens_distort_kcube",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.007
       },
       "sequencesArray": []
     },
@@ -443,6 +475,14 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "vignette_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.7
       },
       "sequencesArray": []
     }
