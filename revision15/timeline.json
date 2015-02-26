@@ -1,6 +1,22 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "bloom_amount",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bloom_radius",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "body_deform_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -251,6 +267,16 @@
         "valueFloatX": 10
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "morph_rot_rt_quat",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": 0,
+        "valueQuatY": 0,
+        "valueQuatZ": 0,
+        "valueQuatW": 1
+      }
     },
     {
       "uniformName": "morph_rotation_rt_float",
