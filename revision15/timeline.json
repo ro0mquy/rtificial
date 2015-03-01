@@ -304,17 +304,6 @@
       "uniformName": "morph_rot_rt_quat",
       "uniformType": "quat",
       "uniformStandardValue": {
-        "valueQuatX": 0,
-        "valueQuatY": 0,
-        "valueQuatZ": 0,
-        "valueQuatW": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_rot_rt_quat",
-      "uniformType": "quat",
-      "uniformStandardValue": {
         "valueQuatX": 0.234845,
         "valueQuatY": 0.771635,
         "valueQuatZ": -0.201995,
