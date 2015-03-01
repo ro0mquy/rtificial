@@ -83,8 +83,20 @@ float trillant(vec3 p) {
 	float f_tri2 = triprism(p_tri.xzy, vec2(.7/3. * width, height * .5));
 	f_tri = min(f_tri, f_tri2);
 
-	f = mix(f_tri, f, morph_mix_rt_float); // 0.9 or 1.2 are nice shapes
+	f = mix(f_tri, f, morph_smooth_rt_float); // 0.9 or 1.2 are nice shapes
 	return f;
+}
+
+float kristall(vec3 p) {
+	vec3 p_kristall = p;
+	float height_kristall = 1.;
+	float radius_kristall = .2;
+	float size_cap = .15;
+	float r_kristall = radius_kristall * min((height_kristall - radius_kristall) - p_kristall.y, size_cap) / size_cap;
+	p_kristall.y -= height_kristall * .5;
+	float f_kristall = hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));
+	f_kristall *= .5;
+	return f_kristall;
 }
 
 vec2 f(vec3 p, bool last_step) {
@@ -193,7 +205,13 @@ vec2 f(vec3 p, bool last_step) {
 	f *= .5;
 	// */
 
-	f = trillant(p);
+	if (morph_mix_rt_float <= 1.) {
+		f = mix(kristall(p), kantenklumpen(p), morph_mix_rt_float);
+	} else if (morph_mix_rt_float <= 2.) {
+		f = mix(kantenklumpen(p), trishape(p), morph_mix_rt_float - 1.);
+	} else {
+		f = mix(trishape(p), trillant(p), morph_mix_rt_float - 2.);
+	}
 
 	return vec2(f, 0.);
 }

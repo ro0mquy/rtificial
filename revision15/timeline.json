@@ -312,6 +312,17 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "morph_rot_rt_quat",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": 0.234845,
+        "valueQuatY": 0.771635,
+        "valueQuatZ": -0.201995,
+        "valueQuatW": 0.55554
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "morph_rotation_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -323,37 +334,19 @@
       "uniformName": "morph_mix_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.438
+        "valueFloatX": 3
       },
       "sequencesArray": [
         {
           "sequenceSceneId": 259,
           "sequenceStart": 0,
           "sequenceDuration": 8000,
-          "sequenceInterpolation": "ccrSpline",
+          "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 2000,
-              "keyframeValue": {
-                "valueFloatX": 2
-              }
-            },
-            {
-              "keyframePosition": 4000,
-              "keyframeValue": {
-                "valueFloatX": 1
-              }
-            },
-            {
-              "keyframePosition": 6000,
-              "keyframeValue": {
-                "valueFloatX": 0.5
               }
             },
             {
@@ -370,7 +363,7 @@
       "uniformName": "morph_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.798
+        "valueFloatX": 0.9
       },
       "sequencesArray": []
     },
