@@ -16,6 +16,7 @@ void AmbientLight::bind() {
 	// well… TODO
 	if (!created) {
 		environment.create(512, 512);
+		created = true;
 	}
 	if (!rendered) {
 		environment.render(*shader);
