@@ -1,22 +1,6 @@
 {
   "uniformsArray": [
     {
-      "uniformName": "bloom_amount",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "bloom_radius",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.2
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "body_deform_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -154,7 +138,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "film_grain_frequency",
+      "uniformName": "post_film_grain_frequency",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.363
@@ -162,7 +146,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "film_grain_intensity",
+      "uniformName": "post_film_grain_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.031
@@ -217,22 +201,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "lens_distort_k",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.014
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "lens_distort_kcube",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.007
       },
       "sequencesArray": []
     },
@@ -357,6 +325,54 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_bloom_amount",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_bloom_radius",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_lens_distort_k",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.014
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_lens_distort_kcube",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.007
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_tonemap_exposure",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_vignette_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.7
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "sky_max_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -449,22 +465,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.623
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "tonemap_exposure",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "vignette_intensity",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.7
       },
       "sequencesArray": []
     }

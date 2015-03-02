@@ -5,7 +5,7 @@ in vec2 tc;
 uniform sampler2D color; // vec3
 out vec3 out_color;
 
-uniform float tonemap_exposure;
+uniform float post_tonemap_exposure;
 
 float A = 0.15;
 float B = 0.50;
@@ -20,7 +20,7 @@ vec3 tonemap(vec3 color) {
 }
 
 void main() {
-	out_color = texture2D(color, tc).rgb * tonemap_exposure;
+	out_color = texture2D(color, tc).rgb * post_tonemap_exposure;
 	const float exposureBias = 2.;
 	out_color = tonemap(out_color * exposureBias)/tonemap(vec3(W));
 }

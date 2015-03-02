@@ -7,11 +7,11 @@ layout(location = 0) uniform vec2 res;
 uniform sampler2D color; // vec3
 out vec3 out_color;
 
-uniform float lens_distort_k;
-uniform float lens_distort_kcube;
-uniform float vignette_intensity;
-uniform float film_grain_intensity;
-uniform float film_grain_frequency;
+uniform float post_lens_distort_k;
+uniform float post_lens_distort_kcube;
+uniform float post_vignette_intensity;
+uniform float post_film_grain_intensity;
+uniform float post_film_grain_frequency;
 
 vec2 lens_distort(float aspect, float k, float kcube, vec2 c) {
 	c = c * 2. - 1.;
@@ -70,23 +70,23 @@ float fbm(vec2 c) {
 
 void main() {
 	vec3 col;
-	float k = lens_distort_k;
-	float kcube = lens_distort_kcube;
+	float k = post_lens_distort_k;
+	float kcube = post_lens_distort_kcube;
 	float aspect = res.x / res.y;
 	vec3 primaries = vec3(610., 550., 440.)/440.;
 	for (int i = 0; i < 3; i++) {
 		col[i] = textureLod(color, lens_distort(aspect, k * primaries[i], kcube, tc), 0.)[i];
 	}
 
-	col *= vignette(vignette_intensity, tc);
+	col *= vignette(post_vignette_intensity, tc);
 
 	// TODO richtiger grain
 	vec3 grain = vec3(// so schön weerboß
-		fbm(vec2(film_grain_frequency * (gl_FragCoord.xy + 3289.) )),
-		fbm(vec2(film_grain_frequency * (gl_FragCoord.xy) )),
-		fbm(vec2(film_grain_frequency * (gl_FragCoord.xy + 93829.) ))
+		fbm(vec2(post_film_grain_frequency * (gl_FragCoord.xy + 3289.) )),
+		fbm(vec2(post_film_grain_frequency * (gl_FragCoord.xy) )),
+		fbm(vec2(post_film_grain_frequency * (gl_FragCoord.xy + 93829.) ))
 	);
 	// inverse gamma correction
 	//grain = pow(abs(grain), vec3(2.2)) * sign(grain);
-	out_color = col + film_grain_intensity * grain;
+	out_color = col + post_film_grain_intensity * grain;
 }
