@@ -138,22 +138,6 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "post_film_grain_frequency",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.363
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "post_film_grain_intensity",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.031
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "fluegel_domrep_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -337,6 +321,52 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1.2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_color_gain",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 1,
+        "valueColorG": 1,
+        "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_color_gamma",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 1,
+        "valueColorG": 1,
+        "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_color_lift",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0,
+        "valueColorG": 0,
+        "valueColorB": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_frequency",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.363
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.031
       },
       "sequencesArray": []
     },
