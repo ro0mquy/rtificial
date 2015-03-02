@@ -20,7 +20,7 @@ vec3 tonemap(vec3 color) {
 }
 
 void main() {
-	out_color = texture2D(color, tc).rgb * post_tonemap_exposure;
-	const float exposureBias = 2.;
-	out_color = tonemap(out_color * exposureBias)/tonemap(vec3(W));
+	// + 1. for (filmic) bias
+	out_color = texture2D(color, tc).rgb * exp2(post_tonemap_exposure + 1.);
+	out_color = tonemap(out_color)/tonemap(vec3(W));
 }
