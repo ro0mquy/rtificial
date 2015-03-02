@@ -7,11 +7,14 @@ layout(location = 0) uniform vec2 res;
 uniform sampler2D color; // vec3
 out vec3 out_color;
 
+uniform float time;
+
 uniform float post_lens_distort_k;
 uniform float post_lens_distort_kcube;
 uniform float post_vignette_intensity;
 uniform float post_film_grain_intensity;
 uniform float post_film_grain_frequency;
+uniform float post_film_grain_power;
 
 vec2 lens_distort(float aspect, float k, float kcube, vec2 c) {
 	c = c * 2. - 1.;
@@ -81,12 +84,14 @@ void main() {
 	col *= vignette(post_vignette_intensity, tc);
 
 	// TODO richtiger grain
+	float phi1 = radians(30.);
+	float phi2 = radians(60.);
 	vec3 grain = vec3(// so schön weerboß
-		fbm(vec2(post_film_grain_frequency * (gl_FragCoord.xy + 3289.) )),
-		fbm(vec2(post_film_grain_frequency * (gl_FragCoord.xy) )),
-		fbm(vec2(post_film_grain_frequency * (gl_FragCoord.xy + 93829.) ))
+		fbm(vec2(post_film_grain_frequency * (gl_FragCoord.xy + 3289. + time * 2938.) )),
+		fbm(vec2(post_film_grain_frequency * (mat2(cos(phi1), -sin(phi1), sin(phi1), cos(phi1)) * gl_FragCoord.xy + time * 2738.) )),
+		fbm(vec2(post_film_grain_frequency * (mat2(cos(phi2), -sin(phi2), sin(phi2), cos(phi2)) * gl_FragCoord.xy + 93829. + time * 2847.) ))
 	);
-	// inverse gamma correction
-	//grain = pow(abs(grain), vec3(2.2)) * sign(grain);
-	out_color = col + post_film_grain_intensity * grain;
+	float luma = clamp(dot(col, vec3(.299, .587, .114)), 0., 1.);
+	float intensity = post_film_grain_intensity * pow(1. - luma, post_film_grain_power);
+	out_color = col + intensity * grain;
 }
