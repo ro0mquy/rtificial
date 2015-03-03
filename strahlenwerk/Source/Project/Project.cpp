@@ -617,7 +617,7 @@ void Project::reloadAmbientLights() {
 		std::vector<std::unique_ptr<AmbientLight>> ambientLightObjects;
 		ambientLightObjects.reserve(shaders.size());
 		for (auto& shader : shaders) {
-			ambientLightObjects.emplace_back(new AmbientLight(shader->getName()));
+			ambientLightObjects.emplace_back(new AmbientLight(*context, shader->getName()));
 			ambientLightObjects.back()->load(std::move(shader));
 		}
 		ambientLights = std::unique_ptr<Scenes<AmbientLight>>(new Scenes<AmbientLight>(std::move(ambientLightObjects)));

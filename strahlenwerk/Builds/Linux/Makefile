@@ -62,11 +62,11 @@ OBJECTS := \
   $(OBJDIR)/AmbientLight_2567d32a.o \
   $(OBJDIR)/EnvironmentMap_3b0268d5.o \
   $(OBJDIR)/glcorert_b13e1c72.o \
-  $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
+  $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocShader_df5d2107.o \
-  $(OBJDIR)/Shader_cfe69b71.o \
   $(OBJDIR)/SceneShader_b92468cf.o \
+  $(OBJDIR)/Shader_cfe69b71.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
   $(OBJDIR)/Sidebar_eccfc76a.o \
@@ -180,14 +180,14 @@ $(OBJDIR)/glcorert_b13e1c72.o: ../../Source/Rendering/glcorert.cpp
 	@echo "Compiling glcorert.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/PostprocPipelineLoader_51edf977.o: ../../Source/Rendering/PostprocPipelineLoader.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling PostprocPipelineLoader.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/PostprocPipeline_473f2604.o: ../../Source/Rendering/PostprocPipeline.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling PostprocPipeline.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/PostprocPipelineLoader_51edf977.o: ../../Source/Rendering/PostprocPipelineLoader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling PostprocPipelineLoader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/PostprocShader_df5d2107.o: ../../Source/Rendering/PostprocShader.cpp
@@ -195,14 +195,14 @@ $(OBJDIR)/PostprocShader_df5d2107.o: ../../Source/Rendering/PostprocShader.cpp
 	@echo "Compiling PostprocShader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/Shader_cfe69b71.o: ../../Source/Rendering/Shader.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Shader.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/SceneShader_b92468cf.o: ../../Source/Rendering/SceneShader.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling SceneShader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Shader_cfe69b71.o: ../../Source/Rendering/Shader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Shader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp

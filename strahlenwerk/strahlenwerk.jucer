@@ -44,38 +44,44 @@
         <FILE id="cPZWMF" name="AmbientLight.cpp" compile="1" resource="0"
               file="Source/Rendering/AmbientLight.cpp"/>
         <FILE id="Bh6mKy" name="AmbientLight.h" compile="0" resource="0" file="Source/Rendering/AmbientLight.h"/>
+        <FILE id="L22h9i" name="BRDFIntegratorSource.h" compile="0" resource="0"
+              file="Source/Rendering/BRDFIntegratorSource.h"/>
+        <FILE id="a6SDMx" name="DefaultShader.h" compile="0" resource="0" file="Source/Rendering/DefaultShader.h"/>
+        <FILE id="nLI4Xn" name="DiffuseFilterSource.h" compile="0" resource="0"
+              file="Source/Rendering/DiffuseFilterSource.h"/>
         <FILE id="xY9uWi" name="EnvironmentMap.cpp" compile="1" resource="0"
               file="Source/Rendering/EnvironmentMap.cpp"/>
         <FILE id="VRwKFM" name="EnvironmentMap.h" compile="0" resource="0"
               file="Source/Rendering/EnvironmentMap.h"/>
-        <FILE id="EieqmQ" name="glcorert.cpp" compile="1" resource="0" file="Source/Rendering/glcorert.cpp"/>
-        <FILE id="iDoI0A" name="Scenes.h" compile="0" resource="0" file="Source/Rendering/Scenes.h"/>
-        <FILE id="a6SDMx" name="DefaultShader.h" compile="0" resource="0" file="Source/Rendering/DefaultShader.h"/>
         <FILE id="ac46aX" name="glcorearb.h" compile="0" resource="0" file="Source/Rendering/glcorearb.h"/>
+        <FILE id="EieqmQ" name="glcorert.cpp" compile="1" resource="0" file="Source/Rendering/glcorert.cpp"/>
         <FILE id="tsu6iP" name="glcorert.h" compile="0" resource="0" file="Source/Rendering/glcorert.h"/>
-        <FILE id="fbU4Ku" name="PostprocPipelineLoader.cpp" compile="1" resource="0"
-              file="Source/Rendering/PostprocPipelineLoader.cpp"/>
-        <FILE id="ssUGvM" name="PostprocPipelineLoader.h" compile="0" resource="0"
-              file="Source/Rendering/PostprocPipelineLoader.h"/>
         <FILE id="l7mor6" name="PostprocPipeline.cpp" compile="1" resource="0"
               file="Source/Rendering/PostprocPipeline.cpp"/>
         <FILE id="bwz8p3" name="PostprocPipeline.h" compile="0" resource="0"
               file="Source/Rendering/PostprocPipeline.h"/>
+        <FILE id="fbU4Ku" name="PostprocPipelineLoader.cpp" compile="1" resource="0"
+              file="Source/Rendering/PostprocPipelineLoader.cpp"/>
+        <FILE id="ssUGvM" name="PostprocPipelineLoader.h" compile="0" resource="0"
+              file="Source/Rendering/PostprocPipelineLoader.h"/>
         <FILE id="jhBscx" name="PostprocShader.cpp" compile="1" resource="0"
               file="Source/Rendering/PostprocShader.cpp"/>
         <FILE id="dHGUBU" name="PostprocShader.h" compile="0" resource="0"
               file="Source/Rendering/PostprocShader.h"/>
+        <FILE id="iDoI0A" name="Scenes.h" compile="0" resource="0" file="Source/Rendering/Scenes.h"/>
+        <FILE id="kOIf97" name="SceneShader.cpp" compile="1" resource="0" file="Source/Rendering/SceneShader.cpp"/>
+        <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
         <FILE id="wPqDDK" name="Shader.cpp" compile="1" resource="0" file="Source/Rendering/Shader.cpp"/>
         <FILE id="nByUmg" name="Shader.h" compile="0" resource="0" file="Source/Rendering/Shader.h"/>
-        <FILE id="JmyfvV" name="UniformType.h" compile="0" resource="0" file="Source/Rendering/UniformType.h"/>
-        <FILE id="kOIf97" name="SceneShader.cpp" compile="1" resource="0" file="Source/Rendering/SceneShader.cpp"/>
+        <FILE id="xlV49r" name="SpecularFilterSource.h" compile="0" resource="0"
+              file="Source/Rendering/SpecularFilterSource.h"/>
         <FILE id="xWlp4q" name="Uniform.cpp" compile="1" resource="0" file="Source/Rendering/Uniform.cpp"/>
         <FILE id="UNEnWx" name="Uniform.h" compile="0" resource="0" file="Source/Rendering/Uniform.h"/>
         <FILE id="mPQd5a" name="UniformManager.cpp" compile="1" resource="0"
               file="Source/Rendering/UniformManager.cpp"/>
         <FILE id="C5Kae6" name="UniformManager.h" compile="0" resource="0"
               file="Source/Rendering/UniformManager.h"/>
-        <FILE id="MLw8Iy" name="SceneShader.h" compile="0" resource="0" file="Source/Rendering/SceneShader.h"/>
+        <FILE id="JmyfvV" name="UniformType.h" compile="0" resource="0" file="Source/Rendering/UniformType.h"/>
       </GROUP>
       <GROUP id="{404891A8-3B49-932E-BF9F-4C13EB6EC98C}" name="Sidebar">
         <FILE id="HgQiIA" name="Sidebar.cpp" compile="1" resource="0" file="Source/Sidebar/Sidebar.cpp"/>

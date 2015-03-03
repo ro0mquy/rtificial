@@ -22,7 +22,7 @@ void EnvironmentMap::create(unsigned int width_, unsigned int height_, unsigned 
 	deleteTexture = true;
 
 	// could just use the current active texture unit TODO
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -70,7 +70,9 @@ void EnvironmentMap::render(Shader& shader) {
 		// render each of the 6 faces
 		// uniform 35 is camera direction (?)
 		// uniform 36 is up vector
+		// uniform 37 is level
 		// TODO use some other uniform location and/or document the use of it!
+		glUniform1i(37, level);
 		glDrawBuffer(GL_COLOR_ATTACHMENT0);
 		glUniform3f(35, -1,  0,  0);
 		glUniform3f(36,  0,  1,  0);

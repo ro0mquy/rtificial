@@ -4,13 +4,11 @@
 #include <memory>
 
 #include "EnvironmentMap.h"
-
-class Shader;
+#include "Shader.h"
 
 class AmbientLight {
 	public:
-		AmbientLight(std::string name);
-		~AmbientLight();
+		AmbientLight(OpenGLContext& context, std::string name);
 
 		void load(std::unique_ptr<Shader> shader);
 		void bind();
@@ -18,7 +16,12 @@ class AmbientLight {
 
 	private:
 		std::unique_ptr<Shader> shader;
+		Shader diffuseShader;
+		Shader specularShader;
+		Shader brdfIntegratorShader;
 		EnvironmentMap environment;
+		EnvironmentMap filteredDiffuse;
+		EnvironmentMap filteredSpecular;
 		std::string name;
 
 		bool rendered = false;
