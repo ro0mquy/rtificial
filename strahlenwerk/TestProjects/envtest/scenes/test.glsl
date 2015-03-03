@@ -8,6 +8,7 @@ uniform vec3 camera_position;
 uniform vec4 camera_rotation; // quat
 
 layout(binding = 3) uniform samplerCube bla;
+layout(binding = 0) uniform sampler2D brdf;
 
 out vec4 out_color;
 
@@ -25,5 +26,6 @@ vec3 get_direction() {
 }
 void main() {
 	//out_color = mix(foo, vec3(red, gl_FragCoord.xy / res.xy), .1);
-	out_color.rgb = textureLod(bla, get_direction(), 0.).rgb;
+	//out_color.rgb = textureLod(bla, get_direction(), 0.).rgb;
+	out_color.rgb = textureLod(brdf, gl_FragCoord.xy / res.xy, 0.).rgb;
 }

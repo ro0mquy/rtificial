@@ -9,6 +9,7 @@
 class AmbientLight {
 	public:
 		AmbientLight(OpenGLContext& context, std::string name);
+		~AmbientLight();
 
 		void load(std::unique_ptr<Shader> shader);
 		void bind();
@@ -23,6 +24,7 @@ class AmbientLight {
 		EnvironmentMap filteredDiffuse;
 		EnvironmentMap filteredSpecular;
 		std::string name;
+		GLuint brdfLUT;
 
 		bool rendered = false;
 		bool created = false;
