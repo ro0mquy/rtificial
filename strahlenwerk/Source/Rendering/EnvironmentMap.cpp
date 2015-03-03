@@ -69,24 +69,31 @@ void EnvironmentMap::render(Shader& shader) {
 
 		// render each of the 6 faces
 		// uniform 35 is camera direction (?)
+		// uniform 36 is up vector
 		// TODO use some other uniform location and/or document the use of it!
 		glDrawBuffer(GL_COLOR_ATTACHMENT0);
 		glUniform3f(35, -1,  0,  0);
+		glUniform3f(36,  0,  1,  0);
 		shader.drawWithoutRecompile(currentWidth, currentHeight);
 		glDrawBuffer(GL_COLOR_ATTACHMENT1);
 		glUniform3f(35,  1,  0,  0);
+		glUniform3f(36,  0,  1,  0);
 		shader.drawWithoutRecompile(currentWidth, currentHeight);
 		glDrawBuffer(GL_COLOR_ATTACHMENT2);
 		glUniform3f(35,  0, -1,  0);
+		glUniform3f(36,  0,  0,  1);
 		shader.drawWithoutRecompile(currentWidth, currentHeight);
 		glDrawBuffer(GL_COLOR_ATTACHMENT3);
 		glUniform3f(35,  0,  1,  0);
+		glUniform3f(36,  0,  0, -1);
 		shader.drawWithoutRecompile(currentWidth, currentHeight);
 		glDrawBuffer(GL_COLOR_ATTACHMENT4);
 		glUniform3f(35,  0,  0, -1);
+		glUniform3f(36,  0,  1,  0);
 		shader.drawWithoutRecompile(currentWidth, currentHeight);
 		glDrawBuffer(GL_COLOR_ATTACHMENT5);
 		glUniform3f(35,  0,  0,  1);
+		glUniform3f(36,  0,  1,  0);
 		shader.drawWithoutRecompile(currentWidth, currentHeight);
 
 		currentWidth /= 2;
@@ -97,6 +104,8 @@ void EnvironmentMap::render(Shader& shader) {
 }
 
 void EnvironmentMap::bind(GLenum textureUnit) {
+	// TODO find a better place for this, actually it needs to be called only once
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	glActiveTexture(textureUnit);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 }
