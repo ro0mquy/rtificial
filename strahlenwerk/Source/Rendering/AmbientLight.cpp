@@ -15,7 +15,7 @@ void AmbientLight::load(std::unique_ptr<Shader> shader_) {
 void AmbientLight::bind() {
 	// well… TODO
 	if (!created) {
-		environment.create(512, 512);
+		environment.create(512, 512, 1);
 		created = true;
 	}
 	if (!rendered) {

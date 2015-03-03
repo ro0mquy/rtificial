@@ -9,7 +9,7 @@ class EnvironmentMap {
 	public:
 		~EnvironmentMap();
 
-		void create(unsigned int width, unsigned int height);
+		void create(unsigned int width, unsigned int height, unsigned int levels);
 		void render(Shader& shader);
 		void bind(GLenum textureUnit);
 
@@ -17,6 +17,7 @@ class EnvironmentMap {
 		GLuint texture;
 		bool deleteTexture = false;
 		unsigned int width, height;
+		unsigned int levels;
 };
 
 #endif  // ENVIRONMENTMAP_H
