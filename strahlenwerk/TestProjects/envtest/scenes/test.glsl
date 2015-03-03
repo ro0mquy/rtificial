@@ -7,7 +7,7 @@ uniform vec3 foo; // color
 uniform vec3 camera_position;
 uniform vec4 camera_rotation; // quat
 
-layout(binding = 1) uniform samplerCube bla;
+layout(binding = 3) uniform samplerCube bla;
 
 out vec4 out_color;
 
