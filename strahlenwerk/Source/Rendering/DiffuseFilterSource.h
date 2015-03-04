@@ -23,10 +23,10 @@ vec2 Hammersley(uint i, uint N) {
 }
 
 vec3 importanceSampleCosine(vec3 n, vec2 Xi) {
-	float theta = acos(sqrt(1. - Xi.x));
+	float r = sqrt(Xi.x);
 	float phi = 2. * acos(-1.) * Xi.y;
 
-	vec3 H = vec3(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta));
+	vec3 H = vec3(r * vec2(cos(phi), sin(phi)), sqrt(max(0., 1. - Xi.x)));
 
 	vec3 UpVector = abs(n.z) < 0.999 ? vec3(0,0,1) : vec3(1,0,0);
 	vec3 TangentX = normalize( cross( UpVector , n ) );
@@ -44,7 +44,7 @@ vec3 cubemap_direction() {
 
 void main() {
 	vec3 normal = cubemap_direction();
-	const uint n_samples = 1024 * 2;
+	const uint n_samples = 1024;
 	vec3 color_accumulator = vec3(0.);
 	for (uint i = 0; i < n_samples; i++) {
 		vec2 Xi = Hammersley(i, n_samples);
