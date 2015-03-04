@@ -7,7 +7,7 @@ layout(binding = 1) uniform samplerCube environment;
 layout(location = 0) uniform vec2 res;
 layout(location = 35) uniform vec3 camera_direction;
 layout(location = 36) uniform vec3 camera_up;
-layout(location = 37) uniform float level;
+layout(location = 37) uniform int level;
 out vec3 color;
 
 float radicalInverse_VdC(uint bits) {
@@ -70,7 +70,7 @@ vec3 cubemap_direction() {
 }
 
 void main() {
-	color = PrefilterEnvMap(level / 10., cubemap_direction());
+	color = PrefilterEnvMap(level / 5., cubemap_direction());
 }
 )shader";
 

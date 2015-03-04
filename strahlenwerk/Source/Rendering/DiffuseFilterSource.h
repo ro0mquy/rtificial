@@ -44,7 +44,7 @@ vec3 cubemap_direction() {
 
 void main() {
 	vec3 normal = cubemap_direction();
-	const uint n_samples = 1024;
+	const uint n_samples = 1024 * 2;
 	vec3 color_accumulator = vec3(0.);
 	for (uint i = 0; i < n_samples; i++) {
 		vec2 Xi = Hammersley(i, n_samples);
