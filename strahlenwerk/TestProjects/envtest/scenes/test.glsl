@@ -26,6 +26,6 @@ vec3 get_direction() {
 }
 void main() {
 	//out_color = mix(foo, vec3(red, gl_FragCoord.xy / res.xy), .1);
-	//out_color.rgb = textureLod(bla, get_direction(), 0.).rgb;
-	out_color.rgb = textureLod(brdf, gl_FragCoord.xy / res.xy, 0.).rgb;
+	out_color.rgb = textureLod(bla, get_direction(), 7.).rgb;
+	//out_color.rgb = textureLod(brdf, gl_FragCoord.xy / res.xy, 0.).rgb;
 }

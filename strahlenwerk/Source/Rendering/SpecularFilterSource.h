@@ -70,7 +70,7 @@ vec3 cubemap_direction() {
 }
 
 void main() {
-	color = PrefilterEnvMap(.1, cubemap_direction());
+	color = PrefilterEnvMap(level / 10., cubemap_direction());
 }
 )shader";
 
