@@ -5,6 +5,7 @@ out vec4 out_color;
 
 const float boden_id = 0.;
 const float fels_id = 1.;
+const float berg_id = 2.;
 
 vec3 applyFog( in vec3  rgb,      // original color of the pixel
                in float distance, // camera to point distance
@@ -33,12 +34,17 @@ void main() {
 	} else {
 		if (material_id <= boden_id) {
 			out_color.rgb = vec3(0.2*max(dot(calc_normal(o + t * d, false), normalize(vec3(1., .5, 0.))), 0.) + .1);
-		} else if (material_id <= fels_id) {
+		} else if (material_id <= berg_id) {
 			out_color.rgb = vec3(max(dot(calc_normal(o + t * d, false), normalize(vec3(1., .5, 2.))), 0.) + .1);
 		}
+
+		if (material_id == berg_id) {
+			out_color.r *= 0.2;
+		}
+
+		out_color.rgb = applyFog(out_color.rgb, t, o, d);
 	}
 
-	out_color.rgb = applyFog(out_color.rgb, t, o, d);
 }
 
 float fels_noise(vec3 p_fels, vec2 domrep_size, vec3 box_size) {
@@ -124,6 +130,45 @@ float fels_noise(vec3 p_fels, vec2 domrep_size, vec3 box_size) {
 	return fels_012345678;
 }
 
+float berg(vec3 p) {
+	float berg_smin = mk_smin_felsen_rt_float; // 5.0
+
+	vec3 p_fels_0 = p;
+	p_fels_0.xz *= rot2D(TAU * 0.5);
+	p_fels_0.xy *= rot2D(TAU * 1.2);
+	p_fels_0.yz *= rot2D(TAU * 0.7);
+	float fels_0 = box(p_fels_0, vec3(1.5));
+
+	vec3 p_fels_1 = trans(p, 1.2,0.5,0.3);
+	p_fels_1.xz *= rot2D(TAU * 0.2);
+	p_fels_1.xy *= rot2D(TAU * 0.3);
+	p_fels_1.yz *= rot2D(TAU * 0.1);
+	float fels_1 = box(p_fels_1, vec3(3.));
+
+	vec3 p_fels_2 = trans(p, 3.,3.,5.);
+	p_fels_2.xz *= rot2D(TAU * 0.53);
+	p_fels_2.xy *= rot2D(TAU * 0.76);
+	p_fels_2.yz *= rot2D(TAU * 0.35);
+	float fels_2 = box(p_fels_2, vec3(3.,5.,2.));
+
+	vec3 p_fels_3 = trans(p, 3.,7.,8.);
+	p_fels_3.xz *= rot2D(TAU * 0.2);
+	p_fels_3.xy *= rot2D(TAU * 0.45);
+	p_fels_3.yz *= rot2D(TAU * 0.1);
+	float fels_3 = box(p_fels_3, vec3(.7,1.2,1.));
+
+	vec3 p_fels_4 = trans(p, 7.,4.,6.);
+	p_fels_4.xz *= rot2D(TAU * 0.35);
+	p_fels_4.xy *= rot2D(TAU * 0.48);
+	p_fels_4.yz *= rot2D(TAU * 0.12);
+	float fels_4 = box(p_fels_4, vec3(2.,2.5,1.5));
+
+	fels_3 = smin(fels_3, fels_4, berg_smin);
+	fels_2 = smin(fels_2, fels_3, berg_smin);
+	fels_1 = smin(fels_1, fels_2, berg_smin);
+	return smin(fels_0, fels_1, berg_smin);
+}
+
 vec2 f(vec3 p, bool last_step) {
 	vec3 p_fels = p;
 
@@ -155,5 +200,10 @@ vec2 f(vec3 p, bool last_step) {
 	fels = smin(fels, f_kristall, mk_smin_felsen_rt_float);
 
 	vec2 obj_fels = vec2(fels, fels_id);
-	return obj_fels;
+
+	vec3 p_berg = trans(p, 10.,8.,10.);
+	float berg = berg(p_berg);
+	vec2 obj_berg = vec2(berg, berg_id);
+
+	return smin_material(obj_berg, obj_fels, mk_smin_felsen_rt_float);
 }
