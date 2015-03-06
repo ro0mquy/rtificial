@@ -1,6 +1,7 @@
 #include "ColorPickerComponent.h"
 
 #include <Timeline/TimelineData.h>
+#include <cmath>
 
 ColorPickerComponent::ColorPickerComponent(Value& colorR_, Value& colorG_, Value& colorB_) :
 	TabbedComponent(TabbedButtonBar::TabsAtTop),
@@ -49,14 +50,9 @@ void ColorPickerComponent::valueChanged(Value& /*value*/) {
 
 void ColorPickerComponent::changeListenerCallback(ChangeBroadcaster* source) {
 	if (source == &hsvSelector) {
-		const Colour rgb = hsvSelector.getCurrentColour();
-		colorR = rgb.getFloatRed();
-		colorG = rgb.getFloatGreen();
-		colorB = rgb.getFloatBlue();
+		getHsvSelector();
 	} else if (source == &textSelector) {
-		colorR = textSelector.getFloatR();
-		colorG = textSelector.getFloatG();
-		colorB = textSelector.getFloatB();
+		getTextSelector();
 	}
 }
 
@@ -71,14 +67,20 @@ void ColorPickerComponent::updateSelectors() {
 }
 
 void ColorPickerComponent::setHsvSelector() {
-	const float r = colorR.getValue();
-	const float g = colorG.getValue();
-	const float b = colorB.getValue();
+	float r = colorR.getValue();
+	float g = colorG.getValue();
+	float b = colorB.getValue();
+
+	// perform gamma correction
+	// TODO: real srgb conversion
+	r = std::pow(r, 1.f/2.2f);
+	g = std::pow(g, 1.f/2.2f);
+	b = std::pow(b, 1.f/2.2f);
 
 	// update hsvSelector
-	const uint8 rInt = r * 255;
-	const uint8 gInt = g * 255;
-	const uint8 bInt = b * 255;
+	const uint8 rInt = roundFloatToInt(r * 255.f);
+	const uint8 gInt = roundFloatToInt(g * 255.f);
+	const uint8 bInt = roundFloatToInt(b * 255.f);
 	hsvSelector.setCurrentColour(Colour(rInt, gInt, bInt));
 }
 
@@ -89,4 +91,19 @@ void ColorPickerComponent::setTextSelector() {
 
 	// update textSelector
 	textSelector.setRGB(r, g, b);
+}
+
+void ColorPickerComponent::getHsvSelector() {
+	const Colour rgb = hsvSelector.getCurrentColour();
+	// perform gamma correction
+	// TODO: real srgb conversion
+	colorR = std::pow(rgb.getFloatRed(), 2.2f);
+	colorG = std::pow(rgb.getFloatGreen(), 2.2f);
+	colorB = std::pow(rgb.getFloatBlue(), 2.2f);
+}
+
+void ColorPickerComponent::getTextSelector() {
+	colorR = textSelector.getFloatR();
+	colorG = textSelector.getFloatG();
+	colorB = textSelector.getFloatB();
 }

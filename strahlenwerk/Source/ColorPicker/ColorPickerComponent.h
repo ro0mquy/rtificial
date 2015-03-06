@@ -35,6 +35,8 @@ class ColorPickerComponent :
 		void updateSelectors();
 		void setHsvSelector();
 		void setTextSelector();
+		void getHsvSelector();
+		void getTextSelector();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ColorPickerComponent)
 };

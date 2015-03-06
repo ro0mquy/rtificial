@@ -3,9 +3,8 @@
 #include <Sidebar/ValueSlider.h>
 #include <Sidebar/ValueToggleButton.h>
 #include <Sidebar/QuaternionEditor.h>
-#include <ColorPicker/LabColor.h>
-#include <ColorPicker/LabColorPicker.h>
 #include <ColorPicker/ColorPickerComponent.h>
+#include <cmath>
 
 class BoolEditorPropertyComponent : public ValueEditorPropertyComponent {
 	public:
@@ -164,9 +163,10 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent, privat
 		void paint(Graphics& g) override {
 			ValueEditorPropertyComponent::paint(g);
 
-			const uint8 R = (float) colorR.getValue() * 255;
-			const uint8 G = (float) colorG.getValue() * 255;
-			const uint8 B = (float) colorB.getValue() * 255;
+			// TODO: real srgb conversion
+			const uint8 R = std::pow(float(colorR.getValue()), 1.f/2.2f) * 255.f;
+			const uint8 G = std::pow(float(colorG.getValue()), 1.f/2.2f) * 255.f;
+			const uint8 B = std::pow(float(colorB.getValue()), 1.f/2.2f) * 255.f;
 
 			g.setColour(Colour(R, G, B));
 			g.fillRect(getLookAndFeel().getPropertyComponentContentPosition(*this));
