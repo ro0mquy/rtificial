@@ -1,0 +1,35 @@
+* coulourlouvours
+* take some freedom! green is my pepper abreißzettelchen für gpn
+* der farbraum - unendliche weiten
+* mengerspongebob, tatorus und patrick supershape
+
+Text für Meteoriks
+* durch demoshow aufmerksam geworden (mercury erwaehnen? nein)
+* wir sind neuneu + jung
+* 64k
+* wollten nur auf eine party, wenn wir was mitbringen
+* erstmal tools aus dem boden stampfen
+
+We are a new group founded in 2013 and released our very first demo at Revision in 2014. The demoscene caught our attention at a demo show, where two sceners showed their favorite prods, and has never let go since. Our goal was to visit a party, but there was no way we would go without bringing a demo we made ourselves, as we wanted to be part of the scene as opposed to just watching new releases. We think our production should be considered because we are completely new to the field and built almost the entire toolchain for making a 64k prod before we could start working on the release. As we are all in our early twenties there is still a lot to learn, but gathering with other sceners has been so inspiring, that we hope we can slowly but steadily master the craft of pixel pushing. Even though our visuals are rough on the edges, we think we brought in some interesting ideas and are already working hard on improving the look and cinematography of upcoming releases.
+
+rot! ist meine Kugel was our very first demo ever and in spite of beeing an utterly broken piece of hacks on top of other hacks, we've grown to love it. We tried not doing only the classic fly-through-static-geometry-and-synchronize-to-music, but making it more interesting for the audience by leveraging physical animations and some sort of connection between scenes. Another unconventional detail about this release is, that it was shown on a Linux machine at the party and Linux was the main architecture we targeted. Since we all use Linux it seemed natural to us to release a demo on Linux, for it beeing another characteristic setting us aside from other groups.
+
+Electrochromacy on the other hand tries to tell a story. It might be twisted and mostly hidden for the viewers, but we actually ment to convay something. We also worked on our overall toolchain, which resulted in better post processing, better editing and more interesting camera movement and framing. Unfortunately this also meant spending a lot of time on tools, which was then missing for content production. This release is not the oddball rot! ist meine Kugel was and is to be measured on another scale. As the second album is always the hardest for a musician, so was our second release something we mustn't fail. We wanted to show that we are still out there and working on our skills. Again this release is nowhere near perfection as we wanted it to be, but after working day and night on it at the first deadline party in Berlin, we just needed it to be out in the world. Yet we are proud to have shown a consistent performance and evolution.
+
+possible greetings
+Mercury
+Stroboholics
+Nerdarzt
+Still
+Farbrausch
+peisik
+Razor1911
+<Oldskool Typ mit Wurst> XayaX
+Conspiracy
+alx (ist das nicht ein bisschen doppelt mit Nerdarzt?)
+ASD
+LNX
+Brain Control
+Rgba
+Nerd2Nerd
+code red
