@@ -7,17 +7,16 @@ ColorPickerComponent::ColorPickerComponent(Value& colorR_, Value& colorG_, Value
 	colorR(colorR_),
 	colorG(colorG_),
 	colorB(colorB_),
-	hsvSelector(ColourSelector::showColourAtTop | ColourSelector::showSliders | ColourSelector::showColourspace)
+	hsvSelector(ColourSelector::showSliders | ColourSelector::showColourspace)
 {
 	setOutline(0);
-	addTab("HSV", findColour(ColorPickerComponent::tabBackgroundColourId), &hsvSelector, false);
+	addTab("HSV & RGB", findColour(ColorPickerComponent::tabBackgroundColourId), &hsvSelector, false);
+	addTab("Text", findColour(ColorPickerComponent::tabBackgroundColourId), &textSelector, false);
 
-	const uint8 r = (float) colorR.getValue() * 255;
-	const uint8 g = (float) colorG.getValue() * 255;
-	const uint8 b = (float) colorB.getValue() * 255;
-	hsvSelector.setCurrentColour(Colour(r, g, b));
+	updateSelectors();
+
 	hsvSelector.addChangeListener(this);
-	hsvSelector.addMouseListener(this, true);
+	textSelector.addChangeListener(this);
 
 	colorR.addListener(this);
 	colorG.addListener(this);
@@ -26,7 +25,8 @@ ColorPickerComponent::ColorPickerComponent(Value& colorR_, Value& colorG_, Value
 
 ColorPickerComponent::~ColorPickerComponent() {
 	hsvSelector.removeChangeListener(this);
-	hsvSelector.removeMouseListener(this);
+	textSelector.removeChangeListener(this);
+
 	colorR.removeListener(this);
 	colorG.removeListener(this);
 	colorB.removeListener(this);
@@ -38,18 +38,55 @@ void ColorPickerComponent::setValueData(Value& colorR_, Value& colorG_, Value& c
 	colorB.referTo(colorB_);
 }
 
-void ColorPickerComponent::valueChanged(Value& /*value*/) {
-	// color* changed
-	const uint8 r = (float) colorR.getValue() * 255;
-	const uint8 g = (float) colorG.getValue() * 255;
-	const uint8 b = (float) colorB.getValue() * 255;
-	hsvSelector.setCurrentColour(Colour(r, g, b));
+void ColorPickerComponent::currentTabChanged(int /*newCurrentTabIndex*/, const String& /*newCurrentTabName*/) {
+	updateSelectors();
 }
 
-void ColorPickerComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
-	// hsvSelector changed
-	const Colour rgb = hsvSelector.getCurrentColour();
-	colorR = rgb.getFloatRed();
-	colorG = rgb.getFloatGreen();
-	colorB = rgb.getFloatBlue();
+void ColorPickerComponent::valueChanged(Value& /*value*/) {
+	// color* changed
+	updateSelectors();
+}
+
+void ColorPickerComponent::changeListenerCallback(ChangeBroadcaster* source) {
+	if (source == &hsvSelector) {
+		const Colour rgb = hsvSelector.getCurrentColour();
+		colorR = rgb.getFloatRed();
+		colorG = rgb.getFloatGreen();
+		colorB = rgb.getFloatBlue();
+	} else if (source == &textSelector) {
+		colorR = textSelector.getFloatR();
+		colorG = textSelector.getFloatG();
+		colorB = textSelector.getFloatB();
+	}
+}
+
+void ColorPickerComponent::updateSelectors() {
+	const Component* currentComp = getCurrentContentComponent();
+
+	if (currentComp == &hsvSelector) {
+		setHsvSelector();
+	} else if (currentComp == &textSelector) {
+		setTextSelector();
+	}
+}
+
+void ColorPickerComponent::setHsvSelector() {
+	const float r = colorR.getValue();
+	const float g = colorG.getValue();
+	const float b = colorB.getValue();
+
+	// update hsvSelector
+	const uint8 rInt = r * 255;
+	const uint8 gInt = g * 255;
+	const uint8 bInt = b * 255;
+	hsvSelector.setCurrentColour(Colour(rInt, gInt, bInt));
+}
+
+void ColorPickerComponent::setTextSelector() {
+	const float r = colorR.getValue();
+	const float g = colorG.getValue();
+	const float b = colorB.getValue();
+
+	// update textSelector
+	textSelector.setRGB(r, g, b);
 }

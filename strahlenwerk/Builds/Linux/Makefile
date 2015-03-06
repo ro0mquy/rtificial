@@ -51,6 +51,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/ColorTextInputComponent_c0aee926.o \
   $(OBJDIR)/ColorPickerComponent_bd366953.o \
   $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o \
   $(OBJDIR)/ColorSpaceMarker_454a1924.o \
@@ -134,6 +135,11 @@ clean:
 strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/ColorTextInputComponent_c0aee926.o: ../../Source/ColorPicker/ColorTextInputComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ColorTextInputComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/ColorPickerComponent_bd366953.o: ../../Source/ColorPicker/ColorPickerComponent.cpp
 	-@mkdir -p $(OBJDIR)

@@ -3,6 +3,8 @@
 
 #include <juce>
 
+#include <ColorPicker/ColorTextInputComponent.h>
+
 class ColorPickerComponent :
 	public TabbedComponent,
 	private Value::Listener,
@@ -14,6 +16,7 @@ class ColorPickerComponent :
 
 		void setValueData(Value& colorR_, Value& colorG_, Value& colorB_);
 
+		void currentTabChanged(int newCurrentTabIndex, const String& newCurrentTabName) override;
 		void valueChanged(Value& value) override;
 		void changeListenerCallback(ChangeBroadcaster* source) override;
 
@@ -27,6 +30,11 @@ class ColorPickerComponent :
 		Value colorB;
 
 		ColourSelector hsvSelector;
+		ColorTextInputComponent textSelector;
+
+		void updateSelectors();
+		void setHsvSelector();
+		void setTextSelector();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ColorPickerComponent)
 };

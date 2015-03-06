@@ -307,6 +307,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\ColorPicker\ColorTextInputComponent.cpp">
+      <Filter>strahlenwerk\Source\ColorPicker</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\ColorPicker\ColorPickerComponent.cpp">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClCompile>
@@ -1653,6 +1656,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ColorPicker\ColorTextInputComponent.h">
+      <Filter>strahlenwerk\Source\ColorPicker</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\ColorPicker\ColorPickerComponent.h">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClInclude>
