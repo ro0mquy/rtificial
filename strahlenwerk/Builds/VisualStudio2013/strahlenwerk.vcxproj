@@ -38,10 +38,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">strahlenwerk</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">strahlenwerk</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
     <PlatformToolset>v120</PlatformToolset>
@@ -657,6 +655,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_data_structures\values\juce_ValueTree.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_data_structures\values\juce_ValueTreeSynchroniser.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_data_structures\undomanager\juce_UndoManager.cpp">
@@ -1546,6 +1547,7 @@
     <ClInclude Include="..\..\juce_modules\juce_core\juce_core.h"/>
     <ClInclude Include="..\..\juce_modules\juce_data_structures\values\juce_Value.h"/>
     <ClInclude Include="..\..\juce_modules\juce_data_structures\values\juce_ValueTree.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_data_structures\values\juce_ValueTreeSynchroniser.h"/>
     <ClInclude Include="..\..\juce_modules\juce_data_structures\undomanager\juce_UndoableAction.h"/>
     <ClInclude Include="..\..\juce_modules\juce_data_structures\undomanager\juce_UndoManager.h"/>
     <ClInclude Include="..\..\juce_modules\juce_data_structures\app_properties\juce_ApplicationProperties.h"/>
