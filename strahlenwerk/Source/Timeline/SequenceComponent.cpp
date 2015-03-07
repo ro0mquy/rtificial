@@ -291,7 +291,7 @@ void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& ch
 	}
 }
 
-void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
 	// TODO: react on removal of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
 		auto keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
@@ -305,7 +305,7 @@ void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& 
 	}
 }
 
-void SequenceComponent::valueTreeChildOrderChanged(ValueTree& parentTree) {
+void SequenceComponent::valueTreeChildOrderChanged(ValueTree& parentTree, int /*oldIndex*/, int /*newIndex*/) {
 	if (parentTree == data.getUniformsArray()) {
 		// uniforms order changed, row number may changed
 		updateBounds();

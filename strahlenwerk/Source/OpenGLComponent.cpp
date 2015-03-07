@@ -98,11 +98,11 @@ void OpenGLComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& 
 	fixedAspectRatioComponent.repaint();
 }
 
-void OpenGLComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
+void OpenGLComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/, int /*indexFromWhichChildWasRemoved*/) {
 	fixedAspectRatioComponent.repaint();
 }
 
-void OpenGLComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void OpenGLComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
 	fixedAspectRatioComponent.repaint();
 }
 

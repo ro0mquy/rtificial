@@ -180,7 +180,7 @@ void ScenesBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTre
 	}
 }
 
-void ScenesBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved) {
+void ScenesBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
 	if (data.isScene(childWhichHasBeenRemoved)) {
 		auto sceneComponent = getSceneComponentForData(childWhichHasBeenRemoved);
 		jassert(sceneComponent != nullptr);
@@ -191,7 +191,7 @@ void ScenesBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueT
 	}
 }
 
-void ScenesBarComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void ScenesBarComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
 }
 
 void ScenesBarComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {

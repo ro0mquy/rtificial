@@ -113,14 +113,14 @@ void UniformsBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueT
 	}
 }
 
-void UniformsBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved) {
+void UniformsBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
 	if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
 		updateSize();
 		repaint();
 	}
 }
 
-void UniformsBarComponent::valueTreeChildOrderChanged(ValueTree& parentTree) {
+void UniformsBarComponent::valueTreeChildOrderChanged(ValueTree& parentTree, int /*oldIndex*/, int /*newIndex*/) {
 	if (parentTree == data.getUniformsArray()) {
 		repaint();
 	}

@@ -189,7 +189,7 @@ void SequenceViewComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, Value
 	}
 }
 
-void SequenceViewComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved) {
+void SequenceViewComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
 	if (data.isSequence(childWhichHasBeenRemoved)) {
 		auto sequenceComponent = getSequenceComponentForData(childWhichHasBeenRemoved);
 		jassert(sequenceComponent != nullptr);
@@ -204,7 +204,7 @@ void SequenceViewComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, Val
 	}
 }
 
-void SequenceViewComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void SequenceViewComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
 }
 
 void SequenceViewComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {

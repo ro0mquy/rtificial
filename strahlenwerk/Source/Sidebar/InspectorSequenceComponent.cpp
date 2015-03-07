@@ -105,7 +105,7 @@ void InspectorSequenceComponent::valueTreeChildAdded(ValueTree& parentTree, Valu
 	}
 }
 
-void InspectorSequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved) {
+void InspectorSequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
 	// TODO: react on removal of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
 		auto keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
@@ -116,7 +116,7 @@ void InspectorSequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, Va
 	}
 }
 
-void InspectorSequenceComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void InspectorSequenceComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
 }
 
 void InspectorSequenceComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {

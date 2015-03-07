@@ -130,10 +130,10 @@ void SequenceBackgroundComponent::valueTreePropertyChanged(ValueTree& parentTree
 void SequenceBackgroundComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenAdded*/) {
 }
 
-void SequenceBackgroundComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
+void SequenceBackgroundComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/, int /*indexFromWhichChildWasRemoved*/) {
 }
 
-void SequenceBackgroundComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void SequenceBackgroundComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
 }
 
 void SequenceBackgroundComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {

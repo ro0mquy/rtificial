@@ -124,10 +124,10 @@ void KeyframeComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, cons
 void KeyframeComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenAdded*/) {
 }
 
-void KeyframeComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/) {
+void KeyframeComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& /*childWhichHasBeenRemoved*/, int /*indexFromWhichChildWasRemoved*/) {
 }
 
-void KeyframeComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void KeyframeComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
 }
 
 void KeyframeComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {

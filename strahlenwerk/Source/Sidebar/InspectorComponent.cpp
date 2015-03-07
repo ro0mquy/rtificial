@@ -124,14 +124,14 @@ void InspectorComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& /
 	}
 }
 
-void InspectorComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& /*childWhichHasBeenRemoved*/) {
+void InspectorComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& /*childWhichHasBeenRemoved*/, int /*indexFromWhichChildWasRemoved*/) {
 	if (singleSelectedTree.isValid() && data.getKeyframesArray(singleSelectedTree) == parentTree) {
 		// a keyframe was removed
 		updateSequenceEditor();
 	}
 }
 
-void InspectorComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/) {
+void InspectorComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
 }
 
 void InspectorComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
