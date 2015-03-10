@@ -200,7 +200,7 @@
       "uniformName": "mk_fog_amount_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 10
+        "valueFloatX": 20
       },
       "sequencesArray": []
     },
@@ -208,7 +208,7 @@
       "uniformName": "mk_fog_invheight_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.44900000000000001021
+        "valueFloatX": 0.7870000000000345608
       },
       "sequencesArray": []
     },
@@ -240,7 +240,7 @@
       "uniformName": "mk_smin_felsen_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 5
+        "valueFloatX": 7
       },
       "sequencesArray": []
     },
@@ -248,7 +248,7 @@
       "uniformName": "mk_smin_boden_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 10
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -431,7 +431,7 @@
       "uniformName": "post_tonemap_exposure",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.1069999999999708962
+        "valueFloatX": 0
       },
       "sequencesArray": [
         {
