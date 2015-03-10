@@ -1,5 +1,6 @@
 #include "rtificial.glsl"
-#line 3
+#include "noise.glsl"
+#line 4
 
 out vec4 out_color;
 
@@ -13,6 +14,21 @@ void main() {
 		out_color.rgb = vec3(0.);
 	} else {
 		out_color.rgb = vec3(max(dot(calc_normal(o + t * d, false), normalize(vec3(1., .5, .5))), 0.) + .1);
+
+		// TODO: maybe use the normal sss (ao) function
+		vec3 p = o + t * d;
+		vec3 n = calc_normal(o + t * d, false);
+		n = -d;
+		float ao_factor;
+		float l = -.2;
+		float i = 5.;
+		for(; i > 0; i--) {
+			vec3 p_i = p + n * i * l;
+			float noise = cfbm(p_i * morph_noise_freq_rt_float);
+			ao_factor -= (i * l - noise * f(p_i, false)[0]) / exp2(i);
+		}
+		out_color.rgb *= .1;
+		out_color.rgb += ao_factor;
 	}
 }
 
@@ -205,6 +221,7 @@ vec2 f(vec3 p, bool last_step) {
 	f *= .5;
 	// */
 
+	//*
 	if (morph_mix_rt_float <= 1.) {
 		f = mix(kristall(p), kantenklumpen(p), morph_mix_rt_float);
 	} else if (morph_mix_rt_float <= 2.) {
@@ -212,6 +229,9 @@ vec2 f(vec3 p, bool last_step) {
 	} else {
 		f = mix(trishape(p), trillant(p), morph_mix_rt_float - 2.);
 	}
+	// */
+
+	//f = trishape(p);
 
 	return vec2(f, 0.);
 }

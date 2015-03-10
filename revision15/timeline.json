@@ -41,7 +41,7 @@
       "uniformName": "body_expstep_k_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.88
+        "valueFloatX": 0.88000000000000000444
       },
       "sequencesArray": []
     },
@@ -49,7 +49,7 @@
       "uniformName": "body_expstep_n_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.639
+        "valueFloatX": 1.6390000000000000124
       },
       "sequencesArray": []
     },
@@ -57,7 +57,7 @@
       "uniformName": "body_rings_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -23.3
+        "valueFloatX": -23.300000000000000711
       },
       "sequencesArray": [
         {
@@ -69,13 +69,13 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueFloatX": 1.55
+                "valueFloatX": 1.5500000000000000444
               }
             },
             {
               "keyframePosition": 2000,
               "keyframeValue": {
-                "valueFloatX": 1.55
+                "valueFloatX": 1.5500000000000000444
               }
             }
           ]
@@ -89,7 +89,7 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueFloatX": -23.3
+                "valueFloatX": -23.300000000000000711
               }
             },
             {
@@ -101,7 +101,7 @@
             {
               "keyframePosition": 14000,
               "keyframeValue": {
-                "valueFloatX": 1.55
+                "valueFloatX": 1.5500000000000000444
               }
             }
           ]
@@ -112,7 +112,7 @@
       "uniformName": "camera_focal_length",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.021
+        "valueFloatX": 0.021000000000000001305
       },
       "sequencesArray": []
     },
@@ -141,7 +141,7 @@
       "uniformName": "fluegel_domrep_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.1
+        "valueFloatX": 0.10000000000000000555
       },
       "sequencesArray": [
         {
@@ -159,7 +159,7 @@
             {
               "keyframePosition": 5000,
               "keyframeValue": {
-                "valueFloatX": 0.05
+                "valueFloatX": 0.050000000000000002776
               }
             },
             {
@@ -192,7 +192,7 @@
       "uniformName": "lk_radius_gross_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.466
+        "valueFloatX": 3.4660000000000001918
       },
       "sequencesArray": []
     },
@@ -208,7 +208,7 @@
       "uniformName": "mk_fog_invheight_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.449
+        "valueFloatX": 0.44900000000000001021
       },
       "sequencesArray": []
     },
@@ -216,7 +216,7 @@
       "uniformName": "mk_kristall_cap_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 4.415
+        "valueFloatX": 4.4150000000000000355
       },
       "sequencesArray": []
     },
@@ -232,7 +232,7 @@
       "uniformName": "mk_kristall_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 5.688
+        "valueFloatX": 5.6879999999999997229
       },
       "sequencesArray": []
     },
@@ -253,13 +253,21 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "morph_noise_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "morph_rot_rt_quat",
       "uniformType": "quat",
       "uniformStandardValue": {
-        "valueQuatX": 0.234845,
-        "valueQuatY": 0.771635,
-        "valueQuatZ": -0.201995,
-        "valueQuatW": 0.55554
+        "valueQuatX": 0.2348449999999999982,
+        "valueQuatY": 0.77163499999999995982,
+        "valueQuatZ": -0.20199500000000000788,
+        "valueQuatW": 0.55554000000000003379
       },
       "sequencesArray": []
     },
@@ -267,7 +275,7 @@
       "uniformName": "morph_rotation_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.86
+        "valueFloatX": 3.8599999999999998757
       },
       "sequencesArray": []
     },
@@ -304,7 +312,7 @@
       "uniformName": "morph_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.9
+        "valueFloatX": 0.9000000000000000222
       },
       "sequencesArray": []
     },
@@ -320,7 +328,7 @@
       "uniformName": "post_bloom_radius",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.2
+        "valueFloatX": 1.1999999999999999556
       },
       "sequencesArray": []
     },
@@ -342,7 +350,32 @@
         "valueColorG": 1,
         "valueColorB": 1
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 259,
+          "sequenceStart": 0,
+          "sequenceDuration": 10000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueColorR": 0.0041200001724064350128,
+                "valueColorG": 0.031550001353025436401,
+                "valueColorB": 0.019920000806450843811
+              }
+            },
+            {
+              "keyframePosition": 10000,
+              "keyframeValue": {
+                "valueColorR": 0.17999999999999999334,
+                "valueColorG": 0.17999999999999999334,
+                "valueColorB": 0.17999999999999999334
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "post_color_lift",
@@ -358,7 +391,7 @@
       "uniformName": "post_film_grain_frequency",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.363
+        "valueFloatX": 0.36299999999999998934
       },
       "sequencesArray": []
     },
@@ -366,7 +399,7 @@
       "uniformName": "post_film_grain_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.03
+        "valueFloatX": 0.019999999999981806637
       },
       "sequencesArray": []
     },
@@ -374,7 +407,7 @@
       "uniformName": "post_film_grain_power",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.378
+        "valueFloatX": 1.3780000000000001137
       },
       "sequencesArray": []
     },
@@ -382,7 +415,7 @@
       "uniformName": "post_lens_distort_k",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.014
+        "valueFloatX": 0.014000000000000000291
       },
       "sequencesArray": []
     },
@@ -390,7 +423,7 @@
       "uniformName": "post_lens_distort_kcube",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.007
+        "valueFloatX": 0.0070000000000000001457
       },
       "sequencesArray": []
     },
@@ -398,15 +431,36 @@
       "uniformName": "post_tonemap_exposure",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 3.1069999999999708962
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 259,
+          "sequenceStart": 0,
+          "sequenceDuration": 10000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 3.1069999999999708962
+              }
+            },
+            {
+              "keyframePosition": 10000,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "post_vignette_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.7
+        "valueFloatX": 0.69999999999999995559
       },
       "sequencesArray": []
     },
@@ -422,7 +476,7 @@
       "uniformName": "spiral_ringe_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.583
+        "valueFloatX": 0.5829999999999999627
       },
       "sequencesArray": []
     },
@@ -446,7 +500,7 @@
       "uniformName": "steinchen_smoothing_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.46
+        "valueFloatX": 0.46000000000000001998
       },
       "sequencesArray": []
     },
@@ -478,7 +532,7 @@
       "uniformName": "super_n1_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.687
+        "valueFloatX": 3.6870000000000002771
       },
       "sequencesArray": []
     },
@@ -486,7 +540,7 @@
       "uniformName": "super_n2_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 7.482
+        "valueFloatX": 7.4820000000000002061
       },
       "sequencesArray": []
     },
@@ -494,7 +548,7 @@
       "uniformName": "super_n3_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 4.571
+        "valueFloatX": 4.57099999999999973
       },
       "sequencesArray": []
     },
@@ -502,7 +556,7 @@
       "uniformName": "super_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.623
+        "valueFloatX": 0.62299999999999999822
       },
       "sequencesArray": []
     }
