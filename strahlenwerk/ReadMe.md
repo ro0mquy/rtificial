@@ -20,6 +20,7 @@
 * `B` Reset Camera Rotation
 * `[Ctrl]+B` Reset Camera Position
 * `[Ctrl]+S` save all timeline data to `timeline.xml`
+* `8` toggle looping of current selection
 
 #### Scenes
 * `[Ctrl]+[Drag]` create new scene or move already existing

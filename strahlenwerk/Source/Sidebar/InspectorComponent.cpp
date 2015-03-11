@@ -3,6 +3,9 @@
 #include <Timeline/TimelineData.h>
 #include <Timeline/TreeIdentifiers.h>
 #include <AudioManager.h>
+#include <StrahlenwerkApplication.h>
+#include <MainWindow.h>
+#include <PropertyNames.h>
 
 InspectorComponent::InspectorComponent() :
 	data(TimelineData::getTimelineData()),
@@ -12,6 +15,7 @@ InspectorComponent::InspectorComponent() :
 	data.addListenerToTree(this);
 	selection.addChangeListener(this);
 	audioManager.addChangeListener(this);
+	MainWindow::getApplicationCommandManager().addListener(this);
 }
 
 InspectorComponent::~InspectorComponent() {
@@ -22,7 +26,9 @@ InspectorComponent::~InspectorComponent() {
 
 void InspectorComponent::changeListenerCallback(ChangeBroadcaster* source) {
 	if (source == &audioManager) {
+		// time changed
 		updateSequenceEditor();
+		checkIfNeedToLoop();
 	} else if (source == &selection) {
 		// selection changed
 		const int selectionSize = selection.size();
@@ -69,7 +75,6 @@ void InspectorComponent::initalizeSequenceEditing() {
 	singleSelectedTree = *selection[0];
 	sequencePreview = new SequenceBackgroundComponent(singleSelectedTree);
 
-	TimelineData& data = TimelineData::getTimelineData();
 	ValueTree uniform = data.getSequenceParentUniform(singleSelectedTree);
 	const String name = data.getUniformName(uniform);
 
@@ -90,7 +95,6 @@ void InspectorComponent::updateSequenceEditor() {
 		return;
 	}
 
-	TimelineData& data = TimelineData::getTimelineData();
 	ValueTree uniform = data.getSequenceParentUniform(singleSelectedTree);
 
 	Interpolator::UniformState uniformState = data.getInterpolator().getCurrentUniformState(uniform);
@@ -99,6 +103,41 @@ void InspectorComponent::updateSequenceEditor() {
 
 	keyframeValueEditor->useValueData(value);
 	keyframeValueEditor->setEnabled(isOnKeyframe);
+}
+
+void InspectorComponent::checkIfNeedToLoop() {
+	PropertySet& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	if (audioManager.isPlaying()
+			&& singleSelectedTree.isValid()
+			&& sequencePreview != nullptr
+			&& properties.getBoolValue(PropertyNames::LoopEnabled)) {
+		// loop selection
+		const int sequenceStart = data.getAbsoluteStartForSequence(singleSelectedTree);
+		const int sequenceDuration = data.getSequenceDuration(singleSelectedTree);
+		const int sequenceEnd = sequenceStart + sequenceDuration;
+		const int currentTime = audioManager.getTime();
+
+		if (currentTime > sequenceEnd) {
+			audioManager.setTime(sequenceStart);
+		}
+	}
+}
+
+void InspectorComponent::performToggleLoop() {
+	PropertySet& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	const bool previous = properties.getBoolValue(PropertyNames::LoopEnabled);
+	properties.setValue(PropertyNames::LoopEnabled, !previous);
+}
+
+void InspectorComponent::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
+	switch (info.commandID) {
+		case InspectorComponent::toggleLoop:
+			performToggleLoop();
+			break;
+	}
+}
+
+void InspectorComponent::applicationCommandListChanged() {
 }
 
 // ValueTree::Listener callbacks

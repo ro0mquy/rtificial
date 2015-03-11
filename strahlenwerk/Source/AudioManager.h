@@ -21,6 +21,7 @@ class AudioManager :
 		int getTime();
 		void setTime(int newTimeInBeats);
 		float* getCurrentEnvelopes();
+		bool isPlaying();
 
 		AudioThumbnail& getThumbnail();
 		int getBpm();

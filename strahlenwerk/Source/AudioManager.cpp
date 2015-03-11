@@ -72,7 +72,7 @@ void AudioManager::loadEnvelopes(const File& envelopeFile) {
 }
 
 void AudioManager::togglePlayPause() {
-	if(transportSource.isPlaying()) {
+	if (isPlaying()) {
 		transportSource.stop();
 	} else {
 		transportSource.start();
@@ -117,6 +117,10 @@ float* AudioManager::getCurrentEnvelopes() {
 			return nullptr;
 		}
 	}
+}
+
+bool AudioManager::isPlaying() {
+	return transportSource.isPlaying();
 }
 
 AudioThumbnail& AudioManager::getThumbnail() {

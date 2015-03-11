@@ -12,7 +12,8 @@ class AudioManager;
 class InspectorComponent :
 	public Component,
 	private ValueTree::Listener,
-	private ChangeListener
+	private ChangeListener,
+	private ApplicationCommandManagerListener
 {
 	public:
 		InspectorComponent();
@@ -23,6 +24,9 @@ class InspectorComponent :
 		void resized() override;
 		void paint(Graphics& g) override;
 
+		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
+		void applicationCommandListChanged() override;
+
 		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
 		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
 		void valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved, int indexFromWhichChildWasRemoved) override;
@@ -31,6 +35,10 @@ class InspectorComponent :
 
 		enum ColourIds {
 			textColourId = 0x2c34a01,
+		};
+
+		enum CommandIDs {
+			toggleLoop = 0x47e15a00,
 		};
 
 	private:
@@ -44,6 +52,9 @@ class InspectorComponent :
 
 		void initalizeSequenceEditing();
 		void updateSequenceEditor();
+
+		void checkIfNeedToLoop();
+		void performToggleLoop();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorComponent)
 };
