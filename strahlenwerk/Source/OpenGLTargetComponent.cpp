@@ -70,15 +70,23 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 	const Point<float> yTip = centerPoint + yTransformed;
 	const Point<float> zTip = centerPoint + zTransformed;
 	g.setOpacity(1.f);
-	g.setColour(Colour(0xffff0000));
+	//g.setColour(Colour(0xffff0000));
+	// "Hinten dunkel vorne hell" "Ja, das ginge doch!"
+	// Das ist zwar jetzt nicht schön hier und eigentlich immernoch total unmöglich zu erkennen, aber es ging schnell und tut!
+	g.setGradientFill(ColourGradient(Colour(0xffff0000), centerPoint.x, centerPoint.y,
+				xAxis.z < 0.f ? Colour(0xffff0000).darker(-xAxis.z) : Colour(0xffff0000).brighter(xAxis.z), xTip.x, xTip.y, false));
 	g.drawLine(Line<float>(centerPoint, xTip), 4.f);
 	const Point<float> xText = xTip + xTransformed * .1f;
 	g.drawSingleLineText("x", xText.getX(), xText.getY());
-	g.setColour(Colour(0xff00ff00));
+	//g.setColour(Colour(0xff00ff00));
+	g.setGradientFill(ColourGradient(Colour(0xff00ff00), centerPoint.x, centerPoint.y,
+				yAxis.z < 0.f ? Colour(0xff00ff00).darker(-yAxis.z) : Colour(0xff00ff00).brighter(yAxis.z), yTip.x, yTip.y, false));
 	const Point<float> yText = yTip + yTransformed * .1f;
 	g.drawLine(Line<float>(centerPoint, yTip), 4.f);
 	g.drawSingleLineText("y", yText.getX(), yText.getY());
-	g.setColour(Colour(0xff0000ff));
+	//g.setColour(Colour(0xff0000ff));
+	g.setGradientFill(ColourGradient(Colour(0xff0000ff), centerPoint.x, centerPoint.y,
+				zAxis.z < 0.f ? Colour(0xff0000ff).darker(-zAxis.z) : Colour(0xff0000ff).brighter(zAxis.z), zTip.x, zTip.y, false));
 	const Point<float> zText = zTip + zTransformed * .1f;
 	g.drawLine(Line<float>(centerPoint, zTip), 4.f);
 	g.drawSingleLineText("z", zText.getX(), zText.getY());
