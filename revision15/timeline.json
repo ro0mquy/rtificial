@@ -124,7 +124,64 @@
         "valueVec3Y": 0,
         "valueVec3Z": 0
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 544,
+          "sequenceStart": 0,
+          "sequenceDuration": 7500,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueVec3X": -3.9623446464538574219,
+                "valueVec3Y": -5.0253896713256835938,
+                "valueVec3Z": 2.9743647575378417969
+              }
+            },
+            {
+              "keyframePosition": 1500,
+              "keyframeValue": {
+                "valueVec3X": 1.9381704330444335938,
+                "valueVec3Y": -2.0272300243377685547,
+                "valueVec3Z": 5.7295374870300292969
+              }
+            },
+            {
+              "keyframePosition": 3500,
+              "keyframeValue": {
+                "valueVec3X": 4.2768626213073730469,
+                "valueVec3Y": -0.88542485237121582031,
+                "valueVec3Z": -3.1655623912811279297
+              }
+            },
+            {
+              "keyframePosition": 5500,
+              "keyframeValue": {
+                "valueVec3X": 1.0402742624282836914,
+                "valueVec3Y": -5.8662304878234863281,
+                "valueVec3Z": -0.63242435455322265625
+              }
+            },
+            {
+              "keyframePosition": 6500,
+              "keyframeValue": {
+                "valueVec3X": -1.6803849935531616211,
+                "valueVec3Y": -7.1138710975646972656,
+                "valueVec3Z": 0.48307901620864868164
+              }
+            },
+            {
+              "keyframePosition": 7500,
+              "keyframeValue": {
+                "valueVec3X": -2.4136765003204345703,
+                "valueVec3Y": -7.1138710975646972656,
+                "valueVec3Z": 0.78373706340789794922
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "camera_rotation",
@@ -135,7 +192,70 @@
         "valueQuatZ": 0,
         "valueQuatW": 1
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 544,
+          "sequenceStart": 0,
+          "sequenceDuration": 7500,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueQuatX": -0.20704904198646542635,
+                "valueQuatY": -0.44940292835235601254,
+                "valueQuatZ": -0.10791002213954925537,
+                "valueQuatW": 0.86227774620056163446
+              }
+            },
+            {
+              "keyframePosition": 1500,
+              "keyframeValue": {
+                "valueQuatX": -0.3801288604736328125,
+                "valueQuatY": 0.10527784377336502075,
+                "valueQuatZ": 0.043599221855401992798,
+                "valueQuatW": 0.91788744926452636719
+              }
+            },
+            {
+              "keyframePosition": 3500,
+              "keyframeValue": {
+                "valueQuatX": -0.25290596485137939453,
+                "valueQuatY": 0.7399508357048034668,
+                "valueQuatZ": 0.37703329324722290039,
+                "valueQuatW": 0.49634313583374023438
+              }
+            },
+            {
+              "keyframePosition": 5500,
+              "keyframeValue": {
+                "valueQuatX": -0.32855388522148132324,
+                "valueQuatY": 0.67064738273620605469,
+                "valueQuatZ": 0.48980954289436340332,
+                "valueQuatW": 0.44985586404800415039
+              }
+            },
+            {
+              "keyframePosition": 6500,
+              "keyframeValue": {
+                "valueQuatX": 0.0099484352394938468933,
+                "valueQuatY": 0.83033788204193115234,
+                "valueQuatZ": -0.014831431210041046143,
+                "valueQuatW": 0.55697304010391235352
+              }
+            },
+            {
+              "keyframePosition": 7500,
+              "keyframeValue": {
+                "valueQuatX": 0.041179716587066650391,
+                "valueQuatY": 0.8281981348991394043,
+                "valueQuatZ": -0.061391159892082214355,
+                "valueQuatW": 0.55553770065307617188
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "fluegel_domrep_rt_float",

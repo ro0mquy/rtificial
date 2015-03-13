@@ -71,21 +71,21 @@ glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, 
 	return p20;
 	// */
 
-	/*
-	// centripetal catmull rom, doesn't work properly
+	//*
+	// centripetal catmull rom, [doesn't work properly] works perfectly fine!
 	// we calculate with deltas and not absolute times
 	// dot() gives cos(alpha), we want cos to be always >= 0
 	const float dt01 = sqrt(acos(abs(dot(P0, P1))));
-	const float dt12 = sqrt(acos(abs(dot(P0, P1))));
-	const float dt23 = sqrt(acos(abs(dot(P0, P1))));
+	const float dt12 = sqrt(acos(abs(dot(P1, P2))));
+	const float dt23 = sqrt(acos(abs(dot(P2, P3))));
 	const float dt = rawT * dt12;
 
-	const quat L01 = slerp(P0, P1, (dt01 + dt) / dt01);
-	const quat L12 = slerp(P1, P2,         dt  / dt12);
-	const quat L23 = slerp(P2, P3, (dt12 - dt) / dt23);
+	const quat L01 = slerp(P0, P1, (dt + dt01) / dt01);
+	const quat L12 = slerp(P1, P2,  dt         / dt12);
+	const quat L23 = slerp(P2, P3, (dt - dt12) / dt23);
 
-	const quat L012 = slerp(L01, L12, (dt01 + dt) / (dt01 + dt12));
-	const quat L123 = slerp(L12, L23,         dt  / (dt12 + dt23));
+	const quat L012 = slerp(L01, L12, (dt + dt01) / (dt01 + dt12));
+	const quat L123 = slerp(L12, L23,  dt         / (dt12 + dt23));
 
 	const quat C12 = slerp(L012, L123, dt / dt12);
 	return C12;
@@ -108,7 +108,7 @@ glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, 
 	return pa12;
 	// */
 
-	//*
+	/*
 	// catmull rom with slerp instead of lerp
 	// the modified t values are from
 	// Visualizing Quaternions, Chapter 25.5
