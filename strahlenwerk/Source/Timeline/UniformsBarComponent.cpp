@@ -64,30 +64,26 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 
 	const ModifierKeys& m = event.mods;
 	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
-
+		// bake uniform
 		ValueTree uniformData = data.getUniform(numUniform);
 		const int numSequences = data.getNumSequences(uniformData);
 
-		if (numSequences == 0) {
-			AlertWindow reallyBakeWindow("Bake Uniform", "Store the default value of this Uniform into the Bake File", AlertWindow::WarningIcon);
-			reallyBakeWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
-			reallyBakeWindow.addButton("Bake", 1, KeyPress('b'), KeyPress(KeyPress::spaceKey));
-
-			const int returnedChoice = reallyBakeWindow.runModalLoop();
-			if (returnedChoice == 1) {
-				data.getUndoManager().beginNewTransaction("Bake Uniform");
-				data.bakeUniform(uniformData);
-			}
-		} else {
+		if (numSequences != 0) {
 			AlertWindow cantBakeWindow("Bake Uniform failed", "There are some Sequences left for this Uniform. Don't wanna burn those! Delete them before Baking!", AlertWindow::WarningIcon);
 			cantBakeWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
+			cantBakeWindow.addButton(L"Fuck 'ëm", 1, KeyPress('f'), KeyPress(KeyPress::spaceKey));
 
-			cantBakeWindow.runModalLoop();
+			const int returnedChoice = cantBakeWindow.runModalLoop();
+			if (returnedChoice != 1) {
+				return;
+			}
 		}
 
+		data.getUndoManager().beginNewTransaction("Bake Uniform");
+		data.bakeUniform(uniformData);
 
 	} else if (event.mouseWasClicked() && m.isLeftButtonDown()) {
-
+		// show standard value editor
 		ValueTree uniformData = data.getUniform(numUniform);
 		const String uniformName = data.getUniformName(uniformData);
 		ValueTree valueData = data.getUniformStandardValue(uniformData);

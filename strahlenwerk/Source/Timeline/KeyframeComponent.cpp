@@ -92,15 +92,6 @@ void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 void KeyframeComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
-		AlertWindow reallyDeleteWindow("Keyframe", "Delete this Keyframe for a Long Time", AlertWindow::WarningIcon);
-		reallyDeleteWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
-		reallyDeleteWindow.addButton("Delete", 1, KeyPress('d'), KeyPress(KeyPress::spaceKey));
-
-		const int returnedChoice = reallyDeleteWindow.runModalLoop();
-		if (returnedChoice != 1) {
-			return;
-		}
-
 		data.getUndoManager().beginNewTransaction("Delete Keyframe");
 		data.removeKeyframe(keyframeData);
 		// this component gets deleted after this, so don't do stupid things
