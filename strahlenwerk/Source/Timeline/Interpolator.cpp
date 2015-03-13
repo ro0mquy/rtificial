@@ -64,6 +64,37 @@ UniformState Interpolator::getCurrentUniformState(const var& name, ValueTree def
 	return getUniformStateFromTimelineData(uniformData);
 }
 
+// get current uniform state, but preferred from a certain sequence
+UniformState Interpolator::getCurrentUniformStateWithSequence(ValueTree sequenceData) {
+	if (!sequenceData.isValid()) {
+		jassertfalse;
+		return UniformState(ValueTree(), false);
+	}
+
+	ValueTree uniformData = data.getSequenceParentUniform(sequenceData);
+	String uniformName = data.getUniformName(uniformData);
+	for (const auto specUniformCtrl : specialUniformControllers) {
+		if (specUniformCtrl->wantControlUniform(uniformName)) {
+			return specUniformCtrl->getUniformState(uniformName);
+		}
+	}
+
+	// no controller wants this uniform
+	// check if time is in sequence
+	const int absoluteCurrentTime = AudioManager::getAudioManager().getTime();
+	const int relativeCurrentTime = absoluteCurrentTime - data.getAbsoluteStartForSequence(sequenceData);
+	const int sequenceDuration = data.getSequenceDuration(sequenceData);
+	if (isPositiveAndNotGreaterThan(relativeCurrentTime, sequenceDuration)) {
+		// time in sequence
+		return calculateInterpolatedState(sequenceData, relativeCurrentTime);
+	}
+
+	// normal state retrieval
+	UniformState currentState = getUniformStateFromTimelineData(uniformData);
+	currentState.second = false;
+	return currentState;
+}
+
 UniformState Interpolator::getUniformStateFromTimelineData(ValueTree uniformData) {
 	const int absoluteCurrentTime = AudioManager::getAudioManager().getTime();
 	ValueTree currentSequence = data.getSequenceForTime(uniformData, absoluteCurrentTime);
