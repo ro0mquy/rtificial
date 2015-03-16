@@ -168,7 +168,7 @@
               "keyframeValue": {
                 "valueVec3X": -1.6803849935531616211,
                 "valueVec3Y": -7.1138710975646972656,
-                "valueVec3Z": 0.48307901620864868164
+                "valueVec3Z": 0.48307901620864862613
               }
             },
             {
@@ -231,7 +231,7 @@
               "keyframeValue": {
                 "valueQuatX": -0.32855388522148132324,
                 "valueQuatY": 0.67064738273620605469,
-                "valueQuatZ": 0.48980954289436340332,
+                "valueQuatZ": 0.48980954289436334781,
                 "valueQuatW": 0.44985586404800415039
               }
             },
@@ -333,15 +333,15 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mk_kristall_cap_rt_float",
+      "uniformName": "mk_hintergrund_kristall_cap_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 4.4150000000000000355
+        "valueFloatX": 4.415000000000077307
       },
       "sequencesArray": []
     },
     {
-      "uniformName": "mk_kristall_h_rt_float",
+      "uniformName": "mk_hintergrund_kristall_h_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 40
@@ -349,10 +349,145 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "mk_hintergrund_kristall_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5.6879999999999881766
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall_cap_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.2870000000000345608
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.8720000000000709406
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 8.4750000000000227374,
+        "valueVec3Y": 7.5980000000000700311,
+        "valueVec3Z": 8.6660000000000536602
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "mk_kristall_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 5.6879999999999997229
+        "valueFloatX": 0.30100000000004456524
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall_rot_rt_quat",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": -0.44252341985702514648,
+        "valueQuatY": -0.77744716405868530273,
+        "valueQuatZ": 0.10422560572624206543,
+        "valueQuatW": 0.43461012840270996094
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall2_cap_relative_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.36300000000005638867
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall2_h_relative_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.68299999999999272404
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall2_r_relative_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.28300000000001546141
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall2_rot_relative_rt_quat",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": 0.053422939032316207886,
+        "valueQuatY": -0.97990703582763682977,
+        "valueQuatZ": 0.06456902623176574707,
+        "valueQuatW": -0.18099492788314819336
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall2_trans_relative_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -0.74500000000000443645,
+        "valueVec3Y": -0.34699999999997999112,
+        "valueVec3Z": -0.24900000000002364686
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall3_cap_relative_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.31900000000007366907
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall3_h_relative_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.79100000000005366019
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall3_r_relative_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.2870000000000345608
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall3_rot_relative_rt_quat",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": -0.10300314426422119141,
+        "valueQuatY": -0.15430708229541778564,
+        "valueQuatZ": 0.021007779985666275024,
+        "valueQuatW": -0.98241466283798217773
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_kristall3_trans_relative_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -0.2369999999999663487,
+        "valueVec3Y": -1.0869999999999890861,
+        "valueVec3Z": -0.51499999999998635758
       },
       "sequencesArray": []
     },
