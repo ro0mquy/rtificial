@@ -1,0 +1,140 @@
+{
+  "uniformsArray": [
+    {
+      "uniformName": "camera_focal_length",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      }
+    },
+    {
+      "uniformName": "camera_position",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": 0
+      }
+    },
+    {
+      "uniformName": "camera_rotation",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": 0,
+        "valueQuatY": 0,
+        "valueQuatZ": 0,
+        "valueQuatW": 1
+      }
+    },
+    {
+      "uniformName": "kugelkram_kugelmix_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      }
+    },
+    {
+      "uniformName": "kugelkram_rollen_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      }
+    },
+    {
+      "uniformName": "lk_radius_gross_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.4660000000000001918
+      }
+    },
+    {
+      "uniformName": "sky_max_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1000
+      }
+    },
+    {
+      "uniformName": "spiral_ringe_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5829999999999999627
+      }
+    },
+    {
+      "uniformName": "spiral_spiral_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      }
+    },
+    {
+      "uniformName": "spiral_torus_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      }
+    },
+    {
+      "uniformName": "steinchen_smoothing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.46000000000000001998
+      }
+    },
+    {
+      "uniformName": "super_a_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      }
+    },
+    {
+      "uniformName": "super_b_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      }
+    },
+    {
+      "uniformName": "super_m_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6
+      }
+    },
+    {
+      "uniformName": "super_n1_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.6870000000000002771
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "super_n2_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 7.4820000000000002061
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "super_n3_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.57099999999999973
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "super_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.62299999999999999822
+      },
+      "sequencesArray": []
+    }
+  ],
+  "scenesArray": []
+}
