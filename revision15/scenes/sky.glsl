@@ -1,5 +1,6 @@
 #include "rtificial.glsl"
-#line 3
+#include "sky.glsl"
+#line 4
 
 out vec4 out_color;
 
@@ -30,6 +31,11 @@ void main() {
 	//	out_color.rgb = vec3(1.);
 	//}
 
+	out_color.rgb = sky_radiance(d);
+	if(any(isnan(out_color.rgb))) {
+		out_color.rgb = vec3(0.);
+	}
+/*
 	float cos_theta = d.y;
 	float gamma = acos(dot(d, normalize(vec3(1.))));
 	float r = F(cos_theta, gamma,
@@ -65,5 +71,6 @@ void main() {
 3.936215,
 2.149067
 	);
-	out_color = vec4(log(vec3(r, g, b))/log(sky_max_rt_float), 1.);
+	//out_color = vec4(log(vec3(r, g, b))/log(sky_max_rt_float), 1.);
+	*/
 }
