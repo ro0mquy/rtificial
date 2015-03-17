@@ -133,7 +133,7 @@ float fels_noise(vec3 p_fels, vec2 domrep_size, vec3 box_size) {
 	return fels_012345678;
 }
 
-float kristall(vec3 p_kristall, float height_kristall, float radius_kristall, float size_cap){
+float kristall(vec3 p_kristall, float height_kristall, float radius_kristall, float size_cap) {
 	float r_kristall = radius_kristall * min((height_kristall - radius_kristall) - p_kristall.y, size_cap) / size_cap;
 	p_kristall.y -= height_kristall * .5;
 	return hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));
@@ -162,7 +162,7 @@ vec2 kristallgruppe(vec3 p){
 	return vec2(f_kristall, kristall_id);
 }
 
-vec2 berg(vec3 p) {
+vec2 huegel(vec3 p) {
 	float berg_smin = mk_smin_felsen_rt_float; // 5.0
 
 	vec3 p_berg_0 = p;
@@ -200,11 +200,13 @@ vec2 berg(vec3 p) {
 	berg_1 = smin(berg_1, berg_2, berg_smin);
 	float berg = smin(berg_0, berg_1, berg_smin);
 
+	vec2 obj_berg = vec2(berg, berg_id);
+
 	vec3 kristall_p = trans(p, mk_kristall_pos_rt_vec3);
 	kristall_p = quat_rotate(kristall_p, mk_kristall_rot_rt_quat);
-	vec2 kristall = kristallgruppe(kristall_p);
+	vec2 obj_kristall = kristallgruppe(kristall_p);
 
-	return min_material(vec2(berg, berg_id), kristall);
+	return min_material(obj_berg, obj_kristall);
 }
 
 vec2 f(vec3 p, bool last_step) {
@@ -225,22 +227,26 @@ vec2 f(vec3 p, bool last_step) {
 	float boden = p.y;
 	fels = smin(fels, boden, mk_smin_boden_rt_float);
 
-	vec3 p_hintergrund_kristall = p;
-	p_hintergrund_kristall = trans(p_hintergrund_kristall, -25., 0., -35.);
-	p_hintergrund_kristall.xy *= rot2D(TAU * .1);
-	float height_hintergrund_kristall = mk_hintergrund_kristall_h_rt_float;
-	float radius_hintergrund_kristall = mk_hintergrund_kristall_r_rt_float;
-	float size_cap = mk_hintergrund_kristall_cap_rt_float;
-	float r_hintergrund_kristall = radius_hintergrund_kristall * min((height_hintergrund_kristall - radius_hintergrund_kristall) - p_hintergrund_kristall.y, size_cap) / size_cap;
-	p_hintergrund_kristall.y -= height_hintergrund_kristall * .5;
-	float f_hintergrund_kristall = hexprism(p_hintergrund_kristall.xzy, vec2(r_hintergrund_kristall, height_hintergrund_kristall));
+	vec3 p_hintergrund_kristall1 = trans(p, -35., 10., -5.);
+	p_hintergrund_kristall1.xy *= rot2D(TAU * .1);
+	float f_hintergrund_kristall1 = kristall(p_hintergrund_kristall1, mk_hintergrund_kristall_h_rt_float, mk_hintergrund_kristall_r_rt_float, mk_hintergrund_kristall_cap_rt_float);
 
-	fels = smin(fels, f_hintergrund_kristall, mk_smin_felsen_rt_float);
+	vec3 p_hintergrund_kristall2 = trans(p, 85., 10., -35.);
+	p_hintergrund_kristall2.zy *= rot2D(TAU * .08);
+	float f_hintergrund_kristall2 = kristall(p_hintergrund_kristall2, mk_hintergrund_kristall_h_rt_float, mk_hintergrund_kristall_r_rt_float, mk_hintergrund_kristall_cap_rt_float);
+
+	vec3 p_hintergrund_kristall3 = trans(p, 5., 10., -95.);
+	p_hintergrund_kristall3.zy *= rot2D(TAU * -.12);
+	float f_hintergrund_kristall3 = kristall(p_hintergrund_kristall3, mk_hintergrund_kristall_h_rt_float, mk_hintergrund_kristall_r_rt_float, mk_hintergrund_kristall_cap_rt_float);
+
+	fels = smin(fels, f_hintergrund_kristall1, mk_smin_felsen_rt_float);
+	fels = smin(fels, f_hintergrund_kristall2, mk_smin_felsen_rt_float);
+	fels = smin(fels, f_hintergrund_kristall3, mk_smin_felsen_rt_float);
 
 	vec2 obj_fels = vec2(fels, fels_id);
 
-	vec3 p_berg = trans(p, 10.,8.,10.);
-	vec2 obj_berg = berg(p_berg);
+	vec3 p_huegel = trans(p, mk_huegel_pos_rt_vec3);
+	vec2 obj_huegel = huegel(p_huegel);
 
-	return smin_material(obj_berg, obj_fels, mk_smin_felsen_rt_float);
+	return smin_material(obj_huegel, obj_fels, mk_smin_felsen_rt_float);
 }

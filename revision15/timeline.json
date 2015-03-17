@@ -213,6 +213,16 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "mk_huegel_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 10,
+        "valueVec3Y": 8,
+        "valueVec3Z": 10
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "mk_kristall_cap_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
