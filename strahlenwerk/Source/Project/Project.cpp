@@ -13,7 +13,8 @@
 #include "Rendering/Uniform.h"
 #include "Rendering/UniformManager.h"
 #include "AudioManager.h"
-#include <MainWindow.h>
+#include "MainWindow.h"
+#include "Rendering/AmbientLight.h"
 
 Project::Project(const std::string& dir, AudioManager& _audioManager) :
 	loader(dir),
@@ -62,8 +63,12 @@ std::unique_ptr<PostprocPipeline> Project::getPostproc() {
 	return std::move(postproc);
 }
 
-std::unique_ptr<Scenes> Project::getScenes() {
+std::unique_ptr<Scenes<SceneShader>> Project::getScenes() {
 	return std::move(scenes);
+}
+
+std::unique_ptr<Scenes<AmbientLight>> Project::getAmbientLights() {
+	return std::move(ambientLights);
 }
 
 TimelineData& Project::getTimelineData() {
@@ -91,7 +96,7 @@ int Project::compareElements(const ValueTree& first, const ValueTree& second) {
 	return startFirst - startSecond;
 }
 
-void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
+void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) {
 	const File& buildDir = loader.getBuildDir();
 	buildDir.deleteRecursively();
 	buildDir.createDirectory();
@@ -158,7 +163,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 	interfaceHeaderContent += "extern Shader scenes[" + std::to_string(sceneShaders) + "];\n";
 
 	for(int i = 0; i < sceneShaders; i++) {
-		const Shader& shader = scenes.getShader(i);
+		const Shader& shader = scenes.getObject(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
 		shaderFile.replaceWithText(shader.getSource());//std::regex_replace(shader.getSource(), search, replacement));
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
@@ -211,7 +216,7 @@ void Project::makeDemo(Scenes& scenes, PostprocPipeline& postproc) {
 
 		int shaderId = -1;
 		for(int i = 0; i < sceneShaders; i++) {
-			if(scenes.getShader(i).getName() == shaderSource) {
+			if(scenes.getObject(i).getName() == shaderSource) {
 				shaderId = i;
 				break;
 			}
@@ -439,6 +444,9 @@ void Project::applicationCommandInvoked(const ApplicationCommandTarget::Invocati
 		case Project::reloadTimeline:
 			reloadTimelineData();
 			break;
+		case Project::reloadEnvironments:
+			reloadAmbientLights();
+			break;
 	}
 }
 
@@ -479,8 +487,18 @@ std::vector<std::unique_ptr<PostprocShader>> Project::loadPostprocShaders() {
 std::vector<std::unique_ptr<SceneShader>> Project::loadSceneShaders() {
 	auto shaderSources = listShaderSources(loader.listSceneFiles());
 	std::vector<std::unique_ptr<SceneShader>> shaders;
-	for(auto& shader : shaderSources) {
+	for (auto& shader : shaderSources) {
 		shaders.emplace_back(new SceneShader(*context, shader.first));
+		shaders.back()->load(shader.second);
+	}
+	return shaders;
+}
+
+std::vector<std::unique_ptr<Shader>> Project::loadEnvironmentShaders() {
+	auto shaderSources = listShaderSources(loader.listEnvironmentFiles());
+	std::vector<std::unique_ptr<Shader>> shaders;
+	for (auto& shader : shaderSources) {
+		shaders.emplace_back(new Shader(*context, shader.first));
 		shaders.back()->load(shader.second);
 	}
 	return shaders;
@@ -507,6 +525,10 @@ void Project::scenesChanged() {
 
 void Project::infoLogChanged() {
 	listeners.call(&Project::Listener::infoLogChanged);
+}
+
+void Project::ambientLightsChanged() {
+	listeners.call(&Project::Listener::ambientLightsChanged);
 }
 
 void Project::watchFiles(const std::string& dir) {
@@ -569,7 +591,7 @@ void Project::reloadPostproc() {
 		postproc = std::unique_ptr<PostprocPipeline>(new PostprocPipeline());
 		postproc->setShaders(std::move(shaders));
 	} else {
-		std::cerr << "No shaders loaded" << std::endl;
+		std::cerr << "No postproc shaders loaded" << std::endl;
 	}
 	postprocChanged();
 }
@@ -580,9 +602,9 @@ void Project::reloadScenes() {
 		addUniforms(*shader);
 	}
 	if(!shaders.empty()) {
-		scenes = std::unique_ptr<Scenes>(new Scenes(std::move(shaders)));
+		scenes = std::unique_ptr<Scenes<SceneShader>>(new Scenes<SceneShader>(std::move(shaders)));
 	} else {
-		std::cerr << "No shaders loaded" << std::endl;
+		std::cerr << "No scene shaders loaded" << std::endl;
 	}
 	scenesChanged();
 }
@@ -597,9 +619,25 @@ void Project::reloadAudio() {
 }
 
 void Project::performOpenProject() {
-	FileChooser fileChooser("Entscheide dich gefaelligst!");
+	FileChooser fileChooser("Entscheide dich gef&auml;lligst!");
 	if(fileChooser.browseForDirectory()) {
 		auto path = fileChooser.getResult().getFullPathName().toStdString();
 		loadDirectory(path);
 	}
+}
+
+void Project::reloadAmbientLights() {
+	auto shaders = loadEnvironmentShaders();
+	if (shaders.empty()) {
+		std::cerr << "No environment shaders loaded" << std::endl;
+	} else {
+		std::vector<std::unique_ptr<AmbientLight>> ambientLightObjects;
+		ambientLightObjects.reserve(shaders.size());
+		for (auto& shader : shaders) {
+			ambientLightObjects.emplace_back(new AmbientLight(*context, shader->getName()));
+			ambientLightObjects.back()->load(std::move(shader));
+		}
+		ambientLights = std::unique_ptr<Scenes<AmbientLight>>(new Scenes<AmbientLight>(std::move(ambientLightObjects)));
+	}
+	ambientLightsChanged();
 }

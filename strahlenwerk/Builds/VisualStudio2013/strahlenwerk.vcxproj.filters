@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="strahlenwerk">
@@ -336,25 +337,28 @@
     <ClCompile Include="..\..\Source\Project\ProjectFileLoader.cpp">
       <Filter>strahlenwerk\Source\Project</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Rendering\AmbientLight.cpp">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Rendering\EnvironmentMap.cpp">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Rendering\glcorert.cpp">
-      <Filter>strahlenwerk\Source\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Rendering\Scenes.cpp">
-      <Filter>strahlenwerk\Source\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Rendering\PostprocPipelineLoader.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Rendering\PostprocPipeline.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Rendering\PostprocPipelineLoader.cpp">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Rendering\PostprocShader.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Rendering\Shader.cpp">
+    <ClCompile Include="..\..\Source\Rendering\SceneShader.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Rendering\SceneShader.cpp">
+    <ClCompile Include="..\..\Source\Rendering\Shader.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Rendering\Uniform.cpp">
@@ -573,6 +577,12 @@
     <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_linux_Midi.cpp">
       <Filter>Juce Modules\juce_audio_devices\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_mac_AudioCDBurner.mm">
+      <Filter>Juce Modules\juce_audio_devices\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_mac_AudioCDReader.mm">
+      <Filter>Juce Modules\juce_audio_devices\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_mac_CoreAudio.cpp">
       <Filter>Juce Modules\juce_audio_devices\native</Filter>
     </ClCompile>
@@ -668,6 +678,9 @@
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_processors\format\juce_AudioPluginFormatManager.cpp">
       <Filter>Juce Modules\juce_audio_processors\format</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_processors\format_types\juce_AudioUnitPluginFormat.mm">
+      <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_processors\format_types\juce_LADSPAPluginFormat.cpp">
       <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
@@ -912,6 +925,21 @@
     <ClCompile Include="..\..\juce_modules\juce_core\native\juce_linux_Threads.cpp">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_core\native\juce_mac_Files.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_core\native\juce_mac_Network.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_core\native\juce_mac_Strings.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_core\native\juce_mac_SystemStats.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_core\native\juce_mac_Threads.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_core\native\juce_posix_NamedPipe.cpp">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
@@ -987,7 +1015,13 @@
     <ClCompile Include="..\..\juce_modules\juce_events\native\juce_android_Messaging.cpp">
       <Filter>Juce Modules\juce_events\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_events\native\juce_ios_MessageManager.mm">
+      <Filter>Juce Modules\juce_events\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_events\native\juce_linux_Messaging.cpp">
+      <Filter>Juce Modules\juce_events\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_events\native\juce_mac_MessageManager.mm">
       <Filter>Juce Modules\juce_events\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_events\native\juce_win32_Messaging.cpp">
@@ -1087,6 +1121,12 @@
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_graphics\native\juce_linux_Fonts.cpp">
+      <Filter>Juce Modules\juce_graphics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_graphics\native\juce_mac_CoreGraphicsContext.mm">
+      <Filter>Juce Modules\juce_graphics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_graphics\native\juce_mac_Fonts.mm">
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_graphics\native\juce_win32_Direct2DGraphicsContext.cpp">
@@ -1437,6 +1477,12 @@
     <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_android_Windowing.cpp">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_ios_UIViewComponentPeer.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_ios_Windowing.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_linux_Clipboard.cpp">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
@@ -1444,6 +1490,21 @@
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_linux_Windowing.cpp">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_mac_FileChooser.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_mac_MainMenu.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_mac_MouseCursor.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_mac_NSViewComponentPeer.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_mac_Windowing.mm">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_gui_basics\native\juce_win32_DragAndDrop.cpp">
@@ -1503,13 +1564,25 @@
     <ClCompile Include="..\..\juce_modules\juce_gui_extra\native\juce_android_WebBrowserComponent.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_extra\native\juce_ios_UIViewComponent.mm">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_gui_extra\native\juce_linux_SystemTrayIcon.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_gui_extra\native\juce_linux_WebBrowserComponent.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_extra\native\juce_mac_AppleRemote.mm">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_extra\native\juce_mac_NSViewComponent.mm">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_gui_extra\native\juce_mac_SystemTrayIcon.cpp">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_extra\native\juce_mac_WebBrowserComponent.mm">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_gui_extra\native\juce_win32_ActiveXComponent.cpp">
@@ -1619,10 +1692,19 @@
     <ClInclude Include="..\..\Source\Project\ProjectFileLoader.h">
       <Filter>strahlenwerk\Source\Project</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Rendering\Scenes.h">
+    <ClInclude Include="..\..\Source\Rendering\AmbientLight.h">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Rendering\BRDFIntegratorSource.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\DefaultShader.h">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Rendering\DiffuseFilterSource.h">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Rendering\EnvironmentMap.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\glcorearb.h">
@@ -1631,19 +1713,25 @@
     <ClInclude Include="..\..\Source\Rendering\glcorert.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Rendering\PostprocPipelineLoader.h">
+    <ClInclude Include="..\..\Source\Rendering\PostprocPipeline.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Rendering\PostprocPipeline.h">
+    <ClInclude Include="..\..\Source\Rendering\PostprocPipelineLoader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\PostprocShader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Rendering\Scenes.h">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Rendering\SceneShader.h">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\Shader.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Rendering\UniformType.h">
+    <ClInclude Include="..\..\Source\Rendering\SpecularFilterSource.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\Uniform.h">
@@ -1652,7 +1740,7 @@
     <ClInclude Include="..\..\Source\Rendering\UniformManager.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Rendering\SceneShader.h">
+    <ClInclude Include="..\..\Source\Rendering\UniformType.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\DraggableQuaternion.h">

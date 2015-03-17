@@ -1,0 +1,51 @@
+{
+  "uniformsArray": [
+    {
+      "uniformName": "camera_position",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_rotation",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": 0,
+        "valueQuatY": 0,
+        "valueQuatZ": 0,
+        "valueQuatW": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "foo",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.18,
+        "valueColorG": 0.18,
+        "valueColorB": 0.18
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "red",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    }
+  ],
+  "scenesArray": [
+    {
+      "sceneId": 432,
+      "sceneStart": 0,
+      "sceneDuration": 6000,
+      "sceneShaderSource": "test"
+    }
+  ]
+}

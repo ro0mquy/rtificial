@@ -11,8 +11,9 @@
 #include "Project/Project.h"
 #include "Rendering/DefaultShader.h"
 #include "Rendering/Scenes.h"
-#include <MainWindow.h>
-#include <PropertyNames.h>
+#include "MainWindow.h"
+#include "PropertyNames.h"
+#include "Rendering/AmbientLight.h"
 
 Renderer::Renderer(OpenGLContext& context) :
 	context(context),
@@ -51,23 +52,31 @@ void Renderer::openGLContextClosing() {
 	postprocDeletionQueue.push_back(std::move(postproc));
 	scenesDeletionQueue.clear();
 	postprocDeletionQueue.clear();
+	ambientLightsDeletionQueue.clear();
 }
 
 void Renderer::renderOpenGL() {
 	renderMutex.lock();
 	scenesDeletionQueue.clear();
 	postprocDeletionQueue.clear();
+	ambientLightsDeletionQueue.clear();
 
 	if(scenes == nullptr) {
 		lastFrameDuration = postproc->render(defaultShader, width, height);
 	} else {
 		auto& data = TimelineData::getTimelineData();
 		const String shaderName = data.getSceneShaderSource(data.getCurrentScene());
-		const int shaderId = scenes->getShaderId(shaderName.toStdString());
+		const int shaderId = scenes->getObjectId(shaderName.toStdString());
+		if (ambientLights != nullptr) {
+			const int ambientId = ambientLights->getObjectId(shaderName.toStdString());
+			if (ambientId != -1) {
+				ambientLights->getObject(ambientId).bind();
+			}
+		}
 		if(shaderId == -1) {
 			lastFrameDuration = defaultPostproc->render(defaultShader, width, height);
 		} else {
-			lastFrameDuration = postproc->render(scenes->getShader(shaderId), width, height);
+			lastFrameDuration = postproc->render(scenes->getObject(shaderId), width, height);
 		}
 	}
 	renderMutex.unlock();
@@ -79,6 +88,10 @@ void Renderer::postprocChanged() {
 
 void Renderer::scenesChanged() {
 	reloadScenes();
+}
+
+void Renderer::ambientLightsChanged() {
+	reloadAmbientLights();
 }
 
 void Renderer::setSize(int _width, int _height) {
@@ -108,29 +121,41 @@ void Renderer::performToggleHalfResolution() {
 
 void Renderer::reloadPostproc() {
 	auto newPostproc = StrahlenwerkApplication::getInstance()->getProject().getPostproc();
-	renderMutex.lock();
-	if(newPostproc != nullptr) {
-		if(defaultPostproc == nullptr) {
-			defaultPostproc = std::move(postproc);
+	{
+		std::lock_guard<std::mutex> lock(renderMutex);
+		if(newPostproc != nullptr) {
+			if(defaultPostproc == nullptr) {
+				defaultPostproc = std::move(postproc);
+			} else {
+				postprocDeletionQueue.push_back(std::move(postproc));
+			}
+			postproc = std::move(newPostproc);
 		} else {
-			postprocDeletionQueue.push_back(std::move(postproc));
-		}
-		postproc = std::move(newPostproc);
-	} else {
-		if(defaultPostproc != nullptr) {
-			postproc = std::move(defaultPostproc);
+			if(defaultPostproc != nullptr) {
+				postproc = std::move(defaultPostproc);
+			}
 		}
 	}
-	renderMutex.unlock();
 	context.triggerRepaint();
 }
 
 void Renderer::reloadScenes() {
 	auto newScenes = StrahlenwerkApplication::getInstance()->getProject().getScenes();
-	renderMutex.lock();
-	scenesDeletionQueue.push_back(std::move(scenes));
-	scenes = std::move(newScenes);
-	renderMutex.unlock();
+	{
+		std::lock_guard<std::mutex> lock(renderMutex);
+		scenesDeletionQueue.push_back(std::move(scenes));
+		scenes = std::move(newScenes);
+	}
+	context.triggerRepaint();
+}
+
+void Renderer::reloadAmbientLights() {
+	auto newAmbientLights = StrahlenwerkApplication::getInstance()->getProject().getAmbientLights();
+	{
+		std::lock_guard<std::mutex> lock(renderMutex);
+		ambientLightsDeletionQueue.push_back(std::move(ambientLights));
+		ambientLights = std::move(newAmbientLights);
+	}
 	context.triggerRepaint();
 }
 

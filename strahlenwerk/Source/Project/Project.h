@@ -12,11 +12,11 @@
 class PostprocShader;
 class SceneShader;
 class PostprocPipeline;
-class ProjectListener;
+template<typename SceneObject>
 class Scenes;
 class Shader;
 class AudioManager;
-class Scenes;
+class AmbientLight;
 
 class Project :
 	private efsw::FileWatchListener,
@@ -30,12 +30,13 @@ class Project :
 		void saveTimelineData();
 		void contextChanged(OpenGLContext& context);
 		std::unique_ptr<PostprocPipeline> getPostproc();
-		std::unique_ptr<Scenes> getScenes();
+		std::unique_ptr<Scenes<SceneShader>> getScenes();
+		std::unique_ptr<Scenes<AmbientLight>> getAmbientLights();
 		TimelineData& getTimelineData();
 		void loadDirectory(const std::string& dir);
 		const ProjectFileLoader& getLoader() const;
 		int compareElements(const ValueTree& first, const ValueTree& second);
-		void makeDemo(Scenes& scenes, PostprocPipeline& postproc);
+		void makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc);
 		const String& getLog();
 		void addToLog(String newString);
 		void clearLog();
@@ -55,6 +56,7 @@ class Project :
 			reloadShaderFiles,
 			saveTimeline,
 			reloadTimeline,
+			reloadEnvironments,
 		};
 
 		class Listener {
@@ -62,6 +64,7 @@ class Project :
 				virtual void postprocChanged() {}
 				virtual void scenesChanged() {}
 				virtual void infoLogChanged() {}
+				virtual void ambientLightsChanged() {}
 		};
 
 		void addListener(Listener* const listener);
@@ -70,10 +73,12 @@ class Project :
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> loadPostprocShaders();
 		std::vector<std::unique_ptr<SceneShader>> loadSceneShaders();
+		std::vector<std::unique_ptr<Shader>> loadEnvironmentShaders();
 		std::vector<std::pair<std::string, std::string>> listShaderSources(const std::vector<File>& files);
 		void postprocChanged();
 		void scenesChanged();
 		void infoLogChanged();
+		void ambientLightsChanged();
 		void watchFiles(const std::string& dir);
 		void addUniforms(const Shader& shader);
 		void reloadPostproc();
@@ -81,9 +86,11 @@ class Project :
 		void reloadAudio();
 		void reloadTimelineData();
 		void performOpenProject();
+		void reloadAmbientLights();
 
 		std::unique_ptr<PostprocPipeline> postproc;
-		std::unique_ptr<Scenes> scenes;
+		std::unique_ptr<Scenes<SceneShader>> scenes;
+		std::unique_ptr<Scenes<AmbientLight>> ambientLights;
 		ListenerList<Listener> listeners;
 		OpenGLContext* context;
 		ProjectFileLoader loader;

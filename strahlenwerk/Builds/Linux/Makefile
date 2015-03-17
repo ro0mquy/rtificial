@@ -61,13 +61,14 @@ OBJECTS := \
   $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o \
   $(OBJDIR)/Project_dae16ce4.o \
   $(OBJDIR)/ProjectFileLoader_546d9f73.o \
+  $(OBJDIR)/AmbientLight_2567d32a.o \
+  $(OBJDIR)/EnvironmentMap_3b0268d5.o \
   $(OBJDIR)/glcorert_b13e1c72.o \
-  $(OBJDIR)/Scenes_9b218bf3.o \
-  $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocPipeline_473f2604.o \
+  $(OBJDIR)/PostprocPipelineLoader_51edf977.o \
   $(OBJDIR)/PostprocShader_df5d2107.o \
-  $(OBJDIR)/Shader_cfe69b71.o \
   $(OBJDIR)/SceneShader_b92468cf.o \
+  $(OBJDIR)/Shader_cfe69b71.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
   $(OBJDIR)/DraggableQuaternion_55786799.o \
@@ -186,19 +187,19 @@ $(OBJDIR)/ProjectFileLoader_546d9f73.o: ../../Source/Project/ProjectFileLoader.c
 	@echo "Compiling ProjectFileLoader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/AmbientLight_2567d32a.o: ../../Source/Rendering/AmbientLight.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling AmbientLight.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/EnvironmentMap_3b0268d5.o: ../../Source/Rendering/EnvironmentMap.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling EnvironmentMap.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/glcorert_b13e1c72.o: ../../Source/Rendering/glcorert.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling glcorert.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/Scenes_9b218bf3.o: ../../Source/Rendering/Scenes.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Scenes.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/PostprocPipelineLoader_51edf977.o: ../../Source/Rendering/PostprocPipelineLoader.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling PostprocPipelineLoader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/PostprocPipeline_473f2604.o: ../../Source/Rendering/PostprocPipeline.cpp
@@ -206,19 +207,24 @@ $(OBJDIR)/PostprocPipeline_473f2604.o: ../../Source/Rendering/PostprocPipeline.c
 	@echo "Compiling PostprocPipeline.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/PostprocPipelineLoader_51edf977.o: ../../Source/Rendering/PostprocPipelineLoader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling PostprocPipelineLoader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/PostprocShader_df5d2107.o: ../../Source/Rendering/PostprocShader.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling PostprocShader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/Shader_cfe69b71.o: ../../Source/Rendering/Shader.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Shader.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/SceneShader_b92468cf.o: ../../Source/Rendering/SceneShader.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling SceneShader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Shader_cfe69b71.o: ../../Source/Rendering/Shader.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Shader.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp
