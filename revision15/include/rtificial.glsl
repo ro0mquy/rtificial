@@ -103,6 +103,12 @@ float torus82(vec3 p, vec2 t) {
 	return length8(q) - t.y;
 }
 
+// c must be normalized
+float cone(vec3 p, vec2 c) {
+	float q = length(p.xy);
+	return dot(c, vec2(q, p.z));
+}
+
 // h.x: height of zweieck, h.y: extruding length
 float zweieck(vec3 p , vec2 h) {
 	vec3 q = abs(p);

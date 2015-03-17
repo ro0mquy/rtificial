@@ -606,6 +606,12 @@
       "sceneStart": 32000,
       "sceneDuration": 26000,
       "sceneShaderSource": "body"
+    },
+    {
+      "sceneId": 809,
+      "sceneStart": 92000,
+      "sceneDuration": 8000,
+      "sceneShaderSource": "environment"
     }
   ]
 }
