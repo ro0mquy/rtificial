@@ -13,12 +13,12 @@ void main() {
 	if (isinf(t)) {
 		out_color.rgb = vec3(0.);
 	} else {
-		out_color.rgb = vec3(max(dot(calc_normal(o + t * d, false), normalize(vec3(1., .5, .5))), 0.) + .1);
+		vec3 normal = calc_normal(o + t * d, false);
+		out_color.rgb = vec3(max(dot(normal, normalize(vec3(1., .5, .5))), 0.) + .1);
 
 		// TODO: maybe use the normal sss (ao) function
 		vec3 p = o + t * d;
-		vec3 n = calc_normal(o + t * d, false);
-		n = -d;
+		vec3 n = -d;
 		float ao_factor;
 		float l = -.2;
 		float i = 5.;
@@ -29,6 +29,8 @@ void main() {
 		}
 		out_color.rgb *= .1;
 		out_color.rgb += ao_factor;
+
+		//out_color.rgb = abs(normal);
 	}
 }
 
@@ -108,11 +110,41 @@ float kristall(vec3 p) {
 	float height_kristall = 1.;
 	float radius_kristall = .2;
 	float size_cap = .15;
+	p_kristall.y = abs(p_kristall.y);
 	float r_kristall = radius_kristall * min((height_kristall - radius_kristall) - p_kristall.y, size_cap) / size_cap;
-	p_kristall.y -= height_kristall * .5;
 	float f_kristall = hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));
 	f_kristall *= .5;
 	return f_kristall;
+}
+
+float hexshape(vec3 p) {
+	float f_hex = hexprism(p.xzy, vec2(.5, .5));
+
+	vec3 p_plane = p;
+	p_plane.xz *= rot2D(TAU / 6. / 2.);
+	float f_plane = hexprism(p_plane.xzy, vec2(.5, .0));
+
+	float f_shape = smin(f_hex, f_plane, morph_smooth_rt_float); // something around .8
+	return f_shape;
+}
+
+float octahedronthingie(vec3 p) {
+	float f_oktaeder = oktaeder(p, 2.);
+	float f_box = box(p, vec3(.5));
+	float f = smin(f_oktaeder, f_box, .5);
+
+	p.xy *= rot2D(TAU * .1);
+	float f_kanten1 = box(p, vec3(.5));
+	p.xz *= rot2D(TAU * .15);
+	float f_kanten2 = box(p, vec3(.5));
+	p.zy *= rot2D(TAU * .2);
+	float f_kanten3 = box(p, vec3(.5));
+
+	float f_kanten = min(f_kanten1, f_kanten2);
+	f_kanten = min(f_kanten, f_kanten3);
+
+	f = mix(f, f_kanten, morph_smooth_rt_float); // -.2 or .2
+	return f;
 }
 
 vec2 f(vec3 p, bool last_step) {
@@ -231,7 +263,7 @@ vec2 f(vec3 p, bool last_step) {
 	}
 	// */
 
-	//f = trishape(p);
+	//f = octahedronthingie(p);
 
 	return vec2(f, 0.);
 }
