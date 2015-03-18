@@ -39,7 +39,7 @@ RT_MAIN {
 		ladebalken.bind();
 		progress += progress_step;
 		glUniform1f(74, progress);
-		ladebalken.draw(width, height, -1.);
+		ladebalken.draw(width, height, -1);
 		backend.afterFrame();
 		backend.sleep(200);
 	}
@@ -51,7 +51,7 @@ RT_MAIN {
 		ladebalken.bind();
 		progress += progress_step;
 		glUniform1f(74, progress);
-		ladebalken.draw(width, height, -1.);
+		ladebalken.draw(width, height, -1);
 		backend.afterFrame();
 		backend.sleep(200);
 	}
@@ -73,7 +73,7 @@ RT_MAIN {
 			}
 		}
 
-		const double currentTime = backend.getTime();
+		const int currentTime = backend.getTime();
 
 		fbos[0].bind();
 		scenes[shader_id].draw(fbos[0].width, fbos[0].height, currentTime);

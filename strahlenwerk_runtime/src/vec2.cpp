@@ -5,7 +5,7 @@ vec2::vec2() :
 	vec2(0., 0.)
 { }
 
-vec2::vec2(double x_, double y_) :
+vec2::vec2(float x_, float y_) :
 	x(x_), y(y_)
 { }
 
@@ -21,26 +21,26 @@ vec2 operator-(vec2 const& v1, vec2 const& v2) {
 			v1.y - v2.y);
 }
 
-vec2 operator*(double const& s, vec2 const& v) {
+vec2 operator*(float const& s, vec2 const& v) {
 	return vec2(
 			s * v.x,
 			s * v.y);
 }
 
-vec2 operator*(vec2 const& v, double const& s) {
+vec2 operator*(vec2 const& v, float const& s) {
 	return vec2(
 			v.x * s,
 			v.y * s);
 }
 
-double length(vec2 const& v) {
+float length(vec2 const& v) {
 	return sqrt(v.x * v.x + v.y * v.y);
 }
 
-double distance(vec2 const& v1, vec2 const& v2) {
+float distance(vec2 const& v1, vec2 const& v2) {
 	return length(v1 - v2);
 }
 
-vec2 mix(vec2 const& v1, vec2 const& v2, const double& t) {
+vec2 mix(vec2 const& v1, vec2 const& v2, const float& t) {
 	return (1. - t) * v1 + t * v2;
 }

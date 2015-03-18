@@ -6,8 +6,8 @@
 #define SEQ_INTERPOLATION_CCRSPLINE 2
 
 struct Sequence {
-	float start;
-	float end;
+	int start;
+	int end;
 	int interpolation;
 	int numKeyframes;
 };

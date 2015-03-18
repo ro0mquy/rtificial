@@ -2,8 +2,8 @@
 #define SCENE_H
 
 struct Scene {
-	float start;
-	float end;
+	int start;
+	int end;
 	int sceneId;
 };
 

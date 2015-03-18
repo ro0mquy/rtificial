@@ -135,11 +135,12 @@ void WindowsBackend::playAudio() {
 	waveOutWrite(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 }
 
-double WindowsBackend::getTime(){
+// returns time in milli beats
+int WindowsBackend::getTime(){
 	MMTIME time;
 	time.wType = TIME_SAMPLES;
 	waveOutGetPosition(audio_wave_out, &time, sizeof(MMTIME));
-	return double(time.u.sample) / SAMPLE_RATE * BPM / 60;
+	return int(.5 + (double) time.u.sample / SAMPLE_RATE * BPM / 60. * 1000.);
 }
 
 

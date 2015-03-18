@@ -230,9 +230,10 @@ void LinuxBackend::playAudio(){
 	pthread_create(&audio_play_thread, NULL, __playAudio, NULL);
 }
 
-static float rt_time = 0.0f;
-double LinuxBackend::getTime(){
-	return rt_time++;
+// returns time in milli beats
+static int rt_time = 0;
+int LinuxBackend::getTime(){
+	return rt_time += 1000;
 }
 
 

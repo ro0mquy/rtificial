@@ -115,7 +115,6 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 #include "Shader.h"
 #include "Framebuffer.h"
 #include "Scene.h"
-#include "Keyframe.h"
 #include "Sequence.h"
 #include "Uniform.h"
 )source";
@@ -124,7 +123,6 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 #include "Shader.h"
 #include "Framebuffer.h"
 #include "Scene.h"
-#include "Keyframe.h"
 #include "Sequence.h"
 #include "Uniform.h"
 )source";
@@ -210,8 +208,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 	for(int i = 0; i < numScenes; i++) {
 		auto scene = scenesCopy.getChild(i);
 
-		const float start = data.getSceneStart(scene);
-		const float duration = data.getSceneDuration(scene);
+		const int start = data.getSceneStart(scene);
+		const int duration = data.getSceneDuration(scene);
 		const String shaderSource = data.getSceneShaderSource(scene);
 
 		int shaderId = -1;
@@ -246,6 +244,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 			components = 4;
 		} else if(type == "color") {
 			components = 3;
+		} else if(type == "quat") {
+			components = 4;
 		} else if(type == "bool") {
 			components = 1;
 		}
@@ -266,7 +266,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 	std::string sequenceIndexArray = "int sequence_index[" + std::to_string(nUniforms + 1) + "] = {\n";
 	std::string keyframeIndexArray = "int keyframe_index[" + std::to_string(nUniforms + 1) + "] = {\n";
 	std::string uniformsArray = "Uniform uniforms[" + std::to_string(nUniforms) + "] = {\n";
-	std::string keyframeTimeArray = "float keyframe_time[" + std::to_string(total_keyframes) + "] = {\n";
+	std::string keyframeTimeArray = "int keyframe_time[" + std::to_string(total_keyframes) + "] = {\n";
 	std::string keyframeTimeIndexArray = "int keyframe_time_index[" + std::to_string(nUniforms + 1) + "] = {\n";
 
 	interfaceHeaderContent += "extern float keyframe_data["  + std::to_string(keyframeDataEntries) + "];\n";
@@ -274,7 +274,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 	interfaceHeaderContent += "extern int sequence_index[" + std::to_string(nUniforms + 1) + "];\n";
 	interfaceHeaderContent += "extern int keyframe_index[" + std::to_string(nUniforms + 1) + "];\n";
 	interfaceHeaderContent += "extern Uniform uniforms[" + std::to_string(nUniforms) + "];\n";
-	interfaceHeaderContent += "extern float keyframe_time[" + std::to_string(total_keyframes) + "];\n";
+	interfaceHeaderContent += "extern int keyframe_time[" + std::to_string(total_keyframes) + "];\n";
 	interfaceHeaderContent += "extern int keyframe_time_index[" + std::to_string(nUniforms + 1) + "];\n";
 
 	int sequenceIndex = 0;
@@ -318,10 +318,17 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 			keyframeDataArray += std::to_string(float(data.getValueColorB(standardValue))) + ",";
 			keyframeIndex += 3;
 			typeInt = 4;
+		} else if(type == "quat") {
+			keyframeDataArray += std::to_string(float(data.getValueQuatX(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueQuatY(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueQuatZ(standardValue))) + ", ";
+			keyframeDataArray += std::to_string(float(data.getValueQuatW(standardValue))) + ",";
+			keyframeIndex += 4;
+			typeInt = 5;
 		} else if(type == "bool") {
 			keyframeDataArray += std::to_string(bool(data.getValueBoolState(standardValue)) ? 1. : 0.) + ",";
 			keyframeIndex += 1;
-			typeInt = 5;
+			typeInt = 6;
 		}
 		keyframeDataArray += "\n";
 		const String name = data.getUniformName(uniform);
@@ -343,8 +350,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 		}
 		for(int j = 0; j < data.getNumSequences(uniform); j++) {
 			auto sequence = data.getSequence(uniform, j);
-			const float start = float(data.getAbsoluteStartForSequence(sequence));
-			const float end = start + float(data.getSequenceDuration(sequence));
+			const int start = data.getAbsoluteStartForSequence(sequence);
+			const int end = start + int(data.getSequenceDuration(sequence));
 			int interpolation = 0;
 			const auto interpolationString = data.getSequenceInterpolation(sequence);
 			if(interpolationString == "step") {
@@ -382,13 +389,19 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 					keyframeDataArray += std::to_string(float(data.getValueColorG(keyframeValue))) + ", ";
 					keyframeDataArray += std::to_string(float(data.getValueColorB(keyframeValue))) + ",";
 					keyframeIndex += 3;
+				} else if(type == "quat") {
+					keyframeDataArray += std::to_string(float(data.getValueQuatX(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueQuatY(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueQuatZ(keyframeValue))) + ", ";
+					keyframeDataArray += std::to_string(float(data.getValueQuatW(keyframeValue))) + ",";
+					keyframeIndex += 4;
 				} else if(type == "bool") {
 					keyframeDataArray += std::to_string(bool(data.getValueBoolState(keyframeValue)) ? 1. : 0.) + ",";
 					keyframeIndex += 1;
 				}
 				keyframeTimeIndex++;
 				keyframeDataArray += "\n";
-				keyframeTimeArray += "\t" + std::to_string(float(data.getKeyframePosition(keyframe))) + ",\n";
+				keyframeTimeArray += "\t" + std::to_string(int(data.getKeyframePosition(keyframe))) + ",\n";
 			}
 		}
 

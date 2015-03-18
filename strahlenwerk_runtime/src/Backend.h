@@ -42,7 +42,7 @@ class WindowsBackend {
 
 		void initAudio(bool threaded);
 		void playAudio();
-		double getTime();
+		int getTime();
 
 		bool beforeFrame();
 		void afterFrame();
@@ -88,7 +88,7 @@ class LinuxBackend {
 
 		void initAudio(bool threaded);
 		void playAudio();
-		double getTime();
+		int getTime();
 
 		bool beforeFrame();
 		void afterFrame();

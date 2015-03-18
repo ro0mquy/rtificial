@@ -7,12 +7,13 @@
 #include "scalar.h"
 #include "vec2.h"
 #include "vec3.h"
+#include "vec4.h"
 #include "quat.h"
 #include "stdmath.h"
 
 using namespace DataInterpolator;
 
-void DataInterpolator::loadUniforms(const double time) {
+void DataInterpolator::loadUniforms(const int time) {
 	const int numUniforms = sizeof(uniforms) / sizeof(uniforms[0]);
 	for (int i = 0; i < numUniforms; i++) {
 		const Uniform uniform = uniforms[i];
@@ -28,7 +29,7 @@ void DataInterpolator::loadUniforms(const double time) {
 	}
 }
 
-void DataInterpolator::setUniformValue(const double time, const int nthUniform, const int type, const int location) {
+void DataInterpolator::setUniformValue(const int time, const int nthUniform, const int type, const int location) {
 	const int firstSequence = sequence_index[nthUniform];
 	const int lastSequences = sequence_index[nthUniform+1];
 
@@ -47,8 +48,8 @@ void DataInterpolator::setUniformValue(const double time, const int nthUniform, 
 		const int numKeyframes = sequence.numKeyframes;
 		totalNumKeyframe += numKeyframes;
 
-		const float sequenceStart = sequence.start;
-		const float sequenceEnd = sequence.end;
+		const int sequenceStart = sequence.start;
+		const int sequenceEnd = sequence.end;
 		if (sequenceStart > time || sequenceEnd < time) {
 			// sequence not matching
 			continue;
@@ -56,13 +57,13 @@ void DataInterpolator::setUniformValue(const double time, const int nthUniform, 
 
 		// time is in current sequence
 		const int sequenceInterpolation = sequence.interpolation;
-		const double relativeTime = time - sequenceStart;
+		const int relativeTime = time - sequenceStart;
 		const int keyframeTimeIndex = keyframe_time_index[nthUniform];
 		const int keyframeTimeOffset = keyframeTimeIndex + totalNumKeyframe - numKeyframes;
 		const int keyframeDataOffset = totalNumKeyframe - numKeyframes + 1; // first keyframe data is standard value
 
 		for (int j = 0; j < numKeyframes; j++) {
-			const float keyframeTime = keyframe_time[keyframeTimeOffset + j];
+			const int keyframeTime = keyframe_time[keyframeTimeOffset + j];
 
 			if (relativeTime < keyframeTime && j != 0) {
 				const int currentKeyframeDataOffset = keyframeDataOffset + j;
@@ -72,10 +73,10 @@ void DataInterpolator::setUniformValue(const double time, const int nthUniform, 
 					setValue(nthUniform, type, location, currentKeyframeDataOffset - 1);
 
 				} else if (sequenceInterpolation == SEQ_INTERPOLATION_LINEAR || sequenceInterpolation == SEQ_INTERPOLATION_CCRSPLINE) {
-					const float keyframeBeforeTime = keyframe_time[keyframeTimeOffset + j - 1];
-					const double timeBetweenKeyframes = keyframeTime - keyframeBeforeTime;
-					const double moreRelativeTime = relativeTime - keyframeBeforeTime;
-					const double mixT = moreRelativeTime / timeBetweenKeyframes;
+					const int keyframeBeforeTime = keyframe_time[keyframeTimeOffset + j - 1];
+					const int timeBetweenKeyframes = keyframeTime - keyframeBeforeTime;
+					const int moreRelativeTime = relativeTime - keyframeBeforeTime;
+					const float mixT = (float) moreRelativeTime / timeBetweenKeyframes;
 
 					if (sequenceInterpolation == SEQ_INTERPOLATION_LINEAR) {
 						// current keyframe is P2
@@ -133,6 +134,7 @@ void DataInterpolator::setValue(const int nthUniform, const int type, const int 
 			}
 			break;
 		case UNIFORM_TYPE_VEC4:
+		case UNIFORM_TYPE_QUAT:
 			{
 				const int numFloatsInValue = 4;
 				const int standardValuePos = keyframe_index[nthUniform];
@@ -147,7 +149,7 @@ void DataInterpolator::setValue(const int nthUniform, const int type, const int 
 	}
 }
 
-void DataInterpolator::setLinearValue(const int nthUniform, const int type, const int location, const int offset, const double mixT) {
+void DataInterpolator::setLinearValue(const int nthUniform, const int type, const int location, const int offset, const float mixT) {
 	switch (type) {
 		case UNIFORM_TYPE_FLOAT:
 		case UNIFORM_TYPE_BOOL:
@@ -206,6 +208,27 @@ void DataInterpolator::setLinearValue(const int nthUniform, const int type, cons
 				const int standardValuePos = keyframe_index[nthUniform];
 				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
 
+				const vec4 P1 = vec4(
+						keyframe_data[keyframeDataIndex],
+						keyframe_data[keyframeDataIndex + 1],
+						keyframe_data[keyframeDataIndex + 2],
+						keyframe_data[keyframeDataIndex + 3]);
+				const vec4 P2 = vec4(
+						keyframe_data[keyframeDataIndex + numFloatsInValue],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 2],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 3]);
+
+				const vec4 mixed = mix(P1, P2, mixT);
+				glUniform4f(location, mixed.x, mixed.y, mixed.z, mixed.w);
+			}
+			break;
+		case UNIFORM_TYPE_QUAT:
+			{
+				const int numFloatsInValue = 4;
+				const int standardValuePos = keyframe_index[nthUniform];
+				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
 				// it's quat(w, x, y, z)
 				const quat P1 = quat(
 						keyframe_data[keyframeDataIndex + 3],
@@ -226,7 +249,7 @@ void DataInterpolator::setLinearValue(const int nthUniform, const int type, cons
 }
 
 // offset is for P1, not P2
-void DataInterpolator::setSplineValue(const int nthUniform, const int type, const int location, const int offset, const double mixT, const bool noFirstValue, const bool noLastValue) {
+void DataInterpolator::setSplineValue(const int nthUniform, const int type, const int location, const int offset, const float mixT, const bool noFirstValue, const bool noLastValue) {
 	switch (type) {
 		case UNIFORM_TYPE_FLOAT:
 		case UNIFORM_TYPE_BOOL:
@@ -250,19 +273,19 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 					P3 = keyframe_data[keyframeDataIndex + 2 * numFloatsInValue];
 				}
 
-				const double dt01 = sqrt(distance(P0, P1));
-				const double dt12 = sqrt(distance(P1, P2));
-				const double dt23 = sqrt(distance(P2, P3));
-				const double dt = mixT * dt12;
+				const float dt01 = sqrt(distance(P0, P1));
+				const float dt12 = sqrt(distance(P1, P2));
+				const float dt23 = sqrt(distance(P2, P3));
+				const float dt = mixT * dt12;
 
-				const double L01 =              - dt  / dt01 * P0 + (dt + dt01) / dt01 * P1;
-				const double L12 =        (dt12 - dt) / dt12 * P1 +          dt / dt12 * P2;
-				const double L23 = (dt23 + dt12 - dt) / dt23 * P2 + (dt - dt12) / dt23 * P3;
+				const float L01 =              - dt  / dt01 * P0 + (dt + dt01) / dt01 * P1;
+				const float L12 =        (dt12 - dt) / dt12 * P1 +          dt / dt12 * P2;
+				const float L23 = (dt23 + dt12 - dt) / dt23 * P2 + (dt - dt12) / dt23 * P3;
 
-				const double L012 =        (dt12 - dt) / (dt01 + dt12) * L01 + (dt + dt01) / (dt01 + dt12) * L12;
-				const double L123 = (dt23 + dt12 - dt) / (dt12 + dt23) * L12 +          dt / (dt12 + dt23) * L23;
+				const float L012 =        (dt12 - dt) / (dt01 + dt12) * L01 + (dt + dt01) / (dt01 + dt12) * L12;
+				const float L123 = (dt23 + dt12 - dt) / (dt12 + dt23) * L12 +          dt / (dt12 + dt23) * L23;
 
-				const double C12 = (dt12 - dt) / dt12 * L012 + dt / dt12 * L123;
+				const float C12 = (dt12 - dt) / dt12 * L012 + dt / dt12 * L123;
 
 				glUniform1f(location, C12);
 			}
@@ -296,10 +319,10 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 1]);
 				}
 
-				const double dt01 = sqrt(distance(P0, P1));
-				const double dt12 = sqrt(distance(P1, P2));
-				const double dt23 = sqrt(distance(P2, P3));
-				const double dt = mixT * dt12;
+				const float dt01 = sqrt(distance(P0, P1));
+				const float dt12 = sqrt(distance(P1, P2));
+				const float dt23 = sqrt(distance(P2, P3));
+				const float dt = mixT * dt12;
 
 				const vec2 L01 =              - dt  / dt01 * P0 + (dt + dt01) / dt01 * P1;
 				const vec2 L12 =        (dt12 - dt) / dt12 * P1 +          dt / dt12 * P2;
@@ -347,10 +370,10 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 2]);
 				}
 
-				const double dt01 = sqrt(distance(P0, P1));
-				const double dt12 = sqrt(distance(P1, P2));
-				const double dt23 = sqrt(distance(P2, P3));
-				const double dt = mixT * dt12;
+				const float dt01 = sqrt(distance(P0, P1));
+				const float dt12 = sqrt(distance(P1, P2));
+				const float dt23 = sqrt(distance(P2, P3));
+				const float dt = mixT * dt12;
 
 				const vec3 L01 =              - dt  / dt01 * P0 + (dt + dt01) / dt01 * P1;
 				const vec3 L12 =        (dt12 - dt) / dt12 * P1 +          dt / dt12 * P2;
@@ -365,6 +388,60 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 			}
 			break;
 		case UNIFORM_TYPE_VEC4:
+			{
+				const int numFloatsInValue = 4;
+				const int standardValuePos = keyframe_index[nthUniform];
+				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const vec4 P1 = vec4(
+						keyframe_data[keyframeDataIndex],
+						keyframe_data[keyframeDataIndex + 1],
+						keyframe_data[keyframeDataIndex + 2],
+						keyframe_data[keyframeDataIndex + 3]);
+				const vec4 P2 = vec4(
+						keyframe_data[keyframeDataIndex + numFloatsInValue],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 2],
+						keyframe_data[keyframeDataIndex + numFloatsInValue + 3]);
+
+				vec4 P0, P3;
+				if (noFirstValue) {
+					P0 = 2. * P1 - P2;
+				} else {
+					P0 = vec4(
+						keyframe_data[keyframeDataIndex - numFloatsInValue],
+						keyframe_data[keyframeDataIndex - numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex - numFloatsInValue + 2],
+						keyframe_data[keyframeDataIndex - numFloatsInValue + 3]);
+				}
+				if (noLastValue) {
+					P3 = 2. * P2 - P1;
+				} else {
+					P3 = vec4(
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue],
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 1],
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 2],
+						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 3]);
+				}
+
+				const float dt01 = sqrt(distance(P0, P1));
+				const float dt12 = sqrt(distance(P1, P2));
+				const float dt23 = sqrt(distance(P2, P3));
+				const float dt = mixT * dt12;
+
+				const vec4 L01 =              - dt  / dt01 * P0 + (dt + dt01) / dt01 * P1;
+				const vec4 L12 =        (dt12 - dt) / dt12 * P1 +          dt / dt12 * P2;
+				const vec4 L23 = (dt23 + dt12 - dt) / dt23 * P2 + (dt - dt12) / dt23 * P3;
+
+				const vec4 L012 =        (dt12 - dt) / (dt01 + dt12) * L01 + (dt + dt01) / (dt01 + dt12) * L12;
+				const vec4 L123 = (dt23 + dt12 - dt) / (dt12 + dt23) * L12 +          dt / (dt12 + dt23) * L23;
+
+				const vec4 C12 = (dt12 - dt) / dt12 * L012 + dt / dt12 * L123;
+
+				glUniform4f(location, C12.x, C12.y, C12.z, C12.w);
+			}
+			break;
+		case UNIFORM_TYPE_QUAT:
 			{
 				const int numFloatsInValue = 4;
 				const int standardValuePos = keyframe_index[nthUniform];
@@ -402,20 +479,21 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 2]);
 				}
 
-				// interpolate between P1 and P2, so we need a1 and b2
-				const quat a1 = bisect(mirror(P0, P1), P2);
-				const quat b2 = mirror(bisect(mirror(P1, P2), P3), P2);
+				const float dt01 = sqrt(acos(abs(dot(P0, P1))));
+				const float dt12 = sqrt(acos(abs(dot(P1, P2))));
+				const float dt23 = sqrt(acos(abs(dot(P2, P3))));
+				const float dt = mixT * dt12;
 
-				const quat p00 = slerp(P1, a1, mixT);
-				const quat p01 = slerp(a1, b2, mixT);
-				const quat p02 = slerp(b2, P2, mixT);
+				const quat L01 = slerp(P0, P1, (dt + dt01) / dt01);
+				const quat L12 = slerp(P1, P2,  dt         / dt12);
+				const quat L23 = slerp(P2, P3, (dt - dt12) / dt23);
 
-				const quat p10 = slerp(p00, p01, mixT);
-				const quat p11 = slerp(p01, p02, mixT);
+				const quat L012 = slerp(L01, L12, (dt + dt01) / (dt01 + dt12));
+				const quat L123 = slerp(L12, L23,  dt         / (dt12 + dt23));
 
-				const quat p20 = slerp(p10, p11, mixT);
+				const quat C12 = slerp(L012, L123, dt / dt12);
 
-				glUniform4f(location, p20.x, p20.y, p20.z, p20.w);
+				glUniform4f(location, C12.x, C12.y, C12.z, C12.w);
 			}
 			break;
 	}
