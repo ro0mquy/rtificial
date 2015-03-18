@@ -3,7 +3,6 @@
 #include "Shader.h"
 #include "Framebuffer.h"
 #include "Scene.h"
-#include "Keyframe.h"
 #include "Sequence.h"
 #include "Uniform.h"
 #include "shaders/bokeh_pass1.h"
