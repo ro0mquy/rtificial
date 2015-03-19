@@ -28,27 +28,26 @@ genType CentripetalCatmullRomSpline(genType const& P0, genType const& P1, genTyp
 	return C12;
 }
 
-/*
 // returns q0 - q1
 static glm::quat quat_sub(glm::quat const& q0, glm::quat const& q1) {
-	glm::quat out;
-	out.x = q0.x - q1.x;
-	out.y = q0.y - q1.y;
-	out.z = q0.z - q1.z;
-	out.w = q0.w - q1.w;
-	return out;
+	return glm::quat(
+			q0.w - q1.w,
+			q0.x - q1.x,
+			q0.y - q1.y,
+			q0.z - q1.z);
 }
 
+/*
 // cut q0 - q1 in two halfs
 static glm::quat quat_bisect(glm::quat const& q0, glm::quat const& q1) {
 	return glm::normalize(q0 + q1);
 }
+// */
 
 // mirror q0 at q1
 static glm::quat quat_mirror(glm::quat const& q0, glm::quat const& q1) {
-	return quat_sub(2 * glm::dot(q0, q1) * q1, q0);
+	return quat_sub(2.f * glm::dot(q0, q1) * q1, q0);
 }
-// */
 
 glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, glm::quat const& P2, glm::quat const& P3, const float rawT) {
 	using namespace glm;
@@ -75,9 +74,10 @@ glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, 
 	// centripetal catmull rom, [doesn't work properly] works perfectly fine!
 	// we calculate with deltas and not absolute times
 	// dot() gives cos(alpha), we want cos to be always >= 0
-	const float dt01 = sqrt(acos(abs(dot(P0, P1))));
-	const float dt12 = sqrt(acos(abs(dot(P1, P2))));
-	const float dt23 = sqrt(acos(abs(dot(P2, P3))));
+
+	const float dt01 = sqrt(acos(clamp(abs(dot(P0, P1)), 0.f, 1.f)));
+	const float dt12 = sqrt(acos(clamp(abs(dot(P1, P2)), 0.f, 1.f)));
+	const float dt23 = sqrt(acos(clamp(abs(dot(P2, P3)), 0.f, 1.f)));
 	const float dt = rawT * dt12;
 
 	const quat L01 = slerp(P0, P1, (dt + dt01) / dt01);

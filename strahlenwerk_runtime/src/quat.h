@@ -18,5 +18,6 @@ float length(quat const& q);
 float dot(quat const& q1, quat const& q2);
 quat normalize(quat const& q);
 quat slerp(quat const& q1, quat const& q2, const float& t);
+quat mirror(quat const& q0, quat const& q1);
 
 #endif // MATH_QUAT_H

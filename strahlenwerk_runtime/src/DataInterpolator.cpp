@@ -461,7 +461,7 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 
 				quat P0, P3;
 				if (noFirstValue) {
-					P0 = P1;
+					P0 = mirror(P2, P1);
 				} else {
 					P0 = quat(
 						keyframe_data[keyframeDataIndex - numFloatsInValue + 3],
@@ -470,7 +470,7 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 						keyframe_data[keyframeDataIndex - numFloatsInValue + 2]);
 				}
 				if (noLastValue) {
-					P3 = P2;
+					P3 = mirror(P1, P2);
 				} else {
 					P3 = quat(
 						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 3],
@@ -479,9 +479,9 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 2]);
 				}
 
-				const float dt01 = sqrt(acos(abs(dot(P0, P1))));
-				const float dt12 = sqrt(acos(abs(dot(P1, P2))));
-				const float dt23 = sqrt(acos(abs(dot(P2, P3))));
+				const float dt01 = sqrt(acos(clamp(abs(dot(P0, P1)), 0.f, 1.f)));
+				const float dt12 = sqrt(acos(clamp(abs(dot(P1, P2)), 0.f, 1.f)));
+				const float dt23 = sqrt(acos(clamp(abs(dot(P2, P3)), 0.f, 1.f)));
 				const float dt = mixT * dt12;
 
 				const quat L01 = slerp(P0, P1, (dt + dt01) / dt01);

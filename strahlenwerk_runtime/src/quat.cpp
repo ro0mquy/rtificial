@@ -52,10 +52,10 @@ float dot(quat const& q1, quat const& q2) {
 
 quat normalize(quat const& q) {
 	const float len = length(q);
-	if (len <= 0.) {
+	if (len <= 0.f) {
 		return quat(1., 0., 0., 0.);
 	}
-	return (1. / len) * q;
+	return (1.f / len) * q;
 }
 
 quat slerp(quat const& q1, quat const& q2, const float& t) {
@@ -65,16 +65,16 @@ quat slerp(quat const& q1, quat const& q2, const float& t) {
 
 	// If cosTheta < 0, the interpolation will take the long way around the sphere. 
 	// To fix this, one quat must be negated.
-	if (cosTheta < 0.)
+	if (cosTheta < 0.f)
 	{
-		q2_      = -1 * q2;
+		q2_      = -1.f * q2;
 		cosTheta = -cosTheta;
 	}
 
-	cosTheta = cosTheta < 0. ? 0. : cosTheta > 1. ? 1. : cosTheta;
+	cosTheta = clamp(cosTheta, 0.f, 1.f);
 	float angle = acos(cosTheta);
 
-	if (abs(angle) < .001) {
+	if (abs(angle) < .001f) {
 		return normalize(quat(
 			mix(q1.w, q2_.w, t),
 			mix(q1.x, q2_.x, t),
@@ -83,5 +83,9 @@ quat slerp(quat const& q1, quat const& q2, const float& t) {
 			));
 	}
 
-	return (sin((1. - t) * angle) * q1 + sin(t * angle) * q2_) * (1.0 / sin(angle));
+	return (sin((1.f - t) * angle) * q1 + sin(t * angle) * q2_) * (1.f / sin(angle));
+}
+
+quat mirror(quat const& q0, quat const& q1) {
+	return 2.f * dot(q0, q1) * q1 - q0;
 }
