@@ -210,22 +210,26 @@ vec2 huegel(vec3 p) {
 }
 
 vec2 f(vec3 p, bool last_step) {
-	vec3 p_fels = p;
+	float f_bounding = p.y - mk_bounding_height_rt_float;
+	bool use_bounding = f_bounding > mk_bounding_offset_rt_float;
 
-	vec2 domrep_size = vec2(10.);
-	vec3 box_size = vec3(1.5);
+	float fels = f_bounding;
 
-	float fels_klein = fels_noise(p_fels, domrep_size, box_size);
-	p_fels.xz *= rot2D(TAU * .1);
-	float fels_mittel = fels_noise(p_fels, 2. * domrep_size, 2. * box_size);
-	p_fels.xz *= rot2D(TAU * .05);
-	float fels_gross = fels_noise(p_fels, 4. * domrep_size, 4. * box_size);
+	if (!use_bounding) {
+		vec3 p_fels = p;
 
-	float fels = smin(fels_klein, fels_mittel, mk_smin_felsen_rt_float);
-	fels = smin(fels, fels_gross, mk_smin_felsen_rt_float);
+		vec2 domrep_size = vec2(10.);
+		vec3 box_size = vec3(1.5);
 
-	float boden = p.y;
-	fels = smin(fels, boden, mk_smin_boden_rt_float);
+		float fels_klein = fels_noise(p_fels, domrep_size, box_size);
+		p_fels.xz *= rot2D(TAU * .1);
+		float fels_mittel = fels_noise(p_fels, 2. * domrep_size, 2. * box_size);
+		p_fels.xz *= rot2D(TAU * .05);
+		float fels_gross = fels_noise(p_fels, 4. * domrep_size, 4. * box_size);
+
+		fels = smin(fels_klein, fels_mittel, mk_smin_felsen_rt_float);
+		fels = smin(fels, fels_gross, mk_smin_felsen_rt_float);
+	}
 
 	vec3 p_hintergrund_kristall1 = trans(p, -35., 10., -5.);
 	p_hintergrund_kristall1.xy *= rot2D(TAU * .1);
@@ -239,14 +243,26 @@ vec2 f(vec3 p, bool last_step) {
 	p_hintergrund_kristall3.zy *= rot2D(TAU * -.12);
 	float f_hintergrund_kristall3 = kristall(p_hintergrund_kristall3, mk_hintergrund_kristall_h_rt_float, mk_hintergrund_kristall_r_rt_float, mk_hintergrund_kristall_cap_rt_float);
 
-	fels = smin(fels, f_hintergrund_kristall1, mk_smin_felsen_rt_float);
-	fels = smin(fels, f_hintergrund_kristall2, mk_smin_felsen_rt_float);
-	fels = smin(fels, f_hintergrund_kristall3, mk_smin_felsen_rt_float);
+	float f_hintergrund_kristAlle = f_hintergrund_kristall1;
+	f_hintergrund_kristAlle = min(f_hintergrund_kristAlle, f_hintergrund_kristall2);
+	f_hintergrund_kristAlle = min(f_hintergrund_kristAlle, f_hintergrund_kristall3);
+
+	if (use_bounding) {
+		fels = min(fels, f_hintergrund_kristAlle);
+	} else {
+		fels = smin(fels, f_hintergrund_kristAlle, mk_smin_felsen_rt_float);
+	}
 
 	vec2 obj_fels = vec2(fels, fels_id);
 
 	vec3 p_huegel = trans(p, mk_huegel_pos_rt_vec3);
 	vec2 obj_huegel = huegel(p_huegel);
 
-	return smin_material(obj_huegel, obj_fels, mk_smin_felsen_rt_float);
+	if (use_bounding) {
+		obj_fels = min_material(obj_fels, obj_huegel);
+	} else {
+		obj_fels = smin_material(obj_fels, obj_huegel, mk_smin_felsen_rt_float);
+	}
+
+	return obj_fels;
 }

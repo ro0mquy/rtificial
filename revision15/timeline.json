@@ -382,6 +382,22 @@
       ]
     },
     {
+      "uniformName": "mk_bounding_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 20
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_bounding_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "mk_fog_amount_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
