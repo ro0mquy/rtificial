@@ -17,4 +17,5 @@ bloom_up_1st.out_color bloom_up_final.previous
 input.color bloom_up_final.color
 bloom_up_final.out_color tonemap.color
 tonemap.out_color final.color
-final.out_color output.color
+final.out_color fxaa.tex
+fxaa.out_color output.color
