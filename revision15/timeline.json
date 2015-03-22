@@ -129,6 +129,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_fluegel_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 9.0339999999999918145
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_fluegel_c_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
@@ -150,6 +158,22 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 3.9950000000000045475
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_fluegel_raise_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 11.216000000000008185
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_fluegel_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 11.944000000000073669
       },
       "sequencesArray": []
     },

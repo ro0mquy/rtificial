@@ -65,6 +65,9 @@ vec2 bee_body(vec3 p, bool last_step) {
 vec2 bee_fluegel(vec3 p, bool last_step) {
 	vec3 p_fluegel = p;
 	p_fluegel.x = abs(p_fluegel.x);
+	p_fluegel.zx *= rot2D(radians(1.) * biene_fluegel_rot_rt_float);
+	p_fluegel.yz *= rot2D(radians(1.) * biene_fluegel_angle_rt_float);
+	p_fluegel.yx *= rot2D(radians(1.) * biene_fluegel_raise_rt_float);
 	p_fluegel.x -= biene_fluegel_start_rt_float;
 	vec2 c = normalize(biene_fluegel_c_rt_vec2);
 	float d_fluegel = cone(vec3(p_fluegel.z, p_fluegel.y, -p_fluegel.x), c);
