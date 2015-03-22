@@ -13,5 +13,5 @@ out vec3 out_color;
 // level(1)
 
 void main() {
-	out_color = downsample(color, tc, .5/res);
+	out_color = downsample(color, tc, .5/res, true);
 }
