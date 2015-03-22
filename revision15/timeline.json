@@ -1,6 +1,134 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "biene_body_abdomen_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.049999999999954525265
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_abdomen_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.31500000000005456968
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_bend_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 15.716000000000008185
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.77400000000000090949
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.49800000000004729372
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_stretch_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.81000000000005911716
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.5410000000000536602
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_max_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.3089999999999690772
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_min_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.51900000000000545697
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_thorax_scale_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.96400000000005547918
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_thorax_stretch_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.1449999999999818101
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_dellen_depth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.081999999999993633537
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_dellen_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.0620000000000118234
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_dellen_space_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.6689999999999827196
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_dellen_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.11199999999996636257
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "body_deform_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {

@@ -16,10 +16,117 @@ void main() {
 	}
 }
 
+vec2 bee_body(vec3 p, bool last_step) {
+	vec3 p_thorax = p;
+	p_thorax.z /= biene_body_thorax_stretch_rt_float;
+	float thorax_radius = biene_body_max_thick_rt_float * biene_body_thorax_scale_rt_float;
+	float thorax_length = thorax_radius * biene_body_thorax_stretch_rt_float;
+	float d_thorax = sphere(p_thorax, thorax_radius);
+	d_thorax *= min(biene_body_thorax_stretch_rt_float, 1.);
+
+	vec3 p_head = p;
+	float head_radius = thorax_radius * biene_body_head_radius_rt_float;
+	float head_length = head_radius * biene_body_head_stretch_rt_float;
+	p_head.z += thorax_length + head_length;
+	p_head.z /= biene_body_head_stretch_rt_float;
+	float d_head = sphere(p_head, head_radius);
+	d_head *= min(biene_body_head_stretch_rt_float, 1.);
+
+	vec3 p_abdomen = p;
+	float abdomen_length = biene_body_length_rt_float + .5 * biene_body_radius_rt_float;
+	p_abdomen.z -= (abdomen_length + thorax_length) * (1. + biene_body_abdomen_offset_rt_float);
+	float t_body = clamp(p_abdomen.z / (biene_body_length_rt_float + .5 * biene_body_radius_rt_float), -1., 1.);
+	p_abdomen.zy *= rot2D(radians(biene_body_bend_rt_float) * (t_body * .5 + .5));
+	t_body = clamp(p_abdomen.z / (biene_body_length_rt_float + .5 * biene_body_radius_rt_float), -1., 1.);
+	p_abdomen.xy /= (biene_body_max_thick_rt_float - biene_body_min_thick_rt_float) * (1. - t_body * t_body) + biene_body_min_thick_rt_float;
+
+	vec3 a = vec3(0., 0., biene_body_length_rt_float);
+	vec3 b = -a;
+	float d_abdomen = line(p_abdomen - a, b - a, biene_body_radius_rt_float);
+
+	d_abdomen *= min(biene_body_min_thick_rt_float, 1.);
+
+	vec3 p_dellen = p_abdomen;
+	p_dellen.z = domrep(p_dellen.z, biene_dellen_space_rt_float);
+	float d_dellen = max(
+		cylinder(p_dellen.xy, biene_body_radius_rt_float * (1. + biene_dellen_depth_rt_float)),
+		abs(p_dellen.z) - biene_dellen_thick_rt_float
+	);
+	d_dellen = max(d_dellen, abs(p_abdomen.z) - biene_body_length_rt_float);
+
+	d_abdomen = smin(d_abdomen, d_dellen, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
+
+	float d_body = smin(d_abdomen, smin(d_thorax, d_head, biene_body_head_smooth_rt_float * head_radius),
+		biene_body_abdomen_smooth_rt_float * biene_body_max_thick_rt_float);
+
+	return vec2(d_body, 0.);
+}
+
+vec2 f(vec3 p, bool last_step) {
+	vec2 body = bee_body(p, last_step);
+	return body;
+}
+
+/*
 float expStep( float x, float k, float n ) {
     return exp( -k*pow(x,n) );
 }
 
+vec2 fluegel(vec3 p, bool last_step) {
+	p.x = abs(p.x);
+	p.y /= .1;
+	vec2 c = normalize(vec2(2., .4));
+	float d = cone(vec3(p.z, p.y, -p.x), c);
+	d = max(d , cylinder(p.xz - vec2(3.5, 0.), 3.));
+	d *= .1;
+	return vec2(d, 0.);
+}
+
+vec2 body(vec3 p, bool last_step) {
+	vec3 p_body = p;
+	float t = clamp(p_body.z, -1. / .4, 1. / .4);
+	float dellen = expStep(abs(fract(t * 3.) * 2. - 1.), 20., 5.);
+	p_body.z -= (1. - pow(min(length(p_body.xy), 1.), 1.47)) * .6;
+	p_body.z *= .4;
+	float d_body = sphere(p_body, 1. - dellen * .03);
+	return vec2(d_body, 0.);
+}
+
+vec2 f(vec3 p, bool last_step) {
+	float d = body(p, last_step)[0];
+	return vec2(d, 0.);
+}
+*/
+
+/*
+vec2 f(vec3 p, bool last_step) {
+	float scale = (p.z < 0.) ? .5: 1.;
+	p.z /= (1. + scale * smoothstep(0., 4., p.x));
+	float d = cylinder(p.yz, 1.);
+	d = max(d, abs(p.y) - .1);
+	d = max(d, -p.x);
+	return vec2(d, 0.);
+}
+*/
+
+/*
+vec2 f(vec3 p, bool last_step) {
+	float d;
+	vec3 p_fluegel = p;
+	p_fluegel.y /= .1;
+	float scale = (p.z < 0.) ? .6: .3;
+	p_fluegel.z /= 1. + scale * smoothstep(.0, 5., p_fluegel.x);
+	p_fluegel.z /= 1. - scale * smoothstep(5., 7., p_fluegel.x);
+	d = cylinder(p_fluegel.yz, 1.);
+	d *= .1;
+	d = max(d, -p.x);
+	d = max(d, sphere(p, 6.5));
+	return vec2(d, 0.);
+}
+*/
+
+
+/*
 vec2 f(vec3 p, bool last_step) {
 	vec3 p_body = p;
 	float t = clamp(p_body.z, -1. / .4, 1. / .4);
@@ -61,3 +168,4 @@ vec2 f(vec3 p, bool last_step) {
 
 	return vec2(d, .0);
 }
+*/
