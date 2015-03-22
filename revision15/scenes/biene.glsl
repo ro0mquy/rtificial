@@ -62,9 +62,25 @@ vec2 bee_body(vec3 p, bool last_step) {
 	return vec2(d_body, 0.);
 }
 
+vec2 bee_fluegel(vec3 p, bool last_step) {
+	vec3 p_fluegel = p;
+	p_fluegel.x = abs(p_fluegel.x);
+	p_fluegel.x -= biene_fluegel_start_rt_float;
+	vec2 c = normalize(biene_fluegel_c_rt_vec2);
+	float d_fluegel = cone(vec3(p_fluegel.z, p_fluegel.y, -p_fluegel.x), c);
+	float fluegel_length = biene_fluegel_length_rt_float;
+	float fluegel_thick = biene_fluegel_thick_rt_float;
+	d_fluegel = smax(d_fluegel, cylinder(p_fluegel.xz - vec2(fluegel_length, 0.), fluegel_length),
+		biene_fluegel_end_smooth_rt_float * fluegel_thick); // cap ends
+	d_fluegel = smax(d_fluegel, abs(p_fluegel.y) - fluegel_thick,
+		biene_fluegel_thick_smooth_rt_float * fluegel_thick); // cap bottom/top
+	return vec2(d_fluegel, 0.);
+}
+
 vec2 f(vec3 p, bool last_step) {
 	vec2 body = bee_body(p, last_step);
-	return body;
+	vec2 fluegel = bee_fluegel(p, last_step);
+	return smin_material(body, fluegel, biene_fluegel_smooth_rt_float * biene_fluegel_thick_rt_float);
 }
 
 /*
