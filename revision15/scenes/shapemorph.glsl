@@ -65,7 +65,7 @@ float kantenklumpen(vec3 p) {
 	float f_penta4 = pentaprism(p_penta.xzy, vec2(1., 1.));
 
 	float f = f_penta;
-	f = smax(f, f_penta2, morph_smooth_rt_float); // 0.5 is a good value
+	f = smax(f, f_penta2, morph_smooth_rt_float); // -.3 or 0.5 is a good value
 	f = smax(f, f_penta3, morph_smooth_rt_float);
 	f = smax(f, f_penta4, morph_smooth_rt_float);
 	return f;
@@ -107,9 +107,9 @@ float trillant(vec3 p) {
 
 float kristall(vec3 p) {
 	vec3 p_kristall = p;
-	float height_kristall = 1.;
-	float radius_kristall = .2;
-	float size_cap = .15;
+	float height_kristall = 2.;
+	float radius_kristall = .6;
+	float size_cap = .45;
 	p_kristall.y = abs(p_kristall.y);
 	float r_kristall = radius_kristall * min((height_kristall - radius_kristall) - p_kristall.y, size_cap) / size_cap;
 	float f_kristall = hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));
@@ -118,11 +118,11 @@ float kristall(vec3 p) {
 }
 
 float hexshape(vec3 p) {
-	float f_hex = hexprism(p.xzy, vec2(.5, .5));
+	float f_hex = hexprism(p.xzy, vec2(1., 1.));
 
 	vec3 p_plane = p;
 	p_plane.xz *= rot2D(TAU / 6. / 2.);
-	float f_plane = hexprism(p_plane.xzy, vec2(.5, .0));
+	float f_plane = hexprism(p_plane.xzy, vec2(1., .0));
 
 	float f_shape = smin(f_hex, f_plane, morph_smooth_rt_float); // something around .8
 	return f_shape;
@@ -255,11 +255,15 @@ vec2 f(vec3 p, bool last_step) {
 
 	//*
 	if (morph_mix_rt_float <= 1.) {
-		f = mix(kristall(p), kantenklumpen(p), morph_mix_rt_float);
+		f = mix(kristall(p), hexshape(p), morph_mix_rt_float);
 	} else if (morph_mix_rt_float <= 2.) {
-		f = mix(kantenklumpen(p), trishape(p), morph_mix_rt_float - 1.);
-	} else {
-		f = mix(trishape(p), trillant(p), morph_mix_rt_float - 2.);
+		f = mix(hexshape(p), kantenklumpen(p), morph_mix_rt_float - 1.);
+	} else if (morph_mix_rt_float <= 3.) {
+		f = mix(kantenklumpen(p), octahedronthingie(p), morph_mix_rt_float - 2.);
+	} else if (morph_mix_rt_float <= 4.) {
+		f = mix(octahedronthingie(p), trishape(p), morph_mix_rt_float - 3.);
+	} else if (morph_mix_rt_float <= 5.) {
+		f = mix(trishape(p), trillant(p), morph_mix_rt_float - 4.);
 	}
 	// */
 
