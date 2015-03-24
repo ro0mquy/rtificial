@@ -353,3 +353,27 @@ float line(vec3 pa, vec3 ba, float r) {
 float linstep(float edge0, float edge1, float x) {
 	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
 }
+
+// a: domrep cell size, b: parameter where the square spacing starts
+float squarerep(float x, float a, float b) {
+	if (x / a - floor(b) > 1.25) {
+		b += .5;
+		float cell = floor(sqrt(abs(x / a - b)) + b);
+		float cell_halfdist = a * (cell - b + .5);
+		float cell_result = a * ((cell - b) * (cell - b) + b);
+
+		x -= cell_result;
+
+		if (x > cell_halfdist) {
+			x = 2. * cell_halfdist - x;
+		} else {
+			if (cell - floor(b - .5) < 2.) {
+				x = 2. * cell_halfdist - x;
+			}
+		}
+
+	} else {
+		x = mod(x - .25 * a, a) - .5 * a;
+	}
+	return x;
+}

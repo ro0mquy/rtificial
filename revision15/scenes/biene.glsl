@@ -47,7 +47,8 @@ vec2 bee_body(vec3 p, bool last_step) {
 	d_abdomen *= min(biene_body_min_thick_rt_float, 1.);
 
 	vec3 p_dellen = p_abdomen;
-	p_dellen.z = domrep(p_dellen.z, biene_dellen_space_rt_float);
+	//p_dellen.z = domrep(p_dellen.z, biene_dellen_space_rt_float);
+	p_dellen.z = squarerep(p_dellen.z, biene_dellen_space_rt_float, biene_dellen_anim_rt_float);
 	float d_dellen = max(
 		cylinder(p_dellen.xy, biene_body_radius_rt_float * (1. + biene_dellen_depth_rt_float)),
 		abs(p_dellen.z) - biene_dellen_thick_rt_float
