@@ -4,35 +4,25 @@ const char tonemap_source[] =R"shader_source(#version 430
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 0) uniform vec2 res;
+R"shader_source(in vec2 tc;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 0) in vec2 tc;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(#line 1
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(layout(binding = 12) uniform sampler2D luminance; // float level(11)
-)shader_source"
-R"shader_source(layout(location = 45) uniform float key;
-)shader_source"
-R"shader_source(layout(location = 46) uniform vec3 lift; // color
-)shader_source"
-R"shader_source(layout(location = 47) uniform vec3 gamma; // color
-)shader_source"
-R"shader_source(layout(location = 48) uniform vec3 gain; // color
-)shader_source"
-R"shader_source(layout(binding = 11) uniform sampler2D blended_color; // vec3
-)shader_source"
-R"shader_source(
+R"shader_source(layout(binding = 18) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 73) uniform float post_tonemap_exposure;
+)shader_source"
+R"shader_source(layout(location = 74) uniform vec3 post_color_lift; // color
+)shader_source"
+R"shader_source(layout(location = 75) uniform vec3 post_color_gamma; // color
+)shader_source"
+R"shader_source(layout(location = 76) uniform vec3 post_color_gain; // color
+)shader_source"
+R"shader_source(
 )shader_source"
 R"shader_source(float A = 0.15;
 )shader_source"
@@ -60,29 +50,15 @@ R"shader_source(
 )shader_source"
 R"shader_source(void main() {
 )shader_source"
-R"shader_source(	vec3 color = textureLod(blended_color, tc, 0.).rgb;
+R"shader_source(	// + 1. for (filmic) bias
 )shader_source"
-R"shader_source(
+R"shader_source(	out_color = texture2D(color, tc).rgb * exp2(post_tonemap_exposure + 1.);
 )shader_source"
-R"shader_source(	// tonemap
+R"shader_source(	out_color = tonemap(out_color)/tonemap(vec3(W));
 )shader_source"
-R"shader_source(	float avgLuminance = exp(textureLod(luminance, tc, 0.).r);
+R"shader_source(	out_color = clamp(out_color, 0., 1.);
 )shader_source"
-R"shader_source(	color *= key / avgLuminance;
-)shader_source"
-R"shader_source(	color = tonemap(color)/tonemap(vec3(W));
-)shader_source"
-R"shader_source(	color = clamp(color, 0., 1.);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	// color grade
-)shader_source"
-R"shader_source(	color = gain * (color + lift * pow(1. - color, 1./gamma));
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	out_color = color;
+R"shader_source(	out_color = pow(post_color_gain * (out_color + post_color_lift * (1. - out_color)), 1./max(post_color_gamma, 1e-6));
 )shader_source"
 R"shader_source(}
 )shader_source"

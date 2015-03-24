@@ -2,45 +2,37 @@
 #define final_H
 const char final_source[] =R"shader_source(#version 430
 )shader_source"
+R"shader_source(// lens distort, vignette, noise
+)shader_source"
 R"shader_source(
+)shader_source"
+R"shader_source(in vec2 tc;
 )shader_source"
 R"shader_source(layout(location = 0) uniform vec2 res;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 0) in vec2 tc;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(#line 1
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(#line 4
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(// lens distort, vignette, noise
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(layout(binding = 14) uniform sampler2D color; // vec3
+R"shader_source(layout(binding = 19) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
-R"shader_source(layout(location = 33) uniform float time;
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 66) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 40) uniform float distort_k;
+R"shader_source(layout(location = 67) uniform float post_lens_distort_k;
 )shader_source"
-R"shader_source(layout(location = 41) uniform float distort_kcube;
+R"shader_source(layout(location = 68) uniform float post_lens_distort_kcube;
 )shader_source"
-R"shader_source(layout(location = 42) uniform float vignette_intensity;
+R"shader_source(layout(location = 69) uniform float post_vignette_intensity;
 )shader_source"
-R"shader_source(layout(location = 43) uniform float grain_freq;
+R"shader_source(layout(location = 70) uniform float post_film_grain_intensity;
 )shader_source"
-R"shader_source(layout(location = 44) uniform float grain_intensity;
+R"shader_source(layout(location = 71) uniform float post_film_grain_frequency;
+)shader_source"
+R"shader_source(layout(location = 72) uniform float post_film_grain_power;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -158,39 +150,47 @@ R"shader_source(void main() {
 )shader_source"
 R"shader_source(	vec3 col;
 )shader_source"
-R"shader_source(	float k = distort_k;
+R"shader_source(	float k = post_lens_distort_k;
 )shader_source"
-R"shader_source(	float kcube = distort_kcube;
+R"shader_source(	float kcube = post_lens_distort_kcube;
 )shader_source"
 R"shader_source(	float aspect = res.x / res.y;
 )shader_source"
-R"shader_source(
+R"shader_source(	vec3 primaries = vec3(610., 550., 440.)/440.;
 )shader_source"
-R"shader_source(	col.r = textureLod(color, lens_distort(aspect, k * 1.34, kcube, tc), 0.).r;
+R"shader_source(	for (int i = 0; i < 3; i++) {
 )shader_source"
-R"shader_source(	col.g = textureLod(color, lens_distort(aspect, k * 1.2, kcube, tc), 0.).g;
+R"shader_source(		col[i] = textureLod(color, lens_distort(aspect, k * primaries[i], kcube, tc), 0.)[i];
 )shader_source"
-R"shader_source(	col.b = textureLod(color, lens_distort(aspect, k, kcube, tc), 0.).b;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	col *= vignette(vignette_intensity, gl_FragCoord.xy / res);
+R"shader_source(	}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(	// TODO ordentlicher noise
+R"shader_source(	col *= vignette(post_vignette_intensity, tc);
 )shader_source"
-R"shader_source(	float phi = radians(10.);
+R"shader_source(
 )shader_source"
-R"shader_source(	out_color = col + grain_intensity * vec3(// so schön weerboß
+R"shader_source(	// TODO richtiger grain
 )shader_source"
-R"shader_source(			fbm(vec2(1. / grain_freq *  gl_FragCoord.xy +  31. * time)),
+R"shader_source(	float phi1 = radians(30.);
 )shader_source"
-R"shader_source(			fbm(vec2(1. / grain_freq *  gl_FragCoord.xy +  33. * time)),
+R"shader_source(	float phi2 = radians(60.);
 )shader_source"
-R"shader_source(			fbm(vec2(1. / grain_freq *  gl_FragCoord.xy +  32. * time))
+R"shader_source(	vec3 grain = vec3(// so schön weerboß
 )shader_source"
-R"shader_source(			);
+R"shader_source(		fbm(vec2(post_film_grain_frequency * (gl_FragCoord.xy + 3289. + time * 2938.) )),
+)shader_source"
+R"shader_source(		fbm(vec2(post_film_grain_frequency * (mat2(cos(phi1), -sin(phi1), sin(phi1), cos(phi1)) * gl_FragCoord.xy + time * 2738.) )),
+)shader_source"
+R"shader_source(		fbm(vec2(post_film_grain_frequency * (mat2(cos(phi2), -sin(phi2), sin(phi2), cos(phi2)) * gl_FragCoord.xy + 93829. + time * 2847.) ))
+)shader_source"
+R"shader_source(	);
+)shader_source"
+R"shader_source(	float luma = clamp(dot(col, vec3(.299, .587, .114)), 0., 1.);
+)shader_source"
+R"shader_source(	float intensity = post_film_grain_intensity * pow(1. - luma, post_film_grain_power);
+)shader_source"
+R"shader_source(	out_color = col + intensity * grain;
 )shader_source"
 R"shader_source(}
 )shader_source"

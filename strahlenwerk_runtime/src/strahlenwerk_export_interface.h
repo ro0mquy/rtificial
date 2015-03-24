@@ -5,27 +5,30 @@
 #include "Scene.h"
 #include "Sequence.h"
 #include "Uniform.h"
-extern Shader postproc[12];
-extern Input bokeh_pass1_inputs[2];
-extern Input bloom_small_vert_inputs[1];
-extern Input bloom_medium_vert_inputs[1];
-extern Input bloom_big_vert_inputs[1];
-extern Input bokeh_pass2_inputs[2];
-extern Input bloom_small_horiz_inputs[1];
-extern Input bloom_medium_horiz_inputs[1];
-extern Input bloom_big_horiz_inputs[1];
-extern Input blend_inputs[5];
-extern Input tonemap_inputs[2];
-extern Input fxaa_inputs[1];
+extern Shader postproc[15];
+extern Input upscale_inputs[1];
+extern Input bloom_down_1st_inputs[1];
+extern Input bloom_down_2nd_inputs[1];
+extern Input bloom_down_3rd_inputs[1];
+extern Input bloom_down_4th_inputs[1];
+extern Input bloom_down_5th_inputs[1];
+extern Input bloom_up_5th_inputs[1];
+extern Input bloom_up_4th_inputs[2];
+extern Input bloom_up_3rd_inputs[2];
+extern Input bloom_up_2nd_inputs[2];
+extern Input bloom_up_1st_inputs[2];
+extern Input bloom_up_final_inputs[2];
+extern Input tonemap_inputs[1];
 extern Input final_inputs[1];
+extern Input fxaa_inputs[1];
 extern Shader scenes[6];
-extern Framebuffer fbos[12];
-extern Scene scenes_data[15];
-extern float keyframe_data[1034];
-extern Sequence sequence_data[194];
-extern int sequence_index[91];
-extern int keyframe_index[91];
-extern Uniform uniforms[90];
-extern float keyframe_time[449];
-extern int keyframe_time_index[91];
+extern Framebuffer fbos[15];
+extern Scene scenes_data[6];
+extern float keyframe_data[129];
+extern Sequence sequence_data[7];
+extern int sequence_index[78];
+extern int keyframe_index[78];
+extern Uniform uniforms[77];
+extern int keyframe_time[16];
+extern int keyframe_time_index[78];
 #endif
