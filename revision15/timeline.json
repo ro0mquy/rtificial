@@ -97,6 +97,13 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_dellen_anim_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      }
+    },
+    {
       "uniformName": "biene_dellen_depth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -727,9 +734,9 @@
       "uniformName": "post_color_gain",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 1,
-        "valueColorG": 1,
-        "valueColorB": 1
+        "valueColorR": 0.5,
+        "valueColorG": 0.5,
+        "valueColorB": 0.5
       },
       "sequencesArray": []
     },
@@ -737,9 +744,9 @@
       "uniformName": "post_color_gamma",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 1,
-        "valueColorG": 1,
-        "valueColorB": 1
+        "valueColorR": 0.5,
+        "valueColorG": 0.5,
+        "valueColorB": 0.5
       },
       "sequencesArray": [
         {
@@ -772,9 +779,9 @@
       "uniformName": "post_color_lift",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0,
-        "valueColorG": 0,
-        "valueColorB": 0
+        "valueColorR": 0.5,
+        "valueColorG": 0.5,
+        "valueColorB": 0.5
       },
       "sequencesArray": []
     },
