@@ -78,6 +78,24 @@ vec2 bee_fluegel(vec3 p, bool last_step) {
 		biene_fluegel_end_smooth_rt_float * fluegel_thick); // cap ends
 	d_fluegel = smax(d_fluegel, abs(p_fluegel.y) - fluegel_thick,
 		biene_fluegel_thick_smooth_rt_float * fluegel_thick); // cap bottom/top
+
+	// musterung
+	vec3 p_filling = p_fluegel;
+	p_filling.x -= biene_fluegel_musterung_start_rt_float;
+	float phi = atan(p_filling.z, p_filling.x);
+	float r = length(p_filling.xz);
+	phi += pow(r, biene_fluegel_musterung_phi_pow_rt_float) * biene_fluegel_musterung_phi_factor_rt_float;
+	float dr_phi = TAU / 6.;
+	phi = domrep(phi, dr_phi);
+
+	p_filling.xz = r * vec2(cos(phi), sin(phi));
+	p_filling.x -= biene_fluegel_musterung_space_rt_float * -.25;
+	p_filling.x = squarerep(p_filling.x, biene_fluegel_musterung_space_rt_float, biene_fluegel_musterung_anim_rt_float);
+
+	float f_filling = slowbox2(p_filling.xy, vec2(biene_fluegel_musterung_space_rt_float * .25, fluegel_thick * 2.));
+	f_filling = smax(f_filling, d_fluegel - biene_fluegel_musterung_thick_rt_float, fluegel_thick * biene_fluegel_musterung_smooth_rt_float);
+	d_fluegel = smin(d_fluegel, f_filling, fluegel_thick * biene_fluegel_musterung_smooth_rt_float);
+
 	return vec2(d_fluegel, 0.);
 }
 

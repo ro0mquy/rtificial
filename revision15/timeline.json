@@ -101,7 +101,8 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "biene_dellen_depth_rt_float",
@@ -165,6 +166,62 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 3.9950000000000045475
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_fluegel_musterung_anim_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 100
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_fluegel_musterung_phi_factor_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_fluegel_musterung_phi_pow_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.39999999999997726263
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_fluegel_musterung_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.30500000000006366463
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_fluegel_musterung_space_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.12800000000004274625
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_fluegel_musterung_start_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.0969999999999799911
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_fluegel_musterung_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.019999999999981806637
       },
       "sequencesArray": []
     },
