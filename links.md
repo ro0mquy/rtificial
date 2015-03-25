@@ -47,3 +47,7 @@
 * [Funktionstabelle für Dualzahlen (Seite 13)](http://iel2.engr.ucdavis.edu/publication/journal/j_EC1.pdf)
 * [Learn Photography Concepts](http://www.cambridgeincolour.com/learn-photography-concepts.htm)
 * [Physically Based Camera Rendering](http://extremeistan.wordpress.com/2014/09/24/physically-based-camera-rendering/)
+* [Generative Gestaltung (Buch, original auf deutsch erschienen)](https://vimeo.com/15658375)
+* The Creatives Thinker's Toolkit (Buch)
+* [Video Copilot](http://www.videocopilot.net)
+* [FZD School of Design](https://www.youtube.com/user/FZDSCHOOL)

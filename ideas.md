@@ -26,6 +26,7 @@
 * fußabdrücke im schnee, gefüllt mit neonfarben, spritzer im schnee
 * keyboard tasten, die neonfarben aufleuchten, wenn der entsprechende ton gespielt wird
 * codeckiller
+* Schrift extruden und an einem ende noise drauf, dazwischen lerpen
 
 ## Bilder
 * http://projectosxar.deviantart.com/art/Through-the-Gap-455732816
@@ -33,6 +34,7 @@
 * https://d2ip58kv7n8yjd.cloudfront.net/p/assets/images/images/000/044/422/large/horizon-of-heaven-fullres.jpg?1398709436
 * https://d2ip58kv7n8yjd.cloudfront.net/p/assets/images/images/000/043/872/large/3.jpg?1398689737
 * https://www.flickr.com/photos/grnidmonstress/sets/72157649253743571/
+* http://www.goodbrush.com/
 
 ## Weitere Quellen der Inspiration:
 * http://cghubs.com/
