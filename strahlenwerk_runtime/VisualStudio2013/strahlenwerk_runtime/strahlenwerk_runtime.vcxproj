@@ -111,6 +111,7 @@
     <ClInclude Include="..\..\src\Uniform.h" />
     <ClInclude Include="..\..\src\vec2.h" />
     <ClInclude Include="..\..\src\vec3.h" />
+    <ClInclude Include="..\..\src\vec4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\DataInterpolator.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="..\..\src\stdmath.cpp" />
     <ClCompile Include="..\..\src\vec2.cpp" />
     <ClCompile Include="..\..\src\vec3.cpp" />
+    <ClCompile Include="..\..\src\vec4.cpp" />
     <ClCompile Include="..\..\src\WindowsBackend.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
