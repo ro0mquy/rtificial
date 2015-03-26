@@ -35,10 +35,12 @@ vec2 bee_body(vec3 p, bool last_step) {
 			smoothstep(2., 3., biene_body_anim_rt_float));
 	float biene_body_bend_rt_float = mix(0., biene_body_bend_rt_float,
 			smoothstep(2., 3., biene_body_anim_rt_float));
-	float biene_body_length_rt_float = mix(0., biene_body_length_rt_float,
+	float biene_body_length_rt_float = mix(1e-6, biene_body_length_rt_float,
 			smoothstep(2., 3., biene_body_anim_rt_float));
 	float biene_body_abdomen_smooth_rt_float = mix(0., biene_body_abdomen_smooth_rt_float,
 			smoothstep(2., 2.5, biene_body_anim_rt_float));
+
+	float dellen_anim = mix(0., 1., smoothstep(3., 4., biene_body_anim_rt_float));
 
 	vec3 p_thorax = p;
 	p_thorax.z /= biene_body_thorax_stretch_rt_float;
@@ -69,14 +71,20 @@ vec2 bee_body(vec3 p, bool last_step) {
 
 	d_abdomen *= min(biene_body_min_thick_rt_float, 1.);
 
+	float dellen_space = 2. * biene_body_length_rt_float / biene_dellen_num_rt_float;
 	vec3 p_dellen = p_abdomen;
-	p_dellen.z = domrep(p_dellen.z, biene_dellen_space_rt_float);
-	//p_dellen.z = squarerep(p_dellen.z, biene_dellen_space_rt_float, biene_dellen_anim_rt_float);
-	float d_dellen = max(
+	float dellen_cell = -ceil(p_dellen.z / dellen_space); // +floor() for other direction
+	dellen_anim -= .5;
+	float dellen_current_anim = clamp(dellen_anim * biene_dellen_num_rt_float - dellen_cell, 0., 1.);
+	float biene_dellen_depth_rt_float = mix(0., biene_dellen_depth_rt_float,
+			smoothstep(0., 1., dellen_current_anim));
+	p_dellen.z = domrep(p_dellen.z, dellen_space);
+	float d_dellen = smax(
 		cylinder(p_dellen.xy, biene_body_radius_rt_float * (1. + biene_dellen_depth_rt_float)),
-		abs(p_dellen.z) - biene_dellen_thick_rt_float
+		abs(p_dellen.z) - biene_dellen_thick_rt_float,
+		biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float
 	);
-	d_dellen = max(d_dellen, abs(p_abdomen.z) - biene_body_length_rt_float);
+	d_dellen = smax(d_dellen, abs(p_abdomen.z) - biene_body_length_rt_float, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
 
 	d_abdomen = smin(d_abdomen, d_dellen, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
 
