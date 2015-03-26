@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="libv2">
+      <UniqueIdentifier>{51944035-deda-4f5c-836e-f554477d0d0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Backend.h">
@@ -72,6 +75,12 @@
     <ClInclude Include="..\..\src\vec4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Lib\include\v2mplayer.h">
+      <Filter>libv2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Lib\include\libv2.h">
+      <Filter>libv2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Framebuffer.cpp">
@@ -113,5 +122,18 @@
     <ClCompile Include="..\..\src\vec4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Lib\include\v2mplayer.cpp">
+      <Filter>libv2</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\Lib\lib\libv2.lib">
+      <Filter>libv2</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\music\v2inc.asm">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

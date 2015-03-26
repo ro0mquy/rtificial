@@ -1,5 +1,7 @@
 #ifdef _WINDOWS
 
+#define SYNTH_V2
+
 #include "Backend.h"
 #include "glcorearb.h"
 
@@ -80,6 +82,8 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 }
 
 
+
+#ifdef SYNTH_4KLANG
 //#include <mmsystem.h>
 //#include <mmreg.h>
 #include "music/4klang.windows.h"
@@ -93,8 +97,17 @@ static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 extern "C" {
 	int _fltused = 1;
 }
+#endif
+#ifdef SYNTH_V2
+#include "v2mplayer.h"
+#include "libv2.h"
+static V2MPlayer player;
+extern "C" const sU8 soundtrack[];
+static float rt_time = 0.0f;
+#endif
 
 void WindowsBackend::initAudio(bool threaded) {
+#ifdef SYNTH_4KLANG
 	if (threaded) {
 		// thx to xTr1m/blu-flame for providing a smarter and smaller way to create the thread :)
 		CreateThread(0, 0, (LPTHREAD_START_ROUTINE) _4klang_render, audio_buffer, 0, 0);
@@ -129,18 +142,35 @@ void WindowsBackend::initAudio(bool threaded) {
 
 	waveOutOpen(&audio_wave_out, WAVE_MAPPER, &wave_format, NULL, 0, CALLBACK_NULL);
 	waveOutPrepareHeader(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
+#endif
+#ifdef SYNTH_V2
+	player.Init();
+	player.Open(soundtrack);
+	dsInit(player.RenderProxy, &player, GetForegroundWindow());
+#endif
 }
 
 void WindowsBackend::playAudio() {
+#ifdef SYNTH_4KLANG
 	waveOutWrite(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
+#endif
+#ifdef SYNTH_V2
+	player.Play();
+#endif
 }
+
 
 // returns time in milli beats
 int WindowsBackend::getTime(){
+/*#ifdef SYNTH_4KLANG
 	MMTIME time;
 	time.wType = TIME_SAMPLES;
 	waveOutGetPosition(audio_wave_out, &time, sizeof(MMTIME));
 	return int(.5 + (double) time.u.sample / SAMPLE_RATE * BPM / 60. * 1000.);
+#endif*/
+#ifdef SYNTH_V2
+	return rt_time++;
+#endif
 }
 
 
@@ -164,6 +194,11 @@ void WindowsBackend::sleep(int milliseconds) {
 }
 
 
-void WindowsBackend::cleanup() {}
+void WindowsBackend::cleanup() {
+#ifdef SYNTH_V2
+	dsClose();
+	player.Close();
+#endif
+}
 
 #endif

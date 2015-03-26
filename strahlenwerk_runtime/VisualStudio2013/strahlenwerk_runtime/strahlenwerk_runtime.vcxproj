@@ -41,13 +41,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\src;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\src\music;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\src;..\..\Lib\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\src\music;..\..\Lib\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(SolutionDir);$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\src;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\src\music;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\src;..\..\Lib\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\src\music;..\..\Lib\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -63,7 +64,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;winmm.lib;4klang.windows.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;4klang.windows.obj;libv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -85,14 +86,17 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;winmm.lib;4klang.windows.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;4klang.windows.obj;libv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Lib\include\libv2.h" />
+    <ClInclude Include="..\..\Lib\include\v2mplayer.h" />
     <ClInclude Include="..\..\src\Backend.h" />
     <ClInclude Include="..\..\src\DataInterpolator.h" />
     <ClInclude Include="..\..\src\Framebuffer.h" />
@@ -114,6 +118,7 @@
     <ClInclude Include="..\..\src\vec4.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Lib\include\v2mplayer.cpp" />
     <ClCompile Include="..\..\src\DataInterpolator.cpp" />
     <ClCompile Include="..\..\src\Framebuffer.cpp" />
     <ClCompile Include="..\..\src\LinuxBackend.cpp" />
@@ -127,6 +132,20 @@
     <ClCompile Include="..\..\src\vec3.cpp" />
     <ClCompile Include="..\..\src\vec4.cpp" />
     <ClCompile Include="..\..\src\WindowsBackend.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\Lib\lib\libv2.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\src\music\v2inc.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)nasm.exe -f win32 -o $(OutDir)%(Filename).obj %(FullPath)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">nasm.exe -f win32 -o $(OutDir)%(Filename).obj %(FullPath) -DNDEBUG%3b</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
