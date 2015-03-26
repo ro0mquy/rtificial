@@ -17,6 +17,29 @@ void main() {
 }
 
 vec2 bee_body(vec3 p, bool last_step) {
+	float biene_body_thorax_scale_rt_float = mix(0., biene_body_thorax_scale_rt_float,
+			smoothstep(0., .5, biene_body_anim_rt_float));
+	float biene_body_thorax_stretch_rt_float = mix(1., biene_body_thorax_stretch_rt_float,
+			smoothstep(.5, 1., biene_body_anim_rt_float));
+
+	float biene_body_head_radius_rt_float = mix(0., biene_body_head_radius_rt_float,
+			smoothstep(1., 2., biene_body_anim_rt_float));
+	float biene_body_head_stretch_rt_float = mix(1., biene_body_head_stretch_rt_float,
+			smoothstep(1., 2., biene_body_anim_rt_float));
+	float biene_body_head_offset_rt_float = mix(biene_body_head_offset_rt_float, 0.,
+			smoothstep(1., 2., biene_body_anim_rt_float));
+
+	float biene_body_radius_rt_float = mix(0., biene_body_radius_rt_float,
+			smoothstep(2., 3., biene_body_anim_rt_float));
+	float biene_body_abdomen_offset_rt_float = mix(-.1, biene_body_abdomen_offset_rt_float,
+			smoothstep(2., 3., biene_body_anim_rt_float));
+	float biene_body_bend_rt_float = mix(0., biene_body_bend_rt_float,
+			smoothstep(2., 3., biene_body_anim_rt_float));
+	float biene_body_length_rt_float = mix(0., biene_body_length_rt_float,
+			smoothstep(2., 3., biene_body_anim_rt_float));
+	float biene_body_abdomen_smooth_rt_float = mix(0., biene_body_abdomen_smooth_rt_float,
+			smoothstep(2., 2.5, biene_body_anim_rt_float));
+
 	vec3 p_thorax = p;
 	p_thorax.z /= biene_body_thorax_stretch_rt_float;
 	float thorax_radius = biene_body_max_thick_rt_float * biene_body_thorax_scale_rt_float;
@@ -27,7 +50,7 @@ vec2 bee_body(vec3 p, bool last_step) {
 	vec3 p_head = p;
 	float head_radius = thorax_radius * biene_body_head_radius_rt_float;
 	float head_length = head_radius * biene_body_head_stretch_rt_float;
-	p_head.z += thorax_length + head_length;
+	p_head.z += thorax_length + head_length + biene_body_head_offset_rt_float;
 	p_head.z /= biene_body_head_stretch_rt_float;
 	float d_head = sphere(p_head, head_radius);
 	d_head *= min(biene_body_head_stretch_rt_float, 1.);
@@ -47,8 +70,8 @@ vec2 bee_body(vec3 p, bool last_step) {
 	d_abdomen *= min(biene_body_min_thick_rt_float, 1.);
 
 	vec3 p_dellen = p_abdomen;
-	//p_dellen.z = domrep(p_dellen.z, biene_dellen_space_rt_float);
-	p_dellen.z = squarerep(p_dellen.z, biene_dellen_space_rt_float, biene_dellen_anim_rt_float);
+	p_dellen.z = domrep(p_dellen.z, biene_dellen_space_rt_float);
+	//p_dellen.z = squarerep(p_dellen.z, biene_dellen_space_rt_float, biene_dellen_anim_rt_float);
 	float d_dellen = max(
 		cylinder(p_dellen.xy, biene_body_radius_rt_float * (1. + biene_dellen_depth_rt_float)),
 		abs(p_dellen.z) - biene_dellen_thick_rt_float

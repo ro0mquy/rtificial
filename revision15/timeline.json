@@ -17,10 +17,47 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_body_anim_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.8680000000000518412
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 248,
+          "sequenceStart": 1000,
+          "sequenceDuration": 7000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 7000,
+              "keyframeValue": {
+                "valueFloatX": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "biene_body_bend_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 15.716000000000008185
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -1
       },
       "sequencesArray": []
     },
