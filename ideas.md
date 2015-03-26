@@ -27,6 +27,7 @@
 * keyboard tasten, die neonfarben aufleuchten, wenn der entsprechende ton gespielt wird
 * codeckiller
 * Schrift extruden und an einem ende noise drauf, dazwischen lerpen
+* Stummfilmdemo, Kalviermusik, einschubkarten mit beschreibung des breaks und der eigentlichen musik
 
 ## Bilder
 * http://projectosxar.deviantart.com/art/Through-the-Gap-455732816
