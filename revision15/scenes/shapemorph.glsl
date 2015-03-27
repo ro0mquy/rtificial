@@ -46,7 +46,7 @@ float trishape(vec3 p) {
 	float f_hex2 = triprism(p_hex2.xzy, vec2(.7 * r_hex, height_hex * .5));
 
 	float f = f_hex;
-	f = smin(f, f_hex2, morph_smooth_rt_float); // 0.7 is a good value
+	f = smin(f, f_hex2, morph_trishape_smooth_rt_float); // 0.7 is a good value
 	f *= .5;
 	return f;
 }
@@ -65,9 +65,9 @@ float kantenklumpen(vec3 p) {
 	float f_penta4 = pentaprism(p_penta.xzy, vec2(1., 1.));
 
 	float f = f_penta;
-	f = smax(f, f_penta2, morph_smooth_rt_float); // -.3 or 0.5 is a good value
-	f = smax(f, f_penta3, morph_smooth_rt_float);
-	f = smax(f, f_penta4, morph_smooth_rt_float);
+	f = smax(f, f_penta2, morph_kantenklumpen_smooth_rt_float); // -.3 or 0.5 is a good value
+	f = smax(f, f_penta3, morph_kantenklumpen_smooth_rt_float);
+	f = smax(f, f_penta4, morph_kantenklumpen_smooth_rt_float);
 	return f;
 }
 
@@ -101,7 +101,7 @@ float trillant(vec3 p) {
 	float f_tri2 = triprism(p_tri.xzy, vec2(.7/3. * width, height * .5));
 	f_tri = min(f_tri, f_tri2);
 
-	f = mix(f_tri, f, morph_smooth_rt_float); // 0.9 or 1.2 are nice shapes
+	f = mix(f_tri, f, morph_trillant_smooth_rt_float); // 0.9 or 1.2 are nice shapes
 	return f;
 }
 
@@ -124,7 +124,7 @@ float hexshape(vec3 p) {
 	p_plane.xz *= rot2D(TAU / 6. / 2.);
 	float f_plane = hexprism(p_plane.xzy, vec2(1., .0));
 
-	float f_shape = smin(f_hex, f_plane, morph_smooth_rt_float); // something around .8
+	float f_shape = smin(f_hex, f_plane, morph_hexshape_smooth_rt_float); // something around .8
 	return f_shape;
 }
 
@@ -143,7 +143,7 @@ float octahedronthingie(vec3 p) {
 	float f_kanten = min(f_kanten1, f_kanten2);
 	f_kanten = min(f_kanten, f_kanten3);
 
-	f = mix(f, f_kanten, morph_smooth_rt_float); // -.2 or .2
+	f = mix(f, f_kanten, morph_octahedron_smooth_rt_float); // -.2 or .2
 	return f;
 }
 
