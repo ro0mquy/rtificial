@@ -21,9 +21,9 @@ void main() {
 	if(p.y > 1e-6) {
 		vec3 sky_d = normalize(p);
 		out_color.rgb = max(sky_radiance(sky_d), vec3(0.));
-		float angle = cos(radians(8.));
+		float angle = cos(radians(4.));
 		// some kind of direct sun
-		out_color.rgb += 30. * smoothstep(angle * .999, angle * 1.001, dot(sky_d, sun_dir)) * sun_radiance;
+		out_color.rgb += 30. * smoothstep(angle * .999, angle, dot(sky_d, sun_dir)) * sun_radiance;
 	} else {
 		out_color.rgb = sun_dir.y * sun_radiance;
 	}

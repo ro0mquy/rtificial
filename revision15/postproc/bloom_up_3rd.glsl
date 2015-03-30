@@ -11,7 +11,7 @@ uniform sampler2D color; // vec3
 uniform sampler2D previous; // vec3
 out vec3 out_color;
 
-// level(3)
+// level(2)
 
 void main() {
 	out_color = .5 * upsample(color, tc, 1./res) + .5 * textureLod(previous, tc, 0.).rgb;

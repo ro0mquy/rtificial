@@ -16,6 +16,5 @@ uniform float post_bloom_amount;
 // level(0)
 
 void main() {
-	out_color = .5 * upsample(color, tc, 1./res) + .5 * textureLod(previous, tc, 0.).rgb;
-	out_color = textureLod(color, tc, 0.).rgb + out_color * post_bloom_amount;
+	out_color = mix(textureLod(color, tc, 0.).rgb, textureLod(previous, tc, 0.).rgb, post_bloom_amount);
 }

@@ -13,7 +13,7 @@ vec3 karis_average(vec3 a, vec3 b, vec3 c, vec3 d) {
 
 vec3 average(vec3 a, vec3 b, vec3 c, vec3 d, bool karis) {
 	if (karis) {
-		karis_average(a, b, c, d);
+		return karis_average(a, b, c, d);
 	} else {
 		return .25 * a + .25 * b + .25 * c + .25 * d;
 	}
