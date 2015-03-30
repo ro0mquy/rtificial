@@ -918,7 +918,7 @@
       "uniformName": "post_tonemap_exposure",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": -2.5
       },
       "sequencesArray": [
         {

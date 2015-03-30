@@ -23,8 +23,9 @@ int main(int argc, char* argv[]) {
 	double sun_y = cos(inclination);
 	double sun_z = sin(inclination) * cos(azimuth);
 	ArHosekSkyModelState* state = arhosek_rgb_skymodelstate_alloc_init(turbidity, albedo, elevation);
+	printf("vec3 sun_dir = vec3(%f, %f, %f);\n", sun_x, sun_y, sun_z);
+	printf("vec3 sun_radiance = vec3(%f, %f, %f);\n", state->radiances[0], state->radiances[1], state->radiances[2]);
 	puts("vec3 sky_radiance(vec3 d) {");
-	printf("\tvec3 sun_dir = vec3(%f, %f, %f);\n", sun_x, sun_y, sun_z);
 	puts("\tvec3 color;");
 	puts("\tfloat cos_gamma = dot(d, sun_dir);");
 	puts("\tfloat gamma = acos(cos_gamma);");
@@ -47,8 +48,7 @@ int main(int argc, char* argv[]) {
 		printf("\t\tcolor[%d] = (1.0 + A * exp(B / (cos_theta + 0.01))) * (C + D * expM + F * rayM + G * mieM + H * zenith);\n", i);
 		puts("\t}");
 	}
-	printf("\tvec3 radiances = vec3(%f, %f, %f);\n", state->radiances[0], state->radiances[1], state->radiances[2]);
-	puts("\treturn radiances * color;");
+	puts("\treturn sun_radiance * color;");
 	puts("}");
 
 	arhosekskymodelstate_free(state);

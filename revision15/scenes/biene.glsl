@@ -10,9 +10,14 @@ void main() {
 	float t = march(o, d, 50., screenDist);
 
 	if (isinf(t)) {
-		out_color.rgb = vec3(0.);
+		out_color.rgb = textureLod(environment, d, 0.).rgb;
 	} else {
-		out_color.rgb = vec3(max(dot(calc_normal(o + t * d, false), normalize(vec3(1., .5, 0.))), 0.) + .1);
+		vec3 p = o + t * d;
+		vec3 normal = calc_normal(p, false);
+		float rough = .2;
+		float metallic = 1.;
+		vec3 col = vec3(1.);
+		out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
 	}
 }
 

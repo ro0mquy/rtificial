@@ -64,8 +64,10 @@ float march_adv(vec3 o, vec3 d, float t_min, float t_max, float pixelRadius, int
 			break;
 		t += stepLength;
 	}
-	if ((t > t_max || candidate_error > pixelRadius) &&
-			!forceHit) return 1./0.;
+	// force hit except for far away points
+	if (t > t_max) return 1./0.;
+	//if ((t > t_max || candidate_error > pixelRadius) &&
+	//		!forceHit) return 1./0.;
 	return candidate_t;
 }
 
@@ -381,4 +383,26 @@ float squarerep(float x, float a, float b) {
 		x = mod(x - .25 * a, a) - .5 * a;
 	}
 	return x;
+}
+
+layout(binding = 0) uniform sampler2D brdf;
+layout(binding = 1) uniform samplerCube environment;
+layout(binding = 2) uniform samplerCube filteredDiffuse;
+layout(binding = 3) uniform samplerCube filteredSpecular;
+
+vec3 approximateSpecular(vec3 color, float roughness, vec3 N, vec3 V) {
+	float NoV = clamp(dot(N, V), 0., 1.);
+	vec3 R = 2. * dot(V, N) * N - V;
+
+	vec3 prefiltered = textureLod(filteredSpecular, R, roughness * 5.).rgb;
+	vec2 envBRDF = textureLod(brdf, vec2(roughness, NoV), 0.).rg;
+
+	return prefiltered * (color  * envBRDF.x + envBRDF.y);
+}
+
+vec3 ambientColor(vec3 n, vec3 v, vec3 color, float rough, float metallic) {
+	vec3 diffuse = textureLod(filteredDiffuse, n, 0.).rgb;
+	vec3 dielectric = color * diffuse + approximateSpecular(vec3(.04), rough, n, v);
+	vec3 metal = approximateSpecular(color, rough, n, v);
+	return mix(dielectric, metal, metallic);
 }

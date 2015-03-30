@@ -30,11 +30,15 @@ void main() {
 	float material_id = f(o+t*d, true)[1];
 
 	if (isinf(t)) {
-		out_color.rgb = vec3(.5);
-
+		// hmmmmm…
+		float r = 200.;
+		float radicand = dot(d, o) * dot(d, o) - dot(o, o) + r * r;
+		if (radicand < 0.) discard; // hupsi
+		t = -dot(d, o) + sqrt(radicand);
+		out_color.rgb = textureLod(environment, normalize(o + t * d), 0.).rgb;
 	} else {
 		vec3 normal = calc_normal(o + t * d, false);
-		out_color.rgb = vec3(max(dot(normal, normalize(vec3(1., .5, 2.))), 0.) + .1);
+		out_color.rgb = vec3(1.);
 
 		if (material_id == boden_id) {
 			out_color *= 0.2;
@@ -43,6 +47,10 @@ void main() {
 		} else if (material_id == kristall_id) {
 			out_color.b *= 0.2;
 		}
+
+		float rough = 1.;
+		float metallic = 0.;
+		out_color.rgb = ambientColor(normal, -d, out_color.rgb, rough, metallic);
 
 		//out_color.rgb = abs(normal);
 		out_color.rgb = applyFog(out_color.rgb, t, o, d);
