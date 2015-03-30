@@ -182,6 +182,35 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_fluegel_anim_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 248,
+          "sequenceStart": 6500,
+          "sequenceDuration": 2000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 2000,
+              "keyframeValue": {
+                "valueFloatX": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "biene_fluegel_c_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
@@ -711,7 +740,7 @@
       "uniformName": "morph_kantenklumpen_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -0.29999999999995452526
+        "valueFloatX": 0.3000000000000682121
       },
       "sequencesArray": []
     },

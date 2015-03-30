@@ -100,6 +100,10 @@ vec2 bee_body(vec3 p, bool last_step) {
 }
 
 vec2 bee_fluegel(vec3 p, bool last_step) {
+	float biene_fluegel_rot_rt_float = 20. * sin(TAU * biene_fluegel_anim_rt_float);
+	float biene_fluegel_angle_rt_float = 20. * sin(TAU * (biene_fluegel_anim_rt_float - .25)) - 20.;
+	float biene_fluegel_raise_rt_float = 20. * sin(TAU * biene_fluegel_anim_rt_float);
+
 	vec3 p_fluegel = p;
 	p_fluegel.x = abs(p_fluegel.x);
 	p_fluegel.zx *= rot2D(radians(1.) * biene_fluegel_rot_rt_float);
