@@ -54,6 +54,46 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_body_head_eye_dist_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 46.819999999999936335
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_eye_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 15.81500000000005457
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_eye_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.2129999999999654392
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_eye_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.57600000000002182787
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_eye_stretch_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.3020000000000209184
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_body_head_offset_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {

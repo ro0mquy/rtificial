@@ -58,9 +58,28 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float head_radius = thorax_radius * biene_body_head_radius_rt_float;
 	float head_length = head_radius * biene_body_head_stretch_rt_float;
 	p_head.z += thorax_length + head_length + biene_body_head_offset_rt_float;
+	vec3 p_fuel = p_head;
 	p_head.z /= biene_body_head_stretch_rt_float;
 	float d_head = sphere(p_head, head_radius);
 	d_head *= min(biene_body_head_stretch_rt_float, 1.);
+
+	vec3 p_eyes = p_head;
+	p_eyes.x = abs(p_eyes.x);
+	p_eyes.zx *= rot2D(radians(biene_body_head_eye_dist_rt_float));
+	p_eyes.zy *= rot2D(radians(biene_body_head_eye_height_rt_float));
+	p_eyes.z += head_length - biene_body_head_eye_offset_rt_float;
+	p_eyes.y /= biene_body_head_eye_stretch_rt_float;
+	float d_eyes = sphere(p_eyes, biene_body_head_eye_radius_rt_float * head_radius);
+	d_head = min(d_head, d_eyes);
+
+	p_fuel.x = abs(p_fuel.x);
+	p_fuel.zx *= rot2D(radians(biene_body_head_fuel_dist_rt_float));
+	p_fuel.zy *= rot2D(radians(biene_Body_head_fuel_height_rt_float));
+	p_fuel.z += head_length;
+	float t_fuel = clamp(-p_fuel.z, 0., 2.);
+	p_fuel.yz *= rot2D(radians(10.) * t_fuel);
+	float d_fuel = line(p_fuel, vec3(0., 0., -2.), .1);
+	d_head = smin(d_head, d_fuel, .05);
 
 	vec3 p_abdomen = p;
 	float abdomen_length = biene_body_length_rt_float + .5 * biene_body_radius_rt_float;
