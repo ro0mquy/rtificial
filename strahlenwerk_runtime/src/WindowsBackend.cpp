@@ -1,6 +1,12 @@
 #ifdef _WINDOWS
 
+// http://stackoverflow.com/questions/1583196/building-visual-c-app-that-doesnt-use-crt-functions-still-references-some
+extern "C" {
+	int _fltused = 1;
+}
+
 #define SYNTH_V2
+//#define SYNTH_4KLANG
 
 #include "Backend.h"
 #include "glcorearb.h"
@@ -93,17 +99,14 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 #endif
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
-
-extern "C" {
-	int _fltused = 1;
-}
 #endif
+
 #ifdef SYNTH_V2
 #include "v2mplayer.h"
 #include "libv2.h"
 static V2MPlayer player;
 extern "C" const sU8 soundtrack[];
-static float rt_time = 0.0f;
+static int rt_time = 0;
 #endif
 
 void WindowsBackend::initAudio(bool threaded) {
@@ -162,14 +165,14 @@ void WindowsBackend::playAudio() {
 
 // returns time in milli beats
 int WindowsBackend::getTime(){
-/*#ifdef SYNTH_4KLANG
+#ifdef SYNTH_4KLANG
 	MMTIME time;
 	time.wType = TIME_SAMPLES;
 	waveOutGetPosition(audio_wave_out, &time, sizeof(MMTIME));
 	return int(.5 + (double) time.u.sample / SAMPLE_RATE * BPM / 60. * 1000.);
-#endif*/
+#endif
 #ifdef SYNTH_V2
-	return rt_time++;
+	return rt_time += 1000;
 #endif
 }
 

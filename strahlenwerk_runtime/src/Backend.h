@@ -24,7 +24,7 @@ using int16_t = short;
 		return 0;
 
 #	define RT_DEBUG(str) \
-		OutputDebugString(string);
+		OutputDebugString(str);
 #else
 #	define RT_MAIN void WinMainCRTStartup()
 

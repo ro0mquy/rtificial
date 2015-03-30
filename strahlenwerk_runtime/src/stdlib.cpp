@@ -1,4 +1,5 @@
 #ifdef _WINDOWS
+#ifndef _DEBUG
 
 #include "stdlib.h"
 #include <windows.h>
@@ -93,4 +94,5 @@ void GlobalsStaticsFree() {
 #	endif
 }
 
+#endif
 #endif
