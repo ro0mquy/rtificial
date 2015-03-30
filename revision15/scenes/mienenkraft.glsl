@@ -54,6 +54,8 @@ void main() {
 
 		//out_color.rgb = abs(normal);
 		out_color.rgb = applyFog(out_color.rgb, t, o, d);
+
+		out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
 	}
 
 }

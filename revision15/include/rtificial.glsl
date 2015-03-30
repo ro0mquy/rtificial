@@ -406,3 +406,11 @@ vec3 ambientColor(vec3 n, vec3 v, vec3 color, float rough, float metallic) {
 	vec3 metal = approximateSpecular(color, rough, n, v);
 	return mix(dielectric, metal, metallic);
 }
+
+float ao(vec3 p, vec3 n, float d, float i) {
+	float o, s = sign(d);
+	for(o = s * .5 + .5; i > 0; i--) {
+		o -= (i * d - f(p + n * i * d * s, false)[0]) / exp2(i);
+	}
+	return o;
+}
