@@ -132,8 +132,8 @@
     </Library>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\music\v2inc.asm">
+    <CustomBuild Include="..\..\src\music\v2inc.asm">
       <Filter>Source Files</Filter>
-    </None>
+    </CustomBuild>
   </ItemGroup>
 </Project>

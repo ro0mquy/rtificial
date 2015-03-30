@@ -49,6 +49,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\src;..\..\Lib\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\src\music;..\..\Lib\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(SolutionDir);$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
