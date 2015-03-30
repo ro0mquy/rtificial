@@ -34,9 +34,9 @@ void AmbientLight::bind() {
 
 	// well… TODO
 	if (!created) {
-		environment.create(1024, 1024, 1);
+		environment.create(512, 512, 1);
 		filteredDiffuse.create(256, 256, 1);
-		filteredSpecular.create(1024, 1024, 6);
+		filteredSpecular.create(512, 512, 6);
 
 		// create BRDF LUT
 		glGenTextures(1, &brdfLUT);
