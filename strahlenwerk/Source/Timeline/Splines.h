@@ -75,9 +75,9 @@ glm::quat CentripetalCatmullRomSpline(glm::quat const& P0, glm::quat const& P1, 
 	// we calculate with deltas and not absolute times
 	// dot() gives cos(alpha), we want cos to be always >= 0
 
-	const float dt01 = sqrt(acos(clamp(abs(dot(P0, P1)), 0.f, 1.f)));
-	const float dt12 = sqrt(acos(clamp(abs(dot(P1, P2)), 0.f, 1.f)));
-	const float dt23 = sqrt(acos(clamp(abs(dot(P2, P3)), 0.f, 1.f)));
+	const float dt01 = glm::sqrt(acos(clamp(abs(dot(P0, P1)), 0.f, 1.f)));
+	const float dt12 = glm::sqrt(acos(clamp(abs(dot(P1, P2)), 0.f, 1.f)));
+	const float dt23 = glm::sqrt(acos(clamp(abs(dot(P2, P3)), 0.f, 1.f)));
 	const float dt = rawT * dt12;
 
 	const quat L01 = slerp(P0, P1, (dt + dt01) / dt01);

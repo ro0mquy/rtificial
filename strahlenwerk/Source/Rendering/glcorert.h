@@ -60,6 +60,69 @@ extern "C" {
 #define GL_QUERY_RESULT                   0x8866
 #define GL_TEXTURE_MAX_LEVEL              0x813D
 
+#define GL_TEXTURE0                       0x84C0
+#define GL_TEXTURE1                       0x84C1
+#define GL_TEXTURE2                       0x84C2
+#define GL_TEXTURE3                       0x84C3
+#define GL_TEXTURE4                       0x84C4
+#define GL_TEXTURE5                       0x84C5
+#define GL_TEXTURE6                       0x84C6
+#define GL_TEXTURE7                       0x84C7
+#define GL_TEXTURE8                       0x84C8
+#define GL_TEXTURE9                       0x84C9
+#define GL_TEXTURE10                      0x84CA
+#define GL_TEXTURE11                      0x84CB
+#define GL_TEXTURE12                      0x84CC
+#define GL_TEXTURE13                      0x84CD
+#define GL_TEXTURE14                      0x84CE
+#define GL_TEXTURE15                      0x84CF
+#define GL_TEXTURE16                      0x84D0
+#define GL_TEXTURE17                      0x84D1
+#define GL_TEXTURE18                      0x84D2
+#define GL_TEXTURE19                      0x84D3
+#define GL_TEXTURE20                      0x84D4
+#define GL_TEXTURE21                      0x84D5
+#define GL_TEXTURE22                      0x84D6
+#define GL_TEXTURE23                      0x84D7
+#define GL_TEXTURE24                      0x84D8
+#define GL_TEXTURE25                      0x84D9
+#define GL_TEXTURE26                      0x84DA
+#define GL_TEXTURE27                      0x84DB
+#define GL_TEXTURE28                      0x84DC
+#define GL_TEXTURE29                      0x84DD
+#define GL_TEXTURE30                      0x84DE
+#define GL_TEXTURE31                      0x84DF
+#define GL_ACTIVE_TEXTURE                 0x84E0
+
+#define GL_MAX_COLOR_ATTACHMENTS          0x8CDF
+#define GL_COLOR_ATTACHMENT0              0x8CE0
+#define GL_COLOR_ATTACHMENT1              0x8CE1
+#define GL_COLOR_ATTACHMENT2              0x8CE2
+#define GL_COLOR_ATTACHMENT3              0x8CE3
+#define GL_COLOR_ATTACHMENT4              0x8CE4
+#define GL_COLOR_ATTACHMENT5              0x8CE5
+#define GL_COLOR_ATTACHMENT6              0x8CE6
+#define GL_COLOR_ATTACHMENT7              0x8CE7
+#define GL_COLOR_ATTACHMENT8              0x8CE8
+#define GL_COLOR_ATTACHMENT9              0x8CE9
+#define GL_COLOR_ATTACHMENT10             0x8CEA
+#define GL_COLOR_ATTACHMENT11             0x8CEB
+#define GL_COLOR_ATTACHMENT12             0x8CEC
+#define GL_COLOR_ATTACHMENT13             0x8CED
+#define GL_COLOR_ATTACHMENT14             0x8CEE
+#define GL_COLOR_ATTACHMENT15             0x8CEF
+
+#define GL_TEXTURE_CUBE_MAP               0x8513
+#define GL_TEXTURE_BINDING_CUBE_MAP       0x8514
+#define GL_TEXTURE_CUBE_MAP_POSITIVE_X    0x8515
+#define GL_TEXTURE_CUBE_MAP_NEGATIVE_X    0x8516
+#define GL_TEXTURE_CUBE_MAP_POSITIVE_Y    0x8517
+#define GL_TEXTURE_CUBE_MAP_NEGATIVE_Y    0x8518
+#define GL_TEXTURE_CUBE_MAP_POSITIVE_Z    0x8519
+#define GL_TEXTURE_CUBE_MAP_NEGATIVE_Z    0x851A
+#define GL_TEXTURE_CUBE_MAP_SEAMLESS      0x884F
+
+
 #ifndef GLEXT_64_TYPES_DEFINED
 	/* This code block is duplicated in glxext.h, so must be protected */
 #define GLEXT_64_TYPES_DEFINED
@@ -107,28 +170,32 @@ typedef void (APIENTRYP PFNGLDELETEQUERIESPROC) (GLsizei n, const GLuint *ids);
 typedef void (APIENTRYP PFNGLENDQUERYPROC) (GLenum target);
 typedef void (APIENTRYP PFNGLBEGINQUERYPROC) (GLenum target, GLuint id);
 typedef void (APIENTRYP PFNGLGETQUERYOBJECTUI64VPROC) (GLuint id, GLenum pname, GLuint64 *params);
+typedef void (APIENTRYP PFNGLUNIFORM3FPROC) (GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+typedef void (APIENTRYP PFNGLUNIFORM1IPROC) (GLint location, GLint v0);
+typedef void (APIENTRYP PFNGLGENFRAMEBUFFERSPROC) (GLsizei n, GLuint *framebuffers);
+typedef void (APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DPROC) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+typedef void (APIENTRYP PFNGLDELETEFRAMEBUFFERSPROC) (GLsizei n, const GLuint *framebuffers);
+typedef void (APIENTRYP PFNGLCLEARTEXIMAGEPROC) (GLuint texture, GLint level, GLenum format, GLenum type, const void *data);
+typedef void (APIENTRYP PFNGLBINDFRAMEBUFFERPROC) (GLenum target, GLuint framebuffer);
+typedef void (APIENTRYP PFNGLDELETEFRAMEBUFFERSPROC) (GLsizei n, const GLuint *framebuffers);
 
 #ifdef GL_GLEXT_PROTOTYPES
-/*
-GLAPI void APIENTRY glGenQueries(GLsizei n, GLuint *ids);
-GLAPI void APIENTRY glActiveTexture(GLenum texture);
-GLAPI void APIENTRY glGenerateMipmap(GLenum target);
-GLAPI void APIENTRY glDrawBuffers(GLsizei n, const GLenum *bufs);
-GLAPI void APIENTRY glDeleteQueries(GLsizei n, const GLuint *ids);
-GLAPI void APIENTRY glEndQuery(GLenum target);
-GLAPI void APIENTRY glBeginQuery(GLenum target, GLuint id);
-GLAPI void APIENTRY glGetQueryObjectui64v(GLuint id, GLenum pname, GLuint64 *params);
-*/
-
-extern PFNGLGENQUERIESPROC              glGenQueries;
-extern PFNGLACTIVETEXTUREPROC              glActiveTexture;
-extern PFNGLGENERATEMIPMAPPROC              glGenerateMipmap;
-extern PFNGLDRAWBUFFERSPROC              glDrawBuffers;
-extern PFNGLDELETEQUERIESPROC              glDeleteQueries;
-extern PFNGLENDQUERYPROC              glEndQuery;
-extern PFNGLBEGINQUERYPROC              glBeginQuery;
-extern PFNGLGETQUERYOBJECTUI64VPROC              glGetQueryObjectui64v;
-
+extern PFNGLGENQUERIESPROC           glGenQueries;
+extern PFNGLACTIVETEXTUREPROC        glActiveTexture;
+extern PFNGLGENERATEMIPMAPPROC       glGenerateMipmap;
+extern PFNGLDRAWBUFFERSPROC          glDrawBuffers;
+extern PFNGLDELETEQUERIESPROC        glDeleteQueries;
+extern PFNGLENDQUERYPROC             glEndQuery;
+extern PFNGLBEGINQUERYPROC           glBeginQuery;
+extern PFNGLGETQUERYOBJECTUI64VPROC  glGetQueryObjectui64v;
+extern PFNGLUNIFORM3FPROC            glUniform3f;
+extern PFNGLUNIFORM1IPROC            glUniform1i;
+extern PFNGLGENFRAMEBUFFERSPROC      glGenFramebuffers;
+extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2D;
+extern PFNGLDELETEFRAMEBUFFERSPROC   glDeleteFramebuffer;
+extern PFNGLCLEARTEXIMAGEPROC        glClearTexImage;
+extern PFNGLBINDFRAMEBUFFERPROC      glBindFramebuffer;
+extern PFNGLDELETEFRAMEBUFFERSPROC   glDeleteFramebuffers;
 #endif
 
 void initializeOpenGLFunctions();
