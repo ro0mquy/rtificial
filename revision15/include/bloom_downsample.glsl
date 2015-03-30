@@ -3,12 +3,13 @@ float lumaaaaa(vec3 color) {
 }
 
 vec3 karis_average(vec3 a, vec3 b, vec3 c, vec3 d) {
-	float weight = 0.;
-	weight += 1./(1.+lumaaaaa(a));
-	weight += 1./(1.+lumaaaaa(b));
-	weight += 1./(1.+lumaaaaa(c));
-	weight += 1./(1.+lumaaaaa(d));
-	return (a + b + c + d) / weight;
+	a /= 1 + lumaaaaa(a);
+	b /= 1 + lumaaaaa(b);
+	c /= 1 + lumaaaaa(c);
+	d /= 1 + lumaaaaa(d);
+	vec3 result = .25 * a + .25 * b + .25 * c + .25 * d;
+	result /= 1. - lumaaaaa(result);
+	return result;
 }
 
 vec3 average(vec3 a, vec3 b, vec3 c, vec3 d, bool karis) {

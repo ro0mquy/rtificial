@@ -836,7 +836,7 @@
       "uniformName": "post_bloom_amount",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.20000000000004547474
+        "valueFloatX": 0.5
       },
       "sequencesArray": []
     },
@@ -947,7 +947,7 @@
       "uniformName": "post_tonemap_exposure",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -5
+        "valueFloatX": -3
       },
       "sequencesArray": [
         {
