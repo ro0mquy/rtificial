@@ -1,12 +1,11 @@
-#version 430
 uniform vec3 camera_position;
 uniform vec4 camera_rotation; // quat
 
+#ifndef FOCAL_LENGTH
 uniform float camera_focal_length;
+#endif
 
 uniform float time;
-
-layout(location = 0) uniform vec2 res;
 
 float TAU = 6.28318530718;
 
@@ -18,7 +17,7 @@ vec3 quat_rotate(vec3 v, vec4 q) {
 }
 
 vec3 get_direction(out float screenDist) {
-	vec3 dir = vec3((gl_FragCoord.xy - .5 * res) / res.x , -camera_focal_length / .03);
+	vec3 dir = vec3((gl_FragCoord.xy - .5 * res) / res.x , -camera_focal_length / .035);
 	screenDist = length(vec2(dir.xz));
 	dir = normalize(dir);
 	return quat_rotate(dir, camera_rotation);
@@ -72,7 +71,7 @@ float march_adv(vec3 o, vec3 d, float t_min, float t_max, float pixelRadius, int
 }
 
 float march(vec3 o, vec3 d, float t_max, float screenDistX) {
-	return march_adv(o, d, .001, t_max, screenDistX/res.x*.5, 128, 1.2, false);
+	return march_adv(o, d, .001, t_max, .5/(screenDistX*res.x), 128, 1.2, false);
 }
 
 vec3 calc_normal(vec3 p, bool last_step) {

@@ -1,5 +1,14 @@
 input.color upscale.color
-upscale.out_color bloom_down_1st.color
+input.coc upscale.coc
+
+upscale.out_color bokeh_pass1.color
+upscale.out_coc bokeh_pass1.coc
+bokeh_pass1.upwards bokeh_pass2.upwards
+bokeh_pass1.both bokeh_pass2.both
+bokeh_pass2.out_color bokeh_blend.dof
+upscale.out_color bokeh_blend.color
+
+bokeh_blend.out_color bloom_down_1st.color
 bloom_down_1st.out_color bloom_down_2nd.color
 bloom_down_2nd.out_color bloom_down_3rd.color
 bloom_down_3rd.out_color bloom_down_4th.color
@@ -14,7 +23,7 @@ bloom_down_2nd.out_color bloom_up_2nd.color
 bloom_up_2nd.out_color bloom_up_1st.previous
 bloom_down_1st.out_color bloom_up_1st.color
 bloom_up_1st.out_color bloom_up_final.previous
-upscale.out_color bloom_up_final.color
+bokeh_blend.out_color bloom_up_final.color
 bloom_up_final.out_color tonemap.color
 tonemap.out_color final.color
 final.out_color fxaa.tex

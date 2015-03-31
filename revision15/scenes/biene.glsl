@@ -1,7 +1,6 @@
+#include "scene_head.glsl"
 #include "rtificial.glsl"
-#line 3
-
-out vec4 out_color;
+#line 4
 
 void main() {
 	vec3 o = camera_position;
@@ -9,6 +8,7 @@ void main() {
 	vec3 d = get_direction(screenDist);
 	float t = march(o, d, 50., screenDist);
 
+	vec3 out_color;
 	if (isinf(t)) {
 		out_color.rgb = textureLod(environment, d, 0.).rgb;
 	} else {
@@ -19,6 +19,7 @@ void main() {
 		vec3 col = vec3(1.);
 		out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
 	}
+	output_color(out_color, t);
 }
 
 vec2 bee_body(vec3 p, bool last_step) {

@@ -94,6 +94,20 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_body_head_fuel_dist_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      }
+    },
+    {
+      "uniformName": "biene_Body_head_fuel_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      }
+    },
+    {
       "uniformName": "biene_body_head_offset_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -488,10 +502,26 @@
       ]
     },
     {
+      "uniformName": "camera_f_stop",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "camera_focal_length",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.021000000000000001305
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_focus_dist",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
       },
       "sequencesArray": []
     },

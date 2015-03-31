@@ -1,8 +1,7 @@
+#include "scene_head.glsl"
 #include "rtificial.glsl"
 #include "noise.glsl"
-#line 4
-
-out vec4 out_color;
+#line 5
 
 void main() {
 	vec3 o = camera_position;
@@ -10,6 +9,7 @@ void main() {
 	vec3 d = get_direction(screenDist);
 	float t = march(o, d, 100., screenDist);
 
+	vec3 out_color;
 	if (isinf(t)) {
 		out_color.rgb = vec3(0.);
 	} else {
@@ -32,6 +32,7 @@ void main() {
 
 		//out_color.rgb = abs(normal);
 	}
+	output_color(out_color, t);
 }
 
 float trishape(vec3 p) {

@@ -1,7 +1,6 @@
+#include "scene_head.glsl"
 #include "rtificial.glsl"
-#line 3
-
-out vec4 out_color;
+#line 4
 
 const float boden_id = 0.;
 const float fels_id = 1.;
@@ -28,6 +27,8 @@ void main() {
 	float t = march(o, d, 200., screenDist);
 
 	float material_id = f(o+t*d, true)[1];
+
+	vec3 out_color;
 
 	if (isinf(t)) {
 		// hmmmmm…
@@ -57,6 +58,7 @@ void main() {
 
 		out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
 	}
+	output_color(out_color, t);
 
 }
 
