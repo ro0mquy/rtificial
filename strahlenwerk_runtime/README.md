@@ -18,7 +18,8 @@ Define `SYNTH_4KLANG` preprocessor-define in `WindowsBackend.cpp`.
 
 #### Using the V2 synth
 > Download the `libv2` from [pouet](http://www.pouet.net/prod.php?which=15073) and unpack it. Copy `libv2/libv2.h`, `libv2/v2mplayer.h`, and `libv2/v2mplayer.cpp` to `rtificial/strahlenwerk_runtime/Lib/include/` and `libv2/libv2.lib` to `rtificial/strahlenwerk_runtime/Lib/lib/`.
-*`libv2` is now included in the source tree*
+
+*`libv2` is now included in the source tree.*
 
 It may be the cases that you need a `nasm.exe` executable. Download a standalone version (not the installer) from [nasm.us](http://nasm.us/) and extract it. Now copy the executable `nasm/nasm.exe` to `rtificial/strahlenwerk_runtime/VisualStudio2013/nasm.exe`
 
