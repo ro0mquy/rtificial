@@ -8,6 +8,10 @@ extern "C" {
 #define SYNTH_V2
 //#define SYNTH_4KLANG
 
+#ifdef SYNTH_V2
+	#define BPM 90
+#endif
+
 #include "Backend.h"
 #include "glcorearb.h"
 
@@ -106,7 +110,6 @@ static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 #include "libv2.h"
 static V2MPlayer player;
 extern "C" const sU8 soundtrack[];
-static int rt_time = 0;
 #endif
 
 void WindowsBackend::initAudio(bool threaded) {
@@ -172,7 +175,7 @@ int WindowsBackend::getTime(){
 	return int(.5 + (double) time.u.sample / SAMPLE_RATE * BPM / 60. * 1000.);
 #endif
 #ifdef SYNTH_V2
-	return rt_time += 1000;
+	return int(.5 + double(player.GetTime()) * BPM / 60.);
 #endif
 }
 

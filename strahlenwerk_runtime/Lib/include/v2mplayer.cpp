@@ -19,6 +19,18 @@
 #define PUTSTAT(s) { sU8 bla=(s); if (laststat!=bla) { laststat=bla; *mptr++=(sU8)laststat; }};
 
 
+/*
+* --- CUSTOM RTIFICIAL ---
+*/
+
+sU32 V2MPlayer::GetTime(){
+	return m_state.time;
+}
+
+/*
+* ---
+*/
+
 
 namespace
 {

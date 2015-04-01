@@ -58,6 +58,17 @@ class V2MPlayer
 {
 public:
 
+	/*
+	* --- CUSTOM RTIFICIAL ---
+	*/
+
+	sU32 GetTime();
+
+	/*
+	* ---
+	*/
+
+
   // init
   // call this instead of a constructor
   void Init(sU32 a_tickspersec=1000) { m_tpc=a_tickspersec; m_base.valid=0; }
