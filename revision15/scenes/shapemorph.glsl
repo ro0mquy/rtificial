@@ -19,7 +19,7 @@ void main() {
 		vec3 reflection_dir = reflect(d, normal);
 		vec3 reflection_color = textureLod(environment, reflection_dir, 0.).rgb;
 
-		vec3 n2 = vec3(1.52, 1.53, 1.54);
+		vec3 n2 = vec3(1.1, 1.104, 1.106);
 		vec3 refraction_dir_r = refract(d, normal, n2.x);
 		vec3 refraction_dir_g = refract(d, normal, n2.y);
 		vec3 refraction_dir_b = refract(d, normal, n2.z);
@@ -42,13 +42,14 @@ void main() {
 		vec3 p = o + t * d;
 		vec3 n = -d;
 		float ao_factor = 0.;
-		float l = -.2;
+		float l = -.3;
 		float i = 5.;
 		for(; i > 0; i--) {
 			vec3 p_i = p + n * i * l;
 			float noise = cfbm(p_i * morph_noise_freq_rt_float);
 			//ao_factor -= (i * l - noise * f(p_i, false)[0]) / exp2(i);
-			ao_factor -= noise * f(p_i, false)[0] / exp2(i);
+			ao_factor += noise * abs(f(p_i, false)[0]) / exp2(i);
+			//ao_factor += noise / exp2(i);
 		}
 		//out_color.rgb *= .1;
 		refraction_color *= pow(clamp(ao_factor, 0., 1.), 10.);
@@ -56,12 +57,13 @@ void main() {
 		out_color *= morph_rt_color;
 
 		vec3 col = morph_rt_color;
-		float rough = 0.;
+		float rough = 0.3;
 		float metallic = 1.;
 		out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
 		// ganz viel spucke!
-		out_color.rgb *= .05;
-		out_color.rgb += ao_factor * 2.;
+		//out_color.rgb *= .05;
+		//out_color.rgb += ao_factor * 2.;
+		out_color.rgb = mix(out_color.rgb, (ao_factor * 5. + .5) * morph_rt_color, r);
 
 		//out_color.rgb = abs(normal);
 	}

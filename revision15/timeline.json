@@ -145,7 +145,7 @@
       "uniformName": "biene_body_head_fuel_thick_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.048999999999978172127
+        "valueFloatX": 0.048999999999978179066
       },
       "sequencesArray": []
     },
@@ -471,7 +471,7 @@
       "uniformName": "biene_mouth_bottom_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.15899999999999181455
+        "valueFloatX": 0.15899999999999178679
       },
       "sequencesArray": []
     },
@@ -520,7 +520,7 @@
       "uniformName": "biene_mouth_smooth_bottom_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.10099999999999909051
+        "valueFloatX": 0.10099999999999907663
       },
       "sequencesArray": []
     },
@@ -957,7 +957,7 @@
       "uniformName": "morph_noise_freq_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 5
+        "valueFloatX": 4.0639999999999645297
       },
       "sequencesArray": []
     },
@@ -1018,6 +1018,16 @@
       ]
     },
     {
+      "uniformName": "morph_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.20835965871810913086,
+        "valueColorG": 0.53564161062240600586,
+        "valueColorB": 0.41514810919761657715
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "morph_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1075,32 +1085,7 @@
         "valueColorG": 0.5,
         "valueColorB": 0.5
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 259,
-          "sequenceStart": 0,
-          "sequenceDuration": 13000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueColorR": 0.0041200001724064350128,
-                "valueColorG": 0.031550001353025436401,
-                "valueColorB": 0.019920000806450843811
-              }
-            },
-            {
-              "keyframePosition": 13000,
-              "keyframeValue": {
-                "valueColorR": 0.17999999999999999334,
-                "valueColorG": 0.17999999999999999334,
-                "valueColorB": 0.17999999999999999334
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "post_color_lift",
@@ -1158,28 +1143,7 @@
       "uniformStandardValue": {
         "valueFloatX": -3
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 259,
-          "sequenceStart": 0,
-          "sequenceDuration": 13000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 3.1069999999999708962
-              }
-            },
-            {
-              "keyframePosition": 13000,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "post_vignette_intensity",
