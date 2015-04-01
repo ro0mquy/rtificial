@@ -456,13 +456,13 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": -8
               }
             },
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": -8
               }
             },
             {
@@ -523,7 +523,7 @@
       "uniformName": "biene_fluegel_musterung_phi_pow_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.39999999999997726263
+        "valueFloatX": 0.36300000000005638867
       },
       "sequencesArray": []
     },
@@ -883,7 +883,7 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueVec3X": 0.035069525241851806641,
-                "valueVec3Y": 0.95509499311447143555,
+                "valueVec3Y": 0.95509499311447132452,
                 "valueVec3Z": 10.86666107177734375
               }
             },
@@ -1091,7 +1091,7 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueVec3X": 8.858123779296875,
-                "valueVec3Y": 0.095889002084732055664,
+                "valueVec3Y": 0.095889002084732069542,
                 "valueVec3Z": 1.1377367973327636719
               }
             },
@@ -1333,16 +1333,16 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueQuatX": -0.15137511491775512695,
-                "valueQuatY": -0.11462095379829406738,
-                "valueQuatZ": -0.014868759550154209137,
-                "valueQuatW": 0.98169660568237304688
+                "valueQuatY": -0.11462095379829408126,
+                "valueQuatZ": -0.014868759550154207402,
+                "valueQuatW": 0.9816966056823731579
               }
             },
             {
               "keyframePosition": 12000,
               "keyframeValue": {
                 "valueQuatX": -0.2742131650447845459,
-                "valueQuatY": -0.11214897036552429199,
+                "valueQuatY": -0.11214897036552427811,
                 "valueQuatZ": -0.029339840635657310486,
                 "valueQuatW": 0.95465773344039916992
               }
@@ -1368,8 +1368,8 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueQuatX": 0.11572521179914474487,
-                "valueQuatY": -0.86043894290924072266,
-                "valueQuatZ": -0.22517530620098114014,
+                "valueQuatY": -0.86043894290924061163,
+                "valueQuatZ": -0.22517530620098111238,
                 "valueQuatW": -0.44220843911170959473
               }
             },
@@ -1377,9 +1377,9 @@
               "keyframePosition": 4000,
               "keyframeValue": {
                 "valueQuatX": 0.17121261358261108398,
-                "valueQuatY": -0.82862001657485961914,
-                "valueQuatZ": -0.38590583205223083496,
-                "valueQuatW": -0.36762896180152893066
+                "valueQuatY": -0.82862001657485973016,
+                "valueQuatZ": -0.38590583205223077945,
+                "valueQuatW": -0.36762896180152898618
               }
             },
             {
@@ -1404,7 +1404,7 @@
               "keyframeValue": {
                 "valueQuatX": -0.12519133090972900391,
                 "valueQuatY": 0.0014748740941286087036,
-                "valueQuatZ": 0.00018614623695611953735,
+                "valueQuatZ": 0.00018614623695611951025,
                 "valueQuatW": 0.99213129281997680664
               }
             },
@@ -1420,7 +1420,7 @@
             {
               "keyframePosition": 2500,
               "keyframeValue": {
-                "valueQuatX": -0.48239371180534362793,
+                "valueQuatX": -0.48239371180534357242,
                 "valueQuatY": 0.0013021518243476748466,
                 "valueQuatZ": 0.00071715039666742086411,
                 "valueQuatW": 0.8759530186653137207
@@ -1474,15 +1474,15 @@
               "keyframeValue": {
                 "valueQuatX": 0.045809213072061538696,
                 "valueQuatY": -0.68972539901733398438,
-                "valueQuatZ": 0.043804448097944259644,
-                "valueQuatW": 0.72129160165786743164
+                "valueQuatZ": 0.043804448097944252705,
+                "valueQuatW": 0.72129160165786732062
               }
             },
             {
               "keyframePosition": 4000,
               "keyframeValue": {
                 "valueQuatX": -0.00026165379676967859268,
-                "valueQuatY": -0.99798113107681274414,
+                "valueQuatY": -0.99798113107681285516,
                 "valueQuatZ": 0.063381731510162353516,
                 "valueQuatW": -0.0041197985410690307617
               }
@@ -1491,7 +1491,7 @@
               "keyframePosition": 7000,
               "keyframeValue": {
                 "valueQuatX": -0.00026165379676967859268,
-                "valueQuatY": -0.99798113107681274414,
+                "valueQuatY": -0.99798113107681285516,
                 "valueQuatZ": 0.063381731510162353516,
                 "valueQuatW": -0.0041197985410690307617
               }
@@ -1500,7 +1500,7 @@
               "keyframePosition": 12000,
               "keyframeValue": {
                 "valueQuatX": -0.00026165379676967859268,
-                "valueQuatY": -0.99798113107681274414,
+                "valueQuatY": -0.99798113107681285516,
                 "valueQuatZ": 0.063381731510162353516,
                 "valueQuatW": -0.0041197985410690307617
               }
@@ -1516,10 +1516,10 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": -0.11679790914058685303,
+                "valueQuatX": -0.11679790914058683915,
                 "valueQuatY": 0.12665833532810211182,
                 "valueQuatZ": 0.015019755810499191284,
-                "valueQuatW": 0.9849312901496887207
+                "valueQuatW": 0.98493129014968860968
               }
             },
             {
@@ -1537,7 +1537,7 @@
                 "valueQuatX": -0.04570978507399559021,
                 "valueQuatY": 0.91517847776412963867,
                 "valueQuatZ": 0.10852631181478500366,
-                "valueQuatW": 0.3854605555534362793
+                "valueQuatW": 0.38546055555343633481
               }
             },
             {
@@ -1545,7 +1545,7 @@
               "keyframeValue": {
                 "valueQuatX": 0.014854812063276767731,
                 "valueQuatY": 0.98510897159576416016,
-                "valueQuatZ": 0.11681903153657913208,
+                "valueQuatZ": 0.1168190315365791182,
                 "valueQuatW": -0.1252673417329788208
               }
             },
@@ -1579,7 +1579,7 @@
             {
               "keyframePosition": 14000,
               "keyframeValue": {
-                "valueQuatX": 0.10414687544107437134,
+                "valueQuatX": 0.10414687544107435746,
                 "valueQuatY": -0.46347904205322265625,
                 "valueQuatZ": -0.054961599409580230713,
                 "valueQuatW": -0.8782475590705871582
@@ -1588,9 +1588,9 @@
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueQuatX": 0.059980992227792739868,
+                "valueQuatX": 0.059980992227792732929,
                 "valueQuatY": -0.85457086563110351562,
-                "valueQuatZ": -0.10133916139602661133,
+                "valueQuatZ": -0.10133916139602659745,
                 "valueQuatW": -0.50580638647079467773
               }
             }
@@ -1641,7 +1641,7 @@
               "keyframePosition": 4000,
               "keyframeValue": {
                 "valueQuatX": -0.46239414811134338379,
-                "valueQuatY": 0.20331135392189025879,
+                "valueQuatY": 0.20331135392189023103,
                 "valueQuatZ": 0.10982030630111694336,
                 "valueQuatW": 0.85603487491607666016
               }
@@ -1649,28 +1649,28 @@
             {
               "keyframePosition": 6000,
               "keyframeValue": {
-                "valueQuatX": -0.47518298029899597168,
+                "valueQuatX": -0.47518298029899602719,
                 "valueQuatY": -0.015491373836994171143,
                 "valueQuatZ": -0.0083677424117922782898,
-                "valueQuatW": 0.87971091270446777344
+                "valueQuatW": 0.87971091270446788446
               }
             },
             {
               "keyframePosition": 8000,
               "keyframeValue": {
-                "valueQuatX": -0.47518298029899597168,
+                "valueQuatX": -0.47518298029899602719,
                 "valueQuatY": -0.015491373836994171143,
                 "valueQuatZ": -0.0083677424117922782898,
-                "valueQuatW": 0.87971091270446777344
+                "valueQuatW": 0.87971091270446788446
               }
             },
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueQuatX": -0.47518298029899597168,
+                "valueQuatX": -0.47518298029899602719,
                 "valueQuatY": -0.015491373836994171143,
                 "valueQuatZ": -0.0083677424117922782898,
-                "valueQuatW": 0.87971091270446777344
+                "valueQuatW": 0.87971091270446788446
               }
             }
           ]
@@ -1705,7 +1705,7 @@
                 "valueQuatX": -0.27741590142250061035,
                 "valueQuatY": 0,
                 "valueQuatZ": 0,
-                "valueQuatW": 0.96074974536895751953
+                "valueQuatW": 0.96074974536895740851
               }
             },
             {
@@ -1746,18 +1746,18 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": -0.093102522194385528564,
+                "valueQuatX": -0.093102522194385542442,
                 "valueQuatY": -0.29526570439338684082,
-                "valueQuatZ": -0.028923839330673217773,
+                "valueQuatZ": -0.028923839330673214304,
                 "valueQuatW": 0.95042771100997924805
               }
             },
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueQuatX": -0.093102522194385528564,
+                "valueQuatX": -0.093102522194385542442,
                 "valueQuatY": -0.29526570439338684082,
-                "valueQuatZ": -0.028923839330673217773,
+                "valueQuatZ": -0.028923839330673214304,
                 "valueQuatW": 0.95042771100997924805
               }
             }
@@ -1775,7 +1775,7 @@
                 "valueQuatX": -0.19525104761123657227,
                 "valueQuatY": 0.15742358565330505371,
                 "valueQuatZ": 0.031769126653671264648,
-                "valueQuatW": 0.96751517057418823242
+                "valueQuatW": 0.9675151705741881214
               }
             },
             {

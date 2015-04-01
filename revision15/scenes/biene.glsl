@@ -173,7 +173,7 @@ vec2 bee_fluegel(vec3 p, bool last_step) {
 
 	p_filling.xz = r * vec2(cos(phi), sin(phi));
 	p_filling.x -= biene_fluegel_musterung_space_rt_float * -.25;
-	p_filling.x = squarerep(p_filling.x, biene_fluegel_musterung_space_rt_float, biene_fluegel_musterung_anim_rt_float);
+	p_filling.x = squarerep(p_filling.x, biene_fluegel_musterung_space_rt_float, biene_fluegel_musterung_anim_rt_float, 1.);
 
 	float f_filling = slowbox2(p_filling.xy, vec2(biene_fluegel_musterung_space_rt_float * .25, fluegel_thick * 2.));
 	f_filling = smax(f_filling, d_fluegel - biene_fluegel_musterung_thick_rt_float, fluegel_thick * biene_fluegel_musterung_smooth_rt_float);

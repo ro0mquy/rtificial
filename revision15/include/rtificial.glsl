@@ -361,10 +361,10 @@ float linstep(float edge0, float edge1, float x) {
 }
 
 // a: domrep cell size, b: parameter where the square spacing starts
-float squarerep(float x, float a, float b) {
+float squarerep(float x, float a, float b, float min_cell) {
 	if (x / a - floor(b) > 1.25) {
 		b += .5;
-		float cell = floor(sqrt(abs(x / a - b)) + b);
+		float cell = max(min_cell, floor(sqrt(abs(x / a - b)) + b));
 		float cell_halfdist = a * (cell - b + .5);
 		float cell_result = a * ((cell - b) * (cell - b) + b);
 
