@@ -80,7 +80,8 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float t_fuel = clamp(-p_fuel.z, 0., 2.);
 	p_fuel.yz *= rot2D(radians(10.) * t_fuel);
 	float d_fuel = line(p_fuel, vec3(0., 0., -2.), .1);
-	d_head = smin(d_head, d_fuel, .05);
+	//d_head = smin(d_head, d_fuel, .05);
+	// ohne fühl
 
 	vec3 p_abdomen = p;
 	float abdomen_length = biene_body_length_rt_float + .5 * biene_body_radius_rt_float;
@@ -134,7 +135,8 @@ vec2 bee_fluegel(vec3 p, bool last_step) {
 	float d_fluegel = cone(vec3(p_fluegel.z, p_fluegel.y, -p_fluegel.x), c);
 	float fluegel_length = biene_fluegel_length_rt_float;
 	float fluegel_thick = biene_fluegel_thick_rt_float;
-	d_fluegel = smax(d_fluegel, cylinder(p_fluegel.xz - vec2(fluegel_length, 0.), fluegel_length),
+	d_fluegel = smax(d_fluegel,
+		cylinder(p_fluegel.xz - vec2(fluegel_length, -fluegel_length * biene_fluegel_asym_rt_float), fluegel_length),
 		biene_fluegel_end_smooth_rt_float * fluegel_thick); // cap ends
 	d_fluegel = smax(d_fluegel, abs(p_fluegel.y) - fluegel_thick,
 		biene_fluegel_thick_smooth_rt_float * fluegel_thick); // cap bottom/top

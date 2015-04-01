@@ -20,7 +20,7 @@
       "uniformName": "biene_body_anim_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 4
+        "valueFloatX": 3.9640000000000554792
       },
       "sequencesArray": [
         {
@@ -98,14 +98,16 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "biene_Body_head_fuel_height_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "biene_body_head_offset_rt_float",
@@ -265,6 +267,14 @@
       ]
     },
     {
+      "uniformName": "biene_fluegel_asym_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.70500000000004092726
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_fluegel_c_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
@@ -277,7 +287,7 @@
       "uniformName": "biene_fluegel_end_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 2.8890000000000100044
+        "valueFloatX": 7.7509999999999763531
       },
       "sequencesArray": []
     },
@@ -285,7 +295,7 @@
       "uniformName": "biene_fluegel_length_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.9950000000000045475
+        "valueFloatX": 5.3530000000000654836
       },
       "sequencesArray": []
     },
