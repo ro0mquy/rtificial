@@ -11,24 +11,57 @@ void main() {
 
 	vec3 out_color;
 	if (isinf(t)) {
-		out_color.rgb = vec3(0.);
+		out_color.rgb = textureLod(environment, d, 0.).rgb;
 	} else {
 		vec3 normal = calc_normal(o + t * d, false);
-		out_color.rgb = vec3(max(dot(normal, normalize(vec3(1., .5, .5))), 0.) + .1);
 
-		// TODO: maybe use the normal sss (ao) function
+		//vec3 r = refract();
+		vec3 reflection_dir = reflect(d, normal);
+		vec3 reflection_color = textureLod(environment, reflection_dir, 0.).rgb;
+
+		vec3 n2 = vec3(1.52, 1.53, 1.54);
+		vec3 refraction_dir_r = refract(d, normal, n2.x);
+		vec3 refraction_dir_g = refract(d, normal, n2.y);
+		vec3 refraction_dir_b = refract(d, normal, n2.z);
+		float refraction_red = textureLod(environment, refraction_dir_r, 0.).r;
+		float refraction_green = textureLod(environment, refraction_dir_g, 0.).g;
+		float refraction_blue = textureLod(environment, refraction_dir_b, 0.).b;
+		vec3 refraction_color = vec3(refraction_red, refraction_green, refraction_blue);
+
+		vec3 r0 = (1. - n2) / (1. + n2);
+		r0 *= r0;
+		vec3 H_r = .5 * (refraction_dir_r - d);
+		vec3 H_g = .5 * (refraction_dir_g - d); // <3 mercury
+		vec3 H_b = .5 * (refraction_dir_b - d);
+		vec3 HdotV = -vec3(dot(H_r, d), dot(H_g, d), dot(H_b, d));
+		vec3 r = r0 + (1. - r0) * pow(1. - HdotV, vec3(5.));
+
+		//out_color.rgb = vec3(max(dot(normal, normalize(vec3(1., .5, .5))), 0.) + .1);
+
+		//// TODO: maybe use the normal sss (ao) function
 		vec3 p = o + t * d;
 		vec3 n = -d;
-		float ao_factor;
+		float ao_factor = 0.;
 		float l = -.2;
 		float i = 5.;
 		for(; i > 0; i--) {
 			vec3 p_i = p + n * i * l;
 			float noise = cfbm(p_i * morph_noise_freq_rt_float);
-			ao_factor -= (i * l - noise * f(p_i, false)[0]) / exp2(i);
+			//ao_factor -= (i * l - noise * f(p_i, false)[0]) / exp2(i);
+			ao_factor -= noise * f(p_i, false)[0] / exp2(i);
 		}
-		out_color.rgb *= .1;
-		out_color.rgb += ao_factor;
+		//out_color.rgb *= .1;
+		refraction_color *= pow(clamp(ao_factor, 0., 1.), 10.);
+		out_color = mix(reflection_color, refraction_color, r);
+		out_color *= morph_rt_color;
+
+		vec3 col = morph_rt_color;
+		float rough = 0.;
+		float metallic = 1.;
+		out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
+		// ganz viel spucke!
+		out_color.rgb *= .05;
+		out_color.rgb += ao_factor * 2.;
 
 		//out_color.rgb = abs(normal);
 	}
