@@ -61,9 +61,27 @@ vec2 bee_body(vec3 p, bool last_step) {
 	p_head.z += thorax_length + head_length + biene_body_head_offset_rt_float;
 	vec3 p_fuel = p_head;
 	p_head.z /= biene_body_head_stretch_rt_float;
+	vec3 p_mouth = p_head;
+	p_head.x /= biene_body_head_w_stretch_rt_float;
 	float d_head = sphere(p_head, head_radius);
-	d_head *= min(biene_body_head_stretch_rt_float, 1.);
+	d_head *= min(min(biene_body_head_stretch_rt_float, biene_body_head_w_stretch_rt_float), 1.);
 
+	p_mouth.x = abs(p_mouth.x);
+	p_mouth.x -= biene_mouth_dist_rt_float;
+	//p_mouth.z += head_length;
+	p_mouth.z += biene_mouth_front_rt_float * head_length;
+	float mouth_height = biene_mouth_height_rt_float;
+	float t_mouth = clamp(-p.y / mouth_height, 0., 1.);
+	p_mouth.xy *= rot2D(radians(1.) * biene_mouth_bend_rt_float * pow(t_mouth, biene_mouth_bend_power_rt_float));
+	p_mouth.y += mouth_height + head_radius * biene_mouth_offset_rt_float;
+	float d_mouth = cone(vec3(p_mouth.x, p_mouth.z, -p_mouth.y), normalize(biene_mouth_c_rt_vec2));
+	d_mouth = max(d_mouth, p_mouth.y - mouth_height + .5); // cap top
+	d_mouth = smax(d_mouth,
+		mouth_height * biene_mouth_bottom_rt_float - p_mouth.y,
+		biene_mouth_smooth_bottom_rt_float); // cap bottom
+	d_head = smin(d_head, d_mouth, head_radius * biene_mouth_smooth_rt_float);
+
+	// eyes TODO
 	vec3 p_eyes = p_head;
 	p_eyes.x = abs(p_eyes.x);
 	p_eyes.zx *= rot2D(radians(biene_body_head_eye_dist_rt_float));
@@ -73,15 +91,18 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float d_eyes = sphere(p_eyes, biene_body_head_eye_radius_rt_float * head_radius);
 	d_head = min(d_head, d_eyes);
 
+	// fuel TODO
 	p_fuel.x = abs(p_fuel.x);
 	p_fuel.zx *= rot2D(radians(biene_body_head_fuel_dist_rt_float));
 	p_fuel.zy *= rot2D(radians(biene_Body_head_fuel_height_rt_float));
 	p_fuel.z += head_length;
-	float t_fuel = clamp(-p_fuel.z, 0., 2.);
-	p_fuel.yz *= rot2D(radians(10.) * t_fuel);
-	float d_fuel = line(p_fuel, vec3(0., 0., -2.), .1);
-	//d_head = smin(d_head, d_fuel, .05);
-	// ohne fühl
+	float t_fuel = clamp(-p_fuel.z, 0., biene_body_head_fuel_length_rt_float);
+	p_fuel.yz *= rot2D(radians(1.) * pow(t_fuel, biene_body_head_fuel_bend_power_rt_float)
+		* biene_body_head_fuel_bend_rt_float);
+	float fuel_thick = biene_body_head_fuel_thick_rt_float;
+	float d_fuel = line(p_fuel, vec3(0., 0., -biene_body_head_fuel_length_rt_float), fuel_thick);
+	d_head = smin(d_head, d_fuel, fuel_thick * biene_body_head_fuel_smooth_rt_float);
+	// immer nach gefühl
 
 	vec3 p_abdomen = p;
 	float abdomen_length = biene_body_length_rt_float + .5 * biene_body_radius_rt_float;
