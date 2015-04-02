@@ -2,7 +2,9 @@
 #include "rtificial.glsl"
 #include "noise.glsl"
 #include "background.glsl"
-#line 6
+#include "font.glsl"
+#include "greetings.glsl"
+#line 7
 
 void main() {
 	vec3 o = camera_position;
@@ -69,6 +71,11 @@ void main() {
 
 		//out_color.rgb = abs(normal);
 	}
+
+
+	vec2 position = gl_FragCoord.xy / res * 2. - 1.;
+	greetings(position, out_color, t);
+
 	output_color(out_color, t);
 }
 
