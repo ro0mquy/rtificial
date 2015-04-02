@@ -1888,7 +1888,7 @@
               "keyframeValue": {
                 "valueQuatX": -0.54772144556045532227,
                 "valueQuatY": 0.44145408272743225098,
-                "valueQuatZ": 0.42380052804946899414,
+                "valueQuatZ": 0.42380052804946893863,
                 "valueQuatW": 0.57053697109222412109
               }
             },
@@ -1897,7 +1897,7 @@
               "keyframeValue": {
                 "valueQuatX": -0.55490857362747192383,
                 "valueQuatY": 0.43604719638824462891,
-                "valueQuatZ": 0.42936167120933532715,
+                "valueQuatZ": 0.42936167120933538266,
                 "valueQuatW": 0.56354910135269165039
               }
             },
@@ -1906,7 +1906,7 @@
               "keyframeValue": {
                 "valueQuatX": -0.55490857362747192383,
                 "valueQuatY": 0.43604719638824462891,
-                "valueQuatZ": 0.42936167120933532715,
+                "valueQuatZ": 0.42936167120933538266,
                 "valueQuatW": 0.56354910135269165039
               }
             }
@@ -2463,7 +2463,7 @@
       "uniformName": "post_tonemap_exposure",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -3
+        "valueFloatX": -5
       },
       "sequencesArray": [
         {

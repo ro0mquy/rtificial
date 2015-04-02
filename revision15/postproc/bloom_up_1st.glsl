@@ -14,5 +14,5 @@ out vec3 out_color;
 // level(0)
 
 void main() {
-	out_color = .5 * upsample(color, tc, 1./res) + .5 * textureLod(previous, tc, 0.).rgb;
+	out_color = upsample(color, tc, 1./res) + textureLod(previous, tc, 0.).rgb;
 }
