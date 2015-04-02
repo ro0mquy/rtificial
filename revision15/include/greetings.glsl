@@ -136,7 +136,7 @@ void greetings(vec2 p, inout vec3 out_color, inout float zbuffer){
 	case 11: /* brain control */
 		ap = (p - positions[which%4] - position_correction) * font_size_rt_float;
 		carret = 0.;
-		B(ap - vec2(carret, 0.)) - font_thickness_rt_float; carret += carret_inc;
+		d = B(ap - vec2(carret, 0.)) - font_thickness_rt_float; carret += carret_inc;
 		d = min(d, R(ap - vec2(carret, 0.)) - font_thickness_rt_float); carret += carret_inc;
 		d = min(d, A(ap - vec2(carret, 0.)) - font_thickness_rt_float); carret += carret_inc;
 		d = min(d, I(ap - vec2(carret, 0.)) - font_thickness_rt_float); carret += carret_inc;
