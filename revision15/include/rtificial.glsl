@@ -301,6 +301,10 @@ vec2 min_material(vec2 a, vec2 b) {
 	return mix(a, b, float(a.x > b.x));
 }
 // kam er?
+// und hier der andere witz
+vec2 max_material(vec2 a, vec2 b) {
+	return mix(a, b, float(a.x < b.x));
+}
 
 // f: distance function to object
 // p: evaluation point

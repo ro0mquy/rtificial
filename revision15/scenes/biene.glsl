@@ -15,6 +15,7 @@ void main() {
 	} else {
 		vec3 p = o + t * d;
 		vec3 normal = calc_normal(p, false);
+		float material = f(p, true)[1];
 		float rough = .2;
 		float metallic = 1.;
 		vec3 col = vec3(1.);
@@ -24,10 +25,10 @@ void main() {
 }
 
 vec2 bee_body(vec3 p, bool last_step) {
-	float biene_body_thorax_scale_rt_float = mix(0., biene_body_thorax_scale_rt_float,
-			smoothstep(0., .5, biene_body_anim_rt_float));
+	float biene_body_thorax_height_rt_float = mix(biene_body_thorax_height_rt_float, 0.,
+			smoothstep(0., 1., biene_body_anim_rt_float));
 	float biene_body_thorax_stretch_rt_float = mix(1., biene_body_thorax_stretch_rt_float,
-			smoothstep(.5, 1., biene_body_anim_rt_float));
+			smoothstep(0., 1., biene_body_anim_rt_float));
 
 	float biene_body_head_radius_rt_float = mix(0., biene_body_head_radius_rt_float,
 			smoothstep(1., 2., biene_body_anim_rt_float));
@@ -50,6 +51,7 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float dellen_anim = mix(0., 1., smoothstep(3., 4., biene_body_anim_rt_float));
 
 	vec3 p_thorax = p;
+	p_thorax.y -= biene_body_thorax_height_rt_float;
 	p_thorax.z /= biene_body_thorax_stretch_rt_float;
 	float thorax_radius = biene_body_max_thick_rt_float * biene_body_thorax_scale_rt_float;
 	float thorax_length = thorax_radius * biene_body_thorax_stretch_rt_float;
@@ -183,11 +185,18 @@ vec2 bee_fluegel(vec3 p, bool last_step) {
 	return vec2(d_fluegel, 0.);
 }
 
+float rmk_tunnel(vec3 p) {
+    float f_tri = max(abs(p.x) * .866025 + p.z * .5, -p.z) - biene_tunnel_size_rt_float;
+	return -f_tri;
+}
+
 vec2 f(vec3 p, bool last_step) {
 	vec2 body = bee_body(p, last_step);
 	vec2 fluegel = bee_fluegel(p, last_step);
 	vec2 m_bee = smin_material(body, fluegel, biene_fluegel_smooth_rt_float * biene_fluegel_thick_rt_float);
 	vec2 m_bg = vec2(background(p), 0.);
+	vec2 m_tunnel = vec2(rmk_tunnel(p), 0.);
+	m_bg = max_material(m_bg, m_tunnel);
 	m_bg = min_material(m_bg, m_bee);
 	return m_bg;
 }
