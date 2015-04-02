@@ -1,6 +1,72 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "bg_boden_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.57100000000002637535
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_kristall_cap_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_kristall_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_kristall_offset_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 20,
+        "valueVec3Y": 6.6030000000000654836,
+        "valueVec3Z": 11.248000000000047294
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_kristall_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_smin_boden_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.48400000000003728928
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_smin_felsen_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_smin_kristall_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_body_abdomen_offset_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
