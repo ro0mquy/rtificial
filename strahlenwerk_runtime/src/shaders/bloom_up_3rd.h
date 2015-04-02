@@ -54,21 +54,21 @@ R"shader_source(layout(location = 0) uniform vec2 res;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(binding = 10) uniform sampler2D color; // vec3
+R"shader_source(layout(binding = 15) uniform sampler2D color; // vec3
 )shader_source"
-R"shader_source(layout(binding = 14) uniform sampler2D previous; // vec3
+R"shader_source(layout(binding = 19) uniform sampler2D previous; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(// level(3)
+R"shader_source(// level(2)
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(void main() {
 )shader_source"
-R"shader_source(	out_color = .5 * upsample(color, tc, 1./res) + .5 * textureLod(previous, tc, 0.).rgb;
+R"shader_source(	out_color = upsample(color, tc, 1./res) + textureLod(previous, tc, 0.).rgb;
 )shader_source"
 R"shader_source(}
 )shader_source"

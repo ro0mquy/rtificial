@@ -108,7 +108,7 @@ uint64_t Renderer::getLastFrameDuration() {
 
 void Renderer::performMakeDemo() {
 	std::lock_guard<std::mutex> lock(renderMutex);
-	StrahlenwerkApplication::getInstance()->getProject().makeDemo(*scenes, *postproc);
+	StrahlenwerkApplication::getInstance()->getProject().makeDemo(*scenes, *postproc, *ambientLights);
 }
 
 void Renderer::performToggleHalfResolution() {

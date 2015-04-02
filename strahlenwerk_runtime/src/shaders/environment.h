@@ -2,21 +2,91 @@
 #define environment_H
 const char environment_source[] =R"shader_source(#version 430
 )shader_source"
-R"shader_source(layout(location = 103) uniform vec3 camera_position;
+R"shader_source(layout(location = 125) uniform float bg_smin_boden_rt_float;
 )shader_source"
-R"shader_source(layout(location = 104) uniform vec4 camera_rotation; // quat
+R"shader_source(layout(location = 122) uniform float bg_smin_kristall_rt_float;
 )shader_source"
-R"shader_source(
+R"shader_source(layout(location = 101) uniform float bg_boden_height_rt_float;
 )shader_source"
-R"shader_source(layout(location = 105) uniform float camera_focal_length;
+R"shader_source(layout(location = 118) uniform float bg_kristall_cap_rt_float;
 )shader_source"
-R"shader_source(
+R"shader_source(layout(location = 116) uniform float bg_kristall_r_rt_float;
 )shader_source"
-R"shader_source(layout(location = 66) uniform float time;
+R"shader_source(layout(location = 113) uniform float bg_kristall_h_rt_float;
+)shader_source"
+R"shader_source(layout(location = 105) uniform vec3 bg_kristall_offset_rt_vec3;
+)shader_source"
+R"shader_source(layout(location = 120) uniform float bg_smin_felsen_rt_float;
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(layout(location = 0) uniform vec2 res;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 0) out vec3 out_color;
+)shader_source"
+R"shader_source(layout(location = 1) out float coc;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 147) uniform float camera_focus_dist;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 148) uniform float camera_focal_length;
+)shader_source"
+R"shader_source(#define FOCAL_LENGTH
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 149) uniform float camera_f_stop;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(void output_color(vec3 color, float dist) {
+)shader_source"
+R"shader_source(	dist = clamp(dist, 0., 1000.);
+)shader_source"
+R"shader_source(	float focus_dist = camera_focus_dist;
+)shader_source"
+R"shader_source(	float f = camera_focal_length;
+)shader_source"
+R"shader_source(	float N = camera_f_stop;
+)shader_source"
+R"shader_source(	coc = (dist - focus_dist)/dist * (f * f) / (N * (focus_dist - f)) / 0.035 * 1920.;
+)shader_source"
+R"shader_source(	if(any(isnan(color)) || any(isinf(color))) {
+)shader_source"
+R"shader_source(		color = vec3(0.);
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(	out_color = color;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(#line 1
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 150) uniform vec3 camera_position;
+)shader_source"
+R"shader_source(layout(location = 151) uniform vec4 camera_rotation; // quat
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(#ifndef FOCAL_LENGTH
+)shader_source"
+R"shader_source(layout(location = 148) uniform float camera_focal_length;
+)shader_source"
+R"shader_source(#endif
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 66) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -40,7 +110,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(vec3 get_direction(out float screenDist) {
 )shader_source"
-R"shader_source(	vec3 dir = vec3((gl_FragCoord.xy - .5 * res) / res.x , -camera_focal_length / .03);
+R"shader_source(	vec3 dir = vec3((gl_FragCoord.xy - .5 * res) / res.x , -camera_focal_length / .035);
 )shader_source"
 R"shader_source(	screenDist = length(vec2(dir.xz));
 )shader_source"
@@ -132,9 +202,13 @@ R"shader_source(		t += stepLength;
 )shader_source"
 R"shader_source(	}
 )shader_source"
-R"shader_source(	if ((t > t_max || candidate_error > pixelRadius) &&
+R"shader_source(	// force hit except for far away points
 )shader_source"
-R"shader_source(			!forceHit) return 1./0.;
+R"shader_source(	if (t > t_max) return 1./0.;
+)shader_source"
+R"shader_source(	//if ((t > t_max || candidate_error > pixelRadius) &&
+)shader_source"
+R"shader_source(	//		!forceHit) return 1./0.;
 )shader_source"
 R"shader_source(	return candidate_t;
 )shader_source"
@@ -144,7 +218,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(float march(vec3 o, vec3 d, float t_max, float screenDistX) {
 )shader_source"
-R"shader_source(	return march_adv(o, d, .001, t_max, screenDistX/res.x*.5, 128, 1.2, false);
+R"shader_source(	return march_adv(o, d, .001, t_max, .5/(screenDistX*res.x), 128, 1.2, false);
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -522,6 +596,16 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
+R"shader_source(float slowbox2(vec2 p, vec2 b) {
+)shader_source"
+R"shader_source(	vec2 d = abs(p) - b;
+)shader_source"
+R"shader_source(	return min(max(d.x, d.y), 0.) + length(max(d, 0.));
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
 R"shader_source(// box with rounded corners, r is radius of corners
 )shader_source"
 R"shader_source(float roundbox(vec3 p, vec3 b, float r) {
@@ -593,6 +677,14 @@ R"shader_source(	return mix(a, b, float(a.x > b.x));
 R"shader_source(}
 )shader_source"
 R"shader_source(// kam er?
+)shader_source"
+R"shader_source(// und hier der andere witz
+)shader_source"
+R"shader_source(vec2 max_material(vec2 a, vec2 b) {
+)shader_source"
+R"shader_source(	return mix(a, b, float(a.x < b.x));
+)shader_source"
+R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -712,11 +804,365 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(#line 3
+R"shader_source(// a: domrep cell size, b: parameter where the square spacing starts
+)shader_source"
+R"shader_source(float squarerep(float x, float a, float b, float min_cell) {
+)shader_source"
+R"shader_source(	if (x / a - floor(b) > 1.25) {
+)shader_source"
+R"shader_source(		b += .5;
+)shader_source"
+R"shader_source(		float cell = max(min_cell, floor(sqrt(abs(x / a - b)) + b));
+)shader_source"
+R"shader_source(		float cell_halfdist = a * (cell - b + .5);
+)shader_source"
+R"shader_source(		float cell_result = a * ((cell - b) * (cell - b) + b);
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(out vec4 out_color;
+R"shader_source(		x -= cell_result;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(		if (x > cell_halfdist) {
+)shader_source"
+R"shader_source(			x = 2. * cell_halfdist - x;
+)shader_source"
+R"shader_source(		} else {
+)shader_source"
+R"shader_source(			if (cell - floor(b - .5) < 2.) {
+)shader_source"
+R"shader_source(				x = 2. * cell_halfdist - x;
+)shader_source"
+R"shader_source(			}
+)shader_source"
+R"shader_source(		}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	} else {
+)shader_source"
+R"shader_source(		x = mod(x - .25 * a, a) - .5 * a;
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(	return x;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(binding = 0) uniform sampler2D brdf;
+)shader_source"
+R"shader_source(layout(binding = 1) uniform samplerCube environment;
+)shader_source"
+R"shader_source(layout(binding = 2) uniform samplerCube filteredDiffuse;
+)shader_source"
+R"shader_source(layout(binding = 3) uniform samplerCube filteredSpecular;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(vec3 approximateSpecular(vec3 color, float roughness, vec3 N, vec3 V) {
+)shader_source"
+R"shader_source(	float NoV = clamp(dot(N, V), 0., 1.);
+)shader_source"
+R"shader_source(	vec3 R = 2. * dot(V, N) * N - V;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	vec3 prefiltered = textureLod(filteredSpecular, R, roughness * 5.).rgb;
+)shader_source"
+R"shader_source(	vec2 envBRDF = textureLod(brdf, vec2(roughness, NoV), 0.).rg;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	return prefiltered * (color  * envBRDF.x + envBRDF.y);
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(vec3 ambientColor(vec3 n, vec3 v, vec3 color, float rough, float metallic) {
+)shader_source"
+R"shader_source(	vec3 diffuse = textureLod(filteredDiffuse, n, 0.).rgb;
+)shader_source"
+R"shader_source(	vec3 dielectric = color * diffuse + approximateSpecular(vec3(.04), rough, n, v);
+)shader_source"
+R"shader_source(	vec3 metal = approximateSpecular(color, rough, n, v);
+)shader_source"
+R"shader_source(	return mix(dielectric, metal, metallic);
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(float ao(vec3 p, vec3 n, float d, float i) {
+)shader_source"
+R"shader_source(	float o, s = sign(d);
+)shader_source"
+R"shader_source(	for(o = s * .5 + .5; i > 0; i--) {
+)shader_source"
+R"shader_source(		o -= (i * d - f(p + n * i * d * s, false)[0]) / exp2(i);
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(	return o;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(vec3 environmentColor(vec3 o, vec3 d, float r) {
+)shader_source"
+R"shader_source(	// hmmmmm…
+)shader_source"
+R"shader_source(	o.xz -= camera_position.xz;
+)shader_source"
+R"shader_source(	float radicand = dot(d, o) * dot(d, o) - dot(o, o) + r * r;
+)shader_source"
+R"shader_source(	if (radicand < 0.) discard; // hupsi
+)shader_source"
+R"shader_source(	float t = -dot(d, o) + sqrt(radicand);
+)shader_source"
+R"shader_source(	return textureLod(environment, normalize(o + t * d), 0.).rgb;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(float fels_noise(vec3 p_fels, vec2 domrep_size, vec3 box_size) {
+)shader_source"
+R"shader_source(	vec2 cell_fels = floor(p_fels.xz / domrep_size);
+)shader_source"
+R"shader_source(	//cell_fels = vec2(0.);
+)shader_source"
+R"shader_source(	p_fels.xz = domrep(p_fels.xz, domrep_size);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	//  8 1 5
+)shader_source"
+R"shader_source(	//  4 0 2  >x
+)shader_source"
+R"shader_source(	//  7 3 6 vz
+)shader_source"
+R"shader_source(	vec3 p_fels_0 = p_fels;
+)shader_source"
+R"shader_source(	vec3 p_fels_1 = trans(p_fels, 0., 0., -domrep_size.y);
+)shader_source"
+R"shader_source(	vec3 p_fels_2 = trans(p_fels,  domrep_size.x, 0., 0.);
+)shader_source"
+R"shader_source(	vec3 p_fels_3 = trans(p_fels, 0., 0.,  domrep_size.y);
+)shader_source"
+R"shader_source(	vec3 p_fels_4 = trans(p_fels, -domrep_size.x, 0., 0.);
+)shader_source"
+R"shader_source(	vec3 p_fels_5 = trans(p_fels,  domrep_size.x, 0., -domrep_size.y);
+)shader_source"
+R"shader_source(	vec3 p_fels_6 = trans(p_fels,  domrep_size.x, 0.,  domrep_size.y);
+)shader_source"
+R"shader_source(	vec3 p_fels_7 = trans(p_fels, -domrep_size.x, 0.,  domrep_size.y);
+)shader_source"
+R"shader_source(	vec3 p_fels_8 = trans(p_fels, -domrep_size.x, 0., -domrep_size.y);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	vec2 cell_fels_0 = cell_fels;
+)shader_source"
+R"shader_source(	vec2 cell_fels_1 = cell_fels + vec2( 0., -1.);
+)shader_source"
+R"shader_source(	vec2 cell_fels_2 = cell_fels + vec2( 1.,  0.);
+)shader_source"
+R"shader_source(	vec2 cell_fels_3 = cell_fels + vec2( 0.,  1.);
+)shader_source"
+R"shader_source(	vec2 cell_fels_4 = cell_fels + vec2(-1.,  0.);
+)shader_source"
+R"shader_source(	vec2 cell_fels_5 = cell_fels + vec2( 1., -1.);
+)shader_source"
+R"shader_source(	vec2 cell_fels_6 = cell_fels + vec2( 1.,  1.);
+)shader_source"
+R"shader_source(	vec2 cell_fels_7 = cell_fels + vec2(-1.,  1.);
+)shader_source"
+R"shader_source(	vec2 cell_fels_8 = cell_fels + vec2(-1., -1.);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	p_fels_0.xy *= rot2D(cell_fels_0.x * domrep_size.x * 32.73101);
+)shader_source"
+R"shader_source(	p_fels_1.xy *= rot2D(cell_fels_1.x * domrep_size.x * 32.73101);
+)shader_source"
+R"shader_source(	p_fels_2.xy *= rot2D(cell_fels_2.x * domrep_size.x * 32.73101);
+)shader_source"
+R"shader_source(	p_fels_3.xy *= rot2D(cell_fels_3.x * domrep_size.x * 32.73101);
+)shader_source"
+R"shader_source(	p_fels_4.xy *= rot2D(cell_fels_4.x * domrep_size.x * 32.73101);
+)shader_source"
+R"shader_source(	p_fels_5.xy *= rot2D(cell_fels_5.x * domrep_size.x * 32.73101);
+)shader_source"
+R"shader_source(	p_fels_6.xy *= rot2D(cell_fels_6.x * domrep_size.x * 32.73101);
+)shader_source"
+R"shader_source(	p_fels_7.xy *= rot2D(cell_fels_7.x * domrep_size.x * 32.73101);
+)shader_source"
+R"shader_source(	p_fels_8.xy *= rot2D(cell_fels_8.x * domrep_size.x * 32.73101);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	p_fels_0.xz *= rot2D(cell_fels_0.y * domrep_size.y * 49.29012);
+)shader_source"
+R"shader_source(	p_fels_1.xz *= rot2D(cell_fels_1.y * domrep_size.y * 49.29012);
+)shader_source"
+R"shader_source(	p_fels_2.xz *= rot2D(cell_fels_2.y * domrep_size.y * 49.29012);
+)shader_source"
+R"shader_source(	p_fels_3.xz *= rot2D(cell_fels_3.y * domrep_size.y * 49.29012);
+)shader_source"
+R"shader_source(	p_fels_4.xz *= rot2D(cell_fels_4.y * domrep_size.y * 49.29012);
+)shader_source"
+R"shader_source(	p_fels_5.xz *= rot2D(cell_fels_5.y * domrep_size.y * 49.29012);
+)shader_source"
+R"shader_source(	p_fels_6.xz *= rot2D(cell_fels_6.y * domrep_size.y * 49.29012);
+)shader_source"
+R"shader_source(	p_fels_7.xz *= rot2D(cell_fels_7.y * domrep_size.y * 49.29012);
+)shader_source"
+R"shader_source(	p_fels_8.xz *= rot2D(cell_fels_8.y * domrep_size.y * 49.29012);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	/*
+)shader_source"
+R"shader_source(	p_fels_0.yz *= rot2D(cell_fels_0.y * domrep_size.x * 52.40165);
+)shader_source"
+R"shader_source(	p_fels_1.yz *= rot2D(cell_fels_1.y * domrep_size.x * 52.40165);
+)shader_source"
+R"shader_source(	p_fels_2.yz *= rot2D(cell_fels_2.y * domrep_size.x * 52.40165);
+)shader_source"
+R"shader_source(	p_fels_3.yz *= rot2D(cell_fels_3.y * domrep_size.x * 52.40165);
+)shader_source"
+R"shader_source(	p_fels_4.yz *= rot2D(cell_fels_4.y * domrep_size.x * 52.40165);
+)shader_source"
+R"shader_source(	p_fels_5.yz *= rot2D(cell_fels_5.y * domrep_size.x * 52.40165);
+)shader_source"
+R"shader_source(	p_fels_6.yz *= rot2D(cell_fels_6.y * domrep_size.x * 52.40165);
+)shader_source"
+R"shader_source(	p_fels_7.yz *= rot2D(cell_fels_7.y * domrep_size.x * 52.40165);
+)shader_source"
+R"shader_source(	p_fels_8.yz *= rot2D(cell_fels_8.y * domrep_size.x * 52.40165);
+)shader_source"
+R"shader_source(	// */
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float fels_0 = box(p_fels_0, box_size);
+)shader_source"
+R"shader_source(	float fels_1 = box(p_fels_1, box_size);
+)shader_source"
+R"shader_source(	float fels_2 = box(p_fels_2, box_size);
+)shader_source"
+R"shader_source(	float fels_3 = box(p_fels_3, box_size);
+)shader_source"
+R"shader_source(	float fels_4 = box(p_fels_4, box_size);
+)shader_source"
+R"shader_source(	float fels_5 = box(p_fels_5, box_size);
+)shader_source"
+R"shader_source(	float fels_6 = box(p_fels_6, box_size);
+)shader_source"
+R"shader_source(	float fels_7 = box(p_fels_7, box_size);
+)shader_source"
+R"shader_source(	float fels_8 = box(p_fels_8, box_size);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float fels_12 = min(fels_1, fels_2);
+)shader_source"
+R"shader_source(	float fels_34 = min(fels_3, fels_4);
+)shader_source"
+R"shader_source(	float fels_56 = min(fels_5, fels_6);
+)shader_source"
+R"shader_source(	float fels_78 = min(fels_7, fels_8);
+)shader_source"
+R"shader_source(	float fels_1234 = min(fels_12, fels_34);
+)shader_source"
+R"shader_source(	float fels_5678 = min(fels_56, fels_78);
+)shader_source"
+R"shader_source(	float fels_12345678 = min(fels_1234, fels_5678);
+)shader_source"
+R"shader_source(	float fels_012345678 = smin(fels_0, fels_12345678, bg_smin_felsen_rt_float * box_size.x);
+)shader_source"
+R"shader_source(	fels_012345678 = smin(fels_0, fels_1234, bg_smin_felsen_rt_float * box_size.x); // TODO: maybe remove this line for less/more? artefacts
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	return fels_012345678;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(float kristall(vec3 p_kristall, float height_kristall, float radius_kristall, float size_cap) {
+)shader_source"
+R"shader_source(	float r_kristall = radius_kristall * min((height_kristall - radius_kristall) - p_kristall.y, size_cap) / size_cap;
+)shader_source"
+R"shader_source(	p_kristall.y -= height_kristall * .5;
+)shader_source"
+R"shader_source(	return hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(float background(vec3 p) {
+)shader_source"
+R"shader_source(	p.y -= -10.;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	vec3 p_kristall = p;
+)shader_source"
+R"shader_source(	p_kristall.y -= bg_kristall_offset_rt_vec3.y;
+)shader_source"
+R"shader_source(	p_kristall.x = abs(p_kristall.x);
+)shader_source"
+R"shader_source(	p_kristall.x -= bg_kristall_offset_rt_vec3.x;
+)shader_source"
+R"shader_source(	p_kristall.z = abs(p_kristall.z);
+)shader_source"
+R"shader_source(	p_kristall.z -= bg_kristall_offset_rt_vec3.z;
+)shader_source"
+R"shader_source(	p_kristall.yz *= rot2D(TAU * .48);
+)shader_source"
+R"shader_source(	p_kristall.xy *= rot2D(TAU * .45);
+)shader_source"
+R"shader_source(	float f_kristall = kristall(p_kristall, bg_kristall_h_rt_float, bg_kristall_r_rt_float, bg_kristall_cap_rt_float);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	vec3 p_fels = p;
+)shader_source"
+R"shader_source(	p_fels.xz -= vec2(237., 349.); // origin looks shitty
+)shader_source"
+R"shader_source(	p_fels.xz *= rot2D(TAU * .1);
+)shader_source"
+R"shader_source(	float f_fels = fels_noise(p_fels, vec2(10.), vec3(2.));
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	vec3 p_boden = p;
+)shader_source"
+R"shader_source(	p_boden.y -= bg_boden_height_rt_float;
+)shader_source"
+R"shader_source(	float f_boden = p_boden.y;
+)shader_source"
+R"shader_source(	f_fels = smin(f_fels, f_boden, bg_smin_boden_rt_float);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float f = smin(f_kristall, f_fels, bg_smin_kristall_rt_float);
+)shader_source"
+R"shader_source(	return f;
+)shader_source"
+R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(#line 5
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -742,9 +1188,11 @@ R"shader_source(		vec3 normal = calc_normal(o + t * d, false);
 )shader_source"
 R"shader_source(		out_color.rgb = vec3(max(dot(normal, normalize(vec3(1., .5, 2.))), 0.) + .1);
 )shader_source"
-R"shader_source(		out_color.rgb = abs(normal);
+R"shader_source(		//out_color.rgb = abs(normal);
 )shader_source"
 R"shader_source(	}
+)shader_source"
+R"shader_source(	output_color(out_color, t);
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -752,77 +1200,7 @@ R"shader_source(
 )shader_source"
 R"shader_source(vec2 f(vec3 p, bool last_step) {
 )shader_source"
-R"shader_source(	p.y -= -5.;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 p_berg1 = trans(p, 30., 15., 0.);
-)shader_source"
-R"shader_source(	float f_berg1 = cone(p_berg1.xzy, normalize(vec2(1., 1.)));
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 p_berg2 = trans(p, 20., 10., 5.);
-)shader_source"
-R"shader_source(	float f_berg2 = cone(p_berg2.xzy, normalize(vec2(2., 1.)));
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 p_berg3 = trans(p, 0., 9., 30.);
-)shader_source"
-R"shader_source(	float f_berg3 = cone(p_berg3.xzy, normalize(vec2(1.5, 1.)));
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 p_berg4 = trans(p, -20., 9., 30.);
-)shader_source"
-R"shader_source(	float f_berg4 = cone(p_berg4.xzy, normalize(vec2(.8, 1.)));
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 p_berg5 = trans(p, -30., 15., -4.);
-)shader_source"
-R"shader_source(	float f_berg5 = cone(p_berg5.xzy, normalize(vec2(1.3, 1.)));
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 p_berg6 = trans(p, -30., 8., -15.);
-)shader_source"
-R"shader_source(	float f_berg6 = cone(p_berg6.xzy, normalize(vec2(.9, 1.)));
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 p_berg7 = trans(p, -3., 12., -25.);
-)shader_source"
-R"shader_source(	float f_berg7 = cone(p_berg7.xzy, normalize(vec2(1., 1.)));
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	float f_ground = p.y;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	float smin_factor = 3.;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	float f = f_berg1;
-)shader_source"
-R"shader_source(	f = smin(f, f_berg2, smin_factor);
-)shader_source"
-R"shader_source(	f = smin(f, f_berg3, smin_factor);
-)shader_source"
-R"shader_source(	f = smin(f, f_berg4, smin_factor);
-)shader_source"
-R"shader_source(	f = smin(f, f_berg5, smin_factor);
-)shader_source"
-R"shader_source(	f = smin(f, f_berg6, smin_factor);
-)shader_source"
-R"shader_source(	f = smin(f, f_berg7, smin_factor);
-)shader_source"
-R"shader_source(	f = smin(f, f_ground, smin_factor);
-)shader_source"
-R"shader_source(
+R"shader_source(	float f = background(p);
 )shader_source"
 R"shader_source(	return vec2(f, 0.);
 )shader_source"

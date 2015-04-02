@@ -12,7 +12,7 @@ R"shader_source(layout(location = 0) uniform vec2 res;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(binding = 19) uniform sampler2D color; // vec3
+R"shader_source(layout(binding = 24) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"

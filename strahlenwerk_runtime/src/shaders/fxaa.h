@@ -16,7 +16,7 @@ R"shader_source(vec2 texcoord = tc;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(binding = 20) uniform sampler2D tex; // vec3
+R"shader_source(layout(binding = 25) uniform sampler2D tex; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"

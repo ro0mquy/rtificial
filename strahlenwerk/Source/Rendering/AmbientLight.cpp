@@ -78,3 +78,7 @@ void AmbientLight::bind() {
 const std::string& AmbientLight::getName() const {
 	return name;
 }
+
+const std::string& AmbientLight::getSource() const {
+	return shader->getSource();
+}

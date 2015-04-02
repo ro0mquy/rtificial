@@ -14,6 +14,7 @@ class AmbientLight {
 		void load(std::unique_ptr<Shader> shader);
 		void bind();
 		const std::string& getName() const;
+		const std::string& getSource() const;
 
 	private:
 		std::unique_ptr<Shader> shader;

@@ -96,7 +96,7 @@ int Project::compareElements(const ValueTree& first, const ValueTree& second) {
 	return startFirst - startSecond;
 }
 
-void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) {
+void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, Scenes<AmbientLight>& ambient) {
 	const File& buildDir = loader.getBuildDir();
 	buildDir.deleteRecursively();
 	buildDir.createDirectory();
@@ -117,6 +117,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 #include "Scene.h"
 #include "Sequence.h"
 #include "Uniform.h"
+#include "AmbientLight.h"
 )source";
 	std::string interfaceHeaderContent = R"source(#ifndef STRAHLENWERK_EXPORT_INTERFACE_H
 #define STRAHLENWERK_EXPORT_INTERFACE_H
@@ -125,6 +126,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 #include "Scene.h"
 #include "Sequence.h"
 #include "Uniform.h"
+#include "AmbientLight.h"
 )source";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
@@ -158,7 +160,9 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 	postprocArrayDeclaration += "};\n";
 
 	std::string scenesArrayDeclaration = "Shader scenes[" + std::to_string(sceneShaders) + "] = {\n";
+	std::string environmentsArrayDeclaration = "AmbientLight environments[" + std::to_string(sceneShaders) + "] = {\n";
 	interfaceHeaderContent += "extern Shader scenes[" + std::to_string(sceneShaders) + "];\n";
+	interfaceHeaderContent += "extern AmbientLight environments[" + std::to_string(sceneShaders) + "];\n";
 
 	for(int i = 0; i < sceneShaders; i++) {
 		const Shader& shader = scenes.getObject(i);
@@ -166,12 +170,25 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc) 
 		shaderFile.replaceWithText(shader.getSource());//std::regex_replace(shader.getSource(), search, replacement));
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 		scenesArrayDeclaration += "\tShader(" + shader.getName() + "_source, 0, nullptr),\n";
+
+		const int shaderId = ambient.getObjectId(shader.getName());
+		if (shaderId != -1) {
+			const AmbientLight& environment = ambient.getObject(shaderId);
+			const File& environmentFile = buildDir.getChildFile(String(shader.getName() + "_environment")).withFileExtension("glsl");
+			environmentFile.replaceWithText(environment.getSource());
+			shadersHeaderContent += "#include \"shaders/" + shader.getName() + "_environment.h\"\n";
+			environmentsArrayDeclaration += "\tAmbientLight(" + shader.getName() + "_source_environment),\n";
+		} else {
+			environmentsArrayDeclaration += "\tAmbientLight(nullptr),\n";
+		}
 	}
 	scenesArrayDeclaration += "};\n";
+	environmentsArrayDeclaration += "};\n";
 
 	shadersHeaderContent += inputsDeclaration;
 	shadersHeaderContent += postprocArrayDeclaration;
 	shadersHeaderContent += scenesArrayDeclaration;
+	shadersHeaderContent += environmentsArrayDeclaration;
 
 	std::string fboDeclaration = "Framebuffer fbos[" + std::to_string(postprocShaders - 1) + "] = {\n";
 	interfaceHeaderContent += "extern Framebuffer fbos[" + std::to_string(postprocShaders - 1) + "];\n";

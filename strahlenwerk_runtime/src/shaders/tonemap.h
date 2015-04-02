@@ -8,7 +8,7 @@ R"shader_source(in vec2 tc;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(binding = 18) uniform sampler2D color; // vec3
+R"shader_source(layout(binding = 23) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
@@ -58,7 +58,7 @@ R"shader_source(	out_color = tonemap(out_color)/tonemap(vec3(W));
 )shader_source"
 R"shader_source(	out_color = clamp(out_color, 0., 1.);
 )shader_source"
-R"shader_source(	out_color = pow(post_color_gain * (out_color + post_color_lift * (1. - out_color)), 1./max(post_color_gamma, 1e-6));
+R"shader_source(	out_color = pow(max(vec3(0.), post_color_gain * 2. * (out_color + (2. * post_color_lift - 1.) * (1. - out_color))), 1./max(post_color_gamma * 2., 1e-6));
 )shader_source"
 R"shader_source(}
 )shader_source"

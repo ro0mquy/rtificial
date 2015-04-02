@@ -14,17 +14,19 @@ R"shader_source(
 )shader_source"
 R"shader_source(vec3 karis_average(vec3 a, vec3 b, vec3 c, vec3 d) {
 )shader_source"
-R"shader_source(	float weight = 0.;
+R"shader_source(	a /= 1 + lumaaaaa(a);
 )shader_source"
-R"shader_source(	weight += 1./(1.+lumaaaaa(a));
+R"shader_source(	b /= 1 + lumaaaaa(b);
 )shader_source"
-R"shader_source(	weight += 1./(1.+lumaaaaa(b));
+R"shader_source(	c /= 1 + lumaaaaa(c);
 )shader_source"
-R"shader_source(	weight += 1./(1.+lumaaaaa(c));
+R"shader_source(	d /= 1 + lumaaaaa(d);
 )shader_source"
-R"shader_source(	weight += 1./(1.+lumaaaaa(d));
+R"shader_source(	vec3 result = .25 * a + .25 * b + .25 * c + .25 * d;
 )shader_source"
-R"shader_source(	return (a + b + c + d) / weight;
+R"shader_source(	result /= 1. - lumaaaaa(result);
+)shader_source"
+R"shader_source(	return result;
 )shader_source"
 R"shader_source(}
 )shader_source"
@@ -34,7 +36,7 @@ R"shader_source(vec3 average(vec3 a, vec3 b, vec3 c, vec3 d, bool karis) {
 )shader_source"
 R"shader_source(	if (karis) {
 )shader_source"
-R"shader_source(		karis_average(a, b, c, d);
+R"shader_source(		return karis_average(a, b, c, d);
 )shader_source"
 R"shader_source(	} else {
 )shader_source"
@@ -106,7 +108,7 @@ R"shader_source(layout(location = 0) uniform vec2 res;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(binding = 11) uniform sampler2D color; // vec3
+R"shader_source(layout(binding = 16) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
