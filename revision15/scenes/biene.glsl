@@ -7,11 +7,12 @@ void main() {
 	vec3 o = camera_position;
 	float screenDist;
 	vec3 d = get_direction(screenDist);
-	float t = march(o, d, 50., screenDist);
+	float t = march(o, d, 100., screenDist);
 
 	vec3 out_color;
 	if (isinf(t)) {
-		out_color.rgb = textureLod(environment, d, 0.).rgb;
+		o.y += 10.;
+		out_color.rgb = environmentColor(o, d, 100.);
 	} else {
 		vec3 p = o + t * d;
 		vec3 normal = calc_normal(p, false);

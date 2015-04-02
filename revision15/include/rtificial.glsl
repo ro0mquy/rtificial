@@ -417,3 +417,12 @@ float ao(vec3 p, vec3 n, float d, float i) {
 	}
 	return o;
 }
+
+vec3 environmentColor(vec3 o, vec3 d, float r) {
+	// hmmmmm…
+	o.xz -= camera_position.xz;
+	float radicand = dot(d, o) * dot(d, o) - dot(o, o) + r * r;
+	if (radicand < 0.) discard; // hupsi
+	float t = -dot(d, o) + sqrt(radicand);
+	return textureLod(environment, normalize(o + t * d), 0.).rgb;
+}

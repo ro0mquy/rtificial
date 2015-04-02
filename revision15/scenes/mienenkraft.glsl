@@ -31,12 +31,7 @@ void main() {
 	vec3 out_color;
 
 	if (isinf(t)) {
-		// hmmmmm…
-		float r = 200.;
-		float radicand = dot(d, o) * dot(d, o) - dot(o, o) + r * r;
-		if (radicand < 0.) discard; // hupsi
-		t = -dot(d, o) + sqrt(radicand);
-		out_color.rgb = textureLod(environment, normalize(o + t * d), 0.).rgb;
+		out_color.rgb = environmentColor(o, d, 200.);
 	} else {
 		vec3 normal = calc_normal(o + t * d, false);
 		out_color.rgb = vec3(1.);
