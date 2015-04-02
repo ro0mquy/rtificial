@@ -1,7 +1,8 @@
 #include "scene_head.glsl"
 #include "rtificial.glsl"
 #include "noise.glsl"
-#line 5
+#include "background.glsl"
+#line 6
 
 void main() {
 	vec3 o = camera_position;
@@ -305,5 +306,8 @@ vec2 f(vec3 p, bool last_step) {
 
 	//f = octahedronthingie(p);
 
-	return vec2(f, 0.);
+	vec2 m_kristall = vec2(f, 0.);
+	vec2 m_bg = vec2(background(p), 0.);
+	m_bg = min_material(m_bg, m_kristall);
+	return m_bg;
 }

@@ -1,6 +1,7 @@
 #include "scene_head.glsl"
 #include "rtificial.glsl"
-#line 4
+#include "background.glsl"
+#line 5
 
 void main() {
 	vec3 o = camera_position;
@@ -185,5 +186,8 @@ vec2 bee_fluegel(vec3 p, bool last_step) {
 vec2 f(vec3 p, bool last_step) {
 	vec2 body = bee_body(p, last_step);
 	vec2 fluegel = bee_fluegel(p, last_step);
-	return smin_material(body, fluegel, biene_fluegel_smooth_rt_float * biene_fluegel_thick_rt_float);
+	vec2 m_bee = smin_material(body, fluegel, biene_fluegel_smooth_rt_float * biene_fluegel_thick_rt_float);
+	vec2 m_bg = vec2(background(p), 0.);
+	m_bg = min_material(m_bg, m_bee);
+	return m_bg;
 }

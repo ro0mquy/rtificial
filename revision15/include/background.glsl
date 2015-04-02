@@ -88,7 +88,7 @@ float kristall(vec3 p_kristall, float height_kristall, float radius_kristall, fl
 }
 
 float background(vec3 p) {
-	p.y -= -5.;
+	p.y -= -10.;
 
 	vec3 p_kristall = p;
 	p_kristall.y -= bg_kristall_offset_rt_vec3.y;
@@ -101,6 +101,8 @@ float background(vec3 p) {
 	float f_kristall = kristall(p_kristall, bg_kristall_h_rt_float, bg_kristall_r_rt_float, bg_kristall_cap_rt_float);
 
 	vec3 p_fels = p;
+	p_fels.xz -= vec2(237., 349.); // origin looks shitty
+	p_fels.xz *= rot2D(TAU * .1);
 	float f_fels = fels_noise(p_fels, vec2(10.), vec3(2.));
 
 	vec3 p_boden = p;
