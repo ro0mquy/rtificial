@@ -145,9 +145,9 @@ float trillant(vec3 p) {
 
 float kristall(vec3 p) {
 	vec3 p_kristall = p;
-	float height_kristall = 2.;
-	float radius_kristall = .6;
-	float size_cap = .45;
+	float height_kristall = mk_kristall_h_rt_float;
+	float radius_kristall = mk_kristall_r_rt_float;
+	float size_cap = mk_kristall_cap_rt_float;
 	p_kristall.y = abs(p_kristall.y);
 	float r_kristall = radius_kristall * min((height_kristall - radius_kristall) - p_kristall.y, size_cap) / size_cap;
 	float f_kristall = hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));

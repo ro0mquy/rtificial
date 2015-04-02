@@ -39,7 +39,7 @@ void main() {
 		if (material_id == boden_id) {
 			out_color *= 0.2;
 		} else if (material_id == berg_id) {
-			out_color.r *= 0.2;
+			//out_color.r *= 0.2;
 		} else if (material_id == kristall_id) {
 			out_color.b *= 0.2;
 		}
@@ -146,7 +146,18 @@ float kristall(vec3 p_kristall, float height_kristall, float radius_kristall, fl
 	return hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));
 }
 vec2 kristallgruppe(vec3 p){
-	float f_kristall = kristall(p, mk_kristall_h_rt_float, mk_kristall_r_rt_float, mk_kristall_cap_rt_float);
+	vec3 p_kristall1 = trans(p, mk_kristall1_trans_relative_rt_vec3);
+	// invert rotation
+	vec4 rot_quat = vec4(-mk_kristall_rot_rt_quat.xyz, mk_kristall_rot_rt_quat.w);
+	rot_quat = normalize(mix(vec4(0.,0.,0.,1.), rot_quat, mk_kristall1_fullrot_rt_float));
+	p_kristall1 = quat_rotate(p_kristall1, rot_quat);
+	p_kristall1.xz *= rot2D(TAU * mk_kristall1_eigenrot_rt_float);
+	float f_kristall = kristall(
+		abs(p_kristall1),
+		mk_kristall_h_rt_float,
+		mk_kristall_r_rt_float,
+		mk_kristall_cap_rt_float
+	);
 
 	vec3 p_kristall2 = trans(p, mk_kristall2_trans_relative_rt_vec3);
 	float kristall2 = kristall(
