@@ -25,6 +25,8 @@ RT_MAIN {
 	backend.init(width, height, fullscreen);
 	backend.initAudio(use_sound_thread);
 
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
 	const int n_scenes = sizeof(scenes) / sizeof(Shader);
 	const int n_postproc = sizeof(postproc) / sizeof(Shader);
 
