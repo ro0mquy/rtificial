@@ -26,11 +26,13 @@ void main() {
 }
 
 vec2 bee_body(vec3 p, bool last_step) {
+	// anim thorax
 	float biene_body_thorax_height_rt_float = mix(biene_body_thorax_height_rt_float, 0.,
 			smoothstep(0., 1., biene_body_anim_rt_float));
 	float biene_body_thorax_stretch_rt_float = mix(1., biene_body_thorax_stretch_rt_float,
 			smoothstep(0., 1., biene_body_anim_rt_float));
 
+	// anim head
 	float biene_body_head_radius_rt_float = mix(0., biene_body_head_radius_rt_float,
 			smoothstep(1., 2., biene_body_anim_rt_float));
 	float biene_body_head_stretch_rt_float = mix(1., biene_body_head_stretch_rt_float,
@@ -38,6 +40,7 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float biene_body_head_offset_rt_float = mix(biene_body_head_offset_rt_float, 0.,
 			smoothstep(1., 2., biene_body_anim_rt_float));
 
+	// anim abdomen
 	float biene_body_radius_rt_float = mix(0., biene_body_radius_rt_float,
 			smoothstep(2., 3., biene_body_anim_rt_float));
 	float biene_body_abdomen_offset_rt_float = mix(-.1, biene_body_abdomen_offset_rt_float,
@@ -49,7 +52,18 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float biene_body_abdomen_smooth_rt_float = mix(0., biene_body_abdomen_smooth_rt_float,
 			smoothstep(2., 2.5, biene_body_anim_rt_float));
 
+	// anim dellen
 	float dellen_anim = mix(0., 1., smoothstep(3., 4., biene_body_anim_rt_float));
+
+	// anim mouth
+	float biene_mouth_height_rt_float = mix(.5, biene_mouth_height_rt_float,
+			smoothstep(4., 5., biene_body_anim_rt_float));
+
+	// anim fuel
+	float biene_body_head_fuel_length_rt_float = mix(0., biene_body_head_fuel_length_rt_float,
+		   smoothstep(5., 6., biene_body_anim_rt_float));
+	float biene_body_head_fuel_thick_rt_float = mix(0., biene_body_head_fuel_thick_rt_float,
+			smoothstep(5., 5.5, biene_body_anim_rt_float));
 
 	vec3 p_thorax = p;
 	p_thorax.y -= biene_body_thorax_height_rt_float;
@@ -70,9 +84,9 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float d_head = sphere(p_head, head_radius);
 	d_head *= min(min(biene_body_head_stretch_rt_float, biene_body_head_w_stretch_rt_float), 1.);
 
+	// mouth
 	p_mouth.x = abs(p_mouth.x);
 	p_mouth.x -= biene_mouth_dist_rt_float;
-	//p_mouth.z += head_length;
 	p_mouth.z += biene_mouth_front_rt_float * head_length;
 	float mouth_height = biene_mouth_height_rt_float;
 	float t_mouth = clamp(-p.y / mouth_height, 0., 1.);

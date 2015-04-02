@@ -86,7 +86,7 @@
       "uniformName": "biene_body_anim_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.9640000000000554792
+        "valueFloatX": 5
       },
       "sequencesArray": [
         {
@@ -104,7 +104,7 @@
             {
               "keyframePosition": 30000,
               "keyframeValue": {
-                "valueFloatX": 4
+                "valueFloatX": 5
               }
             }
           ]
