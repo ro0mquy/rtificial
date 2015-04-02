@@ -1,4 +1,5 @@
 #include "Framebuffer.h"
+#include "Constants.h"
 
 Framebuffer::Framebuffer(int _outputLod, int _outputsNumber, const Output* _outputs) :
 	outputLod(_outputLod),
@@ -27,7 +28,7 @@ void Framebuffer::create(int _width, int _height) {
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
 	GLenum* drawBuffers = new GLenum[outputsNumber];
 	for(int i = 0; i < outputsNumber; i++) {
-		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
+		glActiveTexture(GL_TEXTURE0 + TEXTURE_UNIT_OFFSET + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
 		GLint internalFormat;
 		GLenum format;
@@ -76,7 +77,7 @@ void Framebuffer::bind() {
 
 void Framebuffer::unbind() {
 	for(int i = 0; i < outputsNumber; i++) {
-		glActiveTexture(GL_TEXTURE0 + outputs[i].bindingId);
+		glActiveTexture(GL_TEXTURE0 + TEXTURE_UNIT_OFFSET + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
 		if(outputs[i].maxLod - outputLod > 0) {
 			glGenerateMipmap(GL_TEXTURE_2D);

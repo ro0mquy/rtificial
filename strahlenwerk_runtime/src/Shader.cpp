@@ -1,6 +1,7 @@
 #include "Shader.h"
 #include "DataInterpolator.h"
 #include "Backend.h" // for RT_DEBUG
+#include "Constants.h"
 
 Shader::Shader(const char* _source, int _inputsNumber, const Input* _inputs) :
 	source(_source),
@@ -47,7 +48,7 @@ void Shader::bind() {
 void Shader::draw(int width, int height, const int time) {
 	bind();
 	for(int i = 0; i < inputsNumber; i++) {
-		glActiveTexture(GL_TEXTURE0 + inputs[i].bindingId);
+		glActiveTexture(GL_TEXTURE0 + TEXTURE_UNIT_OFFSET + inputs[i].bindingId);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, inputs[i].lod);
 	}
 
