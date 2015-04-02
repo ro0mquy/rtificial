@@ -104,7 +104,7 @@
             {
               "keyframePosition": 30000,
               "keyframeValue": {
-                "valueFloatX": 5
+                "valueFloatX": 6
               }
             }
           ]
@@ -336,6 +336,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_dellen_smooth_aussen_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_dellen_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -454,6 +462,26 @@
               "keyframePosition": 20000,
               "keyframeValue": {
                 "valueFloatX": 26
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 601,
+          "sequenceStart": 0,
+          "sequenceDuration": 15000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": -2
+              }
+            },
+            {
+              "keyframePosition": 15000,
+              "keyframeValue": {
+                "valueFloatX": 0
               }
             }
           ]

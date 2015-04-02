@@ -147,7 +147,7 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float d_dellen = smax(
 		cylinder(p_dellen.xy, biene_body_radius_rt_float * (1. + biene_dellen_depth_rt_float)),
 		abs(p_dellen.z) - biene_dellen_thick_rt_float,
-		biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float
+		biene_dellen_smooth_aussen_rt_float * biene_dellen_depth_rt_float
 	);
 	d_dellen = smax(d_dellen, abs(p_abdomen.z) - biene_body_length_rt_float, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
 
@@ -160,9 +160,30 @@ vec2 bee_body(vec3 p, bool last_step) {
 }
 
 vec2 bee_fluegel(vec3 p, bool last_step) {
-	float biene_fluegel_rot_rt_float = 20. * sin(TAU * biene_fluegel_anim_rt_float);
-	float biene_fluegel_angle_rt_float = 20. * sin(TAU * (biene_fluegel_anim_rt_float - .25)) - 20.;
-	float biene_fluegel_raise_rt_float = 20. * sin(TAU * biene_fluegel_anim_rt_float);
+	float biene_fluegel_rot_rt_float = biene_fluegel_rot_rt_float;
+	float biene_fluegel_angle_rt_float = biene_fluegel_angle_rt_float;
+	float biene_fluegel_raise_rt_float = biene_fluegel_raise_rt_float;
+	vec2 biene_fluegel_c_rt_vec2 = biene_fluegel_c_rt_vec2;
+	float biene_fluegel_length_rt_float = biene_fluegel_length_rt_float;
+	if (biene_fluegel_anim_rt_float > 0.) {
+		biene_fluegel_rot_rt_float = 20. * sin(TAU * biene_fluegel_anim_rt_float);
+		biene_fluegel_angle_rt_float = 20. * sin(TAU * (biene_fluegel_anim_rt_float - .25)) - 20.;
+		biene_fluegel_raise_rt_float = 20. * sin(TAU * biene_fluegel_anim_rt_float);
+	} else {
+		biene_fluegel_c_rt_vec2 = mix(vec2(4.487, 0.539), biene_fluegel_c_rt_vec2,
+			smoothstep(-2., -1., biene_fluegel_anim_rt_float));
+		biene_fluegel_length_rt_float = mix(1., biene_fluegel_length_rt_float,
+			smoothstep(-2., -1., biene_fluegel_anim_rt_float));
+
+		biene_fluegel_rot_rt_float = mix(70., biene_fluegel_rot_rt_float,
+			smoothstep(-1., 0., biene_fluegel_anim_rt_float));
+		biene_fluegel_angle_rt_float = mix(-90., biene_fluegel_angle_rt_float,
+			smoothstep(-1., 0., biene_fluegel_anim_rt_float));
+		biene_fluegel_raise_rt_float = mix(0., biene_fluegel_raise_rt_float,
+			smoothstep(-1., 0., biene_fluegel_anim_rt_float));
+	}
+
+
 
 	vec3 p_fluegel = p;
 	p_fluegel.x = abs(p_fluegel.x);
