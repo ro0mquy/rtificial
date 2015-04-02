@@ -387,73 +387,73 @@
             {
               "keyframePosition": 8000,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": 4
               }
             },
             {
               "keyframePosition": 12000,
               "keyframeValue": {
-                "valueFloatX": 2
+                "valueFloatX": 6
               }
             },
             {
               "keyframePosition": 15000,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": 8
               }
             },
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueFloatX": 2
+                "valueFloatX": 10
               }
             },
             {
               "keyframePosition": 17000,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": 12
               }
             },
             {
               "keyframePosition": 18000,
               "keyframeValue": {
-                "valueFloatX": 2
+                "valueFloatX": 14
               }
             },
             {
               "keyframePosition": 19000,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": 16
               }
             },
             {
               "keyframePosition": 19250,
               "keyframeValue": {
-                "valueFloatX": 2
+                "valueFloatX": 18
               }
             },
             {
               "keyframePosition": 19500,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": 20
               }
             },
             {
               "keyframePosition": 19750,
               "keyframeValue": {
-                "valueFloatX": 2
+                "valueFloatX": 22
               }
             },
             {
               "keyframePosition": 19875,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": 24
               }
             },
             {
               "keyframePosition": 20000,
               "keyframeValue": {
-                "valueFloatX": 2
+                "valueFloatX": 26
               }
             }
           ]
@@ -1897,7 +1897,7 @@
                 "valueQuatX": -0.11880545318126678467,
                 "valueQuatY": -0.010008443146944046021,
                 "valueQuatZ": -0.0022836062125861644745,
-                "valueQuatW": 0.99286472797393798828
+                "valueQuatW": 0.99286472797393787726
               }
             },
             {
@@ -2094,7 +2094,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mk_kristall1_rot_rt_float",
+      "uniformName": "mk_kristall1_eigenrot_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
@@ -2120,6 +2120,35 @@
             },
             {
               "keyframePosition": 16000,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "mk_kristall1_fullrot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 797,
+          "sequenceStart": 8000,
+          "sequenceDuration": 8000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 8000,
               "keyframeValue": {
                 "valueFloatX": 1
               }
@@ -2481,32 +2510,7 @@
         "valueColorG": 0.5,
         "valueColorB": 0.5
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 259,
-          "sequenceStart": 0,
-          "sequenceDuration": 16000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueColorR": 0.0041200001724064350128,
-                "valueColorG": 0.031550001353025436401,
-                "valueColorB": 0.019920000806450843811
-              }
-            },
-            {
-              "keyframePosition": 16000,
-              "keyframeValue": {
-                "valueColorR": 0.17999999999999999334,
-                "valueColorG": 0.17999999999999999334,
-                "valueColorB": 0.17999999999999999334
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "post_color_lift",
@@ -2600,7 +2604,27 @@
             {
               "keyframePosition": 8000,
               "keyframeValue": {
-                "valueFloatX": -3
+                "valueFloatX": -5
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 148,
+          "sequenceStart": 52000,
+          "sequenceDuration": 4000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": -5
+              }
+            },
+            {
+              "keyframePosition": 4000,
+              "keyframeValue": {
+                "valueFloatX": -20
               }
             }
           ]
@@ -2626,26 +2650,6 @@
           ]
         },
         {
-          "sequenceSceneId": 259,
-          "sequenceStart": 0,
-          "sequenceDuration": 16000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 3.1069999999999708962
-              }
-            },
-            {
-              "keyframePosition": 16000,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            }
-          ]
-        },
-        {
           "sequenceSceneId": 855,
           "sequenceStart": 0,
           "sequenceDuration": 3000,
@@ -2654,13 +2658,19 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
+                "valueFloatX": -20
+              }
+            },
+            {
+              "keyframePosition": 500,
+              "keyframeValue": {
                 "valueFloatX": -15
               }
             },
             {
               "keyframePosition": 3000,
               "keyframeValue": {
-                "valueFloatX": -3
+                "valueFloatX": -5
               }
             }
           ]
