@@ -2635,6 +2635,67 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "morph_opal_smooth_plane_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.20000000000004547474
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "morph_opal_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.17700000000002091838
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 601,
+          "sequenceStart": 26000,
+          "sequenceDuration": 1000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 1000,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "morph_opal_stretch_x_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.60000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "morph_opal_stretch_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.3000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "morph_reflectivness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.6630000000000109139
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "morph_rot_rt_quat",
       "uniformType": "quat",
       "uniformStandardValue": {
@@ -2725,18 +2786,26 @@
             {
               "keyframePosition": 10000,
               "keyframeValue": {
-                "valueFloatX": 4.5
+                "valueFloatX": 6
               }
             },
             {
               "keyframePosition": 12000,
               "keyframeValue": {
-                "valueFloatX": 4.5
+                "valueFloatX": 6
               }
             }
           ]
         }
       ]
+    },
+    {
+      "uniformName": "morph_rough_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "morph_rt_color",
