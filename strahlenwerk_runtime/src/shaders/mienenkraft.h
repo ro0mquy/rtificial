@@ -2,59 +2,59 @@
 #define mienenkraft_H
 const char mienenkraft_source[] =R"shader_source(#version 430
 )shader_source"
-R"shader_source(layout(location = 156) uniform vec3 mk_huegel_pos_rt_vec3;
+R"shader_source(const vec3 mk_huegel_pos_rt_vec3 = vec3(10, 8, 10);
 )shader_source"
-R"shader_source(layout(location = 157) uniform float mk_hintergrund_kristall_cap_rt_float;
+R"shader_source(layout(location = 156) uniform float mk_hintergrund_kristall_cap_rt_float;
 )shader_source"
-R"shader_source(layout(location = 158) uniform float mk_hintergrund_kristall_r_rt_float;
+R"shader_source(layout(location = 157) uniform float mk_hintergrund_kristall_r_rt_float;
 )shader_source"
-R"shader_source(layout(location = 159) uniform float mk_hintergrund_kristall_h_rt_float;
+R"shader_source(layout(location = 158) uniform float mk_hintergrund_kristall_h_rt_float;
 )shader_source"
-R"shader_source(layout(location = 160) uniform float mk_bounding_offset_rt_float;
+R"shader_source(layout(location = 159) uniform float mk_bounding_offset_rt_float;
 )shader_source"
-R"shader_source(layout(location = 161) uniform float mk_kristall_cap_rt_float;
+R"shader_source(const float mk_kristall_cap_rt_float = 0.2870000000000345608;
 )shader_source"
-R"shader_source(layout(location = 162) uniform float mk_fog_amount_rt_float;
+R"shader_source(layout(location = 160) uniform float mk_fog_amount_rt_float;
 )shader_source"
-R"shader_source(layout(location = 163) uniform float mk_kristall_h_rt_float;
+R"shader_source(layout(location = 161) uniform float mk_kristall_h_rt_float;
 )shader_source"
-R"shader_source(layout(location = 164) uniform float mk_bounding_height_rt_float;
+R"shader_source(layout(location = 162) uniform float mk_bounding_height_rt_float;
 )shader_source"
-R"shader_source(layout(location = 165) uniform vec3 mk_kristall3_trans_relative_rt_vec3;
+R"shader_source(const vec3 mk_kristall3_trans_relative_rt_vec3 = vec3(-0.2369999999999663487, -0.47899999999992814992, -0.51499999999998635758);
 )shader_source"
-R"shader_source(layout(location = 166) uniform float mk_kristall1_fullrot_rt_float;
+R"shader_source(layout(location = 163) uniform float mk_kristall1_fullrot_rt_float;
 )shader_source"
-R"shader_source(layout(location = 167) uniform float mk_smin_felsen_rt_float;
+R"shader_source(layout(location = 164) uniform float mk_smin_felsen_rt_float;
 )shader_source"
-R"shader_source(layout(location = 168) uniform float mk_kristall_r_rt_float;
+R"shader_source(layout(location = 165) uniform float mk_kristall_r_rt_float;
 )shader_source"
-R"shader_source(layout(location = 169) uniform vec3 mk_kristall2_trans_relative_rt_vec3;
+R"shader_source(const vec3 mk_kristall2_trans_relative_rt_vec3 = vec3(-0.74500000000000443645, -0.34699999999997999112, -0.24900000000002364686);
 )shader_source"
-R"shader_source(layout(location = 170) uniform float mk_kristall3_h_relative_rt_float;
+R"shader_source(const float mk_kristall3_h_relative_rt_float = 0.42899999999997362465;
 )shader_source"
-R"shader_source(layout(location = 171) uniform vec3 mk_kristall_pos_rt_vec3;
+R"shader_source(layout(location = 166) uniform vec3 mk_kristall_pos_rt_vec3;
 )shader_source"
-R"shader_source(layout(location = 172) uniform vec4 mk_kristall_rot_rt_quat; // quat
+R"shader_source(layout(location = 167) uniform vec4 mk_kristall_rot_rt_quat; // quat
 )shader_source"
-R"shader_source(layout(location = 173) uniform vec3 mk_kristall1_trans_relative_rt_vec3;
+R"shader_source(layout(location = 168) uniform vec3 mk_kristall1_trans_relative_rt_vec3;
 )shader_source"
-R"shader_source(layout(location = 174) uniform float mk_fog_invheight_rt_float;
+R"shader_source(layout(location = 169) uniform float mk_fog_invheight_rt_float;
 )shader_source"
-R"shader_source(layout(location = 175) uniform float mk_kristall1_eigenrot_rt_float;
+R"shader_source(layout(location = 170) uniform float mk_kristall1_eigenrot_rt_float;
 )shader_source"
-R"shader_source(layout(location = 176) uniform vec4 mk_kristall2_rot_relative_rt_quat; // quat
+R"shader_source(const vec4 mk_kristall2_rot_relative_rt_quat = vec4(0.053422939032316207886, -0.97990703582763682977, 0.06456902623176574707, -0.18099492788314819336); // quat
 )shader_source"
-R"shader_source(layout(location = 177) uniform float mk_kristall2_h_relative_rt_float;
+R"shader_source(const float mk_kristall2_h_relative_rt_float = 0.68299999999999272404;
 )shader_source"
-R"shader_source(layout(location = 178) uniform float mk_kristall2_r_relative_rt_float;
+R"shader_source(const float mk_kristall2_r_relative_rt_float = 0.28300000000001546141;
 )shader_source"
-R"shader_source(layout(location = 179) uniform float mk_kristall2_cap_relative_rt_float;
+R"shader_source(const float mk_kristall2_cap_relative_rt_float = 0.36300000000005638867;
 )shader_source"
-R"shader_source(layout(location = 180) uniform vec4 mk_kristall3_rot_relative_rt_quat; // quat
+R"shader_source(const vec4 mk_kristall3_rot_relative_rt_quat = vec4(-0.10300314426422120528, -0.15430708229541778564, 0.021007779985666275024, -0.98241466283798228876); // quat
 )shader_source"
-R"shader_source(layout(location = 181) uniform float mk_kristall3_r_relative_rt_float;
+R"shader_source(const float mk_kristall3_r_relative_rt_float = 0.2870000000000345608;
 )shader_source"
-R"shader_source(layout(location = 182) uniform float mk_kristall3_cap_relative_rt_float;
+R"shader_source(const float mk_kristall3_cap_relative_rt_float = 0.31900000000007366907;
 )shader_source"
 R"shader_source(
 )shader_source"

@@ -177,7 +177,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 			const File& environmentFile = buildDir.getChildFile(String(shader.getName() + "_environment")).withFileExtension("glsl");
 			environmentFile.replaceWithText(environment.getSource());
 			shadersHeaderContent += "#include \"shaders/" + shader.getName() + "_environment.h\"\n";
-			environmentsArrayDeclaration += "\tAmbientLight(" + shader.getName() + "_source_environment),\n";
+			environmentsArrayDeclaration += "\tAmbientLight(" + shader.getName() + "_environment_source),\n";
 		} else {
 			environmentsArrayDeclaration += "\tAmbientLight(nullptr),\n";
 		}

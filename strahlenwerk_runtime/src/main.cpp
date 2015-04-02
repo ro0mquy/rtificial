@@ -7,6 +7,9 @@
 #include "glcorearb.h"
 #include "gl_identifiers.h"
 #include "shaders/ladebalken.h"
+#include "DiffuseFilterSource.h"
+#include "SpecularFilterSource.h"
+#include "BRDFLut.h"
 
 #ifdef __linux
 	using Backend = LinuxBackend;
@@ -33,7 +36,7 @@ RT_MAIN {
 	ladebalken.compile();
 
 	float progress = 0.;
-	float progress_step = 1./ (n_scenes + n_postproc);
+	float progress_step = 1./ (2 * n_scenes + n_postproc + 3.);
 
 	for(int i = 0; i < n_scenes; i++) {
 		scenes[i].compile();
@@ -57,6 +60,28 @@ RT_MAIN {
 		backend.afterFrame();
 		backend.sleep(200);
 	}
+	Shader diffuseFilterShader(diffuseFilterSource, 0, nullptr);
+	Shader specularFilterShader(specularFilterSource, 0, nullptr);
+	BRDFLut brdfLut;
+	diffuseFilterShader.compile();
+	specularFilterShader.compile();
+	backend.beforeFrame();
+	ladebalken.bind();
+	progress += progress_step * 2;
+	glUniform1f(74, progress);
+	ladebalken.draw(width, height, -1);
+	backend.afterFrame();
+	for (int i = 0; i < n_scenes; i++) {
+		if (environments[i].isValid()) {
+			environments[i].create(diffuseFilterShader, specularFilterShader);
+		}
+		backend.beforeFrame();
+		ladebalken.bind();
+		progress += progress_step;
+		glUniform1f(74, progress);
+		ladebalken.draw(width, height, -1);
+		backend.afterFrame();
+	}
 
 	backend.sleep(2000);
 
@@ -77,6 +102,9 @@ RT_MAIN {
 
 		const int currentTime = backend.getTime();
 
+		if (environments[shader_id].isValid()) {
+			environments[shader_id].bind();
+		}
 		fbos[0].bind();
 		scenes[shader_id].draw(fbos[0].width, fbos[0].height, currentTime);
 		fbos[0].unbind();
@@ -100,11 +128,16 @@ RT_MAIN {
 
 	for(int i = 0; i < n_scenes; i++) {
 		scenes[i].destroy();
+		if (environments[shader_id].isValid()) {
+			environments[shader_id].destroy();
+		}
 	}
 	for(int i = 0; i < n_postproc; i++) {
 		postproc[i].destroy();
 		fbos[i].destroy();
 	}
+	diffuseFilterShader.destroy();
+	specularFilterShader.destroy();
 
 	backend.cleanup();
 	RT_DEINIT

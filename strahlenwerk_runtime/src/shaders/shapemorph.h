@@ -2,33 +2,33 @@
 #define shapemorph_H
 const char shapemorph_source[] =R"shader_source(#version 430
 )shader_source"
-R"shader_source(layout(location = 183) uniform float morph_mix_rt_float;
+R"shader_source(layout(location = 171) uniform float morph_mix_rt_float;
 )shader_source"
-R"shader_source(layout(location = 184) uniform float morph_octahedron_smooth_rt_float;
+R"shader_source(layout(location = 172) uniform float morph_octahedron_smooth_rt_float;
 )shader_source"
-R"shader_source(layout(location = 185) uniform float morph_hexshape_smooth_rt_float;
+R"shader_source(const float morph_hexshape_smooth_rt_float = 0.8000000000000682121;
 )shader_source"
-R"shader_source(layout(location = 161) uniform float mk_kristall_cap_rt_float;
+R"shader_source(const float mk_kristall_cap_rt_float = 0.2870000000000345608;
 )shader_source"
-R"shader_source(layout(location = 163) uniform float mk_kristall_h_rt_float;
+R"shader_source(layout(location = 161) uniform float mk_kristall_h_rt_float;
 )shader_source"
-R"shader_source(layout(location = 186) uniform vec4 morph_rot_rt_quat; // quat
+R"shader_source(layout(location = 173) uniform vec4 morph_rot_rt_quat; // quat
 )shader_source"
-R"shader_source(layout(location = 187) uniform float morph_trishape_smooth_rt_float;
+R"shader_source(layout(location = 174) uniform float morph_trishape_smooth_rt_float;
 )shader_source"
-R"shader_source(layout(location = 188) uniform float morph_rotation_rt_float;
+R"shader_source(layout(location = 175) uniform float morph_rotation_rt_float;
 )shader_source"
-R"shader_source(layout(location = 189) uniform vec3 morph_rt_color; // color
+R"shader_source(layout(location = 176) uniform vec3 morph_rt_color; // color
 )shader_source"
 R"shader_source(layout(location = 105) uniform vec3 bg_kristall_offset_rt_vec3;
 )shader_source"
-R"shader_source(layout(location = 168) uniform float mk_kristall_r_rt_float;
+R"shader_source(layout(location = 165) uniform float mk_kristall_r_rt_float;
 )shader_source"
 R"shader_source(layout(location = 113) uniform float bg_kristall_h_rt_float;
 )shader_source"
 R"shader_source(layout(location = 116) uniform float bg_kristall_r_rt_float;
 )shader_source"
-R"shader_source(layout(location = 190) uniform float morph_kantenklumpen_smooth_rt_float;
+R"shader_source(layout(location = 177) uniform float morph_kantenklumpen_smooth_rt_float;
 )shader_source"
 R"shader_source(layout(location = 118) uniform float bg_kristall_cap_rt_float;
 )shader_source"
@@ -40,11 +40,11 @@ R"shader_source(layout(location = 122) uniform float bg_smin_kristall_rt_float;
 )shader_source"
 R"shader_source(layout(location = 125) uniform float bg_smin_boden_rt_float;
 )shader_source"
-R"shader_source(layout(location = 191) uniform float morph_smooth_rt_float;
+R"shader_source(layout(location = 178) uniform float morph_smooth_rt_float;
 )shader_source"
-R"shader_source(layout(location = 192) uniform float morph_trillant_smooth_rt_float;
+R"shader_source(layout(location = 179) uniform float morph_trillant_smooth_rt_float;
 )shader_source"
-R"shader_source(layout(location = 193) uniform float morph_noise_freq_rt_float;
+R"shader_source(layout(location = 180) uniform float morph_noise_freq_rt_float;
 )shader_source"
 R"shader_source(
 )shader_source"

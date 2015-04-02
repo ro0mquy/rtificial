@@ -11,6 +11,7 @@ class AmbientLight {
 		void create(Shader& diffuseShader, Shader& specularShader);
 		void bind();
 		void destroy();
+		bool isValid();
 
 	private:
 		const char* const source;

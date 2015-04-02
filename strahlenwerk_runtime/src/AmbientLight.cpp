@@ -28,3 +28,7 @@ void AmbientLight::destroy() {
 	filteredDiffuse.destroy();
 	filteredSpecular.destroy();
 }
+
+bool AmbientLight::isValid() {
+	return source != nullptr;
+}
