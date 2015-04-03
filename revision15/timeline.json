@@ -368,6 +368,41 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_body_hotness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 855,
+          "sequenceStart": 0,
+          "sequenceDuration": 21000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 7000,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 21000,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "biene_body_length_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -866,6 +901,38 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 2.8770000000000663931
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_kugel_noise_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.3379999999999654392
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_kugel_schwurbel_intens_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0650000000000545697
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_kugel_schwurbel_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.5199999999999818101
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_kugel_seed_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.0059999999999718057
       },
       "sequencesArray": []
     },

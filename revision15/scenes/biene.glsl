@@ -10,6 +10,9 @@ const float fels_id = 1.;
 const float biene_id = 2.;
 const float dellen_id = 3.;
 const float eyes_id = 4.;
+const float tunnel_id = 5.;
+
+vec3 p_biene;
 
 void main() {
 	vec3 o = camera_position;
@@ -31,11 +34,17 @@ void main() {
 		if (material == eyes_id) {
 			out_color = augenlicht(p, d, normal);
 		} else {
-			if (material == fels_id) {
+			if (material == fels_id || material == tunnel_id) {
 				fels_color(p, col, rough);
 			} else if (material == biene_id) {
 				metallic = 1.;
 				col = biene_color_rt_color;
+				vec2 F = cellular(p_biene * biene_kugel_noise_rt_float
+					+ vfbm(p_biene * biene_kugel_schwurbel_rt_float) * biene_kugel_schwurbel_intens_rt_float
+					+ biene_kugel_seed_rt_float
+				);
+				float cellnoise = F.y - F.x;
+				col = mix(col, col * cellnoise, biene_body_hotness_rt_float);
 				rough = biene_rough_rt_float;
 			} else if (material == dellen_id) {
 				metallic = 1.;
@@ -99,6 +108,7 @@ vec2 bee_body(vec3 p, bool last_step) {
 	vec3 p_thorax = p;
 	p_thorax.y -= biene_body_thorax_height_rt_float;
 	p_thorax.z /= biene_body_thorax_stretch_rt_float;
+	p_biene = p_thorax;
 	float thorax_radius = biene_body_max_thick_rt_float * biene_body_thorax_scale_rt_float;
 	float thorax_length = thorax_radius * biene_body_thorax_stretch_rt_float;
 	float d_thorax = sphere(p_thorax, thorax_radius);
@@ -274,7 +284,7 @@ vec2 f(vec3 p, bool last_step) {
 	vec2 fluegel = bee_fluegel(p_bee, last_step);
 	vec2 m_bee = smin_material(body, fluegel, biene_fluegel_smooth_rt_float * biene_fluegel_thick_rt_float);
 	vec2 m_bg = vec2(background(p), fels_id);
-	vec2 m_tunnel = vec2(rmk_tunnel(p), 0.);
+	vec2 m_tunnel = vec2(rmk_tunnel(p), tunnel_id);
 	m_bg = smax_material(m_bg, m_tunnel, biene_tunnel_smooth_rt_float);
 	m_bg = min_material(m_bg, m_bee);
 	return m_bg;
