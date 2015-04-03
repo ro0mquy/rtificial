@@ -1,7 +1,8 @@
 #include "scene_head.glsl"
 #include "rtificial.glsl"
 #include "background.glsl"
-#line 5
+#include "biene.glsl"
+#line 6
 
 void main() {
 	vec3 o = camera_position;
@@ -65,6 +66,13 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float biene_body_head_fuel_thick_rt_float = mix(0., biene_body_head_fuel_thick_rt_float,
 			smoothstep(5., 5.5, biene_body_anim_rt_float));
 
+	// anim eyes
+	float biene_body_head_eye_falldown_rt_float = mix(biene_body_head_eye_falldown_rt_float, 0.,
+			smoothstep(6., 7., biene_body_anim_rt_float));
+	float biene_body_head_eye_rot_rt_float = mix(biene_body_head_eye_rot_rt_float, 0.,
+			smoothstep(6., 7., biene_body_anim_rt_float));
+
+
 	vec3 p_thorax = p;
 	p_thorax.y -= biene_body_thorax_height_rt_float;
 	p_thorax.z /= biene_body_thorax_stretch_rt_float;
@@ -102,11 +110,16 @@ vec2 bee_body(vec3 p, bool last_step) {
 	// eyes TODO
 	vec3 p_eyes = p_head;
 	p_eyes.x = abs(p_eyes.x);
+	p_eyes.y -= biene_body_head_eye_falldown_rt_float;
 	p_eyes.zx *= rot2D(radians(biene_body_head_eye_dist_rt_float));
 	p_eyes.zy *= rot2D(radians(biene_body_head_eye_height_rt_float));
+	//p_eyes.x -= biene_body_head_eye_dist_rt_float;
 	p_eyes.z += head_length - biene_body_head_eye_offset_rt_float;
-	p_eyes.y /= biene_body_head_eye_stretch_rt_float;
-	float d_eyes = sphere(p_eyes, biene_body_head_eye_radius_rt_float * head_radius);
+	//p_eyes.xz *= rot2D(radians(biene_body_head_eye_angle_rt_float));
+	p_eyes.yz *= rot2D(radians(biene_body_head_eye_rot_rt_float));
+	//p_eyes.y /= biene_body_head_eye_stretch_rt_float;
+	//float d_eyes = sphere(p_eyes, biene_body_head_eye_radius_rt_float * head_radius);
+	float d_eyes = scale(opal, p_eyes.xzy, biene_body_head_eye_scale_rt_float);
 	d_head = min(d_head, d_eyes);
 
 	// fuel TODO

@@ -86,9 +86,49 @@
       "uniformName": "biene_body_anim_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.9640000000000554792
+        "valueFloatX": 7
       },
       "sequencesArray": [
+        {
+          "sequenceSceneId": 248,
+          "sequenceStart": 0,
+          "sequenceDuration": 4000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 6
+              }
+            },
+            {
+              "keyframePosition": 4000,
+              "keyframeValue": {
+                "valueFloatX": 7
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 601,
+          "sequenceStart": 0,
+          "sequenceDuration": 16000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 3
+              }
+            },
+            {
+              "keyframePosition": 16000,
+              "keyframeValue": {
+                "valueFloatX": 6
+              }
+            }
+          ]
+        },
         {
           "sequenceSceneId": 855,
           "sequenceStart": 0,
@@ -128,10 +168,18 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_body_head_eye_falldown_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_body_head_eye_height_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 15.81500000000005457
+        "valueFloatX": -10
       },
       "sequencesArray": []
     },
@@ -139,7 +187,7 @@
       "uniformName": "biene_body_head_eye_offset_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.2129999999999654392
+        "valueFloatX": -0.18899999999996452971
       },
       "sequencesArray": []
     },
@@ -148,6 +196,22 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.57600000000002182787
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_eye_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -90
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_eye_scale_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.63999999999998635758
       },
       "sequencesArray": []
     },
@@ -949,25 +1013,17 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueVec3X": 2.2623574733734130859,
-                "valueVec3Y": 1.479205012321472168,
-                "valueVec3Z": -3.9081203937530517578
+                "valueVec3X": 0.68390709161758422852,
+                "valueVec3Y": 10.502645492553710938,
+                "valueVec3Z": -4.1976270675659179688
               }
             },
             {
               "keyframePosition": 4000,
               "keyframeValue": {
-                "valueVec3X": 3.1131355762481689453,
-                "valueVec3Y": 4.553554534912109375,
-                "valueVec3Z": -5.4759702682495117188
-              }
-            },
-            {
-              "keyframePosition": 4000,
-              "keyframeValue": {
-                "valueVec3X": 0,
-                "valueVec3Y": 0,
-                "valueVec3Z": 0
+                "valueVec3X": 1.8772225379943847656,
+                "valueVec3Y": -1.5988966226577758789,
+                "valueVec3Z": -4.5809626579284667969
               }
             }
           ]
@@ -1462,28 +1518,19 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": 0.11572521179914474487,
-                "valueQuatY": -0.86043894290924061163,
-                "valueQuatZ": -0.22517530620098111238,
-                "valueQuatW": -0.44220843911170959473
+                "valueQuatX": -0.027939431369304656982,
+                "valueQuatY": -0.97198349237442016602,
+                "valueQuatZ": -0.15870520472526550293,
+                "valueQuatW": 0.17111389338970184326
               }
             },
             {
               "keyframePosition": 4000,
               "keyframeValue": {
-                "valueQuatX": 0.17121261358261108398,
-                "valueQuatY": -0.82862001657485973016,
-                "valueQuatZ": -0.38590583205223077945,
-                "valueQuatW": -0.36762896180152898618
-              }
-            },
-            {
-              "keyframePosition": 4000,
-              "keyframeValue": {
-                "valueQuatX": 0,
-                "valueQuatY": 0,
-                "valueQuatZ": 0,
-                "valueQuatW": 1
+                "valueQuatX": -0.085404261946678161621,
+                "valueQuatY": -0.91131234169006347656,
+                "valueQuatZ": 0.24141748249530792236,
+                "valueQuatW": -0.32238748669624328613
               }
             }
           ]
