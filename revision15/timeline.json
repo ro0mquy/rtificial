@@ -424,10 +424,30 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.24279637634754180908,
+        "valueColorG": 0.24279637634754180908,
+        "valueColorB": 0.19046287238597869873
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_dellen_anim_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_dellen_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.0041161766275763511658,
+        "valueColorG": 0.0022629532031714916229,
+        "valueColorB": 0.0022629532031714916229
       },
       "sequencesArray": []
     },
@@ -444,6 +464,14 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 8
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_dellen_rough_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.069000000000073669071
       },
       "sequencesArray": []
     },
@@ -919,6 +947,14 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.19700000000000272848
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_rough_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.1689999999999827196
       },
       "sequencesArray": []
     },

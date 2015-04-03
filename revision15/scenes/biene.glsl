@@ -8,6 +8,7 @@
 
 const float fels_id = 1.;
 const float biene_id = 2.;
+const float dellen_id = 3.;
 
 void main() {
 	vec3 o = camera_position;
@@ -29,8 +30,13 @@ void main() {
 		if (material == fels_id) {
 			fels_color(p, col, rough);
 		} else if (material == biene_id) {
-			rough = .2;
 			metallic = 1.;
+			col = biene_color_rt_color;
+			rough = biene_rough_rt_float;
+		} else if (material == dellen_id) {
+			metallic = 1.;
+			col = biene_dellen_color_rt_color;
+			rough = biene_dellen_rough_rt_float;
 		}
 
 		out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
@@ -175,13 +181,16 @@ vec2 bee_body(vec3 p, bool last_step) {
 		biene_dellen_smooth_aussen_rt_float * biene_dellen_depth_rt_float
 	);
 	d_dellen = smax(d_dellen, abs(p_abdomen.z) - biene_body_length_rt_float, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
+	vec2 m_dellen = vec2(d_dellen, dellen_id);
 
-	d_abdomen = smin(d_abdomen, d_dellen, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
+	vec2 m_abdomen = vec2(d_abdomen, biene_id);
+	m_abdomen = smin_material(m_abdomen, m_dellen, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
 
-	float d_body = smin(d_abdomen, smin(d_thorax, d_head, biene_body_head_smooth_rt_float * head_radius),
+	d_head = smin(d_thorax, d_head, biene_body_head_smooth_rt_float * head_radius);
+	vec2 m_body = smin_material(m_abdomen, vec2(d_head, biene_id),
 		biene_body_abdomen_smooth_rt_float * biene_body_max_thick_rt_float);
 
-	return vec2(d_body, biene_id);
+	return m_body;
 }
 
 vec2 bee_fluegel(vec3 p, bool last_step) {
