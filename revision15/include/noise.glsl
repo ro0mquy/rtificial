@@ -237,12 +237,12 @@ float vfbm(vec3 c) {
 }
 
 vec2 cellular(vec3 P) {
-#define K 0.142857142857 // 1/7
-#define Ko 0.428571428571 // 1/2-K/2
-#define K2 0.020408163265306 // 1/(7*7)
-#define Kz 0.166666666667 // 1/6
-#define Kzo 0.416666666667 // 1/2-1/6*2
-#define jitter 1.0 // smaller jitter gives more regular pattern
+	const float K = 0.142857142857; // 1/7
+	const float Ko = 0.428571428571; // 1/2-K/2
+	const float K2 = 0.020408163265306; // 1/(7*7)
+	const float Kz = 0.166666666667; // 1/6
+	const float Kzo = 0.416666666667; // 1/2-1/6*2
+	const float jitter = 1.0; // smaller jitter gives more regular pattern
 
 	vec3 Pi = mod(floor(P), 289.0);
 	vec3 Pf = fract(P) - 0.5;
