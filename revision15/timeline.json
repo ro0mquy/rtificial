@@ -124,7 +124,7 @@
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueFloatX": 6
+                "valueFloatX": 4
               }
             }
           ]
@@ -427,9 +427,9 @@
       "uniformName": "biene_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.24279637634754180908,
-        "valueColorG": 0.24279637634754180908,
-        "valueColorB": 0.19046287238597872649
+        "valueColorR": 0.5795466303825378418,
+        "valueColorG": 0.50543248653411865234,
+        "valueColorB": 0.50543248653411865234
       },
       "sequencesArray": []
     },
@@ -445,9 +445,9 @@
       "uniformName": "biene_dellen_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.0041161766275763511658,
-        "valueColorG": 0.0022629532031714916229,
-        "valueColorB": 0.0022629532031714916229
+        "valueColorR": 0.9406006932258605957,
+        "valueColorG": 0.82772582769393920898,
+        "valueColorB": 0.84336972236633300781
       },
       "sequencesArray": []
     },
@@ -1412,25 +1412,33 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueVec3X": 10.094463348388671875,
-                "valueVec3Y": 9.6881256103515625,
-                "valueVec3Z": 5.1011214256286621094
+                "valueVec3X": 2.3092250823974609375,
+                "valueVec3Y": 1.6367151737213134766,
+                "valueVec3Z": -0.72138655185699462891
               }
             },
             {
-              "keyframePosition": 9000,
+              "keyframePosition": 5000,
               "keyframeValue": {
-                "valueVec3X": 4.5056056976318359375,
-                "valueVec3Y": 3.4104676246643066406,
-                "valueVec3Z": -7.2586092948913574219
+                "valueVec3X": -0.50811797380447387695,
+                "valueVec3Y": 1.5228558778762817383,
+                "valueVec3Z": 1.1202830076217651367
+              }
+            },
+            {
+              "keyframePosition": 9500,
+              "keyframeValue": {
+                "valueVec3X": -2.899837493896484375,
+                "valueVec3Y": 0.3167807459831237793,
+                "valueVec3Z": 2.5206840038299560547
               }
             },
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueVec3X": -0.23393709957599639893,
-                "valueVec3Y": -1.472155451774597168,
-                "valueVec3Z": -13.4320526123046875
+                "valueVec3X": -3.8235440254211425781,
+                "valueVec3Y": -0.52995461225509643555,
+                "valueVec3Z": 9.1556539535522460938
               }
             }
           ]
@@ -1946,28 +1954,37 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": 0.27893146872520446777,
-                "valueQuatY": -0.51151609420776367188,
-                "valueQuatZ": -0.13758385181427001953,
-                "valueQuatW": -0.80101102590560913086
+                "valueQuatX": 0.034582749009132385254,
+                "valueQuatY": -0.91989976167678833008,
+                "valueQuatZ": -0.083360917866230010986,
+                "valueQuatW": -0.38162556290626525879
               }
             },
             {
-              "keyframePosition": 9000,
+              "keyframePosition": 5000,
               "keyframeValue": {
-                "valueQuatX": 0.068850219249725341797,
-                "valueQuatY": -0.93079841136932373047,
-                "valueQuatZ": -0.2667452394962310791,
-                "valueQuatW": -0.24025060236454007234
+                "valueQuatX": 0.00072820979403331875801,
+                "valueQuatY": 0.99503523111343383789,
+                "valueQuatZ": 0.089491091668605804443,
+                "valueQuatW": 0.043529566377401351929
+              }
+            },
+            {
+              "keyframePosition": 9500,
+              "keyframeValue": {
+                "valueQuatX": 0.032514192163944244385,
+                "valueQuatY": 0.9454371333122253418,
+                "valueQuatZ": 0.08337869495153427124,
+                "valueQuatW": -0.31326979398727416992
               }
             },
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueQuatX": 0.00035898078931495547295,
-                "valueQuatY": -0.99815195798873901367,
-                "valueQuatZ": 0.06047005578875541687,
-                "valueQuatW": 0.0059258760884404182434
+                "valueQuatX": 0.013047872111201286316,
+                "valueQuatY": -0.38404643535614013672,
+                "valueQuatZ": 0.005427892785519361496,
+                "valueQuatW": 0.92320495843887329102
               }
             }
           ]

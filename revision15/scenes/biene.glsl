@@ -169,7 +169,7 @@ vec2 bee_body(vec3 p, bool last_step) {
 
 	float dellen_space = 2. * biene_body_length_rt_float / biene_dellen_num_rt_float;
 	vec3 p_dellen = p_abdomen;
-	float dellen_cell = -ceil(p_dellen.z / dellen_space); // +floor() for other direction
+	float dellen_cell = +floor(p_dellen.z / dellen_space); // -ceil() for other direction
 	dellen_anim -= .5;
 	float dellen_current_anim = clamp(dellen_anim * biene_dellen_num_rt_float - dellen_cell, 0., 1.);
 	float biene_dellen_depth_rt_float = mix(0., biene_dellen_depth_rt_float,
