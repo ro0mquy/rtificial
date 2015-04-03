@@ -10,6 +10,9 @@ extern "C" {
 
 #ifdef SYNTH_V2
 	#define BPM 90
+
+	// use GetSystemTime() instead of V2 for time
+	#define TICKTIME
 #endif
 
 #include "Backend.h"
@@ -36,6 +39,7 @@ PFNGLUNIFORM1FPROC                glUniform1f;
 PFNGLUNIFORM2FPROC                glUniform2f;
 PFNGLUNIFORM3FPROC                glUniform3f;
 PFNGLUNIFORM4FPROC                glUniform4f;
+PFNGLUNIFORM1IPROC                glUniform1i;
 PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
 PFNGLDELETEPROGRAMPROC            glDeleteProgram;
 PFNGLGETPROGRAMIVPROC             glGetProgramiv;
@@ -85,6 +89,7 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 	glUniform2f                = (PFNGLUNIFORM2FPROC)                wglGetProcAddress("glUniform2f");
 	glUniform3f                = (PFNGLUNIFORM3FPROC)                wglGetProcAddress("glUniform3f");
 	glUniform4f                = (PFNGLUNIFORM4FPROC)                wglGetProcAddress("glUniform4f");
+	glUniform1i                = (PFNGLUNIFORM1IPROC)                wglGetProcAddress("glUniform1i");
 	glDisableVertexAttribArray = (PFNGLDISABLEVERTEXATTRIBARRAYPROC) wglGetProcAddress("glDisableVertexAttribArray");
 	glDeleteProgram            = (PFNGLDELETEPROGRAMPROC)            wglGetProcAddress("glDeleteProgram");
 	glGetProgramiv             = (PFNGLGETPROGRAMIVPROC)             wglGetProcAddress("glGetProgramiv");
@@ -110,6 +115,9 @@ static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 #include "libv2.h"
 static V2MPlayer player;
 extern "C" const sU8 soundtrack[];
+#ifdef TICKTIME
+	DWORD starttime;
+#endif
 #endif
 
 void WindowsBackend::initAudio(bool threaded) {
@@ -161,6 +169,9 @@ void WindowsBackend::playAudio() {
 	waveOutWrite(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
 #ifdef SYNTH_V2
+	#ifdef TICKTIME
+		starttime = GetTickCount();
+	#endif
 	player.Play();
 #endif
 }
@@ -175,7 +186,11 @@ int WindowsBackend::getTime(){
 	return int(.5 + (double) time.u.sample / SAMPLE_RATE * BPM / 60. * 1000.);
 #endif
 #ifdef SYNTH_V2
-	return int(.5 + double(player.GetTime()) * BPM / 60.);
+	#ifdef TICKTIME
+		return int(.5 + double(GetTickCount() - starttime) * BPM / 60.);
+	#else
+		return int(.5 + double(player.GetTime()) * BPM / 60.);
+	#endif
 #endif
 }
 
