@@ -130,9 +130,29 @@
           ]
         },
         {
+          "sequenceSceneId": 601,
+          "sequenceStart": 16000,
+          "sequenceDuration": 16000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 6
+              }
+            },
+            {
+              "keyframePosition": 16000,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 855,
           "sequenceStart": 0,
-          "sequenceDuration": 30000,
+          "sequenceDuration": 23000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -142,9 +162,29 @@
               }
             },
             {
-              "keyframePosition": 30000,
+              "keyframePosition": 23000,
               "keyframeValue": {
-                "valueFloatX": 4
+                "valueFloatX": 3
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 855,
+          "sequenceStart": 23000,
+          "sequenceDuration": 9000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 3
+              }
+            },
+            {
+              "keyframePosition": 9000,
+              "keyframeValue": {
+                "valueFloatX": 0
               }
             }
           ]
@@ -156,6 +196,14 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 15.716000000000008185
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_body_head_eye_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -403,7 +451,7 @@
       "uniformName": "biene_dellen_smooth_aussen_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 0.10000000000002273737
       },
       "sequencesArray": []
     },
@@ -529,6 +577,26 @@
               }
             }
           ]
+        },
+        {
+          "sequenceSceneId": 855,
+          "sequenceStart": 23000,
+          "sequenceDuration": 8000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": -2
+              }
+            },
+            {
+              "keyframePosition": 8000,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
         }
       ]
     },
@@ -538,28 +606,7 @@
       "uniformStandardValue": {
         "valueFloatX": 0.70500000000004092726
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 855,
-          "sequenceStart": 0,
-          "sequenceDuration": 32000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 2
-              }
-            },
-            {
-              "keyframePosition": 32000,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "biene_fluegel_c_rt_vec2",
@@ -584,7 +631,28 @@
       "uniformStandardValue": {
         "valueFloatX": 5.3530000000000654836
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 855,
+          "sequenceStart": 0,
+          "sequenceDuration": 23000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 23000,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "biene_fluegel_musterung_anim_rt_float",
@@ -651,6 +719,26 @@
               "keyframePosition": 32000,
               "keyframeValue": {
                 "valueFloatX": 65
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 855,
+          "sequenceStart": 0,
+          "sequenceDuration": 32000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": -8
+              }
+            },
+            {
+              "keyframePosition": 32000,
+              "keyframeValue": {
+                "valueFloatX": 0
               }
             }
           ]
@@ -1216,14 +1304,22 @@
           "sequenceSceneId": 601,
           "sequenceStart": 0,
           "sequenceDuration": 16000,
-          "sequenceInterpolation": "linear",
+          "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueVec3X": 7.7069492340087890625,
-                "valueVec3Y": 3.3612542152404785156,
-                "valueVec3Z": -9.7271947860717773438
+                "valueVec3X": 10.094463348388671875,
+                "valueVec3Y": 9.6881256103515625,
+                "valueVec3Z": 5.1011214256286621094
+              }
+            },
+            {
+              "keyframePosition": 9000,
+              "keyframeValue": {
+                "valueVec3X": 4.5056056976318359375,
+                "valueVec3Y": 3.4104676246643066406,
+                "valueVec3Z": -7.2586092948913574219
               }
             },
             {
@@ -1742,15 +1838,24 @@
           "sequenceSceneId": 601,
           "sequenceStart": 0,
           "sequenceDuration": 16000,
-          "sequenceInterpolation": "linear",
+          "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": 0.096770197153091430664,
-                "valueQuatY": -0.85553652048110961914,
-                "valueQuatZ": -0.17311029136180877686,
-                "valueQuatW": -0.47825267910957336426
+                "valueQuatX": 0.27893146872520446777,
+                "valueQuatY": -0.51151609420776367188,
+                "valueQuatZ": -0.13758385181427001953,
+                "valueQuatW": -0.80101102590560913086
+              }
+            },
+            {
+              "keyframePosition": 9000,
+              "keyframeValue": {
+                "valueQuatX": 0.068850219249725341797,
+                "valueQuatY": -0.93079841136932373047,
+                "valueQuatZ": -0.2667452394962310791,
+                "valueQuatW": -0.2402506023645401001
               }
             },
             {
@@ -2739,28 +2844,7 @@
       "uniformStandardValue": {
         "valueFloatX": 0.17700000000002091838
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 601,
-          "sequenceStart": 26000,
-          "sequenceDuration": 1000,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 1000,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "morph_opal_stretch_x_rt_float",
