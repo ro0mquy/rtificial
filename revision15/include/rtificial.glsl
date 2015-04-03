@@ -313,7 +313,7 @@ vec2 max_material(vec2 a, vec2 b) {
 }
 
 vec2 smax_material(vec2 a, vec2 b, float k) {
-	return vec2(smax(a.x, b.x, k), a.x > b.x ? b.y : a.y);
+	return vec2(smax(a.x, b.x, k), a.x < b.x ? b.y : a.y);
 }
 
 // f: distance function to object

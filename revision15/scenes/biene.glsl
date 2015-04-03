@@ -28,21 +28,21 @@ void main() {
 		float rough = 1.;
 		float metallic = 0.;
 		vec3 col = vec3(1.);
-		if (material == fels_id) {
-			fels_color(p, col, rough);
-			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
-		} else if (material == biene_id) {
-			metallic = 1.;
-			col = biene_color_rt_color;
-			rough = biene_rough_rt_float;
-			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
-		} else if (material == dellen_id) {
-			metallic = 1.;
-			col = biene_dellen_color_rt_color;
-			rough = biene_dellen_rough_rt_float;
-			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
-		} else if (material == eyes_id) {
+		if (material == eyes_id) {
 			out_color = augenlicht(p, d, normal);
+		} else {
+			if (material == fels_id) {
+				fels_color(p, col, rough);
+			} else if (material == biene_id) {
+				metallic = 1.;
+				col = biene_color_rt_color;
+				rough = biene_rough_rt_float;
+			} else if (material == dellen_id) {
+				metallic = 1.;
+				col = biene_dellen_color_rt_color;
+				rough = biene_dellen_rough_rt_float;
+			}
+			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
 		}
 
 	}
