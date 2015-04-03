@@ -99,8 +99,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\Lib\include\libv2.h" />
     <ClInclude Include="..\..\Lib\include\v2mplayer.h" />
+    <ClInclude Include="..\..\src\AmbientLight.h" />
     <ClInclude Include="..\..\src\Backend.h" />
+    <ClInclude Include="..\..\src\BRDFIntegratorSource.h" />
+    <ClInclude Include="..\..\src\BRDFLut.h" />
     <ClInclude Include="..\..\src\DataInterpolator.h" />
+    <ClInclude Include="..\..\src\DiffuseFilterSource.h" />
+    <ClInclude Include="..\..\src\EnvironmentMap.h" />
     <ClInclude Include="..\..\src\Framebuffer.h" />
     <ClInclude Include="..\..\src\glcorearb.h" />
     <ClInclude Include="..\..\src\gl_identifiers.h" />
@@ -111,6 +116,7 @@
     <ClInclude Include="..\..\src\Scene.h" />
     <ClInclude Include="..\..\src\Sequence.h" />
     <ClInclude Include="..\..\src\Shader.h" />
+    <ClInclude Include="..\..\src\SpecularFilterSource.h" />
     <ClInclude Include="..\..\src\stdlib.h" />
     <ClInclude Include="..\..\src\stdmath.h" />
     <ClInclude Include="..\..\src\strahlenwerk_export.h" />
@@ -121,7 +127,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Lib\include\v2mplayer.cpp" />
+    <ClCompile Include="..\..\src\AmbientLight.cpp" />
+    <ClCompile Include="..\..\src\BRDFLut.cpp" />
     <ClCompile Include="..\..\src\DataInterpolator.cpp" />
+    <ClCompile Include="..\..\src\EnvironmentMap.cpp" />
     <ClCompile Include="..\..\src\Framebuffer.cpp" />
     <ClCompile Include="..\..\src\LinuxBackend.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />

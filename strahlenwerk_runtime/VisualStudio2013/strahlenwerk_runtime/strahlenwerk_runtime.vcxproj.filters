@@ -81,6 +81,24 @@
     <ClInclude Include="..\..\Lib\include\libv2.h">
       <Filter>libv2</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\AmbientLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BRDFIntegratorSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BRDFLut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DiffuseFilterSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\EnvironmentMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SpecularFilterSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Framebuffer.cpp">
@@ -124,6 +142,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Lib\include\v2mplayer.cpp">
       <Filter>libv2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\AmbientLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BRDFLut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\EnvironmentMap.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -38,8 +38,14 @@ RT_MAIN {
 	float progress = 0.;
 	float progress_step = 1./ (2 * n_scenes + n_postproc + 3.);
 
-	for(int i = 0; i < n_scenes; i++) {
+	for (int i = 0; i < n_scenes; i++) {
+#		ifdef _DEBUG
+		RT_DEBUG(("Compiling scene " + std::to_string(i) + "...\n").c_str());
+#		endif
 		scenes[i].compile();
+#		ifdef _DEBUG
+		RT_DEBUG("Compile done.\n");
+#		endif
 		backend.beforeFrame();
 		ladebalken.bind();
 		progress += progress_step;
@@ -48,10 +54,17 @@ RT_MAIN {
 		backend.afterFrame();
 		backend.sleep(200);
 	}
-	for(int i = 0; i < n_postproc; i++) {
+	for (int i = 0; i < n_postproc; i++) {
+#		ifdef _DEBUG
+		RT_DEBUG(("Compiling postproc " + std::to_string(i) + "...\n").c_str());
+#		endif
 		postproc[i].compile();
+#		ifdef _DEBUG
+		RT_DEBUG("Compile done.\n");
+#		endif
 		fbos[i].create(width, height);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(0, 0, width, height);
 		backend.beforeFrame();
 		ladebalken.bind();
 		progress += progress_step;
@@ -71,10 +84,20 @@ RT_MAIN {
 	glUniform1f(74, progress);
 	ladebalken.draw(width, height, -1);
 	backend.afterFrame();
+#		ifdef _DEBUG
+		RT_DEBUG("Begin environments\n");
+#		endif
 	for (int i = 0; i < n_scenes; i++) {
 		if (environments[i].isValid()) {
+#		ifdef _DEBUG
+			RT_DEBUG(("Creating environment " + std::to_string(i) + "...\n").c_str());
+#		endif
 			environments[i].create(diffuseFilterShader, specularFilterShader);
+#		ifdef _DEBUG
+		RT_DEBUG("Compile done.\n");
+#		endif
 		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		backend.beforeFrame();
 		ladebalken.bind();
 		progress += progress_step;
@@ -82,6 +105,9 @@ RT_MAIN {
 		ladebalken.draw(width, height, -1);
 		backend.afterFrame();
 	}
+#		ifdef _DEBUG
+	RT_DEBUG("End environments\n");
+#		endif
 
 	backend.sleep(2000);
 
