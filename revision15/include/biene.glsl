@@ -68,7 +68,11 @@ vec3 augenlicht(vec3 p, vec3 d, vec3 normal) {
 	float i = 5.;
 	for(; i > 0; i--) {
 		vec3 p_i = p + n * i * l;
-		float noise = cnoise(p_i * morph_noise_freq_rt_float);
+		// vor gebrauch kurz durchschwurbeln
+		// nicht für den rohverzehr geeignet
+		vec2 F = cellular(p_i * morph_noise_freq_rt_float + morph_schwurbel_intens_rt_float * vnoise(p_i * morph_schwurbel_freq_rt_float));
+		float noise = F.y - F.x;
+		//float noise = vnoise(p_i * morph_noise_freq_rt_float);
 		//ao_factor -= (i * l - noise * f(p_i, false)[0]) / exp2(i);
 		ao_factor += noise * abs(f(p_i, false)[0]) / exp2(i);
 		//ao_factor += noise / exp2(i);

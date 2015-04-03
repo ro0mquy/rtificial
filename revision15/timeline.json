@@ -1794,7 +1794,7 @@
               "keyframePosition": 7000,
               "keyframeValue": {
                 "valueVec3X": 6.583980560302734375,
-                "valueVec3Y": 0.12076306343078613281,
+                "valueVec3Y": 0.12076306343078611893,
                 "valueVec3Z": -15.036721229553222656
               }
             },
@@ -1825,7 +1825,7 @@
             {
               "keyframePosition": 30000,
               "keyframeValue": {
-                "valueVec3X": 0.1026071012020111084,
+                "valueVec3X": 0.10260710120201112228,
                 "valueVec3Y": 16.360933303833007812,
                 "valueVec3Z": 7.1839847564697265625
               }
@@ -1833,7 +1833,7 @@
             {
               "keyframePosition": 32000,
               "keyframeValue": {
-                "valueVec3X": 0.1026071012020111084,
+                "valueVec3X": 0.10260710120201112228,
                 "valueVec3Y": 18.414012908935546875,
                 "valueVec3Z": 7.1839847564697265625
               }
@@ -2356,7 +2356,7 @@
               "keyframePosition": 3000,
               "keyframeValue": {
                 "valueQuatX": -0.18932978808879852295,
-                "valueQuatY": 0.76608049869537353516,
+                "valueQuatY": 0.76608049869537364618,
                 "valueQuatZ": 0.55610114336013793945,
                 "valueQuatW": 0.26081901788711547852
               }
@@ -2364,10 +2364,10 @@
             {
               "keyframePosition": 7000,
               "keyframeValue": {
-                "valueQuatX": -0.013879843056201934814,
+                "valueQuatX": -0.013879843056201936549,
                 "valueQuatY": 0.96850931644439697266,
                 "valueQuatZ": 0.055475100874900817871,
-                "valueQuatW": 0.24232074618339538574
+                "valueQuatW": 0.24232074618339535799
               }
             },
             {
@@ -2392,7 +2392,7 @@
               "keyframePosition": 26000,
               "keyframeValue": {
                 "valueQuatX": -0.094651833176612854004,
-                "valueQuatY": -0.38685467839241027832,
+                "valueQuatY": -0.38685467839241022281,
                 "valueQuatZ": -0.039956934750080108643,
                 "valueQuatW": 0.91639935970306396484
               }
@@ -2412,7 +2412,7 @@
                 "valueQuatX": -0.60902744531631469727,
                 "valueQuatY": 0,
                 "valueQuatZ": 0,
-                "valueQuatW": 0.79314917325973510742
+                "valueQuatW": 0.7931491732597349964
               }
             }
           ]
@@ -3213,7 +3213,7 @@
       "uniformName": "morph_noise_freq_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 4.0639999999999645297
+        "valueFloatX": 1.9759999999999990905
       },
       "sequencesArray": []
     },
@@ -3384,6 +3384,22 @@
         "valueColorR": 0.20835965871810913086,
         "valueColorG": 0.53564161062240600586,
         "valueColorB": 0.41514810919761657715
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "morph_schwurbel_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6.8469999999999799911
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "morph_schwurbel_intens_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.15300000000002000888
       },
       "sequencesArray": []
     },

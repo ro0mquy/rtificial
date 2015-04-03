@@ -254,19 +254,17 @@ vec2 f(vec3 p, bool last_step) {
 	if (morph_mix_rt_float <= 1.) {
 		f = mix(kristall(p), hexshape(p), smoothstep(0., 1., morph_mix_rt_float));
 	} else if (morph_mix_rt_float <= 2.) {
-		f = mix(hexshape(p), kantenklumpen(p), smoothstep(1., 2., morph_mix_rt_float));
+		f = mix(hexshape(p), octahedronthingie(p), smoothstep(1., 2., morph_mix_rt_float));
 	} else if (morph_mix_rt_float <= 3.) {
-		f = mix(kantenklumpen(p), octahedronthingie(p), smoothstep(2., 3., morph_mix_rt_float));
+		f = mix(octahedronthingie(p), trishape(p), smoothstep(2., 3., morph_mix_rt_float));
 	} else if (morph_mix_rt_float <= 4.) {
-		f = mix(octahedronthingie(p), trishape(p), smoothstep(3., 4., morph_mix_rt_float));
+		f = mix(trishape(p), trillant(p), smoothstep(3., 4., morph_mix_rt_float));
 	} else if (morph_mix_rt_float <= 5.) {
-		f = mix(trishape(p), trillant(p), smoothstep(4., 5., morph_mix_rt_float));
-	} else if (morph_mix_rt_float <= 6.) {
-		f = mix(trillant(p), opal(p), smoothstep(5., 6., morph_mix_rt_float));
+		f = mix(trillant(p), opal(p), smoothstep(4., 5., morph_mix_rt_float));
 	}
 	// */
 
-	//f = opal(p);
+	//f = octahedronthingie(p);
 
 	vec2 m_kristall = vec2(f, 0.);
 	vec2 m_bg = vec2(background(p), 0.);
