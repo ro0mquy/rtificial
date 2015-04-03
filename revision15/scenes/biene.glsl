@@ -92,13 +92,13 @@ vec2 bee_body(vec3 p, bool last_step) {
 
 	// anim mouth
 	float biene_mouth_height_rt_float = mix(.5, biene_mouth_height_rt_float,
-			smoothstep(4., 5., biene_body_anim_rt_float));
+			smoothstep(1.5, 2., biene_body_anim_rt_float));
 
 	// anim fuel
 	float biene_body_head_fuel_length_rt_float = mix(0., biene_body_head_fuel_length_rt_float,
-		   smoothstep(5., 6., biene_body_anim_rt_float));
+		   smoothstep(1.5, 2., biene_body_anim_rt_float));
 	float biene_body_head_fuel_thick_rt_float = mix(0., biene_body_head_fuel_thick_rt_float,
-			smoothstep(5., 5.5, biene_body_anim_rt_float));
+			smoothstep(1.5, 1.7, biene_body_anim_rt_float));
 
 	// anim eyes
 	float biene_body_head_eye_falldown_rt_float = mix(biene_body_head_eye_falldown_rt_float, 0.,
