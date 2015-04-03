@@ -1,6 +1,7 @@
 #include "scene_head.glsl"
 #include "rtificial.glsl"
-#line 4
+#include "noise.glsl"
+#line 5
 
 const float boden_id = 0.;
 const float fels_id = 1.;
@@ -33,19 +34,20 @@ void main() {
 	if (isinf(t)) {
 		out_color.rgb = environmentColor(o, d, 200.);
 	} else {
-		vec3 normal = calc_normal(o + t * d, false);
+		vec3 p = o + t * d;
+		vec3 normal = calc_normal(p, false);
 		out_color.rgb = vec3(1.);
 
-		if (material_id == boden_id) {
-			out_color *= 0.2;
-		} else if (material_id == berg_id) {
-			//out_color.r *= 0.2;
+		float rough = 1.;
+		float metallic = 0.;
+		if (material_id == fels_id || material_id == berg_id) {
+			rough = mk_fels_rough_rt_float;
+			float fels_noise = pow(cfbm(p * mk_fels_freq_rt_float) * .5 + .5, mk_fels_noise_power_rt_float);
+			out_color = mix(mk_fels_color1_rt_color, mk_fels_color2_rt_color, fels_noise);
 		} else if (material_id == kristall_id) {
 			out_color.b *= 0.2;
 		}
 
-		float rough = 1.;
-		float metallic = 0.;
 		out_color.rgb = ambientColor(normal, -d, out_color.rgb, rough, metallic);
 
 		//out_color.rgb = abs(normal);
