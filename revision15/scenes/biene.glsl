@@ -1,14 +1,15 @@
 #include "scene_head.glsl"
 #include "rtificial.glsl"
 #include "background.glsl"
-#include "biene.glsl"
 #include "noise.glsl"
+#include "biene.glsl"
 #include "fels_color.glsl"
 #line 7
 
 const float fels_id = 1.;
 const float biene_id = 2.;
 const float dellen_id = 3.;
+const float eyes_id = 4.;
 
 void main() {
 	vec3 o = camera_position;
@@ -29,17 +30,21 @@ void main() {
 		vec3 col = vec3(1.);
 		if (material == fels_id) {
 			fels_color(p, col, rough);
+			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
 		} else if (material == biene_id) {
 			metallic = 1.;
 			col = biene_color_rt_color;
 			rough = biene_rough_rt_float;
+			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
 		} else if (material == dellen_id) {
 			metallic = 1.;
 			col = biene_dellen_color_rt_color;
 			rough = biene_dellen_rough_rt_float;
+			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
+		} else if (material == eyes_id) {
+			out_color = augenlicht(p, d, normal);
 		}
 
-		out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
 	}
 	output_color(out_color, t);
 }
@@ -138,7 +143,7 @@ vec2 bee_body(vec3 p, bool last_step) {
 	//p_eyes.y /= biene_body_head_eye_stretch_rt_float;
 	//float d_eyes = sphere(p_eyes, biene_body_head_eye_radius_rt_float * head_radius);
 	float d_eyes = scale(opal, p_eyes.xzy, biene_body_head_eye_scale_rt_float);
-	d_head = min(d_head, d_eyes);
+	// attached below
 
 	// fuel TODO
 	p_fuel.x = abs(p_fuel.x);
@@ -187,7 +192,10 @@ vec2 bee_body(vec3 p, bool last_step) {
 	m_abdomen = smin_material(m_abdomen, m_dellen, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
 
 	d_head = smin(d_thorax, d_head, biene_body_head_smooth_rt_float * head_radius);
-	vec2 m_body = smin_material(m_abdomen, vec2(d_head, biene_id),
+	vec2 m_head = vec2(d_head, biene_id);
+	vec2 m_eyes = vec2(d_eyes, eyes_id);
+	m_head = min_material(m_head, m_eyes);
+	vec2 m_body = smin_material(m_abdomen, m_head,
 		biene_body_abdomen_smooth_rt_float * biene_body_max_thick_rt_float);
 
 	return m_body;
