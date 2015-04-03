@@ -2,7 +2,12 @@
 #include "rtificial.glsl"
 #include "background.glsl"
 #include "biene.glsl"
-#line 6
+#include "noise.glsl"
+#include "fels_color.glsl"
+#line 7
+
+const float fels_id = 1.;
+const float biene_id = 2.;
 
 void main() {
 	vec3 o = camera_position;
@@ -18,9 +23,16 @@ void main() {
 		vec3 p = o + t * d;
 		vec3 normal = calc_normal(p, false);
 		float material = f(p, true)[1];
-		float rough = .2;
-		float metallic = 1.;
+		float rough = 1.;
+		float metallic = 0.;
 		vec3 col = vec3(1.);
+		if (material == fels_id) {
+			fels_color(p, col, rough);
+		} else if (material == biene_id) {
+			rough = .2;
+			metallic = 1.;
+		}
+
 		out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
 	}
 	output_color(out_color, t);
@@ -169,7 +181,7 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float d_body = smin(d_abdomen, smin(d_thorax, d_head, biene_body_head_smooth_rt_float * head_radius),
 		biene_body_abdomen_smooth_rt_float * biene_body_max_thick_rt_float);
 
-	return vec2(d_body, 0.);
+	return vec2(d_body, biene_id);
 }
 
 vec2 bee_fluegel(vec3 p, bool last_step) {
@@ -231,7 +243,7 @@ vec2 bee_fluegel(vec3 p, bool last_step) {
 	f_filling = smax(f_filling, d_fluegel - biene_fluegel_musterung_thick_rt_float, fluegel_thick * biene_fluegel_musterung_smooth_rt_float);
 	d_fluegel = smin(d_fluegel, f_filling, fluegel_thick * biene_fluegel_musterung_smooth_rt_float);
 
-	return vec2(d_fluegel, 0.);
+	return vec2(d_fluegel, biene_id);
 }
 
 float rmk_tunnel(vec3 p) {
@@ -243,7 +255,7 @@ vec2 f(vec3 p, bool last_step) {
 	vec2 body = bee_body(p, last_step);
 	vec2 fluegel = bee_fluegel(p, last_step);
 	vec2 m_bee = smin_material(body, fluegel, biene_fluegel_smooth_rt_float * biene_fluegel_thick_rt_float);
-	vec2 m_bg = vec2(background(p), 0.);
+	vec2 m_bg = vec2(background(p), fels_id);
 	vec2 m_tunnel = vec2(rmk_tunnel(p), 0.);
 	m_bg = max_material(m_bg, m_tunnel);
 	m_bg = min_material(m_bg, m_bee);
