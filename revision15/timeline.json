@@ -2837,9 +2837,9 @@
       "uniformName": "mk_fels_color1_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.01991783827543258667,
-        "valueColorG": 0.01991783827543258667,
-        "valueColorB": 0.01991783827543258667
+        "valueColorR": 0.0019634158816188573837,
+        "valueColorG": 0.0033027029130607843399,
+        "valueColorB": 0.0060405931435525417328
       },
       "sequencesArray": []
     },
@@ -2847,9 +2847,9 @@
       "uniformName": "mk_fels_color2_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.056374099105596542358,
-        "valueColorG": 0.056374099105596542358,
-        "valueColorB": 0.056374099105596542358
+        "valueColorR": 0.054592281579971313477,
+        "valueColorG": 0.054592281579971313477,
+        "valueColorB": 0.071761451661586761475
       },
       "sequencesArray": []
     },
