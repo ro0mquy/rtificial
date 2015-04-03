@@ -261,8 +261,9 @@ float rmk_tunnel(vec3 p) {
 }
 
 vec2 f(vec3 p, bool last_step) {
-	vec2 body = bee_body(p, last_step);
-	vec2 fluegel = bee_fluegel(p, last_step);
+	vec3 p_bee = p - biene_position_rt_vec3;
+	vec2 body = bee_body(p_bee, last_step);
+	vec2 fluegel = bee_fluegel(p_bee, last_step);
 	vec2 m_bee = smin_material(body, fluegel, biene_fluegel_smooth_rt_float * biene_fluegel_thick_rt_float);
 	vec2 m_bg = vec2(background(p), fels_id);
 	vec2 m_tunnel = vec2(rmk_tunnel(p), 0.);

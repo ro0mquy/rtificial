@@ -959,6 +959,73 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_position_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 248,
+          "sequenceStart": 23375,
+          "sequenceDuration": 500,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueVec3X": 0,
+                "valueVec3Y": 0,
+                "valueVec3Z": 0
+              }
+            },
+            {
+              "keyframePosition": 250,
+              "keyframeValue": {
+                "valueVec3X": 0,
+                "valueVec3Y": 10,
+                "valueVec3Z": -10
+              }
+            },
+            {
+              "keyframePosition": 500,
+              "keyframeValue": {
+                "valueVec3X": 0.32000000000005002221,
+                "valueVec3Y": -0.46600000000000818545,
+                "valueVec3Z": -34.372999999999933607
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 248,
+          "sequenceStart": 23875,
+          "sequenceDuration": 125,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueVec3X": 0.32000000000005002221,
+                "valueVec3Y": -0.46600000000000818545,
+                "valueVec3Z": -34.372999999999933607
+              }
+            },
+            {
+              "keyframePosition": 125,
+              "keyframeValue": {
+                "valueVec3X": 0.32000000000005002221,
+                "valueVec3Y": -0.46600000000000818545,
+                "valueVec3Z": -34.372999999999933607
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "biene_tunnel_size_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
