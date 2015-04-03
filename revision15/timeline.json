@@ -459,6 +459,16 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_color_hot_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.891262054443359375,
+        "valueColorG": 0.014310519210994243622,
+        "valueColorB": 0.0033027029130607843399
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -900,7 +910,15 @@
       "uniformName": "biene_fluegel_thick_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 2.8770000000000663931
+        "valueFloatX": 3.5489999999999781721
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_hot_glow_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 300
       },
       "sequencesArray": []
     },

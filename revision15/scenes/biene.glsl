@@ -4,7 +4,7 @@
 #include "noise.glsl"
 #include "biene.glsl"
 #include "fels_color.glsl"
-#line 7
+#line 8
 
 const float fels_id = 1.;
 const float biene_id = 2.;
@@ -20,7 +20,7 @@ void main() {
 	vec3 d = get_direction(screenDist);
 	float t = march(o, d, 100., screenDist);
 
-	vec3 out_color;
+	vec3 out_color = vec3(0.);
 	if (isinf(t)) {
 		o.y += 10.;
 		out_color.rgb = environmentColor(o, d, 100.);
@@ -38,20 +38,22 @@ void main() {
 				fels_color(p, col, rough);
 			} else if (material == biene_id) {
 				metallic = 1.;
-				col = biene_color_rt_color;
 				vec2 F = cellular(p_biene * biene_kugel_noise_rt_float
 					+ vfbm(p_biene * biene_kugel_schwurbel_rt_float) * biene_kugel_schwurbel_intens_rt_float
 					+ biene_kugel_seed_rt_float
 				);
 				float cellnoise = F.y - F.x;
-				col = mix(col, col * cellnoise, biene_body_hotness_rt_float);
+				cellnoise = smoothstep(-.1, .5, cellnoise);
+				vec3 hot_color = biene_color_hot_rt_color * cellnoise;
+				col = mix(biene_color_rt_color, hot_color, biene_body_hotness_rt_float);
 				rough = biene_rough_rt_float;
+				out_color += biene_body_hotness_rt_float * hot_color * biene_hot_glow_rt_float;
 			} else if (material == dellen_id) {
 				metallic = 1.;
 				col = biene_dellen_color_rt_color;
 				rough = biene_dellen_rough_rt_float;
 			}
-			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
+			out_color.rgb += ambientColor(normal, -d, col, rough, metallic);
 		}
 
 	}
