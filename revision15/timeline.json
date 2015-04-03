@@ -3725,7 +3725,7 @@
       "uniformName": "post_film_grain_frequency",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.36299999999999998934
+        "valueFloatX": 0.2190000000000509317
       },
       "sequencesArray": []
     },
@@ -3733,7 +3733,7 @@
       "uniformName": "post_film_grain_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.019999999999981806637
+        "valueFloatX": 0.0059999999999718056642
       },
       "sequencesArray": []
     },
