@@ -1855,7 +1855,7 @@
                 "valueQuatX": 0.068850219249725341797,
                 "valueQuatY": -0.93079841136932373047,
                 "valueQuatZ": -0.2667452394962310791,
-                "valueQuatW": -0.2402506023645401001
+                "valueQuatW": -0.24025060236454007234
               }
             },
             {
@@ -2470,7 +2470,7 @@
       "uniformName": "mk_fels_freq_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.00099999999997635313775
+        "valueFloatX": 0.03300000000001546141
       },
       "sequencesArray": []
     },
@@ -2503,6 +2503,14 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.7870000000000345608
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mk_height_color_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.12200000000007094059
       },
       "sequencesArray": []
     },
