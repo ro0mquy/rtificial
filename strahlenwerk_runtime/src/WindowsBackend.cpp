@@ -11,8 +11,8 @@ extern "C" {
 #ifdef SYNTH_V2
 	#define BPM 90
 
-	// use GetSystemTime() instead of V2 for time
-	#define TICKTIME
+	// use GetTickCount() instead of V2 for time
+	//#define SYSTEM_TIME
 #endif
 
 #include "Backend.h"
@@ -115,7 +115,7 @@ static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 #include "libv2.h"
 static V2MPlayer player;
 extern "C" const sU8 soundtrack[];
-#ifdef TICKTIME
+#ifdef SYSTEM_TIME
 	DWORD starttime;
 #endif
 #endif
@@ -169,7 +169,7 @@ void WindowsBackend::playAudio() {
 	waveOutWrite(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
 #ifdef SYNTH_V2
-	#ifdef TICKTIME
+	#ifdef SYSTEM_TIME
 		starttime = GetTickCount();
 	#endif
 	player.Play();
@@ -186,7 +186,7 @@ int WindowsBackend::getTime(){
 	return int(.5 + (double) time.u.sample / SAMPLE_RATE * BPM / 60. * 1000.);
 #endif
 #ifdef SYNTH_V2
-	#ifdef TICKTIME
+	#ifdef SYSTEM_TIME
 		return int(.5 + double(GetTickCount() - starttime) * BPM / 60.);
 	#else
 		return int(.5 + double(player.GetTime()) * BPM / 60.);

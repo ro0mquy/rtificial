@@ -24,7 +24,14 @@
 */
 
 sU32 V2MPlayer::GetTime(){
-	return m_state.time;
+	/* can't use sU32() cast here as it generates
+	 *     error LNK2001: unresolved external symbol __dtoui3
+	 * http://stackoverflow.com/questions/19556103/how-to-get-vs2013-to-stop-generating-calls-to-dtol3-dtoui3-and-other-funct
+	 * does not work, it just generates
+	 *     error LNK2001: unresolved external symbol __ftol2_sse
+	 * somewhere else. just be dirty :)
+	 */
+	return int(double(m_state.time) * m_base.timediv / m_samplerate * 1000.);
 }
 
 /*
