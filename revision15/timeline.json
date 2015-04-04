@@ -733,7 +733,7 @@
         {
           "sequenceSceneId": 248,
           "sequenceStart": 0,
-          "sequenceDuration": 28000,
+          "sequenceDuration": 29000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -743,7 +743,7 @@
               }
             },
             {
-              "keyframePosition": 28000,
+              "keyframePosition": 29000,
               "keyframeValue": {
                 "valueFloatX": 0
               }
@@ -2743,7 +2743,28 @@
       "uniformStandardValue": {
         "valueFloatX": 15
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 248,
+          "sequenceStart": 5000,
+          "sequenceDuration": 375,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 300
+              }
+            },
+            {
+              "keyframePosition": 375,
+              "keyframeValue": {
+                "valueFloatX": 15
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "morph_reflectivness_rt_float",
