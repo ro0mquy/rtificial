@@ -1108,43 +1108,31 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueFloatX": 1.7029999999999745341
+                "valueFloatX": 1.8840000000000145519
               }
             },
             {
-              "keyframePosition": 250,
+              "keyframePosition": 1500,
               "keyframeValue": {
-                "valueFloatX": 1.2450000000000045475
+                "valueFloatX": 1.3930000000000291038
               }
             },
             {
-              "keyframePosition": 2000,
+              "keyframePosition": 3500,
               "keyframeValue": {
-                "valueFloatX": 1.9529999999999745341
+                "valueFloatX": 1.8890000000000100044
               }
             },
             {
-              "keyframePosition": 2750,
+              "keyframePosition": 6000,
               "keyframeValue": {
-                "valueFloatX": 2.0850000000000363798
-              }
-            },
-            {
-              "keyframePosition": 5000,
-              "keyframeValue": {
-                "valueFloatX": 2.4410000000000309228
-              }
-            },
-            {
-              "keyframePosition": 10500,
-              "keyframeValue": {
-                "valueFloatX": 2.1530000000000200089
+                "valueFloatX": 2.3369999999999890861
               }
             },
             {
               "keyframePosition": 12000,
               "keyframeValue": {
-                "valueFloatX": 2.4370000000000118234
+                "valueFloatX": 2.2090000000000600267
               }
             }
           ]
@@ -2027,8 +2015,8 @@
             {
               "keyframePosition": 1750,
               "keyframeValue": {
-                "valueQuatX": -0.0027465671300888061523,
-                "valueQuatY": -0.99629664421081542969,
+                "valueQuatX": -0.002746567130088806586,
+                "valueQuatY": -0.99629664421081531867,
                 "valueQuatZ": -0.078571677207946777344,
                 "valueQuatW": 0.034817412495613098145
               }
