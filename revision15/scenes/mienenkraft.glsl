@@ -10,6 +10,9 @@ const float fels_id = 1.;
 const float berg_id = 2.;
 const float kristall_id = 3.;
 const float kristAlle_id = 4.;
+const float kristall2_id = 5.;
+
+vec3 p_kristall;
 
 vec3 applyFog( in vec3  rgb,      // original color of the pixel
                in float distance, // camera to point distance
@@ -41,8 +44,14 @@ void main() {
 		vec3 normal = calc_normal(p, false);
 		out_color.rgb = vec3(1.);
 
-		if (material_id == kristall_id) {
-			out_color = augenlicht(p, d, normal);
+		if (material_id == kristall_id || material_id == kristall2_id) {
+			vec3 p_noise;
+			if (material_id == kristall_id) {
+				p_noise = p_kristall;
+			} else {
+				p_noise = p;
+			}
+			out_color = augenlicht(p_noise, d, normal);
 		} else {
 			float rough = 1.;
 			float metallic = 0.;
@@ -162,6 +171,7 @@ vec2 kristallgruppe(vec3 p){
 	rot_quat = normalize(mix(vec4(0.,0.,0.,1.), rot_quat, mk_kristall1_fullrot_rt_float));
 	p_kristall1 = quat_rotate(p_kristall1, rot_quat);
 	p_kristall1.xz *= rot2D(TAU * mk_kristall1_eigenrot_rt_float);
+	p_kristall = p_kristall1;
 	float f_kristall = kristall(
 		abs(p_kristall1),
 		mk_kristall_h_rt_float,
@@ -185,9 +195,9 @@ vec2 kristallgruppe(vec3 p){
 		mk_kristall_cap_rt_float * mk_kristall3_cap_relative_rt_float
 	);
 
-	f_kristall = min(f_kristall, kristall2);
-	f_kristall = min(f_kristall, kristall3);
-	return vec2(f_kristall, kristall_id);
+	vec2 m_kristall = vec2(f_kristall, kristall_id);
+	vec2 m_kristall2 = vec2(min(kristall2, kristall3), kristall2_id);
+	return min_material(m_kristall, m_kristall2);
 }
 
 vec2 huegel(vec3 p) {
