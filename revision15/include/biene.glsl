@@ -47,9 +47,9 @@ vec3 augenlicht(vec3 p, vec3 d, vec3 normal) {
 	vec3 refraction_dir_r = refract(d, normal, n2.x);
 	vec3 refraction_dir_g = refract(d, normal, n2.y);
 	vec3 refraction_dir_b = refract(d, normal, n2.z);
-	float refraction_red = textureLod(environment, refraction_dir_r, 0.).r;
-	float refraction_green = textureLod(environment, refraction_dir_g, 0.).g;
-	float refraction_blue = textureLod(environment, refraction_dir_b, 0.).b;
+	float refraction_red = length(refraction_dir_r) < 1e-3 ? 0. : textureLod(environment, refraction_dir_r, 0.).r;
+	float refraction_green = length(refraction_dir_g) < 1e-3 ? 0. : textureLod(environment, refraction_dir_g, 0.).g;
+	float refraction_blue = length(refraction_dir_b) < 1e-3 ? 0. : textureLod(environment, refraction_dir_b, 0.).b;
 	vec3 refraction_color = vec3(refraction_red, refraction_green, refraction_blue);
 
 	vec3 r0 = (1. - n2) / (1. + n2);
@@ -88,5 +88,5 @@ vec3 augenlicht(vec3 p, vec3 d, vec3 normal) {
 	// ganz viel spucke!
 	//out_color.rgb *= .05;
 	//out_color.rgb += ao_factor * 2.;
-	return mix(ao_factor * morph_rt_color * refraction_color, out_color.rgb, r);
+	return mix(ao_factor * morph_rt_color * max(vec3(morph_helligkeit_rt_float), refraction_color), out_color, r);
 }

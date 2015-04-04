@@ -3442,6 +3442,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "morph_helligkeit_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 15
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "morph_hexshape_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -3509,7 +3517,7 @@
       "uniformName": "morph_reflectivness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.6630000000000109139
+        "valueFloatX": 1.6000000000000227374
       },
       "sequencesArray": []
     },
@@ -3629,9 +3637,9 @@
       "uniformName": "morph_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.20835965871810913086,
-        "valueColorG": 0.53564161062240600586,
-        "valueColorB": 0.41514810919761657715
+        "valueColorR": 0.041451890021562576294,
+        "valueColorG": 0.65237009525299072266,
+        "valueColorB": 0.23099814355373382568
       },
       "sequencesArray": []
     },
