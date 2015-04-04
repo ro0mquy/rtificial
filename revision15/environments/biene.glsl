@@ -25,6 +25,6 @@ void main() {
 		// some kind of direct sun
 		out_color.rgb += 30. * smoothstep(angle * .999, angle, dot(sky_d, sun_dir)) * sun_radiance;
 	} else {
-		out_color.rgb = sun_dir.y * sun_radiance * vec3(0.05459, 0.05459, 0.06191);
+		out_color.rgb = sun_dir.y * sun_radiance * vec3(0.08690, 0.10363, 0.08464);
 	}
 }
