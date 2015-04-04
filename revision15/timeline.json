@@ -2954,12 +2954,6 @@
       "sceneShaderSource": "mienenkraft"
     },
     {
-      "sceneId": 809,
-      "sceneStart": 200000,
-      "sceneDuration": 9000,
-      "sceneShaderSource": "environment"
-    },
-    {
       "sceneId": 855,
       "sceneStart": 56000,
       "sceneDuration": 32000,
