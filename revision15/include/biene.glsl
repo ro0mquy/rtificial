@@ -38,6 +38,10 @@ float opal(vec3 p) {
 }
 
 vec3 augenlicht(vec3 p, vec3 d, vec3 normal) {
+	if (dot(d, normal) >= 0.) {
+		return morph_rt_color;
+	}
+
 	vec3 n2 = vec3(1.1, 1.104, 1.106) * morph_reflectivness_rt_float;
 
 	vec3 refraction_dir_r = refract(d, normal, n2.x);
