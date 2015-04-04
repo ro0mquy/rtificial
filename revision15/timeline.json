@@ -418,6 +418,12 @@
               }
             },
             {
+              "keyframePosition": 6500,
+              "keyframeValue": {
+                "valueFloatX": 3.25
+              }
+            },
+            {
               "keyframePosition": 8000,
               "keyframeValue": {
                 "valueFloatX": 4
@@ -843,7 +849,7 @@
             {
               "keyframePosition": 56000,
               "keyframeValue": {
-                "valueFloatX": 0.050000000000068212103
+                "valueFloatX": 0.050000000000068205164
               }
             }
           ]
@@ -851,7 +857,7 @@
         {
           "sequenceSceneId": 248,
           "sequenceStart": 0,
-          "sequenceDuration": 12000,
+          "sequenceDuration": 16000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -861,7 +867,7 @@
               }
             },
             {
-              "keyframePosition": 12000,
+              "keyframePosition": 16000,
               "keyframeValue": {
                 "valueFloatX": 0
               }
@@ -909,7 +915,7 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueFloatX": 0.42000000000007275958
+                "valueFloatX": 0.42000000000007281509
               }
             },
             {
@@ -1133,6 +1139,26 @@
         },
         {
           "sequenceSceneId": 248,
+          "sequenceStart": 12000,
+          "sequenceDuration": 4000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 5.4220000000000254659
+              }
+            },
+            {
+              "keyframePosition": 4000,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 248,
           "sequenceStart": 16000,
           "sequenceDuration": 13000,
           "sequenceInterpolation": "linear",
@@ -1240,7 +1266,7 @@
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueFloatX": 0.021000000000071850081
+                "valueFloatX": 0.021000000000071846612
               }
             }
           ]
@@ -1539,17 +1565,17 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueVec3X": 5.3515305519104003906,
-                "valueVec3Y": 0,
-                "valueVec3Z": 4.7449626922607421875
+                "valueVec3X": -6.4345998764038085938,
+                "valueVec3Y": -0.34354293346405029297,
+                "valueVec3Z": 8.9531269073486328125
               }
             },
             {
               "keyframePosition": 4000,
               "keyframeValue": {
-                "valueVec3X": 4.2368435859680175781,
-                "valueVec3Y": 0,
-                "valueVec3Z": -3.8166184425354003906
+                "valueVec3X": -4.915172576904296875,
+                "valueVec3Y": -0.34354293346405029297,
+                "valueVec3Z": -5.7581219673156738281
               }
             }
           ]
@@ -2042,18 +2068,18 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueQuatX": 0,
-                "valueQuatY": -0.75136768817901611328,
+                "valueQuatY": -0.74254179000854492188,
                 "valueQuatZ": 0,
-                "valueQuatW": -0.65988391637802124023
+                "valueQuatW": 0.66979944705963134766
               }
             },
             {
               "keyframePosition": 4000,
               "keyframeValue": {
                 "valueQuatX": 0,
-                "valueQuatY": -0.75136768817901611328,
+                "valueQuatY": -0.74254179000854492188,
                 "valueQuatZ": 0,
-                "valueQuatW": -0.65988391637802124023
+                "valueQuatW": 0.66979944705963134766
               }
             }
           ]
