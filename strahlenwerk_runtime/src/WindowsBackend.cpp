@@ -95,9 +95,11 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 	glGetProgramiv             = (PFNGLGETPROGRAMIVPROC)             wglGetProcAddress("glGetProgramiv");
 	glGetProgramInfoLog        = (PFNGLGETPROGRAMINFOLOGPROC)        wglGetProcAddress("glGetProgramInfoLog");
 
+	/* adaptive vsync
 	typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
 	PFNWGLSWAPINTERVALPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALPROC) wglGetProcAddress("wglSwapIntervalEXT");
 	wglSwapIntervalEXT(-1);
+	*/
 }
 
 
