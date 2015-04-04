@@ -1565,9 +1565,9 @@
             {
               "keyframePosition": 4000,
               "keyframeValue": {
-                "valueVec3X": -4.915172576904296875,
-                "valueVec3Y": -0.34354293346405029297,
-                "valueVec3Z": -5.7581219673156738281
+                "valueVec3X": -5.9809961318969726562,
+                "valueVec3Y": -1.3827500343322753906,
+                "valueVec3Z": -1.6025882959365844727
               }
             }
           ]
@@ -2059,10 +2059,10 @@
             {
               "keyframePosition": 4000,
               "keyframeValue": {
-                "valueQuatX": 0,
-                "valueQuatY": -0.74254179000854492188,
-                "valueQuatZ": 0,
-                "valueQuatW": 0.66979944705963134766
+                "valueQuatX": 0.045809213072061538696,
+                "valueQuatY": -0.68972539901733398438,
+                "valueQuatZ": 0.043804448097944259644,
+                "valueQuatW": 0.72129160165786743164
               }
             }
           ]
