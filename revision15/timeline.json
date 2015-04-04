@@ -2610,7 +2610,7 @@
       "uniformName": "mk_fog_amount_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 20
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
