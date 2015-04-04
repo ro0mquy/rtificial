@@ -1,88 +1,6 @@
 {
   "uniformsArray": [
     {
-      "uniformName": "bg_boden_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.57100000000002637535
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "bg_kristall_cap_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "bg_kristall_h_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 15
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "bg_kristall_offset_rt_vec3",
-      "uniformType": "vec3",
-      "uniformStandardValue": {
-        "valueVec3X": 25,
-        "valueVec3Y": 7,
-        "valueVec3Z": 15
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "bg_kristall_r_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2.5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "bg_smin_boden_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.4200000000000727596
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "bg_smin_felsen_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "bg_smin_kristall_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_abdomen_offset_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": -0.049999999999954525265
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_abdomen_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.31500000000005456968
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "biene_body_anim_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -198,14 +116,6 @@
       ]
     },
     {
-      "uniformName": "biene_body_bend_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 15.716000000000008185
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "biene_body_color_noise_freq_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -307,102 +217,6 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "biene_body_head_fuel_bend_power_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.8790000000000190994
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_fuel_bend_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 8.9529999999999745341
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_fuel_dist_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 19.45600000000001728
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_Body_head_fuel_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 22.672000000000025466
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_fuel_length_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.4550000000000409273
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_fuel_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.0729999999999790816
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_fuel_thick_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.048999999999978179066
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_offset_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": -1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_radius_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.69400000000007366907
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.49800000000004729372
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_stretch_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.74900000000002364686
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_head_w_stretch_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.3020000000000209184
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "biene_body_hot_darks_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -478,62 +292,6 @@
       ]
     },
     {
-      "uniformName": "biene_body_length_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2.5410000000000536602
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_max_thick_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.3089999999999690772
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_min_thick_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.51900000000000545697
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_radius_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_thorax_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": -40
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_thorax_scale_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.96400000000005547918
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_body_thorax_stretch_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.1449999999999818101
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "biene_color_hot_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -564,14 +322,6 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "biene_dellen_anim_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "biene_dellen_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -582,50 +332,10 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "biene_dellen_depth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.081999999999993633537
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_dellen_num_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 8
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "biene_dellen_rough_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.069000000000073669071
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_dellen_smooth_aussen_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.10000000000002273737
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_dellen_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2.0620000000000118234
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_dellen_thick_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.11199999999996636257
       },
       "sequencesArray": []
     },
@@ -783,31 +493,6 @@
           ]
         }
       ]
-    },
-    {
-      "uniformName": "biene_fluegel_asym_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.70500000000004092726
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_c_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 2.2830000000000154614,
-        "valueVec2Y": 0.53899999999998726707
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_end_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 7.7509999999999763531
-      },
-      "sequencesArray": []
     },
     {
       "uniformName": "biene_fluegel_length_rt_float",
@@ -980,54 +665,6 @@
       ]
     },
     {
-      "uniformName": "biene_fluegel_musterung_phi_factor_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_musterung_phi_pow_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.36300000000005638867
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_musterung_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.30500000000006366463
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_musterung_space_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.12800000000004274625
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_musterung_start_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2.0969999999999799911
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_musterung_thick_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.019999999999981806637
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "biene_fluegel_raise_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1040,38 +677,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 11.944000000000073669
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 4.8530000000000654836
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_start_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": -0.68399999999996907718
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_thick_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.081000000000017280399
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_fluegel_thick_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 3.5489999999999781721
       },
       "sequencesArray": []
     },
@@ -1112,87 +717,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 4.2060000000000172804
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_bend_power_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2.0990000000000463842
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_bend_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 23.302000000000020918
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_bottom_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.15899999999999178679
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_c_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 3.9869999999999663487,
-        "valueVec2Y": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_dist_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.44400000000007366907
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_front_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.22199999999997999112
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.8279999999999745341
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_offset_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": -0.096000000000003637979
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_smooth_bottom_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.10099999999999907663
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "biene_mouth_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.19700000000000272848
       },
       "sequencesArray": []
     },
@@ -1368,46 +892,6 @@
           ]
         }
       ]
-    },
-    {
-      "uniformName": "body_deform_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "body_delle_trans_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "body_expstep_k_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.88000000000000000444
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "body_expstep_n_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.6390000000000000124
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "body_rings_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": -23.300000000000000711
-      },
-      "sequencesArray": []
     },
     {
       "uniformName": "camera_f_stop",
@@ -1836,7 +1320,7 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueVec3X": 0.40521383285522460938,
+                "valueVec3X": 0.40521383285522466489,
                 "valueVec3Y": 1.0601540803909301758,
                 "valueVec3Z": -3.1698601245880126953
               }
@@ -2064,8 +1548,8 @@
             {
               "keyframePosition": 4500,
               "keyframeValue": {
-                "valueQuatX": 0.011670309118926525116,
-                "valueQuatY": -0.98636126518249511719,
+                "valueQuatX": 0.011670309118926523381,
+                "valueQuatY": -0.98636126518249500617,
                 "valueQuatZ": -0.1431363523006439209,
                 "valueQuatW": -0.080421172082424163818
               }
@@ -2346,7 +1830,7 @@
             {
               "keyframePosition": 4000,
               "keyframeValue": {
-                "valueQuatX": 0.36421257257461547852,
+                "valueQuatX": 0.36421257257461553403,
                 "valueQuatY": 0.35540205240249633789,
                 "valueQuatZ": -0.15279375016689300537,
                 "valueQuatW": 0.8471673130989074707
@@ -2365,7 +1849,7 @@
               "keyframeValue": {
                 "valueQuatX": 0.03404245525598526001,
                 "valueQuatY": -0.96287053823471069336,
-                "valueQuatZ": -0.22451013326644897461,
+                "valueQuatZ": -0.22451013326644894685,
                 "valueQuatW": -0.1460005640983581543
               }
             },
@@ -2373,7 +1857,7 @@
               "keyframePosition": 4000,
               "keyframeValue": {
                 "valueQuatX": -0.053992904722690582275,
-                "valueQuatY": -0.94594633579254150391,
+                "valueQuatY": -0.94594633579254139288,
                 "valueQuatZ": -0.22056393325328826904,
                 "valueQuatW": 0.23156212270259857178
               }
@@ -2505,14 +1989,6 @@
           ]
         }
       ]
-    },
-    {
-      "uniformName": "fluegel_domrep_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.10000000000000000555
-      },
-      "sequencesArray": []
     },
     {
       "uniformName": "font_brightness_rt_float",
@@ -2905,22 +2381,6 @@
       ]
     },
     {
-      "uniformName": "mk_bounding_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 20
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_bounding_offset_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 3
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "mk_fels_color1_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -2937,22 +2397,6 @@
         "valueColorR": 0.054592281579971313477,
         "valueColorG": 0.054592281579971313477,
         "valueColorB": 0.061907477676868438721
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_fels_freq_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.03300000000001546141
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_fels_noise_power_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.2630000000000336513
       },
       "sequencesArray": []
     },
@@ -2985,85 +2429,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.12200000000007094059
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_hintergrund_kristall_cap_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 4.415000000000077307
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_hintergrund_kristall_h_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 40
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_hintergrund_kristall_r_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 5.6879999999999881766
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_huegel_pos_rt_vec3",
-      "uniformType": "vec3",
-      "uniformStandardValue": {
-        "valueVec3X": 10,
-        "valueVec3Y": 8,
-        "valueVec3Z": 10
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall_cap_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.2870000000000345608
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall_h_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.8720000000000709406
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall_pos_rt_vec3",
-      "uniformType": "vec3",
-      "uniformStandardValue": {
-        "valueVec3X": 8.4750000000000227374,
-        "valueVec3Y": 7.5980000000000700311,
-        "valueVec3Z": 8.6660000000000536602
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall_r_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.30100000000004456524
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall_rot_rt_quat",
-      "uniformType": "quat",
-      "uniformStandardValue": {
-        "valueQuatX": -0.44252341985702514648,
-        "valueQuatY": -0.77744716405868530273,
-        "valueQuatZ": 0.10422560572624206543,
-        "valueQuatW": 0.43461012840270990543
       },
       "sequencesArray": []
     },
@@ -3175,112 +2540,6 @@
       ]
     },
     {
-      "uniformName": "mk_kristall2_cap_relative_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.36300000000005638867
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall2_h_relative_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.68299999999999272404
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall2_r_relative_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.28300000000001546141
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall2_rot_relative_rt_quat",
-      "uniformType": "quat",
-      "uniformStandardValue": {
-        "valueQuatX": 0.053422939032316207886,
-        "valueQuatY": -0.97990703582763682977,
-        "valueQuatZ": 0.06456902623176574707,
-        "valueQuatW": -0.18099492788314819336
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall2_trans_relative_rt_vec3",
-      "uniformType": "vec3",
-      "uniformStandardValue": {
-        "valueVec3X": -0.74500000000000443645,
-        "valueVec3Y": -0.34699999999997999112,
-        "valueVec3Z": -0.24900000000002364686
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall3_cap_relative_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.31900000000007366907
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall3_h_relative_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.42899999999997362465
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall3_r_relative_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.2870000000000345608
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall3_rot_relative_rt_quat",
-      "uniformType": "quat",
-      "uniformStandardValue": {
-        "valueQuatX": -0.10300314426422120528,
-        "valueQuatY": -0.15430708229541778564,
-        "valueQuatZ": 0.021007779985666275024,
-        "valueQuatW": -0.98241466283798228876
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_kristall3_trans_relative_rt_vec3",
-      "uniformType": "vec3",
-      "uniformStandardValue": {
-        "valueVec3X": -0.2369999999999663487,
-        "valueVec3Y": -0.47899999999992814992,
-        "valueVec3Z": -0.51499999999998635758
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_smin_felsen_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 7
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mk_smin_boden_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "morph_helligkeit_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -3289,93 +2548,10 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "morph_hexshape_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.8000000000000682121
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_kantenklumpen_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.3000000000000682121
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_noise_freq_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.9759999999999990905
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_octahedron_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": -0.1999999999999317879
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_opal_smooth_plane_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.20000000000004547474
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_opal_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.17700000000002091838
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_opal_stretch_x_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.60000000000002273737
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_opal_stretch_y_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.3000000000000682121
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "morph_reflectivness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1.6000000000000227374
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_rot_rt_quat",
-      "uniformType": "quat",
-      "uniformStandardValue": {
-        "valueQuatX": 0.2348449999999999982,
-        "valueQuatY": 0.77163499999999995982,
-        "valueQuatZ": -0.20199500000000000788,
-        "valueQuatW": 0.55554000000000003379
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_rotation_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 3.8599999999999998757
       },
       "sequencesArray": []
     },
@@ -3467,46 +2643,6 @@
         "valueColorR": 0.041451890021562576294,
         "valueColorG": 0.65237009525299072266,
         "valueColorB": 0.23099814355373385344
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_schwurbel_freq_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 6.8469999999999799911
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_schwurbel_intens_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.15300000000002000888
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.9000000000000000222
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_trillant_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.89999999999997726263
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "morph_trishape_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.70000000000004547474
       },
       "sequencesArray": []
     },
