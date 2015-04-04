@@ -75,12 +75,19 @@ float march(vec3 o, vec3 d, float t_max, float screenDistX) {
 }
 
 vec3 calc_normal(vec3 p, bool last_step) {
-	vec2 e = vec2(.001, 0.); // no epilepsilon this time
-	return normalize(vec3(
-		f(p + e.xyy, last_step)[0] - f(p - e.xyy, last_step)[0],
-		f(p + e.yxy, last_step)[0] - f(p - e.yxy, last_step)[0],
-		f(p + e.yyx, last_step)[0] - f(p - e.yyx, last_step)[0]
-	));
+	//vec2 e = vec2(.001, 0.); // no epilepsilon this time
+	//return normalize(vec3(
+	//	f(p + e.xyy, last_step)[0] - f(p - e.xyy, last_step)[0],
+	//	f(p + e.yxy, last_step)[0] - f(p - e.yxy, last_step)[0],
+	//	f(p + e.yyx, last_step)[0] - f(p - e.yyx, last_step)[0]
+	//));
+
+	float e = .001;
+	vec3 s[6] = vec3[6](vec3(e,0,0), vec3(0,e,0), vec3(0,0,e), vec3(-e,0,0), vec3(0,-e,0), vec3(0,0,-e));
+	float d[6] = float[6](0,0,0,0,0,0);
+	for(int i = 0; i<6; i++)
+		d[i] = f(p+s[i], last_step)[0];
+	return normalize(vec3(d[0]-d[3],d[1]-d[4],d[2]-d[5]));
 }
 
 float sphere(vec3 p, float s) {

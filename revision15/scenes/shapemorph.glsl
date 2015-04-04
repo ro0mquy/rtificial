@@ -9,7 +9,6 @@
 #line 10
 
 const float kristall_id = 1.;
-const float fels_id = 2.;
 
 void main() {
 	vec3 o = camera_position;
@@ -27,13 +26,19 @@ void main() {
 		float material = f(p, true)[1];
 		if (material == kristall_id) {
 			out_color.rgb = augenlicht(p, d, normal);
-		} else if (material == fels_id) {
+		} else if (material == background_fels_id || material == background_kristall_id) {
 			vec3 col;
 			float rough;
 			float metallic = 0.;
 			fels_color(p, col, rough);
 			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
 		}
+
+		if (material == background_kristall_id) {
+			vec3 kristAllColor = augenlicht(p, d, normal);
+			out_color = kristAll_color(p, out_color, kristAllColor);
+		}
+
 		//out_color.rgb = abs(normal);
 	}
 
@@ -280,7 +285,7 @@ vec2 f(vec3 p, bool last_step) {
 	//f = octahedronthingie(p);
 
 	vec2 m_kristall = vec2(f, kristall_id);
-	vec2 m_bg = vec2(background(p), fels_id);
+	vec2 m_bg = background(p);
 	m_kristall = min_material(m_bg, m_kristall);
 	return m_kristall;
 }

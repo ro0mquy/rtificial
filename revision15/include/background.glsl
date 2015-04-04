@@ -87,7 +87,10 @@ float kristall(vec3 p_kristall, float height_kristall, float radius_kristall, fl
 	return hexprism(p_kristall.xzy, vec2(r_kristall, height_kristall));
 }
 
-float background(vec3 p) {
+const float background_fels_id = 23.;
+const float background_kristall_id = 24.;
+
+vec2 background(vec3 p) {
 	p.y -= -10.;
 
 	vec3 p_kristall = p;
@@ -110,6 +113,5 @@ float background(vec3 p) {
 	float f_boden = p_boden.y;
 	f_fels = smin(f_fels, f_boden, bg_smin_boden_rt_float);
 
-	float f = smin(f_kristall, f_fels, bg_smin_kristall_rt_float);
-	return f;
+	return smin_material(vec2(f_kristall, background_kristall_id), vec2(f_fels, background_fels_id), bg_smin_kristall_rt_float);
 }

@@ -6,7 +6,6 @@
 #include "fels_color.glsl"
 #line 8
 
-const float fels_id = 1.;
 const float biene_id = 2.;
 const float dellen_id = 3.;
 const float eyes_id = 4.;
@@ -34,7 +33,7 @@ void main() {
 		if (material == eyes_id) {
 			out_color = augenlicht(p, d, normal);
 		} else {
-			if (material == fels_id || material == tunnel_id) {
+			if (material == background_fels_id || material == tunnel_id || material == background_kristall_id) {
 				fels_color(p, col, rough);
 			} else if (material == biene_id) {
 				metallic = 1.;
@@ -59,6 +58,11 @@ void main() {
 				rough = biene_dellen_rough_rt_float;
 			}
 			out_color.rgb += ambientColor(normal, -d, col, rough, metallic);
+
+			if (material == background_kristall_id) {
+				vec3 kristAllColor = augenlicht(p, d, normal);
+				out_color = kristAll_color(p, out_color, kristAllColor);
+			}
 		}
 
 	}
@@ -290,7 +294,7 @@ vec2 f(vec3 p, bool last_step) {
 	vec2 body = bee_body(p_bee, last_step);
 	vec2 fluegel = bee_fluegel(p_bee, last_step);
 	vec2 m_bee = smin_material(body, fluegel, biene_fluegel_smooth_rt_float * biene_fluegel_thick_rt_float);
-	vec2 m_bg = vec2(background(p), fels_id);
+	vec2 m_bg = background(p);
 	vec2 m_tunnel = vec2(rmk_tunnel(p), tunnel_id);
 	m_bg = smax_material(m_bg, m_tunnel, biene_tunnel_smooth_rt_float);
 	m_bg = min_material(m_bg, m_bee);

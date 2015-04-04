@@ -2,12 +2,14 @@
 #include "rtificial.glsl"
 #include "noise.glsl"
 #include "fels_color.glsl"
-#line 6
+#include "biene.glsl"
+#line 7
 
 const float boden_id = 0.;
 const float fels_id = 1.;
 const float berg_id = 2.;
 const float kristall_id = 3.;
+const float kristAlle_id = 4.;
 
 vec3 applyFog( in vec3  rgb,      // original color of the pixel
                in float distance, // camera to point distance
@@ -39,19 +41,27 @@ void main() {
 		vec3 normal = calc_normal(p, false);
 		out_color.rgb = vec3(1.);
 
-		float rough = 1.;
-		float metallic = 0.;
-		if (material_id == fels_id || material_id == berg_id) {
-			fels_color(p, out_color, rough);
-		} else if (material_id == kristall_id) {
-			out_color.b *= 0.2;
+		if (material_id == kristall_id) {
+			out_color = augenlicht(p, d, normal);
+		} else {
+			float rough = 1.;
+			float metallic = 0.;
+			//if (material_id == fels_id || material_id == berg_id) {
+				fels_color(p, out_color, rough);
+			//}
+
+			out_color.rgb = ambientColor(normal, -d, out_color.rgb, rough, metallic);
+
+			if (material_id == kristAlle_id) {
+				vec3 kristAllColor = augenlicht(p, d, normal);
+				out_color = kristAll_color(p, out_color, kristAllColor);
+				//out_color = vec3(cellnoise);
+			}
+
+			//out_color.rgb = abs(normal);
+			out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
+			out_color.rgb = applyFog(out_color.rgb, t, o, d);
 		}
-
-		out_color.rgb = ambientColor(normal, -d, out_color.rgb, rough, metallic);
-
-		//out_color.rgb = abs(normal);
-		out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
-		out_color.rgb = applyFog(out_color.rgb, t, o, d);
 	}
 	output_color(out_color, t);
 
@@ -265,13 +275,13 @@ vec2 f(vec3 p, bool last_step) {
 	f_hintergrund_kristAlle = min(f_hintergrund_kristAlle, f_hintergrund_kristall2);
 	f_hintergrund_kristAlle = min(f_hintergrund_kristAlle, f_hintergrund_kristall3);
 
-	if (use_bounding) {
-		fels = min(fels, f_hintergrund_kristAlle);
-	} else {
-		fels = smin(fels, f_hintergrund_kristAlle, mk_smin_felsen_rt_float);
-	}
-
 	vec2 obj_fels = vec2(fels, fels_id);
+	vec2 obj_hintergrund_kristAlle = vec2(f_hintergrund_kristAlle, kristAlle_id);
+	if (use_bounding) {
+		obj_fels = min_material(obj_fels, obj_hintergrund_kristAlle);
+	} else {
+		obj_fels = smin_material(obj_fels, obj_hintergrund_kristAlle, mk_smin_felsen_rt_float);
+	}
 
 	vec3 p_huegel = trans(p, mk_huegel_pos_rt_vec3);
 	vec2 obj_huegel = huegel(p_huegel);
