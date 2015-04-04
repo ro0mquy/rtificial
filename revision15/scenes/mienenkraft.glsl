@@ -54,6 +54,19 @@ void main() {
 				p_noise = p;
 			}
 			out_color = augenlicht(p_noise, d, normal);
+		} else if (material_id == kristAlle_id) {
+			float rough = mk_kristAlle_roughness_rt_float;
+			float metallic = mk_kristAlle_metallic_rt_float;
+			fels_color(p, out_color, rough);
+
+			out_color.rgb = ambientColor(normal, -d, out_color.rgb, rough, metallic);
+			out_color = mix(out_color, sky_color, pow(smoothstep(200., 300., t), 3.));
+
+			vec3 kristAllColor = augenlicht(p, d, normal);
+			out_color = kristAll_color(p, out_color, kristAllColor);
+
+			out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
+			out_color.rgb = applyFog(out_color.rgb, t, o, d);
 		} else {
 			float rough = 1.;
 			float metallic = 0.;
@@ -64,11 +77,7 @@ void main() {
 			out_color.rgb = ambientColor(normal, -d, out_color.rgb, rough, metallic);
 			out_color = mix(out_color, sky_color, pow(smoothstep(200., 300., t), 3.));
 
-			if (material_id == kristAlle_id) {
-				vec3 kristAllColor = augenlicht(p, d, normal);
-				out_color = kristAll_color(p, out_color, kristAllColor);
-				//out_color = vec3(cellnoise);
-			}
+			//out_color = vec3(cellnoise);
 
 			//out_color.rgb = abs(normal);
 			out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);

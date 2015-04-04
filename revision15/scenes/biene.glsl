@@ -35,7 +35,8 @@ void main() {
 			out_color = augenlicht(p_eyes_noise, d, normal);
 		} else {
 			if (material == background_fels_id || material == tunnel_id || material == background_kristall_id) {
-				fels_color(p, col, rough);
+				fels_color(p + vec3(0., boden_hoehe_rt_float, 0.), col, rough);
+				out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
 			} else if (material == biene_id) {
 				metallic = 1.;
 				vec2 F = cellular(p_biene * biene_kugel_noise_rt_float

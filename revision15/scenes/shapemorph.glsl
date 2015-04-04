@@ -30,8 +30,9 @@ void main() {
 			vec3 col;
 			float rough;
 			float metallic = 0.;
-			fels_color(p, col, rough);
+			fels_color(p + vec3(0., boden_hoehe_rt_float, 0.), col, rough);
 			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
+			out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
 		}
 
 		if (material == background_kristall_id) {
