@@ -12,6 +12,8 @@ R"shader_source(const float morph_trillant_smooth_rt_float = 0.89999999999997726
 )shader_source"
 R"shader_source(const float morph_trishape_smooth_rt_float = 0.70000000000004547474;
 )shader_source"
+R"shader_source(const float boden_hoehe_rt_float = 14.752000000000066393;
+)shader_source"
 R"shader_source(layout(location = 85) uniform vec3 mk_fels_color1_rt_color; // color
 )shader_source"
 R"shader_source(const float morph_rotation_rt_float = 3.8599999999999998757;
@@ -2822,9 +2824,11 @@ R"shader_source(			float rough;
 )shader_source"
 R"shader_source(			float metallic = 0.;
 )shader_source"
-R"shader_source(			fels_color(p, col, rough);
+R"shader_source(			fels_color(p + vec3(0., boden_hoehe_rt_float, 0.), col, rough);
 )shader_source"
 R"shader_source(			out_color.rgb = ambientColor(normal, -d, col, rough, metallic);
+)shader_source"
+R"shader_source(			out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
 )shader_source"
 R"shader_source(		}
 )shader_source"

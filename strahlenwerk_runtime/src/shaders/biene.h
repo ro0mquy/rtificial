@@ -32,6 +32,10 @@ R"shader_source(const float biene_tunnel_floor_rt_float = -50;
 )shader_source"
 R"shader_source(layout(location = 79) uniform float biene_fluegel_angle_rt_float;
 )shader_source"
+R"shader_source(const float biene_fluegel_thick_rt_float = 0.081000000000017280399;
+)shader_source"
+R"shader_source(layout(location = 93) uniform vec3 biene_color_hot2_rt_color; // color
+)shader_source"
 R"shader_source(const float biene_mouth_offset_rt_float = -0.096000000000003637979;
 )shader_source"
 R"shader_source(layout(location = 80) uniform vec3 biene_dellen_color_rt_color; // color
@@ -55,6 +59,8 @@ R"shader_source(const float bg_boden_height_rt_float = 0.57100000000002637535;
 R"shader_source(const float biene_fluegel_musterung_smooth_rt_float = 0.30500000000006366463;
 )shader_source"
 R"shader_source(layout(location = 84) uniform float biene_body_color_noise_freq_rt_float;
+)shader_source"
+R"shader_source(const float boden_hoehe_rt_float = 14.752000000000066393;
 )shader_source"
 R"shader_source(layout(location = 85) uniform vec3 mk_fels_color1_rt_color; // color
 )shader_source"
@@ -101,10 +107,6 @@ R"shader_source(layout(location = 91) uniform float biene_tunnel_size_rt_float;
 R"shader_source(layout(location = 92) uniform float biene_kugel_schwurbel_rt_float;
 )shader_source"
 R"shader_source(const float biene_body_head_smooth_rt_float = 0.49800000000004729372;
-)shader_source"
-R"shader_source(layout(location = 93) uniform vec3 biene_color_hot2_rt_color; // color
-)shader_source"
-R"shader_source(const float biene_fluegel_thick_rt_float = 0.081000000000017280399;
 )shader_source"
 R"shader_source(const float morph_schwurbel_intens_rt_float = 0.15300000000002000888;
 )shader_source"
@@ -2474,7 +2476,9 @@ R"shader_source(		} else {
 )shader_source"
 R"shader_source(			if (material == background_fels_id || material == tunnel_id || material == background_kristall_id) {
 )shader_source"
-R"shader_source(				fels_color(p, col, rough);
+R"shader_source(				fels_color(p + vec3(0., boden_hoehe_rt_float, 0.), col, rough);
+)shader_source"
+R"shader_source(				out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
 )shader_source"
 R"shader_source(			} else if (material == biene_id) {
 )shader_source"

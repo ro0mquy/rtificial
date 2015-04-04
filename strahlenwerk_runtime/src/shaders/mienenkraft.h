@@ -8,6 +8,10 @@ R"shader_source(const float mk_hintergrund_kristall_h_rt_float = 40;
 )shader_source"
 R"shader_source(const float mk_bounding_offset_rt_float = 3;
 )shader_source"
+R"shader_source(const float mk_bounding_height_rt_float = 20;
+)shader_source"
+R"shader_source(const vec3 mk_kristall_pos_rt_vec3 = vec3(8.4750000000000227374, 7.5980000000000700311, 8.6660000000000536602);
+)shader_source"
 R"shader_source(const float mk_smin_felsen_rt_float = 7;
 )shader_source"
 R"shader_source(const float morph_opal_smooth_rt_float = 0.17700000000002091838;
@@ -70,7 +74,17 @@ R"shader_source(const float mk_kristall2_h_relative_rt_float = 0.682999999999992
 )shader_source"
 R"shader_source(const float bg_smin_boden_rt_float = 1.4200000000000727596;
 )shader_source"
+R"shader_source(layout(location = 138) uniform float mk_kristAlle_metallic_rt_float;
+)shader_source"
 R"shader_source(layout(location = 123) uniform float mk_fog_invheight_rt_float;
+)shader_source"
+R"shader_source(layout(location = 137) uniform float mk_kristAlle_roughness_rt_float;
+)shader_source"
+R"shader_source(const float mk_hintergrund_kristall_r_rt_float = 5.6879999999999881766;
+)shader_source"
+R"shader_source(const float mk_kristall_r_rt_float = 0.30100000000004456524;
+)shader_source"
+R"shader_source(const vec3 mk_kristall2_trans_relative_rt_vec3 = vec3(-0.74500000000000443645, -0.34699999999997999112, -0.24900000000002364686);
 )shader_source"
 R"shader_source(layout(location = 124) uniform float mk_kristall1_fullrot_rt_float;
 )shader_source"
@@ -82,15 +96,7 @@ R"shader_source(layout(location = 126) uniform float mk_kristall1_eigenrot_rt_fl
 )shader_source"
 R"shader_source(const vec4 mk_kristall2_rot_relative_rt_quat = vec4(0.053422939032316207886, -0.97990703582763682977, 0.06456902623176574707, -0.18099492788314819336); // quat
 )shader_source"
-R"shader_source(const float mk_hintergrund_kristall_r_rt_float = 5.6879999999999881766;
-)shader_source"
-R"shader_source(const float mk_kristall_r_rt_float = 0.30100000000004456524;
-)shader_source"
-R"shader_source(const vec3 mk_kristall2_trans_relative_rt_vec3 = vec3(-0.74500000000000443645, -0.34699999999997999112, -0.24900000000002364686);
-)shader_source"
 R"shader_source(const vec3 mk_kristall3_trans_relative_rt_vec3 = vec3(-0.2369999999999663487, -0.47899999999992814992, -0.51499999999998635758);
-)shader_source"
-R"shader_source(const float mk_bounding_height_rt_float = 20;
 )shader_source"
 R"shader_source(layout(location = 100) uniform float morph_helligkeit_rt_float;
 )shader_source"
@@ -99,8 +105,6 @@ R"shader_source(const float mk_fels_noise_power_rt_float = 0.2630000000000336513
 R"shader_source(const vec4 mk_kristall3_rot_relative_rt_quat = vec4(-0.10300314426422120528, -0.15430708229541778564, 0.021007779985666275024, -0.98241466283798228876); // quat
 )shader_source"
 R"shader_source(const float mk_kristall3_h_relative_rt_float = 0.42899999999997362465;
-)shader_source"
-R"shader_source(const vec3 mk_kristall_pos_rt_vec3 = vec3(8.4750000000000227374, 7.5980000000000700311, 8.6660000000000536602);
 )shader_source"
 R"shader_source(const float mk_kristall3_r_relative_rt_float = 0.2870000000000345608;
 )shader_source"
@@ -2394,6 +2398,32 @@ R"shader_source(			}
 )shader_source"
 R"shader_source(			out_color = augenlicht(p_noise, d, normal);
 )shader_source"
+R"shader_source(		} else if (material_id == kristAlle_id) {
+)shader_source"
+R"shader_source(			float rough = mk_kristAlle_roughness_rt_float;
+)shader_source"
+R"shader_source(			float metallic = mk_kristAlle_metallic_rt_float;
+)shader_source"
+R"shader_source(			fels_color(p, out_color, rough);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(			out_color.rgb = ambientColor(normal, -d, out_color.rgb, rough, metallic);
+)shader_source"
+R"shader_source(			out_color = mix(out_color, sky_color, pow(smoothstep(200., 300., t), 3.));
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(			vec3 kristAllColor = augenlicht(p, d, normal);
+)shader_source"
+R"shader_source(			out_color = kristAll_color(p, out_color, kristAllColor);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(			out_color.rgb *= clamp(ao(o + t * d, normal, .4, 5), 0., 1.);
+)shader_source"
+R"shader_source(			out_color.rgb = applyFog(out_color.rgb, t, o, d);
+)shader_source"
 R"shader_source(		} else {
 )shader_source"
 R"shader_source(			float rough = 1.;
@@ -2414,15 +2444,7 @@ R"shader_source(			out_color = mix(out_color, sky_color, pow(smoothstep(200., 30
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(			if (material_id == kristAlle_id) {
-)shader_source"
-R"shader_source(				vec3 kristAllColor = augenlicht(p, d, normal);
-)shader_source"
-R"shader_source(				out_color = kristAll_color(p, out_color, kristAllColor);
-)shader_source"
-R"shader_source(				//out_color = vec3(cellnoise);
-)shader_source"
-R"shader_source(			}
+R"shader_source(			//out_color = vec3(cellnoise);
 )shader_source"
 R"shader_source(
 )shader_source"

@@ -30,10 +30,10 @@ extern AmbientLight environments[3];
 extern Framebuffer fbos[18];
 extern Scene scenes_data[7];
 extern float keyframe_data[712];
-extern Sequence sequence_data[82];
-extern int sequence_index[71];
-extern int keyframe_index[71];
-extern Uniform uniforms[70];
-extern int keyframe_time[294];
-extern int keyframe_time_index[71];
+extern Sequence sequence_data[81];
+extern int sequence_index[73];
+extern int keyframe_index[73];
+extern Uniform uniforms[72];
+extern int keyframe_time[288];
+extern int keyframe_time_index[73];
 #endif
