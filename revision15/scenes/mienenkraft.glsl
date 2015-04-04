@@ -31,14 +31,14 @@ void main() {
 	vec3 o = camera_position;
 	float screenDist;
 	vec3 d = get_direction(screenDist);
-	float t = march(o, d, 200., screenDist);
+	float t = march(o, d, 300., screenDist);
 
 	float material_id = f(o+t*d, true)[1];
 
 	vec3 out_color;
 
 	if (isinf(t)) {
-		out_color.rgb = environmentColor(o, d, 200.);
+		out_color.rgb = environmentColor(o, d, 300.);
 	} else {
 		vec3 p = o + t * d;
 		vec3 normal = calc_normal(p, false);
