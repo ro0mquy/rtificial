@@ -2940,7 +2940,56 @@
         "valueColorG": 0.5,
         "valueColorB": 0.5
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 248,
+          "sequenceStart": 0,
+          "sequenceDuration": 36000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueColorR": 0.28445208072662353516,
+                "valueColorG": 0.28445208072662353516,
+                "valueColorB": 0.28445208072662353516
+              }
+            },
+            {
+              "keyframePosition": 36000,
+              "keyframeValue": {
+                "valueColorR": 0.5,
+                "valueColorG": 0.5,
+                "valueColorB": 0.5
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 601,
+          "sequenceStart": 0,
+          "sequenceDuration": 32000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueColorR": 0.3488648533821105957,
+                "valueColorG": 0.3488648533821105957,
+                "valueColorB": 0.3488648533821105957
+              }
+            },
+            {
+              "keyframePosition": 32000,
+              "keyframeValue": {
+                "valueColorR": 0.17999999999999999334,
+                "valueColorG": 0.17999999999999999334,
+                "valueColorB": 0.17999999999999999334
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "post_color_gamma",
@@ -2950,7 +2999,56 @@
         "valueColorG": 0.5,
         "valueColorB": 0.5
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 248,
+          "sequenceStart": 0,
+          "sequenceDuration": 36000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueColorR": 0.45907992124557495117,
+                "valueColorG": 0.44232296943664550781,
+                "valueColorB": 0.44232296943664550781
+              }
+            },
+            {
+              "keyframePosition": 36000,
+              "keyframeValue": {
+                "valueColorR": 0.5,
+                "valueColorG": 0.5,
+                "valueColorB": 0.5
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 601,
+          "sequenceStart": 0,
+          "sequenceDuration": 32000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueColorR": 0.47617727518081665039,
+                "valueColorG": 0.46474117040634155273,
+                "valueColorB": 0.46474117040634155273
+              }
+            },
+            {
+              "keyframePosition": 32000,
+              "keyframeValue": {
+                "valueColorR": 0.17999999999999999334,
+                "valueColorG": 0.17999999999999999334,
+                "valueColorB": 0.17999999999999999334
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "post_color_lift",
@@ -2960,7 +3058,56 @@
         "valueColorG": 0.5,
         "valueColorB": 0.5
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 248,
+          "sequenceStart": 0,
+          "sequenceDuration": 36000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueColorR": 0.49950528144836425781,
+                "valueColorG": 0.49950528144836425781,
+                "valueColorB": 0.49950528144836425781
+              }
+            },
+            {
+              "keyframePosition": 36000,
+              "keyframeValue": {
+                "valueColorR": 0.5,
+                "valueColorG": 0.5,
+                "valueColorB": 0.5
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 601,
+          "sequenceStart": 0,
+          "sequenceDuration": 32000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueColorR": 0.49950528144836425781,
+                "valueColorG": 0.49950528144836425781,
+                "valueColorB": 0.49950528144836425781
+              }
+            },
+            {
+              "keyframePosition": 32000,
+              "keyframeValue": {
+                "valueColorR": 0.17999999999999999334,
+                "valueColorG": 0.17999999999999999334,
+                "valueColorB": 0.17999999999999999334
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "post_film_grain_frequency",
