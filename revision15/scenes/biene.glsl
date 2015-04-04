@@ -12,6 +12,7 @@ const float eyes_id = 4.;
 const float tunnel_id = 5.;
 
 vec3 p_biene;
+vec3 p_eyes_noise;
 
 void main() {
 	vec3 o = camera_position;
@@ -31,7 +32,7 @@ void main() {
 		float metallic = 0.;
 		vec3 col = vec3(1.);
 		if (material == eyes_id) {
-			out_color = augenlicht(p, d, normal);
+			out_color = augenlicht(p_eyes_noise, d, normal);
 		} else {
 			if (material == background_fels_id || material == tunnel_id || material == background_kristall_id) {
 				fels_color(p, col, rough);
@@ -163,6 +164,7 @@ vec2 bee_body(vec3 p, bool last_step) {
 	p_eyes.yz *= rot2D(radians(biene_body_head_eye_rot_rt_float));
 	//p_eyes.y /= biene_body_head_eye_stretch_rt_float;
 	//float d_eyes = sphere(p_eyes, biene_body_head_eye_radius_rt_float * head_radius);
+	p_eyes_noise = p_eyes;
 	float d_eyes = scale(opal, p_eyes.xzy, biene_body_head_eye_scale_rt_float);
 	// attached below
 
