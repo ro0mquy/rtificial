@@ -419,7 +419,7 @@
         {
           "sequenceSceneId": 855,
           "sequenceStart": 8500,
-          "sequenceDuration": 17000,
+          "sequenceDuration": 20000,
           "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
             {
@@ -435,19 +435,19 @@
               }
             },
             {
-              "keyframePosition": 6500,
+              "keyframePosition": 13500,
               "keyframeValue": {
                 "valueFloatX": 0.0049999999999954525265
               }
             },
             {
-              "keyframePosition": 10000,
+              "keyframePosition": 15500,
               "keyframeValue": {
                 "valueFloatX": 0.00099999999997635313775
               }
             },
             {
-              "keyframePosition": 17000,
+              "keyframePosition": 20000,
               "keyframeValue": {
                 "valueFloatX": 0
               }
@@ -526,7 +526,7 @@
       "uniformName": "biene_color_hot2_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.88317972421646118164,
+        "valueColorR": 0.88317972421646107062,
         "valueColorG": 0.035614367574453353882,
         "valueColorB": 0
       },
@@ -1717,7 +1717,7 @@
               "keyframeValue": {
                 "valueVec3X": 2.3092250823974609375,
                 "valueVec3Y": 1.6367151737213134766,
-                "valueVec3Z": -0.72138655185699462891
+                "valueVec3Z": -0.72138655185699451788
               }
             },
             {
@@ -2385,8 +2385,8 @@
               "keyframeValue": {
                 "valueQuatX": -0.63249969482421875,
                 "valueQuatY": -0.06722183525562286377,
-                "valueQuatZ": -0.021407999098300933838,
-                "valueQuatW": 0.77134084701538085938
+                "valueQuatZ": -0.021407999098300937307,
+                "valueQuatW": 0.77134084701538074835
               }
             },
             {
@@ -2436,7 +2436,7 @@
             {
               "keyframePosition": 4000,
               "keyframeValue": {
-                "valueQuatX": -0.73277783393859863281,
+                "valueQuatX": -0.73277783393859852179,
                 "valueQuatY": -0.00070676859468221664429,
                 "valueQuatZ": 0.0019765617325901985168,
                 "valueQuatW": 0.68046480417251586914
@@ -2445,7 +2445,7 @@
             {
               "keyframePosition": 16000,
               "keyframeValue": {
-                "valueQuatX": -0.73277783393859863281,
+                "valueQuatX": -0.73277783393859852179,
                 "valueQuatY": -0.00070676859468221664429,
                 "valueQuatZ": 0.0019765617325901985168,
                 "valueQuatW": 0.68046480417251586914
@@ -2474,7 +2474,7 @@
                 "valueQuatX": -0.22841925919055938721,
                 "valueQuatY": 0,
                 "valueQuatZ": 0,
-                "valueQuatW": 0.9735628962516784668
+                "valueQuatW": 0.97356289625167835577
               }
             }
           ]
@@ -3639,7 +3639,7 @@
       "uniformStandardValue": {
         "valueColorR": 0.041451890021562576294,
         "valueColorG": 0.65237009525299072266,
-        "valueColorB": 0.23099814355373382568
+        "valueColorB": 0.23099814355373385344
       },
       "sequencesArray": []
     },
