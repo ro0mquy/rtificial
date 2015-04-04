@@ -2,9 +2,9 @@
 #define shapemorph_environment_H
 const char shapemorph_environment_source[] =R"shader_source(#version 430
 )shader_source"
-R"shader_source(vec3 sun_dir = vec3(0.000000, 0.224951, 0.974370);
+R"shader_source(vec3 sun_dir = vec3(0.000000, 0.390731, 0.920505);
 )shader_source"
-R"shader_source(vec3 sun_radiance = vec3(12.817642, 11.758746, 10.021456);
+R"shader_source(vec3 sun_radiance = vec3(12.110122, 13.549319, 14.499019);
 )shader_source"
 R"shader_source(vec3 sky_radiance(vec3 d) {
 )shader_source"
@@ -22,23 +22,23 @@ R"shader_source(	float zenith = sqrt(cos_theta);
 )shader_source"
 R"shader_source(	{
 )shader_source"
-R"shader_source(		float A = -1.167633;
+R"shader_source(		float A = -1.078444;
 )shader_source"
-R"shader_source(		float B = -0.267518;
+R"shader_source(		float B = -0.157473;
 )shader_source"
-R"shader_source(		float C = 0.285294;
+R"shader_source(		float C = 0.660505;
 )shader_source"
-R"shader_source(		float D = 1.675510;
+R"shader_source(		float D = 2.178387;
 )shader_source"
-R"shader_source(		float E = -2.374641;
+R"shader_source(		float E = -3.632607;
 )shader_source"
-R"shader_source(		float F = 0.214081;
+R"shader_source(		float F = 0.451305;
 )shader_source"
-R"shader_source(		float G = 0.270609;
+R"shader_source(		float G = 0.323776;
 )shader_source"
-R"shader_source(		float H = 0.888835;
+R"shader_source(		float H = 1.167765;
 )shader_source"
-R"shader_source(		float I = 0.674745;
+R"shader_source(		float I = 0.677045;
 )shader_source"
 R"shader_source(		float expM = exp(E * gamma);
 )shader_source"
@@ -50,23 +50,23 @@ R"shader_source(	}
 )shader_source"
 R"shader_source(	{
 )shader_source"
-R"shader_source(		float A = -1.193493;
+R"shader_source(		float A = -1.086754;
 )shader_source"
-R"shader_source(		float B = -0.318828;
+R"shader_source(		float B = -0.183093;
 )shader_source"
-R"shader_source(		float C = 0.248083;
+R"shader_source(		float C = 0.521530;
 )shader_source"
-R"shader_source(		float D = 2.467026;
+R"shader_source(		float D = 2.980337;
 )shader_source"
-R"shader_source(		float E = -3.144857;
+R"shader_source(		float E = -4.393964;
 )shader_source"
-R"shader_source(		float F = 0.244170;
+R"shader_source(		float F = 0.493945;
 )shader_source"
-R"shader_source(		float G = 0.183239;
+R"shader_source(		float G = 0.215704;
 )shader_source"
-R"shader_source(		float H = 1.415013;
+R"shader_source(		float H = 1.937758;
 )shader_source"
-R"shader_source(		float I = 0.667284;
+R"shader_source(		float I = 0.666791;
 )shader_source"
 R"shader_source(		float expM = exp(E * gamma);
 )shader_source"
@@ -78,23 +78,23 @@ R"shader_source(	}
 )shader_source"
 R"shader_source(	{
 )shader_source"
-R"shader_source(		float A = -1.198544;
+R"shader_source(		float A = -1.098371;
 )shader_source"
-R"shader_source(		float B = -0.383872;
+R"shader_source(		float B = -0.254014;
 )shader_source"
-R"shader_source(		float C = -0.603962;
+R"shader_source(		float C = 0.409843;
 )shader_source"
-R"shader_source(		float D = 0.851110;
+R"shader_source(		float D = -0.002073;
 )shader_source"
-R"shader_source(		float E = -0.093279;
+R"shader_source(		float E = -0.408308;
 )shader_source"
-R"shader_source(		float F = 0.378240;
+R"shader_source(		float F = 0.449974;
 )shader_source"
-R"shader_source(		float G = 0.095607;
+R"shader_source(		float G = 0.111291;
 )shader_source"
-R"shader_source(		float H = 2.120160;
+R"shader_source(		float H = 2.242290;
 )shader_source"
-R"shader_source(		float I = 0.675487;
+R"shader_source(		float I = 0.663794;
 )shader_source"
 R"shader_source(		float expM = exp(E * gamma);
 )shader_source"
@@ -160,7 +160,7 @@ R"shader_source(		out_color.rgb += 30. * smoothstep(angle * .999, angle, dot(sky
 )shader_source"
 R"shader_source(	} else {
 )shader_source"
-R"shader_source(		out_color.rgb = sun_dir.y * sun_radiance;
+R"shader_source(		out_color.rgb = sun_dir.y * sun_radiance * vec3(0.05459, 0.05459, 0.06191);
 )shader_source"
 R"shader_source(	}
 )shader_source"
