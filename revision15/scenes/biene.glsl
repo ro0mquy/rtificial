@@ -125,103 +125,111 @@ vec2 bee_body(vec3 p, bool last_step) {
 	float thorax_length = thorax_radius * biene_body_thorax_stretch_rt_float;
 	float d_thorax = sphere(p_thorax, thorax_radius);
 	d_thorax *= min(biene_body_thorax_stretch_rt_float, 1.);
+	vec2 m_thorax;
 
-	vec3 p_head = p;
-	float head_radius = thorax_radius * biene_body_head_radius_rt_float;
-	float head_length = head_radius * biene_body_head_stretch_rt_float;
-	p_head.z += thorax_length + head_length + biene_body_head_offset_rt_float;
-	vec3 p_fuel = p_head;
-	p_head.z /= biene_body_head_stretch_rt_float;
-	vec3 p_mouth = p_head;
-	p_head.x /= biene_body_head_w_stretch_rt_float;
-	float d_head = sphere(p_head, head_radius);
-	d_head *= min(min(biene_body_head_stretch_rt_float, biene_body_head_w_stretch_rt_float), 1.);
+	if (biene_body_head_radius_rt_float > 0.) {
+		vec3 p_head = p;
+		float head_radius = thorax_radius * biene_body_head_radius_rt_float;
+		float head_length = head_radius * biene_body_head_stretch_rt_float;
+		p_head.z += thorax_length + head_length + biene_body_head_offset_rt_float;
+		vec3 p_fuel = p_head;
+		p_head.z /= biene_body_head_stretch_rt_float;
+		vec3 p_mouth = p_head;
+		p_head.x /= biene_body_head_w_stretch_rt_float;
+		float d_head = sphere(p_head, head_radius);
+		d_head *= min(min(biene_body_head_stretch_rt_float, biene_body_head_w_stretch_rt_float), 1.);
 
-	// mouth
-	p_mouth.x = abs(p_mouth.x);
-	p_mouth.x -= biene_mouth_dist_rt_float;
-	p_mouth.z += biene_mouth_front_rt_float * head_length;
-	float mouth_height = biene_mouth_height_rt_float;
-	float t_mouth = clamp(-p.y / mouth_height, 0., 1.);
-	p_mouth.xy *= rot2D(radians(1.) * biene_mouth_bend_rt_float * pow(t_mouth, biene_mouth_bend_power_rt_float));
-	p_mouth.y += mouth_height + head_radius * biene_mouth_offset_rt_float;
-	float d_mouth = cone(vec3(p_mouth.x, p_mouth.z, -p_mouth.y), normalize(biene_mouth_c_rt_vec2));
-	d_mouth = max(d_mouth, p_mouth.y - mouth_height + .5); // cap top
-	d_mouth = smax(d_mouth,
-		mouth_height * biene_mouth_bottom_rt_float - p_mouth.y,
-		biene_mouth_smooth_bottom_rt_float); // cap bottom
-	d_head = smin(d_head, d_mouth, head_radius * biene_mouth_smooth_rt_float);
+		// mouth
+		p_mouth.x = abs(p_mouth.x);
+		p_mouth.x -= biene_mouth_dist_rt_float;
+		p_mouth.z += biene_mouth_front_rt_float * head_length;
+		float mouth_height = biene_mouth_height_rt_float;
+		float t_mouth = clamp(-p.y / mouth_height, 0., 1.);
+		p_mouth.xy *= rot2D(radians(1.) * biene_mouth_bend_rt_float * pow(t_mouth, biene_mouth_bend_power_rt_float));
+		p_mouth.y += mouth_height + head_radius * biene_mouth_offset_rt_float;
+		float d_mouth = cone(vec3(p_mouth.x, p_mouth.z, -p_mouth.y), normalize(biene_mouth_c_rt_vec2));
+		d_mouth = max(d_mouth, p_mouth.y - mouth_height + .5); // cap top
+		d_mouth = smax(d_mouth,
+				mouth_height * biene_mouth_bottom_rt_float - p_mouth.y,
+				biene_mouth_smooth_bottom_rt_float); // cap bottom
+		d_head = smin(d_head, d_mouth, head_radius * biene_mouth_smooth_rt_float);
 
-	// eyes TODO
-	vec3 p_eyes = p_head;
-	p_eyes.x = abs(p_eyes.x);
-	p_eyes.y -= biene_body_head_eye_falldown_rt_float;
-	p_eyes.zx *= rot2D(radians(biene_body_head_eye_dist_rt_float));
-	p_eyes.zy *= rot2D(radians(biene_body_head_eye_height_rt_float));
-	//p_eyes.x -= biene_body_head_eye_dist_rt_float;
-	p_eyes.z += head_length - biene_body_head_eye_offset_rt_float;
-	//p_eyes.xz *= rot2D(radians(biene_body_head_eye_angle_rt_float));
-	p_eyes.yz *= rot2D(radians(biene_body_head_eye_rot_rt_float));
-	//p_eyes.y /= biene_body_head_eye_stretch_rt_float;
-	//float d_eyes = sphere(p_eyes, biene_body_head_eye_radius_rt_float * head_radius);
-	p_eyes_noise = p_eyes;
-	float d_eyes = scale(opal, p_eyes.xzy, biene_body_head_eye_scale_rt_float);
-	// attached below
+		// eyes TODO
+		vec3 p_eyes = p_head;
+		p_eyes.x = abs(p_eyes.x);
+		p_eyes.y -= biene_body_head_eye_falldown_rt_float;
+		p_eyes.zx *= rot2D(radians(biene_body_head_eye_dist_rt_float));
+		p_eyes.zy *= rot2D(radians(biene_body_head_eye_height_rt_float));
+		//p_eyes.x -= biene_body_head_eye_dist_rt_float;
+		p_eyes.z += head_length - biene_body_head_eye_offset_rt_float;
+		//p_eyes.xz *= rot2D(radians(biene_body_head_eye_angle_rt_float));
+		p_eyes.yz *= rot2D(radians(biene_body_head_eye_rot_rt_float));
+		//p_eyes.y /= biene_body_head_eye_stretch_rt_float;
+		//float d_eyes = sphere(p_eyes, biene_body_head_eye_radius_rt_float * head_radius);
+		p_eyes_noise = p_eyes;
+		float d_eyes = scale(opal, p_eyes.xzy, biene_body_head_eye_scale_rt_float);
+		// attached below
 
-	// fuel TODO
-	p_fuel.x = abs(p_fuel.x);
-	p_fuel.zx *= rot2D(radians(biene_body_head_fuel_dist_rt_float));
-	p_fuel.zy *= rot2D(radians(biene_Body_head_fuel_height_rt_float));
-	p_fuel.z += head_length;
-	float t_fuel = clamp(-p_fuel.z, 0., biene_body_head_fuel_length_rt_float);
-	p_fuel.yz *= rot2D(radians(1.) * pow(t_fuel, biene_body_head_fuel_bend_power_rt_float)
-		* biene_body_head_fuel_bend_rt_float);
-	float fuel_thick = biene_body_head_fuel_thick_rt_float;
-	float d_fuel = line(p_fuel, vec3(0., 0., -biene_body_head_fuel_length_rt_float), fuel_thick);
-	d_head = smin(d_head, d_fuel, fuel_thick * biene_body_head_fuel_smooth_rt_float);
-	// immer nach gefühl
+		// fuel TODO
+		p_fuel.x = abs(p_fuel.x);
+		p_fuel.zx *= rot2D(radians(biene_body_head_fuel_dist_rt_float));
+		p_fuel.zy *= rot2D(radians(biene_Body_head_fuel_height_rt_float));
+		p_fuel.z += head_length;
+		float t_fuel = clamp(-p_fuel.z, 0., biene_body_head_fuel_length_rt_float);
+		p_fuel.yz *= rot2D(radians(1.) * pow(t_fuel, biene_body_head_fuel_bend_power_rt_float)
+				* biene_body_head_fuel_bend_rt_float);
+		float fuel_thick = biene_body_head_fuel_thick_rt_float;
+		float d_fuel = line(p_fuel, vec3(0., 0., -biene_body_head_fuel_length_rt_float), fuel_thick);
+		d_head = smin(d_head, d_fuel, fuel_thick * biene_body_head_fuel_smooth_rt_float);
+		// immer nach gefühl
 
-	vec3 p_abdomen = p;
-	float abdomen_length = biene_body_length_rt_float + .5 * biene_body_radius_rt_float;
-	p_abdomen.z -= (abdomen_length + thorax_length) * (1. + biene_body_abdomen_offset_rt_float);
-	float t_body = clamp(p_abdomen.z / (biene_body_length_rt_float + .5 * biene_body_radius_rt_float), -1., 1.);
-	p_abdomen.zy *= rot2D(radians(biene_body_bend_rt_float) * (t_body * .5 + .5));
-	t_body = clamp(p_abdomen.z / (biene_body_length_rt_float + .5 * biene_body_radius_rt_float), -1., 1.);
-	p_abdomen.xy /= (biene_body_max_thick_rt_float - biene_body_min_thick_rt_float) * (1. - t_body * t_body) + biene_body_min_thick_rt_float;
+		d_thorax = smin(d_thorax, d_head, biene_body_head_smooth_rt_float * head_radius);
+		m_thorax = vec2(d_thorax, biene_id);
+		vec2 m_eyes = vec2(d_eyes, eyes_id);
+		m_thorax = min_material(m_thorax, m_eyes);
+	} else {
+		m_thorax = vec2(d_thorax, biene_id);
+	}
 
-	vec3 a = vec3(0., 0., biene_body_length_rt_float);
-	vec3 b = -a;
-	float d_abdomen = line(p_abdomen - a, b - a, biene_body_radius_rt_float);
+	if (biene_body_radius_rt_float > 0.) {
+		vec3 p_abdomen = p;
+		float abdomen_length = biene_body_length_rt_float + .5 * biene_body_radius_rt_float;
+		p_abdomen.z -= (abdomen_length + thorax_length) * (1. + biene_body_abdomen_offset_rt_float);
+		float t_body = clamp(p_abdomen.z / (biene_body_length_rt_float + .5 * biene_body_radius_rt_float), -1., 1.);
+		p_abdomen.zy *= rot2D(radians(biene_body_bend_rt_float) * (t_body * .5 + .5));
+		t_body = clamp(p_abdomen.z / (biene_body_length_rt_float + .5 * biene_body_radius_rt_float), -1., 1.);
+		p_abdomen.xy /= (biene_body_max_thick_rt_float - biene_body_min_thick_rt_float) * (1. - t_body * t_body) + biene_body_min_thick_rt_float;
 
-	d_abdomen *= min(biene_body_min_thick_rt_float, 1.);
+		vec3 a = vec3(0., 0., biene_body_length_rt_float);
+		vec3 b = -a;
+		float d_abdomen = line(p_abdomen - a, b - a, biene_body_radius_rt_float);
 
-	float dellen_space = 2. * biene_body_length_rt_float / biene_dellen_num_rt_float;
-	vec3 p_dellen = p_abdomen;
-	float dellen_cell = +floor(p_dellen.z / dellen_space); // -ceil() for other direction
-	dellen_anim -= .5;
-	float dellen_current_anim = clamp(dellen_anim * biene_dellen_num_rt_float - dellen_cell, 0., 1.);
-	float biene_dellen_depth_rt_float = mix(0., biene_dellen_depth_rt_float,
-			smoothstep(0., 1., dellen_current_anim));
-	p_dellen.z = domrep(p_dellen.z, dellen_space);
-	float d_dellen = smax(
-		cylinder(p_dellen.xy, biene_body_radius_rt_float * (1. + biene_dellen_depth_rt_float)),
-		abs(p_dellen.z) - biene_dellen_thick_rt_float,
-		biene_dellen_smooth_aussen_rt_float * biene_dellen_depth_rt_float
-	);
-	d_dellen = smax(d_dellen, abs(p_abdomen.z) - biene_body_length_rt_float, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
-	vec2 m_dellen = vec2(d_dellen, dellen_id);
+		d_abdomen *= min(biene_body_min_thick_rt_float, 1.);
+		vec2 m_abdomen = vec2(d_abdomen, biene_id);
 
-	vec2 m_abdomen = vec2(d_abdomen, biene_id);
-	m_abdomen = smin_material(m_abdomen, m_dellen, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
+		if (dellen_anim > 0.) {
+			float dellen_space = 2. * biene_body_length_rt_float / biene_dellen_num_rt_float;
+			vec3 p_dellen = p_abdomen;
+			float dellen_cell = +floor(p_dellen.z / dellen_space); // -ceil() for other direction
+			dellen_anim -= .5;
+			float dellen_current_anim = clamp(dellen_anim * biene_dellen_num_rt_float - dellen_cell, 0., 1.);
+			float biene_dellen_depth_rt_float = mix(0., biene_dellen_depth_rt_float,
+					smoothstep(0., 1., dellen_current_anim));
+			p_dellen.z = domrep(p_dellen.z, dellen_space);
+			float d_dellen = smax(
+					cylinder(p_dellen.xy, biene_body_radius_rt_float * (1. + biene_dellen_depth_rt_float)),
+					abs(p_dellen.z) - biene_dellen_thick_rt_float,
+					biene_dellen_smooth_aussen_rt_float * biene_dellen_depth_rt_float
+					);
+			d_dellen = smax(d_dellen, abs(p_abdomen.z) - biene_body_length_rt_float, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
+			vec2 m_dellen = vec2(d_dellen, dellen_id);
+			m_abdomen = smin_material(m_abdomen, m_dellen, biene_dellen_smooth_rt_float * biene_dellen_depth_rt_float);
+		}
+		m_thorax = smin_material(m_abdomen, m_thorax,
+				biene_body_abdomen_smooth_rt_float * biene_body_max_thick_rt_float);
+	}
 
-	d_head = smin(d_thorax, d_head, biene_body_head_smooth_rt_float * head_radius);
-	vec2 m_head = vec2(d_head, biene_id);
-	vec2 m_eyes = vec2(d_eyes, eyes_id);
-	m_head = min_material(m_head, m_eyes);
-	vec2 m_body = smin_material(m_abdomen, m_head,
-		biene_body_abdomen_smooth_rt_float * biene_body_max_thick_rt_float);
-
-	return m_body;
+	return m_thorax;
 }
 
 vec2 bee_fluegel(vec3 p, bool last_step) {
