@@ -206,6 +206,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_body_color_noise_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.72800000000006548362
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_body_head_eye_angle_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -374,6 +382,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "biene_body_hot_darks_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.39999999999997726263
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "biene_body_hotness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -383,8 +399,8 @@
         {
           "sequenceSceneId": 855,
           "sequenceStart": 0,
-          "sequenceDuration": 21000,
-          "sequenceInterpolation": "linear",
+          "sequenceDuration": 8500,
+          "sequenceInterpolation": "step",
           "keyframesArray": [
             {
               "keyframePosition": 0,
@@ -393,13 +409,45 @@
               }
             },
             {
-              "keyframePosition": 7000,
+              "keyframePosition": 8500,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 855,
+          "sequenceStart": 8500,
+          "sequenceDuration": 17000,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
               "keyframeValue": {
                 "valueFloatX": 1
               }
             },
             {
-              "keyframePosition": 21000,
+              "keyframePosition": 3500,
+              "keyframeValue": {
+                "valueFloatX": 0.10000000000002273737
+              }
+            },
+            {
+              "keyframePosition": 6500,
+              "keyframeValue": {
+                "valueFloatX": 0.0049999999999954525265
+              }
+            },
+            {
+              "keyframePosition": 10000,
+              "keyframeValue": {
+                "valueFloatX": 0.00099999999997635313775
+              }
+            },
+            {
+              "keyframePosition": 17000,
               "keyframeValue": {
                 "valueFloatX": 0
               }
@@ -468,9 +516,19 @@
       "uniformName": "biene_color_hot_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.891262054443359375,
-        "valueColorG": 0.014310519210994243622,
-        "valueColorB": 0.0033027029130607843399
+        "valueColorR": 0.61868572235107421875,
+        "valueColorG": 0.0022629532031714916229,
+        "valueColorB": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "biene_color_hot2_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.88317972421646118164,
+        "valueColorG": 0.035614367574453353882,
+        "valueColorB": 0
       },
       "sequencesArray": []
     },
@@ -996,7 +1054,7 @@
       "uniformName": "biene_kugel_schwurbel_intens_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.0650000000000545697
+        "valueFloatX": 0.34300000000007457857
       },
       "sequencesArray": []
     },
@@ -1012,7 +1070,7 @@
       "uniformName": "biene_kugel_seed_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 4.0059999999999718057
+        "valueFloatX": 4.2060000000000172804
       },
       "sequencesArray": []
     },

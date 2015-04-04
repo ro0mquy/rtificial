@@ -43,8 +43,13 @@ void main() {
 					+ biene_kugel_seed_rt_float
 				);
 				float cellnoise = F.y - F.x;
-				cellnoise = smoothstep(-.1, .5, cellnoise);
-				vec3 hot_color = biene_color_hot_rt_color * cellnoise;
+				cellnoise = smoothstep(-.1 , .5, cellnoise);
+				float lift = mix(biene_body_hot_darks_rt_float, .0, biene_body_hotness_rt_float);
+				cellnoise = cellnoise * (1. - lift) + lift;
+
+				float colornoise = cfbm(p_biene * biene_body_color_noise_freq_rt_float);
+				colornoise *= colornoise;
+				vec3 hot_color = mix(biene_color_hot_rt_color, biene_color_hot2_rt_color, colornoise) * cellnoise;
 				col = mix(biene_color_rt_color, hot_color, biene_body_hotness_rt_float);
 				rough = biene_rough_rt_float;
 				out_color += biene_body_hotness_rt_float * hot_color * biene_hot_glow_rt_float;
