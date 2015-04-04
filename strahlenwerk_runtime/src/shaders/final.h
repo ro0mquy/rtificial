@@ -2,6 +2,8 @@
 #define final_H
 const char final_source[] =R"shader_source(#version 430
 )shader_source"
+R"shader_source(layout(location = 66) uniform float post_fade_to_black_rt_float;
+)shader_source"
 R"shader_source(// lens distort, vignette, noise
 )shader_source"
 R"shader_source(
@@ -18,21 +20,21 @@ R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 66) uniform float time;
+R"shader_source(layout(location = 67) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 67) uniform float post_lens_distort_k;
+R"shader_source(layout(location = 68) uniform float post_lens_distort_k;
 )shader_source"
-R"shader_source(layout(location = 68) uniform float post_lens_distort_kcube;
+R"shader_source(layout(location = 69) uniform float post_lens_distort_kcube;
 )shader_source"
-R"shader_source(layout(location = 69) uniform float post_vignette_intensity;
+R"shader_source(layout(location = 70) uniform float post_vignette_intensity;
 )shader_source"
-R"shader_source(layout(location = 70) uniform float post_film_grain_intensity;
+R"shader_source(layout(location = 71) uniform float post_film_grain_intensity;
 )shader_source"
-R"shader_source(layout(location = 71) uniform float post_film_grain_frequency;
+R"shader_source(layout(location = 72) uniform float post_film_grain_frequency;
 )shader_source"
-R"shader_source(layout(location = 72) uniform float post_film_grain_power;
+R"shader_source(layout(location = 73) uniform float post_film_grain_power;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -191,6 +193,8 @@ R"shader_source(	float luma = clamp(dot(col, vec3(.299, .587, .114)), 0., 1.);
 R"shader_source(	float intensity = post_film_grain_intensity * pow(1. - luma, post_film_grain_power);
 )shader_source"
 R"shader_source(	out_color = col + intensity * grain;
+)shader_source"
+R"shader_source(	out_color = mix(out_color, vec3(0.), post_fade_to_black_rt_float);
 )shader_source"
 R"shader_source(}
 )shader_source"

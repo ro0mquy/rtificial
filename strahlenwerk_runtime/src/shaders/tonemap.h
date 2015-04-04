@@ -14,13 +14,13 @@ R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 73) uniform float post_tonemap_exposure;
+R"shader_source(layout(location = 74) uniform float post_tonemap_exposure;
 )shader_source"
-R"shader_source(layout(location = 74) uniform vec3 post_color_lift; // color
+R"shader_source(layout(location = 75) uniform vec3 post_color_lift; // color
 )shader_source"
-R"shader_source(layout(location = 75) uniform vec3 post_color_gamma; // color
+R"shader_source(layout(location = 76) uniform vec3 post_color_gamma; // color
 )shader_source"
-R"shader_source(layout(location = 76) uniform vec3 post_color_gain; // color
+R"shader_source(layout(location = 77) uniform vec3 post_color_gain; // color
 )shader_source"
 R"shader_source(
 )shader_source"

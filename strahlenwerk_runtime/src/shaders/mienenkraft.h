@@ -18,7 +18,7 @@ R"shader_source(const float morph_opal_smooth_rt_float = 0.17700000000002091838;
 )shader_source"
 R"shader_source(const float mk_kristall3_cap_relative_rt_float = 0.31900000000007366907;
 )shader_source"
-R"shader_source(layout(location = 94) uniform float morph_rough_rt_float;
+R"shader_source(layout(location = 95) uniform float morph_rough_rt_float;
 )shader_source"
 R"shader_source(const float morph_schwurbel_intens_rt_float = 0.15300000000002000888;
 )shader_source"
@@ -26,13 +26,13 @@ R"shader_source(const float bg_kristall_cap_rt_float = 2;
 )shader_source"
 R"shader_source(const float mk_kristall2_r_relative_rt_float = 0.28300000000001546141;
 )shader_source"
-R"shader_source(layout(location = 96) uniform float morph_reflectivness_rt_float;
+R"shader_source(layout(location = 100) uniform float morph_reflectivness_rt_float;
 )shader_source"
 R"shader_source(const float bg_kristall_r_rt_float = 2.5;
 )shader_source"
 R"shader_source(const float morph_opal_smooth_plane_rt_float = 0.20000000000004547474;
 )shader_source"
-R"shader_source(layout(location = 99) uniform float mk_fels_rough_rt_float;
+R"shader_source(layout(location = 103) uniform float mk_fels_rough_rt_float;
 )shader_source"
 R"shader_source(const float bg_kristall_h_rt_float = 15;
 )shader_source"
@@ -42,7 +42,7 @@ R"shader_source(const float morph_noise_freq_rt_float = 1.9759999999999990905;
 )shader_source"
 R"shader_source(const float morph_opal_stretch_x_rt_float = 0.60000000000002273737;
 )shader_source"
-R"shader_source(layout(location = 102) uniform vec3 morph_rt_color; // color
+R"shader_source(layout(location = 98) uniform vec3 morph_rt_color; // color
 )shader_source"
 R"shader_source(const float mk_fels_freq_rt_float = 0.03300000000001546141;
 )shader_source"
@@ -58,15 +58,15 @@ R"shader_source(const vec3 bg_kristall_offset_rt_vec3 = vec3(25, 7, 15);
 )shader_source"
 R"shader_source(const float mk_kristall_cap_rt_float = 0.2870000000000345608;
 )shader_source"
-R"shader_source(layout(location = 103) uniform float mk_height_color_rt_float;
+R"shader_source(layout(location = 104) uniform float mk_height_color_rt_float;
 )shader_source"
 R"shader_source(const float bg_smin_kristall_rt_float = 5;
 )shader_source"
-R"shader_source(layout(location = 85) uniform vec3 mk_fels_color1_rt_color; // color
+R"shader_source(layout(location = 87) uniform vec3 mk_fels_color1_rt_color; // color
 )shader_source"
-R"shader_source(layout(location = 122) uniform float mk_fog_amount_rt_float;
+R"shader_source(layout(location = 123) uniform float mk_fog_amount_rt_float;
 )shader_source"
-R"shader_source(layout(location = 112) uniform vec3 mk_fels_color2_rt_color; // color
+R"shader_source(layout(location = 113) uniform vec3 mk_fels_color2_rt_color; // color
 )shader_source"
 R"shader_source(const float bg_boden_height_rt_float = 0.57100000000002637535;
 )shader_source"
@@ -74,11 +74,11 @@ R"shader_source(const float mk_kristall2_h_relative_rt_float = 0.682999999999992
 )shader_source"
 R"shader_source(const float bg_smin_boden_rt_float = 1.4200000000000727596;
 )shader_source"
-R"shader_source(layout(location = 138) uniform float mk_kristAlle_metallic_rt_float;
+R"shader_source(layout(location = 124) uniform float mk_kristAlle_metallic_rt_float;
 )shader_source"
-R"shader_source(layout(location = 123) uniform float mk_fog_invheight_rt_float;
+R"shader_source(layout(location = 125) uniform float mk_fog_invheight_rt_float;
 )shader_source"
-R"shader_source(layout(location = 137) uniform float mk_kristAlle_roughness_rt_float;
+R"shader_source(layout(location = 126) uniform float mk_kristAlle_roughness_rt_float;
 )shader_source"
 R"shader_source(const float mk_hintergrund_kristall_r_rt_float = 5.6879999999999881766;
 )shader_source"
@@ -86,19 +86,19 @@ R"shader_source(const float mk_kristall_r_rt_float = 0.30100000000004456524;
 )shader_source"
 R"shader_source(const vec3 mk_kristall2_trans_relative_rt_vec3 = vec3(-0.74500000000000443645, -0.34699999999997999112, -0.24900000000002364686);
 )shader_source"
-R"shader_source(layout(location = 124) uniform float mk_kristall1_fullrot_rt_float;
+R"shader_source(layout(location = 127) uniform float mk_kristall1_fullrot_rt_float;
 )shader_source"
-R"shader_source(layout(location = 125) uniform vec3 mk_kristall1_trans_relative_rt_vec3;
+R"shader_source(layout(location = 128) uniform vec3 mk_kristall1_trans_relative_rt_vec3;
 )shader_source"
 R"shader_source(const vec4 mk_kristall_rot_rt_quat = vec4(-0.44252341985702514648, -0.77744716405868530273, 0.10422560572624206543, 0.43461012840270990543); // quat
 )shader_source"
-R"shader_source(layout(location = 126) uniform float mk_kristall1_eigenrot_rt_float;
+R"shader_source(layout(location = 129) uniform float mk_kristall1_eigenrot_rt_float;
 )shader_source"
 R"shader_source(const vec4 mk_kristall2_rot_relative_rt_quat = vec4(0.053422939032316207886, -0.97990703582763682977, 0.06456902623176574707, -0.18099492788314819336); // quat
 )shader_source"
 R"shader_source(const vec3 mk_kristall3_trans_relative_rt_vec3 = vec3(-0.2369999999999663487, -0.47899999999992814992, -0.51499999999998635758);
 )shader_source"
-R"shader_source(layout(location = 100) uniform float morph_helligkeit_rt_float;
+R"shader_source(layout(location = 96) uniform float morph_helligkeit_rt_float;
 )shader_source"
 R"shader_source(const float mk_fels_noise_power_rt_float = 0.2630000000000336513;
 )shader_source"
@@ -120,17 +120,17 @@ R"shader_source(layout(location = 1) out float coc;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 117) uniform float camera_focus_dist;
+R"shader_source(layout(location = 118) uniform float camera_focus_dist;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 118) uniform float camera_focal_length;
+R"shader_source(layout(location = 119) uniform float camera_focal_length;
 )shader_source"
 R"shader_source(#define FOCAL_LENGTH
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 119) uniform float camera_f_stop;
+R"shader_source(layout(location = 120) uniform float camera_f_stop;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -162,21 +162,21 @@ R"shader_source(#line 1
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 120) uniform vec3 camera_position;
+R"shader_source(layout(location = 121) uniform vec3 camera_position;
 )shader_source"
-R"shader_source(layout(location = 121) uniform vec4 camera_rotation; // quat
+R"shader_source(layout(location = 122) uniform vec4 camera_rotation; // quat
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(#ifndef FOCAL_LENGTH
 )shader_source"
-R"shader_source(layout(location = 118) uniform float camera_focal_length;
+R"shader_source(layout(location = 119) uniform float camera_focal_length;
 )shader_source"
 R"shader_source(#endif
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 66) uniform float time;
+R"shader_source(layout(location = 67) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -1953,6 +1953,14 @@ R"shader_source(}
 R"shader_source(
 )shader_source"
 R"shader_source(vec3 augenlicht(vec3 p, vec3 d, vec3 normal) {
+)shader_source"
+R"shader_source(	if (dot(d, normal) >= 0.) {
+)shader_source"
+R"shader_source(		return morph_rt_color;
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(
 )shader_source"
 R"shader_source(	vec3 n2 = vec3(1.1, 1.104, 1.106) * morph_reflectivness_rt_float;
 )shader_source"

@@ -29,11 +29,11 @@ extern Shader scenes[3];
 extern AmbientLight environments[3];
 extern Framebuffer fbos[18];
 extern Scene scenes_data[7];
-extern float keyframe_data[712];
-extern Sequence sequence_data[81];
-extern int sequence_index[73];
-extern int keyframe_index[73];
-extern Uniform uniforms[72];
-extern int keyframe_time[288];
-extern int keyframe_time_index[73];
+extern float keyframe_data[883];
+extern Sequence sequence_data[108];
+extern int sequence_index[74];
+extern int keyframe_index[74];
+extern Uniform uniforms[73];
+extern int keyframe_time[385];
+extern int keyframe_time_index[74];
 #endif

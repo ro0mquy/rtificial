@@ -8,7 +8,7 @@ R"shader_source(const float biene_fluegel_smooth_rt_float = 4.853000000000065483
 )shader_source"
 R"shader_source(const float biene_fluegel_musterung_thick_rt_float = 0.019999999999981806637;
 )shader_source"
-R"shader_source(layout(location = 77) uniform float biene_fluegel_musterung_anim_rt_float;
+R"shader_source(layout(location = 78) uniform float biene_fluegel_musterung_anim_rt_float;
 )shader_source"
 R"shader_source(const float biene_fluegel_musterung_space_rt_float = 0.12800000000004274625;
 )shader_source"
@@ -24,45 +24,45 @@ R"shader_source(const float biene_fluegel_asym_rt_float = 0.70500000000004092726
 )shader_source"
 R"shader_source(const float biene_body_head_stretch_rt_float = 0.74900000000002364686;
 )shader_source"
-R"shader_source(layout(location = 78) uniform float biene_body_anim_rt_float;
+R"shader_source(layout(location = 79) uniform float biene_body_anim_rt_float;
 )shader_source"
 R"shader_source(const float bg_smin_boden_rt_float = 1.4200000000000727596;
 )shader_source"
 R"shader_source(const float biene_tunnel_floor_rt_float = -50;
 )shader_source"
-R"shader_source(layout(location = 79) uniform float biene_fluegel_angle_rt_float;
+R"shader_source(layout(location = 80) uniform float biene_fluegel_angle_rt_float;
 )shader_source"
 R"shader_source(const float biene_fluegel_thick_rt_float = 0.081000000000017280399;
 )shader_source"
-R"shader_source(layout(location = 93) uniform vec3 biene_color_hot2_rt_color; // color
+R"shader_source(layout(location = 81) uniform vec3 biene_color_hot2_rt_color; // color
 )shader_source"
 R"shader_source(const float biene_mouth_offset_rt_float = -0.096000000000003637979;
 )shader_source"
-R"shader_source(layout(location = 80) uniform vec3 biene_dellen_color_rt_color; // color
+R"shader_source(layout(location = 82) uniform vec3 biene_dellen_color_rt_color; // color
 )shader_source"
-R"shader_source(layout(location = 81) uniform float biene_body_head_eye_offset_rt_float;
+R"shader_source(layout(location = 83) uniform float biene_body_head_eye_offset_rt_float;
 )shader_source"
 R"shader_source(const float morph_opal_stretch_x_rt_float = 0.60000000000002273737;
 )shader_source"
 R"shader_source(const float morph_noise_freq_rt_float = 1.9759999999999990905;
 )shader_source"
-R"shader_source(layout(location = 82) uniform float biene_kugel_seed_rt_float;
+R"shader_source(layout(location = 84) uniform float biene_kugel_seed_rt_float;
 )shader_source"
 R"shader_source(const float biene_mouth_smooth_rt_float = 0.19700000000000272848;
 )shader_source"
 R"shader_source(const float biene_Body_head_fuel_height_rt_float = 22.672000000000025466;
 )shader_source"
-R"shader_source(layout(location = 83) uniform vec3 biene_color_hot_rt_color; // color
+R"shader_source(layout(location = 85) uniform vec3 biene_color_hot_rt_color; // color
 )shader_source"
 R"shader_source(const float bg_boden_height_rt_float = 0.57100000000002637535;
 )shader_source"
 R"shader_source(const float biene_fluegel_musterung_smooth_rt_float = 0.30500000000006366463;
 )shader_source"
-R"shader_source(layout(location = 84) uniform float biene_body_color_noise_freq_rt_float;
+R"shader_source(layout(location = 86) uniform float biene_body_color_noise_freq_rt_float;
 )shader_source"
 R"shader_source(const float boden_hoehe_rt_float = 14.752000000000066393;
 )shader_source"
-R"shader_source(layout(location = 85) uniform vec3 mk_fels_color1_rt_color; // color
+R"shader_source(layout(location = 87) uniform vec3 mk_fels_color1_rt_color; // color
 )shader_source"
 R"shader_source(const float biene_body_thorax_scale_rt_float = 0.96400000000005547918;
 )shader_source"
@@ -70,7 +70,7 @@ R"shader_source(const float biene_body_thorax_height_rt_float = -40;
 )shader_source"
 R"shader_source(const float biene_body_head_fuel_bend_rt_float = 8.9529999999999745341;
 )shader_source"
-R"shader_source(layout(location = 86) uniform float biene_kugel_noise_rt_float;
+R"shader_source(layout(location = 88) uniform float biene_kugel_noise_rt_float;
 )shader_source"
 R"shader_source(const float biene_body_head_offset_rt_float = -1;
 )shader_source"
@@ -80,7 +80,7 @@ R"shader_source(const float bg_kristall_h_rt_float = 15;
 )shader_source"
 R"shader_source(const float morph_schwurbel_freq_rt_float = 6.8469999999999799911;
 )shader_source"
-R"shader_source(layout(location = 87) uniform float biene_body_head_eye_stretch_rt_float;
+R"shader_source(layout(location = 89) uniform float biene_body_head_eye_stretch_rt_float;
 )shader_source"
 R"shader_source(const float biene_body_head_fuel_bend_power_rt_float = 1.8790000000000190994;
 )shader_source"
@@ -88,7 +88,7 @@ R"shader_source(const float biene_fluegel_musterung_start_rt_float = 2.096999999
 )shader_source"
 R"shader_source(const float bg_smin_kristall_rt_float = 5;
 )shader_source"
-R"shader_source(layout(location = 88) uniform float biene_body_head_eye_height_rt_float;
+R"shader_source(layout(location = 90) uniform float biene_body_head_eye_height_rt_float;
 )shader_source"
 R"shader_source(const float biene_body_head_radius_rt_float = 0.69400000000007366907;
 )shader_source"
@@ -98,13 +98,13 @@ R"shader_source(const float biene_mouth_smooth_bottom_rt_float = 0.1009999999999
 )shader_source"
 R"shader_source(const float biene_dellen_num_rt_float = 8;
 )shader_source"
-R"shader_source(layout(location = 89) uniform float biene_rough_rt_float;
+R"shader_source(layout(location = 91) uniform float biene_rough_rt_float;
 )shader_source"
-R"shader_source(layout(location = 90) uniform float biene_body_hot_darks_rt_float;
+R"shader_source(layout(location = 92) uniform float biene_body_hot_darks_rt_float;
 )shader_source"
-R"shader_source(layout(location = 91) uniform float biene_tunnel_size_rt_float;
+R"shader_source(layout(location = 93) uniform float biene_tunnel_size_rt_float;
 )shader_source"
-R"shader_source(layout(location = 92) uniform float biene_kugel_schwurbel_rt_float;
+R"shader_source(layout(location = 94) uniform float biene_kugel_schwurbel_rt_float;
 )shader_source"
 R"shader_source(const float biene_body_head_smooth_rt_float = 0.49800000000004729372;
 )shader_source"
@@ -114,33 +114,33 @@ R"shader_source(const float mk_kristall_h_rt_float = 1.8720000000000709406;
 )shader_source"
 R"shader_source(const float morph_opal_stretch_y_rt_float = 0.3000000000000682121;
 )shader_source"
-R"shader_source(layout(location = 94) uniform float morph_rough_rt_float;
+R"shader_source(layout(location = 95) uniform float morph_rough_rt_float;
 )shader_source"
 R"shader_source(const float biene_fluegel_start_rt_float = -0.68399999999996907718;
 )shader_source"
 R"shader_source(const vec3 bg_kristall_offset_rt_vec3 = vec3(25, 7, 15);
 )shader_source"
-R"shader_source(layout(location = 95) uniform float biene_body_hotness_rt_float;
-)shader_source"
-R"shader_source(layout(location = 96) uniform float morph_reflectivness_rt_float;
-)shader_source"
-R"shader_source(layout(location = 97) uniform vec3 biene_position_rt_vec3;
-)shader_source"
-R"shader_source(layout(location = 98) uniform vec3 biene_color_rt_color; // color
-)shader_source"
-R"shader_source(layout(location = 99) uniform float mk_fels_rough_rt_float;
-)shader_source"
-R"shader_source(layout(location = 100) uniform float morph_helligkeit_rt_float;
+R"shader_source(layout(location = 96) uniform float morph_helligkeit_rt_float;
 )shader_source"
 R"shader_source(const float morph_opal_smooth_plane_rt_float = 0.20000000000004547474;
 )shader_source"
-R"shader_source(layout(location = 101) uniform float biene_kugel_schwurbel_intens_rt_float;
+R"shader_source(layout(location = 97) uniform float biene_kugel_schwurbel_intens_rt_float;
 )shader_source"
 R"shader_source(const float morph_opal_smooth_rt_float = 0.17700000000002091838;
 )shader_source"
-R"shader_source(layout(location = 102) uniform vec3 morph_rt_color; // color
+R"shader_source(layout(location = 98) uniform vec3 morph_rt_color; // color
 )shader_source"
 R"shader_source(const float mk_fels_freq_rt_float = 0.03300000000001546141;
+)shader_source"
+R"shader_source(layout(location = 99) uniform float biene_body_hotness_rt_float;
+)shader_source"
+R"shader_source(layout(location = 100) uniform float morph_reflectivness_rt_float;
+)shader_source"
+R"shader_source(layout(location = 101) uniform vec3 biene_position_rt_vec3;
+)shader_source"
+R"shader_source(layout(location = 102) uniform vec3 biene_color_rt_color; // color
+)shader_source"
+R"shader_source(layout(location = 103) uniform float mk_fels_rough_rt_float;
 )shader_source"
 R"shader_source(const float bg_kristall_r_rt_float = 2.5;
 )shader_source"
@@ -148,13 +148,13 @@ R"shader_source(const float biene_body_abdomen_smooth_rt_float = 0.3150000000000
 )shader_source"
 R"shader_source(const float biene_mouth_bend_power_rt_float = 2.0990000000000463842;
 )shader_source"
-R"shader_source(layout(location = 103) uniform float mk_height_color_rt_float;
+R"shader_source(layout(location = 104) uniform float mk_height_color_rt_float;
 )shader_source"
 R"shader_source(const float biene_body_bend_rt_float = 15.716000000000008185;
 )shader_source"
 R"shader_source(const float biene_body_length_rt_float = 2.5410000000000536602;
 )shader_source"
-R"shader_source(layout(location = 104) uniform float biene_body_head_eye_dist_rt_float;
+R"shader_source(layout(location = 105) uniform float biene_body_head_eye_dist_rt_float;
 )shader_source"
 R"shader_source(const float biene_dellen_smooth_rt_float = 2.0620000000000118234;
 )shader_source"
@@ -166,9 +166,9 @@ R"shader_source(const float biene_body_head_fuel_thick_rt_float = 0.048999999999
 )shader_source"
 R"shader_source(const float bg_kristall_cap_rt_float = 2;
 )shader_source"
-R"shader_source(layout(location = 105) uniform float biene_body_head_eye_falldown_rt_float;
+R"shader_source(layout(location = 106) uniform float biene_body_head_eye_falldown_rt_float;
 )shader_source"
-R"shader_source(layout(location = 106) uniform float biene_body_head_eye_rot_rt_float;
+R"shader_source(layout(location = 107) uniform float biene_body_head_eye_rot_rt_float;
 )shader_source"
 R"shader_source(const float biene_body_max_thick_rt_float = 1.3089999999999690772;
 )shader_source"
@@ -178,7 +178,7 @@ R"shader_source(const float biene_body_head_w_stretch_rt_float = 1.3020000000000
 )shader_source"
 R"shader_source(const float biene_mouth_dist_rt_float = 0.44400000000007366907;
 )shader_source"
-R"shader_source(layout(location = 107) uniform float biene_hot_glow_rt_float;
+R"shader_source(layout(location = 108) uniform float biene_hot_glow_rt_float;
 )shader_source"
 R"shader_source(const float biene_body_radius_rt_float = 1;
 )shader_source"
@@ -192,15 +192,15 @@ R"shader_source(const vec2 biene_mouth_c_rt_vec2 = vec2(3.9869999999999663487, 1
 )shader_source"
 R"shader_source(const float biene_mouth_bottom_rt_float = 0.15899999999999178679;
 )shader_source"
-R"shader_source(layout(location = 108) uniform float biene_body_head_eye_angle_rt_float;
+R"shader_source(layout(location = 109) uniform float biene_body_head_eye_angle_rt_float;
 )shader_source"
-R"shader_source(layout(location = 109) uniform float biene_dellen_rough_rt_float;
+R"shader_source(layout(location = 110) uniform float biene_dellen_rough_rt_float;
 )shader_source"
 R"shader_source(const float biene_dellen_thick_rt_float = 0.11199999999996636257;
 )shader_source"
-R"shader_source(layout(location = 110) uniform float biene_body_head_eye_radius_rt_float;
+R"shader_source(layout(location = 111) uniform float biene_body_head_eye_radius_rt_float;
 )shader_source"
-R"shader_source(layout(location = 111) uniform float biene_body_head_eye_scale_rt_float;
+R"shader_source(layout(location = 112) uniform float biene_body_head_eye_scale_rt_float;
 )shader_source"
 R"shader_source(const float mk_fels_noise_power_rt_float = 0.2630000000000336513;
 )shader_source"
@@ -212,17 +212,17 @@ R"shader_source(const float biene_dellen_depth_rt_float = 0.08199999999999363353
 )shader_source"
 R"shader_source(const float biene_dellen_smooth_aussen_rt_float = 0.10000000000002273737;
 )shader_source"
-R"shader_source(layout(location = 112) uniform vec3 mk_fels_color2_rt_color; // color
+R"shader_source(layout(location = 113) uniform vec3 mk_fels_color2_rt_color; // color
 )shader_source"
-R"shader_source(layout(location = 113) uniform float biene_fluegel_rot_rt_float;
+R"shader_source(layout(location = 114) uniform float biene_fluegel_rot_rt_float;
 )shader_source"
-R"shader_source(layout(location = 114) uniform float biene_fluegel_raise_rt_float;
+R"shader_source(layout(location = 115) uniform float biene_fluegel_raise_rt_float;
 )shader_source"
 R"shader_source(const vec2 biene_fluegel_c_rt_vec2 = vec2(2.2830000000000154614, 0.53899999999998726707);
 )shader_source"
-R"shader_source(layout(location = 115) uniform float biene_fluegel_length_rt_float;
+R"shader_source(layout(location = 116) uniform float biene_fluegel_length_rt_float;
 )shader_source"
-R"shader_source(layout(location = 116) uniform float biene_fluegel_anim_rt_float;
+R"shader_source(layout(location = 117) uniform float biene_fluegel_anim_rt_float;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -236,17 +236,17 @@ R"shader_source(layout(location = 1) out float coc;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 117) uniform float camera_focus_dist;
+R"shader_source(layout(location = 118) uniform float camera_focus_dist;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 118) uniform float camera_focal_length;
+R"shader_source(layout(location = 119) uniform float camera_focal_length;
 )shader_source"
 R"shader_source(#define FOCAL_LENGTH
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 119) uniform float camera_f_stop;
+R"shader_source(layout(location = 120) uniform float camera_f_stop;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -278,21 +278,21 @@ R"shader_source(#line 1
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 120) uniform vec3 camera_position;
+R"shader_source(layout(location = 121) uniform vec3 camera_position;
 )shader_source"
-R"shader_source(layout(location = 121) uniform vec4 camera_rotation; // quat
+R"shader_source(layout(location = 122) uniform vec4 camera_rotation; // quat
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(#ifndef FOCAL_LENGTH
 )shader_source"
-R"shader_source(layout(location = 118) uniform float camera_focal_length;
+R"shader_source(layout(location = 119) uniform float camera_focal_length;
 )shader_source"
 R"shader_source(#endif
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 66) uniform float time;
+R"shader_source(layout(location = 67) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -2279,6 +2279,14 @@ R"shader_source(}
 R"shader_source(
 )shader_source"
 R"shader_source(vec3 augenlicht(vec3 p, vec3 d, vec3 normal) {
+)shader_source"
+R"shader_source(	if (dot(d, normal) >= 0.) {
+)shader_source"
+R"shader_source(		return morph_rt_color;
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(
 )shader_source"
 R"shader_source(	vec3 n2 = vec3(1.1, 1.104, 1.106) * morph_reflectivness_rt_float;
 )shader_source"

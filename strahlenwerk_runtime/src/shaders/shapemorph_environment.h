@@ -160,7 +160,7 @@ R"shader_source(		out_color.rgb += 30. * smoothstep(angle * .999, angle, dot(sky
 )shader_source"
 R"shader_source(	} else {
 )shader_source"
-R"shader_source(		out_color.rgb = sun_dir.y * sun_radiance * vec3(0.05459, 0.05459, 0.06191);
+R"shader_source(		out_color.rgb = sun_dir.y * sun_radiance * vec3(0.08690, 0.10363, 0.08464);
 )shader_source"
 R"shader_source(	}
 )shader_source"
