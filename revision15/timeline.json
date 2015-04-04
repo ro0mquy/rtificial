@@ -845,55 +845,6 @@
       ]
     },
     {
-      "uniformName": "biene_tunnel_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 4.0639999999999645297
-      },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 248,
-          "sequenceStart": 0,
-          "sequenceDuration": 28000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 28000,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 601,
-          "sequenceStart": 0,
-          "sequenceDuration": 32000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 32000,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "uniformName": "camera_f_stop",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1033,7 +984,7 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueFloatX": 0.88200000000006184564
+                "valueFloatX": 0.88200000000006173462
               }
             },
             {
@@ -1053,7 +1004,7 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueFloatX": 0.12000000000000454747
+                "valueFloatX": 0.12000000000000456135
               }
             },
             {

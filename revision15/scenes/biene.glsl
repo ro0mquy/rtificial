@@ -59,6 +59,7 @@ void main() {
 				rough = biene_dellen_rough_rt_float;
 			}
 			out_color.rgb += ambientColor(normal, -d, col, rough, metallic);
+			out_color = mix(out_color, vec3(0.), smoothstep(-0., biene_tunnel_floor_rt_float, p.y));
 
 			if (material == background_kristall_id) {
 				vec3 kristAllColor = augenlicht(p, d, normal);
@@ -295,7 +296,7 @@ vec2 bee_fluegel(vec3 p, bool last_step) {
 }
 
 float rmk_tunnel(vec3 p) {
-    float f_tri = max(abs(p.x) * .866025 + p.z * .5, -p.z) - biene_tunnel_size_rt_float;
+    float f_tri = max(-p.y + biene_tunnel_floor_rt_float, max(abs(p.x) * .866025 + p.z * .5, -p.z) - biene_tunnel_size_rt_float);
 	return -f_tri;
 }
 
@@ -305,8 +306,10 @@ vec2 f(vec3 p, bool last_step) {
 	vec2 fluegel = bee_fluegel(p_bee, last_step);
 	vec2 m_bee = smin_material(body, fluegel, biene_fluegel_smooth_rt_float * biene_fluegel_thick_rt_float);
 	vec2 m_bg = background(p);
-	vec2 m_tunnel = vec2(rmk_tunnel(p), tunnel_id);
-	m_bg = smax_material(m_bg, m_tunnel, biene_tunnel_smooth_rt_float);
+	if (biene_tunnel_size_rt_float > 0.) {
+		vec2 m_tunnel = vec2(rmk_tunnel(p), tunnel_id);
+		m_bg = smax_material(m_bg, m_tunnel, biene_tunnel_smooth_rt_float);
+	}
 	m_bg = min_material(m_bg, m_bee);
 	return m_bg;
 }
