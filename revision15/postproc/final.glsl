@@ -94,4 +94,5 @@ void main() {
 	float luma = clamp(dot(col, vec3(.299, .587, .114)), 0., 1.);
 	float intensity = post_film_grain_intensity * pow(1. - luma, post_film_grain_power);
 	out_color = col + intensity * grain;
+	out_color = mix(out_color, vec3(0.), post_fade_to_black_rt_float);
 }
