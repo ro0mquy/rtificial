@@ -553,7 +553,7 @@
         {
           "sequenceSceneId": 601,
           "sequenceStart": 16000,
-          "sequenceDuration": 4000,
+          "sequenceDuration": 16000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -563,79 +563,7 @@
               }
             },
             {
-              "keyframePosition": 4000,
-              "keyframeValue": {
-                "valueFloatX": 7
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 601,
-          "sequenceStart": 20000,
-          "sequenceDuration": 2000,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 13
-              }
-            },
-            {
-              "keyframePosition": 2000,
-              "keyframeValue": {
-                "valueFloatX": 17
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 601,
-          "sequenceStart": 22000,
-          "sequenceDuration": 2000,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 21
-              }
-            },
-            {
-              "keyframePosition": 2000,
-              "keyframeValue": {
-                "valueFloatX": 25
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 601,
-          "sequenceStart": 24000,
-          "sequenceDuration": 8000,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 29
-              }
-            },
-            {
-              "keyframePosition": 4000,
-              "keyframeValue": {
-                "valueFloatX": 40
-              }
-            },
-            {
-              "keyframePosition": 5500,
-              "keyframeValue": {
-                "valueFloatX": 42
-              }
-            },
-            {
-              "keyframePosition": 8000,
+              "keyframePosition": 16000,
               "keyframeValue": {
                 "valueFloatX": 65
               }
