@@ -684,7 +684,7 @@
       "uniformName": "biene_hot_glow_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 300
+        "valueFloatX": 100
       },
       "sequencesArray": []
     },
@@ -3034,8 +3034,8 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueColorR": 0.47617727518081665039,
-                "valueColorG": 0.46474117040634155273,
-                "valueColorB": 0.46474117040634155273
+                "valueColorG": 0.46474117040634149722,
+                "valueColorB": 0.46474117040634149722
               }
             },
             {
