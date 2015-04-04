@@ -37,8 +37,9 @@ void main() {
 
 	vec3 out_color;
 
+	vec3 sky_color = environmentColor(o, d, 300.);
 	if (isinf(t)) {
-		out_color.rgb = environmentColor(o, d, 300.);
+		out_color.rgb = sky_color;
 	} else {
 		vec3 p = o + t * d;
 		vec3 normal = calc_normal(p, false);
@@ -60,6 +61,7 @@ void main() {
 			//}
 
 			out_color.rgb = ambientColor(normal, -d, out_color.rgb, rough, metallic);
+			out_color = mix(out_color, sky_color, pow(smoothstep(200., 300., t), 3.));
 
 			if (material_id == kristAlle_id) {
 				vec3 kristAllColor = augenlicht(p, d, normal);
