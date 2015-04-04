@@ -38,10 +38,6 @@ float opal(vec3 p) {
 }
 
 vec3 augenlicht(vec3 p, vec3 d, vec3 normal) {
-	//vec3 r = refract();
-	vec3 reflection_dir = reflect(d, normal);
-	vec3 reflection_color = textureLod(environment, reflection_dir, 0.).rgb;
-
 	vec3 n2 = vec3(1.1, 1.104, 1.106) * morph_reflectivness_rt_float;
 
 	vec3 refraction_dir_r = refract(d, normal, n2.x);
@@ -84,9 +80,12 @@ vec3 augenlicht(vec3 p, vec3 d, vec3 normal) {
 	vec3 col = morph_rt_color;
 	float rough = morph_rough_rt_float;
 	float metallic = 1.;
-	out_color = ambientColor(normal, -d, col, rough, metallic);
+	vec3 reflection_color = ambientColor(normal, -d, col, rough, metallic);
 	// ganz viel spucke!
 	//out_color.rgb *= .05;
 	//out_color.rgb += ao_factor * 2.;
-	return mix(ao_factor * morph_rt_color * max(vec3(morph_helligkeit_rt_float), refraction_color), out_color, r);
+	refraction_color = ao_factor * morph_rt_color * max(vec3(morph_helligkeit_rt_float), refraction_color);
+	out_color = mix(refraction_color, reflection_color, r);
+	out_color = max(vec3(0.), out_color);
+	return out_color;
 }
