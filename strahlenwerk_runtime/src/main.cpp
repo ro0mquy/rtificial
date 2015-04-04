@@ -78,6 +78,8 @@ RT_MAIN {
 	BRDFLut brdfLut;
 	diffuseFilterShader.compile();
 	specularFilterShader.compile();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, width, height);
 	backend.beforeFrame();
 	ladebalken.bind();
 	progress += progress_step * 2;
@@ -98,6 +100,7 @@ RT_MAIN {
 #		endif
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(0, 0, width, height);
 		backend.beforeFrame();
 		ladebalken.bind();
 		progress += progress_step;

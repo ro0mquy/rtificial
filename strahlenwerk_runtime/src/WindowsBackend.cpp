@@ -12,7 +12,7 @@ extern "C" {
 	#define BPM 90
 
 	// use GetTickCount() instead of V2 for time
-	//#define SYSTEM_TIME
+	#define SYSTEM_TIME
 #endif
 
 #include "Backend.h"
