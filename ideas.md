@@ -28,6 +28,7 @@
 * codeckiller
 * Schrift extruden und an einem ende noise drauf, dazwischen lerpen
 * Stummfilmdemo, Kalviermusik, einschubkarten mit beschreibung des breaks und der eigentlichen musik
+* irgendwas mit normalenbeleuchtung, meta-demo darüber dass die demo programmiert ist
 
 ## Bilder
 * http://projectosxar.deviantart.com/art/Through-the-Gap-455732816
