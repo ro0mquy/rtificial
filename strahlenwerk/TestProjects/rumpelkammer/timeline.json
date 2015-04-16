@@ -4,8 +4,9 @@
       "uniformName": "camera_focal_length",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
-      }
+        "valueFloatX": 0.022000000000048203219
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "camera_position",
