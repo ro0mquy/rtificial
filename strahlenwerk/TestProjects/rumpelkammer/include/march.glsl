@@ -83,9 +83,11 @@ vec3 saturate(vec3 v) {
 	return clamp(v, 0., 1.);
 }
 
+/*
 float linstep(float edge0, float edge1, float x) {
 	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
 }
+*/
 
 float pdot(vec2 a, vec2 b) {
 	return max(0., dot(a, b));
@@ -151,7 +153,7 @@ float iqParabola(float k, float x) {
 // reaches 1 at maximum
 // see http://www.iquilezles.org/www/articles/functions/functions.htm
 float iqPowerCurve(float a, float b, float x) {
-    float k = pow(a + b, a + b) / (pow(a, a) * pow(b, b));
+    const float k = pow(a + b, a + b) / (pow(a, a) * pow(b, b));
     return k * pow(x, a) * pow(1. - x, b);
 }
 
@@ -168,17 +170,120 @@ float rgb2luma(vec3 rgb) {
 }
 
 vec3 rgb2hsv(vec3 c) {
-    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
-    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+    const vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    const vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+    const vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
 
-    float d = q.x - min(q.w, q.y);
-    float e = 1.0e-10;
+    const float d = q.x - min(q.w, q.y);
+    const float e = 1.0e-10;
     return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 }
 
 vec3 hsv2rgb(vec3 c) {
-    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    const vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+
+//////// raymarchingkram.glsl
+
+// like normal max()-intersection but with correct distance at corners
+// use only with orthogonal objects
+float opIntersectEuclid(float f1, float f2) {
+	const vec2 q = vec2(f1, f2);
+	return min(maxV(q), 0.) + length(max(q, 0.));
+}
+
+float fSphere(vec3 p, float r) {
+	return length(p) - r;
+}
+
+float fSphere2(vec2 p, float r) {
+	return length(p) - r;
+}
+
+// capped cylinder, h is half height
+float fCylinder(vec3 p, float r, float h) {
+	const float sp2 = fSphere2(p.xz, r);
+	const float y = abs(p.y) - h;
+	return opIntersectEuclid(sp2, y);
+}
+
+float fBox(vec3 p, vec3 r) {
+	const vec3 q = abs(p) - r;
+	return min(maxV(q), 0.) + length(max(q, 0.));
+}
+
+float fBox(vec3 p, float rx, float ry, float rz) {
+	return fBox(p, vec3(rx, ry, rz));
+}
+
+float fBox(vec3 p, float r) {
+	return fBox(p, vec3(r));
+}
+
+float fBoxRounded(vec3 p, vec3 r, float rCorner) {
+	return fBox(p, r - rCorner) - rCorner;
+}
+
+float fBoxEdge(vec3 p, vec3 r) {
+	return maxV(abs(p) - r);
+}
+
+float fBoxEdge(vec3 p, float rx, float ry, float rz) {
+	return fBoxEdge(p, vec3(rx, ry, rz));
+}
+
+float fBoxEdge(vec3 p, float r) {
+	return fBoxEdge(p, vec3(r));
+}
+
+float fBox2(vec2 p, vec2 r) {
+	const vec2 q = abs(p) - r;
+	return min(maxV(q), 0.) + length(max(q, 0.));
+}
+
+float fBox2(vec2 p, float rx, float ry) {
+	return fBox2(p, vec2(rx, ry));
+}
+
+float fBox2(vec2 p, float r) {
+	return fBox2(p, vec2(r));
+}
+
+float fBoxRounded2(vec2 p, vec2 r, float rCorner) {
+	return fBox2(p, r - rCorner) - rCorner;
+}
+
+float fBoxEdge2(vec2 p, vec2 r) {
+	return maxV(abs(p) - r);
+}
+
+float fBoxEdge2(vec2 p, float rx, float ry) {
+	return fBoxEdge2(p, vec2(rx, ry));
+}
+
+float fBoxEdge2(vec2 p, float r) {
+	return fBoxEdge2(p, vec2(r));
+}
+
+float fTorus(vec3 p, float rBig, float rSmall) {
+	// also try replacing fSphere2 by something like fBox2/fBoxEdge2/fBoxRounded2
+	const vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
+	return fSphere2(q, rSmall);
+}
+
+float fTorus(vec3 p, vec2 r) {
+	return fTorus(p, r.x, r.y);
+}
+
+float fTorusBox(vec3 p, float rBig, float rSmall) {
+	const vec2 q = vec2(fBoxEdge2(p.xz, rBig), p.y);
+	return fBox2(q, rSmall);
+}
+
+float fTorusSphereBox(vec3 p, float rBig, float rSmall) {
+	const vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
+	return fBox2(q, rSmall);
 }

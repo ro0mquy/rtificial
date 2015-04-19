@@ -1,5 +1,6 @@
 #include "rtificial.glsl"
-#line 3
+#include "march.glsl"
+#line 4
 
 out vec4 out_color;
 
@@ -23,7 +24,7 @@ void main() {
 
 		if (material == 42.) {
 			float dist = f(hit, true);
-			dist = abs(sin(10. * dist));
+			dist = abs(sin(30. * dist));
 			out_color.rgb = exp(-.1 * t) * dist * kk_color_rt_color;//vec3(.9, 1., .9);
 		}
 	}
@@ -42,6 +43,6 @@ vec2 f(vec3 p, bool last_step) {
 }
 
 float sdf(vec3 p) {
-	float f = torus(p.xzy, kk_torus_dim_rt_vec2);
+	float f = fTorusSphereBox(p.xzy, 1., .5);
 	return f;
 }
