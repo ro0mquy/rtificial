@@ -1,4 +1,5 @@
 //#version 430
+#line 3
 
 ////////////// helper.glsl
 
@@ -101,6 +102,18 @@ float sgn(float x) {
 	return x < 0. ? -1. : 1.;
 }
 
+vec2 unitVector(float phi) {
+	return vec2(cos(phi), sin(phi));
+}
+
+vec3 unitVector(float phi, float theta) {
+	float ct = cos(theta);
+	float sp = sin(phi);
+	float st = sin(theta);
+	float cp = cos(phi);
+	return vec3(st * cp, ct, st * sp);
+}
+
 // m: anything above stays unchanged
 // n: value at x = 0
 // x: x
@@ -108,9 +121,9 @@ float sgn(float x) {
 float iqAlmostIdentity(float m, float n, float x) {
 	if(x > m) return x;
 
-	const float a = 2. * n - m;
-	const float b = 2. * m - 3. * n;
-	const float t = x / m;
+	float a = 2. * n - m;
+	float b = 2. * m - 3. * n;
+	float t = x / m;
 
 	return (a * t + b) * t * t + n;
 }
@@ -119,7 +132,7 @@ float iqAlmostIdentity(float m, float n, float x) {
 // x: x
 // see http://www.iquilezles.org/www/articles/functions/functions.htm
 float iqImpulse(float k, float x) {
-	const float h = k * x;
+	float h = k * x;
 	return h * exp(1. - h);
 }
 
@@ -153,7 +166,7 @@ float iqParabola(float k, float x) {
 // reaches 1 at maximum
 // see http://www.iquilezles.org/www/articles/functions/functions.htm
 float iqPowerCurve(float a, float b, float x) {
-    const float k = pow(a + b, a + b) / (pow(a, a) * pow(b, b));
+    float k = pow(a + b, a + b) / (pow(a, a) * pow(b, b));
     return k * pow(x, a) * pow(1. - x, b);
 }
 
@@ -170,18 +183,18 @@ float rgb2luma(vec3 rgb) {
 }
 
 vec3 rgb2hsv(vec3 c) {
-    const vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-    const vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
-    const vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
 
-    const float d = q.x - min(q.w, q.y);
-    const float e = 1.0e-10;
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
     return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 }
 
 vec3 hsv2rgb(vec3 c) {
-    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-    const vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
@@ -191,7 +204,7 @@ vec3 hsv2rgb(vec3 c) {
 // like normal max()-intersection but with correct distance at corners
 // use only with orthogonal objects
 float opIntersectEuclid(float f1, float f2) {
-	const vec2 q = vec2(f1, f2);
+	vec2 q = vec2(f1, f2);
 	return min(maxV(q), 0.) + length(max(q, 0.));
 }
 
@@ -205,13 +218,20 @@ float fSphere2(vec2 p, float r) {
 
 // capped cylinder, h is half height
 float fCylinder(vec3 p, float r, float h) {
-	const float sp2 = fSphere2(p.xz, r);
-	const float y = abs(p.y) - h;
+	float sp2 = fSphere2(p.xz, r);
+	float y = abs(p.y) - h;
 	return opIntersectEuclid(sp2, y);
 }
 
+// capped cylinder, h is half height
+float fCylinderEdge(vec3 p, float r, float h) {
+	float sp2 = fSphere2(p.xz, r);
+	float y = abs(p.y) - h;
+	return max(sp2, y);
+}
+
 float fBox(vec3 p, vec3 r) {
-	const vec3 q = abs(p) - r;
+	vec3 q = abs(p) - r;
 	return min(maxV(q), 0.) + length(max(q, 0.));
 }
 
@@ -240,7 +260,7 @@ float fBoxEdge(vec3 p, float r) {
 }
 
 float fBox2(vec2 p, vec2 r) {
-	const vec2 q = abs(p) - r;
+	vec2 q = abs(p) - r;
 	return min(maxV(q), 0.) + length(max(q, 0.));
 }
 
@@ -270,7 +290,7 @@ float fBoxEdge2(vec2 p, float r) {
 
 float fTorus(vec3 p, float rBig, float rSmall) {
 	// also try replacing fSphere2 by something like fBox2/fBoxEdge2/fBoxRounded2
-	const vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
+	vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
 	return fSphere2(q, rSmall);
 }
 
@@ -279,11 +299,47 @@ float fTorus(vec3 p, vec2 r) {
 }
 
 float fTorusBox(vec3 p, float rBig, float rSmall) {
-	const vec2 q = vec2(fBoxEdge2(p.xz, rBig), p.y);
+	vec2 q = vec2(fBoxEdge2(p.xz, rBig), p.y);
 	return fBox2(q, rSmall);
 }
 
 float fTorusSphereBox(vec3 p, float rBig, float rSmall) {
-	const vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
+	vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
 	return fBox2(q, rSmall);
+}
+
+float fPlane(vec3 p, vec3 n) {
+	// n must be normalized
+	return dot(p, n);
+}
+
+float fPlaneAngle(vec3 p, float phi, float theta) {
+	return fPlane(p, unitVector(phi, theta));
+}
+
+float fPlane2(vec2 p, vec2 n) {
+	// n must be normalized
+	return dot(p, n);
+}
+
+float fPlaneAngle2(vec2 p, float phi) {
+	return fPlane2(p, unitVector(phi));
+}
+
+float fTriprism2(vec2 p, float r) {
+	return max(fPlaneAngle2(vec2(abs(p.x), p.y), radians(30)), -p.y) - .5 * r;
+}
+
+// capped triprism, h is half height
+float fTriprism(vec3 p, float r, float h) {
+	float tri2 = fSphere2(p.xz, r);
+	float y = abs(p.y) - h;
+	return opIntersectEuclid(tri2, y);
+}
+
+// capped triprism, h is half height
+float fTriprismEdge(vec3 p, float r, float h) {
+	float tri2 = fSphere2(p.xz, r);
+	float y = abs(p.y) - h;
+	return max(tri2, y);
 }
