@@ -249,25 +249,199 @@ void pRotZ(inout vec3 p, float phi) {
 	pRot(p.xy, phi);
 }
 
-float pDomRep(inout float p, float c) {
+float pDomrep(inout float p, float c) {
 	p += .5 * c;
 	float i = floor(p/c);
 	p = mod(p, c) - .5 * c;
 	return i;
 }
 
-vec2 pDomRep(inout vec2 p, vec2 c) {
+vec2 pDomrep(inout vec2 p, vec2 c) {
 	p += .5 * c;
 	vec2 i = floor(p/c);
 	p = mod(p, c) - .5 * c;
 	return i;
 }
 
-vec3 pDomRep(inout vec3 p, vec3 c) {
+vec3 pDomrep(inout vec3 p, vec3 c) {
 	p += .5 * c;
 	vec3 i = floor(p/c);
 	p = mod(p, c) - .5 * c;
 	return i;
+}
+
+float pDomrepMirror(inout float p, float c) {
+	float i = pDomrep(p, c);
+	p *= mod(i, 2.) * 2. - 1.;
+	return i;
+}
+
+vec2 pDomrepMirror(inout vec2 p, vec2 c) {
+	vec2 i = pDomrep(p, c);
+	p *= mod(i, 2.) * 2. - 1.;
+	return i;
+}
+
+vec3 pDomrepMirror(inout vec3 p, vec3 c) {
+	vec3 i = pDomrep(p, c);
+	p *= mod(i, 2.) * 2. - 1.;
+	return i;
+}
+
+vec2 pDomrepGrid(inout vec2 p, vec2 c) {
+	vec2 i = pDomrepMirror(p, c);
+	p -= .5 * c;
+	if (p.x > p.y) {
+		p.xy = p.yx;
+	}
+	return floor(.5 * i);
+}
+
+// domrep only in positive half
+float pDomrepSingle(inout float p, float c) {
+	float halfC = .5 * c;
+	float i = 0.;
+	if (p > halfC) {
+		p += halfC;
+		i = floor(p/c);
+		p = mod(p, c) - halfC;
+	}
+	return i;
+}
+
+// domrep only in positive half
+vec2 pDomrepSingle(inout vec2 p, vec2 c) {
+	vec2 halfC = .5 * c;
+	vec2 i = vec2(0.);
+
+	if (p.x > halfC.x) {
+		p.x += halfC.x;
+		i.x = floor(p.x/c.x);
+		p.x = mod(p.x, c.x) - halfC.x;
+	}
+
+	if (p.y > halfC.y) {
+		p.y += halfC.y;
+		i.y = floor(p.y/c.y);
+		p.y = mod(p.y, c.y) - halfC.y;
+	}
+
+	return i;
+}
+
+// domrep only in positive half
+vec3 pDomrepSingle(inout vec3 p, vec3 c) {
+	vec3 halfC = .5 * c;
+	vec3 i = vec3(0.);
+
+	if (p.x > halfC.x) {
+		p.x += halfC.x;
+		i.x = floor(p.x/c.x);
+		p.x = mod(p.x, c.x) - halfC.x;
+	}
+
+	if (p.y > halfC.y) {
+		p.y += halfC.y;
+		i.y = floor(p.y/c.y);
+		p.y = mod(p.y, c.y) - halfC.y;
+	}
+
+	if (p.z > halfC.z) {
+		p.z += halfC.z;
+		i.z = floor(p.z/c.z);
+		p.z = mod(p.z, c.z) - halfC.z;
+	}
+
+	return i;
+}
+
+// domrep from cell start to (inclusively) end
+float pDomrepInterval(inout float p, float c, float start, float end) {
+	p += .5 * c;
+	float i = floor(p/c);
+	p = mod(p, c) - .5 * c;
+
+	if (i > end) {
+		p += c * (i - end);
+		i = end;
+	} else if (i < start) {
+		p += c * (i - start);
+		i = start;
+	}
+
+	return i;
+}
+
+// domrep from cell start to (inclusively) end
+vec2 pDomrepInterval(inout vec2 p, vec2 c, vec2 start, vec2 end) {
+	p += .5 * c;
+	vec2 i = floor(p/c);
+	p = mod(p, c) - .5 * c;
+
+	if (i.x > end.x) {
+		p.x += c.x * (i.x - end.x);
+		i.x = end.x;
+	} else if (i.x < start.x) {
+		p.x += c.x * (i.x - start.x);
+		i.x = start.x;
+	}
+
+	if (i.y > end.y) {
+		p.y += c.y * (i.y - end.y);
+		i.y = end.y;
+	} else if (i.y < start.y) {
+		p.y += c.y * (i.y - start.y);
+		i.y = start.y;
+	}
+
+	return i;
+}
+
+// domrep from cell start to (inclusively) end
+vec3 pDomrepInterval(inout vec3 p, vec3 c, vec3 start, vec3 end) {
+	p += .5 * c;
+	vec3 i = floor(p/c);
+	p = mod(p, c) - .5 * c;
+
+	if (i.x > end.x) {
+		p.x += c.x * (i.x - end.x);
+		i.x = end.x;
+	} else if (i.x < start.x) {
+		p.x += c.x * (i.x - start.x);
+		i.x = start.x;
+	}
+
+	if (i.y > end.y) {
+		p.y += c.y * (i.y - end.y);
+		i.y = end.y;
+	} else if (i.y < start.y) {
+		p.y += c.y * (i.y - start.y);
+		i.y = start.y;
+	}
+
+	if (i.z > end.z) {
+		p.z += c.z * (i.z - end.z);
+		i.z = end.z;
+	} else if (i.z < start.z) {
+		p.z += c.z * (i.z - start.z);
+		i.z = start.z;
+	}
+
+	return i;
+}
+
+float pDomrepAngleWithAtan(inout vec2 p, float repetitions, float preCalcAtan) {
+	float at = preCalcAtan;
+	float cAngle = Tau / repetitions;
+	float i = pDomrep(at, cAngle);
+
+	float r = length(p);
+	p = r * unitVector(at);
+	return i;
+}
+
+float pDomrepAngle(inout vec2 p, float repetitions) {
+	return pDomrepAngleWithAtan(p, repetitions, atan(p.y, p.x));
 }
 
 float pMirror(inout float p) {
@@ -293,11 +467,9 @@ void pMirrorLoco(inout float p, float c) {
 }
 
 void pMirrorLoco(inout vec2 p, vec2 c) {
-	vec2 d = abs(p) - c;
-	if (d.x < d.y) {
-		p = d;
-	} else {
-		p = d.yx;
+	p = abs(p) - c;
+	if (p.y > p.x) {
+		p.xy = p.yx;
 	}
 }
 
@@ -353,6 +525,30 @@ float fCylinderEdge(vec3 p, float r, float h) {
 	float sp2 = fSphere2(p.xz, r);
 	float y = abs(p.y) - h;
 	return max(sp2, y);
+}
+
+float fCorner(vec3 p) {
+	return min(maxV(p), 0.) + length(max(p, 0.));
+}
+
+float fCornerRounded(vec3 p, float r) {
+	return fCorner(p + r) - r;
+}
+
+float fCornerEdge(vec3 p) {
+	return maxV(p);
+}
+
+float fCorner2(vec2 p) {
+	return min(maxV(p), 0.) + length(max(p, 0.));
+}
+
+float fCornerRounded2(vec2 p, float r) {
+	return fCorner2(p + r) - r;
+}
+
+float fCornerEdge2(vec2 p) {
+	return maxV(p);
 }
 
 float fBox(vec3 p, vec3 r) {
