@@ -498,6 +498,14 @@ void pMirrorLoco(inout vec3 p, vec3 c) {
 	}
 }
 
+float pMirrorAtPlane(inout vec3 p, vec3 planeNormal, float offset) {
+	float dist = dot(p, planeNormal) + offset;
+	if (dist < 0.) {
+		p -= 2. * dist * planeNormal;
+	}
+	return sgn(dist);
+}
+
 // like normal max()-intersection but with correct distance at corners
 // use only with orthogonal objects
 float opIntersectEuclid(float f1, float f2) {
