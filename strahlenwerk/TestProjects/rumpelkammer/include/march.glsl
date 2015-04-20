@@ -343,3 +343,24 @@ float fTriprismEdge(vec3 p, float r, float h) {
 	float y = abs(p.y) - h;
 	return max(tri2, y);
 }
+
+// rotates clockwise when looking in the direction given by the right-hand rule
+// don't use this directly (unless for 2d coordinates)!
+void pRot(inout vec2 p, float phi) {
+	p *= mat2(cos(phi), sin(phi), -sin(phi), cos(phi));
+}
+
+// rotate clockwise around X axis
+void pRotX(inout vec3 p, float phi) {
+	pRot(p.yz, phi);
+}
+
+// rotate clockwise around Y axis
+void pRotY(inout vec3 p, float phi) {
+	pRot(p.zx, phi);
+}
+
+// rotate clockwise around Z axis
+void pRotZ(inout vec3 p, float phi) {
+	pRot(p.xy, phi);
+}
