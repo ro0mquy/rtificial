@@ -30,10 +30,40 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "debug_color_far_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.017936432734131813049,
+        "valueColorG": 0.72991889715194702148,
+        "valueColorB": 0.2120443880558013916
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_color_near_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.13035227358341217041,
+        "valueColorG": 0.00080465845530852675438,
+        "valueColorB": 0.35865390300750732422
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "debug_height_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kk_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.17999999999999999334,
+        "valueColorG": 0.17999999999999999334,
+        "valueColorB": 0.17999999999999999334
       },
       "sequencesArray": []
     },
