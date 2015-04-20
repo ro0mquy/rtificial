@@ -11,6 +11,7 @@ const float Pi = 3.14159265359;
 const float Tau = 6.28318530718;
 const float Euler = 2.71828182846;
 const float GoldenRatio = 1.61803398875;
+const float Inf = 1./0.;
 
 float minV(vec2 v) {
 	return min(v.x, v.y);
@@ -100,6 +101,19 @@ float pdot(vec3 a, vec3 b) {
 
 float sgn(float x) {
 	return x < 0. ? -1. : 1.;
+}
+
+vec2 sgn(vec2 x) {
+	return vec2(
+			x.x < 0. ? -1. : 1.,
+			x.y < 0. ? -1. : 1.);
+}
+
+vec3 sgn(vec3 x) {
+	return vec3(
+			x.x < 0. ? -1. : 1.,
+			x.y < 0. ? -1. : 1.,
+			x.z < 0. ? -1. : 1.);
 }
 
 vec2 unitVector(float phi) {
@@ -200,6 +214,117 @@ vec3 hsv2rgb(vec3 c) {
 
 
 //////// raymarchingkram.glsl
+
+
+void pTrans(inout float p, float d) {
+	p -= d;
+}
+
+void pTrans(inout vec2 p, vec2 d) {
+	p -= d;
+}
+
+void pTrans(inout vec3 p, vec3 d) {
+	p -= d;
+}
+
+// rotates clockwise when looking in the direction given by the right-hand rule
+// don't use this directly (unless for 2d coordinates)!
+void pRot(inout vec2 p, float phi) {
+	p *= mat2(cos(phi), sin(phi), -sin(phi), cos(phi));
+}
+
+// rotate clockwise around X axis
+void pRotX(inout vec3 p, float phi) {
+	pRot(p.yz, phi);
+}
+
+// rotate clockwise around Y axis
+void pRotY(inout vec3 p, float phi) {
+	pRot(p.zx, phi);
+}
+
+// rotate clockwise around Z axis
+void pRotZ(inout vec3 p, float phi) {
+	pRot(p.xy, phi);
+}
+
+float pDomRep(inout float p, float c) {
+	p += .5 * c;
+	float i = floor(p/c);
+	p = mod(p, c) - .5 * c;
+	return i;
+}
+
+vec2 pDomRep(inout vec2 p, vec2 c) {
+	p += .5 * c;
+	vec2 i = floor(p/c);
+	p = mod(p, c) - .5 * c;
+	return i;
+}
+
+vec3 pDomRep(inout vec3 p, vec3 c) {
+	p += .5 * c;
+	vec3 i = floor(p/c);
+	p = mod(p, c) - .5 * c;
+	return i;
+}
+
+float pMirror(inout float p) {
+	float s = sgn(p);
+	p = abs(p);
+	return s;
+}
+
+vec2 pMirror(inout vec2 p) {
+	vec2 s = sgn(p);
+	p = abs(p);
+	return s;
+}
+
+vec3 pMirror(inout vec3 p) {
+	vec3 s = sgn(p);
+	p = abs(p);
+	return s;
+}
+
+void pMirrorLoco(inout float p, float c) {
+	p = abs(p) - c;
+}
+
+void pMirrorLoco(inout vec2 p, vec2 c) {
+	vec2 d = abs(p) - c;
+	if (d.x < d.y) {
+		p = d;
+	} else {
+		p = d.yx;
+	}
+}
+
+void pMirrorLoco(inout vec3 p, vec3 c) {
+	vec3 d = abs(p) - c;
+	if (d.x < d.y) {
+		if (d.y < d.z) {
+			p = d;
+		} else {
+			if (d.x < d.z) {
+				p = d.xzy;
+			} else {
+				p = d.zxy;
+			}
+		}
+	} else {
+		if (d.z < d.y) {
+			p = d.zyx;
+		} else {
+			if (d.z < d.x) {
+				p = d.yzx;
+			} else {
+				p = d.yxz;
+			}
+		}
+	}
+}
 
 // like normal max()-intersection but with correct distance at corners
 // use only with orthogonal objects
@@ -342,84 +467,4 @@ float fTriprismEdge(vec3 p, float r, float h) {
 	float tri2 = fTriprism2(p.xz, r);
 	float y = abs(p.y) - h;
 	return max(tri2, y);
-}
-
-// rotates clockwise when looking in the direction given by the right-hand rule
-// don't use this directly (unless for 2d coordinates)!
-void pRot(inout vec2 p, float phi) {
-	p *= mat2(cos(phi), sin(phi), -sin(phi), cos(phi));
-}
-
-// rotate clockwise around X axis
-void pRotX(inout vec3 p, float phi) {
-	pRot(p.yz, phi);
-}
-
-// rotate clockwise around Y axis
-void pRotY(inout vec3 p, float phi) {
-	pRot(p.zx, phi);
-}
-
-// rotate clockwise around Z axis
-void pRotZ(inout vec3 p, float phi) {
-	pRot(p.xy, phi);
-}
-
-float pDomRep(inout float p, float c) {
-	p += .5 * c;
-	float i = floor(p/c);
-	p = mod(p, c) - .5 * c;
-	return i;
-}
-
-vec2 pDomRep(inout vec2 p, vec2 c) {
-	p += .5 * c;
-	vec2 i = floor(p/c);
-	p = mod(p, c) - .5 * c;
-	return i;
-}
-
-vec3 pDomRep(inout vec3 p, vec3 c) {
-	p += .5 * c;
-	vec3 i = floor(p/c);
-	p = mod(p, c) - .5 * c;
-	return i;
-}
-
-void pMirror(inout float p, float c) {
-	p = abs(p) - c;
-}
-
-void pMirror(inout vec2 p, vec2 c) {
-	vec2 d = abs(p) - c;
-	if (d.x < d.y) {
-		p = d;
-	} else {
-		p = d.yx;
-	}
-}
-
-void pMirror(inout vec3 p, vec3 c) {
-	vec3 d = abs(p) - c;
-	if (d.x < d.y) {
-		if (d.y < d.z) {
-			p = d;
-		} else {
-			if (d.x < d.z) {
-				p = d.xzy;
-			} else {
-				p = d.zxy;
-			}
-		}
-	} else {
-		if (d.z < d.y) {
-			p = d.zyx;
-		} else {
-			if (d.z < d.x) {
-				p = d.yzx;
-			} else {
-				p = d.yxz;
-			}
-		}
-	}
 }
