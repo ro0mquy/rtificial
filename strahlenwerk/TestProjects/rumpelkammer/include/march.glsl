@@ -364,3 +364,24 @@ void pRotY(inout vec3 p, float phi) {
 void pRotZ(inout vec3 p, float phi) {
 	pRot(p.xy, phi);
 }
+
+float pDomRep(inout float p, float c) {
+	p += .5 * c;
+	float i = floor(p/c);
+	p = mod(p, c) - .5 * c;
+	return i;
+}
+
+vec2 pDomRep(inout vec2 p, vec2 c) {
+	p += .5 * c;
+	vec2 i = floor(p/c);
+	p = mod(p, c) - .5 * c;
+	return i;
+}
+
+vec3 pDomRep(inout vec3 p, vec3 c) {
+	p += .5 * c;
+	vec3 i = floor(p/c);
+	p = mod(p, c) - .5 * c;
+	return i;
+}
