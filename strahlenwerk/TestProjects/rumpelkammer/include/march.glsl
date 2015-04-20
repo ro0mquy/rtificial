@@ -385,3 +385,41 @@ vec3 pDomRep(inout vec3 p, vec3 c) {
 	p = mod(p, c) - .5 * c;
 	return i;
 }
+
+void pMirror(inout float p, float c) {
+	p = abs(p) - c;
+}
+
+void pMirror(inout vec2 p, vec2 c) {
+	vec2 d = abs(p) - c;
+	if (d.x < d.y) {
+		p = d;
+	} else {
+		p = d.yx;
+	}
+}
+
+void pMirror(inout vec3 p, vec3 c) {
+	vec3 d = abs(p) - c;
+	if (d.x < d.y) {
+		if (d.y < d.z) {
+			p = d;
+		} else {
+			if (d.x < d.z) {
+				p = d.xzy;
+			} else {
+				p = d.zxy;
+			}
+		}
+	} else {
+		if (d.z < d.y) {
+			p = d.zyx;
+		} else {
+			if (d.z < d.x) {
+				p = d.yzx;
+			} else {
+				p = d.yxz;
+			}
+		}
+	}
+}
