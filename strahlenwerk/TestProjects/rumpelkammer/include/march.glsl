@@ -462,40 +462,54 @@ vec3 pMirror(inout vec3 p) {
 	return s;
 }
 
-void pMirrorLoco(inout float p, float c) {
-	p = abs(p) - c;
+float pMirrorTrans(inout float p, float c) {
+	float s = pMirror(p);
+	pTrans(p, c);
+	return s;
 }
 
-void pMirrorLoco(inout vec2 p, vec2 c) {
-	p = abs(p) - c;
+vec2 pMirrorTrans(inout vec2 p, vec2 c) {
+	vec2 s = pMirror(p);
+	pTrans(p, c);
+	return s;
+}
+
+vec3 pMirrorTrans(inout vec3 p, vec3 c) {
+	vec3 s = pMirror(p);
+	pTrans(p, c);
+	return s;
+}
+
+vec2 pMirrorLoco(inout vec2 p, vec2 c) {
+	vec2 s = pMirrorTrans(p, c);
 	if (p.y > p.x) {
 		p.xy = p.yx;
 	}
+	return s;
 }
 
-void pMirrorLoco(inout vec3 p, vec3 c) {
-	vec3 d = abs(p) - c;
-	if (d.x < d.y) {
-		if (d.y < d.z) {
-			p = d;
-		} else {
-			if (d.x < d.z) {
-				p = d.xzy;
+vec3 pMirrorLoco(inout vec3 p, vec3 c) {
+	vec3 s = pMirrorTrans(p, c);
+	if (p.x < p.y) {
+		if (p.y > p.z) {
+			if (p.x < p.z) {
+				p = p.xzy;
 			} else {
-				p = d.zxy;
+				p = p.zxy;
 			}
 		}
 	} else {
-		if (d.z < d.y) {
-			p = d.zyx;
+		if (p.z < p.y) {
+			p = p.zyx;
 		} else {
-			if (d.z < d.x) {
-				p = d.yzx;
+			if (p.z < p.x) {
+				p = p.yzx;
 			} else {
-				p = d.yxz;
+				p = p.yxz;
 			}
 		}
 	}
+	return s;
 }
 
 float pMirrorAtPlane(inout vec3 p, vec3 planeNormal, float offset) {
