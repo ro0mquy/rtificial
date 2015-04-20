@@ -332,14 +332,14 @@ float fTriprism2(vec2 p, float r) {
 
 // capped triprism, h is half height
 float fTriprism(vec3 p, float r, float h) {
-	float tri2 = fSphere2(p.xz, r);
+	float tri2 = fTriprism2(p.xz, r);
 	float y = abs(p.y) - h;
 	return opIntersectEuclid(tri2, y);
 }
 
 // capped triprism, h is half height
 float fTriprismEdge(vec3 p, float r, float h) {
-	float tri2 = fSphere2(p.xz, r);
+	float tri2 = fTriprism2(p.xz, r);
 	float y = abs(p.y) - h;
 	return max(tri2, y);
 }
