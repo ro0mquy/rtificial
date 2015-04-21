@@ -5,13 +5,11 @@
 
 //uniform float time;
 
-#line 8
-
 const float Pi = 3.14159265359;
 const float Tau = 6.28318530718;
 const float Euler = 2.71828182846;
 const float GoldenRatio = 1.61803398875;
-const float Inf = 1./0.;
+const float Inf = 999; // in erster Näherung oder so...
 
 float minV(vec2 v) {
 	return min(v.x, v.y);
@@ -215,6 +213,7 @@ vec3 hsv2rgb(vec3 c) {
 
 //////// raymarchingkram.glsl
 
+/// sdfkram.glsl
 
 void pTrans(inout float p, float d) {
 	p -= d;
@@ -685,4 +684,61 @@ float fTriprismEdge(vec3 p, float r, float h) {
 	float tri2 = fTriprism2(p.xz, r);
 	float y = abs(p.y) - h;
 	return max(tri2, y);
+}
+
+
+
+/// marchingloopkram.glsl
+
+uniform vec3 debug_plane_normal;
+uniform float debug_plane_height;
+
+bool scene_visible = true;
+bool debug_plane_visible = false;
+
+float fScene(vec3 p);
+
+float fDebugPlane(vec3 p) {
+	return abs(fPlane(p, normalize(debug_plane_normal)) - debug_plane_height);
+}
+
+// TODO: delete lines with vec2/material
+//float fMain(vec3 p, bool render_scene, bool render_debug_plane) {
+vec2 fMain(vec3 p) {
+	float d_main = Inf;
+	vec2 m_main = vec2(d_main, 0.);
+
+	if (debug_plane_visible) {
+		float d_debug_plane = fDebugPlane(p);
+		d_main = min(d_main, d_debug_plane);
+		m_main = min_material(m_main, vec2(d_debug_plane, 42.));
+	}
+
+	if (scene_visible) {
+		float d_scene = fScene(p);
+		d_main = min(d_main, d_scene);
+		m_main = min_material(m_main, vec2(d_scene, 0.));
+	}
+
+	return m_main;
+	//return d_main;
+}
+
+vec3 sdfGradient(vec3 p, float e) {
+	// writing the gradient this way, causes the compiler not to inline f six times
+	// thanks to mercury, stupid compilers
+	vec3 s[6] = vec3[6](vec3(e,0,0), vec3(0,e,0), vec3(0,0,e), vec3(-e,0,0), vec3(0,-e,0), vec3(0,0,-e));
+	float d[6] = float[6](0,0,0,0,0,0);
+	for(int i = 0; i < 6; i++) {
+		d[i] = fMain(p+s[i]);
+	}
+	return vec3(d[0]-d[3], d[1]-d[4], d[2]-d[5]);
+}
+
+vec3 sdfNormal(vec3 p, float epsilon) {
+	return normalize(sdfGradient(p, epsilon));
+}
+
+vec3 sdfNormal(vec3 p) {
+	return sdfNormal(p, .001);
 }

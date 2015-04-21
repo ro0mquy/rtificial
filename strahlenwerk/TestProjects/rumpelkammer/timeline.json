@@ -33,9 +33,19 @@
       "uniformName": "debug_color_far_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.017936432734131813049,
-        "valueColorG": 0.72991889715194702148,
-        "valueColorB": 0.2120443880558013916
+        "valueColorR": 0.12549020349979400635,
+        "valueColorG": 0.52941179275512695312,
+        "valueColorB": 0.36078432202339172363
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_color_inner_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.020951131358742713928,
+        "valueColorG": 0.19046287238597869873,
+        "valueColorB": 0.60548430681228637695
       },
       "sequencesArray": []
     },
@@ -43,9 +53,9 @@
       "uniformName": "debug_color_near_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.13035227358341217041,
-        "valueColorG": 0.00080465845530852675438,
-        "valueColorB": 0.35865390300750732422
+        "valueColorR": 0.29803922772407531738,
+        "valueColorG": 0.1882352977991104126,
+        "valueColorB": 0.43921568989753723145
       },
       "sequencesArray": []
     },
@@ -54,6 +64,24 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_plane_height",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_plane_normal",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 1,
+        "valueVec3Z": 0
       },
       "sequencesArray": []
     },

@@ -6,27 +6,31 @@ out vec4 out_color;
 
 float sdf(vec3);
 
-vec3 sampleDebugTexture(vec3 p, vec3 o, float t) {
-	float dist = f(p, true);
+vec3 sampleDebugTexture(vec3 p, vec3 camera_pos, float camera_dist) {
+	float sdf_dist = f(p, true);
 
-	float small_lines = abs(sin(Tau * 10. * dist));
-	small_lines = 1. - (1. - smoothstep(5., 10., t)) * (1. - small_lines);
+	float small_lines = abs(sin(Pi * 10. * sdf_dist));
+	small_lines = 1. - (1. - smoothstep(8., 15., camera_dist)) * (1. - small_lines);
 
-	float medium_lines = abs(sin(Tau * 1. * dist));
-	medium_lines = 1. - (.8 + .2 * smoothstep(4., 7., t)) * (1. - smoothstep(40., 60., t)) * (1. - medium_lines);
+	float medium_lines = abs(sin(Pi * 1. * sdf_dist));
+	medium_lines = 1. - (.8 + .2 * smoothstep(6., 10., camera_dist)) * (1. - smoothstep(60., 80., camera_dist)) * (1. - medium_lines);
 
-	float big_lines = abs(sin(Tau * 1./10. * dist));
-	big_lines = 1. - (.8 + .2 * smoothstep(20., 30., t)) * (1. - smoothstep(80., 150., t)) * (1. - big_lines);
+	float big_lines = abs(sin(Pi * 1./10. * sdf_dist));
+	big_lines = 1. - (.8 + .2 * smoothstep(30., 50., camera_dist)) * (1. - smoothstep(80., 150., camera_dist)) * (1. - big_lines);
 
-	float height = o.y - debug_height_rt_float;
+	float height = abs(fPlane(camera_pos, normalize(debug_plane_normal)) - debug_plane_height);
 
 	vec3 lines_color = vec3(0.);
 	vec3 near_color = debug_color_near_rt_color; // vec3(0.47044, 0.07593, 0.00259) // vec3(0.13035, 0.00080, 0.35865)
 	vec3 far_color = debug_color_far_rt_color; // vec3(0.30663, 0.72992, 0.01794) // vec3(0.01794, 0.72992, 0.21204)
+	vec3 inner_color = debug_color_inner_rt_color;
 
-	vec3 base_color = mix(near_color, far_color, smoothstep(.1 * height, height, dist));
+	vec3 base_color = mix(near_color, far_color, smoothstep(.1 * height, height, sdf_dist));
+	if (sdf_dist < 0.) {
+		base_color = inner_color;
+	}
 	base_color = rgb2hsv(base_color);
-	base_color.y *= 1. - smoothstep(height, 10. * height, dist); // desaturate
+	base_color.y *= 1. - smoothstep(height, 10. * height, abs(sdf_dist)); // desaturate
 	base_color = hsv2rgb(base_color);
 
 	base_color = mix(lines_color, base_color, small_lines);
@@ -36,7 +40,7 @@ vec3 sampleDebugTexture(vec3 p, vec3 o, float t) {
 	return base_color;
 }
 
-vec3 sampleDebugTextureFiltered(vec3 p, vec3 pX, vec3 pY, vec3 o, float t) {
+vec3 sampleDebugTextureFiltered(vec3 p, vec3 pX, vec3 pY, vec3 camera_pos, float camera_dist) {
 	//float detail = 100.;
 	//int MaxSamples = 10;
 	//int sx = 1 + clamp( int( detail*length(pX) ), 0, MaxSamples-1 );
@@ -49,7 +53,7 @@ vec3 sampleDebugTextureFiltered(vec3 p, vec3 pX, vec3 pY, vec3 o, float t) {
 	for(int j = 0; j < sy; j++ ) {
 		for(int i = 0; i < sx; i++ ) {
 			vec2 st = (vec2(i, j) + .5)/vec2(sx, sy) - .5;
-			no += sampleDebugTexture(p + st.x * pX + st.y * pY, o, t);
+			no += sampleDebugTexture(p + st.x * pX + st.y * pY, camera_pos, camera_dist);
 		}
 	}
 	return no / float(sx*sy);
@@ -82,18 +86,12 @@ void main() {
 }
 
 vec2 f(vec3 p, bool last_step) {
-	vec2 m_f = vec2(sdf(p), 0.);
-
-	if (!last_step) {
-		float f_debug = p.y - debug_height_rt_float;
-		vec2 m_debug = vec2(f_debug, 42.);
-		m_f = min_material(m_f, m_debug);
-	}
-
-	return m_f;
+	scene_visible = true;
+	debug_plane_visible = !last_step;
+	return fMain(p);
 }
 
-float sdf(vec3 p) {
+float fScene(vec3 p) {
 	pMirrorAtPlane(p, normalize(-vec3(1., 2., 3.)), 5.);
 	float f = fBoxRounded(p, vec3(2.), 1.);
 	f = min(f, fBox(p - vec3(1., 1., 0.), 1.));
