@@ -1,6 +1,6 @@
 #include "rtificial.glsl"
 #include "march.glsl"
-#line 4
+#line 4 "szenchen"
 
 out vec4 out_color;
 
@@ -86,8 +86,26 @@ void main() {
 }
 
 vec2 f(vec3 p, bool last_step) {
-	scene_visible = true;
-	debug_plane_visible = !last_step;
+	int mode = int(debug_mode);
+	switch (mode) {
+		case 0: // normal
+			scene_visible = true;
+			debug_plane_visible = false;
+			break;
+		case 1: // debug plane
+			scene_visible = true;
+			debug_plane_visible = !last_step;
+			break;
+		case 2: // debug plane without scene geometry
+			scene_visible = last_step;
+			debug_plane_visible = !last_step;
+			break;
+		default:
+			scene_visible = true;
+			debug_plane_visible = false;
+			break;
+	}
+
 	return fMain(p);
 }
 

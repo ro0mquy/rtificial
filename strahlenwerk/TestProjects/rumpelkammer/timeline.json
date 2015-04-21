@@ -60,10 +60,10 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "debug_height_rt_float",
+      "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 2
       },
       "sequencesArray": []
     },
@@ -82,16 +82,6 @@
         "valueVec3X": 0,
         "valueVec3Y": 1,
         "valueVec3Z": 0
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "kk_color_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.17999999999999999334,
-        "valueColorG": 0.17999999999999999334,
-        "valueColorB": 0.17999999999999999334
       },
       "sequencesArray": []
     },

@@ -1,5 +1,5 @@
 //#version 430
-#line 3
+#line 3 "march"
 
 ////////////// helper.glsl
 
@@ -690,6 +690,7 @@ float fTriprismEdge(vec3 p, float r, float h) {
 
 /// marchingloopkram.glsl
 
+uniform float debug_mode;
 uniform vec3 debug_plane_normal;
 uniform float debug_plane_height;
 
