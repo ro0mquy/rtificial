@@ -18,7 +18,7 @@ vec3 sampleDebugTexture(vec3 p, vec3 camera_pos, float camera_dist) {
 	float big_lines = abs(sin(Pi * 1./10. * sdf_dist));
 	big_lines = 1. - (.8 + .2 * smoothstep(30., 50., camera_dist)) * (1. - smoothstep(80., 150., camera_dist)) * (1. - big_lines);
 
-	float height = abs(fPlane(camera_pos, normalize(debug_plane_normal)) - debug_plane_height);
+	float height = fDebugPlane(camera_pos);
 
 	vec3 lines_color = vec3(0.);
 	vec3 near_color = debug_color_near_rt_color; // vec3(0.47044, 0.07593, 0.00259) // vec3(0.13035, 0.00080, 0.35865)

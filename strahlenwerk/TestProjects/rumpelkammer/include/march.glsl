@@ -83,11 +83,17 @@ vec3 saturate(vec3 v) {
 	return clamp(v, 0., 1.);
 }
 
-/*
+/* TODO: uncomment this
 float linstep(float edge0, float edge1, float x) {
 	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
 }
 */
+
+float smootherstep(float edge0, float edge1, float x) {
+	// directly from master Ken
+	float t = clamp((x - edge0) / (edge1 - edge0), 0., 1.);
+	return t*t*t*(t*(t*6. - 15.) + 10.);
+}
 
 float pdot(vec2 a, vec2 b) {
 	return max(0., dot(a, b));
@@ -668,6 +674,7 @@ float fPlaneAngle2(vec2 p, float phi) {
 	return fPlane2(p, unitVector(phi));
 }
 
+// r is the radius from the origin to the vertices
 float fTriprism2(vec2 p, float r) {
 	return max(fPlaneAngle2(vec2(abs(p.x), p.y), radians(30)), -p.y) - .5 * r;
 }
@@ -685,6 +692,109 @@ float fTriprismEdge(vec3 p, float r, float h) {
 	float y = abs(p.y) - h;
 	return max(tri2, y);
 }
+
+// r is the radius from the origin to the vertices
+float fPentaprism2(vec2 p, float r) {
+	float phi1 = radians(108. / 2.);
+	float phi2 = radians(-18.);
+	float offset = r * cos(TAU / 5. / 2.);
+
+	vec2 q = vec2(abs(p.x), p.y);
+	float side1 = fPlaneAngle2(q, phi1);
+	float side2 = -p.y;
+	float side3 = fPlaneAngle2(q, phi2);
+
+	float pentagon = max3(side1, side2, side3) - offset;
+
+	return pentagon;
+}
+
+// capped pentaprism, h is half height
+float fPentaprism(vec3 p, float r, float h) {
+	float penta2 = fPentaprism2(p.xz, r);
+	float y = abs(p.y) - h;
+	return opIntersectEuclid(penta2, y);
+}
+
+// capped pentaprism, h is half height
+float fPentaprismEdge(vec3 p, float r, float h) {
+	float penta2 = fPentaprism2(p.xz, r);
+	float y = abs(p.y) - h;
+	return max(penta2, y);
+}
+
+// r is the radius from the origin to the vertices
+float fHexprism2(vec2 p, float r) {
+	float offset = r * cos(TAU / 6. / 2.);
+    vec2 q = abs(p);
+	float side1 = fPlaneAngle2(q, radians(30.));
+	float side2 = q.y;
+	float hexagon = max(side1, side2) - offset;
+    return hexagon;
+}
+
+// capped hexprism, h is half height
+float fHexprism(vec3 p, float r, float h) {
+	float hex2 = fHexprism2(p.xz, r);
+	float y = abs(p.y) - h;
+	return opIntersectEuclid(hex2, y);
+}
+
+// capped hexprism, h is half height
+float fHexprismEdge(vec3 p, float r, float h) {
+	float hex2 = fHexprism2(p.xz, r);
+	float y = abs(p.y) - h;
+	return max(hex2, y);
+}
+
+// awesome supershapes directly at your hands!
+// a and b control the total size
+// m is the number of spikes
+// n1, n2, n3 control the exact shape
+// http://paulbourke.net/geometry/supershape/
+// http://de.wikipedia.org/wiki/Superformel
+// have fun playing around!
+float fSupershape2(vec2 p, float a, float b, float m, float n1, float n2, float n3) {
+	float phi = atan(p.y, p.x);
+	float d = length(p);
+
+	float m4 = m / 4.;
+
+	float c = cos(m4 * phi);
+	float s = sin(m4 * phi);
+
+	float ca = c / a;
+	float sb = s / b;
+
+	float gc = ca < 0. ? -1. : 1.;
+	float gs = sb < 0. ? -1. : 1.;
+
+	float absc = ca * gc;
+	float abss = sb * gs;
+
+	float ab2 = pow(absc, n2);
+	float ab3 = pow(abss, n3);
+
+	//float ab21 = pow(absc, n2 - 1.);
+	//float ab31 = pow(abss, n3 - 1.);
+	float ab21 = ab2 / absc;
+	float ab31 = ab3 / abss;
+
+	float rw = ab2 + ab3;
+	float r = pow(rw, -1./n1);
+
+	float k = -n2 * ab21 * gc / a * s;
+	float l =  n3 * ab31 * gs / b * c;
+
+	//float drpre = m4 / n1 * pow(rw, -1./n1 - 1.);
+	float drpre = m4 / n1 * r / rw;
+	float dr2 = drpre * drpre * (k * k + 2. * k * l + l * l);
+
+	float f = (d - r) / sqrt(1 + dr2);
+	return f;
+}
+
+
 
 
 
