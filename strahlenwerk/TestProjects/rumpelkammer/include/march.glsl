@@ -916,6 +916,18 @@ float fLineConeAngle(vec3 p, float r, float h, float angle) {
 	return fLineCone(p, r, h, unitVector(angle));
 }
 
+// r is the radius from the origin to the vertices
+float fOctahedron(vec3 p, float r) {
+	vec3 q = abs(p);
+	q.y -= r;
+	//q.y -= .707106781 * s; // sqrt(2) / 2 * s
+	//float phi = TAU/4. - acos(-1./3.) * .5;
+	float plane1 = fPlane2(q.xy, vec2(.816496581, .577350269)); // cos(phi), sin(phi)
+	float plane2 = fPlane2(q.zy, vec2(.816496581, .577350269));
+	float f_oktaeder = max(plane1, plane2);
+	return f_oktaeder;
+}
+
 
 
 
