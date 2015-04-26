@@ -30,32 +30,52 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "debug_color_far_rt_color",
+      "uniformName": "debug_color_grad_over_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.12549020349979400635,
-        "valueColorG": 0.52941179275512695312,
-        "valueColorB": 0.36078432202339172363
+        "valueColorR": 0.71546542644500732422,
+        "valueColorG": 0.039947167038917541504,
+        "valueColorB": 0.025371275842189788818
       },
       "sequencesArray": []
     },
     {
-      "uniformName": "debug_color_inner_rt_color",
+      "uniformName": "debug_color_grad_under_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.020951131358742713928,
-        "valueColorG": 0.19046287238597869873,
+        "valueColorR": 0.18014428019523620605,
+        "valueColorG": 0.74453020095825195312,
+        "valueColorB": 0.032875914126634597778
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_color_iso_inner_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.020951131358742710459,
+        "valueColorG": 0.19046287238597872649,
         "valueColorB": 0.60548430681228637695
       },
       "sequencesArray": []
     },
     {
-      "uniformName": "debug_color_near_rt_color",
+      "uniformName": "debug_color_iso_near_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.29803922772407531738,
         "valueColorG": 0.1882352977991104126,
-        "valueColorB": 0.43921568989753723145
+        "valueColorB": 0.43921568989753717593
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_color_iso_far_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.12549020349979400635,
+        "valueColorG": 0.52941179275512695312,
+        "valueColorB": 0.36078432202339166812
       },
       "sequencesArray": []
     },
@@ -63,7 +83,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 2
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },

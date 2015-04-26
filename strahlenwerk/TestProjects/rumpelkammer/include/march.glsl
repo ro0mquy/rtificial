@@ -1,5 +1,9 @@
 #version 430
 #line 3 "march"
+float smin(float a, float b, float k) {
+	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+	return mix(b, a, h) - k * h * (1.0 - h);
+}
 
 ////////////// helper.glsl
 
@@ -899,7 +903,7 @@ float fMain(vec3 p, bool calc_m) {
 	return current_dist;
 }
 
-vec3 sdfGradient(vec3 p, float e) {
+vec3 sdfRawNormal(vec3 p, float e) {
 	// writing the gradient this way, causes the compiler not to inline f six times
 	// thanks to mercury, stupid compilers
 	vec3 s[6] = vec3[6](vec3(e,0,0), vec3(0,e,0), vec3(0,0,e), vec3(-e,0,0), vec3(0,-e,0), vec3(0,0,-e));
@@ -911,11 +915,19 @@ vec3 sdfGradient(vec3 p, float e) {
 }
 
 vec3 sdfNormal(vec3 p, float epsilon) {
-	return normalize(sdfGradient(p, epsilon));
+	return normalize(sdfRawNormal(p, epsilon));
 }
 
 vec3 sdfNormal(vec3 p) {
 	return sdfNormal(p, .001);
+}
+
+vec3 sdfGradient(vec3 p, float epsilon) {
+	return sdfRawNormal(p, epsilon) / (2. * epsilon);
+}
+
+vec3 sdfGradient(vec3 p) {
+	return sdfGradient(p, .001);
 }
 
 // ein fachmenschich kopierter marchingloop
@@ -1008,9 +1020,9 @@ vec3 debugIsolineTexture(float sdf_dist, vec3 camera_pos, float camera_dist) {
 	float height = fDebugPlane(camera_pos);
 
 	vec3 lines_color = vec3(0.);
-	vec3 near_color = debug_color_near_rt_color; // vec3(0.47044, 0.07593, 0.00259) // vec3(0.13035, 0.00080, 0.35865)
-	vec3 far_color = debug_color_far_rt_color; // vec3(0.30663, 0.72992, 0.01794) // vec3(0.01794, 0.72992, 0.21204)
-	vec3 inner_color = debug_color_inner_rt_color;
+	vec3 near_color = debug_color_iso_near_rt_color; // vec3(0.47044, 0.07593, 0.00259) // vec3(0.13035, 0.00080, 0.35865)
+	vec3 far_color = debug_color_iso_far_rt_color; // vec3(0.30663, 0.72992, 0.01794) // vec3(0.01794, 0.72992, 0.21204)
+	vec3 inner_color = debug_color_iso_inner_rt_color;
 
 	vec3 base_color = mix(near_color, far_color, smoothstep(.1 * height, height, sdf_dist));
 	if (sdf_dist < 0.) {
@@ -1063,4 +1075,18 @@ vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
 
 vec3 debugColorIsolines(vec3 p, vec3 camera_pos, float camera_dist) {
 	return debugIsolineTextureFiltered(p, camera_pos, camera_dist);
+}
+
+vec3 debugColorGradient(vec3 p) {
+	vec3 gradient = sdfGradient(p);
+	float len_grad = length(gradient);
+
+	vec3 under_color = debug_color_grad_under_rt_color;
+	vec3 over_color = debug_color_grad_over_rt_color;
+
+	vec3 base_color = vec3(1.);
+	base_color = mix(base_color, under_color, 1. - smoothstep(.9, 1., len_grad));
+	base_color = mix(base_color, over_color, smoothstep(1., 1.1, len_grad));
+
+	return base_color;
 }
