@@ -729,6 +729,18 @@ float fTorusSphereBox(vec3 p, float rBig, float rSmall) {
 	return fBox2(q, rSmall);
 }
 
+float fTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
+	float r = length(p.xz);
+	float angle = atan(p.z, p.x);
+
+	angle -= clamp(angle, -halfAngle, halfAngle);
+
+	p.xz = r * unitVector(angle);
+	p.x -= rBig;
+
+	return fSphere(p, rSmall);
+}
+
 float fPlane(vec3 p, vec3 n) {
 	// n must be normalized
 	return dot(p, n);
