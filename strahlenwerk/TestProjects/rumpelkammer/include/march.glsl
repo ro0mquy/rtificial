@@ -867,6 +867,29 @@ float fSupershape2(vec2 p, float a, float b, float m, float n1, float n2, float 
 	return f;
 }
 
+// n is plane normal and must be normalized
+float fCone(vec3 p, vec2 n) {
+	vec2 q = vec2(length(p.xz), p.y);
+	return fPlane2(q, n);
+}
+
+float fConeAngle(vec3 p, float angle) {
+	vec2 q = vec2(length(p.xz), p.y);
+	return fPlaneAngle2(q, angle);
+}
+
+// line from origin to v, inflated by r
+float fLine(vec3 p, vec3 v, float r) {
+    float h = saturate(dot(p, v)/ dot(v, v));
+    return length(p - v*h) - r;
+}
+
+// line along x-axis, form -rX to rX
+float fLineX(vec3 p, float rX, float r) {
+    p.x -= clamp(p.x, -rX, rX);
+    return length(p) - r;
+}
+
 
 
 
