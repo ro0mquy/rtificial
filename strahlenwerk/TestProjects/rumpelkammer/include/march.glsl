@@ -879,15 +879,29 @@ float fConeAngle(vec3 p, float angle) {
 }
 
 // line from origin to v, inflated by r
-float fLine(vec3 p, vec3 v, float r) {
-    float h = saturate(dot(p, v)/ dot(v, v));
-    return length(p - v*h) - r;
+float fLine(vec3 p, float r, vec3 v) {
+	float h = saturate(dot(p, v)/ dot(v, v));
+	return fSphere(p - v*h, r);
 }
 
-// line along x-axis, form -rX to rX
-float fLineX(vec3 p, float rX, float r) {
-    p.x -= clamp(p.x, -rX, rX);
-    return length(p) - r;
+// line along x-axis, form -h to h
+float fLineX(vec3 p, float r, float h) {
+	p.x -= clamp(p.x, -h, h);
+	return fSphere(p, r);
+}
+
+// line along x-axis with cones as caps, n is cone normal
+float fLineCone(vec3 p, float r, float h, vec2 n) {
+	float a = r * n.x / n.y; // r / tan(phi)
+	p.x = abs(p.x);
+	p.x -= min(h, p.x);
+	p.x -= a;
+	return fCone(p.yxz, n);
+}
+
+// line along x-axis with cones as caps, angle is cone angle
+float fLineConeAngle(vec3 p, float r, float h, float angle) {
+	return fLineCone(p, r, h, unitVector(angle));
 }
 
 
