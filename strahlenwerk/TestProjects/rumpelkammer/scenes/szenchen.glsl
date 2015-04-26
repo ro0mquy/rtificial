@@ -1,13 +1,10 @@
-#include "rtificial.glsl"
 #include "march.glsl"
-#line 4 "szenchen"
+#line 3 "szenchen"
 
 out vec4 out_color;
 
-float sdf(vec3);
-
 vec3 sampleDebugTexture(vec3 p, vec3 camera_pos, float camera_dist) {
-	float sdf_dist = f(p, true);
+	float sdf_dist = fMain(p, true);
 
 	float small_lines = abs(sin(Pi * 10. * sdf_dist));
 	small_lines = 1. - (1. - smoothstep(8., 15., camera_dist)) * (1. - small_lines);
@@ -61,21 +58,24 @@ vec3 sampleDebugTextureFiltered(vec3 p, vec3 pX, vec3 pY, vec3 camera_pos, float
 
 void main() {
 	vec3 o = camera_position;
-	float screenDist;
-	vec3 d = get_direction(screenDist);
-	float t = march(o, d, 200., screenDist);
+	vec3 d;
+	float screen_dist = camGetDirection(d);
+	switchDebugParameters(false);
+	float t = sdfMarch(o, d, 200., screen_dist);
 
 	if (isinf(t)) {
 		out_color.rgb = vec3(0.);
 	} else {
 		vec3 hit = o + t * d;
-		vec3 normal = calc_normal(hit, false);
-		float material = f(hit, false)[1];
+		float dist = fMain(hit, true);
+		Material material = current_material;
+		vec3 normal = sdfNormal(hit);
 
 		out_color.rgb = vec3(max(dot(normal, normalize(vec3(1., .5, 0.))), 0.) + .1);
 		out_color.rgb = .5 * normal + .5;
 
-		if (material == 42.) {
+		if (material.id == debug_plane_material_id) {
+			switchDebugParameters(true);
 			vec3 p = hit;
 			vec3 pX = dFdx(p);
 			vec3 pY = dFdy(p);
@@ -85,34 +85,11 @@ void main() {
 	}
 }
 
-vec2 f(vec3 p, bool last_step) {
-	int mode = int(debug_mode);
-	switch (mode) {
-		case 0: // normal
-			scene_visible = true;
-			debug_plane_visible = false;
-			break;
-		case 1: // debug plane
-			scene_visible = true;
-			debug_plane_visible = !last_step;
-			break;
-		case 2: // debug plane without scene geometry
-			scene_visible = last_step;
-			debug_plane_visible = !last_step;
-			break;
-		default:
-			scene_visible = true;
-			debug_plane_visible = false;
-			break;
-	}
-
-	return fMain(p);
-}
-
 float fScene(vec3 p) {
 	pMirrorAtPlane(p, normalize(-vec3(1., 2., 3.)), 5.);
 	float f = fBoxRounded(p, vec3(2.), 1.);
 	f = min(f, fBox(p - vec3(1., 1., 0.), 1.));
 	f = min(f, fBox(p - vec3(1., 1., 1.), 1.5));
+	mUnion(f, Material(0., p));
 	return f;
 }

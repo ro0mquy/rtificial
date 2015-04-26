@@ -1,15 +1,16 @@
-//#version 430
+#version 430
 #line 3 "march"
 
 ////////////// helper.glsl
 
-//uniform float time;
+uniform float time;
 
 const float Pi = 3.14159265359;
 const float Tau = 6.28318530718;
 const float Euler = 2.71828182846;
-const float GoldenRatio = 1.61803398875;
-const float Inf = 999; // in erster Näherung oder so...
+const float Golden_Ratio = 1.61803398875;
+const float Inf = 1e3; // in erster Näherung oder so...
+const float Real_Inf = 1./0.; // this could fuck up things
 
 float minV(vec2 v) {
 	return min(v.x, v.y);
@@ -217,7 +218,67 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 
+//////// camera.glsl
+
+
+layout(location = 0) uniform vec2 res;
+
+uniform vec3 camera_position;
+uniform vec4 camera_rotation; // quat
+uniform float camera_focal_length;
+
+// http://molecularmusings.wordpress.com/2013/05/24/a-faster-quaternion-vector-multiplication/
+vec3 pQuatRotate(vec3 v, vec4 q) {
+	vec3 t = 2 * cross(q.xyz, v);
+	return v + q.w * t + cross(q.xyz, t);
+	// *hex hex*
+}
+
+float camGetDirection(out vec3 dir) {
+	dir.xy = (gl_FragCoord.xy - .5 * res) / res.x;
+	dir.z = -camera_focal_length / .03;
+	float screen_dist = length(vec2(dir.xz));
+	dir = normalize(dir);
+	dir = pQuatRotate(dir, camera_rotation);
+	return screen_dist;
+}
+
+
 //////// raymarchingkram.glsl
+
+/// materialkram.glsl
+
+struct Material {
+	float id;
+	vec3 coord;
+};
+
+bool calculate_material = false;
+float current_dist = Inf;
+Material current_material = Material(0., vec3(0.));
+
+void mUnion(float f, Material m) {
+	if (calculate_material) {
+		if (f < current_dist) {
+			current_dist = f;
+			current_material = m;
+		}
+	} else {
+		current_dist = min(current_dist, f);
+	}
+}
+
+void mIntersect(float f, Material m) {
+	if (calculate_material) {
+		if (f > current_dist) {
+			current_dist = f;
+			current_material = m;
+		}
+	} else {
+		current_dist = max(current_dist, f);
+	}
+}
+
 
 /// sdfkram.glsl
 
@@ -229,8 +290,16 @@ void pTrans(inout vec2 p, vec2 d) {
 	p -= d;
 }
 
+void pTrans(inout vec2 p, float x, float y) {
+	pTrans(p, vec2(x, y));
+}
+
 void pTrans(inout vec3 p, vec3 d) {
 	p -= d;
+}
+
+void pTrans(inout vec3 p, float x, float y, float z) {
+	pTrans(p, vec3(x, y, z));
 }
 
 // rotates clockwise when looking in the direction given by the right-hand rule
@@ -697,7 +766,7 @@ float fTriprismEdge(vec3 p, float r, float h) {
 float fPentaprism2(vec2 p, float r) {
 	float phi1 = radians(108. / 2.);
 	float phi2 = radians(-18.);
-	float offset = r * cos(TAU / 5. / 2.);
+	float offset = r * cos(Tau / 5. / 2.);
 
 	vec2 q = vec2(abs(p.x), p.y);
 	float side1 = fPlaneAngle2(q, phi1);
@@ -725,7 +794,7 @@ float fPentaprismEdge(vec3 p, float r, float h) {
 
 // r is the radius from the origin to the vertices
 float fHexprism2(vec2 p, float r) {
-	float offset = r * cos(TAU / 6. / 2.);
+	float offset = r * cos(Tau / 6. / 2.);
     vec2 q = abs(p);
 	float side1 = fPlaneAngle2(q, radians(30.));
 	float side2 = q.y;
@@ -804,6 +873,8 @@ uniform float debug_mode;
 uniform vec3 debug_plane_normal;
 uniform float debug_plane_height;
 
+const float debug_plane_material_id = 42.;
+
 bool scene_visible = true;
 bool debug_plane_visible = false;
 
@@ -813,26 +884,19 @@ float fDebugPlane(vec3 p) {
 	return abs(fPlane(p, normalize(debug_plane_normal)) - debug_plane_height);
 }
 
-// TODO: delete lines with vec2/material
-//float fMain(vec3 p, bool render_scene, bool render_debug_plane) {
-vec2 fMain(vec3 p) {
-	float d_main = Inf;
-	vec2 m_main = vec2(d_main, 0.);
+float fMain(vec3 p, bool calc_m) {
+	current_dist = Inf;
+	calculate_material = calc_m;
 
 	if (debug_plane_visible) {
-		float d_debug_plane = fDebugPlane(p);
-		d_main = min(d_main, d_debug_plane);
-		m_main = min_material(m_main, vec2(d_debug_plane, 42.));
+		mUnion(fDebugPlane(p), Material(debug_plane_material_id, p));
 	}
 
 	if (scene_visible) {
-		float d_scene = fScene(p);
-		d_main = min(d_main, d_scene);
-		m_main = min_material(m_main, vec2(d_scene, 0.));
+		fScene(p);
 	}
 
-	return m_main;
-	//return d_main;
+	return current_dist;
 }
 
 vec3 sdfGradient(vec3 p, float e) {
@@ -841,7 +905,7 @@ vec3 sdfGradient(vec3 p, float e) {
 	vec3 s[6] = vec3[6](vec3(e,0,0), vec3(0,e,0), vec3(0,0,e), vec3(-e,0,0), vec3(0,-e,0), vec3(0,0,-e));
 	float d[6] = float[6](0,0,0,0,0,0);
 	for(int i = 0; i < 6; i++) {
-		d[i] = fMain(p+s[i]);
+		d[i] = fMain(p+s[i], false);
 	}
 	return vec3(d[0]-d[3], d[1]-d[4], d[2]-d[5]);
 }
@@ -852,4 +916,77 @@ vec3 sdfNormal(vec3 p, float epsilon) {
 
 vec3 sdfNormal(vec3 p) {
 	return sdfNormal(p, .001);
+}
+
+// ein fachmenschich kopierter marchingloop
+float sdfMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, float pixelRadius, int max_iterations, float omega, bool forceHit) {
+	// o, d : ray origin, direction (normalized)
+	// t_min, t_max: minimum, maximum t values
+	// pixelRadius: radius of a pixel at t = 1
+	// forceHit: boolean enforcing to use the
+	//           candidate_t value as result
+	float t = t_min;
+	float candidate_error = Real_Inf;
+	float candidate_t = t_min;
+	float previousRadius = 0;
+	float stepLength = 0;
+	float functionSign = sgn(fMain(o, false));
+
+	for (int i = 0; i < max_iterations; ++i) {
+		float signedRadius = functionSign * fMain(d*t + o, false);
+		float radius = abs(signedRadius);
+
+		bool sorFail = omega > 1 && (radius + previousRadius) < stepLength;
+		if (sorFail) {
+			stepLength -= omega * stepLength;
+			omega = 1;
+		} else {
+			stepLength = signedRadius * omega;
+		}
+
+		previousRadius = radius;
+		float error = radius / t;
+		if (!sorFail && error < candidate_error) {
+			candidate_t = t;
+			candidate_error = error;
+		}
+
+		if (!sorFail && error < pixelRadius || t > t_max) {
+			break;
+		}
+
+		t += stepLength;
+	}
+
+	if ((t > t_max || candidate_error > pixelRadius) && !forceHit) {
+		return Real_Inf;
+	}
+
+	return candidate_t;
+}
+
+float sdfMarch(vec3 o, vec3 d, float t_max, float screenDistX) {
+	return sdfMarchAdvanced(o, d, .001, t_max, screenDistX/res.x*.5, 128, 1.2, false);
+}
+
+void switchDebugParameters(bool is_debug_pass) {
+	int mode = int(debug_mode);
+	switch (mode) {
+		case 0: // normal
+			scene_visible = true;
+			debug_plane_visible = false;
+			break;
+		case 1: // debug plane
+			scene_visible = true;
+			debug_plane_visible = !is_debug_pass;
+			break;
+		case 2: // debug plane without scene geometry
+			scene_visible = is_debug_pass;
+			debug_plane_visible = !is_debug_pass;
+			break;
+		default:
+			scene_visible = true;
+			debug_plane_visible = false;
+			break;
+	}
 }
