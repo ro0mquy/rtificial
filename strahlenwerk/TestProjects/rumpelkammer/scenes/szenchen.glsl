@@ -1,13 +1,12 @@
 #include "march.glsl"
 #line 3 "szenchen"
 
-out vec3 out_color;
-
 void main() {
+	setDebugParameters();
+
 	vec3 o = camera_position;
 	vec3 d;
 	float screen_dist = camGetDirection(d);
-	switchDebugParameters(false);
 	float t = sdfMarch(o, d, 200., screen_dist);
 
 	if (isinf(t)) {
@@ -21,8 +20,11 @@ void main() {
 		if (material.id == debug_plane_material_id) {
 			out_color = debugColorIsolines(hit, o, t);
 		} else {
-			out_color = .5 * normal + .5;
-			out_color = debugColorGradient(hit);
+			if (debug_gradient_visualization) {
+				out_color = debugColorGradient(hit);
+			} else {
+				out_color = .5 * normal + .5;
+			}
 		}
 
 		out_color *= .95 * pdot(normal, normalize(vec3(1., 2., .5))) + .05;

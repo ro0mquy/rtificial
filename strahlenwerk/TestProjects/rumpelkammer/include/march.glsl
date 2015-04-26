@@ -7,6 +7,8 @@ float smin(float a, float b, float k) {
 
 ////////////// helper.glsl
 
+out vec3 out_color;
+
 uniform float time;
 
 const float Pi = 3.14159265359;
@@ -88,11 +90,9 @@ vec3 saturate(vec3 v) {
 	return clamp(v, 0., 1.);
 }
 
-/* TODO: uncomment this
 float linstep(float edge0, float edge1, float x) {
 	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
 }
-*/
 
 float smootherstep(float edge0, float edge1, float x) {
 	// directly from master Ken
@@ -879,8 +879,14 @@ uniform float debug_plane_height;
 
 const float debug_plane_material_id = 42.;
 
-bool scene_visible = true;
-bool debug_plane_visible = false;
+bool debug_default_pass_scene_visible = true;
+bool debug_default_pass_plane_visible = false;
+bool debug_isoline_pass_scene_visible = false;
+bool debug_isoline_pass_plane_visible = false;
+bool debug_gradient_visualization = false;
+
+bool scene_visible = debug_default_pass_scene_visible;
+bool debug_plane_visible = debug_default_pass_plane_visible;
 
 float fScene(vec3 p);
 
@@ -981,26 +987,48 @@ float sdfMarch(vec3 o, vec3 d, float t_max, float screenDistX) {
 	return sdfMarchAdvanced(o, d, .001, t_max, screenDistX/res.x*.5, 128, 1.2, false);
 }
 
-void switchDebugParameters(bool is_debug_pass) {
+void setDebugParameters() {
 	int mode = int(debug_mode);
 	switch (mode) {
-		case 0: // normal
-			scene_visible = true;
-			debug_plane_visible = false;
+		case 0: // default
+			debug_default_pass_scene_visible = true;
+			debug_default_pass_plane_visible = false;
+			debug_isoline_pass_scene_visible = false;
+			debug_isoline_pass_plane_visible = false;
+			debug_gradient_visualization = false;
 			break;
 		case 1: // debug plane
-			scene_visible = true;
-			debug_plane_visible = !is_debug_pass;
+			debug_default_pass_scene_visible = true;
+			debug_default_pass_plane_visible = true;
+			debug_isoline_pass_scene_visible = true;
+			debug_isoline_pass_plane_visible = false;
+			debug_gradient_visualization = false;
 			break;
 		case 2: // debug plane without scene geometry
-			scene_visible = is_debug_pass;
-			debug_plane_visible = !is_debug_pass;
+			debug_default_pass_scene_visible = false;
+			debug_default_pass_plane_visible = true;
+			debug_isoline_pass_scene_visible = true;
+			debug_isoline_pass_plane_visible = false;
+			debug_gradient_visualization = false;
 			break;
-		default:
-			scene_visible = true;
-			debug_plane_visible = false;
+		case 3: // visualize gradient length
+			debug_default_pass_scene_visible = true;
+			debug_default_pass_plane_visible = false;
+			debug_isoline_pass_scene_visible = false;
+			debug_isoline_pass_plane_visible = false;
+			debug_gradient_visualization = true;
+			break;
+		default: // same as default
+			debug_default_pass_scene_visible = true;
+			debug_default_pass_plane_visible = false;
+			debug_isoline_pass_scene_visible = false;
+			debug_isoline_pass_plane_visible = false;
+			debug_gradient_visualization = false;
 			break;
 	}
+
+	scene_visible = debug_default_pass_scene_visible;
+	debug_plane_visible = debug_default_pass_plane_visible;
 }
 
 
@@ -1040,9 +1068,14 @@ vec3 debugIsolineTexture(float sdf_dist, vec3 camera_pos, float camera_dist) {
 }
 
 vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
-	switchDebugParameters(true);
+	scene_visible = debug_isoline_pass_scene_visible;
+	debug_plane_visible = debug_isoline_pass_plane_visible;
+
 	float sdf_dist = fMain(p, false);
 	vec3 sdf_normal = sdfNormal(p);
+
+	scene_visible = debug_default_pass_scene_visible;
+	debug_plane_visible = debug_default_pass_plane_visible;
 
 	vec3 pX = dFdx(p);
 	vec3 pY = dFdy(p);
