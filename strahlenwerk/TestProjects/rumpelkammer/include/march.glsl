@@ -990,3 +990,77 @@ void switchDebugParameters(bool is_debug_pass) {
 			break;
 	}
 }
+
+
+
+////// beleuchtungskram.glsl
+
+vec3 debugIsolineTexture(float sdf_dist, vec3 camera_pos, float camera_dist) {
+	float small_lines = abs(sin(Pi * 10. * sdf_dist));
+	small_lines = 1. - (1. - smoothstep(8., 15., camera_dist)) * (1. - small_lines);
+
+	float medium_lines = abs(sin(Pi * 1. * sdf_dist));
+	medium_lines = 1. - (.8 + .2 * smoothstep(6., 10., camera_dist)) * (1. - smoothstep(60., 80., camera_dist)) * (1. - medium_lines);
+
+	float big_lines = abs(sin(Pi * 1./10. * sdf_dist));
+	big_lines = 1. - (.8 + .2 * smoothstep(30., 50., camera_dist)) * (1. - smoothstep(80., 150., camera_dist)) * (1. - big_lines);
+
+	float height = fDebugPlane(camera_pos);
+
+	vec3 lines_color = vec3(0.);
+	vec3 near_color = debug_color_near_rt_color; // vec3(0.47044, 0.07593, 0.00259) // vec3(0.13035, 0.00080, 0.35865)
+	vec3 far_color = debug_color_far_rt_color; // vec3(0.30663, 0.72992, 0.01794) // vec3(0.01794, 0.72992, 0.21204)
+	vec3 inner_color = debug_color_inner_rt_color;
+
+	vec3 base_color = mix(near_color, far_color, smoothstep(.1 * height, height, sdf_dist));
+	if (sdf_dist < 0.) {
+		base_color = inner_color;
+	}
+	base_color = rgb2hsv(base_color);
+	base_color.y *= 1. - smoothstep(height, 10. * height, abs(sdf_dist)); // desaturate
+	base_color = hsv2rgb(base_color);
+
+	base_color = mix(lines_color, base_color, small_lines);
+	base_color = mix(lines_color, base_color, medium_lines);
+	base_color = mix(lines_color, base_color, big_lines);
+
+	return base_color;
+}
+
+vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
+	switchDebugParameters(true);
+	float sdf_dist = fMain(p, false);
+	vec3 sdf_normal = sdfNormal(p);
+
+	vec3 pX = dFdx(p);
+	vec3 pY = dFdy(p);
+
+	/*
+	float detail = 100.;
+	int MaxSamples = 10;
+	int sx = 1 + clamp( int( detail*length(pX) ), 0, MaxSamples-1 );
+	int sy = 1 + clamp( int( detail*length(pY) ), 0, MaxSamples-1 );
+	// */
+
+	//*
+	// fuck it - just supersample everything!
+	int sx = 5;
+	int sy = 5;
+	// */
+
+	vec3 no = vec3(0);
+	for(int j = 0; j < sy; j++ ) {
+		for(int i = 0; i < sx; i++ ) {
+			vec2 st = (vec2(i, j) + .5)/vec2(sx, sy) - .5;
+			vec3 delta = st.x * pX + st.y * pY;
+			float f_dist = sdf_dist + dot(sdf_normal, delta);
+			no += debugIsolineTexture(f_dist, camera_pos, camera_dist);
+		}
+	}
+
+	return no / float(sx*sy);
+}
+
+vec3 debugColorIsolines(vec3 p, vec3 camera_pos, float camera_dist) {
+	return debugIsolineTextureFiltered(p, camera_pos, camera_dist);
+}
