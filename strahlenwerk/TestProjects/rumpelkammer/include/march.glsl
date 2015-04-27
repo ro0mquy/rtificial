@@ -709,38 +709,6 @@ float fBoxEdge2(vec2 p, float r) {
 	return fBoxEdge2(p, vec2(r));
 }
 
-float fTorus(vec3 p, float rBig, float rSmall) {
-	// also try replacing fSphere2 by something like fBox2/fBoxEdge2/fBoxRounded2
-	vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
-	return fSphere2(q, rSmall);
-}
-
-float fTorus(vec3 p, vec2 r) {
-	return fTorus(p, r.x, r.y);
-}
-
-float fTorusBox(vec3 p, float rBig, float rSmall) {
-	vec2 q = vec2(fBoxEdge2(p.xz, rBig), p.y);
-	return fBox2(q, rSmall);
-}
-
-float fTorusSphereBox(vec3 p, float rBig, float rSmall) {
-	vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
-	return fBox2(q, rSmall);
-}
-
-float fTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
-	float r = length(p.xz);
-	float angle = atan(p.z, p.x);
-
-	angle -= clamp(angle, -halfAngle, halfAngle);
-
-	p.xz = r * unitVector(angle);
-	p.x -= rBig;
-
-	return fSphere(p, rSmall);
-}
-
 float fPlane(vec3 p, vec3 n) {
 	// n must be normalized
 	return dot(p, n);
@@ -776,6 +744,15 @@ float fTriprismEdge(vec3 p, float r, float h) {
 	float tri2 = fTriprism2(p.xz, r);
 	float y = abs(p.y) - h;
 	return max(tri2, y);
+}
+
+// r is the radius from the origin to the vertices
+// just like a rotated fBoxEdge2
+float fQuadprism2(vec2 p, float r) {
+	float offset = r * sqrt(.5);
+	vec2 q = abs(p);
+	float quad = fPlane2(q, vec2(sqrt(.5))) - offset;
+	return quad;
 }
 
 // r is the radius from the origin to the vertices
@@ -877,6 +854,38 @@ float fSupershape2(vec2 p, float a, float b, float m, float n1, float n2, float 
 
 	float f = (d - r) / sqrt(1 + dr2);
 	return f;
+}
+
+float fTorus(vec3 p, float rBig, float rSmall) {
+	// also try replacing fSphere2 by something like fBox2/fBoxEdge2/fBoxRounded2
+	vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
+	return fSphere2(q, rSmall);
+}
+
+float fTorus(vec3 p, vec2 r) {
+	return fTorus(p, r.x, r.y);
+}
+
+float fTorusBox(vec3 p, float rBig, float rSmall) {
+	vec2 q = vec2(fBoxEdge2(p.xz, rBig), p.y);
+	return fBox2(q, rSmall);
+}
+
+float fTorusSphereBox(vec3 p, float rBig, float rSmall) {
+	vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
+	return fBox2(q, rSmall);
+}
+
+float fTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
+	float r = length(p.xz);
+	float angle = atan(p.z, p.x);
+
+	angle -= clamp(angle, -halfAngle, halfAngle);
+
+	p.xz = r * unitVector(angle);
+	p.x -= rBig;
+
+	return fSphere(p, rSmall);
 }
 
 // n is plane normal and must be normalized
