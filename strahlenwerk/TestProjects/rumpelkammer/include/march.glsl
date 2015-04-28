@@ -1,9 +1,5 @@
 #version 430
 #line 3 "march"
-float smin(float a, float b, float k) {
-	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
-	return mix(b, a, h) - k * h * (1.0 - h);
-}
 
 ////////////// helper.glsl
 
@@ -261,6 +257,7 @@ bool calculate_material = false;
 float current_dist = Inf;
 Material current_material = Material(0., vec3(0.));
 
+// der witz: jetzt in einmal komplett neu!
 void mUnion(float f, Material m) {
 	if (calculate_material) {
 		if (f < current_dist) {
@@ -272,6 +269,7 @@ void mUnion(float f, Material m) {
 	}
 }
 
+// und hier der andere neue witz
 void mIntersect(float f, Material m) {
 	if (calculate_material) {
 		if (f > current_dist) {
@@ -656,6 +654,55 @@ float opIntersectChamfer(float f1, float f2, float r) {
 // use only with orthogonal objects
 float opSubtractChamfer(float f1, float f2, float r) {
 	return opIntersectChamfer(f1, -f2, r);
+}
+
+// unions two object and produces a very smooth transition
+// affects an area of r between the meet point, underestimates the distance
+// can be used with any kind of objects
+float opUnionSmooth(float f1, float f2, float r) {
+	// maybe remove this min() and if() stuff
+	//float f_min = min(f1, f2);
+	if (f1 < r && f2 < r) {
+		float h = clamp(.5 + .5 * (f2 - f1) / r, 0., 1. );
+		float f_smooth = mix(f2, f1, h) - r * h * (1. - h);
+		return f_smooth;
+		//return min(f_smooth, f_min);
+	}
+	float f_min = min(f1, f2);
+	return f_min;
+}
+
+// intersects two object and produces a very smooth transition
+// affects an area of r between the meet point, underestimates the distance
+// can be used with any kind of objects
+float opIntersectSmooth(float f1, float f2, float r) {
+	// maybe remove this max() and if() stuff
+	//float f_max = max(f1, f2);
+	//if (f1 > -r && f2 > -r) {
+	if (abs(f1) < r && abs(f2) < r) {
+		float h = clamp(.5 - .5 * (f2 - f1) / r, 0., 1. );
+		float f_smooth = mix(f2, f1, h) + r * h * (1. - h);
+		return f_smooth;
+		//return max(f_smooth, f_max);
+	}
+	float f_max = max(f1, f2);
+	return f_max;
+}
+
+// subtracts f2 from f1 and produces a very smooth transition
+// affects an area of r between the meet point, underestimates the distance
+// can be used with any kind of objects
+float opSubtractSmooth(float f1, float f2, float r) {
+	return opIntersectSmooth(f1, -f2, r);
+}
+
+// all hail the smin
+float smin(float f1, float f2, float r) {
+	return opUnionSmooth(f1, f2, r);
+}
+
+float smax(float f1, float f2, float r) {
+	return opIntersectSmooth(f1, f2, r);
 }
 
 // like normal min()-union but with correct distance at corners
@@ -1262,8 +1309,8 @@ vec3 debugColorGradient(vec3 p) {
 	vec3 over_color = debug_color_grad_over_rt_color;
 
 	vec3 base_color = vec3(1.);
-	base_color = mix(base_color, under_color, 1. - smoothstep(.9, 1., len_grad));
-	base_color = mix(base_color, over_color, smoothstep(1., 1.1, len_grad));
+	base_color = mix(base_color, under_color, 1. - smoothstep(.8, 1., len_grad));
+	base_color = mix(base_color, over_color, smoothstep(1., 1.2, len_grad));
 
 	return base_color;
 }
