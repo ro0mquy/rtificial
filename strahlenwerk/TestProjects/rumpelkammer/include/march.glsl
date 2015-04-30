@@ -125,6 +125,8 @@ vec2 unitVector(float phi) {
 	return vec2(cos(phi), sin(phi));
 }
 
+// phi geht von 0 bis 2 pi (und fängt bei der x-achse an)
+// theta von 0 bis pi (und fängt von oben an)
 vec3 unitVector(float phi, float theta) {
 	float ct = cos(theta);
 	float sp = sin(phi);
@@ -228,9 +230,9 @@ uniform vec4 camera_rotation; // quat
 uniform float camera_focal_length;
 
 // http://molecularmusings.wordpress.com/2013/05/24/a-faster-quaternion-vector-multiplication/
-vec3 pQuatRotate(vec3 v, vec4 q) {
+void pQuatRotate(inout vec3 v, vec4 q) {
 	vec3 t = 2 * cross(q.xyz, v);
-	return v + q.w * t + cross(q.xyz, t);
+	v += q.w * t + cross(q.xyz, t);
 	// *hex hex*
 }
 
@@ -239,7 +241,7 @@ float camGetDirection(out vec3 dir) {
 	dir.z = -camera_focal_length / .03;
 	float screen_dist = length(vec2(dir.xz));
 	dir = normalize(dir);
-	dir = pQuatRotate(dir, camera_rotation);
+	pQuatRotate(dir, camera_rotation);
 	return screen_dist;
 }
 
