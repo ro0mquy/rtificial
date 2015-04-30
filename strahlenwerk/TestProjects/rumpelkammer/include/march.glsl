@@ -1152,6 +1152,29 @@ float fOctahedron(vec3 p, float r) {
 	return f_oktaeder;
 }
 
+// spiral starting at the orgin
+// dist is distance between tubes, r is radius of tubes
+float fSpiral(vec3 p, float dist, float r) {
+	float radius = length(p.xz);
+	float angle = atan(p.z, p.x);
+	radius -= angle * dist / Tau;
+	vec2 q = vec2(radius, p.y);
+	pDomrep(q.x, dist);
+	float d = f2Sphere(q, r);
+	return d;
+}
+
+// l: half distance of focus points, r: radius
+float fSpheroid(vec3 p, float l, float r) {
+	vec3 q1 = p, q2 = p;
+	q1.x -= l;
+	q2.x -= -l;
+
+	float f = length(q1) + length(q2);
+	f = f * .5 - r;
+	return f;
+}
+
 
 
 
