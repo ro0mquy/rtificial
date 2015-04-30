@@ -341,11 +341,19 @@ vec2 pDomrep(inout vec2 p, vec2 c) {
 	return i;
 }
 
+vec2 pDomrep(inout vec2 p, float cx, float cy) {
+	return pDomrep(p, vec2(cx, cy));
+}
+
 vec3 pDomrep(inout vec3 p, vec3 c) {
 	p += .5 * c;
 	vec3 i = floor(p/c);
 	p = mod(p, c) - .5 * c;
 	return i;
+}
+
+vec3 pDomrep(inout vec3 p, float cx, float cy, float cz) {
+	return pDomrep(p, vec3(cx, cy, cz));
 }
 
 float pDomrepMirror(inout float p, float c) {
@@ -508,18 +516,19 @@ vec3 pDomrepInterval(inout vec3 p, vec3 c, vec3 start, vec3 end) {
 	return i;
 }
 
-float pDomrepAngleWithAtan(inout vec2 p, float repetitions, float preCalcAtan) {
+float pDomrepAngleWithAtan(inout vec2 p, float repetitions, float radius, float preCalcAtan) {
 	float at = preCalcAtan;
 	float cAngle = Tau / repetitions;
 	float i = pDomrep(at, cAngle);
 
 	float r = length(p);
 	p = r * unitVector(at);
+	pTrans(p.x, radius);
 	return i;
 }
 
-float pDomrepAngle(inout vec2 p, float repetitions) {
-	return pDomrepAngleWithAtan(p, repetitions, atan(p.y, p.x));
+float pDomrepAngle(inout vec2 p, float repetitions, float radius) {
+	return pDomrepAngleWithAtan(p, repetitions, radius, atan(p.y, p.x));
 }
 
 float pMirror(inout float p) {
@@ -807,20 +816,20 @@ float fSphere(vec3 p, float r) {
 	return length(p) - r;
 }
 
-float fSphere2(vec2 p, float r) {
+float f2Sphere(vec2 p, float r) {
 	return length(p) - r;
 }
 
 // capped cylinder, h is half height
 float fCylinder(vec3 p, float r, float h) {
-	float sp2 = fSphere2(p.xz, r);
+	float sp2 = f2Sphere(p.xz, r);
 	float y = abs(p.y) - h;
 	return opIntersectEuclid(sp2, y);
 }
 
 // capped cylinder, h is half height
 float fCylinderEdge(vec3 p, float r, float h) {
-	float sp2 = fSphere2(p.xz, r);
+	float sp2 = f2Sphere(p.xz, r);
 	float y = abs(p.y) - h;
 	return max(sp2, y);
 }
@@ -837,15 +846,15 @@ float fCornerEdge(vec3 p) {
 	return maxV(p);
 }
 
-float fCorner2(vec2 p) {
+float f2Corner(vec2 p) {
 	return min(maxV(p), 0.) + length(max(p, 0.));
 }
 
 float fCornerRounded2(vec2 p, float r) {
-	return fCorner2(p + r) - r;
+	return f2Corner(p + r) - r;
 }
 
-float fCornerEdge2(vec2 p) {
+float f2CornerEdge(vec2 p) {
 	return maxV(p);
 }
 
@@ -866,6 +875,10 @@ float fBoxRounded(vec3 p, vec3 r, float rCorner) {
 	return fBox(p, r - rCorner) - rCorner;
 }
 
+float fBoxRounded(vec3 p, float r, float rCorner) {
+	return fBoxRounded(p, vec3(r), rCorner);
+}
+
 float fBoxEdge(vec3 p, vec3 r) {
 	return maxV(abs(p) - r);
 }
@@ -878,33 +891,37 @@ float fBoxEdge(vec3 p, float r) {
 	return fBoxEdge(p, vec3(r));
 }
 
-float fBox2(vec2 p, vec2 r) {
+float f2Box(vec2 p, vec2 r) {
 	vec2 q = abs(p) - r;
 	return min(maxV(q), 0.) + length(max(q, 0.));
 }
 
-float fBox2(vec2 p, float rx, float ry) {
-	return fBox2(p, vec2(rx, ry));
+float f2Box(vec2 p, float rx, float ry) {
+	return f2Box(p, vec2(rx, ry));
 }
 
-float fBox2(vec2 p, float r) {
-	return fBox2(p, vec2(r));
+float f2Box(vec2 p, float r) {
+	return f2Box(p, vec2(r));
 }
 
-float fBoxRounded2(vec2 p, vec2 r, float rCorner) {
-	return fBox2(p, r - rCorner) - rCorner;
+float f2BoxRounded(vec2 p, vec2 r, float rCorner) {
+	return f2Box(p, r - rCorner) - rCorner;
 }
 
-float fBoxEdge2(vec2 p, vec2 r) {
+float f2BoxRounded(vec2 p, float r, float rCorner) {
+	return f2BoxRounded(p, vec2(r), rCorner);
+}
+
+float f2BoxEdge(vec2 p, vec2 r) {
 	return maxV(abs(p) - r);
 }
 
-float fBoxEdge2(vec2 p, float rx, float ry) {
-	return fBoxEdge2(p, vec2(rx, ry));
+float f2BoxEdge(vec2 p, float rx, float ry) {
+	return f2BoxEdge(p, vec2(rx, ry));
 }
 
-float fBoxEdge2(vec2 p, float r) {
-	return fBoxEdge2(p, vec2(r));
+float f2BoxEdge(vec2 p, float r) {
+	return f2BoxEdge(p, vec2(r));
 }
 
 float fPlane(vec3 p, vec3 n) {
@@ -916,53 +933,53 @@ float fPlaneAngle(vec3 p, float phi, float theta) {
 	return fPlane(p, unitVector(phi, theta));
 }
 
-float fPlane2(vec2 p, vec2 n) {
+float f2Plane(vec2 p, vec2 n) {
 	// n must be normalized
 	return dot(p, n);
 }
 
-float fPlaneAngle2(vec2 p, float phi) {
-	return fPlane2(p, unitVector(phi));
+float f2PlaneAngle(vec2 p, float phi) {
+	return f2Plane(p, unitVector(phi));
 }
 
 // r is the radius from the origin to the vertices
-float fTriprism2(vec2 p, float r) {
-	return max(fPlaneAngle2(vec2(abs(p.x), p.y), radians(30)), -p.y) - .5 * r;
+float f2Triprism(vec2 p, float r) {
+	return max(f2PlaneAngle(vec2(abs(p.x), p.y), radians(30)), -p.y) - .5 * r;
 }
 
 // capped triprism, h is half height
 float fTriprism(vec3 p, float r, float h) {
-	float tri2 = fTriprism2(p.xz, r);
+	float tri2 = f2Triprism(p.xz, r);
 	float y = abs(p.y) - h;
 	return opIntersectEuclid(tri2, y);
 }
 
 // capped triprism, h is half height
 float fTriprismEdge(vec3 p, float r, float h) {
-	float tri2 = fTriprism2(p.xz, r);
+	float tri2 = f2Triprism(p.xz, r);
 	float y = abs(p.y) - h;
 	return max(tri2, y);
 }
 
 // r is the radius from the origin to the vertices
 // just like a rotated fBoxEdge2
-float fQuadprism2(vec2 p, float r) {
+float f2Quadprism(vec2 p, float r) {
 	float offset = r * sqrt(.5);
 	vec2 q = abs(p);
-	float quad = fPlane2(q, vec2(sqrt(.5))) - offset;
+	float quad = f2Plane(q, vec2(sqrt(.5))) - offset;
 	return quad;
 }
 
 // r is the radius from the origin to the vertices
-float fPentaprism2(vec2 p, float r) {
+float f2Pentaprism(vec2 p, float r) {
 	float phi1 = radians(108. / 2.);
 	float phi2 = radians(-18.);
 	float offset = r * cos(Tau / 5. / 2.);
 
 	vec2 q = vec2(abs(p.x), p.y);
-	float side1 = fPlaneAngle2(q, phi1);
+	float side1 = f2PlaneAngle(q, phi1);
 	float side2 = -p.y;
-	float side3 = fPlaneAngle2(q, phi2);
+	float side3 = f2PlaneAngle(q, phi2);
 
 	float pentagon = max3(side1, side2, side3) - offset;
 
@@ -971,23 +988,23 @@ float fPentaprism2(vec2 p, float r) {
 
 // capped pentaprism, h is half height
 float fPentaprism(vec3 p, float r, float h) {
-	float penta2 = fPentaprism2(p.xz, r);
+	float penta2 = f2Pentaprism(p.xz, r);
 	float y = abs(p.y) - h;
 	return opIntersectEuclid(penta2, y);
 }
 
 // capped pentaprism, h is half height
 float fPentaprismEdge(vec3 p, float r, float h) {
-	float penta2 = fPentaprism2(p.xz, r);
+	float penta2 = f2Pentaprism(p.xz, r);
 	float y = abs(p.y) - h;
 	return max(penta2, y);
 }
 
 // r is the radius from the origin to the vertices
-float fHexprism2(vec2 p, float r) {
+float f2Hexprism(vec2 p, float r) {
 	float offset = r * cos(Tau / 6. / 2.);
     vec2 q = abs(p);
-	float side1 = fPlaneAngle2(q, radians(30.));
+	float side1 = f2PlaneAngle(q, radians(30.));
 	float side2 = q.y;
 	float hexagon = max(side1, side2) - offset;
     return hexagon;
@@ -995,14 +1012,14 @@ float fHexprism2(vec2 p, float r) {
 
 // capped hexprism, h is half height
 float fHexprism(vec3 p, float r, float h) {
-	float hex2 = fHexprism2(p.xz, r);
+	float hex2 = f2Hexprism(p.xz, r);
 	float y = abs(p.y) - h;
 	return opIntersectEuclid(hex2, y);
 }
 
 // capped hexprism, h is half height
 float fHexprismEdge(vec3 p, float r, float h) {
-	float hex2 = fHexprism2(p.xz, r);
+	float hex2 = f2Hexprism(p.xz, r);
 	float y = abs(p.y) - h;
 	return max(hex2, y);
 }
@@ -1014,7 +1031,7 @@ float fHexprismEdge(vec3 p, float r, float h) {
 // http://paulbourke.net/geometry/supershape/
 // http://de.wikipedia.org/wiki/Superformel
 // have fun playing around!
-float fSupershape2(vec2 p, float a, float b, float m, float n1, float n2, float n3) {
+float f2Supershape(vec2 p, float a, float b, float m, float n1, float n2, float n3) {
 	float phi = atan(p.y, p.x);
 	float d = length(p);
 
@@ -1056,8 +1073,8 @@ float fSupershape2(vec2 p, float a, float b, float m, float n1, float n2, float 
 
 float fTorus(vec3 p, float rBig, float rSmall) {
 	// also try replacing fSphere2 by something like fBox2/fBoxEdge2/fBoxRounded2
-	vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
-	return fSphere2(q, rSmall);
+	vec2 q = vec2(f2Sphere(p.xz, rBig), p.y);
+	return f2Sphere(q, rSmall);
 }
 
 float fTorus(vec3 p, vec2 r) {
@@ -1065,13 +1082,13 @@ float fTorus(vec3 p, vec2 r) {
 }
 
 float fTorusBox(vec3 p, float rBig, float rSmall) {
-	vec2 q = vec2(fBoxEdge2(p.xz, rBig), p.y);
-	return fBox2(q, rSmall);
+	vec2 q = vec2(f2BoxEdge(p.xz, rBig), p.y);
+	return f2Box(q, rSmall);
 }
 
 float fTorusSphereBox(vec3 p, float rBig, float rSmall) {
-	vec2 q = vec2(fSphere2(p.xz, rBig), p.y);
-	return fBox2(q, rSmall);
+	vec2 q = vec2(f2Sphere(p.xz, rBig), p.y);
+	return f2Box(q, rSmall);
 }
 
 float fTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
@@ -1089,12 +1106,12 @@ float fTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
 // n is plane normal and must be normalized
 float fCone(vec3 p, vec2 n) {
 	vec2 q = vec2(length(p.xz), p.y);
-	return fPlane2(q, n);
+	return f2Plane(q, n);
 }
 
 float fConeAngle(vec3 p, float angle) {
 	vec2 q = vec2(length(p.xz), p.y);
-	return fPlaneAngle2(q, angle);
+	return f2PlaneAngle(q, angle);
 }
 
 // line from origin to v, inflated by r
@@ -1129,8 +1146,8 @@ float fOctahedron(vec3 p, float r) {
 	q.y -= r;
 	//q.y -= .707106781 * s; // sqrt(2) / 2 * s
 	//float phi = TAU/4. - acos(-1./3.) * .5;
-	float plane1 = fPlane2(q.xy, vec2(.816496581, .577350269)); // cos(phi), sin(phi)
-	float plane2 = fPlane2(q.zy, vec2(.816496581, .577350269));
+	float plane1 = f2Plane(q.xy, vec2(.816496581, .577350269)); // cos(phi), sin(phi)
+	float plane2 = f2Plane(q.zy, vec2(.816496581, .577350269));
 	float f_oktaeder = max(plane1, plane2);
 	return f_oktaeder;
 }
