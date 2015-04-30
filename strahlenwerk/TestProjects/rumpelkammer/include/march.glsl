@@ -656,6 +656,53 @@ float opSubtractChamfer(float f1, float f2, float r) {
 	return opIntersectChamfer(f1, -f2, r);
 }
 
+// unions two objects and adds n columns within a radius of r
+// use only with orthogonal objects
+float opUnionColumns(float f1, float f2, float r, float n) {
+	// Speckröllchen
+	float f_min = min(f1, f2);
+	if (f1 < 2.*r && f2 < 2.*r) {
+		vec2 q = vec2(f1, f2);
+		//float radius = sqrt(2.) * .5 * r / (n + sqrt(2.) - 1.);
+		//q.x -= radius;
+		float radius = sqrt(.5) * r / (n + sqrt(.5) - 1.);
+		q.y -= r - radius;
+		pRot(q, -Tau / 8.);
+		pDomrepInterval(q.x, 2. * radius, 0., n-1.);
+		float f_columns = length(q) - radius;
+		f_columns = min(f_columns, q.y);
+		return min(f_columns, f_min);
+	}
+	return f_min;
+}
+
+// intersects two objects and adds n columns within a radius of r
+// use only with orthogonal objects
+float opIntersectColumns(float f1, float f2, float r, float n) {
+	// Speckröllchen
+	float f_max = max(f1, f2);
+	if (f1 > -r && f2 > -r) {
+		vec2 q = vec2(f1, f2);
+		//float radius = sqrt(2.) * .5 * r / (n + sqrt(2.) - 1.);
+		//q.x -= radius;
+		float radius = sqrt(.5) * r / (n + sqrt(.5) - 1.);
+		q.x -= -r;
+		q.y -= -radius;
+		pRot(q, -Tau / 8.);
+		pDomrepInterval(q.x, 2. * radius, 0., n-1.);
+		float f_columns = length(q) - radius;
+		f_columns = min(f_columns, q.y);
+		return max(f_columns, f_max);
+	}
+	return f_max;
+}
+
+// subtracts f2 from f1 and adds n columns within a radius of r
+// use only with orthogonal objects
+float opSubtractColumns(float f1, float f2, float r, float n) {
+	return opIntersectColumns(f1, -f2, r, n);
+}
+
 // unions two object and produces a very smooth transition
 // affects an area of r between the meet point, underestimates the distance
 // can be used with any kind of objects
