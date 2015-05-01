@@ -71,7 +71,7 @@ int ZoomFactor::pixelsToTime(const float pixels) {
 
 float ZoomFactor::getGridWidth() {
 	std::lock_guard<std::mutex> lock(zoomMutex);
-	return 1000. * std::pow(2., -std::floor(std::log2(zoomLevel / initialZoomLevel)));
+	return 250. * std::pow(2., -std::floor(std::log2(zoomLevel / initialZoomLevel)));
 }
 
 int ZoomFactor::snapValueToGrid(const int valueAsTime) {
