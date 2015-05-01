@@ -1,0 +1,34 @@
+Units or effects to build for modular demo synth
+
+Please Build for every unit: 
+Visual Feedback if Input is Midi or Audio-Stream
+Visual Feedback if Output is Midi or Audio-Mono or Audio-Stereo
+Little Paniq Button
+
+LFO-Options have to be discussed. I Advice a design decision
+
+
+- Subtractive Synth
+- Volume
+- Panning with Option Mono from Channel L, R, L/R and width
+- Tube Overdrive
+- Bit Crush
+- Hard Overdrive / Fuzz
+- (Stereo) Delay
+- Ping Pong Delay
+- Noise Generator (white / Pink / Volume)
+- Additive Synth
+- Chorus
+- Flanger
+- Vinyl Slowdown (Parameter: Speed, TriggerButton to continue again)
+- (Regular) Reverb (Plate? whatever)
+- Spring Reverb (google it, sounds significantly different)
+
+- Sampler from File (Input: Wav, MP3, Ogg, Flac; best via Drag and Drop or Browse Folder Structure; Slider for Compression and 
+visual Feedback with estimated extra File size i.e. size of compressed sample.
+- Filter (High, Low, Band with Options Frequency and Resonance)
+- Compressor with usual interface if possible and SideChain-Option if Possible 
+- Noise Gate (Threshhold Frquency Parameter)
+- Rythmic Gate (BPM Synced, shows 1x16 grid with clickable squares that imply gating. Also Slider for "Floor" i.e. Volume when Gate is Active, default -inf)
+- Limiter with some Feedback as to RMS and abs Vol before and after Limiting. 
+- AutoPan (maybe as LFO option in regular PAN effect
