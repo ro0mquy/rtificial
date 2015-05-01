@@ -1,1 +1,2 @@
-input.color output.color
+input.color final.color
+final.out_color output.color
