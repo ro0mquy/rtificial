@@ -30,60 +30,10 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "debug_color_grad_over_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.71546542644500732422,
-        "valueColorG": 0.039947167038917541504,
-        "valueColorB": 0.025371275842189788818
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "debug_color_grad_under_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.18014428019523620605,
-        "valueColorG": 0.74453020095825195312,
-        "valueColorB": 0.032875914126634597778
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "debug_color_iso_inner_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.020951131358742710459,
-        "valueColorG": 0.19046287238597872649,
-        "valueColorB": 0.60548430681228637695
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "debug_color_iso_near_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.29803922772407531738,
-        "valueColorG": 0.1882352977991104126,
-        "valueColorB": 0.43921568989753717593
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "debug_color_iso_far_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.12549020349979400635,
-        "valueColorG": 0.52941179275512695312,
-        "valueColorB": 0.36078432202339166812
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 3.5840000000000600267
       },
       "sequencesArray": []
     },
@@ -126,6 +76,62 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 3.4660000000000001918
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "main_marching_distance",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_frequency",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.540000000000077307
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.0049999999999954525265
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_power",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_lens_distort_k",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.003000000000042746251
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_lens_distort_kcube",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.003000000000042746251
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_vignette_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
       },
       "sequencesArray": []
     },

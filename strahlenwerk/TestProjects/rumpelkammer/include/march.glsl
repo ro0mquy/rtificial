@@ -1197,7 +1197,7 @@ uniform float debug_mode;
 uniform vec3 debug_plane_normal;
 uniform float debug_plane_height;
 
-const float debug_plane_material_id = 42.;
+const float debug_plane_material_id = 423.;
 
 bool debug_default_pass_scene_visible = true;
 bool debug_default_pass_plane_visible = false;
@@ -1368,9 +1368,9 @@ vec3 debugIsolineTexture(float sdf_dist, vec3 camera_pos, float camera_dist) {
 	float height = fDebugPlane(camera_pos);
 
 	vec3 lines_color = vec3(0.);
-	vec3 near_color = debug_color_iso_near_rt_color; // vec3(0.47044, 0.07593, 0.00259) // vec3(0.13035, 0.00080, 0.35865)
-	vec3 far_color = debug_color_iso_far_rt_color; // vec3(0.30663, 0.72992, 0.01794) // vec3(0.01794, 0.72992, 0.21204)
-	vec3 inner_color = debug_color_iso_inner_rt_color;
+	vec3 near_color = vec3(0.29804, 0.18824, 0.43922);
+	vec3 far_color = vec3(0.12549, 0.52941, 0.36078);
+	vec3 inner_color = vec3(0.02095, 0.19046, 0.60548);
 
 	vec3 base_color = mix(near_color, far_color, smoothstep(.1 * height, height, sdf_dist));
 	if (sdf_dist < 0.) {
@@ -1426,20 +1426,106 @@ vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
 	return no / float(sx*sy);
 }
 
-vec3 debugColorIsolines(vec3 p, vec3 camera_pos, float camera_dist) {
-	return debugIsolineTextureFiltered(p, camera_pos, camera_dist);
+vec3 debugColorIsolines(vec3 origin, float marched, vec3 hit) {
+	return debugIsolineTextureFiltered(hit, origin, marched);
 }
 
 vec3 debugColorGradient(vec3 p) {
 	vec3 gradient = sdfGradient(p);
 	float len_grad = length(gradient);
 
-	vec3 under_color = debug_color_grad_under_rt_color;
-	vec3 over_color = debug_color_grad_over_rt_color;
+	vec3 under_color = vec3(0.18014, 0.74453, 0.03288);
+	vec3 over_color = vec3(0.71547, 0.03995, 0.02537);
 
 	vec3 base_color = vec3(1.);
 	base_color = mix(base_color, under_color, 1. - smoothstep(.8, 1., len_grad));
 	base_color = mix(base_color, over_color, smoothstep(1., 1.2, len_grad));
 
 	return base_color;
+}
+
+layout(binding = 0) uniform sampler2D brdf;
+layout(binding = 1) uniform samplerCube environment;
+layout(binding = 2) uniform samplerCube filteredDiffuse;
+layout(binding = 3) uniform samplerCube filteredSpecular;
+
+// n: normal
+// v: vector from hit to camera (for example -dir)
+// color: base color of object
+// roughness: between 0 and 1
+vec3 approximateSpecular(vec3 n, vec3 v, vec3 color, float roughness) {
+	float NoV = saturate(dot(n, v));
+	vec3 r = 2. * dot(n, v) * n - v;
+
+	vec3 prefiltered = textureLod(filteredSpecular, r, roughness * 5.).rgb;
+	vec2 envBRDF = textureLod(brdf, vec2(roughness, NoV), 0.).rg;
+
+	return prefiltered * (color * envBRDF.x + envBRDF.y);
+}
+
+// n: normal
+// v: vector from hit to camera (for example -dir)
+// color: base color of object
+// roughness: between 0 and 1
+// metallic: only 0 or 1
+vec3 ambientColor(vec3 n, vec3 v, vec3 color, float rough, float metallic) {
+	vec3 diffuse = textureLod(filteredDiffuse, n, 0.).rgb;
+	vec3 dielectric = color * diffuse + approximateSpecular(n, v, vec3(.04), rough);
+	vec3 metal = approximateSpecular(n, v, color, rough);
+	return mix(dielectric, metal, metallic);
+}
+
+// o: camera origin
+// d: camera view direction
+// r: radius of "bounding sphere"
+vec3 environmentColor(vec3 o, vec3 d, float r) {
+	// hmmmmm…
+	o.xz -= camera_position.xz;
+	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
+	float t = -dot(d, o) + sqrt(radicand);
+	return textureLod(environment, normalize(o + t * d), 0.).rgb;
+}
+
+vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material);
+
+// handy standard applyLights() function at your hands, just copy this into yout applyLights() function
+/*
+	return applyNormalLights(origin, marched, direction, hit, normal, material);
+// */
+vec3 applyNormalLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material) {
+	vec3 c_object = .5 * normal + .5;
+	vec3 color = .1 * ambientColor(normal, -direction, c_object, .1, 0.);
+	return color;
+}
+
+uniform float main_marching_distance;
+
+void main() {
+	setDebugParameters();
+
+	vec3 origin = camera_position;
+	vec3 direction;
+	float screen_dist = camGetDirection(direction);
+	float marched = sdfMarch(origin, direction, main_marching_distance, screen_dist);
+
+	if (isinf(marched)) {
+		out_color = .07 * environmentColor(origin, direction, main_marching_distance);
+	} else {
+		vec3 hit = origin + marched * direction;
+		float marching_error = fMain(hit, true);
+		Material material = current_material;
+		vec3 normal = sdfNormal(hit);
+
+		if (material.id == debug_plane_material_id) {
+			vec3 c_isoline = debugColorIsolines(origin, marched, hit);
+			out_color = .1 * ambientColor(normal, -direction, c_isoline, .7, 0.);
+		} else {
+			if (debug_gradient_visualization) {
+				vec3 c_gradient = debugColorGradient(hit);
+				out_color = .1 * ambientColor(normal, -direction, c_gradient, 0., 0.);
+			} else {
+				out_color = applyLights(origin, marched, direction, hit, normal, material);
+			}
+		}
+	}
 }
