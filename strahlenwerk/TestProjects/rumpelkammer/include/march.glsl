@@ -1114,6 +1114,18 @@ float fConeAngle(vec3 p, float angle) {
 	return f2PlaneAngle(q, angle);
 }
 
+float fConeCapped(vec3 p, float rBig, float rSmall, float h) {
+	float a = rBig - rSmall;
+	float b = 2 * h;
+	float side = sqrt(a * a + b * b);
+	vec2 n = vec2(b/side, a/side);
+	vec3 q = p;
+	pTrans(q.y, rSmall * n.x / n.y + h);
+	float cone = fCone(q, n);
+	float y = abs(p.y) - h;
+	return max(cone, y);
+}
+
 // line from origin to v, inflated by r
 float fLine(vec3 p, float r, vec3 v) {
 	float h = saturate(dot(p, v)/ dot(v, v));
