@@ -15,8 +15,15 @@ float fScene(vec3 p) {
 	//float f = opUnionSmooth(f2, f1, 1.);
 	//float f = fConeCapped(p.yxz, 6, 2, 0.5);
 
-	vec3 q = p;
 
+	pDomrepGrid(p.zx, vec2(100));
+	pTrans(p.xz, vec2(28, 928));
+	pRotY(p, radians(1.521 * 10));
+	pDomrepGrid(p.zx, vec2(170, 230));
+	pTrans(p.xz, vec2(37, 21));
+	pRotY(p, radians(3.373 * 10));
+	pDomrepGrid(p.zx, vec2(270, 160));
+	vec3 q = p;
 	pMirrorTrans(p.x, 0);
 	pMirrorTrans(p.y, 30);
 	p.y = -p.y;
@@ -41,4 +48,8 @@ float fScene(vec3 p) {
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material) {
 	return applyNormalLights(origin, marched, direction, hit, normal, material);
+}
+
+vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
+	return color;
 }
