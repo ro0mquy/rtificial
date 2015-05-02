@@ -33,7 +33,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.5840000000000600267
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -41,7 +41,7 @@
       "uniformName": "debug_plane_height",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 0.90399999999999636202
       },
       "sequencesArray": []
     },
@@ -221,13 +221,74 @@
       "uniformStandardValue": {
         "valueFloatX": 4.57099999999999973
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 932,
+          "sequenceStart": 0,
+          "sequenceDuration": 4000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 4000,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "super_smooth_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.62299999999999999822
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_bluete_radius_amplitude_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.90399999999999636202
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_bluete_radius_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.4869999999999663487
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_bluete_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.53600000000005820766
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_stiel_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_stiel_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.047000000000025465852
       },
       "sequencesArray": []
     }
