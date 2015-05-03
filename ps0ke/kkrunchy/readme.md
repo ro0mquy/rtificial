@@ -1,12 +1,18 @@
 # kkrunchy
-## kkrunchy binaries -- gotta collect them all
+## kkrunchy binaries (and other exe packers) -- gotta collect them all
 
-This is our collection of different binary versions of the exe packer [kkrunchy](http://www.farbrausch.de/~fg/kkrunchy/). Keeping different versions is useful when one version breaks your binary by compressing it.
+This is our collection of different binary versions of the exe packer [kkrunchy](http://www.farbrausch.de/~fg/kkrunchy/) and BeroExePacker (http://www.rosseaux.net/page40_BeRoEXEPacker.html). Keeping different versions is useful when one version breaks your binary by compressing it.
 
 ## `kkrunchy.bat`
-This batch script runs all our `kkrunchy` versions against `strahlenwerk_runtime`s `Debug` and `Release` configuration so that you can find the one that works and compresses best.
+This batch script runs all our exe packer versions against `strahlenwerk_runtime`s `Debug` and `Release` configuration so that you can find the one that works and compresses best.
 
 ## Versions
+
+### `bep.exe`
+#### Origin
+BeRoEXEPacker - Version 1.00.2012.04.29, downloaded from bero's website in 2015
+
+#### Track record
 
 ### `kkrnuchy_021.exe`
 #### Origin
