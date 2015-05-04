@@ -14,3 +14,7 @@ float fScene(vec3 p) {
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material) {
 	return applyNormalLights(origin, marched, direction, hit, normal, material);
 }
+
+vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
+	return color;
+}
