@@ -7,6 +7,8 @@ Little Paniq Button
 
 LFO-Options have to be discussed. I Advice a design decision
 
+A tool (either stand alone or vst) to approximate the music filesize is necessary.
+The file location of the .als file would be given and on demand (button) the filesize would be calculated. bash script is fine too.
 
 - Subtractive Synth
 - Volume
