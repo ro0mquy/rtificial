@@ -81,6 +81,7 @@ float fogAmbientFactor(float height, float coeff_extinction) {
 	return isotropic_scattering;
 }
 
+// mainly from http://patapom.com/topics/Revision2013/Revision%202013%20-%20Real-time%20Volumetric%20Rendering%20Course%20Notes.pdf
 vec3 applyFog(vec3 origin, float marched, vec3 direction, vec3 color) {
 	// tweak performance and quality here
 	float step_nums = fog_rendering_steps_rt_float;
