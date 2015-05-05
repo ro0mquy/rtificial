@@ -1,0 +1,59 @@
+#!/bin/bash
+# drb 2015
+# Usage:
+# Run script in folder with video-files.
+# Script will convert all video-files to webm-files
+# and create a further file "sftp" for usage in sftp.
+# Webm-files will be uploaded to drb's uberspace in
+# specified folder.
+
+#NOTE:: Please dont add duplicates they will as of now not be noticed
+
+echo "#" > sftp.not;
+#fetch keeper.file for exisitng indexes
+sftp doktorb@regulus.uberspace.de:html/Lychee/videos/keeper.not
+
+#Convert other video files in folder
+for f in *
+do
+	if [[ $f != *.not ]]
+	then
+	if [[ $f != *.webm ]]
+	then
+	avconv -i "$f" -acodec libvorbis -aq 6 -ac 2 -qmax 25 ${f%.*}.webm;
+	#echo "put ${f%.*}.webm html/Lychee/videos/" > sftp.not;
+	#echo "<a href = "$f"> $f </a><br><br>" >> keeper.not;
+	#mv ${f%.*}.webm webm/${f%.*}.webm;
+	fi
+	fi
+done
+
+#Index existing webm-files
+mkdir temp
+for f in *.webm
+do
+	mv $f temp/$f
+	echo "put ${f%.*}.webm html/Lychee/videos/" >> sftp.not;
+	echo "<video width="320" height="240" controls><source src="${f%.*}.webm" type="video/webm"> We hate your browser, dude. </video><br>" >> keeper.not;
+	echo "<a href = "$f"> $f </a><br><br>" >> keeper.not;
+done
+
+#Index update
+echo "<html><body>Here are all videos:<br><br><br>" > index.html;
+cat keeper.not >> index.html;
+echo "</body></html>" >> index.html;
+echo "put index.html html/Lychee/videos/" >> sftp.not;
+echo "rm html/Lychee/videos/keeper.not" >> sftp.not;
+echo "put keeper.not html/Lychee/videos/" >> sftp.not;
+echo "bye" >> sftp.not;
+
+#Run sftp
+mv index.html temp/index.html;
+mv keeper.not temp/keeper.not
+mv sftp.not temp/sftp.not
+cd temp;
+sftp -b sftp.not doktorb@regulus.uberspace.de;
+cd ..
+
+#delete tempfiles
+rm -rf temp;
