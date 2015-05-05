@@ -1,0 +1,31 @@
+#!/bin/bash
+# drb 2015
+# Usage:
+# Run script in folder with video-files.
+# Script will convert all video-files to webm-files
+# and create a further file "sftp" for usage in sftp.
+# Webm-files will be uploaded to drb's uberspace in
+# specified folder.
+
+mkdir webm
+echo "#" > sftp.script;
+
+for .webm in *
+do
+mv $f webm/$f
+echo "put ${f%.*}.webm html/Lychee/videos/" >> sftp.script;
+done
+
+for f in *
+do
+avconv -i "$f" -acodec libvorbis -aq 6 -ac 2 -qmax 25 ${f%.*}.webm;
+echo "put ${f%.*}.webm html/Lychee/videos/" >> sftp.script;
+mv ${f%.*}.webm webm/${f%.*}.webm;
+done
+
+echo "bye" >> sftp.script;
+mv sftp.script webm/sftp.script
+cd webm;
+sftp -b sftp.script doktorb@regulus.uberspace.de;
+cd ..
+rm -rf webm;
