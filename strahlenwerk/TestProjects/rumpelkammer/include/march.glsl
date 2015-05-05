@@ -1187,6 +1187,17 @@ float fSpheroid(vec3 p, float l, float r) {
 	return f;
 }
 
+// four sided pyramid, h is height, phi is angle of planes
+float fPyramid(vec3 p, float h, float phi) {
+	vec3 q = p;
+	q.xz = abs(q.xz);
+	q.y -= h;
+	float plane1 = f2PlaneAngle(q.xy, phi);
+	float plane2 = f2PlaneAngle(q.zy, phi);
+	float f_oktaeder = max(plane1, plane2);
+	return f_oktaeder;
+}
+
 
 
 
@@ -1487,6 +1498,7 @@ vec3 environmentColor(vec3 o, vec3 d, float r) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material);
+vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color);
 
 // handy standard applyLights() function at your hands, just copy this into yout applyLights() function
 /*
@@ -1528,4 +1540,6 @@ void main() {
 			}
 		}
 	}
+
+	out_color = applyAfterEffects(origin, marched, direction, out_color);
 }

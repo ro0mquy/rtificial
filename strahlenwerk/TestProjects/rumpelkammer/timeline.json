@@ -33,7 +33,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.5840000000000600267
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -41,7 +41,7 @@
       "uniformName": "debug_plane_height",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 0.90399999999999636202
       },
       "sequencesArray": []
     },
@@ -52,6 +52,146 @@
         "valueVec3X": 0,
         "valueVec3Y": 1,
         "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_color_ambient_bottom_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.3297290503978729248,
+        "valueColorG": 0.46474117040634155273,
+        "valueColorB": 0.56680977344512939453
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_color_ambient_top_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.10615606606006622314,
+        "valueColorG": 0.20471011102199554443,
+        "valueColorB": 0.30663478374481201172
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_color_sun_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.687030792236328125,
+        "valueColorG": 0.6120656132698059082,
+        "valueColorB": 0.41514810919761657715
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_density_bias_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -1.6129999999999427018
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_density_factor_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.7190000000000509317
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_density_falloff_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.85199999999997544364
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_density_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.17700000000002091838
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_dir_ambient_bottom_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 1,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_dir_ambient_top_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": -1,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_dir_sun_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": -1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_edge_bottom_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_edge_top_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.3530000000000654836
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_rendering_distance_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 100
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_rendering_steps_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 40
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_scattering_extinction_bias_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.56299999999998817657
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "fog_scattering_g_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.4499999999999317879
       },
       "sequencesArray": []
     },
@@ -228,6 +368,46 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.62299999999999999822
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_bluete_radius_amplitude_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.90399999999999636202
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_bluete_radius_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.48699999999996629318
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_bluete_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.53600000000005820766
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_stiel_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "wiese_stiel_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.047000000000025465852
       },
       "sequencesArray": []
     }
