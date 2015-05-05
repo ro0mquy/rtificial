@@ -10,7 +10,7 @@
 mkdir webm
 echo "#" > sftp.script;
 
-for .webm in *
+for f in *.webm;
 do
 mv $f webm/$f
 echo "put ${f%.*}.webm html/Lychee/videos/" >> sftp.script;
