@@ -1215,6 +1215,8 @@ bool debug_default_pass_plane_visible = false;
 bool debug_isoline_pass_scene_visible = false;
 bool debug_isoline_pass_plane_visible = false;
 bool debug_gradient_visualization = false;
+bool debug_gradient_pass_scene_visible = false;
+bool debug_gradient_pass_plane_visible = false;
 
 bool scene_visible = debug_default_pass_scene_visible;
 bool debug_plane_visible = debug_default_pass_plane_visible;
@@ -1327,6 +1329,8 @@ void setDebugParameters() {
 			debug_isoline_pass_scene_visible = false;
 			debug_isoline_pass_plane_visible = false;
 			debug_gradient_visualization = false;
+			debug_gradient_pass_scene_visible = false;
+			debug_gradient_pass_plane_visible = false;
 			break;
 		case 1: // debug plane
 			debug_default_pass_scene_visible = true;
@@ -1334,6 +1338,8 @@ void setDebugParameters() {
 			debug_isoline_pass_scene_visible = true;
 			debug_isoline_pass_plane_visible = false;
 			debug_gradient_visualization = false;
+			debug_gradient_pass_scene_visible = false;
+			debug_gradient_pass_plane_visible = false;
 			break;
 		case 2: // debug plane without scene geometry
 			debug_default_pass_scene_visible = false;
@@ -1341,6 +1347,8 @@ void setDebugParameters() {
 			debug_isoline_pass_scene_visible = true;
 			debug_isoline_pass_plane_visible = false;
 			debug_gradient_visualization = false;
+			debug_gradient_pass_scene_visible = false;
+			debug_gradient_pass_plane_visible = false;
 			break;
 		case 3: // visualize gradient length
 			debug_default_pass_scene_visible = true;
@@ -1348,6 +1356,26 @@ void setDebugParameters() {
 			debug_isoline_pass_scene_visible = false;
 			debug_isoline_pass_plane_visible = false;
 			debug_gradient_visualization = true;
+			debug_gradient_pass_scene_visible = true;
+			debug_gradient_pass_plane_visible = false;
+			break;
+		case 4: // visualize gradient length with debug plane
+			debug_default_pass_scene_visible = true;
+			debug_default_pass_plane_visible = true;
+			debug_isoline_pass_scene_visible = true;
+			debug_isoline_pass_plane_visible = false;
+			debug_gradient_visualization = true;
+			debug_gradient_pass_scene_visible = true;
+			debug_gradient_pass_plane_visible = false;
+			break;
+		case 5: // visualize gradient length with debug plane and without geometry
+			debug_default_pass_scene_visible = false;
+			debug_default_pass_plane_visible = true;
+			debug_isoline_pass_scene_visible = true;
+			debug_isoline_pass_plane_visible = false;
+			debug_gradient_visualization = true;
+			debug_gradient_pass_scene_visible = true;
+			debug_gradient_pass_plane_visible = false;
 			break;
 		default: // same as default
 			debug_default_pass_scene_visible = true;
@@ -1355,6 +1383,8 @@ void setDebugParameters() {
 			debug_isoline_pass_scene_visible = false;
 			debug_isoline_pass_plane_visible = false;
 			debug_gradient_visualization = false;
+			debug_gradient_pass_scene_visible = false;
+			debug_gradient_pass_plane_visible = false;
 			break;
 	}
 
@@ -1442,8 +1472,14 @@ vec3 debugColorIsolines(vec3 origin, float marched, vec3 hit) {
 }
 
 vec3 debugColorGradient(vec3 p) {
+	scene_visible = debug_gradient_pass_scene_visible;
+	debug_plane_visible = debug_gradient_pass_plane_visible;
+
 	vec3 gradient = sdfGradient(p);
 	float len_grad = length(gradient);
+
+	scene_visible = debug_default_pass_scene_visible;
+	debug_plane_visible = debug_default_pass_plane_visible;
 
 	vec3 under_color = vec3(0.18014, 0.74453, 0.03288);
 	vec3 over_color = vec3(0.71547, 0.03995, 0.02537);
@@ -1530,6 +1566,10 @@ void main() {
 
 		if (material.id == debug_plane_material_id) {
 			vec3 c_isoline = debugColorIsolines(origin, marched, hit);
+			if (debug_gradient_visualization) {
+				vec3 c_gradient = debugColorGradient(hit);
+				c_isoline = mix(c_isoline, c_gradient, .5);
+			}
 			out_color = .1 * ambientColor(normal, -direction, c_isoline, .7, 0.);
 		} else {
 			if (debug_gradient_visualization) {
