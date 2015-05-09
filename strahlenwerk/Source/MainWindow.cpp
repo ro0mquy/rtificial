@@ -129,7 +129,6 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 
 		case Project::reloadShaderFiles:
 			result.setInfo("Reload Shaders", "Reload all Shaders", programCategory, 0);
-			result.addDefaultKeypress('r', ModifierKeys::commandModifier);
 			break;
 
 		case Project::saveTimeline:
@@ -144,6 +143,7 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 
 		case Project::reloadEnvironments:
 			result.setInfo("Reload Environments", "Reload Environment Maps shaders and re-render", programCategory, 0);
+			result.addDefaultKeypress('r', ModifierKeys::commandModifier);
 			break;
 
 		case CameraController::playPauseWithAnimation:

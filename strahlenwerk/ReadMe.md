@@ -35,8 +35,8 @@
 
 ### General
 * `[Ctrl]+Q` quit
-* `[Ctrl]+R` reload shaders
 * `[Ctrl]+[Shift]+R` reload timeline
+* `[Ctrl]+R` reload environment maps
 * `[Ctrl]+O` open a project directory
 * `F` Toggle fullscreen
 * `G` Toggle Rule of Thirds grid
