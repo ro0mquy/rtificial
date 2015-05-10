@@ -105,8 +105,7 @@ void SequenceComponent::addAllKeyframeComponents() {
 	keyframeComponentsArray.clearQuick(true);
 	const int numKeyframes = data.getNumKeyframes(sequenceData);
 
-	// don't create a component for first and last keyframe
-	for (int i = 1; i < numKeyframes - 1; i++) {
+	for (int i = 0; i < numKeyframes; i++) {
 		ValueTree keyframeData = data.getKeyframe(sequenceData, i);
 		addKeyframeComponent(keyframeData);
 	}
@@ -269,12 +268,6 @@ void SequenceComponent::valueTreePropertyChanged(ValueTree& parentTree, const Id
 void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
 	// TODO: react on addition of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
-		const int keyframeIndex = data.getKeyframeIndex(childWhichHasBeenAdded);
-		const int numKeyframes = data.getNumKeyframes(sequenceData);
-		if (keyframeIndex == 0 || keyframeIndex == numKeyframes - 1) {
-			// don't add a component for first or last keyframe
-			return;
-		}
 		addKeyframeComponent(childWhichHasBeenAdded);
 	} else if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
 		// uniform got inserted, row number may changed
@@ -285,11 +278,8 @@ void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& ch
 void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
 	// TODO: react on removal of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
-		auto keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
-		// keyframe could be start or end keyframe
-		if (keyframeComponent != nullptr) {
-			keyframeComponentsArray.removeObject(keyframeComponent);
-		}
+		KeyframeComponent* keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
+		keyframeComponentsArray.removeObject(keyframeComponent);
 	} else if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
 		// uniform got inserted, row number may changed
 		updateBounds();

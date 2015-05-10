@@ -54,10 +54,9 @@ void KeyframeComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 		const int absoluteNewPositionGrid = zoomFactor.snapValueToGrid(absoluteNewPosition);
 		const int relativeNewPositionGrid = absoluteNewPositionGrid - sequenceStart;
 
-		if (relativeNewPositionGrid > 0 && relativeNewPositionGrid < sequenceDuration) {
-			// don't set keyframe at start or end
-			data.setKeyframePosition(keyframeData, relativeNewPositionGrid);
-		}
+		const int clampedPosition = jlimit(0, sequenceDuration, relativeNewPositionGrid);
+
+		data.setKeyframePosition(keyframeData, clampedPosition);
 	}
 }
 

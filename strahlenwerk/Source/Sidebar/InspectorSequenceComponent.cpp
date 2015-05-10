@@ -46,8 +46,7 @@ void InspectorSequenceComponent::addAllKeyframeComponents() {
 	keyframeComponentsArray.clearQuick(true);
 	const int numKeyframes = data.getNumKeyframes(sequenceData);
 
-	// don't create a component for first and last keyframe
-	for (int i = 1; i < numKeyframes - 1; i++) {
+	for (int i = 0; i < numKeyframes; i++) {
 		ValueTree keyframeData = data.getKeyframe(sequenceData, i);
 		addKeyframeComponent(keyframeData);
 	}
@@ -77,8 +76,8 @@ void InspectorSequenceComponent::mouseUp(const MouseEvent& event) {
 		const int absoluteMouseDownGrid = zoomFactor.snapValueToGrid(absoluteMouseDown);
 		const int relativeMouseDownGrid = absoluteMouseDownGrid - sequenceStart;
 
-		if (relativeMouseDownGrid > 0 && relativeMouseDownGrid < sequenceDuration) {
-			// don't set keyframe at start or end
+		if (relativeMouseDownGrid >= 0 && relativeMouseDownGrid <= sequenceDuration) {
+			// don't set keyframe beyond start or end
 			data.getUndoManager().beginNewTransaction("Create Keyframe");
 			data.addKeyframe(sequenceData, relativeMouseDownGrid);
 		}
@@ -95,12 +94,6 @@ void InspectorSequenceComponent::valueTreePropertyChanged(ValueTree& /*parentTre
 void InspectorSequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) {
 	// TODO: react on addition of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
-		const int keyframeIndex = data.getKeyframeIndex(childWhichHasBeenAdded);
-		const int numKeyframes = data.getNumKeyframes(sequenceData);
-		if (keyframeIndex == 0 || keyframeIndex == numKeyframes - 1) {
-			// don't add a component for first or last keyframe
-			return;
-		}
 		addKeyframeComponent(childWhichHasBeenAdded);
 	}
 }
@@ -108,11 +101,8 @@ void InspectorSequenceComponent::valueTreeChildAdded(ValueTree& parentTree, Valu
 void InspectorSequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
 	// TODO: react on removal of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
-		auto keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
-		// keyframe could be start or end keyframe
-		if (keyframeComponent != nullptr) {
-			keyframeComponentsArray.removeObject(keyframeComponent);
-		}
+		KeyframeComponent* keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
+		keyframeComponentsArray.removeObject(keyframeComponent);
 	}
 }
 
