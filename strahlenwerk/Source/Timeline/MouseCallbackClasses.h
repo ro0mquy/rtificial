@@ -28,4 +28,17 @@ class McbLabel : public Label {
 		void mouseDoubleClick(const MouseEvent& e) override;
 };
 
+class McbResizableBorder : public ResizableBorderComponent {
+	public:
+		McbResizableBorder(Component* const componentToResize, ComponentBoundsConstrainer* const constrainer_);
+
+		void mouseEnter(const MouseEvent& e) override;
+		void mouseExit(const MouseEvent& e) override;
+		void mouseDown(const MouseEvent& e) override;
+		void mouseUp(const MouseEvent& e) override;
+		void mouseDrag(const MouseEvent& e) override;
+		void mouseMove(const MouseEvent& e) override;
+		void mouseDoubleClick(const MouseEvent& e) override;
+};
+
 #endif // MOUSECALLBACKCLASSES

@@ -31,7 +31,6 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
-	resizableBorder.addMouseListener(this, false);
 	addAndMakeVisible(resizableBorder);
 
 	// add keyframe components
@@ -151,12 +150,12 @@ void SequenceComponent::paint(Graphics& g) {
 }
 
 void SequenceComponent::mouseDown(const MouseEvent& event) {
-	if (event.originalComponent == &resizableBorder) {
+	const ModifierKeys& m = event.mods;
+	if (event.originalComponent == &resizableBorder && m.isLeftButtonDown() && m.isCommandDown()) {
 		data.getUndoManager().beginNewTransaction("Resize Sequence");
 		return;
 	}
 
-	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown()) {
 		data.getUndoManager().beginNewTransaction("Drag Sequence");
 		beginDragAutoRepeat(10); // time between drag events
@@ -185,6 +184,10 @@ void SequenceComponent::mouseDrag(const MouseEvent& event) {
 
 void SequenceComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
+	if (event.originalComponent == &resizableBorder && m.isLeftButtonDown() && m.isCommandDown()) {
+		return;
+	}
+
 	if (event.mouseWasClicked() && m.isCommandDown() && m.isLeftButtonDown()) {
 		// add keyframe
 		const int sequenceStart = data.getAbsoluteStartForSequence(sequenceData);
@@ -196,7 +199,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		const int absoluteMouseDownGrid = zoomFactor.snapValueToGrid(absoluteMouseDown);
 		const int relativeMouseDownGrid = absoluteMouseDownGrid - sequenceStart;
 
-		if (relativeMouseDownGrid > 0 && relativeMouseDownGrid < sequenceDuration) {
+		if (relativeMouseDownGrid >= 0 && relativeMouseDownGrid <= sequenceDuration) {
 			// don't set keyframe at start or end
 			data.getUndoManager().beginNewTransaction("Create Keyframe");
 			data.addKeyframe(sequenceData, relativeMouseDownGrid);

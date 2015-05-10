@@ -29,7 +29,6 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
-	resizableBorder.addMouseListener(this, false);
 	addAndMakeVisible(resizableBorder);
 
 	sceneData.addListener(this);
@@ -115,12 +114,12 @@ void SceneComponent::paint(Graphics& g) {
 }
 
 void SceneComponent::mouseDown(const MouseEvent& event) {
-	if (event.originalComponent == &resizableBorder) {
+	const ModifierKeys& m = event.mods;
+	if (event.originalComponent == &resizableBorder && m.isLeftButtonDown() && m.isCommandDown()) {
 		data.getUndoManager().beginNewTransaction("Resize Scene");
 		return;
 	}
 
-	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown()) {
 		data.getUndoManager().beginNewTransaction("Drag Scene");
 		beginDragAutoRepeat(10); // time between drag events
@@ -149,6 +148,10 @@ void SceneComponent::mouseDrag(const MouseEvent& event) {
 
 void SceneComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
+	if (event.originalComponent == &resizableBorder && m.isLeftButtonDown() && m.isCommandDown()) {
+		return;
+	}
+
 	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
 		// delete scene
 		data.getUndoManager().beginNewTransaction("Delete Scene");

@@ -49,7 +49,7 @@ class SceneComponent :
 
 		McbLabel shaderSourceLabel;
 		ComponentBoundsConstrainer constrainer;
-		ResizableBorderComponent resizableBorder;
+		McbResizableBorder resizableBorder;
 
 		class Positioner : public Component::Positioner {
 			public:

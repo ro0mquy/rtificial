@@ -53,7 +53,7 @@ class SequenceComponent :
 		ZoomFactor& zoomFactor;
 
 		ComponentBoundsConstrainer constrainer;
-		ResizableBorderComponent resizableBorder;
+		McbResizableBorder resizableBorder;
 		OwnedArray<KeyframeComponent> keyframeComponentsArray;
 
 		class Positioner : public Component::Positioner {

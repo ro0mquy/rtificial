@@ -240,3 +240,148 @@ void McbLabel::mouseDoubleClick(const MouseEvent& e) {
 		}
 	}
 }
+
+
+
+McbResizableBorder::McbResizableBorder(Component* const componentToResize, ComponentBoundsConstrainer* const constrainer_) :
+	ResizableBorderComponent(componentToResize, constrainer_)
+{
+}
+
+// action in here
+void McbResizableBorder::mouseEnter(const MouseEvent& e) {
+	ResizableBorderComponent::mouseEnter(e);
+
+	for (Component* parent = getParentComponent();
+			parent != nullptr;
+			parent = parent->getParentComponent()) {
+
+		bool allowsClicks;
+		bool allowsClicksOnChildren;
+		parent->getInterceptsMouseClicks(allowsClicks, allowsClicksOnChildren);
+
+		if (allowsClicks) {
+			parent->mouseEnter(e.getEventRelativeTo(parent));
+			return;
+		}
+	}
+}
+
+void McbResizableBorder::mouseExit(const MouseEvent& e) {
+	for (Component* parent = getParentComponent();
+			parent != nullptr;
+			parent = parent->getParentComponent()) {
+
+		bool allowsClicks;
+		bool allowsClicksOnChildren;
+		parent->getInterceptsMouseClicks(allowsClicks, allowsClicksOnChildren);
+
+		if (allowsClicks) {
+			parent->mouseExit(e.getEventRelativeTo(parent));
+			return;
+		}
+	}
+}
+
+// action in here
+void McbResizableBorder::mouseDown(const MouseEvent& e) {
+	if (e.mods.isLeftButtonDown() && e.mods.isCommandDown()) {
+		ResizableBorderComponent::mouseDown(e);
+		// let parent handle resize start
+		//return;
+	}
+
+	for (Component* parent = getParentComponent();
+			parent != nullptr;
+			parent = parent->getParentComponent()) {
+
+		bool allowsClicks;
+		bool allowsClicksOnChildren;
+		parent->getInterceptsMouseClicks(allowsClicks, allowsClicksOnChildren);
+
+		if (allowsClicks) {
+			parent->mouseDown(e.getEventRelativeTo(parent));
+			return;
+		}
+	}
+}
+
+// action in here
+void McbResizableBorder::mouseUp(const MouseEvent& e) {
+	if (e.mods.isLeftButtonDown() && e.mods.isCommandDown()) {
+		ResizableBorderComponent::mouseUp(e);
+		// let parent handle resize start
+		//return;
+	}
+
+	for (Component* parent = getParentComponent();
+			parent != nullptr;
+			parent = parent->getParentComponent()) {
+
+		bool allowsClicks;
+		bool allowsClicksOnChildren;
+		parent->getInterceptsMouseClicks(allowsClicks, allowsClicksOnChildren);
+
+		if (allowsClicks) {
+			parent->mouseUp(e.getEventRelativeTo(parent));
+			return;
+		}
+	}
+}
+
+// action in here
+void McbResizableBorder::mouseDrag(const MouseEvent& e) {
+	if (e.mods.isLeftButtonDown() && e.mods.isCommandDown()) {
+		ResizableBorderComponent::mouseDrag(e);
+		return;
+	}
+
+	for (Component* parent = getParentComponent();
+			parent != nullptr;
+			parent = parent->getParentComponent()) {
+
+		bool allowsClicks;
+		bool allowsClicksOnChildren;
+		parent->getInterceptsMouseClicks(allowsClicks, allowsClicksOnChildren);
+
+		if (allowsClicks) {
+			parent->mouseDrag(e.getEventRelativeTo(parent));
+			return;
+		}
+	}
+}
+
+// action in here
+void McbResizableBorder::mouseMove(const MouseEvent& e) {
+	ResizableBorderComponent::mouseMove(e);
+
+	for (Component* parent = getParentComponent();
+			parent != nullptr;
+			parent = parent->getParentComponent()) {
+
+		bool allowsClicks;
+		bool allowsClicksOnChildren;
+		parent->getInterceptsMouseClicks(allowsClicks, allowsClicksOnChildren);
+
+		if (allowsClicks) {
+			parent->mouseMove(e.getEventRelativeTo(parent));
+			return;
+		}
+	}
+}
+
+void McbResizableBorder::mouseDoubleClick(const MouseEvent& e) {
+	for (Component* parent = getParentComponent();
+			parent != nullptr;
+			parent = parent->getParentComponent()) {
+
+		bool allowsClicks;
+		bool allowsClicksOnChildren;
+		parent->getInterceptsMouseClicks(allowsClicks, allowsClicksOnChildren);
+
+		if (allowsClicks) {
+			parent->mouseDoubleClick(e.getEventRelativeTo(parent));
+			return;
+		}
+	}
+}
