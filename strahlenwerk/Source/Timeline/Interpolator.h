@@ -23,9 +23,9 @@ class Interpolator {
 
 		UniformState getUniformStateFromTimelineData(ValueTree uniformData);
 
-	private:
 		UniformState calculateInterpolatedState(ValueTree sequence, const int relativeCurrentTime);
 
+	private:
 		// functions for interpolation methods
 		UniformState interpolationMethodStep(ValueTree sequence, const int currentTime);
 		UniformState interpolationMethodLinear(ValueTree sequence, const int currentTime);

@@ -136,7 +136,6 @@ class TimelineData :
 		void setKeyframePosition(ValueTree keyframe, var position);
 		void setKeyframeValue(ValueTree keyframe, ValueTree value);
 
-		void initializeKeyframesArray(ValueTree sequence);
 		int getKeyframeIndex(ValueTree keyframe);
 		ValueTree getKeyframeParentSequence(ValueTree keyframe);
 		int compareKeyframes(const ValueTree& first, const ValueTree& second);

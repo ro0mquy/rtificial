@@ -650,7 +650,6 @@ ValueTree TimelineData::addSequence(ValueTree uniform, int absoluteStart, var du
 	setSequenceDuration(sequence, duration);
 	setSequenceInterpolation(sequence, interpolation);
 	addSequenceUnchecked(uniform, sequence, position);
-	initializeKeyframesArray(sequence);
 	return sequence;
 }
 
@@ -904,8 +903,8 @@ ValueTree TimelineData::addKeyframe(ValueTree sequence, var keyframePosition) {
 	ValueTree keyframe(treeId::keyframe);
 	setKeyframePosition(keyframe, keyframePosition);
 
-	var uniformType = getUniformType(getSequenceParentUniform(sequence));
-	initializeValue(getKeyframeValue(keyframe), uniformType);
+	ValueTree interpolatedValue = interpolator.calculateInterpolatedState(sequence, keyframePosition).first;
+	getKeyframeValue(keyframe).copyPropertiesFrom(interpolatedValue, nullptr);
 
 	addKeyframeUnchecked(sequence, keyframe);
 	return keyframe;
@@ -966,17 +965,6 @@ void TimelineData::setKeyframeValue(ValueTree keyframe, ValueTree value) {
 }
 
 
-// initialize the keyframesArray of a sequence
-// creates the start and end keyframe
-// sequence must already be added to a uniform
-void TimelineData::initializeKeyframesArray(ValueTree sequence) {
-	jassert(getSequenceParentUniform(sequence).isValid());
-
-	var relativeEndTime = getSequenceDuration(sequence);
-	addKeyframe(sequence, 0);
-	addKeyframe(sequence, relativeEndTime);
-}
-
 // returns the index of the keyframe in it's keyframesArray
 int TimelineData::getKeyframeIndex(ValueTree keyframe) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
@@ -1014,21 +1002,21 @@ bool TimelineData::initializeValue(ValueTree valueData, String valueType) {
 	}
 
 	if (valueType == "bool") {
-		setValueBoolState(valueData, false, false);
+		setValueBoolState(valueData, true, false);
 	} else if (valueType == "float") {
-		setValueFloatX(valueData, 0., false);
+		setValueFloatX(valueData, 1., false);
 	} else if (valueType == "vec2") {
-		setValueVec2X(valueData, 0., false);
-		setValueVec2Y(valueData, 0., false);
+		setValueVec2X(valueData, 1., false);
+		setValueVec2Y(valueData, 1., false);
 	} else if (valueType == "vec3") {
-		setValueVec3X(valueData, 0., false);
-		setValueVec3Y(valueData, 0., false);
-		setValueVec3Z(valueData, 0., false);
+		setValueVec3X(valueData, 1., false);
+		setValueVec3Y(valueData, 1., false);
+		setValueVec3Z(valueData, 1., false);
 	} else if (valueType == "vec4") {
-		setValueVec4X(valueData, 0., false);
-		setValueVec4Y(valueData, 0., false);
-		setValueVec4Z(valueData, 0., false);
-		setValueVec4W(valueData, 0., false);
+		setValueVec4X(valueData, 1., false);
+		setValueVec4Y(valueData, 1., false);
+		setValueVec4Z(valueData, 1., false);
+		setValueVec4W(valueData, 1., false);
 	} else if (valueType == "color") {
 		setValueColorR(valueData, .18, false);
 		setValueColorG(valueData, .18, false);
