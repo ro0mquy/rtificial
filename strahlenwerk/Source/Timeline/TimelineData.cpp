@@ -795,6 +795,13 @@ ValueTree TimelineData::getSequenceParentUniform(ValueTree sequence) {
 	return sequence.getParent().getParent();
 }
 
+// returns the standard value of the uniform this sequence belongs to
+ValueTree TimelineData::getSequenceUniformStandardValue(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return getUniformStandardValue(getSequenceParentUniform(sequence));
+}
+
+
 // comparator function for sequences
 // sort at first for sceneIds, then for start time
 // < 0 if first before second, = 0 if equal, > 0 if first after second

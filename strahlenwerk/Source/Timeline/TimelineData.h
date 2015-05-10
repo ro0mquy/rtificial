@@ -114,6 +114,7 @@ class TimelineData :
 		ValueTree getSequenceForTime(ValueTree uniform, const int absoluteTime);
 		ValueTree getCurrentSequence(ValueTree uniform);
 		ValueTree getSequenceParentUniform(ValueTree sequence);
+		ValueTree getSequenceUniformStandardValue(ValueTree sequence);
 		int compareSequences(const ValueTree& first, const ValueTree& second);
 
 
