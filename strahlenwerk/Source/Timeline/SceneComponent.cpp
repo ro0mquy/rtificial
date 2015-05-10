@@ -74,9 +74,9 @@ void SceneComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds)
 		// so that the right end stays where it is
 		// otherwise the duration and not the right side would be snapped to grid
 		const int oldStart = data.getSceneStart(sceneData);
-		const int deltaStart = newStart - oldStart;
+		const int deltaStart = oldStart - newStart;
 		const int oldDuration = data.getSceneDuration(sceneData);
-		const int newDuration = oldDuration - deltaStart;
+		const int newDuration = oldDuration + deltaStart;
 
 		data.setSceneStart(sceneData, newStart);
 		data.setSceneDuration(sceneData, newDuration);

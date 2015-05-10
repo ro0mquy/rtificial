@@ -627,7 +627,6 @@ bool TimelineData::isSequence(ValueTree sequence) {
 	isSequence &= sequence.hasProperty(treeId::sequenceStart);
 	isSequence &= sequence.hasProperty(treeId::sequenceDuration);
 	isSequence &= sequence.hasProperty(treeId::sequenceInterpolation);
-	isSequence &= sequence.getChildWithName(treeId::keyframesArray).isValid(); // TODO: check exact type
 	return isSequence;
 }
 
@@ -727,15 +726,6 @@ void TimelineData::setSequenceStart(ValueTree sequence, var start) {
 void TimelineData::setSequenceDuration(ValueTree sequence, var duration) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	sequence.setProperty(treeId::sequenceDuration, duration, &undoManager);
-
-	// also update the time position of the last keyframe
-	const int numKeyframes = getNumKeyframes(sequence);
-	if (numKeyframes < 2) {
-		// keyframes array is not initialized
-		return;
-	}
-	ValueTree lastKeyframe = getKeyframe(sequence, numKeyframes - 1);
-	setKeyframePosition(lastKeyframe, duration);
 }
 
 // sets the interpolation method for the given sequence

@@ -80,12 +80,21 @@ void SequenceComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 		// so that the right end stays where it is
 		// otherwise the duration and not the right side would be snapped to grid
 		const int oldStart = data.getAbsoluteStartForSequence(sequenceData);
-		const int deltaStart = newStart - oldStart;
+		const int deltaStart = oldStart - newStart;
 		const int oldDuration = data.getSequenceDuration(sequenceData);
-		const int newDuration = oldDuration - deltaStart;
+		const int newDuration = oldDuration + deltaStart;
 
 		data.setSequencePropertiesForAbsoluteStart(sequenceData, newStart);
 		data.setSequenceDuration(sequenceData, newDuration);
+
+		// move all keyframes, so the stay at their position
+		const int numKeyframes = data.getNumKeyframes(sequenceData);
+		for (int i = 0; i < numKeyframes; i++) {
+			ValueTree keyframe = data.getKeyframe(sequenceData, i);
+			const int keyframePosition = data.getKeyframePosition(keyframe);
+			const int newKeyframePosition = keyframePosition + deltaStart;
+			data.setKeyframePosition(keyframe, newKeyframePosition);
+		}
 	} else if (!xChanged && widthChanged) {
 		// stretching right
 		const int newWidth = newBounds.getWidth() / zoomFactor;
