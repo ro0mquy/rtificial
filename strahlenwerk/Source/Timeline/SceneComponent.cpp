@@ -84,7 +84,10 @@ void SceneComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds)
 	} else if (!xChanged && widthChanged) {
 		// stretching right
 		const int newWidth = newBounds.getWidth() / zoomFactor;
-		const int newDuration = zoomFactor.snapValueToGrid(newWidth);
+		const int start = data.getSceneStart(sceneData);
+		const int newAbsoluteEnd = start + newWidth;
+		const int newAbsoluteEndGrid = zoomFactor.snapValueToGrid(newAbsoluteEnd);
+		const int newDuration = newAbsoluteEndGrid - start;
 		data.setSceneDuration(sceneData, newDuration);
 	}
 }

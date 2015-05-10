@@ -90,7 +90,10 @@ void SequenceComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 	} else if (!xChanged && widthChanged) {
 		// stretching right
 		const int newWidth = newBounds.getWidth() / zoomFactor;
-		const int newDuration = zoomFactor.snapValueToGrid(newWidth);
+		const int start = data.getAbsoluteStartForSequence(sequenceData);
+		const int newAbsoluteEnd = start + newWidth;
+		const int newAbsoluteEndGrid = zoomFactor.snapValueToGrid(newAbsoluteEnd);
+		const int newDuration = newAbsoluteEndGrid - start;
 		data.setSequenceDuration(sequenceData, newDuration);
 	}
 }
