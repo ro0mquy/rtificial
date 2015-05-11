@@ -1519,6 +1519,53 @@ void TimelineData::setQuatToValue(ValueTree value, glm::quat vector, bool useUnd
 }
 
 
+// compares if two values are the same up to an epsilon
+bool TimelineData::areValuesEqual(ValueTree v1, ValueTree v2) {
+	const float e = .00005f;
+
+	if (!(v1.isValid() && v2.isValid())) {
+		return false;
+	}
+
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	if (isValueVec3(v1)) {
+		jassert(isValueVec3(v2));
+		return std::abs(float(getValueVec3X(v1)) - float(getValueVec3X(v2))) < e
+			&& std::abs(float(getValueVec3Y(v1)) - float(getValueVec3Y(v2))) < e
+			&& std::abs(float(getValueVec3Z(v1)) - float(getValueVec3Z(v2))) < e;
+	} else if (isValueQuat(v1)) {
+		jassert(isValueQuat(v2));
+		return std::abs(float(getValueQuatX(v1)) - float(getValueQuatX(v2))) < e
+			&& std::abs(float(getValueQuatY(v1)) - float(getValueQuatY(v2))) < e
+			&& std::abs(float(getValueQuatZ(v1)) - float(getValueQuatZ(v2))) < e
+			&& std::abs(float(getValueQuatW(v1)) - float(getValueQuatW(v2))) < e;
+	} else if (isValueFloat(v1)) {
+		jassert(isValueFloat(v2));
+		return std::abs(float(getValueFloatX(v1)) - float(getValueFloatX(v2))) < e;
+	} else if (isValueVec2(v1)) {
+		jassert(isValueVec2(v2));
+		return std::abs(float(getValueVec2X(v1)) - float(getValueVec2X(v2))) < e
+			&& std::abs(float(getValueVec2Y(v1)) - float(getValueVec2Y(v2))) < e;
+	} else if (isValueVec4(v1)) {
+		jassert(isValueVec4(v2));
+		return std::abs(float(getValueVec4X(v1)) - float(getValueVec4X(v2))) < e
+			&& std::abs(float(getValueVec4Y(v1)) - float(getValueVec4Y(v2))) < e
+			&& std::abs(float(getValueVec4Z(v1)) - float(getValueVec4Z(v2))) < e
+			&& std::abs(float(getValueVec4W(v1)) - float(getValueVec4W(v2))) < e;
+	} else if (isValueColor(v1)) {
+		jassert(isValueColor(v2));
+		return std::abs(float(getValueColorR(v1)) - float(getValueColorR(v2))) < e
+			&& std::abs(float(getValueColorG(v1)) - float(getValueColorG(v2))) < e
+			&& std::abs(float(getValueColorB(v1)) - float(getValueColorB(v2))) < e;
+	} else if (isValueBool(v1)) {
+		jassert(isValueBool(v2));
+		return getBoolFromValue(v1) == getBoolFromValue(v2);
+
+	}
+	jassertfalse;
+	return false;
+}
+
 // mixes two values using glm::mix
 // does different stuff for bool, float, vec2, etc...
 // t should be between 0 and 1

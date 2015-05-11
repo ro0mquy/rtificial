@@ -16,7 +16,56 @@
         "valueVec3Y": 0,
         "valueVec3Z": 0
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 932,
+          "sequenceStart": 1000,
+          "sequenceDuration": 14250,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueVec3X": -11.1785736083984375,
+                "valueVec3Y": 11.689264297485351562,
+                "valueVec3Z": 20.167955398559570312
+              }
+            },
+            {
+              "keyframePosition": 3500,
+              "keyframeValue": {
+                "valueVec3X": 13.348737716674804688,
+                "valueVec3Y": 14.860784530639648438,
+                "valueVec3Z": 25.13477325439453125
+              }
+            },
+            {
+              "keyframePosition": 8500,
+              "keyframeValue": {
+                "valueVec3X": 1.806191563606262207,
+                "valueVec3Y": 9.591365814208984375,
+                "valueVec3Z": 12.235207557678222656
+              }
+            },
+            {
+              "keyframePosition": 12750,
+              "keyframeValue": {
+                "valueVec3X": 1.806191563606262207,
+                "valueVec3Y": 9.591365814208984375,
+                "valueVec3Z": 12.235207557678222656
+              }
+            },
+            {
+              "keyframePosition": 14250,
+              "keyframeValue": {
+                "valueVec3X": -11.1785736083984375,
+                "valueVec3Y": 11.689264297485351562,
+                "valueVec3Z": 20.167955398559570312
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "camera_rotation",
@@ -27,7 +76,61 @@
         "valueQuatZ": 0,
         "valueQuatW": 1
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 932,
+          "sequenceStart": 1000,
+          "sequenceDuration": 14250,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueQuatX": -0.2322225421667098999,
+                "valueQuatY": -0.30655494332313537598,
+                "valueQuatZ": -0.077392578125,
+                "valueQuatW": 0.91984128952026367188
+              }
+            },
+            {
+              "keyframePosition": 3500,
+              "keyframeValue": {
+                "valueQuatX": -0.22790084779262542725,
+                "valueQuatY": 0.18388625979423522949,
+                "valueQuatZ": 0.043875478208065032959,
+                "valueQuatW": 0.95515602827072143555
+              }
+            },
+            {
+              "keyframePosition": 8500,
+              "keyframeValue": {
+                "valueQuatX": -0.22790084779262542725,
+                "valueQuatY": 0.18388625979423522949,
+                "valueQuatZ": 0.043875478208065032959,
+                "valueQuatW": 0.95515602827072143555
+              }
+            },
+            {
+              "keyframePosition": 12750,
+              "keyframeValue": {
+                "valueQuatX": -0.23132559657096862793,
+                "valueQuatY": -0.078668616712093353271,
+                "valueQuatZ": -0.018770284950733184814,
+                "valueQuatW": 0.96950936317443847656
+              }
+            },
+            {
+              "keyframePosition": 14250,
+              "keyframeValue": {
+                "valueQuatX": -0.2322225421667098999,
+                "valueQuatY": -0.30655494332313537598,
+                "valueQuatZ": -0.077392578125,
+                "valueQuatW": 0.91984128952026367188
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "debug_mode",
@@ -60,7 +163,7 @@
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.3297290503978729248,
-        "valueColorG": 0.46474117040634155273,
+        "valueColorG": 0.46474117040634149722,
         "valueColorB": 0.56680977344512939453
       },
       "sequencesArray": []
@@ -70,7 +173,7 @@
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.10615606606006622314,
-        "valueColorG": 0.20471011102199554443,
+        "valueColorG": 0.20471011102199551668,
         "valueColorB": 0.30663478374481201172
       },
       "sequencesArray": []
@@ -105,7 +208,7 @@
       "uniformName": "fog_density_falloff_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.85199999999997544364
+        "valueFloatX": 0.85199999999997533262
       },
       "sequencesArray": []
     },
@@ -191,7 +294,7 @@
       "uniformName": "fog_scattering_g_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -0.4499999999999317879
+        "valueFloatX": -0.44999999999993173239
       },
       "sequencesArray": []
     },
@@ -416,7 +519,7 @@
     {
       "sceneId": 932,
       "sceneStart": 0,
-      "sceneDuration": 4000,
+      "sceneDuration": 17250,
       "sceneShaderSource": "szenchen"
     }
   ]

@@ -228,6 +228,7 @@ class TimelineData :
 		void setColorToValue(ValueTree value, glm::vec3 vector, bool useUndoManager = true);
 		void setQuatToValue(ValueTree value, glm::quat vector, bool useUndoManager = true);
 
+		bool areValuesEqual(ValueTree v1, ValueTree v2);
 		ValueTree mixValues(ValueTree value1, ValueTree value2, const float t);
 		ValueTree calculateCcrSplineForValues(ValueTree valueP0, ValueTree P1, ValueTree P2, ValueTree P3, const float t);
 

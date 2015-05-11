@@ -26,6 +26,8 @@ class Interpolator {
 		UniformState calculateInterpolatedState(ValueTree sequence, const int relativeCurrentTime);
 
 	private:
+		std::pair<ValueTree, const int> wrappedGetKeyframe(ValueTree sequence, const int index, const int numKeyframes, const bool useStdAtStart, const bool useStdAtEnd) const;
+
 		// functions for interpolation methods
 		UniformState interpolationMethodStep(ValueTree sequence, const int currentTime);
 		UniformState interpolationMethodLinear(ValueTree sequence, const int currentTime);

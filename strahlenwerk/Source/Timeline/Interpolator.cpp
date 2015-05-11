@@ -148,6 +148,7 @@ UniformState Interpolator::interpolationMethodStep(ValueTree sequence, const int
 
 // linear interpolation method
 // returns the lineary interpolated value between the two current keyframes
+// TODO: write this with wrappedGetKeyframe(), should be almost identical to interpolationMethodCcrSpline
 UniformState Interpolator::interpolationMethodLinear(ValueTree sequence, const int currentTime) {
 	// check other keyframes for need to interpolate
 	const int numKeyframes = data.getNumKeyframes(sequence);
@@ -205,82 +206,108 @@ UniformState Interpolator::interpolationMethodLinear(ValueTree sequence, const i
 	return UniformState(ValueTree(), false);
 }
 
+// returns the keyframe of a sequence at index
+// an index of -1 or numKeyframes will return the standard value if the bools are set
+// in the other cases where index < 0 or > numKeyframes-1 an invalid value will be returned
+std::pair<ValueTree, const int> Interpolator::wrappedGetKeyframe(ValueTree sequence, const int index, const int numKeyframes, const bool useStdAtStart, const bool useStdAtEnd) const {
+	// first: keyframeValue, second: keyframePosition
+	using KeyframeWrapper = std::pair<ValueTree, const int>;
+	if (index == -1 && useStdAtStart) {
+		ValueTree val = data.getSequenceUniformStandardValue(sequence);
+		const int pos = 0;
+		return KeyframeWrapper(val, pos);
+	} else if (index <= -1) {
+		ValueTree val = ValueTree();
+		const int pos = -1;
+		return KeyframeWrapper(val, pos);
+	} else if (index == numKeyframes && useStdAtEnd) {
+		ValueTree val = data.getSequenceUniformStandardValue(sequence);
+		const int pos = data.getSequenceDuration(sequence);
+		return KeyframeWrapper(val, pos);
+	} else if (index >= numKeyframes) {
+		ValueTree val = ValueTree();
+		const int pos = -1;
+		return KeyframeWrapper(val, pos);
+	} else {
+		ValueTree keyframe = data.getKeyframe(sequence, index);
+		ValueTree val = data.getKeyframeValue(keyframe);
+		const int pos = data.getKeyframePosition(keyframe);
+		return KeyframeWrapper(val, pos);
+	}
+}
+
 // Centripetal Catmull-Rom Spline interpolation method
 // interpolates between different keyframes with Catmull-Rom splines in centripetal parametrization
 UniformState Interpolator::interpolationMethodCcrSpline(ValueTree sequence, const int currentTime) {
-	const int sequenceDuration = data.getSequenceDuration(sequence);
+	// first: keyframeValue, second: keyframePosition
+	using KeyframeWrapper = std::pair<ValueTree, const int>;
+
 	const int numKeyframes = data.getNumKeyframes(sequence);
+	const int sequenceDuration = data.getSequenceDuration(sequence);
+
+	ValueTree firstKeyframe = data.getKeyframe(sequence, 0);
+	ValueTree lastKeyframe = data.getKeyframe(sequence, numKeyframes - 1);
+
+	const int firstKeyframePosition = data.getKeyframePosition(firstKeyframe);
+	const int lastKeyframePosition = data.getKeyframePosition(lastKeyframe);
+
+	// insert the standard value at start or end if there is no keyframe
+	const bool useStdAtStart = !firstKeyframe.isValid() || firstKeyframePosition != 0;
+	const bool useStdAtEnd = !lastKeyframe.isValid() || lastKeyframePosition != sequenceDuration;
+
 	for (int i = 0; i <= numKeyframes; i++) {
-		ValueTree keyframeValue;
-		int keyframePosition;
+		KeyframeWrapper keyframeP2 = wrappedGetKeyframe(sequence, i, numKeyframes, useStdAtStart, useStdAtEnd);
 
-		if (i == numKeyframes) {
-			// time between sequence end and last keyframe, use standard value
-			keyframeValue = data.getSequenceUniformStandardValue(sequence);
-			keyframePosition = sequenceDuration;
-		} else {
-			ValueTree keyframe = data.getKeyframe(sequence, i);
+		const int positionP2 = keyframeP2.second;
 
-			keyframePosition = data.getKeyframePosition(keyframe);
-			if (currentTime == keyframePosition) {
-				// exactly on a keyframe
-				ValueTree value = data.getKeyframeValue(keyframe);
-				const bool isOnKeyframe = true;
-				return UniformState(value, isOnKeyframe);
-			}
-
-			keyframeValue = data.getKeyframeValue(keyframe);
+		if (currentTime == positionP2 && i != numKeyframes) {
+			// exactly on a keyframe
+			// if i == numKeyframes we have the standard value
+			// but we don't want to make it editable
+			const bool isOnKeyframe = true;
+			return UniformState(keyframeP2.first, isOnKeyframe);
 		}
 
-		if (currentTime <= keyframePosition) {
+		if (currentTime <= positionP2) {
+			// '=='-case for standard value at last position
 			// we need P0, P1, P2 and P3 to interpolate
 			// the keyframe we found is P2
+			KeyframeWrapper keyframeP1 = wrappedGetKeyframe(sequence, i - 1, numKeyframes, useStdAtStart, useStdAtEnd);
 
-			// invalid keyframes will get replaced by some default values in calculateCcrSplineForValues()
+			ValueTree valueP1 = keyframeP1.first;
+			ValueTree valueP2 = keyframeP2.first;
+
+			if (data.areValuesEqual(valueP1, valueP2)) {
+				// currently in an area between two two same values
+				// spline interpolation would horriably breal
+				// so just return the value
+				const bool isOnKeyframe = false;
+				return UniformState(valueP2, isOnKeyframe);
+			}
+
+
+			// search for the first value for P0 that is not equal to P1
 			ValueTree valueP0;
-			ValueTree valueP1;
-			ValueTree valueP2 = keyframeValue;
-			ValueTree valueP3;
-
-			int keyframeBeforePosition;
-
-			if (i == 0) {
-				// time is between origin and first keyframe, use standard value
-				valueP0 = ValueTree();
-				valueP1 = data.getSequenceUniformStandardValue(sequence);
-				keyframeBeforePosition = 0;
-			} else {
-				ValueTree keyframeBefore = data.getKeyframe(sequence, i - 1); // P1
-				valueP1 = data.getKeyframeValue(keyframeBefore);
-				keyframeBeforePosition = data.getKeyframePosition(keyframeBefore);
-
-				if (i >= 2) {
-					// normal
-					valueP0 = data.getKeyframeValue(data.getKeyframe(sequence, i - 2));
-				} else if (keyframeBeforePosition != 0) {
-					// first keyframe is not at 0
-					valueP0 = data.getSequenceUniformStandardValue(sequence);
-				} else {
-					// first keyframe is at 0, invalid tree will be handle in another function
-					valueP0 = ValueTree();
+			for (int indexP0 = i - 2; ; indexP0--) {
+				valueP0 = wrappedGetKeyframe(sequence, indexP0, numKeyframes, useStdAtStart, useStdAtEnd).first;
+				if (!data.areValuesEqual(valueP0, valueP1)) {
+					break;
 				}
 			}
 
-			if (i <= numKeyframes - 2) {
-				// normal
-				valueP3 = data.getKeyframeValue(data.getKeyframe(sequence, i + 1));
-			} else if (keyframePosition == sequenceDuration) {
-				// current keyframe is last keyframe and this is at sequence end
-				// or current keyframe is already standard value,
-				// because time is after the last keyframe
-				valueP3 = ValueTree();
-			} else {
-				// at last keyframe, which is not at sequence end
-				valueP3 = data.getSequenceUniformStandardValue(sequence);
+			// search for the first value for P3 that is not equal to P2
+			ValueTree valueP3;
+			for (int indexP3 = i + 1; ; indexP3++) {
+				valueP3 = wrappedGetKeyframe(sequence, indexP3, numKeyframes, useStdAtStart, useStdAtEnd).first;
+				if (!data.areValuesEqual(valueP2, valueP3)) {
+					break;
+				}
 			}
 
-			const int timeBetweenKeyframes = keyframePosition - keyframeBeforePosition;
-			const int relativeCurrentTime = currentTime - keyframeBeforePosition;
+			// calculation of mixing parameter t
+			const int positionP1 = keyframeP1.second;
+			const int timeBetweenKeyframes = positionP2 - positionP1;
+			const int relativeCurrentTime = currentTime - positionP1;
 			const float mixT = float(relativeCurrentTime) / float(timeBetweenKeyframes);
 
 			ValueTree valueInterpolated = data.calculateCcrSplineForValues(valueP0, valueP1, valueP2, valueP3, mixT);
@@ -290,6 +317,7 @@ UniformState Interpolator::interpolationMethodCcrSpline(ValueTree sequence, cons
 		}
 	}
 
+	// the currentTime seems to be beyond the end of the sequence
 	jassertfalse;
 	return UniformState(ValueTree(), false);
 }
