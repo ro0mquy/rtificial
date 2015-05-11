@@ -39,5 +39,7 @@ extern PFNGLGETPROGRAMIVPROC             glGetProgramiv;
 extern PFNGLGETPROGRAMINFOLOGPROC        glGetProgramInfoLog;
 extern PFNGLGETSHADERIVPROC              glGetShaderiv;
 extern PFNGLGETSHADERINFOLOGPROC         glGetShaderInfoLog;
+extern PFNGLDEBUGMESSAGECONTROLPROC      glDebugMessageControl;
+extern PFNGLDEBUGMESSAGECALLBACKPROC     glDebugMessageCallback;
 
 #endif

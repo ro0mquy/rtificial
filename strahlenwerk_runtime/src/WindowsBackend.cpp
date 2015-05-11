@@ -46,6 +46,8 @@ PFNGLGETPROGRAMIVPROC             glGetProgramiv;
 PFNGLGETPROGRAMINFOLOGPROC        glGetProgramInfoLog;
 PFNGLGETSHADERIVPROC              glGetShaderiv;
 PFNGLGETSHADERINFOLOGPROC         glGetShaderInfoLog;
+PFNGLDEBUGMESSAGECONTROLPROC      glDebugMessageControl;
+PFNGLDEBUGMESSAGECALLBACKPROC     glDebugMessageCallback;
 
 
 void WindowsBackend::init(int width, int height, bool fullscreen) {
@@ -98,6 +100,8 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 	glGetProgramInfoLog        = (PFNGLGETPROGRAMINFOLOGPROC)        wglGetProcAddress("glGetProgramInfoLog");
 	glGetShaderiv              = (PFNGLGETSHADERIVPROC)              wglGetProcAddress("glGetShaderiv");
 	glGetShaderInfoLog         = (PFNGLGETSHADERINFOLOGPROC)         wglGetProcAddress("glGetShaderInfoLog");
+	glDebugMessageControl      = (PFNGLDEBUGMESSAGECONTROLPROC)      wglGetProcAddress("glDebugMessageControl");
+	glDebugMessageCallback     = (PFNGLDEBUGMESSAGECALLBACKPROC)     wglGetProcAddress("glDebugMessageCallback");
 
 	/* adaptive vsync
 	typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);

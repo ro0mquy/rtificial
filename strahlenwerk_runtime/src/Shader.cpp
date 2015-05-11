@@ -74,8 +74,8 @@ void Shader::draw(int width, int height, const int time) {
 	};
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	glUniform2f(0, width, height);
-	glUniform1f(67, time / 1000.f); // here time should be in beats
 	if (time >= 0) {
+		glUniform1f(67, time / 1000.f); // here time should be in beats
 		DataInterpolator::loadUniforms(time);
 	}
 //	glUniform3f(35, 0.0f, 5.0f, 7.0f);

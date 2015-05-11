@@ -33,6 +33,8 @@ PFNGLGETPROGRAMIVPROC             glGetProgramiv;
 PFNGLGETPROGRAMINFOLOGPROC        glGetProgramInfoLog;
 PFNGLGETSHADERIVPROC              glGetShaderiv;
 PFNGLGETSHADERINFOLOGPROC         glGetShaderInfoLog;
+PFNGLDEBUGMESSAGECONTROLPROC      glDebugMessageControl;
+PFNGLDEBUGMESSAGECALLBACKPROC     glDebugMessageCallback;
 
 void LinuxBackend::init(int width, int height, bool fullscreen) {
 	// get local X display
@@ -147,6 +149,8 @@ void LinuxBackend::init(int width, int height, bool fullscreen) {
 	glGetProgramInfoLog        = (PFNGLGETPROGRAMINFOLOGPROC)        glXGetProcAddressARB((unsigned char*) "glGetProgramInfoLog");
 	glGetShaderiv              = (PFNGLGETSHADERIVPROC)              glXGetProcAddressARB((unsigned char*) "glGetShaderiv");
 	glGetShaderInfoLog         = (PFNGLGETSHADERINFOLOGPROC)         glXGetProcAddressARB((unsigned char*) "glGetShaderInfoLog");
+	glDebugMessageControl      = (PFNGLDEBUGMESSAGECONTROLPROC)      glXGetProcAddressARB((unsigned char*) "glDebugMessageControl");
+	glDebugMessageCallback     = (PFNGLDEBUGMESSAGECALLBACKPROC)     glXGetProcAddressARB((unsigned char*) "glDebugMessageCallback");
 }
 
 
