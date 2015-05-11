@@ -764,7 +764,7 @@ R"shader_source(// be careful when nesting! (just don't)
 )shader_source"
 R"shader_source(vec2 smin_smaterial(vec2 a, vec2 b, float k) {
 )shader_source"
-R"shader_source(	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+R"shader_source(	float h = clamp(0.5 + 0.5 * (b.x - a.x) / k, 0.0, 1.0 );
 )shader_source"
 R"shader_source(	return vec2(mix(b.x, a.x, h) - k * h * (1.0 - h), mix(b.y, a.y, h));
 )shader_source"
@@ -776,7 +776,7 @@ R"shader_source(// be careful when nesting! (just don't)
 )shader_source"
 R"shader_source(vec2 smax_smaterial(vec2 a, vec2 b, float k) {
 )shader_source"
-R"shader_source(	float h = clamp(0.5 - 0.5 * (b - a) / k, 0.0, 1.0 );
+R"shader_source(	float h = clamp(0.5 - 0.5 * (b.x - a.x) / k, 0.0, 1.0 );
 )shader_source"
 R"shader_source(	return vec2(mix(b.x, a.x, h) + k * h * (1.0 - h), mix(b.y, a.y, h));
 )shader_source"

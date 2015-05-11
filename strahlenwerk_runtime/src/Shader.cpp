@@ -19,6 +19,19 @@ void Shader::compile() {
 	glCompileShader(vertex);
 	glShaderSource(fragment, 1, &source, nullptr);
 	glCompileShader(fragment);
+#	ifdef _DEBUG
+		GLint compile_ok = GL_FALSE;
+		glGetShaderiv(fragment, GL_COMPILE_STATUS, &compile_ok);
+		if (compile_ok == GL_FALSE) {
+			RT_DEBUG("Compile error:");
+			GLint log_length;
+			glGetShaderiv(fragment, GL_INFO_LOG_LENGTH, &log_length);
+			char* const log = (char* const)malloc(log_length);
+			glGetShaderInfoLog(fragment, log_length, NULL, log);
+			RT_DEBUG(log)
+			free(log);
+		}
+#	endif
 	program = glCreateProgram();
 	glAttachShader(program, vertex);
 	glAttachShader(program, fragment);

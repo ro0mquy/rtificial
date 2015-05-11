@@ -37,5 +37,7 @@ extern PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
 extern PFNGLDELETEPROGRAMPROC            glDeleteProgram;
 extern PFNGLGETPROGRAMIVPROC             glGetProgramiv;
 extern PFNGLGETPROGRAMINFOLOGPROC        glGetProgramInfoLog;
+extern PFNGLGETSHADERIVPROC              glGetShaderiv;
+extern PFNGLGETSHADERINFOLOGPROC         glGetShaderInfoLog;
 
 #endif

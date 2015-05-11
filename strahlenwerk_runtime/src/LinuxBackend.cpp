@@ -31,6 +31,8 @@ PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
 PFNGLDELETEPROGRAMPROC            glDeleteProgram;
 PFNGLGETPROGRAMIVPROC             glGetProgramiv;
 PFNGLGETPROGRAMINFOLOGPROC        glGetProgramInfoLog;
+PFNGLGETSHADERIVPROC              glGetShaderiv;
+PFNGLGETSHADERINFOLOGPROC         glGetShaderInfoLog;
 
 void LinuxBackend::init(int width, int height, bool fullscreen) {
 	// get local X display
@@ -143,6 +145,8 @@ void LinuxBackend::init(int width, int height, bool fullscreen) {
 	glDeleteProgram            = (PFNGLDELETEPROGRAMPROC)            glXGetProcAddressARB((unsigned char*) "glDeleteProgram");
 	glGetProgramiv             = (PFNGLGETPROGRAMIVPROC)             glXGetProcAddressARB((unsigned char*) "glGetProgramiv");
 	glGetProgramInfoLog        = (PFNGLGETPROGRAMINFOLOGPROC)        glXGetProcAddressARB((unsigned char*) "glGetProgramInfoLog");
+	glGetShaderiv              = (PFNGLGETSHADERIVPROC)              glXGetProcAddressARB((unsigned char*) "glGetShaderiv");
+	glGetShaderInfoLog         = (PFNGLGETSHADERINFOLOGPROC)         glXGetProcAddressARB((unsigned char*) "glGetShaderInfoLog");
 }
 
 

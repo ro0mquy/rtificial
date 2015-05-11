@@ -151,7 +151,7 @@ RT_MAIN {
 		backend.afterFrame();
 
 #		ifdef _DEBUG
-			RT_DEBUG((std::to_string(backend.getTime()) + "\n").c_str());
+			// RT_DEBUG((std::to_string(backend.getTime()) + "\n").c_str());
 #		endif
 	}
 

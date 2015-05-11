@@ -12,7 +12,7 @@ extern "C" {
 	#define BPM 90
 
 	// use GetTickCount() instead of V2 for time
-	#define SYSTEM_TIME
+	// #define SYSTEM_TIME
 #endif
 
 #include "Backend.h"
@@ -44,6 +44,8 @@ PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
 PFNGLDELETEPROGRAMPROC            glDeleteProgram;
 PFNGLGETPROGRAMIVPROC             glGetProgramiv;
 PFNGLGETPROGRAMINFOLOGPROC        glGetProgramInfoLog;
+PFNGLGETSHADERIVPROC              glGetShaderiv;
+PFNGLGETSHADERINFOLOGPROC         glGetShaderInfoLog;
 
 
 void WindowsBackend::init(int width, int height, bool fullscreen) {
@@ -94,6 +96,8 @@ void WindowsBackend::init(int width, int height, bool fullscreen) {
 	glDeleteProgram            = (PFNGLDELETEPROGRAMPROC)            wglGetProcAddress("glDeleteProgram");
 	glGetProgramiv             = (PFNGLGETPROGRAMIVPROC)             wglGetProcAddress("glGetProgramiv");
 	glGetProgramInfoLog        = (PFNGLGETPROGRAMINFOLOGPROC)        wglGetProcAddress("glGetProgramInfoLog");
+	glGetShaderiv              = (PFNGLGETSHADERIVPROC)              wglGetProcAddress("glGetShaderiv");
+	glGetShaderInfoLog         = (PFNGLGETSHADERINFOLOGPROC)         wglGetProcAddress("glGetShaderInfoLog");
 
 	/* adaptive vsync
 	typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
@@ -124,6 +128,7 @@ extern "C" const sU8 soundtrack[];
 #ifdef SYSTEM_TIME
 	DWORD starttime;
 #endif
+	long startPosition;
 #endif
 
 void WindowsBackend::initAudio(bool threaded) {
@@ -178,6 +183,7 @@ void WindowsBackend::playAudio() {
 	#ifdef SYSTEM_TIME
 		starttime = GetTickCount();
 	#endif
+		startPosition = dsGetCurSmp();
 	player.Play();
 #endif
 }
@@ -195,7 +201,7 @@ int WindowsBackend::getTime(){
 	#ifdef SYSTEM_TIME
 		return int(.5 + double(GetTickCount() - starttime) * BPM / 60.);
 	#else
-		return int(.5 + double(player.GetTime()) * BPM / 60.);
+		return int(.5 + (dsGetCurSmp() - startPosition) / (44.100 * sizeof(float))) * (BPM / 60.);
 	#endif
 #endif
 }
