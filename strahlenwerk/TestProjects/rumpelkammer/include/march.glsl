@@ -1433,7 +1433,7 @@ vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist, flo
 	debug_plane_visible = debug_isoline_pass_plane_visible;
 
 	float sdf_dist = fMain(p, false);
-	vec3 sdf_normal = sdfNormal(p, pixelSize(screen_dist, camera_dist));
+	vec3 sdf_normal = sdfNormal(p, .5 * pixelSize(screen_dist, camera_dist));
 
 	scene_visible = debug_default_pass_scene_visible;
 	debug_plane_visible = debug_default_pass_plane_visible;
@@ -1548,6 +1548,10 @@ vec3 applyNormalLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec
 
 uniform float main_marching_distance;
 
+bool isNormalBackfacing(vec3 normal, vec3 direction) {
+	return dot(normal, direction) > 0;
+}
+
 void main() {
 	setDebugParameters();
 
@@ -1569,7 +1573,18 @@ void main() {
 
 		float marching_error = fMain(hit, true);
 		Material material = current_material;
-		vec3 normal = sdfNormal(hit, pixelSize(screen_dist, marched));
+		vec3 normal = sdfNormal(hit, .5 * pixelSize(screen_dist, marched));
+
+		// try eliminating backfacing normals
+		vec3 neighbour_normal_x = normalize(dFdx(normal) + normal);
+		vec3 neighbour_normal_y = normalize(dFdy(normal) + normal);
+		if (isNormalBackfacing(normal, direction)) {
+			if (!isNormalBackfacing(neighbour_normal_x, direction)) {
+				normal = neighbour_normal_x;
+			} else {
+				normal = neighbour_normal_y;
+			}
+		}
 
 		if (material.id == debug_plane_material_id) {
 			vec3 c_isoline = debugColorIsolines(origin, marched, hit, screen_dist);
