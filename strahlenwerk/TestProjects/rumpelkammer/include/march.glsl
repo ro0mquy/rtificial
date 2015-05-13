@@ -236,13 +236,13 @@ void pQuatRotate(inout vec3 v, vec4 q) {
 	// *hex hex*
 }
 
-float camGetDirection(out vec3 dir) {
-	dir.xy = (gl_FragCoord.xy - .5 * res) / res.x;
-	dir.z = -camera_focal_length / .03;
-	float screen_dist = length(vec2(dir.xz));
+vec3 camGetDirection(out float screen_distance) {
+	vec3 dir = vec3((gl_FragCoord.xy - .5 * res) / res.x,
+		-camera_focal_length / .03);
+	screen_distance = length(dir.xz);
 	dir = normalize(dir);
 	pQuatRotate(dir, camera_rotation);
-	return screen_dist;
+	return dir;
 }
 
 
@@ -1257,10 +1257,6 @@ vec3 sdfNormal(vec3 p, float epsilon) {
 	return normalize(sdfRawNormal(p, epsilon));
 }
 
-vec3 sdfNormal(vec3 p) {
-	return sdfNormal(p, .001);
-}
-
 vec3 sdfGradient(vec3 p, float epsilon) {
 	return sdfRawNormal(p, epsilon) / (2. * epsilon);
 }
@@ -1316,8 +1312,12 @@ float sdfMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, float pixelRadi
 	return candidate_t;
 }
 
-float sdfMarch(vec3 o, vec3 d, float t_max, float screenDistX) {
-	return sdfMarchAdvanced(o, d, .001, t_max, screenDistX/res.x*.5, 128, 1.2, false);
+float pixelSize(float screen_dist, float t) {
+	return .5 * t / (screen_dist * res.x);
+}
+
+float sdfMarch(vec3 o, vec3 d, float t_max, float screen_dist) {
+	return sdfMarchAdvanced(o, d, .001, t_max, pixelSize(screen_dist, 1), 128, 1.2, false);
 }
 
 void setDebugParameters() {
@@ -1428,12 +1428,12 @@ vec3 debugIsolineTexture(float sdf_dist, vec3 camera_pos, float camera_dist) {
 	return base_color;
 }
 
-vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
+vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist, float screen_dist) {
 	scene_visible = debug_isoline_pass_scene_visible;
 	debug_plane_visible = debug_isoline_pass_plane_visible;
 
 	float sdf_dist = fMain(p, false);
-	vec3 sdf_normal = sdfNormal(p);
+	vec3 sdf_normal = sdfNormal(p, pixelSize(screen_dist, camera_dist));
 
 	scene_visible = debug_default_pass_scene_visible;
 	debug_plane_visible = debug_default_pass_plane_visible;
@@ -1467,8 +1467,8 @@ vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
 	return no / float(sx*sy);
 }
 
-vec3 debugColorIsolines(vec3 origin, float marched, vec3 hit) {
-	return debugIsolineTextureFiltered(hit, origin, marched);
+vec3 debugColorIsolines(vec3 origin, float marched, vec3 hit, float screen_dist) {
+	return debugIsolineTextureFiltered(hit, origin, marched, screen_dist);
 }
 
 vec3 debugColorGradient(vec3 p) {
@@ -1552,20 +1552,27 @@ void main() {
 	setDebugParameters();
 
 	vec3 origin = camera_position;
-	vec3 direction;
-	float screen_dist = camGetDirection(direction);
+	float screen_dist;
+	vec3 direction = camGetDirection(screen_dist);
 	float marched = sdfMarch(origin, direction, main_marching_distance, screen_dist);
 
 	if (isinf(marched)) {
 		out_color = .07 * environmentColor(origin, direction, main_marching_distance);
 	} else {
 		vec3 hit = origin + marched * direction;
+
+		// discontinuity reduction
+		for (int i = 0; i < 3; i++) {
+			marched += fMain(hit, false) - pixelSize(screen_dist, marched);
+			hit = origin + direction * marched;
+		}
+
 		float marching_error = fMain(hit, true);
 		Material material = current_material;
-		vec3 normal = sdfNormal(hit);
+		vec3 normal = sdfNormal(hit, pixelSize(screen_dist, marched));
 
 		if (material.id == debug_plane_material_id) {
-			vec3 c_isoline = debugColorIsolines(origin, marched, hit);
+			vec3 c_isoline = debugColorIsolines(origin, marched, hit, screen_dist);
 			if (debug_gradient_visualization) {
 				vec3 c_gradient = debugColorGradient(hit);
 				c_isoline = mix(c_isoline, c_gradient, .5);
