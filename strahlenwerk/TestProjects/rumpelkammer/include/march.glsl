@@ -1428,12 +1428,12 @@ vec3 debugIsolineTexture(float sdf_dist, vec3 camera_pos, float camera_dist) {
 	return base_color;
 }
 
-vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist, float screen_dist) {
+vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
 	scene_visible = debug_isoline_pass_scene_visible;
 	debug_plane_visible = debug_isoline_pass_plane_visible;
 
 	float sdf_dist = fMain(p, false);
-	vec3 sdf_normal = sdfNormal(p, .5 * pixelSize(screen_dist, camera_dist));
+	vec3 sdf_normal = sdfNormal(p, .001);
 
 	scene_visible = debug_default_pass_scene_visible;
 	debug_plane_visible = debug_default_pass_plane_visible;
@@ -1467,8 +1467,8 @@ vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist, flo
 	return no / float(sx*sy);
 }
 
-vec3 debugColorIsolines(vec3 origin, float marched, vec3 hit, float screen_dist) {
-	return debugIsolineTextureFiltered(hit, origin, marched, screen_dist);
+vec3 debugColorIsolines(vec3 origin, float marched, vec3 hit) {
+	return debugIsolineTextureFiltered(hit, origin, marched);
 }
 
 vec3 debugColorGradient(vec3 p) {
@@ -1573,7 +1573,7 @@ void main() {
 
 		float marching_error = fMain(hit, true);
 		Material material = current_material;
-		vec3 normal = sdfNormal(hit, .5 * pixelSize(screen_dist, marched));
+		vec3 normal = sdfNormal(hit, pixelSize(screen_dist, marched));
 
 		// try eliminating backfacing normals
 		vec3 neighbour_normal_x = normalize(dFdx(normal) + normal);
@@ -1587,7 +1587,7 @@ void main() {
 		}
 
 		if (material.id == debug_plane_material_id) {
-			vec3 c_isoline = debugColorIsolines(origin, marched, hit, screen_dist);
+			vec3 c_isoline = debugColorIsolines(origin, marched, hit);
 			if (debug_gradient_visualization) {
 				vec3 c_gradient = debugColorGradient(hit);
 				c_isoline = mix(c_isoline, c_gradient, .5);
