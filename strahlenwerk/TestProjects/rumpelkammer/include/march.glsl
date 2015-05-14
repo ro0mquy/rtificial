@@ -360,6 +360,22 @@ bool isNormalBackfacing(vec3 normal, vec3 direction) {
 	return dot(normal, direction) > 0;
 }
 
+// Bump Mapping Unparametrized Surfaces on the GPU [Mikkelsen2010]
+void perturbNormal(vec3 p, inout vec3 n) {
+
+	vec3 sigma_s = dFdx(p);
+	vec3 sigma_t = dFdy(p);
+	vec3 a = cross(sigma_t, n);
+	vec3 b = cross(n, sigma_s);
+	float determinant = dot(sigma_s, a);
+	float height = 0; // TODO
+	float d_beta_s = dFdx(height);
+	float d_beta_t = dFdy(height);
+	vec3 surface_gradient = (d_beta_s * a + d_beta_t * b) * sign(determinant);
+	vec3 n_perturbed = normalize(abs(determinant) * n - surface_gradient);
+	n = n_perturbed;
+}
+
 void main() {
 	setDebugParameters();
 
@@ -383,6 +399,7 @@ void main() {
 		Material material = current_material;
 		vec3 normal = sdfNormal(hit, pixelSize(screen_dist, marched));
 
+		perturbNormal(hit, normal);
 		// try eliminating backfacing normals
 		vec3 neighbour_normal_x = normalize(dFdx(normal) + normal);
 		vec3 neighbour_normal_y = normalize(dFdy(normal) + normal);
