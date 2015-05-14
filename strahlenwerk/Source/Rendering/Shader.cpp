@@ -204,7 +204,7 @@ void Shader::applyIncludes() {
 }
 
 void Shader::applyIncludes(std::string& source, std::unordered_set<std::string>& includedFiles) {
-	const std::regex includeRegex(R"regex((^|\n)#include "(\w+.glsl)")regex");
+	const std::regex includeRegex(R"regex((^|\n)#include "((\w|/)+.glsl)")regex");
 	const std::sregex_iterator end;
 
 	std::vector<std::tuple<std::string, std::string, int, int>> includeMatches;
