@@ -5,8 +5,9 @@
 #include "sdf/domain.glsl"
 #include "sdf/operators.glsl"
 #include "sdf/distances.glsl"
+#include "lighting.glsl"
 #include "helper.glsl"
-#line 10 "march"
+#line 11 "march"
 
 out vec3 out_color;
 
@@ -40,7 +41,7 @@ float fMain(vec3 p, bool calc_m) {
 	calculate_material = calc_m;
 
 	if (debug_plane_visible) {
-		mUnion(fDebugPlane(p), Material(debug_plane_material_id, p));
+		mUnion(fDebugPlane(p), MaterialId(debug_plane_material_id, p));
 	}
 
 	if (scene_visible) {
@@ -299,60 +300,9 @@ vec3 debugColorGradient(vec3 p) {
 	return base_color;
 }
 
-layout(binding = 0) uniform sampler2D brdf;
-layout(binding = 1) uniform samplerCube environment;
-layout(binding = 2) uniform samplerCube filteredDiffuse;
-layout(binding = 3) uniform samplerCube filteredSpecular;
-
-// n: normal
-// v: vector from hit to camera (for example -dir)
-// color: base color of object
-// roughness: between 0 and 1
-vec3 approximateSpecular(vec3 n, vec3 v, vec3 color, float roughness) {
-	float NoV = saturate(dot(n, v));
-	vec3 r = 2. * dot(n, v) * n - v;
-
-	vec3 prefiltered = textureLod(filteredSpecular, r, roughness * 5.).rgb;
-	vec2 envBRDF = textureLod(brdf, vec2(roughness, NoV), 0.).rg;
-
-	return prefiltered * (color * envBRDF.x + envBRDF.y);
-}
-
-// n: normal
-// v: vector from hit to camera (for example -dir)
-// color: base color of object
-// roughness: between 0 and 1
-// metallic: only 0 or 1
-vec3 ambientColor(vec3 n, vec3 v, vec3 color, float rough, float metallic) {
-	vec3 diffuse = textureLod(filteredDiffuse, n, 0.).rgb;
-	vec3 dielectric = color * diffuse + approximateSpecular(n, v, vec3(.04), rough);
-	vec3 metal = approximateSpecular(n, v, color, rough);
-	return mix(dielectric, metal, metallic);
-}
-
-// o: camera origin
-// d: camera view direction
-// r: radius of "bounding sphere"
-vec3 environmentColor(vec3 o, vec3 d, float r) {
-	// hmmmmm…
-	o.xz -= camera_position.xz;
-	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
-	float t = -dot(d, o) + sqrt(radicand);
-	return textureLod(environment, normalize(o + t * d), 0.).rgb;
-}
-
-vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material);
+Material getMaterial(MaterialId materialId);
+vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material);
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color);
-
-// handy standard applyLights() function at your hands, just copy this into yout applyLights() function
-/*
-	return applyNormalLights(origin, marched, direction, hit, normal, material);
-// */
-vec3 applyNormalLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material) {
-	vec3 c_object = .5 * normal + .5;
-	vec3 color = .1 * ambientColor(normal, -direction, c_object, .1, 0.);
-	return color;
-}
 
 uniform float main_marching_distance;
 
@@ -361,14 +311,12 @@ bool isNormalBackfacing(vec3 normal, vec3 direction) {
 }
 
 // Bump Mapping Unparametrized Surfaces on the GPU [Mikkelsen2010]
-void perturbNormal(vec3 p, inout vec3 n) {
-
+void perturbNormal(vec3 p, inout vec3 n, float height) {
 	vec3 sigma_s = dFdx(p);
 	vec3 sigma_t = dFdy(p);
 	vec3 a = cross(sigma_t, n);
 	vec3 b = cross(n, sigma_s);
 	float determinant = dot(sigma_s, a);
-	float height = 0; // TODO
 	float d_beta_s = dFdx(height);
 	float d_beta_t = dFdy(height);
 	vec3 surface_gradient = (d_beta_s * a + d_beta_t * b) * sign(determinant);
@@ -396,10 +344,9 @@ void main() {
 		}
 
 		float marching_error = fMain(hit, true);
-		Material material = current_material;
+		MaterialId materialId = current_material;
 		vec3 normal = sdfNormal(hit, pixelSize(screen_dist, marched));
 
-		perturbNormal(hit, normal);
 		// try eliminating backfacing normals
 		vec3 neighbour_normal_x = normalize(dFdx(normal) + normal);
 		vec3 neighbour_normal_y = normalize(dFdy(normal) + normal);
@@ -411,19 +358,23 @@ void main() {
 			}
 		}
 
-		if (material.id == debug_plane_material_id) {
+		if (materialId.id == debug_plane_material_id) {
 			vec3 c_isoline = debugColorIsolines(origin, marched, hit);
 			if (debug_gradient_visualization) {
 				vec3 c_gradient = debugColorGradient(hit);
 				c_isoline = mix(c_isoline, c_gradient, .5);
 			}
-			out_color = .1 * ambientColor(normal, -direction, c_isoline, .7, 0.);
+			out_color = .1 * ambientColor(normal, -direction, defaultMaterial(c_isoline));
 		} else {
 			if (debug_gradient_visualization) {
 				vec3 c_gradient = debugColorGradient(hit);
-				out_color = .1 * ambientColor(normal, -direction, c_gradient, 0., 0.);
+				out_color = .1 * ambientColor(normal, -direction, defaultMaterial(c_gradient));
 			} else {
-				out_color = applyLights(origin, marched, direction, hit, normal, material);
+				Material material = getMaterial(materialId);
+				// TODO move this somewhere else
+				// should be done for debug materials too to avoid false differentials
+				perturbNormal(hit, normal, material.height);
+				out_color = applyLights(origin, marched, direction, hit, normal, materialId, material);
 			}
 		}
 	}

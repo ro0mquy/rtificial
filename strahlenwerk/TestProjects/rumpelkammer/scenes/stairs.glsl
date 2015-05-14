@@ -42,14 +42,20 @@ float fScene(vec3 p) {
 	float g = f2Box(q.xz, 1, 1);
 	f = min(f, g);
 
-	mUnion(f, Material(0., p));
+	mUnion(f, MaterialId(0., p));
 	return f;
 }
 
-vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material) {
+vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
 	return applyNormalLights(origin, marched, direction, hit, normal, material);
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 	return color;
+}
+
+Material getMaterial(MaterialId materialId) {
+	Material mat = defaultMaterial(vec3(1));
+	mat.roughness = .1;
+	return mat;
 }

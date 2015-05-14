@@ -23,13 +23,19 @@ float fScene(vec3 p) {
 	//f_altar = max(f_altar, -p_altar.y);
 	f = min(f, f_altar);
 
-	mUnion(f, Material(0., p));
+	mUnion(f, MaterialId(0., p));
 	return f;
 }
 
-vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material) {
-	vec3 color = .05 * ambientColor(normal, -direction, vec3(.9), .1, 0.);
+vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
+	vec3 color = .05 * ambientColor(normal, -direction, material);
 	return color;
+}
+
+Material getMaterial(MaterialId materialId) {
+	Material mat = defaultMaterial(vec3(.9));
+	mat.roughness = .1;
+	return mat;
 }
 
 // build your fog here, output should be in intervall [0, 1]

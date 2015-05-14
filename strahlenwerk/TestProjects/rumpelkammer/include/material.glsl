@@ -1,17 +1,25 @@
 #include "helper.glsl"
 #line 3 "material"
 
-struct Material {
+struct MaterialId {
 	float id;
 	vec3 coord;
 };
 
+struct Material {
+	vec3 color;
+	float roughness;
+	float metallic;
+	float height;
+	float specular;
+};
+
 bool calculate_material = false;
 float current_dist = Inf;
-Material current_material = Material(0., vec3(0.));
+MaterialId current_material = MaterialId(0., vec3(0.));
 
 // der witz: jetzt in einmal komplett neu!
-void mUnion(float f, Material m) {
+void mUnion(float f, MaterialId m) {
 	if (calculate_material) {
 		if (f < current_dist) {
 			current_dist = f;
@@ -23,7 +31,7 @@ void mUnion(float f, Material m) {
 }
 
 // und hier der andere neue witz
-void mIntersect(float f, Material m) {
+void mIntersect(float f, MaterialId m) {
 	if (calculate_material) {
 		if (f > current_dist) {
 			current_dist = f;
@@ -32,4 +40,14 @@ void mIntersect(float f, Material m) {
 	} else {
 		current_dist = max(current_dist, f);
 	}
+}
+
+Material defaultMaterial(vec3 color) {
+	return Material(
+		color,
+		.5,
+		0,
+		0,
+		.5
+	);
 }
