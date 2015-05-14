@@ -221,23 +221,28 @@ void Shader::applyIncludes(std::string& source, std::unordered_set<std::string>&
 		const int length = std::get<2>(match);
 		const int position = std::get<3>(match);
 
-		if (includedFiles.find(filename) != includedFiles.end()) {
-			// already included this file
-			std::cerr << getName() << ": Include file " << filename << " already included!" << std::endl;
-			continue;
-		}
-		includedFiles.insert(filename);
+		std::string replacement(newline);
+		if (includedFiles.find(filename) == includedFiles.end()) {
+			includedFiles.insert(filename);
 
-		const auto includeFile = loader.getIncludeDir().getChildFile(String(filename));
-		std::string included;
-		if(!includeFile.exists()) {
-			// TODO
-			std::cerr << getName() << ": Include file " << filename << " not found!" << std::endl;
-			continue;
+			const auto includeFile = loader.getIncludeDir().getChildFile(String(filename));
+			std::string included;
+			if(!includeFile.exists()) {
+				// TODO
+				std::cerr << getName() << ": Include file " << filename << " not found!" << std::endl;
+				continue;
+			}
+			included = loader.loadFile(includeFile.getFullPathName().toStdString());
+			applyIncludes(included, includedFiles);
+			replacement += included;
+		} else {
+			// already included this file
+			const bool warnAboutMultipleIncludes = false;
+			if (warnAboutMultipleIncludes) {
+				std::cerr << "Warning: " << getName() << ": Include file "
+					<< filename << " already included!" << std::endl;
+			}
 		}
-		included = loader.loadFile(includeFile.getFullPathName().toStdString());
-		applyIncludes(included, includedFiles);
-		const std::string replacement = newline + included;
 		source.replace(position + offset, length, replacement);
 		offset += int(replacement.length()) - length;
 	}
