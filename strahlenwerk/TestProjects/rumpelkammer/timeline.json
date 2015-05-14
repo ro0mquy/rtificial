@@ -86,7 +86,7 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": -0.2322225421667098999,
+                "valueQuatX": -0.23222254216670992766,
                 "valueQuatY": -0.30655494332313537598,
                 "valueQuatZ": -0.077392578125,
                 "valueQuatW": 0.91984128952026367188
@@ -116,13 +116,13 @@
                 "valueQuatX": -0.23132559657096862793,
                 "valueQuatY": -0.078668616712093353271,
                 "valueQuatZ": -0.018770284950733184814,
-                "valueQuatW": 0.96950936317443847656
+                "valueQuatW": 0.96950936317443836554
               }
             },
             {
               "keyframePosition": 14250,
               "keyframeValue": {
-                "valueQuatX": -0.2322225421667098999,
+                "valueQuatX": -0.23222254216670992766,
                 "valueQuatY": -0.30655494332313537598,
                 "valueQuatZ": -0.077392578125,
                 "valueQuatW": 0.91984128952026367188
@@ -327,6 +327,14 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "main_normal_epsilon_bias",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },

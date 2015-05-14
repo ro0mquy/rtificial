@@ -13,6 +13,8 @@ out vec3 out_color;
 
 /// marchingloopkram.glsl
 
+uniform float main_normal_epsilon_bias;
+
 uniform float debug_mode;
 uniform vec3 debug_plane_normal;
 uniform float debug_plane_height;
@@ -51,7 +53,7 @@ float fMain(vec3 p, bool calc_m) {
 	return current_dist;
 }
 
-vec3 sdfRawNormal(vec3 p, float e) {
+vec3 sdfNormalRaw(vec3 p, float e) {
 	// writing the gradient this way, causes the compiler not to inline f six times
 	// thanks to mercury, stupid compilers
 	vec3 s[6] = vec3[6](vec3(e,0,0), vec3(0,e,0), vec3(0,0,e), vec3(-e,0,0), vec3(0,-e,0), vec3(0,0,-e));
@@ -63,15 +65,35 @@ vec3 sdfRawNormal(vec3 p, float e) {
 }
 
 vec3 sdfNormal(vec3 p, float epsilon) {
-	return normalize(sdfRawNormal(p, epsilon));
+	return normalize(sdfNormalRaw(p, epsilon));
+}
+
+vec3 sdfNormal(vec3 p) {
+	float epsilon = max(.00005, camGetPixelSize(distance(p, camera_position)));
+	epsilon *= main_normal_epsilon_bias;
+	return sdfNormal(p, epsilon);
+}
+
+vec3 sdfNormalForeward(vec3 p, vec3 direction) {
+	vec3 normal = sdfNormal(p);
+	// try eliminating backfacing normals
+	if (dot(direction, normal) > 0.) {
+		normal = normalize(dFdx(normal) + normal);
+		if (dot(direction, normal) > 0.) {
+			normal = normalize(dFdy(normal) + normal);
+		}
+	}
+	return normal;
 }
 
 vec3 sdfGradient(vec3 p, float epsilon) {
-	return sdfRawNormal(p, epsilon) / (2. * epsilon);
+	return sdfNormalRaw(p, epsilon) / (2. * epsilon);
 }
 
 vec3 sdfGradient(vec3 p) {
-	return sdfGradient(p, .001);
+	float epsilon = max(.00005, camGetPixelSize(distance(p, camera_position)));
+	epsilon *= main_normal_epsilon_bias;
+	return sdfGradient(p, epsilon);
 }
 
 // ein fachmenschich kopierter marchingloop
@@ -121,12 +143,19 @@ float sdfMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, float pixelRadi
 	return candidate_t;
 }
 
-float pixelSize(float screen_dist, float t) {
-	return .5 * t / (screen_dist * res.x);
-}
+float sdfMarch(vec3 o, vec3 d, float t_max) {
+	float marched = sdfMarchAdvanced(o, d, .001, t_max, camGetPixelSize(1), 128, 1.2, false);
 
-float sdfMarch(vec3 o, vec3 d, float t_max, float screen_dist) {
-	return sdfMarchAdvanced(o, d, .001, t_max, pixelSize(screen_dist, 1), 128, 1.2, false);
+	if (isinf(marched)) {
+		return marched;
+	}
+
+	// discontinuity reduction
+	for (int i = 0; i < 3; i++) {
+		marched += fMain(o + marched * d, false) - camGetPixelSize(marched);
+	}
+
+	return marched;
 }
 
 void setDebugParameters() {
@@ -242,7 +271,7 @@ vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
 	debug_plane_visible = debug_isoline_pass_plane_visible;
 
 	float sdf_dist = fMain(p, false);
-	vec3 sdf_normal = sdfNormal(p, .001);
+	vec3 sdf_normal = sdfNormal(p);
 
 	scene_visible = debug_default_pass_scene_visible;
 	debug_plane_visible = debug_default_pass_plane_visible;
@@ -306,10 +335,6 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color);
 
 uniform float main_marching_distance;
 
-bool isNormalBackfacing(vec3 normal, vec3 direction) {
-	return dot(normal, direction) > 0;
-}
-
 // Bump Mapping Unparametrized Surfaces on the GPU [Mikkelsen2010]
 void perturbNormal(vec3 p, inout vec3 n, float height) {
 	vec3 sigma_s = dFdx(p);
@@ -328,35 +353,18 @@ void main() {
 	setDebugParameters();
 
 	vec3 origin = camera_position;
-	float screen_dist;
-	vec3 direction = camGetDirection(screen_dist);
-	float marched = sdfMarch(origin, direction, main_marching_distance, screen_dist);
+	vec3 direction = camGetDirection();
+	float marched = sdfMarch(origin, direction, main_marching_distance);
 
 	if (isinf(marched)) {
 		out_color = .07 * environmentColor(origin, direction, main_marching_distance);
 	} else {
 		vec3 hit = origin + marched * direction;
 
-		// discontinuity reduction
-		for (int i = 0; i < 3; i++) {
-			marched += fMain(hit, false) - pixelSize(screen_dist, marched);
-			hit = origin + direction * marched;
-		}
-
 		float marching_error = fMain(hit, true);
 		MaterialId materialId = current_material;
-		vec3 normal = sdfNormal(hit, pixelSize(screen_dist, marched));
 
-		// try eliminating backfacing normals
-		vec3 neighbour_normal_x = normalize(dFdx(normal) + normal);
-		vec3 neighbour_normal_y = normalize(dFdy(normal) + normal);
-		if (isNormalBackfacing(normal, direction)) {
-			if (!isNormalBackfacing(neighbour_normal_x, direction)) {
-				normal = neighbour_normal_x;
-			} else {
-				normal = neighbour_normal_y;
-			}
-		}
+		vec3 normal = sdfNormalForeward(hit, direction);
 
 		if (materialId.id == debug_plane_material_id) {
 			vec3 c_isoline = debugColorIsolines(origin, marched, hit);
