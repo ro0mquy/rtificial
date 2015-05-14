@@ -199,11 +199,16 @@ void Shader::recompile() {
 }
 
 void Shader::applyIncludes() {
+	std::unordered_set<std::string> includedFiles;
+	applyIncludes(fragmentSource, includedFiles);
+}
+
+void Shader::applyIncludes(std::string& source, std::unordered_set<std::string>& includedFiles) {
 	const std::regex includeRegex(R"regex((^|\n)#include "(\w+.glsl)")regex");
 	const std::sregex_iterator end;
 
 	std::vector<std::tuple<std::string, std::string, int, int>> includeMatches;
-	for(std::sregex_iterator it(fragmentSource.begin(), fragmentSource.end(), includeRegex); it != end; ++it) {
+	for(std::sregex_iterator it(source.begin(), source.end(), includeRegex); it != end; ++it) {
 		const auto& match = *it;
 		includeMatches.emplace_back(match[1], match[2], match.length(), match.position());
 	}
@@ -215,17 +220,25 @@ void Shader::applyIncludes() {
 		const auto filename = std::get<1>(match);
 		const int length = std::get<2>(match);
 		const int position = std::get<3>(match);
+
+		if (includedFiles.find(filename) != includedFiles.end()) {
+			// already included this file
+			std::cerr << getName() << ": Include file " << filename << " already included!" << std::endl;
+			continue;
+		}
+		includedFiles.insert(filename);
+
 		const auto includeFile = loader.getIncludeDir().getChildFile(String(filename));
 		std::string included;
-		if(includeFile.exists()) {
-			included = loader.loadFile(includeFile.getFullPathName().toStdString());
-		} else {
+		if(!includeFile.exists()) {
 			// TODO
 			std::cerr << getName() << ": Include file " << filename << " not found!" << std::endl;
 			continue;
 		}
+		included = loader.loadFile(includeFile.getFullPathName().toStdString());
+		applyIncludes(included, includedFiles);
 		const std::string replacement = newline + included;
-		fragmentSource.replace(position + offset, length, replacement);
+		source.replace(position + offset, length, replacement);
 		offset += int(replacement.length()) - length;
 	}
 }

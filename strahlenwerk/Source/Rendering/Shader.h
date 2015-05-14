@@ -5,6 +5,7 @@
 #include <fstream>
 #include <mutex>
 #include <string>
+#include <unordered_set>
 
 struct Uniform;
 enum class UniformType;
@@ -32,6 +33,7 @@ class Shader {
 	private:
 		void recompile();
 		void applyIncludes();
+		void applyIncludes(std::string& source, std::unordered_set<std::string>& includedFiles);
 		void addRtUniforms();
 		void applyBakedUniforms();
 		void loadUniformValues();
