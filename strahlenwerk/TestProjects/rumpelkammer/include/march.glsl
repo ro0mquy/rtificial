@@ -1,5 +1,4 @@
-#include "version.glsl"
-#include "uniforms.glsl"
+#include "fragment.glsl"
 #include "camera.glsl"
 #include "material.glsl"
 #include "sdf/domain.glsl"
@@ -8,8 +7,6 @@
 #include "lighting.glsl"
 #include "helper.glsl"
 #line 11 "march"
-
-out vec3 out_color;
 
 /// marchingloopkram.glsl
 
