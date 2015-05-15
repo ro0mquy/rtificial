@@ -50,8 +50,8 @@ vec3 environmentColor(vec3 o, vec3 d, float r) {
 	return applyNormalLights(origin, marched, direction, hit, normal, material);
 // */
 vec3 applyNormalLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material) {
-	vec3 c_object = .5 * normal + .5;
-	material.color = c_object;
+	material.color = .5 * normal + .5;
+	material.roughness = 0.;
 	vec3 color = .1 * ambientColor(normal, -direction, material);
 	return color;
 }

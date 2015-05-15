@@ -372,11 +372,15 @@ void main() {
 				vec3 c_gradient = debugColorGradient(hit);
 				c_isoline = mix(c_isoline, c_gradient, .5);
 			}
-			out_color = .1 * ambientColor(normal, -direction, defaultMaterial(c_isoline));
+			Material m_isoline = defaultMaterial(c_isoline);
+			m_isoline.roughness = 1.;
+			out_color = .1 * ambientColor(normal, -direction, m_isoline);
 		} else {
 			if (debug_gradient_visualization) {
 				vec3 c_gradient = debugColorGradient(hit);
-				out_color = .1 * ambientColor(normal, -direction, defaultMaterial(c_gradient));
+				Material m_gradient = defaultMaterial(c_gradient);
+				m_gradient.roughness = 0.;
+				out_color = .1 * ambientColor(normal, -direction, m_gradient);
 			} else {
 				Material material = getMaterial(materialId);
 				// TODO move this somewhere else
