@@ -23,7 +23,7 @@ class SequenceBackgroundComponent :
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 
-		void changeListenerCallback(ChangeBroadcaster* source);
+		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
 		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;

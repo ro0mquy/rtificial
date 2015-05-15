@@ -24,7 +24,7 @@ class InspectorSequenceComponent :
 		void addAllKeyframeComponents();
 		KeyframeComponent* getKeyframeComponentForData(ValueTree keyframeData);
 
-		void mouseUp(const MouseEvent& event);
+		void mouseUp(const MouseEvent& event) override;
 
 		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
 		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;

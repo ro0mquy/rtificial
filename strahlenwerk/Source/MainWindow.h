@@ -16,7 +16,7 @@ class MainWindow : public DocumentWindow,
 	public:
 		MainWindow();
 		~MainWindow();
-		void closeButtonPressed();
+		void closeButtonPressed() override;
 
 		static ApplicationCommandManager& getApplicationCommandManager();
 		MainContentComponent& getMainContentComponent();

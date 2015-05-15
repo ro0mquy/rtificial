@@ -188,7 +188,7 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent, privat
 			callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
 		}
 
-		void valueChanged(Value& /*value*/) {
+		void valueChanged(Value& /*value*/) override {
 			// color values changed
 			repaint();
 		}

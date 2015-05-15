@@ -14,7 +14,7 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 
 		LowLevelGraphicsContext* createGraphicsContext(const Image& imageToRenderOn, const Point<int>& origin, const RectangleList<int>& initialClip) override;
 
-		void drawStretchableLayoutResizerBar(Graphics& g, int width, int height, bool isVerticalBar, bool isMouseOver, bool isMouseDragging);
+		void drawStretchableLayoutResizerBar(Graphics& g, int width, int height, bool isVerticalBar, bool isMouseOver, bool isMouseDragging) override;
 
 		void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) override;
 		Font getTextButtonFont(TextButton& button, int buttonHeight) override;
