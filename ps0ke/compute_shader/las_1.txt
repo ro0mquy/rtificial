@@ -1,0 +1,28 @@
+--compute
+#define WorkGroupSizeX 8
+#define WorkGroupSizeY 8
+#define WorkGroupSize (WorkGroupSizeX*WorkGroupSizeY)
+
+layout(local_size_x = WorkGroupSizeX, local_size_y = WorkGroupSizeY, local_size_z = 1) in;
+layout(binding = 0, r32f) uniform image2D dst;
+layout(binding = 0) uniform sampler2D src;
+
+shared float tmp[WorkGroupSize];
+uniform ivec2 resolution;
+
+void main() {
+	tmp[gl_LocalInvocationIndex] = texelFetch(src, clamp(ivec2(gl_GlobalInvocationID.xy), ivec2(0), resolution-1), 0).x;
+	barrier();
+
+	for (uint s = 1; s < WorkGroupSize; s*=2) {
+		uint i = 2 * s * gl_LocalInvocationIndex;
+		if (i < WorkGroupSize) {
+			tmp[i] = max(tmp[i], tmp[i+s]);
+		}
+		groupMemoryBarrier();
+	}
+
+	if (gl_LocalInvocationIndex == 0) {
+		imageStore(dst, ivec2(gl_WorkGroupID), vec4(tmp[0]));
+	}
+}

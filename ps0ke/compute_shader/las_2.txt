@@ -1,0 +1,19 @@
+--compute
+layout(local_size_x = 8, local_size_y = 8) in;
+layout(binding = 0) uniform isampler2D faceIDTex;
+layout(binding = 0, r32ui) uniform uimageBuffer visibleFaces;
+uniform ivec2 resolution;
+
+void main() {
+	if(gl_GlobalInvocationID.x >= resolution.x ||
+		gl_GlobalInvocationID.y >= resolution.y)
+			return;
+	
+	int faceID = texelFetch(faceIDTex, ivec2(gl_GlobalInvocationID.xy), 0).r;
+	if (faceID < 0)
+		return;
+
+	//imageAtomicAdd(visibleFaces, faceID, 1); // might be slower...
+	imageStore(visibleFaces, faceID, uvec4(1));
+	memoryBarrier();
+}
