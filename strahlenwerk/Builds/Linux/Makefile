@@ -72,15 +72,16 @@ OBJECTS := \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
   $(OBJDIR)/DraggableQuaternion_55786799.o \
-  $(OBJDIR)/QuaternionEditor_3c7fc27.o \
   $(OBJDIR)/InfoLogComponent_7ff61de3.o \
-  $(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o \
-  $(OBJDIR)/InspectorSequenceComponent_294b0841.o \
   $(OBJDIR)/InspectorComponent_96983e82.o \
+  $(OBJDIR)/InspectorSequenceComponent_294b0841.o \
+  $(OBJDIR)/QuaternionEditor_3c7fc27.o \
+  $(OBJDIR)/ScopesComponent_6b3b152c.o \
+  $(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o \
   $(OBJDIR)/Sidebar_eccfc76a.o \
+  $(OBJDIR)/ValueEditorPropertyComponent_ae881406.o \
   $(OBJDIR)/ValueSlider_d188aa40.o \
   $(OBJDIR)/ValueToggleButton_fed8bf05.o \
-  $(OBJDIR)/ValueEditorPropertyComponent_ae881406.o \
   $(OBJDIR)/Selection_45a84fa7.o \
   $(OBJDIR)/JsonExporter_56469f78.o \
   $(OBJDIR)/SpecialUniformController_926d55c6.o \
@@ -242,24 +243,9 @@ $(OBJDIR)/DraggableQuaternion_55786799.o: ../../Source/Sidebar/DraggableQuaterni
 	@echo "Compiling DraggableQuaternion.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/QuaternionEditor_3c7fc27.o: ../../Source/Sidebar/QuaternionEditor.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling QuaternionEditor.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/InfoLogComponent_7ff61de3.o: ../../Source/Sidebar/InfoLogComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling InfoLogComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o: ../../Source/Sidebar/SequenceBackgroundComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling SequenceBackgroundComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/InspectorSequenceComponent_294b0841.o: ../../Source/Sidebar/InspectorSequenceComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling InspectorSequenceComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/InspectorComponent_96983e82.o: ../../Source/Sidebar/InspectorComponent.cpp
@@ -267,9 +253,34 @@ $(OBJDIR)/InspectorComponent_96983e82.o: ../../Source/Sidebar/InspectorComponent
 	@echo "Compiling InspectorComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/InspectorSequenceComponent_294b0841.o: ../../Source/Sidebar/InspectorSequenceComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling InspectorSequenceComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/QuaternionEditor_3c7fc27.o: ../../Source/Sidebar/QuaternionEditor.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling QuaternionEditor.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ScopesComponent_6b3b152c.o: ../../Source/Sidebar/ScopesComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ScopesComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o: ../../Source/Sidebar/SequenceBackgroundComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SequenceBackgroundComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/Sidebar_eccfc76a.o: ../../Source/Sidebar/Sidebar.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Sidebar.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ValueEditorPropertyComponent_ae881406.o: ../../Source/Sidebar/ValueEditorPropertyComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ValueEditorPropertyComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/ValueSlider_d188aa40.o: ../../Source/Sidebar/ValueSlider.cpp
@@ -280,11 +291,6 @@ $(OBJDIR)/ValueSlider_d188aa40.o: ../../Source/Sidebar/ValueSlider.cpp
 $(OBJDIR)/ValueToggleButton_fed8bf05.o: ../../Source/Sidebar/ValueToggleButton.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ValueToggleButton.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/ValueEditorPropertyComponent_ae881406.o: ../../Source/Sidebar/ValueEditorPropertyComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ValueEditorPropertyComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Selection_45a84fa7.o: ../../Source/Timeline/Selection.cpp

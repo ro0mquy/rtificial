@@ -38,8 +38,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">strahlenwerk</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">strahlenwerk</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
     <PlatformToolset>v120</PlatformToolset>
@@ -156,15 +158,16 @@
     <ClCompile Include="..\..\Source\Rendering\Uniform.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\DraggableQuaternion.cpp"/>
-    <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InfoLogComponent.cpp"/>
-    <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp"/>
-    <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\ScopesComponent.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\Sidebar.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\ValueSlider.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\ValueToggleButton.cpp"/>
-    <ClCompile Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\Selection.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\JsonExporter.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\SpecialUniformController.cpp"/>
@@ -1313,15 +1316,16 @@
     <ClInclude Include="..\..\Source\Rendering\UniformManager.h"/>
     <ClInclude Include="..\..\Source\Rendering\UniformType.h"/>
     <ClInclude Include="..\..\Source\Sidebar\DraggableQuaternion.h"/>
-    <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InfoLogComponent.h"/>
-    <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h"/>
-    <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\ScopesComponent.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\Sidebar.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\ValueSlider.h"/>
     <ClInclude Include="..\..\Source\Sidebar\ValueToggleButton.h"/>
-    <ClInclude Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.h"/>
     <ClInclude Include="..\..\Source\Timeline\Selection.h"/>
     <ClInclude Include="..\..\Source\Timeline\JsonExporter.h"/>
     <ClInclude Include="..\..\Source\Timeline\SpecialUniformController.h"/>

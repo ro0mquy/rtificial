@@ -4,6 +4,7 @@
 #include <juce>
 #include "InspectorComponent.h"
 #include "InfoLogComponent.h"
+#include "ScopesComponent.h"
 
 class Sidebar :
 	public TabbedComponent
@@ -18,6 +19,7 @@ class Sidebar :
 	private:
 		InspectorComponent inspectorComponent;
 		InfoLogComponent infoLogComponent;
+		ScopesComponent scopesComponent;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Sidebar)
 };
