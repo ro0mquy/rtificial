@@ -9,7 +9,8 @@
 #include "JsonExporter.h"
 
 TimelineData::TimelineData(const File& dataFile) :
-	interpolator(*this)
+	interpolator(*this),
+	selection(*this)
 {
 	MainWindow::getApplicationCommandManager().addListener(this);
 	readTimelineDataFromFile(dataFile);
@@ -17,7 +18,8 @@ TimelineData::TimelineData(const File& dataFile) :
 
 TimelineData::TimelineData() :
 	valueTree(treeId::timelineTree),
-	interpolator(*this)
+	interpolator(*this),
+	selection(*this)
 {
 	MainWindow::getApplicationCommandManager().addListener(this);
 	for (int i = 0; i < 4; i++) {

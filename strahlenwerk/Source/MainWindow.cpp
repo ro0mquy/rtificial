@@ -100,7 +100,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		TimelineData::undoAction,
 		TimelineData::redoAction,
 		AudioManager::toggleMute,
-		InspectorComponent::toggleLoop,
+		Selection::toggleLoop,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -215,7 +215,7 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			}
 			break;
 
-		case InspectorComponent::toggleLoop:
+		case Selection::toggleLoop:
 			result.setInfo("Toggle Selection Looping", "Loops the current selection", programCategory, 0);
 			result.addDefaultKeypress('8', ModifierKeys::noModifiers);
 			break;
@@ -281,7 +281,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, AudioManager::toggleMute);
 		menu.addSeparator();
-		menu.addCommandItem(commandManager, InspectorComponent::toggleLoop);
+		menu.addCommandItem(commandManager, Selection::toggleLoop);
 	} else if (topLevelMenuIndex == 4 /* Help */) {
 		menu.addItem(41, "No Help available. You are lost.", false);
 		menu.addSeparator();
