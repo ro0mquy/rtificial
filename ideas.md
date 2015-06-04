@@ -29,6 +29,7 @@
 * Schrift extruden und an einem ende noise drauf, dazwischen lerpen
 * Stummfilmdemo, Kalviermusik, einschubkarten mit beschreibung des breaks und der eigentlichen musik
 * irgendwas mit normalenbeleuchtung, meta-demo darüber dass die demo programmiert ist
+* raymarching-connosseur demo: stummfilm karten mit "und jetzt stopfen wir das in das", peep peep countdown, szene mit sehr stetigen sdfs, asozialem strobo und jumstyle.
 
 ## Bilder
 * http://projectosxar.deviantart.com/art/Through-the-Gap-455732816
