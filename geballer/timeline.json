@@ -33,7 +33,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -116,6 +116,99 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shal_gang_decke_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.23199999999997089617
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shal_gang_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 20
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shal_gang_saulen_smooth_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shal_saulen_biegung_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 50
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shal_saulen_domrep_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shal_saulen_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shal_saulen_welle_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.050000000000068212103
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shal_saulen_welle_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 794,
+          "sequenceStart": 500,
+          "sequenceDuration": 6625,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 6625,
+              "keyframeValue": {
+                "valueFloatX": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "shal_saulen_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 20
       },
       "sequencesArray": []
     },
@@ -223,8 +316,14 @@
   ],
   "scenesArray": [
     {
-      "sceneId": 932,
+      "sceneId": 794,
       "sceneStart": 0,
+      "sceneDuration": 8000,
+      "sceneShaderSource": "shal"
+    },
+    {
+      "sceneId": 932,
+      "sceneStart": 8750,
       "sceneDuration": 9500,
       "sceneShaderSource": "spoid"
     }

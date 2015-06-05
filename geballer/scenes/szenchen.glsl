@@ -19,6 +19,5 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = .1;
-	mat.height = sin(materialId.coord.x * 2) * cos(materialId.coord.y * 2) * .1;
 	return mat;
 }
