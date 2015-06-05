@@ -1,0 +1,232 @@
+{
+  "uniformsArray": [
+    {
+      "uniformName": "camera_focal_length",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.022000000000048203219
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_position",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_rotation",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": 0,
+        "valueQuatY": 0,
+        "valueQuatZ": 0,
+        "valueQuatW": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_mode",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_plane_height",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_plane_normal",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 1,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "main_marching_distance",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "main_normal_epsilon_bias",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_frequency",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.540000000000077307
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.0049999999999954525265
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_power",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_lens_distort_k",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.003000000000042746251
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_lens_distort_kcube",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.003000000000042746251
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_vignette_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_cutout_chamfer_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.067000000000007275958
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_cutout_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.08400000000006002665
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_cutout2_chamfer_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.28100000000006275513
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_cutout2_domrep_c_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.096000000000003637979
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_cutout2_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.042000000000030013325
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_cutout2_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.93899999999996452971
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_inner_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.20000000000004547474
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_outer_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.7119999999999890861
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_outer_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spoid_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 932,
+          "sequenceStart": 0,
+          "sequenceDuration": 7750,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 7750,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scenesArray": [
+    {
+      "sceneId": 932,
+      "sceneStart": 0,
+      "sceneDuration": 9500,
+      "sceneShaderSource": "spoid"
+    }
+  ]
+}

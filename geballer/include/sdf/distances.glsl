@@ -367,6 +367,7 @@ float fSpiral(vec3 p, float dist, float r) {
 	return d;
 }
 
+
 // l: half distance of focus points, r: radius
 float f2Spheroid(vec2 p, float l, float r) {
 	vec2 q1 = p, q2 = p;

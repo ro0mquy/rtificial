@@ -1,0 +1,2 @@
+input.color final.color
+final.out_color output.color
