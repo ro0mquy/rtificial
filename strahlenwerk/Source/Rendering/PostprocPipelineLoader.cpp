@@ -30,7 +30,6 @@ std::vector<std::unique_ptr<PostprocShader>> PostprocPipelineLoader::load(
 	for(int i = 0; i < orderSize; i++) {
 		shadersInOrder[i] = std::move(shaders[order[i]]);
 	}
-	shadersInOrder.pop_back();
 	return shadersInOrder;
 }
 
@@ -46,9 +45,17 @@ std::unordered_map<std::string, int> PostprocPipelineLoader::loadShaders(
 
 	shaders.clear();
 	shaders.emplace_back(new PostprocShader(context, "input"));
-	shaders.back()->load("#version 330\nout vec3 color;\nout float coc;\n void main() {}");
+	shaders.back()->load("#version 430\nout vec3 color;\nout float coc;\n void main() {}");
 	shaders.emplace_back(new PostprocShader(context, "output"));
-	shaders.back()->load("#version 330\nuniform sampler2D color; // vec3\n void main() {}");
+	shaders.back()->load(R"source(
+#version 430
+uniform sampler2D color; // vec3
+in vec2 tc;
+layout(location = 0) out vec3 out_color;
+void main() {
+	out_color = textureLod(color, tc, 0.).rgb;
+}
+)source");
 
 	for(const auto& p : shaderSources) {
 		shaderIds.emplace(p.first, shaders.size());

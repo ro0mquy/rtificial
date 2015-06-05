@@ -11,11 +11,13 @@ void PostprocPipeline::setShaders(std::vector<std::unique_ptr<PostprocShader>> _
 	shaders = std::move(_shaders);
 }
 
-uint64_t PostprocPipeline::render(SceneShader& shader, int width, int height) {
+uint64_t PostprocPipeline::render(SceneShader& scene, int width, int height) {
 	// TODO evaluate "double buffering" of query objects
 	if(shaders.empty()) {
 		return 0;
 	}
+
+	jassert(shaders.size() != 1);
 
 	const auto requiredQueries = shaders.size(); // number of drawing operations
 	if(queries.size() != requiredQueries) {
@@ -36,16 +38,14 @@ uint64_t PostprocPipeline::render(SceneShader& shader, int width, int height) {
 		height /= 2;
 	}
 
-	if(shaders.size() > 1) {
-		shaders[0]->bindFBO(width, height);
-		queryNames.push_back(shader.getName());
-		glBeginQuery(GL_TIME_ELAPSED, queries[queryIndex++]);
-		shader.draw(shaders[0]->getCreatedWidth(), shaders[0]->getCreatedHeight());
-		glEndQuery(GL_TIME_ELAPSED);
-		shaders[0]->unbindFBO();
-	}
-	const int shadersSize = shaders.size() - 1;
-	for(int i = 1; i < shadersSize; i++) {
+	shaders[0]->bindFBO(width, height);
+	queryNames.push_back(scene.getName());
+	glBeginQuery(GL_TIME_ELAPSED, queries[queryIndex++]);
+	scene.draw(shaders[0]->getCreatedWidth(), shaders[0]->getCreatedHeight());
+	glEndQuery(GL_TIME_ELAPSED);
+	shaders[0]->unbindFBO();
+
+	for (size_t i = 1; i < shaders.size() - 1; i++) {
 		// perform postproc at full resolution
 		// may be completely broken (sorry!)
 		// TODO check if this is sane
@@ -56,19 +56,15 @@ uint64_t PostprocPipeline::render(SceneShader& shader, int width, int height) {
 		glEndQuery(GL_TIME_ELAPSED);
 		shaders[i]->unbindFBO();
 	}
+
 	glEnable(GL_FRAMEBUFFER_SRGB);
 	// bind default framebuffer again
 	OpenGLContext::getCurrentContext()->extensions.glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, originalWidth, originalHeigth);
 	glBeginQuery(GL_TIME_ELAPSED, queries[queryIndex++]);
-	if(shaders.size() > 1) {
-		// this works becaue the last drawn shader has only one output (which should have location = 0)
-		shaders[shaders.size() - 1]->draw(originalWidth, originalHeigth);
-		queryNames.push_back(shaders[shaders.size() - 1]->getName());
-	} else {
-		shader.draw(originalWidth, originalHeigth);
-		queryNames.push_back(shader.getName());
-	}
+	// this works becaue the last drawn shader has only one output (with location = 0)
+	shaders[shaders.size() - 1]->draw(originalWidth, originalHeigth);
+	queryNames.push_back(shaders[shaders.size() - 1]->getName());
 	glEndQuery(GL_TIME_ELAPSED);
 	glDisable(GL_FRAMEBUFFER_SRGB);
 
