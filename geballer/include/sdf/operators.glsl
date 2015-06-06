@@ -185,6 +185,42 @@ float opSubtractColumns(float f1, float f2, float r, float n) {
 	return opIntersectColumns(f1, -f2, r, n);
 }
 
+// unions two objects and adds n stairs within a radius of r
+// use only with orthogonal objects
+float opUnionStairs(float f1, float f2, float r, float n) {
+	// Speckröllchen
+	float f_min = min(f1, f2);
+	//if (f1 < 2.*r && f2 < 2.*r) {
+		vec2 q = vec2(f1, f2);
+		float radius = r / n * sqrt(.5);
+		q.y -= r - sqrt(.5) * radius;
+		q.x -= sqrt(.5) * radius;
+		pRot(q, -Tau / 8.);
+		pDomrep(q.x, 2. * radius);
+
+		q.x = abs(q.x);
+		float offset = radius * sqrt(.5);
+		float f_columns = dot(q, vec2(sqrt(.5))) - offset;
+
+		f_columns = min(f_columns, q.y);
+		return min(f_columns, f_min);
+	//}
+	//return f_min;
+}
+
+// intersects two objects and adds n stairs within a radius of r
+// use only with orthogonal objects
+float opIntersectStairs(float f1, float f2, float r, float n) {
+	// stairs are symmetric, so we can use opUnionStairs
+	return -opUnionStairs(-f1, -f2, r, n);
+}
+
+// subtracts f2 from f1 and adds n stairs within a radius of r
+// use only with orthogonal objects
+float opSubtractStairs(float f1, float f2, float r, float n) {
+	return opIntersectStairs(f1, -f2, r, n);
+}
+
 // like normal min()-union but with correct distance at corners
 // gives correct interior
 // use only with orthogonal objects
