@@ -33,7 +33,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -120,10 +120,116 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "reto_big_inner_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "reto_big_outer_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "reto_big_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 728,
+          "sequenceStart": 750,
+          "sequenceDuration": 6500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 6500,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "reto_cutout_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "reto_cutout_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.26800000000002910383
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "reto_small_inner_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0560000000000400178
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "reto_small_outer_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.8730000000000472937
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "reto_small_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 728,
+          "sequenceStart": 750,
+          "sequenceDuration": 6500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 6500,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "shal_gang_decke_angle_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.23199999999997089617
+        "valueFloatX": 0.23199999999997086841
       },
       "sequencesArray": []
     },
@@ -171,7 +277,7 @@
       "uniformName": "shal_saulen_welle_freq_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068212103
+        "valueFloatX": 0.050000000000068205164
       },
       "sequencesArray": []
     },
@@ -315,6 +421,12 @@
     }
   ],
   "scenesArray": [
+    {
+      "sceneId": 728,
+      "sceneStart": 19000,
+      "sceneDuration": 8000,
+      "sceneShaderSource": "reto"
+    },
     {
       "sceneId": 794,
       "sceneStart": 0,
