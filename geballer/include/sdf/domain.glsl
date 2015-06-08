@@ -247,6 +247,17 @@ float pDomrepAngle(inout vec2 p, float repetitions, float radius) {
 	return pDomrepAngleWithAtan(p, repetitions, radius, atan(p.y, p.x));
 }
 
+float pDomrepRadiusWithAtan(inout vec2 p, float c, float preCalcAtan) {
+	float r = length(p);
+	float i = pDomrep(r, c);
+	p = r * unitVector(preCalcAtan);
+	return i;
+}
+
+float pDomrepRadius(inout vec2 p, float c) {
+	return pDomrepRadiusWithAtan(p, c, atan(p.y, p.x));
+}
+
 float pMirror(inout float p) {
 	float s = sgn(p);
 	p = abs(p);
