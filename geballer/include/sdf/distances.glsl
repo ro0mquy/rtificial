@@ -153,7 +153,7 @@ float fTriprismEdge(vec3 p, float r, float h) {
 }
 
 // r is the radius from the origin to the vertices
-// just like a rotated fBoxEdge2
+// just like a rotated f2BoxEdge
 float f2Quadprism(vec2 p, float r) {
 	float offset = r * sqrt(.5);
 	vec2 q = abs(p);
@@ -263,7 +263,7 @@ float f2Supershape(vec2 p, float a, float b, float m, float n1, float n2, float 
 }
 
 float fTorus(vec3 p, float rBig, float rSmall) {
-	// also try replacing fSphere2 by something like fBox2/fBoxEdge2/fBoxRounded2
+	// also try replacing f2Sphere by something like f2Box/f2BoxEdge/f2BoxRounded
 	vec2 q = vec2(f2Sphere(p.xz, rBig), p.y);
 	return f2Sphere(q, rSmall);
 }
