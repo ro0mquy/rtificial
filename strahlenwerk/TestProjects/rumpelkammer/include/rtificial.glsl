@@ -212,7 +212,7 @@ vec2 smin_material(vec2 a, vec2 b, float k) {
 
 // be careful when nesting! (just don't)
 vec2 smin_smaterial(vec2 a, vec2 b, float k) {
-	float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0 );
+	float h = clamp(0.5 + 0.5 * (b.x - a.x) / k, 0.0, 1.0 );
 	return vec2(mix(b.x, a.x, h) - k * h * (1.0 - h), mix(b.y, a.y, h));
 }
 

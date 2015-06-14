@@ -87,7 +87,21 @@ bool CameraController::keyPressed(const KeyPress& key, Component* /*originatingC
 		key.isKeyCode('k') ||
 		key.isKeyCode('l') ||
 		key.isKeyCode('u') ||
-		key.isKeyCode('o');
+		key.isKeyCode('o') ||
+		
+		key.isKeyCode('W') ||
+		key.isKeyCode('A') ||
+		key.isKeyCode('S') ||
+		key.isKeyCode('D') ||
+		key.isKeyCode('E') ||
+		key.isKeyCode('C') ||
+
+		key.isKeyCode('I') ||
+		key.isKeyCode('J') ||
+		key.isKeyCode('K') ||
+		key.isKeyCode('L') ||
+		key.isKeyCode('U') ||
+		key.isKeyCode('O');
 
 	if (isCameraKey && !isTimerRunning()) {
 		takeOverControl();
