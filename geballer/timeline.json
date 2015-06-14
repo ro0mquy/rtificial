@@ -33,7 +33,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -61,7 +61,22 @@
       "uniformStandardValue": {
         "valueFloatX": 200
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 803,
+          "sequenceStart": 250,
+          "sequenceDuration": 8250,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 500
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "main_normal_epsilon_bias",
@@ -418,6 +433,418 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "tple_bg_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.14200000000005275069
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_bg_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_bg_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -350,
+        "valueVec3Y": 40,
+        "valueVec3Z": 200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_bg2_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.11900000000002819434
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_bg2_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 150
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_bg2_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -200,
+        "valueVec3Y": 20,
+        "valueVec3Z": -200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_hill_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.16500000000007730705
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_hill_band_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 14.320000000000050022,
+        "valueVec3Y": 0.10000000000002273737,
+        "valueVec3Z": 14.320000000000050022
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_hill_band_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.13599999999996725819
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_hill_band_y_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.3600000000000136424
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_hill_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_hill_plateau_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_kuhle_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 23,
+        "valueVec3Y": 1.5,
+        "valueVec3Z": 23
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_kuhle_n_stairs_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 7
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mauer_dach_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.5,
+        "valueVec3Y": 0.20000000000004547474,
+        "valueVec3Z": 6
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mauer_dach_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mauer_max_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.029999999999972715159
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mauer_pfeiler_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.3000000000000682121,
+        "valueVec3Y": 2.903999999999996362,
+        "valueVec3Z": 0.3000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mauer_pfeiler_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.9759999999999990905
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mauer_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 26.836000000000012733,
+        "valueVec2Y": 16.019000000000005457
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mauer_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.66399999999998726707
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mono_col_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.01606770046055316925,
+        "valueColorG": 0.015175238251686096191,
+        "valueColorB": 0.015175238251686096191
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mono1_dim1_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.70400000000006457412,
+        "valueVec3Y": 3,
+        "valueVec3Z": 1.7240000000000463842
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mono1_dim2_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 1.5,
+        "valueVec3Z": 0.63200000000006184564
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mono1_offset_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 0,
+        "valueVec3Z": -1.0779999999999745341
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mono1_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -3.048000000000001819,
+        "valueVec3Y": 0,
+        "valueVec3Z": 1.2160000000000081855
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mono2_dim1_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 1,
+        "valueVec3Z": 3.1879999999999881766
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mono2_dim2_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 2.1560000000000627551,
+        "valueVec3Y": 2.5,
+        "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mono2_offset_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": -0.68600000000003547029
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_mono2_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 2.1960000000000263753,
+        "valueVec3Y": 0,
+        "valueVec3Z": -0.052999999999997271516
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_nebenhill_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.14800000000002455636
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_nebenhill_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_nebenhill_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 25,
+        "valueVec2Y": 50
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_saulen_dist_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_saulen_first_pos_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.7730000000000245564
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_saulen_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_saulen_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.3000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_saulen_top_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 1,
+        "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_saulen_top_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.50400000000001909939
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_tex_boden_streifen_col_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.051122054457664489746,
+        "valueColorG": 0.39929330348968505859,
+        "valueColorB": 0.046148840337991714478
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_tex_boden_streifen_num_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_tex_boden_streifen_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.12400000000002364686
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_tex_boden_streifen_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_tex_boden_streifen_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.12400000000002364686
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_tex_boden_streifen_x_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 16.228000000000065484
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_weg_width_distort_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tple_weg_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.3400000000000318323
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
@@ -432,6 +859,12 @@
       "sceneStart": 0,
       "sceneDuration": 8000,
       "sceneShaderSource": "shal"
+    },
+    {
+      "sceneId": 803,
+      "sceneStart": 28000,
+      "sceneDuration": 9000,
+      "sceneShaderSource": "tple"
     },
     {
       "sceneId": 932,
