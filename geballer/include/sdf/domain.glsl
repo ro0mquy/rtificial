@@ -249,7 +249,8 @@ float pDomrepAngle(inout vec2 p, float repetitions, float radius) {
 
 float pDomrepRadiusWithAtan(inout vec2 p, float c, float preCalcAtan) {
 	float r = length(p);
-	float i = pDomrep(r, c);
+	float i = floor(r / c);
+	r = mod(r, c);
 	p = r * unitVector(preCalcAtan);
 	return i;
 }
