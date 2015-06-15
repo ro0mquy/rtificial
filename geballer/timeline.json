@@ -845,6 +845,46 @@
         "valueFloatX": 2.3400000000000318323
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "tunnel_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 15
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tunnel_support_cutout_depth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10599999999999454303
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tunnel_support_cutout_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.3310000000000172804
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tunnel_support_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.12400000000002364686
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tunnel_support_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.6370000000000572982
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
@@ -865,6 +905,12 @@
       "sceneStart": 28000,
       "sceneDuration": 9000,
       "sceneShaderSource": "tple"
+    },
+    {
+      "sceneId": 921,
+      "sceneStart": 38250,
+      "sceneDuration": 7250,
+      "sceneShaderSource": "tunnel"
     },
     {
       "sceneId": 932,
