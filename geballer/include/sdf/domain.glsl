@@ -335,3 +335,12 @@ float pMirrorAtPlane(inout vec3 p, vec3 planeNormal, float offset) {
 	return sgn(dist);
 }
 
+// cut through a plane at point a with normal normalize(v) and translate positive
+// halfspace by v, filling the gap with the extruded cut plane
+float pCutAndExtrude(inout vec3 p, vec3 a, vec3 v) {
+	pTrans(p, a);
+	float h = saturate(dot(p, v)/ dot(v, v));
+	p -= v * h;
+	pTrans(p, -a);
+	return h;
+}
