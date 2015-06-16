@@ -99,6 +99,31 @@ vec2 pDomrepGrid(inout vec2 p, vec2 c) {
 	return floor(.5 * i);
 }
 
+vec3 pDomrepGrid(inout vec3 p, vec3 c) {
+	vec3 i = pDomrepMirror(p, c);
+	p -= .5 * c;
+	if (p.x < p.y) {
+		if (p.y > p.z) {
+			if (p.x < p.z) {
+				p = p.xzy;
+			} else {
+				p = p.zxy;
+			}
+		}
+	} else {
+		if (p.z < p.y) {
+			p = p.zyx;
+		} else {
+			if (p.z < p.x) {
+				p = p.yzx;
+			} else {
+				p = p.yxz;
+			}
+		}
+	}
+	return floor(.5 * i);
+}
+
 // domrep only in positive half
 float pDomrepSingle(inout float p, float c) {
 	float halfC = .5 * c;

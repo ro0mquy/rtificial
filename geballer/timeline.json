@@ -1,6 +1,13 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "aa_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      }
+    },
+    {
       "uniformName": "camera_focal_length",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -843,6 +850,22 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 2.3400000000000318323
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tunnel_crazy_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.028000000000020008883
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tunnel_crazy_z_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.11099999999998999556
       },
       "sequencesArray": []
     },

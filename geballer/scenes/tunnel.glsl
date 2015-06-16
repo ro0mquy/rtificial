@@ -14,7 +14,7 @@ float fSupport(vec3 p, float radius) {
 	float depth = tunnel_support_cutout_depth_rt_float * rSmall;
 	pDomrepAngle(q_cutout, 6, rSmall - depth);
 	float d_cutout = f2Box(q_cutout, vec2(depth, width - depth));
-	d_torus = opSubtractStairs(d_torus, d_cutout, depth, 6);
+	d_torus = opSubtractStairs(d_torus, d_cutout, depth, 2);
 	return d_torus;
 }
 
@@ -22,13 +22,20 @@ float fScene(vec3 p) {
 	float d = fSphere(p, 1);
 
 	float tunnel_radius = tunnel_radius_rt_float;
+	float distance_between_support = tunnel_support_spacing_rt_float * tunnel_radius;
 	vec3 p_tunnel = p;
+	pRotZ(p_tunnel, Tau * tunnel_crazy_z_rt_float);
+	pDomrepGrid(p_tunnel.zxy, vec3(distance_between_support * 3));
+	pRotZ(p_tunnel, -Tau * tunnel_crazy_z_rt_float);
+	pDomrepGrid(p_tunnel.xz, vec2(distance_between_support * 5));
+	pRotY(p_tunnel, tunnel_crazy_y_rt_float * Tau);
+	pDomrepGrid(p_tunnel.zx, vec2(distance_between_support * 3));
+	pTrans(p_tunnel.z, distance_between_support * .5);
 	float tunnel_height = tunnel_radius * (Golden_Ratio - 1.);
 	pCutAndExtrude(p_tunnel, vec3(0, -tunnel_height * .5, 0), vec3(0, tunnel_height, 0));
 	pTrans(p_tunnel.x, -tunnel_height);
 	pCutAndExtrude(p_tunnel, vec3(0), vec3(tunnel_height * 2, 0, 0));
 	vec3 v = vec3(0, tunnel_height, 0);
-	float distance_between_support = tunnel_support_spacing_rt_float * tunnel_radius;
 	vec3 p_support = p_tunnel;
 	float d_tunnel = -f2Hexprism(p_tunnel.xy, tunnel_radius);
 	d = d_tunnel;
