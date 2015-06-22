@@ -1,11 +1,113 @@
 {
   "uniformsArray": [
     {
-      "uniformName": "aa_rt_float",
+      "uniformName": "bill_casing_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
-      }
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bill_casing_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.08400000000006002665
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bill_casing_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.6599999999999681677
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bill_racer_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.49099999999998544808
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bill_racer_orbit_progress_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 575,
+          "sequenceStart": 1000,
+          "sequenceDuration": 3500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 3500,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "bill_racer_orbit_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bill_racer_pause_start_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bill_racer_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.75999999999999090505
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bill_rillen_depth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.40200000000004365575
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bill_rillen_dist_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5679999999999836291
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bill_rillen_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.036000000000058207661
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "camera_focal_length",
@@ -911,6 +1013,12 @@
     }
   ],
   "scenesArray": [
+    {
+      "sceneId": 575,
+      "sceneStart": 46250,
+      "sceneDuration": 8000,
+      "sceneShaderSource": "bill"
+    },
     {
       "sceneId": 728,
       "sceneStart": 19000,
