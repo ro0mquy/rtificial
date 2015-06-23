@@ -1010,6 +1010,96 @@
         "valueFloatX": 3.6370000000000572982
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "tweto_glider_r_big_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.6159999999999854481
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tweto_glider_r_small_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.41600000000005366019
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tweto_glider_rotation_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 944,
+          "sequenceStart": 1000,
+          "sequenceDuration": 6000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 6000,
+              "keyframeValue": {
+                "valueFloatX": -1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "tweto_tor_r_big_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tweto_tor_r_small_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tweto_tor_rotation_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 944,
+          "sequenceStart": 1000,
+          "sequenceDuration": 6000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 6000,
+              "keyframeValue": {
+                "valueFloatX": -1
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "scenesArray": [
@@ -1048,6 +1138,12 @@
       "sceneStart": 8750,
       "sceneDuration": 9500,
       "sceneShaderSource": "spoid"
+    },
+    {
+      "sceneId": 944,
+      "sceneStart": 55250,
+      "sceneDuration": 7750,
+      "sceneShaderSource": "szenchen"
     }
   ]
 }
