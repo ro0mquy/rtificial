@@ -1049,12 +1049,20 @@
             {
               "keyframePosition": 6000,
               "keyframeValue": {
-                "valueFloatX": -1
+                "valueFloatX": 1
               }
             }
           ]
         }
       ]
+    },
+    {
+      "uniformName": "tweto_tor_num_twists_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "tweto_tor_r_big_rt_float",
@@ -1143,7 +1151,7 @@
       "sceneId": 944,
       "sceneStart": 55250,
       "sceneDuration": 7750,
-      "sceneShaderSource": "szenchen"
+      "sceneShaderSource": "tweto"
     }
   ]
 }

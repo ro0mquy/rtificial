@@ -6,13 +6,13 @@ float fScene(vec3 p) {
 	float r_tor = length(p_tor.xz) - tweto_tor_r_big_rt_float;
 	float angle_tor = atan(p_tor.z, p_tor.x);
 	vec2 q_tor = vec2(r_tor, p_tor.y);
-	pRot(q_tor, angle_tor / 4. + Tau * tweto_tor_rotation_rt_float);
+	pRot(q_tor, angle_tor / 4. * tweto_tor_num_twists_rt_float + Tau * tweto_tor_rotation_rt_float);
 	float f_torus = f2Box(q_tor, tweto_tor_r_small_rt_float);
 
 	vec3 p_glider = p;
 	pRotY(p_glider, Tau * tweto_glider_rotation_rt_float);
 	p_glider.x -= tweto_tor_r_big_rt_float;
-	pRotZ(p_glider, Tau / 8. + Tau * tweto_tor_rotation_rt_float - Tau * tweto_glider_rotation_rt_float / 4.);
+	pRotZ(p_glider, Tau / 8. + Tau * tweto_tor_rotation_rt_float - Tau * tweto_glider_rotation_rt_float / 4. * tweto_tor_num_twists_rt_float);
 	pMirrorTrans(p_glider.xy, vec2(tweto_glider_r_big_rt_float * tweto_tor_r_small_rt_float * sqrt(.5)));
 	float f_glider = fSphere(p_glider, tweto_glider_r_small_rt_float);
 
