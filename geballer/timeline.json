@@ -1154,6 +1154,12 @@
       "sceneShaderSource": "reto"
     },
     {
+      "sceneId": 771,
+      "sceneStart": 92500,
+      "sceneDuration": 7000,
+      "sceneShaderSource": "blocks"
+    },
+    {
       "sceneId": 794,
       "sceneStart": 0,
       "sceneDuration": 8000,
