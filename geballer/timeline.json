@@ -1,6 +1,14 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "aa_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "bill_casing_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -161,6 +169,16 @@
         "valueVec3X": 0,
         "valueVec3Y": 1,
         "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lightColor_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.17999999999999999334,
+        "valueColorG": 0.17999999999999999334,
+        "valueColorB": 0.17999999999999999334
       },
       "sequencesArray": []
     },
@@ -1112,10 +1130,22 @@
   ],
   "scenesArray": [
     {
+      "sceneId": 156,
+      "sceneStart": 73000,
+      "sceneDuration": 8000,
+      "sceneShaderSource": "spimi"
+    },
+    {
       "sceneId": 575,
       "sceneStart": 46250,
       "sceneDuration": 8000,
       "sceneShaderSource": "bill"
+    },
+    {
+      "sceneId": 631,
+      "sceneStart": 82500,
+      "sceneDuration": 8000,
+      "sceneShaderSource": "stegr"
     },
     {
       "sceneId": 728,
@@ -1134,6 +1164,12 @@
       "sceneStart": 28000,
       "sceneDuration": 9000,
       "sceneShaderSource": "tple"
+    },
+    {
+      "sceneId": 897,
+      "sceneStart": 65000,
+      "sceneDuration": 7000,
+      "sceneShaderSource": "dosta"
     },
     {
       "sceneId": 921,
