@@ -1136,6 +1136,24 @@
       "sceneShaderSource": "spimi"
     },
     {
+      "sceneId": 247,
+      "sceneStart": 101000,
+      "sceneDuration": 6500,
+      "sceneShaderSource": "kleinstein"
+    },
+    {
+      "sceneId": 392,
+      "sceneStart": 108500,
+      "sceneDuration": 5250,
+      "sceneShaderSource": "glumanda"
+    },
+    {
+      "sceneId": 539,
+      "sceneStart": 115000,
+      "sceneDuration": 5250,
+      "sceneShaderSource": "karpador"
+    },
+    {
       "sceneId": 575,
       "sceneStart": 46250,
       "sceneDuration": 8000,
