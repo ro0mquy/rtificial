@@ -173,6 +173,71 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "klest_stampf_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 247,
+          "sequenceStart": 1000,
+          "sequenceDuration": 4000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 4000,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "klest_tunnel_ceil_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.18100000000003999001
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_tunnel_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 12.517000000000052751
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_tunnel_wall_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.57600000000002182787
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_tunnel_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6.8890000000000100044
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lightColor_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.17999999999999999334,
+        "valueColorG": 0.17999999999999999334,
+        "valueColorB": 0.17999999999999999334
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "main_marching_distance",
       "uniformType": "float",
       "uniformStandardValue": {
