@@ -228,6 +228,260 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "kpd_blubber_loco_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 539,
+          "sequenceStart": 750,
+          "sequenceDuration": 3250,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 3250,
+              "keyframeValue": {
+                "valueFloatX": -1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "kpd_blubber_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 22.536000000000058208,
+        "valueVec3Y": -4.9800000000000181899,
+        "valueVec3Z": 13.668000000000006366
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_blubber_r_big_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_blubber_r_rounded_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.24400000000002819434
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_blubber_r_small_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 2,
+        "valueVec2Y": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_blubber_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.13200000000006184564
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_blubber_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_locopyr_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.3000000000000682121,
+        "valueVec2Y": 0.3000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_locopyr_domrep_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_locopyr_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.0059999999999718056642
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_locopyr_rounded_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_raum_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.12400000000002364686
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_raum_ground_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -5.3479999999999563443
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_raum_groundhole_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 18.255999999999971806,
+        "valueVec2Y": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_raum_groundhole_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_raum_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_raum_loco_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.34100000000000818545
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_raum_loco_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 539,
+          "sequenceStart": 750,
+          "sequenceDuration": 3250,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 3250,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "kpd_raum_trans_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 8.6220000000000709406,
+        "valueVec3Y": 16.685000000000059117,
+        "valueVec3Z": 25.055000000000063665
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_retweto_pos_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -5.1680000000000063665
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_retweto_scale_inner_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.6180000000000518412
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_retweto_scale_outer_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.4640000000000554792
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_tweto_loco_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 539,
+          "sequenceStart": 750,
+          "sequenceDuration": 3250,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 3250,
+              "keyframeValue": {
+                "valueFloatX": -0.5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "lightColor_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -925,7 +1179,7 @@
             {
               "keyframePosition": 6500,
               "keyframeValue": {
-                "valueFloatX": 1
+                "valueFloatX": 0.20000000000004547474
               }
             }
           ]
@@ -1679,6 +1933,46 @@
       },
       "sequencesArray": [
         {
+          "sequenceSceneId": 539,
+          "sequenceStart": 750,
+          "sequenceDuration": 3250,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 3250,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 728,
+          "sequenceStart": 750,
+          "sequenceDuration": 6500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 6500,
+              "keyframeValue": {
+                "valueFloatX": -1
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 944,
           "sequenceStart": 1000,
           "sequenceDuration": 6000,
@@ -1704,7 +1998,7 @@
       "uniformName": "tweto_tor_num_twists_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 2
       },
       "sequencesArray": []
     },
@@ -1731,6 +2025,46 @@
         "valueFloatX": 0
       },
       "sequencesArray": [
+        {
+          "sequenceSceneId": 539,
+          "sequenceStart": 750,
+          "sequenceDuration": 3250,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 3250,
+              "keyframeValue": {
+                "valueFloatX": -1
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 728,
+          "sequenceStart": 750,
+          "sequenceDuration": 6500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 6500,
+              "keyframeValue": {
+                "valueFloatX": -1
+              }
+            }
+          ]
+        },
         {
           "sequenceSceneId": 944,
           "sequenceStart": 1000,
