@@ -1,6 +1,6 @@
 #include "march.glsl"
 #include "noise.glsl"
-#line 3
+#line 4
 
 float fPentaTorus(vec3 p, float rBig, float rSmall) {
 	vec2 q = vec2(f2Pentaprism(p.xz, rBig), p.y);
@@ -23,15 +23,27 @@ float fKlestStone(vec3 p) {
 	return opIntersectChamfer(f_bottom_blocks, f_block_top, .1);
 }
 
+float fKlestBalken(vec3 p) {
+	float f_balken = f2Box(p.xz, vec2(1, 2));
+	f_balken = opUnionChamfer(f_balken, f2Box(p.xz, vec2(2, 1)), 1/(sqrt(2) + 1));
+	pTrans(p.x, -2);
+	return opSubtractChamfer(f_balken, f2Box(p.xz, vec2(.25)), .25);
+}
+
 float fScene(vec3 p) {
 	vec3 p_tunnel = p;
-	float tunnel_side = pMirrorTrans(p_tunnel.x, klest_tunnel_width_rt_float);
-	float f_tunnel = f2PlaneAngle(p_tunnel.xy, -Tau / 12 * klest_tunnel_wall_angle_rt_float + .5 * Tau);
-	vec3 p_decke = p_tunnel;
-	pTrans(p_decke.y, klest_tunnel_height_rt_float);
-	f_tunnel = min(f_tunnel, f2PlaneAngle(p_decke.xy, -Tau * klest_tunnel_ceil_angle_rt_float));
-	f_tunnel = min(f_tunnel, f2Plane(p_tunnel.xy, vec2(0, 1)));
+	float f_tunnel = p.y;
 
+	vec3 p_wall = p_tunnel;
+	pMirrorTrans(p_wall.x, klest_tunnel_width_rt_float);
+	pRotZ(p_wall, -Tau / 12 * .5);
+	pTrans(p_wall.y, klest_tunnel_height_rt_float);
+	pMirrorAtPlane(p_wall, vec3(-unitVector(Tau / 2 - Tau / 12), 0), 0);
+	float f_wall = -p_wall.x;
+	vec3 p_balken = p_wall;
+	//f_wall = opUnionChamfer(f_wall, fKlestBalken(p_balken), .4);
+
+	f_tunnel = opUnionChamfer(f_tunnel, f_wall, .4);
 	float f = f_tunnel;
 
 	mUnion(f, MaterialId(0., p));
