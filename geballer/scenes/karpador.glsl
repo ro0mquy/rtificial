@@ -34,13 +34,17 @@ float fRaum(vec3 p) {
 
 float fTweto(vec3 p, float scale) {
 	vec3 p_tor = p;
-	float r_tor = length(p_tor.xz) - tweto_tor_r_big_rt_float * scale;
-	float angle_tor = atan(p_tor.z, p_tor.x);
-	vec2 q_tor = vec2(r_tor, p_tor.y);
-	pRot(q_tor, angle_tor / 4. * tweto_tor_num_twists_rt_float + Tau * tweto_tor_rotation_rt_float);
-	pMirrorLoco(q_tor, vec2(0.));
-	pRot(q_tor, Tau * kpd_tweto_loco_angle_rt_float);
-	float f_torus = f2Box(q_tor, vec2(.5, 1.) * tweto_tor_r_small_rt_float * scale);
+	// bounding torus
+	float f_torus = fTorus(p_tor, tweto_tor_r_big_rt_float * scale, tweto_tor_r_small_rt_float * scale);
+	if (f_torus < 1) {
+		float r_tor = length(p_tor.xz) - tweto_tor_r_big_rt_float * scale;
+		float angle_tor = atan(p_tor.z, p_tor.x);
+		vec2 q_tor = vec2(r_tor, p_tor.y);
+		pRot(q_tor, angle_tor / 4. * tweto_tor_num_twists_rt_float + Tau * tweto_tor_rotation_rt_float);
+		pMirrorLoco(q_tor, vec2(0.));
+		pRot(q_tor, Tau * kpd_tweto_loco_angle_rt_float);
+		f_torus = f2Box(q_tor, vec2(.5, 1.) * tweto_tor_r_small_rt_float * scale);
+	}
 
 	vec3 p_glider = p;
 	pRotY(p_glider, Tau * tweto_glider_rotation_rt_float);
