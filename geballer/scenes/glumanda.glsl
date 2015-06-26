@@ -19,12 +19,12 @@ float fSpimi(vec3 p, float scale) {
 	float maxSpimiRadius = glum_spimi_radius_rt_float + glum_spimi_radius_var_rt_float;
 	maxSpimiRadius += glum_spimi_disc_height_rt_float + glum_spimi_spike_length_rt_float * 2;
 	maxSpimiRadius *= scale;
-	float f_bounding = f2Sphere(p.xz, maxSpimiRadius);
+	float f_bounding = max(f2Sphere(p.xz, maxSpimiRadius), -p.y);
 	if (f_bounding > 1) {
 		return f_bounding;
 	}
 	float c = 2 * glum_spimi_disc_height_rt_float * scale;
-	float i = pDomrep(p.y, c);
+	float i = pDomrepSingle(p.y, c);
 	//float i = 0;
 	float discAtan = atan(p.z, p.x);
 	// TODO use simpler objects as guards
@@ -38,7 +38,10 @@ float fSpimi(vec3 p, float scale) {
 }
 
 float fScene(vec3 p) {
-	float f = fSpimi(p, 1);
+	pMirrorGrid(p.xzy, 2);
+	//pTrans(p.y, -10);
+	float f = fSpimi(p, .2);
+	//float f = fCylinder(p.yxz, .2, 1);
 
 	mUnion(f, MaterialId(0., p));
 	return f;

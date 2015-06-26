@@ -352,6 +352,40 @@ vec3 pMirrorLoco(inout vec3 p, vec3 c) {
 	return s;
 }
 
+vec2 pMirrorGrid(inout vec2 p, float c) {
+	vec2 s = pMirror(p);
+	if (p.y > p.x) {
+		p = p.yx;
+	}
+	pTrans(p.x, c);
+	return s;
+}
+
+vec3 pMirrorGrid(inout vec3 p, float c) {
+	vec3 s = pMirror(p);
+	if (p.x < p.y) {
+		if (p.y > p.z) {
+			if (p.x < p.z) {
+				p = p.xzy;
+			} else {
+				p = p.zxy;
+			}
+		}
+	} else {
+		if (p.z < p.y) {
+			p = p.zyx;
+		} else {
+			if (p.z < p.x) {
+				p = p.yzx;
+			} else {
+				p = p.yxz;
+			}
+		}
+	}
+	pTrans(p.z, c);
+	return s;
+}
+
 float pMirrorAtPlane(inout vec3 p, vec3 planeNormal, float offset) {
 	float dist = dot(p, planeNormal) + offset;
 	if (dist < 0.) {
