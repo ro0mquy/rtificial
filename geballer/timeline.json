@@ -173,6 +173,54 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "glum_spimi_disc_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.3000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_spimi_n_spikes_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_spimi_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_spimi_radius_var_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_spimi_spike_cap_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.28100000000006275513
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_spimi_spike_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "klest_stampf_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
