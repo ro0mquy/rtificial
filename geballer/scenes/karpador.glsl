@@ -21,7 +21,7 @@ float fRaum(vec3 p) {
 	f_groundhole = f2BoxEdge(q_groundhole, 1.);
 
 	p.y -= 50.;
-	pMirrorLoco(p, kpd_raum_trans_rt_vec3.yzx);
+	pMirrorLoco(p.zyx, kpd_raum_trans_rt_vec3.yzx);
 	pMirrorTrans(p, kpd_raum_trans_rt_vec3);
 	pRotY(p, Tau * kpd_raum_loco_angle_rt_float);
 	float f_raum = fPyramidLoco(p, kpd_raum_h_rt_float, Tau * kpd_raum_angle_rt_float);
@@ -100,7 +100,7 @@ float fRetweto(vec3 p) {
 }
 
 float fBlubberbrunnen(vec3 p, float r) {
-	pMirrorLoco(p, vec3(r * kpd_blubber_r_big_rt_float));
+	pMirrorLoco(p.zyx, vec3(r * kpd_blubber_r_big_rt_float));
 	pRotX(p, Tau * kpd_blubber_loco_angle_rt_float);
 	float f_blubber = f2BoxRounded(p.yz, vec2(r * kpd_blubber_r_small_rt_vec2), r * kpd_blubber_r_rounded_rt_float);
 

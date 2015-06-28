@@ -138,7 +138,7 @@ float fSaule(vec3 p) {
 	p_cut.y -= relaxo_saule_stamm_h_rt_float;
 	pRotX(p_cut, Tau * relaxo_saule_cut_angle_rt_float);
 	pDomrepMirror(p_cut.y, .4);
-	//pMirrorLoco(p_cut, vec3(.5));
+	//pMirrorLoco(p_cut.zyx, vec3(.5));
 	//pMirrorAtPlane(p_cut, unitVector(1., 2.), .2);
 	//pMirrorTrans(p_cut, vec3(.1));
 	float f_cut = abs(p_cut.y) - .1;

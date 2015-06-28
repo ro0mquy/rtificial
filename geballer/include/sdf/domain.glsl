@@ -329,6 +329,7 @@ vec2 pMirrorLoco(inout vec2 p, vec2 c) {
 }
 
 vec3 pMirrorLoco(inout vec3 p, vec3 c) {
+	p = p.zyx;
 	vec3 s = pMirrorTrans(p, c);
 	if (p.x < p.y) {
 		if (p.y > p.z) {
@@ -349,40 +350,41 @@ vec3 pMirrorLoco(inout vec3 p, vec3 c) {
 			}
 		}
 	}
+	p = p.zyx;
 	return s;
 }
 
+// see pMirrorGrid(vec3, float)
 vec2 pMirrorGrid(inout vec2 p, float c) {
-	vec2 s = pMirror(p);
-	if (p.y > p.x) {
+	vec2 q = p;
+	pMirror(q);
+	vec2 s = vec2(0);
+	if (q.y > q.x) {
 		p = p.yx;
+		s.x = 1;
 	}
-	pTrans(p.x, c);
+	s.y = pMirrorTrans(p.x, c);
+	p.y *= s.y;
 	return s;
 }
 
-vec3 pMirrorGrid(inout vec3 p, float c) {
-	vec3 s = pMirror(p);
-	if (p.x < p.y) {
-		if (p.y > p.z) {
-			if (p.x < p.z) {
-				p = p.xzy;
-			} else {
-				p = p.zxy;
-			}
-		}
-	} else {
-		if (p.z < p.y) {
-			p = p.zyx;
+// s.x: axis (0: x, 1: y, 2: z)
+// s.y: mirroring (-1 or 1)
+vec2 pMirrorGrid(inout vec3 p, float c) {
+	vec3 q = p;
+	pMirror(q);
+	vec2 s = vec2(0);
+	if (q.z > q.x || q.y > q.x) {
+		if (q.y > q.z) {
+			p = p.yxz;
+			s.x = 1;
 		} else {
-			if (p.z < p.x) {
-				p = p.yzx;
-			} else {
-				p = p.yxz;
-			}
+			p = p.zyx;
+			s.x = 2;
 		}
 	}
-	pTrans(p.z, c);
+	s.y = pMirrorTrans(p.x, c);
+	p.y *= s.y;
 	return s;
 }
 

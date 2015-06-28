@@ -38,13 +38,20 @@ float fSpimi(vec3 p, float scale) {
 }
 
 float fScene(vec3 p) {
+	vec3 p_dings = p;
 	pRotY(p, Tau * time * .1);
 	pRotZ(p, atan(1/sqrt(2)));
 	pRotX(p, Tau / 8);
 	vec3 p_spimi = p;
-	pMirrorGrid(p_spimi.xzy, 2);
-	float f = fSpimi(p_spimi, .2);
+	pMirrorGrid(p_spimi, 2);
+	float spimi_scale = .2;
+	pTrans(p_spimi.y, spimi_scale * glum_spimi_disc_height_rt_float);
+	float f = fSpimi(p_spimi.yxz, spimi_scale);
 	f = min(f, fBox(p, 2));
+
+	pTrans(p_dings.y, -5);
+	float f_dings = fHexprism(p_dings, 1, 5);
+	f = opUnionChamfer(f, f_dings, .1);
 
 	mUnion(f, MaterialId(0., p));
 	return f;
