@@ -21,12 +21,24 @@ float uintToFloat(uint x) {
 	return float(x % (1 << 20)) / float(1 << 20);
 }
 
+float rand(int x) {
+	return uintToFloat(hash(x));
+}
+
 float rand(ivec2 x) {
 	return uintToFloat(hash(x.x + hash(x.y)));
 }
 
 float rand(ivec3 x) {
 	return uintToFloat(hash(x.x + hash(x.y + hash(x.z))));
+}
+
+float valueNoise(float p) {
+	int index = int(floor(p));
+	float d = fract(p);
+	float v0 = rand(index);
+	float v1 = rand(index + 1);
+	return mix(v0, v1, d);
 }
 
 float valueNoise(vec2 p) {

@@ -1,5 +1,6 @@
 #include "march.glsl"
-#line 3
+#include "noise.glsl"
+#line 4
 
 float fSpimiDisc(vec3 p, float scale, float i, float discAtan) {
 	float innerRadius = glum_spimi_radius_rt_float + sin(i) * glum_spimi_radius_var_rt_float;
@@ -38,20 +39,45 @@ float fSpimi(vec3 p, float scale) {
 }
 
 float fScene(vec3 p) {
+	/* rotationswalzenspimischlonz
+	pRotY(p, Tau * time * .2);
+	pRotZ(p, Tau * time * .2);
+	pMirrorGrid(p, 10);
+	p = p.zxy;
 	vec3 p_dings = p;
 	pRotY(p, Tau * time * .1);
 	pRotZ(p, atan(1/sqrt(2)));
 	pRotX(p, Tau / 8);
 	vec3 p_spimi = p;
-	pMirrorGrid(p_spimi, 2);
+	pMirrorGrid(p_spimi, 5);
 	float spimi_scale = .2;
+	p_spimi.x *= -1;
 	pTrans(p_spimi.y, spimi_scale * glum_spimi_disc_height_rt_float);
 	float f = fSpimi(p_spimi.yxz, spimi_scale);
-	f = min(f, fBox(p, 2));
+	f = min(f, fBox(p, 1));
 
-	pTrans(p_dings.y, -5);
-	float f_dings = fHexprism(p_dings, 1, 5);
+	pTrans(p_dings.y, -10);
+	float f_dings = fHexprism(p_dings, 1, 10);
 	f = opUnionChamfer(f, f_dings, .1);
+	//*/
+
+	/* tunneldings vielleicht
+	//pMirrorLoco(p.yx, vec2(12));
+	float f;// = f2Triprism(p.xy, 1);
+	vec3 p1 = p;
+	float i = pDomrep(p1.z, 3);
+	vec3 p2 = p1;
+	pTrans(p1.x, rand(int(i)) * 10);
+	pDomrepMirror(p1.x, 1);
+	float sin_v = sin(.5 *  i + 3 * time);
+	sin_v = pow(abs(sin_v), .2) * sgn(sin_v);
+	pRotZ(p1, Tau / (20 * (1. + .4 * sin_v)));
+	f = f2Box(p1.xz, vec2(.1, 1));
+	pMirrorTrans(p2.z, 1.25);
+	f = opUnionChamfer(f, f2BoxEdge(p2.yz, vec2(1.3, .25)), .1);
+	//*/
+
+	float f = fSphere(p, 1);
 
 	mUnion(f, MaterialId(0., p));
 	return f;
