@@ -221,7 +221,153 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "klest_stampf_rt_float",
+      "uniformName": "klest_borg_amp_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.0080000000000381988
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_borg_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_holerow_delay_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.029999999999972715159
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_holerow_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 0.25200000000006639311,
+        "valueVec3Z": 0.35599999999999454303
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_holerow_domrep_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_holerow_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -3.5950000000000272848,
+        "valueVec2Y": -0.60399999999992814992
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kolben_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kolben_head_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.39999999999997726263
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kolben_head_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kolben_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 2.5280000000000200089,
+        "valueVec2Y": -1.6089999999999236024
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kolben_stiel_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.3000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_rieglung_amplitude_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.4600000000000363798
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_rieglung_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.42000000000007275958,
+        "valueVec3Y": 0.42799999999999727152,
+        "valueVec3Z": 0.81200000000001182343
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_rieglung_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -1.2959999999999354259,
+        "valueVec2Y": -1.1399999999999863576
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_schranke_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.10000000000002273737,
+        "valueVec3Y": 0.10000000000002273737,
+        "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_schranke_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -0.015999999999962710717,
+        "valueVec2Y": 3.2129999999999654392
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_stamp_down_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_stamp_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
@@ -229,12 +375,18 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 247,
-          "sequenceStart": 1000,
-          "sequenceDuration": 4000,
+          "sequenceStart": 1250,
+          "sequenceDuration": 2000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
-              "keyframePosition": 4000,
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 2000,
               "keyframeValue": {
                 "valueFloatX": 1
               }
@@ -242,6 +394,14 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "klest_stamp_up_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.8000000000000682121
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "klest_tunnel_ceil_angle_rt_float",

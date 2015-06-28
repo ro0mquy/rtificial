@@ -2,6 +2,107 @@
 #include "noise.glsl"
 #line 4
 
+float stamp(float t) {
+	t = fract(t);
+
+	float t_up = linstep(.0, klest_stamp_up_rt_float, t);
+
+	float t_down = linstep(klest_stamp_up_rt_float, klest_stamp_up_rt_float + klest_stamp_down_rt_float, t);
+	t_down = square(t_down)*t_down;
+
+	return t_up - t_down;
+}
+
+float stamp() {
+	return stamp(klest_stamp_rt_float);
+}
+
+float fKolben(vec3 p) {
+	float height = klest_kolben_h_rt_float * stamp();
+
+	vec3 p_stiel = p;
+	p_stiel.x -= height;
+	float f_stiel = fBox(p_stiel, vec3(height, vec2(klest_kolben_stiel_r_rt_float)));
+
+	vec3 p_kopf = p_stiel;
+	p_kopf.x -= height;
+	p_kopf.x -= klest_kolben_head_h_rt_float;
+	float f_kopf = fBox(p_kopf, vec3(klest_kolben_head_h_rt_float, vec2(klest_kolben_head_r_rt_float)));
+
+	float f = f_kopf;
+	f = min(f, f_stiel);
+	return f;
+}
+
+float fHolerow(vec3 p) {
+	float cell = pDomrepInterval(p.z, klest_holerow_domrep_rt_float, 0., 4.);
+	vec3 dim = klest_holerow_dim_rt_vec3;
+	dim.x *= stamp(klest_stamp_rt_float - cell * klest_holerow_delay_rt_float);
+	float f_hole = fBox(p, dim);
+	return f_hole;
+}
+
+float fSchranke(vec3 p) {
+	float cell = pMirrorTrans(p.z, klest_schranke_dim_rt_vec3.z * 2.);
+	p.z = -p.z;
+	if (cell > 0.) {
+		pMirrorTrans(p.z, 2. * klest_schranke_dim_rt_vec3.x);
+	}
+	pRotY(p, Tau * .25 * stamp());
+	float f_schanier = fCylinder(p, 2. * klest_schranke_dim_rt_vec3.x, klest_schranke_dim_rt_vec3.y);
+	p.xz -= klest_schranke_dim_rt_vec3.xz;
+	float f_schranke = fBox(p, klest_schranke_dim_rt_vec3);
+	return min(f_schranke, f_schanier);
+}
+
+float fRieglung(vec3 p) {
+	p.x -= klest_rieglung_dim_rt_vec3.x;
+
+	vec3 p1 = p;
+	p1.y -= klest_rieglung_dim_rt_vec3.y;
+	p1.z -= klest_rieglung_amplitude_rt_float * stamp();
+	float f1 = fBox(p1, klest_rieglung_dim_rt_vec3);
+
+	vec3 p2 = p;
+	p2.y += klest_rieglung_dim_rt_vec3.y;
+	p2.z += klest_rieglung_amplitude_rt_float * stamp();
+	float f2 = fBox(p2, klest_rieglung_dim_rt_vec3);
+
+	return min(f1, f2);
+}
+
+float fBorg(vec3 p) {
+	pMirrorGrid(p, klest_borg_r_rt_float + klest_borg_amp_rt_float * stamp());
+
+	vec3 p_side = p;
+	float f_side = p_side.x;
+	p_side.x = -p_side.x;
+	f_side = max(f_side, fPyramid(p_side.yxz, klest_borg_r_rt_float, Tau * .125));
+
+	vec3 p_kolben = p;
+	p_kolben.yz -= klest_kolben_pos_rt_vec2;
+	float f_kolben = fKolben(p_kolben);
+
+	vec3 p_holerow = p;
+	p_holerow.yz -= klest_holerow_pos_rt_vec2;
+	float f_holerow = fHolerow(p_holerow);
+
+	vec3 p_schranke = p;
+	p_schranke.yz -= klest_schranke_pos_rt_vec2;
+	float f_schranke = fSchranke(p_schranke.xzy);
+
+	vec3 p_rieglung = p;
+	p_rieglung.yz -= klest_rieglung_pos_rt_vec2;
+	float f_rieglung = fRieglung(p_rieglung);
+
+	float f = f_side;
+	f = min(f, f_kolben);
+	f = max(f, -f_holerow);
+	f = min(f, f_schranke);
+	f = min(f, f_rieglung);
+	return f;
+}
+
 float fPentaTorus(vec3 p, float rBig, float rSmall) {
 	vec2 q = vec2(f2Pentaprism(p.xz, rBig), p.y);
 	return f2BoxEdge(q, rSmall);
@@ -31,6 +132,7 @@ float fKlestBalken(vec3 p) {
 }
 
 float fScene(vec3 p) {
+	/*
 	vec3 p_tunnel = p;
 	float f_tunnel = p.y;
 
@@ -45,6 +147,9 @@ float fScene(vec3 p) {
 
 	f_tunnel = opUnionChamfer(f_tunnel, f_wall, .4);
 	float f = f_tunnel;
+	// */
+
+	float f = fBorg(p);
 
 	mUnion(f, MaterialId(0., p));
 	return f;
