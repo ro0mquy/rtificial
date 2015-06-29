@@ -1,6 +1,6 @@
 AuthType Basic
 AuthName "rtificial Hinterzimmer"
-AuthUserFile /var/www/virtual/ps0ke/hinterzimmer.rtificial.org/.htpasswd
+AuthUserFile /var/www/virtual/rtfcl/hinterzimmer.rtificial.org/.htpasswd
 Require valid-user
 SetEnvIf Request_URI "(db-irc-notify.cgi)$" allow
 Order allow,deny
