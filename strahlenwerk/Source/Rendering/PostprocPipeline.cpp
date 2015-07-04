@@ -49,7 +49,7 @@ uint64_t PostprocPipeline::render(SceneShader& scene, int width, int height) {
 		// perform postproc at full resolution
 		// may be completely broken (sorry!)
 		// TODO check if this is sane
-		shaders[i]->bindFBO(1920, 1080);
+		shaders[i]->bindFBO(1280, 720);
 		queryNames.push_back(shaders[i]->getName());
 		glBeginQuery(GL_TIME_ELAPSED, queries[queryIndex++]);
 		shaders[i]->draw(shaders[i]->getCreatedWidth(), shaders[i]->getCreatedHeight());

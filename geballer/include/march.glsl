@@ -355,6 +355,7 @@ void main() {
 
 	if (isinf(marched)) {
 		out_color = .07 * environmentColor(origin, direction, main_marching_distance);
+		out_depth = Inf;
 	} else {
 		vec3 hit = origin + marched * direction;
 
@@ -386,7 +387,7 @@ void main() {
 				out_color = applyLights(origin, marched, direction, hit, normal, materialId, material);
 			}
 		}
+		out_depth = marched;
 	}
-
 	out_color = applyAfterEffects(origin, marched, direction, out_color);
 }

@@ -45,7 +45,7 @@ std::unordered_map<std::string, int> PostprocPipelineLoader::loadShaders(
 
 	shaders.clear();
 	shaders.emplace_back(new PostprocShader(context, "input"));
-	shaders.back()->load("#version 430\nout vec3 color;\nout float coc;\n void main() {}");
+	shaders.back()->load("#version 430\nout vec3 color;\nout float depth;\n void main() {}");
 	shaders.emplace_back(new PostprocShader(context, "output"));
 	shaders.back()->load(R"source(
 #version 430
