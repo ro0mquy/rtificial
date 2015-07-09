@@ -77,6 +77,43 @@ float fScene(vec3 p) {
 	f = opUnionChamfer(f, f2BoxEdge(p2.yz, vec2(1.3, .25)), .1);
 	//*/
 
+	/* auf-und-zu-mit-klingen
+	// more like hakenkreuzdingsi mit schrecklichen stacheln
+	float mirroring = pMirrorTrans(p.y, 2 * (.5 * .66 + .125) + .05);
+	vec3 p_base = p;
+	float f_base = fHexprism(p_base, .5, .1);
+	vec3 p_pole1 = p_base;
+	pTrans(p_pole1.y, -.5 * .66 - .05);
+	float f_pole1 = fCylinder(p_pole1, .1, .5 * .66);
+	vec3 p_pole2 = p_pole1;
+	pTrans(p_pole2.y, -.5 * .66 - .125);
+	float f_pole2 = fCylinder(p_pole2, .05, .125);
+	f_pole1 = min(f_pole1, f_pole2);
+
+	vec3 p_blade = p_pole1;
+	float f_blade = fCylinder(p_blade, 2, .01);
+	if (f_blade < .1) {
+		pRotY(p_blade, Tau / 3 * .25 * mirroring);
+		pDomrepAngle(p_blade.xz, 3, 1);
+		float t = 0.5;
+		vec2 mirror_normal = unitVector(Tau * .5 - radians(45) * (1. - t));
+		pMirrorAtPlane(p_blade, vec3(mirror_normal.x, 0., mirror_normal.y), 0);
+		f_blade = fBox(p_blade, vec3(1, .01, .1));
+		pMirror(p_blade.z);
+		pTrans(p_blade.z, .1 + .025);
+		pTrans(p_blade.x, .01);
+		p_blade.x = -p_blade.x;
+		pDomrepInterval(p_blade.x, .2, 1, 5);
+		p_blade = p_blade.yzx;
+		float f_spikes = fConeCapped(p_blade, .01, .0, .05);
+		f_blade = min(f_blade, f_spikes);
+		f_blade = min(f_blade, p_pole2.y);
+	}
+
+	float f = min(f_base, f_pole1);
+	f = min(f, f_blade);
+	//*/
+
 	float f = fSphere(p, 1);
 
 	mUnion(f, MaterialId(0., p));
