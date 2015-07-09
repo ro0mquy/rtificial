@@ -405,3 +405,15 @@ float pCutAndExtrude(inout vec3 p, vec3 a, vec3 v) {
 	pTrans(p, -a);
 	return h;
 }
+
+void pFlip(inout float p) {
+	p = -p;
+}
+
+void pFlip(inout vec2 p) {
+	p = -p;
+}
+
+void pFlip(inout vec3 p) {
+	p = -p;
+}
