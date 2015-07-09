@@ -38,6 +38,23 @@ float fSpimi(vec3 p, float scale) {
 	return min(d1, min(d2, d3));
 }
 
+float fSchwurbelScheisse(vec3 p) {
+	float radius = 1;
+	float fBoundingCylinder = f2Sphere(p.xz, radius);
+	// TODO maybe this can be tuned for performance
+	if (fBoundingCylinder > radius * .5) {
+		return fBoundingCylinder;
+	}
+	float a = .5 + .5 * 1;
+	pRotY(p, sin(a * p.y) + valueNoise(time) * Pi);
+	float lipTwist = length(vec2(radius, Pi * a));
+	pDomrepAngle(p.xz, 3, radius);
+	pMirror(p.z);
+	pFlip(p.z);
+	pRotY(p, Tau / 5);
+	return p.x / lipTwist;
+}
+
 float fScene(vec3 p) {
 	/* rotationswalzenspimischlonz
 	pRotY(p, Tau * time * .2);
@@ -113,6 +130,9 @@ float fScene(vec3 p) {
 	float f = min(f_base, f_pole1);
 	f = min(f, f_blade);
 	//*/
+
+	//float f = fSchwurbelScheisse(p);
+	//f = max(f, p.y);
 
 	float f = fSphere(p, 1);
 
