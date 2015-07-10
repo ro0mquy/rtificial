@@ -1,12 +1,24 @@
 #include "march.glsl"
 #line 3
 
+float fTotwi(vec3 p, float rBig, float rSmall) {
+	vec2 q = vec2(f2Sphere(p.xz, rBig), p.y);
+	pRot(q, Tau * kpd_locopyr_rot_rt_float);
+	return f2BoxRounded(q, vec2(1., .5) * rSmall, kpd_locopyr_rounded_rt_float);
+}
+
 float fPyramidLoco(vec3 p, float height, float angle) {
 	pMirrorLoco(p.zx, vec2(sin(angle) * height));
 	pRotX(p, -angle);
+	/*
 	pDomrepMirror(p.x, kpd_locopyr_domrep_rt_float);
 	pRotY(p, Tau * kpd_locopyr_rot_rt_float);
 	float f = f2BoxRounded(p.xz, kpd_locopyr_dim_rt_vec2, kpd_locopyr_rounded_rt_float);
+	// */
+	pDomrep(p.xy, vec2(kpd_locopyr_domrep_rt_float));
+	float f = -p.z;
+	p.z -= kpd_locopyr_dim_rt_vec2.y;
+	f = smin(f, fTotwi(p.xzy, kpd_locopyr_dim_rt_vec2.x, kpd_locopyr_dim_rt_vec2.y), .5);
 	return f;
 }
 

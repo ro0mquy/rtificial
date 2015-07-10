@@ -324,7 +324,7 @@
       "uniformName": "klest_rieglung_dim_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
-        "valueVec3X": 0.42000000000007275958,
+        "valueVec3X": 0.42000000000007281509,
         "valueVec3Y": 0.42799999999999727152,
         "valueVec3Z": 0.81200000000001182343
       },
@@ -503,7 +503,7 @@
       "uniformName": "kpd_blubber_rot_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.13200000000006184564
+        "valueFloatX": 0.54800000000000181899
       },
       "sequencesArray": []
     },
@@ -519,8 +519,8 @@
       "uniformName": "kpd_locopyr_dim_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
-        "valueVec2X": 0.3000000000000682121,
-        "valueVec2Y": 0.3000000000000682121
+        "valueVec2X": 1.5760000000000218279,
+        "valueVec2Y": 1
       },
       "sequencesArray": []
     },
@@ -528,7 +528,7 @@
       "uniformName": "kpd_locopyr_domrep_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.5
+        "valueFloatX": 5.8319999999999936335
       },
       "sequencesArray": []
     },
@@ -536,15 +536,36 @@
       "uniformName": "kpd_locopyr_rot_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.0059999999999718056642
+        "valueFloatX": 0
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 539,
+          "sequenceStart": 750,
+          "sequenceDuration": 3250,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 3250,
+              "keyframeValue": {
+                "valueFloatX": 0.5
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "kpd_locopyr_rounded_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 0.24000000000000909495
       },
       "sequencesArray": []
     },
