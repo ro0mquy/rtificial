@@ -131,6 +131,21 @@ float fKlestBalken(vec3 p) {
 	return opSubtractChamfer(f_balken, f2Box(p.xz, vec2(.25)), .25);
 }
 
+float fStairBox(vec3 p) {
+	float i = pDomrepInterval(p.z, 3, -3, 2);
+	i += 3;
+
+	float t_stamp = fract(klest_stamp_rt_float + i / 6 * .5);
+	pMirrorTrans(p.y, Golden_Ratio + stamp(t_stamp));
+
+	pMirrorTrans(p, vec3(1, Golden_Ratio, 1));
+	float r = .2;
+	float n = 4;
+	//float f2_stairbox = opIntersectStairs(p.x, p.z, r * 2, n * 2);
+	float f2_stairbox = opIntersectChamfer(p.x, p.z, r * 2);
+	return opIntersectStairs(p.y, f2_stairbox, r, n);
+}
+
 float fScene(vec3 p) {
 	/*
 	vec3 p_tunnel = p;
@@ -149,7 +164,9 @@ float fScene(vec3 p) {
 	float f = f_tunnel;
 	// */
 
-	float f = fBorg(p);
+	//float f = fBorg(p);
+
+	float f = fStairBox(p);
 
 	mUnion(f, MaterialId(0., p));
 	return f;
