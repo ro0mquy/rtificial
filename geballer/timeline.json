@@ -147,6 +147,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "camera_sensor_width",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.024000000000000909495
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -565,7 +573,7 @@
       "uniformName": "kpd_locopyr_rounded_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.24000000000000909495
+        "valueFloatX": 0.24000000000000906719
       },
       "sequencesArray": []
     },
@@ -748,6 +756,38 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_avg_occlusion",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.13200000000006184564
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_n_rays",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 8
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_radius",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
       },
       "sequencesArray": []
     },

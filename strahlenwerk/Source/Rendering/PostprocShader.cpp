@@ -196,7 +196,7 @@ void PostprocShader::createFBO(int width, int height) {
 		GLenum format;
 		switch(outputs[i].components) {
 			case 1:
-				internalFormat = GL_R16F;
+				internalFormat = GL_R32F;
 				format = GL_RED;
 				break;
 			case 2:

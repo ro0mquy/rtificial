@@ -4,15 +4,22 @@
 uniform vec3 camera_position;
 uniform vec4 camera_rotation; // quat
 uniform float camera_focal_length;
+uniform float camera_sensor_width;
 
 // gets set with camGetDirection
-float screen_distance = camera_focal_length / .03;
+float screen_distance = camera_focal_length / camera_sensor_width;
+
+vec3 camGetDirectionSS(vec2 coord, out float screen_d) {
+	vec3 dir = vec3((coord - .5 * res) / res.x,
+		camera_focal_length / camera_sensor_width);
+	screen_d = length(dir.xz);
+	dir = normalize(dir);
+	return dir;
+}
 
 vec3 camGetDirection() {
-	vec3 dir = vec3((gl_FragCoord.xy - .5 * res) / res.x,
-		-camera_focal_length / .03);
-	screen_distance = length(dir.xz);
-	dir = normalize(dir);
+	vec3 dir = camGetDirectionSS(gl_FragCoord.xy, screen_distance);
+	dir.z = -dir.z;
 	pQuatRotate(dir, camera_rotation);
 	return dir;
 }

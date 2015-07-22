@@ -1,4 +1,6 @@
 input.color scale.color
 input.depth scale.depth
-scale.out_color final.color
+scale.out_depth ao.depth
+scale.out_color ao.color
+ao.out_color final.color
 final.out_color output.color
