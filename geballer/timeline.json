@@ -792,6 +792,22 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_bloom_amount",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.1750000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_bloom_radius",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2090000000000600267
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_film_grain_frequency",
       "uniformType": "float",
       "uniformStandardValue": {
