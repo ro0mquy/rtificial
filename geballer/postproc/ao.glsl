@@ -4,7 +4,6 @@
 #include "helper.glsl"
 #line 6
 
-
 uniform sampler2D depth; // float
 uniform sampler2D color; // vec3
 out vec3 out_color;
@@ -16,6 +15,7 @@ uniform float post_ao_radius;
 uniform float post_ao_n_rays;
 uniform float post_ao_intensity;
 uniform float post_ao_avg_occlusion;
+uniform bool post_disable_ao;
 
 vec2 sampleDirection(int i, float rotation) {
 	float phi = Tau / post_ao_n_rays * (i + rotation);
@@ -75,6 +75,10 @@ float getRayOcclusion(vec2 origin, vec2 direction, float jitter, vec2 projectedR
 }
 
 void main() {
+	if (post_disable_ao) {
+		out_color = textureLod(color, tc, 0).rgb;
+		return;
+	}
 
 	float centerDepth = textureLod(depth, tc, 0).r;
 	float screen_d;
