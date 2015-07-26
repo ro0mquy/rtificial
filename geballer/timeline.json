@@ -748,6 +748,20 @@
               }
             }
           ]
+        },
+        {
+          "sequenceSceneId": 888,
+          "sequenceStart": 0,
+          "sequenceDuration": 7250,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 500
+              }
+            }
+          ]
         }
       ]
     },
@@ -808,6 +822,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_disable_ao",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_film_grain_frequency",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -852,577 +874,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_basis_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 24
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_basis_width_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 30
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_feld_interval_end_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 4,
-        "valueVec2Y": 8
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_feld_offset_first_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 36.430000000000063665
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_feld_spacing_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 5,
-        "valueVec2Y": 5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_fluegel_pos_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 1,
-        "valueVec2Y": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_furche_depth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_furche_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_furche_width_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 20
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_keise_pos_z_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 4.5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_keise_r_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_loco_rot_y_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.019999999999981806637
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_phi_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.091000000000008185452
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_ruckwand_depth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 5.2000000000000454747
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_saulen_angle_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.062000000000011823431
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_saulen_dim_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 0.96800000000007457857,
-        "valueVec2Y": 0.33500000000003637979
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_saulen_trans_big_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_saulen_trans_small_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_schnitte_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_streben_dim_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 0.20000000000004547474,
-        "valueVec2Y": 0.20000000000004547474
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_streben_domrep_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_streben_smooth_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.10000000000002273737
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_wand_angle_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.10000000000002273737
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_pyramid_wand_domrep_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 8.9120000000000345608
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saule_cut_angle_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": -0.049999999999954525265
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saule_dim_rt_vec3",
-      "uniformType": "vec3",
-      "uniformStandardValue": {
-        "valueVec3X": 0.3000000000000682121,
-        "valueVec3Y": 1.5,
-        "valueVec3Z": 0.3000000000000682121
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saule_knick_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saule_rotation_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.024000000000000909495
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saule_stamm_h_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 3
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saule_stamm_r_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.25
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saule_top_loco_rot_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.73500000000001364242
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saule_top_r_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.45299999999997453415
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saulen_top_dim_rt_vec3",
-      "uniformType": "vec3",
-      "uniformStandardValue": {
-        "valueVec3X": 1.3279999999999745341,
-        "valueVec3Y": 0.38599999999996725819,
-        "valueVec3Z": 0.68000000000006366463
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_saulen_top_mirror_dir_rt_vec3",
-      "uniformType": "vec3",
-      "uniformStandardValue": {
-        "valueVec3X": -0.12900000000001909939,
-        "valueVec3Y": -0.19200000000000727596,
-        "valueVec3Z": 0.036000000000058207661
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_turm_angle_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.075000000000045474735
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_turm_h_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 12.672000000000025466
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_turm_pos_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 19,
-        "valueVec2Y": 19
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_turm_r_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.8120000000000118234
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 12.235999999999989996
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_klein_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 8.9360000000000354703
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_klein_offset_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 16.888000000000033651,
-        "valueVec2Y": 5.0360000000000582077
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_klein_phi_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.091000000000008185452
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_klein_smaller_offset_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 2.548000000000001819,
-        "valueVec2Y": -4.3729999999999336069
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_klein_smaller_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.86000000000001364242
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_klein_width_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 17.848000000000070031
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_phi_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.091000000000008185452
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_pos_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 0,
-        "valueVec2Y": 23.600000000000022737
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_vorbau_width_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 29.504000000000132786
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_free_r_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 100
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_h1_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 5
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_h2_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 4.8000000000000682121
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_h3_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 5.1000000000000227374
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_h4_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 6
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_r1_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.0800000000000409273
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_r2_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.75200000000006639311
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_r3_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.0439999999999827196
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_r4_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.77999999999997282618
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_rotation1_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.61900000000002819434
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_rotation2_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.51200000000005729817
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_rotation3_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.0800000000000409273
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_rotation4_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.24400000000002819434
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_spacing1_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 39,
-        "valueVec2Y": 57
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_spacing2_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 53,
-        "valueVec2Y": 48
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_spacing3_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 45,
-        "valueVec2Y": 42
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_wald_spacing4_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 50,
-        "valueVec2Y": 40
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_weg_offset_first_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 63.511999999999943611
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_weg_spacing_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 8
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "relaxo_weg_width_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 2.5
       },
       "sequencesArray": []
     },
@@ -1531,6 +982,1007 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "rlx_basis_bigblock_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 1,
+        "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_bogen_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.21199999999998908606
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_bogen_depth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2119999999999890861
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_bogen_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_bogen_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.4680000000000745786
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_bogen_pos_z_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -15
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_bogen_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.58400000000006002665
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_dach_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 18.41600000000005366
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 24
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -6.9890000000000327418,
+        "valueVec2Y": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_saule_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.8240000000000691216
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_saule_pos_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 18.676000000000044565
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_saule_pos_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -3
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_spitze_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.17600000000004456524
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 25
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_feld_interval_end_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 4,
+        "valueVec2Y": 8
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_feld_offset_first_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 36.430000000000063665
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_feld_spacing_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 5,
+        "valueVec2Y": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_fluegel_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1,
+        "valueVec2Y": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_furche_depth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_furche_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_furche_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 20
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_keise_pos_z_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_keise_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_loco_rot_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.019999999999981806637
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_phi_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.091000000000008185452
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_ruckwand_depth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5.2000000000000454747
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_saulen_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.062000000000011823431
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_saulen_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.96800000000007457857,
+        "valueVec2Y": 0.33500000000003637979
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_saulen_trans_big_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_saulen_trans_small_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_schnitte_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_streben_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.20000000000004547474,
+        "valueVec2Y": 0.20000000000004547474
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_streben_domrep_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_streben_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_wand_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyramid_wand_domrep_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 8.9120000000000345608
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_cut_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.049999999999954525265
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.3000000000000682121,
+        "valueVec3Y": 1.5,
+        "valueVec3Z": 0.3000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_knick_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_rotation_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.024000000000000909495
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_stamm_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_stamm_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.25
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_top_loco_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.73500000000001364242
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_top_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.45299999999997453415
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saulen_top_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1.3279999999999745341,
+        "valueVec3Y": 0.38599999999996725819,
+        "valueVec3Z": 0.68000000000006366463
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saulen_top_mirror_dir_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -0.12900000000001909939,
+        "valueVec3Y": -0.19200000000000727596,
+        "valueVec3Z": 0.036000000000058207661
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_turm_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.075000000000045474735
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_turm_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 12.672000000000025466
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_turm_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 19,
+        "valueVec2Y": 19
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_turm_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.8120000000000118234
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 12.235999999999989996
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_klein_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 8.9360000000000354703
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_klein_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 16.888000000000033651,
+        "valueVec2Y": 5.0360000000000582077
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_klein_phi_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.091000000000008185452
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_klein_smaller_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 2.548000000000001819,
+        "valueVec2Y": -4.3729999999999336069
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_klein_smaller_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.86000000000001364242
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_klein_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 17.848000000000070031
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_phi_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.091000000000008185452
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0,
+        "valueVec2Y": 23.600000000000022737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_vorbau_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 29.504000000000132786
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_free_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 100
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_h1_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_h2_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.8000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_h3_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5.1000000000000227374
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_h4_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_r1_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0800000000000409273
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_r2_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.75200000000006639311
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_r3_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0439999999999827196
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_r4_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.77999999999997282618
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_rotation1_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.61900000000002819434
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_rotation2_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.51200000000005729817
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_rotation3_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0800000000000409273
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_rotation4_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.24400000000002819434
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_spacing1_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 39,
+        "valueVec2Y": 57
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_spacing2_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 53,
+        "valueVec2Y": 48
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_spacing3_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 45,
+        "valueVec2Y": 42
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_wald_spacing4_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 50,
+        "valueVec2Y": 40
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_weg_offset_first_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 91.55999999999994543
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_weg_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 8
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_weg_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_berg_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.14200000000005275069
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_berg_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_berg_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -350,
+        "valueVec3Y": 40,
+        "valueVec3Z": 200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_berg2_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.11900000000002819434
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_berg2_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 150
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_berg2_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -200,
+        "valueVec3Y": 20,
+        "valueVec3Z": -200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hugel_corner_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 17.816000000000030923
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hugel_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 40,
+        "valueVec3Y": 10,
+        "valueVec3Z": 40
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hugel_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -52.004999999999995453,
+        "valueVec2Y": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hugel_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hugel_widht_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 30
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hutte_inner_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.4560000000000172804
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hutte_inner_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.8160000000000309228
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hutte_outer_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 7.1800000000000636646
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hutte_outer_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6.3790000000000190994
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hutte_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 80,
+        "valueVec2Y": 37.723999999999932697
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_hutte_zaun_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 1,
+        "valueVec3Z": 6.1549999999999727152
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_fenster_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1.8360000000000127329,
+        "valueVec2Y": 1.5639999999999645297
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_fenster_rahmen_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.11199999999996636257,
+        "valueVec2Y": 0.23599999999998999556
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_fenster_saule_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -2.0199999999999818101
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_fenster_saule_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.62000000000000454747
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_fenster_saule_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.25200000000006639311
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_fenster_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 8.7369999999999663487
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_wand_edge_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.64999999999997726263
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_wand_inset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -3.5699999999999363354
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_wand_sub_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.055000000000063664629
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_wand_sub_schief_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.071000000000026375346
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_wand_sub_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.40300000000002000888
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_wandbox_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1.1399999999999863576,
+        "valueVec3Y": 1.1399999999999863576,
+        "valueVec3Z": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_pyr_wandbox_pos_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.2150000000000318323
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_zaun_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1.3999999999999772626,
+        "valueVec2Y": 0.70000000000004547474
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_zaun_gelander_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.067999999999983629095
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_zaun_gelander_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.70000000000004547474,
+        "valueVec3Y": 1.7960000000000491127,
+        "valueVec3Z": 50
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_zaun_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.82100000000002637535
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_zaun_pfosten_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.046000000000049112714
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_zaun_pfosten_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1.6000000000000227374,
+        "valueVec3Y": 2.8720000000000709406,
+        "valueVec3Z": 1.6000000000000227374
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_zaun_pos_x_bias_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.096000000000003638
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_zaun_spitze_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.105999999999994543
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "shal_gang_decke_angle_rt_float",
