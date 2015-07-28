@@ -355,7 +355,7 @@ void main() {
 
 	if (isinf(marched)) {
 		out_color = .07 * environmentColor(origin, direction, main_marching_distance);
-		out_depth = Inf;
+		out_depth = main_marching_distance;
 	} else {
 		vec3 hit = origin + marched * direction;
 

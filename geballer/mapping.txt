@@ -3,7 +3,33 @@ input.depth scale.depth
 scale.out_depth ao.depth
 scale.out_color ao.color
 
+scale.out_depth dof_downsample_depth.depth
+dof_downsample_depth.out_depth dof_tile.depth
+dof_downsample_depth.out_depth dof_presort.depth
+dof_downsample_depth.out_depth dof_prefilter.depth
+
+dof_tile.closest_depth dof_tile_post.closest_depth
+dof_tile.max_coc dof_tile_post.max_coc
+dof_tile_post.out_closest_depth dof_presort.closest_depth
+dof_tile_post.out_max_coc dof_filter.max_coc
+
+ao.out_color dof_prefilter.color
+dof_presort.weights dof_prefilter.weights
+dof_tile_post.out_max_coc dof_prefilter.max_coc
+
+dof_prefilter.out_color dof_filter.color
+dof_presort.weights dof_filter.weights
+
+dof_filter.out_color dof_median.color
+ao.out_color dof_upscale.fullres
+dof_median.out_color dof_upscale.color
+
+// DOF disabled for now
+ao.out_color bloom_up_final.color
 ao.out_color bloom_down_1st.color
+//dof_upscale.out_color bloom_up_final.color
+//dof_upscale.out_color bloom_down_1st.color
+
 bloom_down_1st.out_color bloom_down_2nd.color
 bloom_down_2nd.out_color bloom_down_3rd.color
 bloom_down_3rd.out_color bloom_down_4th.color
@@ -25,7 +51,6 @@ bloom_down_2nd.out_color bloom_up_2nd.color
 bloom_up_2nd.out_color bloom_up_1st.previous
 bloom_down_1st.out_color bloom_up_1st.color
 bloom_up_1st.out_color bloom_up_final.previous
-ao.out_color bloom_up_final.color
 bloom_up_final.out_color final.color
 
 final.out_color output.color
