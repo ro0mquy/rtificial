@@ -71,6 +71,18 @@ float fbm(vec2 c) {
 	return (classic_noise(c) + classic_noise(c * 2.) * .5 + classic_noise(c * 4.) * .25)/1.75;
 }
 
+float A = 0.15;
+float B = 0.50;
+float C = 0.10;
+float D = 0.20;
+float E = 0.02;
+float F = 0.30;
+float W = 11.2;
+
+vec3 tonemap(vec3 color) {
+   return ((color * (A * color + C * B) + D * E) / (color * (A * color + B) + D * F)) - E / F;
+}
+
 void main() {
 	vec3 col;
 	float k = post_lens_distort_k;
@@ -94,4 +106,6 @@ void main() {
 	float luma = clamp(dot(col, vec3(.299, .587, .114)), 0., 1.);
 	float intensity = post_film_grain_intensity * pow(1. - luma, post_film_grain_power);
 	out_color = col + intensity * grain;
+
+	out_color = tonemap(out_color * 2)/tonemap(vec3(W));
 }
