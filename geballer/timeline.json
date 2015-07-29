@@ -280,6 +280,114 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "klest_inside_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.71600000000000818545,
+        "valueVec2Y": 3.5879999999999654392
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_inside_hash_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.24200000000007548806,
+        "valueVec2Y": 0.080000000000040927262
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_amp_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.2440000000000281943
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_cut_chamfer_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_cut1_dim_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.39200000000005269518
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_cut1_pos_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.50400000000001909939
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_cut2_dim_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.60400000000004183676
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_cut2_pos_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_deckel_chamfer_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_deckel_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 5.1200000000000045475,
+        "valueVec2Y": 3.2799999999999727152
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_deckel_ecke_dim_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.8720000000000709406
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_deckel_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.69100000000003092282
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 3.3999999999999772626,
+        "valueVec2Y": 3.1720000000000254659
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "klest_kolben_h_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -317,6 +425,42 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.3000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_rahmen_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.82799999999997453415,
+        "valueVec3Y": 1,
+        "valueVec3Z": 0.84800000000007003109
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_raum_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.039999999999963620212
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_raum_offset_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 40,
+        "valueVec3Y": 15,
+        "valueVec3Z": 40
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_raum_pos_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 18.204000000000064574
       },
       "sequencesArray": []
     },
@@ -367,6 +511,46 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "klest_stairbox_chamfer_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.20000000000004547474
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_stairbox_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10.351999999999975444
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_stairbox_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_stairbox_stairs_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_stairbox_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "klest_stamp_down_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -408,6 +592,57 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.8000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_trib_angle_inner_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.010999999999967258191
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_trib_angle_outer_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.038000000000010913936
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_trib_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.36400000000003274181
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_trib_trans_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 10,
+        "valueVec2Y": -40
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_tribin_dim_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.43600000000003541478,
+        "valueVec3Y": 0.50400000000001909939,
+        "valueVec3Z": 4.7000000000000454747
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_tribin_pos_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6.6599999999999681677
       },
       "sequencesArray": []
     },

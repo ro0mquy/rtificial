@@ -47,6 +47,14 @@ float sum(vec3 v) {
 	return v.x + v.y + v.z;
 }
 
+float mult(vec2 v) {
+	return v.x * v.y;
+}
+
+float mult(vec3 v) {
+	return v.x * v.y * v.z;
+}
+
 float square(float x) {
 	return x * x;
 }
