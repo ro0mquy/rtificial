@@ -67,6 +67,18 @@ vec3 square(vec3 x) {
 	return x * x;
 }
 
+float rcp(float x) {
+	return 1./x;
+}
+
+vec2 rcp(vec2 x) {
+	return 1./x;
+}
+
+vec3 rcp(vec3 x) {
+	return 1./x;
+}
+
 float lengthN(vec2 p, float n) {
 	return pow(sum(pow(abs(p), vec2(n))), 1./n);
 }
