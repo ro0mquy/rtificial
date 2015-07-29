@@ -38,7 +38,7 @@ float fSpimi(vec3 p, float scale) {
 	return min(d1, min(d2, d3));
 }
 
-float fScene(vec3 p) {
+float fTunnel(vec3 p) {
 	vec3 p_tunnel = p;
 	pMirrorLoco(p_tunnel.xy, vec2(7));
 	pFlip(p_tunnel.x);
@@ -52,13 +52,31 @@ float fScene(vec3 p) {
 	pTrans(p_tunnel.x, -.3);
 	float f2 = fPlane(p_tunnel, unitVector(-.125 * Tau, .2 * Pi).yxz);
 	f = opUnionStairs(f, f2, .6, 4);
+	return f;
+}
 
+float fFloor(vec3 p, float height) {
 	vec3 p_floor = p;
-	float f_floor = f2Box(p_floor.xy, vec2(3, .3));
+	float f_floor = f2Box(p_floor.xy, vec2(3, height));
 	vec3 p_floor_stuetze = p_floor;
 	pTrans(p_floor_stuetze.y, -4);
 	float f_floor_stuetze = f2Box(p_floor_stuetze.xy, vec2(.3, 4));
 	f_floor = min(f_floor, f_floor_stuetze);
+	return f_floor;
+}
+
+float fStreben(vec3 p, float atan_value) {
+	vec3 p_blades = p;
+	pDomrepAngleWithAtan(p_blades.xz, 10, .0, atan_value);
+	float f_blades = f2Box(p_blades.zy, .1);
+	return f_blades;
+}
+
+float fScene(vec3 p) {
+	float f_tunnel = fTunnel(p);
+	float f = f_tunnel;
+	float floor_height = .3;
+	float f_floor = fFloor(p, floor_height);
 
 	/*
 	vec3 p_spimis = p_floor;
@@ -70,21 +88,21 @@ float fScene(vec3 p) {
 	// */
 
 	// spikes
-	pTrans(p_floor.y, .3);
-	vec3 p_spikes = p_floor;
-	pTrans(p_spikes.y, .5);
+	pTrans(p.y, floor_height);
+	vec3 p_spikes = p;
 	float i = pDomrepMirror(p_spikes.z, 2);
 	pMirrorTrans(p_spikes.x, 2);
-	float f_spikes = fConeCapped(p_spikes, .4, .3, .5);
+	float atan_value = atan(p_spikes.z, p_spikes.x);
 	vec3 p_blades = p_spikes;
-	pTrans(p_blades.y, -.5);
-	pDomrepAngle(p_blades.xz, 10, .0);
-	float f_blades = f2Box(p_blades.zy, .1);
+	//pTrans(p_blades.y, -.5);
+	float f_blades = fStreben(p_blades, atan_value);
+	pTrans(p_spikes.y, .5);
+	float f_spikes = fConeCapped(p_spikes, .4, .3, .5);
 
 	pTrans(p_blades.y, .5 + .2 * sin(time * Tau * .25));
 	float blade_side = pMirrorTrans(p_blades.y, .1);
-	pRotY(p_blades, .1 * Tau * time * blade_side);
-	pDomrepAngle(p_blades.xz, 10, .0);
+	float blade_rotation = .1 * Tau * time * blade_side;
+	pDomrepAngleWithAtan(p_blades.xz, 10, .0, atan_value + blade_rotation);
 	pTrans(p_blades.x, .3);
 	pRotZ(p_blades, .3);
 	float f_real_blades = f2Triprism(p_blades.zx, .2);
