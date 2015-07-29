@@ -45,6 +45,21 @@ float G_Smith(float roughness, float NoV, float NoL) {
 	return NoV * NoL / ((NoV * (1. - k) + k) * (NoL * (1. - k) + k));
 }
 
+float square(float x) {
+	return x * x;
+}
+
+float delta_ggx_unoptimized(float alpha, float NdotV) {
+	float cot_theta = NdotV / sqrt(1 - square(NdotV));
+	float a = 1. / (cot_theta * alpha);
+	return .5 * (-1 + sqrt(1 + 1. / square(a)));
+}
+
+float G_Smith_real(float roughness, float NoV, float NoL) {
+	roughness *= roughness;
+	return 1./ (1. + delta_ggx_unoptimized(roughness, NoV) + delta_ggx_unoptimized(roughness, NoL));
+}
+
 vec2 IntegrateBRDF( float Roughness , float NoV ) {
 	vec3 V;
 	V.x = sqrt( 1.0 - NoV * NoV ); // sin
@@ -63,7 +78,8 @@ vec2 IntegrateBRDF( float Roughness , float NoV ) {
 		float VoH = saturate( dot( V, H ) );
 		if( NoL > 0 )
 		{
-			float G = G_Smith( Roughness , NoV, NoL );
+			//float G = G_Smith( Roughness , NoV, NoL );
+			float G = G_Smith_real( Roughness , NoV, NoL );
 			float G_Vis = G * VoH / (NoH * NoV);
 			float Fc = pow( 1 - VoH, 5 );
 			A += (1 - Fc) * G_Vis;
