@@ -125,10 +125,10 @@ float fKlestStone(vec3 p) {
 }
 
 float fKlestBalken(vec3 p) {
-	float f_balken = f2Box(p.xz, vec2(1, 2));
-	f_balken = opUnionChamfer(f_balken, f2Box(p.xz, vec2(2, 1)), 1/(sqrt(2) + 1));
+	float f_balken = f2BoxEdge(p.xz, vec2(1, 2));
+	f_balken = opUnionChamfer(f_balken, f2BoxEdge(p.xz, vec2(2, 1)), 1/(sqrt(2) + 1));
 	pTrans(p.x, -2);
-	return opSubtractChamfer(f_balken, f2Box(p.xz, vec2(.25)), .25);
+	return opSubtractChamfer(f_balken, f2BoxEdge(p.xz, vec2(.25)), .25);
 }
 
 float fStairBox(vec3 p, float height) {
@@ -187,6 +187,35 @@ float fWand(vec3 p, float phi) {
 	float f_cubes = fBoxEdge(p_cubes, dim_cubes);
 
 	return opIntersectChamfer(f_plane, -f_cubes, klest_wand_chamfer_rt_float);
+}
+
+float fTunnelPrimitive(vec3 p, float r) {
+	pMirror(p.z);
+	pRotX(p, Tau / -12.);
+	p.z -= .5 * r;
+	float f_plane = p.z;
+
+	vec3 p_balken = p;
+	p_balken.x -= klest_tunnel_balken_offset_rt_float;
+	pDomrep(p_balken.x, klest_tunnel_balken_spacing_rt_float);
+	float f_balken = fKlestBalken(p_balken);
+	float f = opUnionChamfer(f_plane, f_balken, .4);
+	return f;
+}
+
+float fTunnel(vec3 p) {
+	float f1 = fTunnelPrimitive(p, klest_gang_r_rt_float);
+
+	p.x -= 30.;
+	pMirrorLoco(p, vec3(30., 40., 50.));
+	pMirrorAtPlane(p, normalize(klest_tunnel_loco_plane_rt_vec3), length(klest_tunnel_loco_plane_rt_vec3));
+	pRotY(p, Tau * klest_tunnel_loco_phi1_rt_float);
+	//pRotZ(p, Tau * klest_tunnel_loco_phi2_rt_float);
+	//pMirrorLoco(p, vec3(20., 10., 15.));
+
+	float f2 = fTunnelPrimitive(p, klest_gang_r_rt_float);
+
+	return min(f1, f2);
 }
 
 float fReaktor(vec3 p) {
@@ -263,7 +292,7 @@ float fReaktor(vec3 p) {
 	p_gang.z -= klest_wand2_pos_rt_float;
 	float f_wand2 = -fWand(p_gang.zyx, Tau * klest_wand2_angle_rt_float);
 	f_wand = opUnionChamfer(f_wand, f_wand2, klest_wand_chamfer_rt_float);
-	float f_gang = f2Triprism(p_gang.xy, klest_gang_r_rt_float);
+	float f_gang = fTunnel(p_gang.zyx);
 	f_wand = max(f_wand, -f_gang);
 
 

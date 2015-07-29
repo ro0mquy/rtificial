@@ -671,6 +671,22 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "klest_tunnel_balken_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.6520000000000436557
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_tunnel_balken_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5.3469999999999799911
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "klest_tunnel_ceil_angle_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -683,6 +699,32 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 12.517000000000052751
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_tunnel_loco_phi1_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.91399999999998726707
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_tunnel_loco_phi2_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.88499999999999090505
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_tunnel_loco_plane_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.52600000000006730261,
+        "valueVec3Y": -0.22199999999997999112,
+        "valueVec3Z": -0.052000000000020918378
       },
       "sequencesArray": []
     },
@@ -738,7 +780,7 @@
       "uniformName": "klest_wand_spacing_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.4880000000000563887
+        "valueFloatX": 4.0639999999999645297
       },
       "sequencesArray": []
     },
