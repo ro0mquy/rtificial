@@ -2,6 +2,8 @@
 #include "noise.glsl"
 #line 4
 
+uniform float glum_anim;
+
 float fSpimiDisc(vec3 p, float scale, float i, float discAtan) {
 	float innerRadius = glum_spimi_radius_rt_float + sin(i) * glum_spimi_radius_var_rt_float;
 	innerRadius *= scale;
@@ -57,10 +59,10 @@ float fTunnel(vec3 p) {
 
 float fFloor(vec3 p, float height) {
 	vec3 p_floor = p;
-	float f_floor = f2Box(p_floor.xy, vec2(3, height));
+	float f_floor = f2BoxEdge(p_floor.xy, vec2(3, height));
 	vec3 p_floor_stuetze = p_floor;
 	pTrans(p_floor_stuetze.y, -4);
-	float f_floor_stuetze = f2Box(p_floor_stuetze.xy, vec2(.3, 4));
+	float f_floor_stuetze = f2BoxEdge(p_floor_stuetze.xy, vec2(.3, 4));
 	f_floor = min(f_floor, f_floor_stuetze);
 	return f_floor;
 }
@@ -68,12 +70,17 @@ float fFloor(vec3 p, float height) {
 float fStreben(vec3 p, float atan_value) {
 	vec3 p_blades = p;
 	pDomrepAngleWithAtan(p_blades.xz, 10, .0, atan_value);
-	float f_blades = f2Box(p_blades.zy, .1);
+	float f_blades = f2BoxEdge(p_blades.zy, .1);
 	return f_blades;
 }
 
 float fScene(vec3 p) {
+	pMirrorLoco(p.xz, vec2(glum_total_loco_trans_rt_float));
+	pRotY(p, Tau * glum_total_loco_rot_rt_float);
+	//pRotZ(p, glum_total_rot_rt_float * p.z);
+
 	float f_tunnel = fTunnel(p);
+	p.z -= glum_tunnel_offset_rt_float;
 	float f = f_tunnel;
 	float floor_height = .3;
 	float f_floor = fFloor(p, floor_height);
@@ -90,30 +97,44 @@ float fScene(vec3 p) {
 	// spikes
 	pTrans(p.y, floor_height);
 	vec3 p_spikes = p;
-	float i = pDomrepMirror(p_spikes.z, 2);
-	pMirrorTrans(p_spikes.x, 2);
+	float i_domrep = pDomrepMirror(p_spikes.z, 2);
+	float i_mirror = pMirrorTrans(p_spikes.x, 2);
 	float atan_value = atan(p_spikes.z, p_spikes.x);
+
 	vec3 p_blades = p_spikes;
 	//pTrans(p_blades.y, -.5);
 	float f_blades = fStreben(p_blades, atan_value);
+
+	vec3 p_signal = p_blades;
+	float hash_dom = rand(int(i_domrep * i_mirror));
+	float anim_n = 2.;
+	float t_pos = 1. - fract(hash_dom + glum_anim / anim_n * (1. + floor(glum_signal_max_velo_rt_float * anim_n * hash_dom)));
+	float start_pos = glum_signal_start_rt_float + glum_signal_start_outer_rt_float * (mod(i_domrep + 1., 3.) > .5 ? 1. : 0.);
+	p_signal.x -= glum_signal_end_rt_float + start_pos * t_pos;
+	float f_signal = fBox(p_signal, glum_signal_dim_rt_float);
+
 	pTrans(p_spikes.y, .5);
 	float f_spikes = fConeCapped(p_spikes, .4, .3, .5);
+	float f_spikes_cut = f2Sphere(p_spikes.xz, glum_spikes_cut_r_rt_float);
+	f_spikes = max(f_spikes, -f_spikes_cut);
 
-	pTrans(p_blades.y, .5 + .2 * sin(time * Tau * .25));
+	pTrans(p_blades.y, .5);
+	//pTrans(p_blades.y, .2 * sin(glum_anim * Tau * .25));
 	float blade_side = pMirrorTrans(p_blades.y, .1);
-	float blade_rotation = .1 * Tau * time * blade_side;
+	float blade_rotation = .1 * Tau * glum_anim * blade_side;
 	pDomrepAngleWithAtan(p_blades.xz, 10, .0, atan_value + blade_rotation);
 	pTrans(p_blades.x, .3);
-	pRotZ(p_blades, .3);
+	pRotZ(p_blades, .3 * sin(Tau * glum_anim));
 	float f_real_blades = f2Triprism(p_blades.zx, .2);
-	pMirrorTrans(p_blades.y, .01);
+	pMirrorTrans(p_blades.y, .03);
 	f_real_blades = max(f_real_blades, p_blades.y);
 
-	pTrans(p_spikes.y, 1 + 1.5 + sin(i) * .5 - 2);
+	pTrans(p_spikes.y, 1 + 1.5 + sin(Tau * (.1 * (i_domrep + 2. * i_mirror) + glum_anim)) * .5 - 2);
 	float f_spikes_top = fConeCapped(p_spikes, .3, .02, 1.5);
 	f_spikes = min(f_spikes, f_spikes_top);
 	f = min(f, f_spikes);
 
+	f_blades = min(f_blades, f_signal);
 	f_floor = opUnionStairs(f_floor, f_blades, .1, 4);
 	f = min(f, f_floor);
 	f = opUnionChamfer(f, f_real_blades, .01);

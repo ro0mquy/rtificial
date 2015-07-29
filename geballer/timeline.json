@@ -181,6 +181,91 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "glum_anim",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 392,
+          "sequenceStart": 250,
+          "sequenceDuration": 4875,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 4875,
+              "keyframeValue": {
+                "valueFloatX": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "glum_signal_dim_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.20400000000006457412
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_signal_end_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.3120000000000118234
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_signal_hash_seed_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.596000000000003638
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_signal_max_velo_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.8960000000000718501
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_signal_start_outer_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.1330000000000381988
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_signal_start_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6.923000000000001819
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_spikes_cut_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.20900000000006002665
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "glum_spimi_disc_height_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -222,6 +307,54 @@
     },
     {
       "uniformName": "glum_spimi_spike_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_ss_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_total_loco_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.086000000000012732926
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_total_loco_trans_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 51.243999999999914507
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_total_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.04000000000007730705
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_tunnel_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_tunnel_pulse_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
@@ -466,7 +599,7 @@
       "uniformName": "klest_raum_angle_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -0.039999999999963620212
+        "valueFloatX": -0.039999999999963613273
       },
       "sequencesArray": []
     },
@@ -706,7 +839,7 @@
       "uniformName": "klest_tunnel_loco_phi1_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.91399999999998726707
+        "valueFloatX": 0.91399999999998715605
       },
       "sequencesArray": []
     },
@@ -756,7 +889,7 @@
       "uniformName": "klest_wand_chamfer_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.44799999999997908162
+        "valueFloatX": 0.44799999999997902611
       },
       "sequencesArray": []
     },
