@@ -1190,7 +1190,7 @@
       "uniformName": "post_disable_median",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": false
+        "valueBoolState": true
       },
       "sequencesArray": []
     },
