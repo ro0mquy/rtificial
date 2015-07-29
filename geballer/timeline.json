@@ -245,6 +245,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "klest_gang_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "klest_holerow_delay_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -379,11 +387,27 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "klest_kern_deckel_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.014999999999986357579
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "klest_kern_dim_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
         "valueVec2X": 3.3999999999999772626,
         "valueVec2Y": 3.1720000000000254659
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_kern_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.014999999999986357579
       },
       "sequencesArray": []
     },
@@ -675,6 +699,62 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 6.8890000000000100044
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_wand_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.13200000000006184564
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_wand_chamfer_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.44799999999997908162
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_wand_pos_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 30
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_wand_ratio_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2810000000000627551
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_wand_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.4880000000000563887
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_wand2_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.12400000000002364686
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_wand2_pos_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 16.125
       },
       "sequencesArray": []
     },

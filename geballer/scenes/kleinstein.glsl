@@ -143,7 +143,7 @@ float fStairBoxRow(vec3 p) {
 	float f_boden = p.y;
 
 	float i = pDomrepInterval(p.z, klest_stairbox_spacing_rt_float * klest_stairbox_width_rt_float, -3, 2);
-	i += 3;
+	i += 2;
 
 	vec3 p_holes = p;
 	float f_holes = fStairBox(p_holes, klest_stairbox_chamfer_rt_float);
@@ -174,22 +174,35 @@ float fTripyramid(vec3 p, float phi) {
 	return max(f1, f2);
 }
 
-float fReaktor(vec3 p) {
-	vec3 p_raum = p;
-	p_raum.y -= klest_raum_offset_rt_vec3.y - klest_raum_pos_y_rt_float;
-	pMirrorLoco(p_raum, klest_raum_offset_rt_vec3);
-	pRotY(p_raum, Tau * klest_raum_angle_rt_float);
-	float f_raum = -p_raum.x;
+float fWand(vec3 p, float phi) {
+	pRotZ(p, phi);
+	float f_plane = p.x;
 
+	vec3 p_cubes = p;
+	pRotX(p_cubes, Tau * .1);
+	vec2 cell_cubes = pDomrep(p_cubes.yz, vec2(klest_wand_spacing_rt_float));
+	float hash_cubes = .1 + .9 * rand(ivec2(cell_cubes)) * (.9 + .1 * (1. - stamp()));
+	float length_cubes = hash_cubes * klest_wand_ratio_rt_float;
+	vec3 dim_cubes = vec3(klest_wand_ratio_rt_float - length_cubes, length_cubes, length_cubes);
+	float f_cubes = fBoxEdge(p_cubes, dim_cubes);
+
+	return opIntersectChamfer(f_plane, -f_cubes, klest_wand_chamfer_rt_float);
+}
+
+float fReaktor(vec3 p) {
 	vec3 p_mirror = p;
 	vec2 cell_mirror = pMirror(p_mirror.xz);
 	vec3 p_kern = p_mirror;
 	p_kern.y -= klest_kern_dim_rt_vec2.y + klest_kern_amp_rt_float * stamp();
+	pRotX(p_kern, Tau * klest_kern_rot_rt_float);
+	pRotZ(p_kern, Tau * -klest_kern_rot_rt_float);
 	float f_kern = f2CornerEdge(p_kern.xz) - klest_kern_dim_rt_vec2.x;
 	f_kern = max(f_kern, abs(p_kern.y) - klest_kern_dim_rt_vec2.y);
 
 	vec3 p_kern_deckel = p_kern;
 	p_kern_deckel.y -= klest_kern_dim_rt_vec2.y + klest_kern_deckel_dim_rt_vec2.y;
+	pMirrorAtPlane(p_kern_deckel, normalize(vec3(-1, 0, 1)), 0.);
+	pRotY(p_kern_deckel, Tau * klest_kern_deckel_rot_rt_float);
 	float f_kern_deckel = fBox(p_kern_deckel, klest_kern_deckel_dim_rt_vec2.xyx);
 	pMirror(p_kern_deckel.y);
 	p_kern_deckel -= klest_kern_deckel_offset_rt_float * klest_kern_deckel_dim_rt_vec2.xyx;
@@ -214,9 +227,10 @@ float fReaktor(vec3 p) {
 	f_inside = fBox(p_inside, dim_inside);
 
 
-	vec3 p_rahmen = p;
-	pMirrorGrid(p_rahmen.xz, klest_kern_dim_rt_vec2.x + klest_rahmen_dim_rt_vec3.x);
-	vec3 p_tribin = p_rahmen;
+	vec3 p_mirrorgrid = p;
+	pMirrorGrid(p_mirrorgrid.xz, 0.);
+	vec3 p_rahmen = p_mirrorgrid;
+	p_rahmen.x -= klest_kern_dim_rt_vec2.x + klest_rahmen_dim_rt_vec3.x;
 	p_rahmen.y -= klest_rahmen_dim_rt_vec3.y;
 	float f_rahmen = fBox(p_rahmen, klest_rahmen_dim_rt_vec3);
 
@@ -233,21 +247,34 @@ float fReaktor(vec3 p) {
 	pRotY(p_tribune, Tau * klest_trib_angle_outer_rt_float);
 	pMirrorLoco(p_tribune.xz, vec2(0.));
 	pRotY(p_tribune, Tau * klest_trib_angle_inner_rt_float);
-	float f_tribune = f2Box(p_tribune.zy, klest_trib_r_rt_float);
+	float f_tribune = f2BoxEdge(p_tribune.zy, klest_trib_r_rt_float);
 
+	vec3 p_tribin = p_mirrorgrid;
 	p_tribin.y -= klest_tribin_dim_rt_vec3.y;
 	p_tribin.x -= klest_tribin_pos_rt_float;
 	float f_tribin = fBox(p_tribin, klest_tribin_dim_rt_vec3);
 
 
+	vec3 p_wand = p_mirrorgrid;
+	p_wand.x -= klest_wand_pos_rt_float;
+	float f_wand = -fWand(p_wand, Tau * klest_wand_angle_rt_float);
+
+	vec3 p_gang = p_stairbox;
+	p_gang.z -= klest_wand2_pos_rt_float;
+	float f_wand2 = -fWand(p_gang.zyx, Tau * klest_wand2_angle_rt_float);
+	f_wand = opUnionChamfer(f_wand, f_wand2, klest_wand_chamfer_rt_float);
+	float f_gang = f2Triprism(p_gang.xy, klest_gang_r_rt_float);
+	f_wand = max(f_wand, -f_gang);
+
+
 	float f = f_kern;
-	f = min(f, f_raum);
 	f = opUnionChamfer(f, f_kern_deckel, klest_kern_deckel_chamfer_rt_float);
 	f = min(f, f_inside);
 	f = min(f, f_rahmen);
 	f = min(f, f_stairbox);
 	f = min(f, f_tribune);
 	f = min(f, f_tribin);
+	f = opUnionChamfer(f, f_wand, 1.);
 
 	return f;
 }
@@ -264,7 +291,7 @@ float fScene(vec3 p) {
 	pMirrorAtPlane(p_wall, vec3(-unitVector(Tau / 2 - Tau / 12), 0), 0);
 	float f_wall = -p_wall.x;
 	vec3 p_balken = p_wall;
-	//f_wall = opUnionChamfer(f_wall, fKlestBalken(p_balken), .4);
+	f_wall = opUnionChamfer(f_wall, fKlestBalken(p_balken), .4);
 
 	f_tunnel = opUnionChamfer(f_tunnel, f_wall, .4);
 	float f = f_tunnel;
