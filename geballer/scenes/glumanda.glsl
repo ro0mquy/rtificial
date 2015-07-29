@@ -38,6 +38,72 @@ float fSpimi(vec3 p, float scale) {
 	return min(d1, min(d2, d3));
 }
 
+float fScene(vec3 p) {
+	vec3 p_tunnel = p;
+	pMirrorLoco(p_tunnel.xy, vec2(7));
+	pFlip(p_tunnel.x);
+	pMirror(p_tunnel.y);
+	pRotZ(p_tunnel, .1 * Tau);
+	pDomrepMirror(p_tunnel.z, 3);
+	pRotY(p_tunnel, glum_tunnel_pulse_rt_float * Tau);
+	pDomrepMirror(p_tunnel.y, 3);
+	pRotZ(p_tunnel, glum_tunnel_pulse_rt_float  * Tau);
+	float f = p_tunnel.x;
+	pTrans(p_tunnel.x, -.3);
+	float f2 = fPlane(p_tunnel, unitVector(-.125 * Tau, .2 * Pi).yxz);
+	f = opUnionStairs(f, f2, .6, 4);
+
+	vec3 p_floor = p;
+	float f_floor = f2Box(p_floor.xy, vec2(3, .3));
+	vec3 p_floor_stuetze = p_floor;
+	pTrans(p_floor_stuetze.y, -4);
+	float f_floor_stuetze = f2Box(p_floor_stuetze.xy, vec2(.3, 4));
+	f_floor = min(f_floor, f_floor_stuetze);
+
+	/*
+	vec3 p_spimis = p_floor;
+	pDomrep(p_spimis.z, 50);
+	pMirrorTrans(p_spimis.x, 2);
+	pRotZ(p_spimis, -.01 * Tau);
+	float f_spimi = fSpimi(p_spimis, .3);
+	f = min(f, f_spimi);
+	// */
+
+	// spikes
+	pTrans(p_floor.y, .3);
+	vec3 p_spikes = p_floor;
+	pTrans(p_spikes.y, .5);
+	float i = pDomrepMirror(p_spikes.z, 2);
+	pMirrorTrans(p_spikes.x, 2);
+	float f_spikes = fConeCapped(p_spikes, .4, .3, .5);
+	vec3 p_blades = p_spikes;
+	pTrans(p_blades.y, -.5);
+	pDomrepAngle(p_blades.xz, 10, .0);
+	float f_blades = f2Box(p_blades.zy, .1);
+
+	pTrans(p_blades.y, .5 + .2 * sin(time * Tau * .25));
+	float blade_side = pMirrorTrans(p_blades.y, .1);
+	pRotY(p_blades, .1 * Tau * time * blade_side);
+	pDomrepAngle(p_blades.xz, 10, .0);
+	pTrans(p_blades.x, .3);
+	pRotZ(p_blades, .3);
+	float f_real_blades = f2Triprism(p_blades.zx, .2);
+	pMirrorTrans(p_blades.y, .01);
+	f_real_blades = max(f_real_blades, p_blades.y);
+
+	pTrans(p_spikes.y, 1 + 1.5 + sin(i) * .5 - 2);
+	float f_spikes_top = fConeCapped(p_spikes, .3, .02, 1.5);
+	f_spikes = min(f_spikes, f_spikes_top);
+	f = min(f, f_spikes);
+
+	f_floor = opUnionStairs(f_floor, f_blades, .1, 4);
+	f = min(f, f_floor);
+	f = opUnionChamfer(f, f_real_blades, .01);
+
+	mUnion(f, MaterialId(0., p));
+	return f;
+}
+
 float fSchwurbelScheisse(vec3 p) {
 	float radius = 1;
 	float fBoundingCylinder = f2Sphere(p.xz, radius);
@@ -46,7 +112,7 @@ float fSchwurbelScheisse(vec3 p) {
 		return fBoundingCylinder;
 	}
 	float a = .5 + .5 * 1;
-	pRotY(p, sin(a * p.y) + valueNoise(time) * Pi);
+	pRotY(p, sin(a * p.y) + glum_ss_rot_rt_float);
 	float lipTwist = length(vec2(radius, Pi * a));
 	pDomrepAngle(p.xz, 3, radius);
 	pMirror(p.z);
@@ -55,7 +121,7 @@ float fSchwurbelScheisse(vec3 p) {
 	return p.x / lipTwist;
 }
 
-float fScene(vec3 p) {
+float fScene_old(vec3 p) {
 	/* rotationswalzenspimischlonz
 	pRotY(p, Tau * time * .2);
 	pRotZ(p, Tau * time * .2);
@@ -76,7 +142,7 @@ float fScene(vec3 p) {
 	pTrans(p_dings.y, -10);
 	float f_dings = fHexprism(p_dings, 1, 10);
 	f = opUnionChamfer(f, f_dings, .1);
-	//*/
+	// */
 
 	/* tunneldings vielleicht
 	//pMirrorLoco(p.yx, vec2(12));
@@ -92,7 +158,7 @@ float fScene(vec3 p) {
 	f = f2Box(p1.xz, vec2(.1, 1));
 	pMirrorTrans(p2.z, 1.25);
 	f = opUnionChamfer(f, f2BoxEdge(p2.yz, vec2(1.3, .25)), .1);
-	//*/
+	// */
 
 	/* auf-und-zu-mit-klingen
 	// more like hakenkreuzdingsi mit schrecklichen stacheln
@@ -129,12 +195,26 @@ float fScene(vec3 p) {
 
 	float f = min(f_base, f_pole1);
 	f = min(f, f_blade);
-	//*/
+	// */
 
-	//float f = fSchwurbelScheisse(p);
-	//f = max(f, p.y);
-
-	float f = fSphere(p, 1);
+	pMirror(p.xy);
+	pRotZ(p, aa_rt_float * Tau);
+	pMirrorTrans(p.x, klest_tunnel_width_rt_float);
+	pRotZ(p, -Tau / 12 * .5);
+	pTrans(p.y, klest_tunnel_height_rt_float);
+	pMirrorAtPlane(p, vec3(-unitVector(Tau / 2 - Tau / 12), 0), 0);
+	float f_wall = -p.x;
+	//float j = pDomrep(p.z, 30);
+	//float kipp = Tau * .01;
+	//pMirrorDomrepped(kipp, floor(j / 2));
+	//pMirrorDomrepped(kipp, floor(j / 3));
+	//pRotX(p, kipp);
+	//pMirrorTrans(p.z, .8);
+	pTrans(p.y, -6);
+	pTrans(p.x, .1);
+	p = p.xzy;
+	float f = fSchwurbelScheisse(p);
+	f = smin(f_wall, f, .03);
 
 	mUnion(f, MaterialId(0., p));
 	return f;
