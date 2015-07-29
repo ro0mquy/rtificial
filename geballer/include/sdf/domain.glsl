@@ -72,6 +72,18 @@ vec3 pDomrep(inout vec3 p, float cx, float cy, float cz) {
 	return pDomrep(p, vec3(cx, cy, cz));
 }
 
+void pMirrorDomrepped(inout float p, float i) {
+	p *= mod(i, 2.) * 2. - 1.;
+}
+
+void pMirrorDomrepped(inout vec2 p, vec2 i) {
+	p *= mod(i, 2.) * 2. - 1.;
+}
+
+void pMirrorDomrepped(inout vec3 p, vec3 i) {
+	p *= mod(i, 2.) * 2. - 1.;
+}
+
 float pDomrepMirror(inout float p, float c) {
 	float i = pDomrep(p, c);
 	p *= mod(i, 2.) * 2. - 1.;
