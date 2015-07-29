@@ -1,7 +1,9 @@
 input.color scale.color
 input.depth scale.depth
 scale.out_depth ao.depth
-scale.out_color ao.color
+
+scale.out_color remove_fireflies.color
+remove_fireflies.out_color ao.color
 
 scale.out_depth dof_downsample_depth.depth
 dof_downsample_depth.out_depth dof_tile.depth

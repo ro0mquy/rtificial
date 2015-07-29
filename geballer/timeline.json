@@ -1065,6 +1065,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_disable_median",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_film_grain_frequency",
       "uniformType": "float",
       "uniformStandardValue": {
