@@ -141,7 +141,7 @@ float sdfMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, float pixelRadi
 }
 
 float sdfMarch(vec3 o, vec3 d, float t_max) {
-	float marched = sdfMarchAdvanced(o, d, .001, t_max, camGetPixelSize(1), 128, 1.2, false);
+	float marched = sdfMarchAdvanced(o, d, .001, t_max, camGetPixelSize(1), 256, 1.2, false);
 
 	if (isinf(marched)) {
 		return marched;
