@@ -4,6 +4,16 @@
 
 uniform float glum_anim;
 
+const float id_tunnel = 0.;
+const float id_strebe = 1.;
+const float id_strebe_stairs = 2.;
+const float id_signal = 3.;
+const float id_spikes = 4.;
+const float id_spikes_top = 5.;
+const float id_blades = 6.;
+const float id_blades_chamfer = 7.;
+const float id_floor = 8.;
+
 float fSpimiDisc(vec3 p, float scale, float i, float discAtan) {
 	float innerRadius = glum_spimi_radius_rt_float + sin(i) * glum_spimi_radius_var_rt_float;
 	innerRadius *= scale;
@@ -79,45 +89,56 @@ float fScene(vec3 p) {
 	pRotY(p, Tau * glum_total_loco_rot_rt_float);
 	//pRotZ(p, glum_total_rot_rt_float * p.z);
 
-	float f_tunnel = fTunnel(p);
-	p.z -= glum_tunnel_offset_rt_float;
-	float f = f_tunnel;
+	// domrapping and shit
+	vec3 p_domrep_cell = p;
 	float floor_height = .3;
-	float f_floor = fFloor(p, floor_height);
+	p_domrep_cell.y -= floor_height;
+	p_domrep_cell.z -= glum_tunnel_offset_rt_float;
+	float i_domrep = pDomrepMirror(p_domrep_cell.z, 2);
+	float i_mirror = pMirrorTrans(p_domrep_cell.x, 2);
+	float atan_value = atan(p_domrep_cell.z, p_domrep_cell.x);
 
-	/*
-	vec3 p_spimis = p_floor;
-	pDomrep(p_spimis.z, 50);
-	pMirrorTrans(p_spimis.x, 2);
-	pRotZ(p_spimis, -.01 * Tau);
-	float f_spimi = fSpimi(p_spimis, .3);
-	f = min(f, f_spimi);
-	// */
+	// floor
+	vec3 p_floor = p;
+	float f_floor = fFloor(p_floor, floor_height);
+	mUnion(f_floor, MaterialId(id_floor, p_floor));
 
-	// spikes
-	pTrans(p.y, floor_height);
-	vec3 p_spikes = p;
-	float i_domrep = pDomrepMirror(p_spikes.z, 2);
-	float i_mirror = pMirrorTrans(p_spikes.x, 2);
-	float atan_value = atan(p_spikes.z, p_spikes.x);
+	// strebe
+	vec3 p_strebe = p_domrep_cell;
+	float f_strebe = fStreben(p_strebe, atan_value);
+	mUnionStairs(f_strebe, MaterialId(id_strebe, p_strebe), .1, 4, id_strebe_stairs);
+	//mUnion(f_strebe, MaterialId(id_strebe, p_strebe));
 
-	vec3 p_blades = p_spikes;
-	//pTrans(p_blades.y, -.5);
-	float f_blades = fStreben(p_blades, atan_value);
+	// tunnel
+	float f_tunnel = fTunnel(p);
+	mUnion(f_tunnel, MaterialId(id_tunnel, p));
 
-	vec3 p_signal = p_blades;
+	// signal
+	vec3 p_signal = p_domrep_cell;
 	float hash_dom = rand(int(i_domrep * i_mirror));
 	float anim_n = 2.;
 	float t_pos = 1. - fract(hash_dom + glum_anim / anim_n * (1. + floor(glum_signal_max_velo_rt_float * anim_n * hash_dom)));
-	float start_pos = glum_signal_start_rt_float + glum_signal_start_outer_rt_float * (mod(i_domrep + 1., 3.) > .5 ? 1. : 0.);
+	float start_pos = glum_signal_start_rt_float + glum_signal_start_outer_rt_float * step(.5, mod(i_domrep + 1., 3.));
 	p_signal.x -= glum_signal_end_rt_float + start_pos * t_pos;
 	float f_signal = fBox(p_signal, glum_signal_dim_rt_float);
+	mUnion(f_signal, MaterialId(id_signal, p_signal));
 
+	// spikes base
+	vec3 p_spikes = p_domrep_cell;
 	pTrans(p_spikes.y, .5);
 	float f_spikes = fConeCapped(p_spikes, .4, .3, .5);
 	float f_spikes_cut = f2Sphere(p_spikes.xz, glum_spikes_cut_r_rt_float);
 	f_spikes = max(f_spikes, -f_spikes_cut);
+	mUnion(f_spikes, MaterialId(id_spikes, p_spikes));
 
+	// spikes top
+	pTrans(p_spikes.y, 1 + 1.5 + sin(Tau * (.1 * (i_domrep + 2. * i_mirror) + glum_anim)) * .5 - 2);
+	float f_spikes_top = fConeCapped(p_spikes, .3, .02, 1.5);
+	f_spikes = min(f_spikes, f_spikes_top);
+	mUnion(f_spikes_top, MaterialId(id_spikes_top, p_spikes));
+
+	// blades (flower ring)
+	vec3 p_blades = p_domrep_cell;
 	pTrans(p_blades.y, .5);
 	//pTrans(p_blades.y, .2 * sin(glum_anim * Tau * .25));
 	float blade_side = pMirrorTrans(p_blades.y, .1);
@@ -125,22 +146,21 @@ float fScene(vec3 p) {
 	pDomrepAngleWithAtan(p_blades.xz, 10, .0, atan_value + blade_rotation);
 	pTrans(p_blades.x, .3);
 	pRotZ(p_blades, .3 * sin(Tau * glum_anim));
-	float f_real_blades = f2Triprism(p_blades.zx, .2);
-	pMirrorTrans(p_blades.y, .03);
-	f_real_blades = max(f_real_blades, p_blades.y);
+	float f_blades = f2Triprism(p_blades.zx, .2);
+	f_blades = max(f_blades, abs(p_blades.y) - .03);
+	mUnionChamfer(f_blades, MaterialId(id_blades, p_blades), .01, id_blades_chamfer);
 
-	pTrans(p_spikes.y, 1 + 1.5 + sin(Tau * (.1 * (i_domrep + 2. * i_mirror) + glum_anim)) * .5 - 2);
-	float f_spikes_top = fConeCapped(p_spikes, .3, .02, 1.5);
-	f_spikes = min(f_spikes, f_spikes_top);
+	/*
+	float f = f_tunnel;
 	f = min(f, f_spikes);
-
-	f_blades = min(f_blades, f_signal);
-	f_floor = opUnionStairs(f_floor, f_blades, .1, 4);
+	f_strebe = min(f_strebe, f_signal);
+	f_floor = opUnionStairs(f_floor, f_strebe, .1, 4);
 	f = min(f, f_floor);
-	f = opUnionChamfer(f, f_real_blades, .01);
+	f = opUnionChamfer(f, f_blades, .01);
+	// */
 
-	mUnion(f, MaterialId(0., p));
-	return f;
+	//mUnion(f, MaterialId(0., p));
+	return current_dist;
 }
 
 float fSchwurbelScheisse(vec3 p) {
@@ -260,7 +280,9 @@ float fScene_old(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	return applyNormalLights(origin, marched, direction, hit, normal, material);
+	vec3 color = .1 * applyNormalLights(origin, marched, direction, hit, normal, material);
+	color *= 1. + 100. * material.emission.x;
+	return color;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -270,5 +292,10 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = .1;
+
+	if (materialId.id == id_signal) {
+		mat.emission.x = 1.;
+	}
+
 	return mat;
 }

@@ -1,4 +1,5 @@
 #include "helper.glsl"
+#include "sdf/domain.glsl"
 #line 3 "sdf/operators"
 
 // unions two object and produces a very smooth transition
