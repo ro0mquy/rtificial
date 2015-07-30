@@ -190,7 +190,7 @@
         {
           "sequenceSceneId": 392,
           "sequenceStart": 250,
-          "sequenceDuration": 4875,
+          "sequenceDuration": 4750,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -200,9 +200,9 @@
               }
             },
             {
-              "keyframePosition": 4875,
+              "keyframePosition": 4750,
               "keyframeValue": {
-                "valueFloatX": 2
+                "valueFloatX": 1
               }
             }
           ]
@@ -213,7 +213,7 @@
       "uniformName": "glum_signal_dim_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.20400000000006457412
+        "valueFloatX": 0.20400000000006454637
       },
       "sequencesArray": []
     },
@@ -226,6 +226,30 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "glum_signal_glow_base_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.009999999999990905053
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_signal_glow_mid_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_signal_glow_total_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 70
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "glum_signal_hash_seed_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -234,10 +258,26 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "glum_signal_impulse_k_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 20
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_signal_impulse_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.029999999999972715159
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "glum_signal_max_velo_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.8960000000000718501
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -1299,7 +1339,7 @@
       "uniformName": "post_bloom_amount",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.1750000000000682121
+        "valueFloatX": 2.326999999999998181
       },
       "sequencesArray": []
     },

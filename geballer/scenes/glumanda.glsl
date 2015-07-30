@@ -115,12 +115,16 @@ float fScene(vec3 p) {
 	// signal
 	vec3 p_signal = p_domrep_cell;
 	float hash_dom = rand(int(i_domrep * i_mirror));
-	float anim_n = 2.;
-	float t_pos = 1. - fract(hash_dom + glum_anim / anim_n * (1. + floor(glum_signal_max_velo_rt_float * anim_n * hash_dom)));
+	float anim_n = 1.;
+	float t_anim = fract(hash_dom + glum_anim / anim_n * (1. + floor(glum_signal_max_velo_rt_float * anim_n * hash_dom)));
+	float t_pos = 1. - smoothstep(0., .9, t_anim);
 	float start_pos = glum_signal_start_rt_float + glum_signal_start_outer_rt_float * step(.5, mod(i_domrep + 1., 3.));
 	p_signal.x -= glum_signal_end_rt_float + start_pos * t_pos;
-	float f_signal = fBox(p_signal, glum_signal_dim_rt_float);
-	mUnion(f_signal, newMaterialId(id_signal, p_signal));
+	float t_radius = 1. - smoothstep(.9, 1., t_anim);
+	float f_signal = fBox(p_signal, glum_signal_dim_rt_float * t_radius);
+	MaterialId mat_signal = newMaterialId(id_signal, p_signal);
+	mat_signal.misc.xy = vec2(t_anim, hash_dom);
+	mUnion(f_signal, mat_signal);
 
 	// spikes base
 	vec3 p_spikes = p_domrep_cell;
@@ -280,7 +284,7 @@ float fScene_old(vec3 p) {
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
 	vec3 color = .1 * applyNormalLights(origin, marched, direction, hit, normal, material);
-	color *= 1. + 100. * material.emission.x;
+	color *= 1. + 10. * material.emission.x;
 	return color;
 }
 
@@ -293,7 +297,23 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .1;
 
 	if (materialId.id == id_signal) {
-		mat.emission.x = 1.;
+		float t_anim = materialId.misc.x;
+		float hash_dom = materialId.misc.y;
+
+		float t_final_hit = min(1., t_anim + glum_signal_impulse_offset_rt_float);
+		t_final_hit = iqPowerCurve(glum_signal_impulse_k_rt_float, 3., t_final_hit);
+
+		float n_wobbel = 2. + floor(3. * hash_dom);
+		float t_mid_wobbel = mod(t_anim + hash_dom, 1./n_wobbel) * n_wobbel;
+		t_mid_wobbel = iqPowerCurve(23., 3., t_mid_wobbel);
+		//t_mid_wobbel = smoothstep(0., 1., t_mid_wobbel);
+		//t_mid_wobbel = square(sin(Pi * t_mid_wobbel));
+
+		float glow_intensity = t_final_hit + glum_signal_glow_mid_rt_float * t_mid_wobbel + glum_signal_glow_base_rt_float;
+		glow_intensity /= 1. + glum_signal_glow_mid_rt_float + glum_signal_glow_base_rt_float;
+		glow_intensity *= glum_signal_glow_total_rt_float;
+
+		mat.emission.x = glow_intensity;
 	}
 
 	return mat;
