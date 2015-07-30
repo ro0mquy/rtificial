@@ -38,7 +38,7 @@ float fScene(vec3 p) {
 	d4 = max(d4, -d5);
 	d = opUnionChamfer(d, d4, .2);
 
-	mUnion(d, MaterialId(0., q));
+	mUnion(d, newMaterialId(0., q));
 	return d;
 }
 

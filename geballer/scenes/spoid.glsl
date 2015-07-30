@@ -25,7 +25,7 @@ float fScene(vec3 p) {
 
 	float f = f_spoid_torus;
 
-	mUnion(f, MaterialId(0., p));
+	mUnion(f, newMaterialId(0., p));
 	return f;
 }
 

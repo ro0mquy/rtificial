@@ -16,7 +16,7 @@ float fScene(vec3 p) {
 
 	float f_kuhle = fBoxEdge(p_boden, tple_kuhle_dim_rt_vec3);
 	f_boden = opSubtractStairs(f_boden, f_kuhle, .9 * tple_kuhle_dim_rt_vec3.y, tple_kuhle_n_stairs_rt_float);
-	mUnion(f_boden, MaterialId(id_boden, p_boden));
+	mUnion(f_boden, newMaterialId(id_boden, p_boden));
 
 	vec3 p_hill = p;
 	float f_hill = fPyramid(p_hill, tple_hill_h_rt_float, Tau * tple_hill_angle_rt_float);
@@ -27,7 +27,7 @@ float fScene(vec3 p) {
 	float f_hill_band = fBoxEdge(p_hill_band, tple_hill_band_dim_rt_vec3);
 
 	f_hill = opUnionChamfer(f_hill, f_hill_band, tple_hill_band_smooth_rt_float);
-	mUnion(f_hill, MaterialId(id_hill, p_hill));
+	mUnion(f_hill, newMaterialId(id_hill, p_hill));
 
 
 	vec3 p_weg = p;
@@ -60,7 +60,7 @@ float fScene(vec3 p) {
 	float f_saulen_guard = p_saulen.z + 2. * tple_weg_width_rt_float + distort_offset + distort_offset_nb - tple_saulen_top_dim_rt_vec3.z;
 
 	f_saulen = min(f_saulen, f_saulen_guard);
-	mUnion(f_saulen, MaterialId(id_saulen, p_saulen));
+	mUnion(f_saulen, newMaterialId(id_saulen, p_saulen));
 
 
 	vec3 p_mauer = p_weg;
@@ -76,13 +76,13 @@ float fScene(vec3 p) {
 	float f_mauer_pfeiler = fBoxEdge(p_mauer_pfeiler, tple_mauer_pfeiler_dim_rt_vec3);
 
 	float f_mauer = opUnionChamfer(f_mauer_dach, f_mauer_pfeiler, tple_mauer_smooth_rt_float);
-	mUnion(f_mauer, MaterialId(id_mauer, p_mauer));
+	mUnion(f_mauer, newMaterialId(id_mauer, p_mauer));
 
 
 	vec3 p_nebenhill = p;
 	p_nebenhill.xz -= tple_nebenhill_pos_rt_vec2;
 	float f_nebenhill = fPyramid(p_nebenhill, tple_nebenhill_h_rt_float, Tau * tple_nebenhill_angle_rt_float);
-	mUnion(f_nebenhill, MaterialId(id_nebenhill, p_nebenhill));
+	mUnion(f_nebenhill, newMaterialId(id_nebenhill, p_nebenhill));
 
 
 	vec3 p_monolith = p_hill;
@@ -101,7 +101,7 @@ float fScene(vec3 p) {
 	f_mono2 = min(f_mono2, fBox(p_mono2, tple_mono2_dim2_rt_vec3));
 
 	float f_monolith = min(f_mono1, f_mono2);
-	mUnion(f_monolith, MaterialId(id_monolith, p_monolith));
+	mUnion(f_monolith, newMaterialId(id_monolith, p_monolith));
 
 
 	vec3 p_bg = p;
@@ -115,7 +115,7 @@ float fScene(vec3 p) {
 	float f_bg2 = fPyramid(p_bg2, tple_bg2_h_rt_float, Tau * tple_bg2_angle_rt_float);
 	f_bg = min(f_bg, f_bg2);
 
-	mUnion(f_bg, MaterialId(id_bg, p_bg));
+	mUnion(f_bg, newMaterialId(id_bg, p_bg));
 
 
 	return current_dist;

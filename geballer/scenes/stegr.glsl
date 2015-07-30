@@ -19,7 +19,7 @@ float fScene(vec3 p) {
 	float d2 = f2Triprism(q.xy, .8);
 	d = opUnionChamfer(d, d2, .2);
 
-	mUnion(d, MaterialId(0., p));
+	mUnion(d, newMaterialId(0., p));
 	return d;
 }
 

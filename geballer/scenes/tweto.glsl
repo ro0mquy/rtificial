@@ -19,7 +19,7 @@ float fScene(vec3 p) {
 	float f = f_torus;
 	f = min(f, f_glider);
 
-	mUnion(f, MaterialId(0., p));
+	mUnion(f, newMaterialId(0., p));
 	return f;
 }
 

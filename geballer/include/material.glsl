@@ -5,6 +5,7 @@
 struct MaterialId {
 	float id;
 	vec3 coord;
+	vec4 misc;
 };
 
 struct Material {
@@ -17,7 +18,7 @@ struct Material {
 
 bool calculate_material = false;
 float current_dist = Inf;
-MaterialId current_material = MaterialId(0., vec3(0.));
+MaterialId current_material = MaterialId(0., vec3(0.), vec4(0.));
 
 // der witz: jetzt in einmal komplett neu!
 void mUnion(float f, MaterialId m) {
@@ -43,6 +44,10 @@ void mIntersect(float f, MaterialId m) {
 	}
 }
 
+MaterialId newMaterialId(float id, vec3 coord) {
+	return MaterialId(id, coord, vec4(0.));
+}
+
 Material defaultMaterial(vec3 color) {
 	return Material(
 		color,
@@ -59,7 +64,7 @@ void mUnionChamfer(float f2, MaterialId m, float r, float id_chamfer) {
 		float f1 = current_dist;
 		float f_chamfer = sqrt(.5) * (f1 + f2 - r);
 		mUnion(f2, m);
-		mUnion(f_chamfer, MaterialId(id_chamfer, vec3(f1, f2, 0.)));
+		mUnion(f_chamfer, newMaterialId(id_chamfer, vec3(f1, f2, 0.)));
 	//} else {
 		//current_dist = opUnionChamfer(current_dist, f2, r);
 	//}
@@ -84,7 +89,7 @@ void mUnionStairs(float f2, MaterialId m, float r, float n, float id_stairs) {
 			f_columns = min(f_columns, q.y);
 
 			mUnion(f2, m);
-			mUnion(f_columns, MaterialId(id_stairs, vec3(q, 0.)));
+			mUnion(f_columns, newMaterialId(id_stairs, vec3(q, 0.)));
 			//return min(f_columns, f_min);
 		//}
 		//return f_min;

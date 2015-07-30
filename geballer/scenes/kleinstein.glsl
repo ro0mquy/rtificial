@@ -332,7 +332,7 @@ float fScene(vec3 p) {
 
 	float f = fReaktor(p);
 
-	mUnion(f, MaterialId(0., p));
+	mUnion(f, newMaterialId(0., p));
 	return f;
 }
 

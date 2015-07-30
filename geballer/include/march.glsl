@@ -40,7 +40,7 @@ float fMain(vec3 p, bool calc_m) {
 	calculate_material = calc_m;
 
 	if (debug_plane_visible) {
-		mUnion(fDebugPlane(p), MaterialId(debug_plane_material_id, p));
+		mUnion(fDebugPlane(p), newMaterialId(debug_plane_material_id, p));
 	}
 
 	if (scene_visible) {

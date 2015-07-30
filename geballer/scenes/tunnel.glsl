@@ -44,7 +44,7 @@ float fScene(vec3 p) {
 	float d_support = fSupport(p_support, tunnel_radius);
 	d = min(d, d_support);
 
-	mUnion(d, MaterialId(0, p));
+	mUnion(d, newMaterialId(0, p));
 	return d;
 }
 

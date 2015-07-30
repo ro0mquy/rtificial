@@ -321,7 +321,7 @@ float fScene(vec3 p) {
 	f = min(f, fZaun(p));
 	f = min(f, fHutten(p));
 
-	mUnion(f, MaterialId(0., p));
+	mUnion(f, newMaterialId(0., p));
 	return f;
 }
 

@@ -23,7 +23,7 @@ float fScene(vec3 p) {
 
 	float f = opUnionChamfer(f_gang, f_saulen, shal_gang_saulen_smooth_r_rt_float);
 
-	mUnion(f, MaterialId(0., p));
+	mUnion(f, newMaterialId(0., p));
 	return f;
 }
 

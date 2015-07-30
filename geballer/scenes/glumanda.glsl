@@ -101,17 +101,16 @@ float fScene(vec3 p) {
 	// floor
 	vec3 p_floor = p;
 	float f_floor = fFloor(p_floor, floor_height);
-	mUnion(f_floor, MaterialId(id_floor, p_floor));
+	mUnion(f_floor, newMaterialId(id_floor, p_floor));
 
 	// strebe
 	vec3 p_strebe = p_domrep_cell;
 	float f_strebe = fStreben(p_strebe, atan_value);
-	mUnionStairs(f_strebe, MaterialId(id_strebe, p_strebe), .1, 4, id_strebe_stairs);
-	//mUnion(f_strebe, MaterialId(id_strebe, p_strebe));
+	mUnionStairs(f_strebe, newMaterialId(id_strebe, p_strebe), .1, 4, id_strebe_stairs);
 
 	// tunnel
 	float f_tunnel = fTunnel(p);
-	mUnion(f_tunnel, MaterialId(id_tunnel, p));
+	mUnion(f_tunnel, newMaterialId(id_tunnel, p));
 
 	// signal
 	vec3 p_signal = p_domrep_cell;
@@ -121,7 +120,7 @@ float fScene(vec3 p) {
 	float start_pos = glum_signal_start_rt_float + glum_signal_start_outer_rt_float * step(.5, mod(i_domrep + 1., 3.));
 	p_signal.x -= glum_signal_end_rt_float + start_pos * t_pos;
 	float f_signal = fBox(p_signal, glum_signal_dim_rt_float);
-	mUnion(f_signal, MaterialId(id_signal, p_signal));
+	mUnion(f_signal, newMaterialId(id_signal, p_signal));
 
 	// spikes base
 	vec3 p_spikes = p_domrep_cell;
@@ -129,13 +128,13 @@ float fScene(vec3 p) {
 	float f_spikes = fConeCapped(p_spikes, .4, .3, .5);
 	float f_spikes_cut = f2Sphere(p_spikes.xz, glum_spikes_cut_r_rt_float);
 	f_spikes = max(f_spikes, -f_spikes_cut);
-	mUnion(f_spikes, MaterialId(id_spikes, p_spikes));
+	mUnion(f_spikes, newMaterialId(id_spikes, p_spikes));
 
 	// spikes top
 	pTrans(p_spikes.y, 1 + 1.5 + sin(Tau * (.1 * (i_domrep + 2. * i_mirror) + glum_anim)) * .5 - 2);
 	float f_spikes_top = fConeCapped(p_spikes, .3, .02, 1.5);
 	f_spikes = min(f_spikes, f_spikes_top);
-	mUnion(f_spikes_top, MaterialId(id_spikes_top, p_spikes));
+	mUnion(f_spikes_top, newMaterialId(id_spikes_top, p_spikes));
 
 	// blades (flower ring)
 	vec3 p_blades = p_domrep_cell;
@@ -148,7 +147,7 @@ float fScene(vec3 p) {
 	pRotZ(p_blades, .3 * sin(Tau * glum_anim));
 	float f_blades = f2Triprism(p_blades.zx, .2);
 	f_blades = max(f_blades, abs(p_blades.y) - .03);
-	mUnionChamfer(f_blades, MaterialId(id_blades, p_blades), .01, id_blades_chamfer);
+	mUnionChamfer(f_blades, newMaterialId(id_blades, p_blades), .01, id_blades_chamfer);
 
 	/*
 	float f = f_tunnel;
@@ -159,7 +158,7 @@ float fScene(vec3 p) {
 	f = opUnionChamfer(f, f_blades, .01);
 	// */
 
-	//mUnion(f, MaterialId(0., p));
+	//mUnion(f, newMaterialId(0., p));
 	return current_dist;
 }
 
@@ -275,7 +274,7 @@ float fScene_old(vec3 p) {
 	float f = fSchwurbelScheisse(p);
 	f = smin(f_wall, f, .03);
 
-	mUnion(f, MaterialId(0., p));
+	mUnion(f, newMaterialId(0., p));
 	return f;
 }
 

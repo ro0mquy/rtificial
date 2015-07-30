@@ -34,7 +34,7 @@ float fScene(vec3 p) {
 	f = max(f_edges, f);
 	f = opUnionStairs(f, f_top_boxes, .15, 3);
 
-	mUnion(f, MaterialId(0., p));
+	mUnion(f, newMaterialId(0., p));
 	return f;
 }
 

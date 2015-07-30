@@ -24,7 +24,7 @@ float fScene(vec3 p) {
 	float d3 = fDisc(q, i - 1);
 	float d = min(d1, min(d2, d3));
 
-	mUnion(d, MaterialId(0., p));
+	mUnion(d, newMaterialId(0., p));
 	return d;
 }
 

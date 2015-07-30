@@ -107,7 +107,7 @@ float fRetweto(vec3 p) {
 
 	float f = min(f_big, f_small);
 
-	mUnion(f, MaterialId(0., p));
+	mUnion(f, newMaterialId(0., p));
 	return f;
 }
 
@@ -132,7 +132,7 @@ float fScene(vec3 p) {
 	f = opUnionSmooth(f, fAlleBlubberbrunnen(p), kpd_blubber_smooth_rt_float);
 	f = min(f, fRetweto(p));
 
-	mUnion(f, MaterialId(0., p));
+	mUnion(f, newMaterialId(0., p));
 	return f;
 }
 
