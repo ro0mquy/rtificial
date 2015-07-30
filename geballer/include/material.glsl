@@ -11,6 +11,7 @@ struct Material {
 	float roughness;
 	float metallic;
 	float height;
+	vec3 emission;
 };
 
 bool calculate_material = false;
@@ -46,6 +47,7 @@ Material defaultMaterial(vec3 color) {
 		color,
 		.5,
 		0,
-		0
+		0,
+		vec3(0)
 	);
 }
