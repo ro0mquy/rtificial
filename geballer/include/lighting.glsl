@@ -27,9 +27,9 @@ vec3 approximateSpecular(vec3 n, vec3 v, vec3 color, float roughness) {
 	float NoV = saturate(dot(n, v));
 	vec3 r = 2. * dot(n, v) * n - v;
 
-	vec3 dir = getSpecularDominantDir(n, r, NoV, roughness);
+	vec3 dir = getSpecularDominantDir(n, r, NoV, sqrt(roughness));
 
-	vec3 prefiltered = textureLod(filteredSpecular, dir, roughness * 5.).rgb;
+	vec3 prefiltered = textureLod(filteredSpecular, dir, sqrt(roughness) * 5.).rgb;
 	vec2 envBRDF = textureLod(brdf, vec2(roughness, NoV), 0.).rg;
 
 	return prefiltered * (color * envBRDF.x + envBRDF.y);
@@ -43,7 +43,7 @@ vec3 approximateSpecular(vec3 n, vec3 v, vec3 color, float roughness) {
 vec3 ambientColor(vec3 n, vec3 v, Material mat) {
 	vec3 diffuse = textureLod(filteredDiffuse, n, 0.).rgb;
 	vec3 dielectric = mat.color * diffuse
-		+ approximateSpecular(n, v, vec3(mat.specular * mat.specular * .16), mat.roughness);
+		+ approximateSpecular(n, v, vec3(.04), mat.roughness);
 	vec3 metal = approximateSpecular(n, v, mat.color, mat.roughness);
 	return mix(dielectric, metal, mat.metallic);
 }

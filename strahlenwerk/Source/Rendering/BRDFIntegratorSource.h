@@ -78,8 +78,8 @@ vec2 IntegrateBRDF( float Roughness , float NoV ) {
 		float VoH = saturate( dot( V, H ) );
 		if( NoL > 0 )
 		{
-			//float G = G_Smith( Roughness , NoV, NoL );
-			float G = G_Smith_real( Roughness , NoV, NoL );
+			float G = G_Smith( Roughness , NoV, NoL );
+			//float G = G_Smith_real( Roughness , NoV, NoL );
 			float G_Vis = G * VoH / (NoH * NoV);
 			float Fc = pow( 1 - VoH, 5 );
 			A += (1 - Fc) * G_Vis;
