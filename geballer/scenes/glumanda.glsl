@@ -56,10 +56,12 @@ float fTunnel(vec3 p) {
 	pFlip(p_tunnel.x);
 	pMirror(p_tunnel.y);
 	pRotZ(p_tunnel, .1 * Tau);
-	pDomrepMirror(p_tunnel.z, 3);
-	pRotY(p_tunnel, glum_tunnel_pulse_rt_float * Tau);
+	float cell_tunnel = pDomrepMirror(p_tunnel.z, 3);
+	float tunnel_pulse = glum_tunnel_pulse_rt_float;
+	tunnel_pulse += glum_tunnel_pulse_amp_rt_float * sin(Tau * glum_anim);
+	pRotY(p_tunnel, tunnel_pulse * Tau);
 	pDomrepMirror(p_tunnel.y, 3);
-	pRotZ(p_tunnel, glum_tunnel_pulse_rt_float  * Tau);
+	pRotZ(p_tunnel, tunnel_pulse * Tau);
 	float f = p_tunnel.x;
 	pTrans(p_tunnel.x, -.3);
 	float f2 = fPlane(p_tunnel, unitVector(-.125 * Tau, .2 * Pi).yxz);

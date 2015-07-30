@@ -394,10 +394,18 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "glum_tunnel_pulse_amp_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.028999999999996362021
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "glum_tunnel_pulse_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": -0.028999999999996362021
       },
       "sequencesArray": []
     },
