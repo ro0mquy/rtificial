@@ -8,12 +8,14 @@ const float id_kern_deckel_ecke = 2.;
 const float id_kern_deckel_chamfer = 3.;
 const float id_inside = 4.;
 const float id_rahmen = 5.;
-const float id_stairbox = 6.;
 const float id_tribune = 7.;
 const float id_tribin = 8.;
 const float id_wand = 9.;
 const float id_wand_chamfer = 10.;
 const float id_tunnel = 11.;
+const float id_boden = 12.;
+const float id_stairbox_holes = 13.;
+const float id_stairbox_stamper = 14.;
 
 float stamp(float t) {
 	t = fract(t);
@@ -152,27 +154,30 @@ float fStairBox(vec3 p, float height) {
 	return opIntersectStairs(p.y, f_stairbox, r, n);
 }
 
-float fStairBoxRow(vec3 p) {
+MatWrap wStairBoxRow(vec3 p) {
 	float f_boden = p.y;
+	MatWrap w_boden = MatWrap(f_boden, newMaterialId(id_boden, p));
 
 	float i = pDomrepInterval(p.z, klest_stairbox_spacing_rt_float * klest_stairbox_width_rt_float, -3, 2);
 	i += 2;
 
 	vec3 p_holes = p;
 	float f_holes = fStairBox(p_holes, klest_stairbox_chamfer_rt_float);
+	MatWrap w_holes = MatWrap(f_holes, newMaterialId(id_stairbox_holes, p_holes));
 
 	vec3 p_stamper = p_holes;
 	float t_stamp = fract(klest_stamp_rt_float + i / 6 * .5);
 	float height_stamper = Golden_Ratio * klest_stairbox_width_rt_float;
 	pTrans(p_stamper.y, height_stamper + stamp(t_stamp) - klest_stairbox_chamfer_rt_float);
 	float f_stamper = fStairBox(p_stamper, height_stamper);
+	MatWrap w_stamper = MatWrap(f_stamper, newMaterialId(id_stairbox_stamper, p_stamper));
 
 
-	float f = f_boden;
-	f = max(f, -f_holes);
-	f = min(f, f_stamper);
+	MatWrap w = w_boden;
+	w = mSubtract(w, w_holes);
+	w = mUnion(w, w_stamper);
 
-	return f;
+	return w;
 }
 
 float fTripyramid(vec3 p, float phi) {
@@ -299,8 +304,8 @@ void fReaktor(vec3 p) {
 	vec3 p_stairbox = p_mirror;
 	p_stairbox.xz -= klest_stairbox_offset_rt_float;
 	pRotY(p_stairbox, Tau / 8);
-	float f_stairbox = fStairBoxRow(p_stairbox);
-	mUnion(f_stairbox, newMaterialId(id_stairbox, p_stairbox));
+	MatWrap w_stairbox = wStairBoxRow(p_stairbox);
+	mUnion(w_stairbox.f, w_stairbox.m);
 
 
 	// two arrow tribunes
@@ -382,7 +387,8 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	return applyNormalLights(origin, marched, direction, hit, normal, material);
+	vec3 emission = material.emission;
+	return ambientColor(normal, -direction, material) + emission;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -392,5 +398,35 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = .5;
+
+	vec3 hills = vec3(58,34,29)/255.;
+	vec3 phryne = vec3(89,76,74)/255.;
+	vec3 noe = vec3(223,157,85)/255.;
+	vec3 warm_wool = vec3(66,52,37)/255.;
+	vec3 gizibe = vec3(215,198,185)/255.;
+
+	mat.color = gizibe;
+
+	if (materialId.id == id_kern || materialId.id == id_kern_deckel_ecke) {
+		mat.color = hills;
+	} else if (materialId.id == id_kern_deckel || materialId.id == id_kern_deckel_chamfer) {
+		mat.color = phryne;
+	} else if (materialId.id == id_wand || materialId.id == id_tunnel) {
+		mat.color = warm_wool;
+	} else if (materialId.id == id_stairbox_stamper) {
+		mat.color = noe;
+	}
+	if (materialId.id == id_boden) {
+	}
+	if (materialId.id == id_wand_chamfer) {
+		mat.color = phryne;
+	}
+	if (materialId.id == id_inside) {
+		mat.emission = noe * 2000;
+	}
+	if (materialId.id == id_rahmen) {
+		mat.emission = hills * 8000;
+	}
+
 	return mat;
 }
