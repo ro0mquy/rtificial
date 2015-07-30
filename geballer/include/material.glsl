@@ -8,6 +8,11 @@ struct MaterialId {
 	vec4 misc;
 };
 
+struct MatWrap {
+	float f;
+	MaterialId m;
+};
+
 struct Material {
 	vec3 color;
 	float roughness;
@@ -30,6 +35,19 @@ void mUnion(float f, MaterialId m) {
 	} else {
 		current_dist = min(current_dist, f);
 	}
+}
+
+MatWrap mUnion(MatWrap w1, MatWrap w2) {
+	return w1.f < w2.f ? w1 : w2;
+}
+
+MatWrap mIntersect(MatWrap w1, MatWrap w2) {
+	return w1.f > w2.f ? w1 : w2;
+}
+
+MatWrap mSubtract(MatWrap w1, MatWrap w2) {
+	w2.f = -w2.f;
+	return mIntersect(w1, w2);
 }
 
 // und hier der andere neue witz
@@ -95,5 +113,15 @@ void mUnionStairs(float f2, MaterialId m, float r, float n, float id_stairs) {
 		//return f_min;
 	//} else {
 		//current_dist = opUnionStairs(current_dist, f2, r, n);
+	//}
+}
+
+MatWrap mUnionChamfer(MatWrap w1, MatWrap w2, float r, float id_chamfer) {
+	//if (calculate_material) {
+		MatWrap w_min = mUnion(w1, w2);
+		float f_chamfer = sqrt(.5) * (w1.f + w2.f - r);
+		return mUnion(w_min, MatWrap(f_chamfer, newMaterialId(id_chamfer, vec3(w1.f, w2.f, 0.))));
+	//} else {
+		//current_dist = opUnionChamfer(current_dist, f2, r);
 	//}
 }

@@ -2,6 +2,19 @@
 #include "noise.glsl"
 #line 4
 
+const float id_kern = 0.;
+const float id_kern_deckel = 1.;
+const float id_kern_deckel_ecke = 2.;
+const float id_kern_deckel_chamfer = 3.;
+const float id_inside = 4.;
+const float id_rahmen = 5.;
+const float id_stairbox = 6.;
+const float id_tribune = 7.;
+const float id_tribin = 8.;
+const float id_wand = 9.;
+const float id_wand_chamfer = 10.;
+const float id_tunnel = 11.;
+
 float stamp(float t) {
 	t = fract(t);
 
@@ -174,7 +187,7 @@ float fTripyramid(vec3 p, float phi) {
 	return max(f1, f2);
 }
 
-float fWand(vec3 p, float phi) {
+MatWrap wWand(vec3 p, float phi) {
 	pRotZ(p, phi);
 	float f_plane = p.x;
 
@@ -186,7 +199,8 @@ float fWand(vec3 p, float phi) {
 	vec3 dim_cubes = vec3(klest_wand_ratio_rt_float - length_cubes, length_cubes, length_cubes);
 	float f_cubes = fBoxEdge(p_cubes, dim_cubes);
 
-	return opIntersectChamfer(f_plane, -f_cubes, klest_wand_chamfer_rt_float);
+	float f_wand = opIntersectChamfer(f_plane, -f_cubes, klest_wand_chamfer_rt_float);
+	return MatWrap(f_wand, newMaterialId(id_wand, p));
 }
 
 float fTunnelPrimitive(vec3 p, float r) {
@@ -203,7 +217,7 @@ float fTunnelPrimitive(vec3 p, float r) {
 	return f;
 }
 
-float fTunnel(vec3 p) {
+MatWrap wTunnel(vec3 p) {
 	float f1 = fTunnelPrimitive(p, klest_gang_r_rt_float);
 
 	p.x -= 30.;
@@ -215,12 +229,15 @@ float fTunnel(vec3 p) {
 
 	float f2 = fTunnelPrimitive(p, klest_gang_r_rt_float);
 
-	return min(f1, f2);
+	float f_tunnel = min(f1, f2);
+	return MatWrap(f_tunnel, newMaterialId(id_tunnel, p));
 }
 
-float fReaktor(vec3 p) {
+void fReaktor(vec3 p) {
 	vec3 p_mirror = p;
 	vec2 cell_mirror = pMirror(p_mirror.xz);
+
+	// kern
 	vec3 p_kern = p_mirror;
 	p_kern.y -= klest_kern_dim_rt_vec2.y + klest_kern_amp_rt_float * stamp();
 	pRotX(p_kern, Tau * klest_kern_rot_rt_float);
@@ -228,16 +245,7 @@ float fReaktor(vec3 p) {
 	float f_kern = f2CornerEdge(p_kern.xz) - klest_kern_dim_rt_vec2.x;
 	f_kern = max(f_kern, abs(p_kern.y) - klest_kern_dim_rt_vec2.y);
 
-	vec3 p_kern_deckel = p_kern;
-	p_kern_deckel.y -= klest_kern_dim_rt_vec2.y + klest_kern_deckel_dim_rt_vec2.y;
-	pMirrorAtPlane(p_kern_deckel, normalize(vec3(-1, 0, 1)), 0.);
-	pRotY(p_kern_deckel, Tau * klest_kern_deckel_rot_rt_float);
-	float f_kern_deckel = fBox(p_kern_deckel, klest_kern_deckel_dim_rt_vec2.xyx);
-	pMirror(p_kern_deckel.y);
-	p_kern_deckel -= klest_kern_deckel_offset_rt_float * klest_kern_deckel_dim_rt_vec2.xyx;
-	float f_kern_deckel_ecke = fBoxEdge(p_kern_deckel, klest_kern_deckel_ecke_dim_rt_float);
-	f_kern_deckel = min(f_kern_deckel, f_kern_deckel_ecke);
-
+	// kern cut stuff
 	vec2 p_kern_cut1 = p_mirror.xz;
 	p_kern_cut1 -= klest_kern_cut1_pos_rt_float * klest_kern_dim_rt_vec2.x;
 	float f_kern_cut1 = f2Box(p_kern_cut1, klest_kern_cut1_dim_rt_float * klest_kern_dim_rt_vec2.x);
@@ -246,30 +254,56 @@ float fReaktor(vec3 p) {
 	float f_kern_cut2 = f2Box(p_kern_cut2, klest_kern_cut2_dim_rt_float * klest_kern_dim_rt_vec2.x);
 	f_kern = max(f_kern, -min(f_kern_cut1, f_kern_cut2));
 	//f_kern = opIntersectChamfer(f_kern, -opUnionChamfer(f_kern_cut1, f_kern_cut2, klest_kern_cut_chamfer_rt_float), klest_kern_cut_chamfer_rt_float);
+	mUnion(f_kern, newMaterialId(id_kern, p_kern));
+
+	// kern deckel
+	vec3 p_kern_deckel = p_kern;
+	p_kern_deckel.y -= klest_kern_dim_rt_vec2.y + klest_kern_deckel_dim_rt_vec2.y;
+	pMirrorAtPlane(p_kern_deckel, normalize(vec3(-1, 0, 1)), 0.);
+	pRotY(p_kern_deckel, Tau * klest_kern_deckel_rot_rt_float);
+	float f_kern_deckel = fBox(p_kern_deckel, klest_kern_deckel_dim_rt_vec2.xyx);
+	MatWrap w_kern_deckel = MatWrap(f_kern_deckel, newMaterialId(id_kern_deckel, p_kern_deckel));
+
+	// kern deckel ecken
+	vec3 p_kern_deckel_ecke = p_kern_deckel;
+	pMirror(p_kern_deckel_ecke.y);
+	p_kern_deckel_ecke -= klest_kern_deckel_offset_rt_float * klest_kern_deckel_dim_rt_vec2.xyx;
+	float f_kern_deckel_ecke = fBoxEdge(p_kern_deckel_ecke, klest_kern_deckel_ecke_dim_rt_float);
+	MatWrap w_kern_deckel_ecke = MatWrap(f_kern_deckel_ecke, newMaterialId(id_kern_deckel_ecke, p_kern_deckel_ecke));
+
+	w_kern_deckel = mUnion(w_kern_deckel, w_kern_deckel_ecke);
+	mUnionChamfer(w_kern_deckel.f, w_kern_deckel.m, klest_kern_deckel_chamfer_rt_float, id_kern_deckel_chamfer);
 
 
+	// blocks inside kern
 	vec3 p_inside = p_mirror;
 	p_inside.xz -= klest_kern_cut1_pos_rt_float * klest_kern_dim_rt_vec2.x;
 	float f_inside;
 	vec3 dim_inside = klest_inside_dim_rt_vec2.xyx;
 	dim_inside.y *= dot(cell_mirror, klest_inside_hash_rt_vec2) + 1.;
 	f_inside = fBox(p_inside, dim_inside);
+	mUnion(f_inside, newMaterialId(id_inside, p_inside));
 
 
+	// small rahmen blocks
 	vec3 p_mirrorgrid = p;
 	pMirrorGrid(p_mirrorgrid.xz, 0.);
 	vec3 p_rahmen = p_mirrorgrid;
 	p_rahmen.x -= klest_kern_dim_rt_vec2.x + klest_rahmen_dim_rt_vec3.x;
 	p_rahmen.y -= klest_rahmen_dim_rt_vec3.y;
 	float f_rahmen = fBox(p_rahmen, klest_rahmen_dim_rt_vec3);
+	mUnion(f_rahmen, newMaterialId(id_rahmen, p_rahmen));
 
 
+	// stairbox stamper
 	vec3 p_stairbox = p_mirror;
 	p_stairbox.xz -= klest_stairbox_offset_rt_float;
 	pRotY(p_stairbox, Tau / 8);
 	float f_stairbox = fStairBoxRow(p_stairbox);
+	mUnion(f_stairbox, newMaterialId(id_stairbox, p_stairbox));
 
 
+	// two arrow tribunes
 	vec3 p_tribune = p;
 	pMirrorLoco(p_tribune.xz, vec2(0.));
 	p_tribune.xz -= klest_trib_trans_rt_vec2;
@@ -277,25 +311,35 @@ float fReaktor(vec3 p) {
 	pMirrorLoco(p_tribune.xz, vec2(0.));
 	pRotY(p_tribune, Tau * klest_trib_angle_inner_rt_float);
 	float f_tribune = f2BoxEdge(p_tribune.zy, klest_trib_r_rt_float);
+	mUnion(f_tribune, newMaterialId(id_tribune, p_tribune));
 
+	// block between tribunes and rahmen
 	vec3 p_tribin = p_mirrorgrid;
 	p_tribin.y -= klest_tribin_dim_rt_vec3.y;
 	p_tribin.x -= klest_tribin_pos_rt_float;
 	float f_tribin = fBox(p_tribin, klest_tribin_dim_rt_vec3);
+	mUnion(f_tribin, newMaterialId(id_tribin, p_tribin));
 
 
+	// hoehlen wand
 	vec3 p_wand = p_mirrorgrid;
 	p_wand.x -= klest_wand_pos_rt_float;
-	float f_wand = -fWand(p_wand, Tau * klest_wand_angle_rt_float);
+	MatWrap w_wand = wWand(p_wand, Tau * klest_wand_angle_rt_float);
+	w_wand.f = -w_wand.f;
 
+	// wand & gang
 	vec3 p_gang = p_stairbox;
 	p_gang.z -= klest_wand2_pos_rt_float;
-	float f_wand2 = -fWand(p_gang.zyx, Tau * klest_wand2_angle_rt_float);
-	f_wand = opUnionChamfer(f_wand, f_wand2, klest_wand_chamfer_rt_float);
-	float f_gang = fTunnel(p_gang.zyx);
-	f_wand = max(f_wand, -f_gang);
+	MatWrap w_wand2 = wWand(p_gang.zyx, Tau * klest_wand2_angle_rt_float);
+	w_wand2.f = -w_wand2.f;
+	w_wand = mUnionChamfer(w_wand, w_wand2, klest_wand_chamfer_rt_float, id_wand_chamfer);
+
+	MatWrap w_gang = wTunnel(p_gang.zyx);
+	w_wand = mSubtract(w_wand, w_gang);
+	mUnionChamfer(w_wand.f, w_wand.m, 1., id_wand_chamfer);
 
 
+	/*
 	float f = f_kern;
 	f = opUnionChamfer(f, f_kern_deckel, klest_kern_deckel_chamfer_rt_float);
 	f = min(f, f_inside);
@@ -306,6 +350,7 @@ float fReaktor(vec3 p) {
 	f = opUnionChamfer(f, f_wand, 1.);
 
 	return f;
+	// */
 }
 
 float fScene(vec3 p) {
@@ -330,10 +375,10 @@ float fScene(vec3 p) {
 
 	//float f = fStairBox(p);
 
-	float f = fReaktor(p);
+	fReaktor(p);
 
-	mUnion(f, newMaterialId(0., p));
-	return f;
+	//mUnion(f, newMaterialId(0., p));
+	return current_dist;
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
