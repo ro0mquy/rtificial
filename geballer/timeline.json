@@ -118,6 +118,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "camera_exposure_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -8
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "camera_f_stop",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -145,7 +153,7 @@
       "uniformName": "camera_focal_length",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068212103
+        "valueFloatX": 0.022000000000048203219
       },
       "sequencesArray": []
     },
@@ -429,7 +437,7 @@
       "uniformName": "glum_tunnel_pulse_amp_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.028999999999996362021
+        "valueFloatX": 0.028999999999996358552
       },
       "sequencesArray": []
     },
@@ -437,7 +445,7 @@
       "uniformName": "glum_tunnel_pulse_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -0.028999999999996362021
+        "valueFloatX": -0.028999999999996358552
       },
       "sequencesArray": []
     },

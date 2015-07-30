@@ -391,4 +391,5 @@ void main() {
 		out_depth = marched;
 	}
 	out_color = applyAfterEffects(origin, marched, direction, out_color);
+	out_color *= exp2(camera_exposure_rt_float);
 }
