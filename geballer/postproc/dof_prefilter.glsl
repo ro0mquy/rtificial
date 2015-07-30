@@ -23,10 +23,6 @@ float spreadToe(float offsetCoC, float spreadCmp) {
 //	return spreadToe(offsetCoc, saturate(spreadScale * sampleCoc - (offsetCoc - 1.)));
 //}
 
-float lumaaaaa(vec3 color) {
-	return dot(color, vec3(.2126, .7152, .0722));
-}
-
 float spreadCmp(float offsetCoc, float sampleCoc, float spreadScale) {
 	return 1. - smoothstep(sampleCoc - .01, sampleCoc + .01, offsetCoc);
 	return smoothstep(offsetCoc - .2, offsetCoc, sampleCoc);
@@ -45,7 +41,7 @@ void main() {
 	for (int y = 0; y < 3; y++) {
 		for (int x = 0; x < 3; x++) {
 			float ngon = 7;
-			float f = 0;
+			float f = getFstopRelative();
 			vec2 c = bokehTapSampleCoord(vec2(x, y) / 2., f, ngon, Pi * 0.5);
 
 			vec2 sampleCoord = tc + c * filterScale / res;
@@ -59,15 +55,12 @@ void main() {
 			float spread = spreadCmp(offsetCoC, sampleWeights.x / filterScale, spreadScale);
 			//spread = 1; // TODO
 
-			float bilateralScale = post_ao_prefilter_bilateral_sharpness_rt_float;
+			float bilateralScale = post_dof_bilateral_scale_rt_float;
 			float depthDifference = max(1 - abs(centerDepth - sampleDepth) * bilateralScale, 0);
 			float backgroundDifference = max(1 - abs(centerWeights.y - sampleWeights.y), 0);
 			float bilateralWeight = depthDifference * backgroundDifference;
-			// TODO
-			//bilateralWeight = 1;
-			float sharpness = 0;
-			float karisWeight = 1/(1 + (1 - sharpness) * lumaaaaa(sampleColor));
-			//karisWeight = 1;
+			float sharpness = post_dof_sharpness_rt_float;
+			float karisWeight = 1/(1 + (1 - sharpness) * rgb2luma(sampleColor));
 
 			float weight = spread * bilateralWeight * karisWeight;
 			sum += weight * vec4(sampleColor, 1);

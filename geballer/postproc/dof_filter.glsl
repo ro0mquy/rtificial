@@ -34,17 +34,17 @@ float spreadCmp(float offsetCoc, float sampleCoc, float spreadScale) {
 
 void main() {
 	vec3 centerWeights = textureLod(weights, tc, 0).rgb;
-	float filterScale = textureNN(max_coc, tc).r;
+	float filterScale = textureNN(max_coc, tc).r * .5;
 	vec2 pixelSize = 1./textureSize(color, 0);
 
 	vec4 background_sum = vec4(0);
 	vec4 foreground_sum = vec4(0);
 
-	int taps = 7;
+	int taps = 11;
 	for (int y = 0; y < taps; y++) {
 		for (int x = 0; x < taps; x++) {
 			float ngon = 7;
-			float f = 1;
+			float f = getFstopRelative();
 			vec2 c = bokehTapSampleCoord(vec2(x, y) / (taps - 1), f, ngon, Pi * 0.5);
 
 			vec2 jitter = .5 * vec2(
@@ -55,6 +55,7 @@ void main() {
 			vec2 sampleCoord = tc + c * filterScale * pixelSize;
 			vec3 sampleColor = textureNN(color, sampleCoord).rgb; //textureLod(color, sampleCoord, 0).rgb;
 			vec3 sampleWeights = textureNN(weights, sampleCoord).rgb; //textureLod(weights, sampleCoord, 0).rgb;
+			sampleWeights.x *= .5;
 
 			float offsetCoC = length(c);
 			float spreadScale = 1. / filterScale;
@@ -67,7 +68,7 @@ void main() {
 
 	background_sum.rgb /= max(1e-3, background_sum.w);
 	foreground_sum.rgb /= max(1e-3, foreground_sum.w);
-	float normalization = 1./(square(taps) * sampleAlpha(filterScale));
+	float normalization = 1./(square(taps) * sampleAlpha(filterScale * 2));
 	float alpha = saturate(2. * normalization * foreground_sum.a);
 	// TODO
 	//float background_factor = saturate(.5 * (2 - centerWeights.x));
@@ -83,6 +84,4 @@ void main() {
 	float combinedFactor = mix(backgroundFactor, foregroundFactor, alpha);
 	combinedFactor = backgroundFactor;
 	out_color = vec4(mix(background_sum.rgb, foreground_sum.rgb, alpha), combinedFactor);
-	//out_color = vec4(vec3(foreground_sum.a), 1);
-	//out_color = vec4(textureLod(color, tc, 0.).rgb, 1);
 }

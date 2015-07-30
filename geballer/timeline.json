@@ -118,10 +118,42 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "camera_f_stop",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.5360000000000582077
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_f_stop_max",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_f_stop_min",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "camera_focal_length",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.022000000000048203219
+        "valueFloatX": 0.050000000000068212103
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_focus_dist",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.894000000000005457
       },
       "sequencesArray": []
     },
@@ -1388,6 +1420,22 @@
       "uniformType": "bool",
       "uniformStandardValue": {
         "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_dof_bilateral_scale_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.84300000000007457857
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_dof_sharpness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.19400000000007366907
       },
       "sequencesArray": []
     },
