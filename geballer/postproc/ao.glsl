@@ -4,9 +4,10 @@
 #include "helper.glsl"
 #line 6
 
-uniform sampler2D depth; // float
-uniform sampler2D color; // vec3
-out vec3 out_color;
+uniform sampler2D depth; // float level(1)
+out float out_ao;
+
+// level(1)
 
 int maxStepsPerRay = 10;
 float bias = .03;
@@ -76,7 +77,7 @@ float getRayOcclusion(vec2 origin, vec2 direction, float jitter, vec2 projectedR
 
 void main() {
 	if (post_disable_ao) {
-		out_color = textureLod(color, tc, 0).rgb;
+		out_ao = 1;
 		return;
 	}
 
@@ -104,5 +105,5 @@ void main() {
 	}
 
 	float ao = 1 - saturate(totalOcclusion);
-	out_color = ao * textureLod(color, tc, 0).rgb;
+	out_ao = ao;
 }

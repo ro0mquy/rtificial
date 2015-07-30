@@ -1320,10 +1320,26 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_ao_edge_blurriness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.94100000000003092282
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_gauss_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_ao_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 1.5
       },
       "sequencesArray": []
     },
@@ -1331,7 +1347,7 @@
       "uniformName": "post_ao_n_rays",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 8
+        "valueFloatX": 6
       },
       "sequencesArray": []
     },
