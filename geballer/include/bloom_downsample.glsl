@@ -1,13 +1,11 @@
-float lumaaaaa(vec3 color) {
-	return dot(color, vec3(.2126, .7152, .0722));
-}
+#include "helper.glsl"
 
 vec3 karis_average(vec3 a, vec3 b, vec3 c, vec3 d) {
 	float weights = 0.;
-	float weight_a = 1/(1 + lumaaaaa(a));
-	float weight_b = 1/(1 + lumaaaaa(b));
-	float weight_c = 1/(1 + lumaaaaa(c));
-	float weight_d = 1/(1 + lumaaaaa(d));
+	float weight_a = 1/(1 + rgb2luma(a));
+	float weight_b = 1/(1 + rgb2luma(b));
+	float weight_c = 1/(1 + rgb2luma(c));
+	float weight_d = 1/(1 + rgb2luma(d));
 	return (a * weight_a + b * weight_b + c * weight_c + d * weight_d)
 		/ (weight_a + weight_b + weight_c + weight_d);
 }

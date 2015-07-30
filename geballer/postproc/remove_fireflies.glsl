@@ -28,15 +28,13 @@ void main() {
 		}
 	}
 
-	if (values[5] < avg_value * 2) {
-		out_color = colors[5];
-		return;
-	}
-
-	float median_luma = median(values);
-	for (int i = 0; i < 9; i++) {
-		if ((values[i] - median_luma) < 1e-6) {
-			out_color = colors[i];
+	out_color = colors[5];
+	if (values[5] > avg_value * 2 || isinf(values[5]) || isnan(values[5])) {
+		float median_luma = median(values);
+		for (int i = 0; i < 9; i++) {
+			if ((values[i] - median_luma) < 1e-6) {
+				out_color = colors[i];
+			}
 		}
 	}
 }
