@@ -1268,14 +1268,6 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "reto_small_rot_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "rlx_basis_baum_offset_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
