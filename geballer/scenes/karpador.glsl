@@ -146,7 +146,8 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	return applyNormalLights(origin, marched, direction, hit, normal, material);
+	vec3 emission = material.emission;
+	return ambientColor(normal, -direction, material) + emission;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -156,5 +157,28 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = .1;
+
+	vec3 ekelhaft = vec3(38,62,54)/255.;
+	vec3 lets_celebrate = vec3(49,90,85)/255.;
+	vec3 blue = vec3(26,76,107)/255.;
+	vec3 egeagb = vec3(59,121,165)/255.;
+	vec3 arista = vec3(108,97,125)/255.;
+
+	if (materialId.id == id_retweto_small_torus) {
+		mat.color = ekelhaft;
+	} else if (materialId.id == id_retweto_big_torus) {
+		mat.color = blue;
+	} else if (materialId.id == id_raum) {
+		mat.color = lets_celebrate;
+	} else if (materialId.id == id_blubberbrunnen) {
+		mat.color = egeagb;
+	} else if (materialId.id == id_blubberbrunnen_smooth) {
+		mat.color = blue;
+	} else if (materialId.id == id_raum_boden) {
+		mat.color = arista;
+	} else if (materialId.id == id_raum_groundhole) {
+		mat.color = ekelhaft;
+	}
+
 	return mat;
 }
