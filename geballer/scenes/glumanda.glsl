@@ -214,7 +214,7 @@ Material getMaterial(MaterialId materialId) {
 	} else if (materialId.id == id_floor) {
 		mat.color = tatiana;
 	} else if (materialId.id == id_blades || materialId.id == id_blades_chamfer) {
-		mat.color = zwo;
+		mat.color = murky;
 	}
 
 	return mat;

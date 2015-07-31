@@ -360,7 +360,8 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	return applyNormalLights(origin, marched, direction, hit, normal, material);
+	vec3 emission = material.emission;
+	return ambientColor(normal, -direction, material) + emission;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -370,5 +371,33 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = .1;
+
+	vec3 faded_barn = vec3(165,87,69)/255.;
+	vec3 end_is_near = vec3(100,90,81)/255.;
+	vec3 lightness = vec3(185,164,136)/255.;
+	vec3 like_clockwork = vec3(199,190,174)/255.;
+	vec3 nolonger_smells = vec3(133,131,119)/255.;
+
+	mat.color = like_clockwork;
+
+	if (materialId.id == id_pyr_spitze || materialId.id == id_pyr_wand) {
+		mat.color = lightness;
+	} else if (materialId.id == id_pyr_wand_top || materialId.id == id_pyr_wand_bottom) {
+		mat.color = end_is_near;
+	} else if (materialId.id == id_pyr_wandbox) {
+		mat.color = faded_barn;
+	} else if (materialId.id == id_hutten_zaun) {
+		mat.color = nolonger_smells;
+	} else if (materialId.id == id_pyr_fenster) {
+		mat.color = nolonger_smells;
+	} else if (materialId.id == id_pyr_fenster_rahmen) {
+		mat.color = end_is_near;
+	} else if (materialId.id == id_pyr_fenster_saule || materialId.id == id_pyr_fenster_saule_stairs) {
+		mat.color = faded_barn;
+	} else if (materialId.id == id_pyr_baum) {
+		mat.color = end_is_near;
+	}
+
+
 	return mat;
 }

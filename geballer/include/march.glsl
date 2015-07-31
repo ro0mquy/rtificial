@@ -354,7 +354,7 @@ void main() {
 	float marched = sdfMarch(origin, direction, main_marching_distance);
 
 	if (isinf(marched)) {
-		out_color = .07 * environmentColor(origin, direction, main_marching_distance);
+		out_color = environmentColor(origin, direction, main_marching_distance);
 		out_depth = main_marching_distance;
 	} else {
 		vec3 hit = origin + marched * direction;
@@ -372,13 +372,13 @@ void main() {
 			}
 			Material m_isoline = defaultMaterial(c_isoline);
 			m_isoline.roughness = 1.;
-			out_color = .1 * ambientColor(normal, -direction, m_isoline);
+			out_color = ambientColor(normal, -direction, m_isoline);
 		} else {
 			if (debug_gradient_visualization) {
 				vec3 c_gradient = debugColorGradient(hit);
 				Material m_gradient = defaultMaterial(c_gradient);
 				m_gradient.roughness = 0.;
-				out_color = .1 * ambientColor(normal, -direction, m_gradient);
+				out_color = ambientColor(normal, -direction, m_gradient);
 			} else {
 				Material material = getMaterial(materialId);
 				// TODO move this somewhere else
