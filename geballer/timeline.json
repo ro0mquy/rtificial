@@ -905,7 +905,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "kpd_blubber_loco_angle_rt_float",
+      "uniformName": "kpd_anim",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
@@ -926,7 +926,7 @@
             {
               "keyframePosition": 3250,
               "keyframeValue": {
-                "valueFloatX": -1
+                "valueFloatX": 1
               }
             }
           ]
@@ -1002,35 +1002,6 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "kpd_locopyr_rot_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
-      },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 539,
-          "sequenceStart": 750,
-          "sequenceDuration": 3250,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 3250,
-              "keyframeValue": {
-                "valueFloatX": 0.5
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "uniformName": "kpd_locopyr_rounded_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1088,35 +1059,6 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "kpd_raum_loco_rot_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
-      },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 539,
-          "sequenceStart": 750,
-          "sequenceDuration": 3250,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 3250,
-              "keyframeValue": {
-                "valueFloatX": 1
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "uniformName": "kpd_raum_trans_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
@@ -1149,35 +1091,6 @@
         "valueFloatX": 1.4640000000000554792
       },
       "sequencesArray": []
-    },
-    {
-      "uniformName": "kpd_tweto_loco_angle_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
-      },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 539,
-          "sequenceStart": 750,
-          "sequenceDuration": 3250,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 3250,
-              "keyframeValue": {
-                "valueFloatX": -0.5
-              }
-            }
-          ]
-        }
-      ]
     },
     {
       "uniformName": "main_marching_distance",
@@ -1351,6 +1264,14 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "reto_small_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -2372,35 +2293,6 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "tweto_glider_rotation_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
-      },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 539,
-          "sequenceStart": 750,
-          "sequenceDuration": 3250,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 3250,
-              "keyframeValue": {
-                "valueFloatX": 1
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "uniformName": "tweto_tor_num_twists_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -2423,35 +2315,6 @@
         "valueFloatX": 1
       },
       "sequencesArray": []
-    },
-    {
-      "uniformName": "tweto_tor_rotation_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
-      },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 539,
-          "sequenceStart": 750,
-          "sequenceDuration": 3250,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 3250,
-              "keyframeValue": {
-                "valueFloatX": -1
-              }
-            }
-          ]
-        }
-      ]
     }
   ],
   "scenesArray": [

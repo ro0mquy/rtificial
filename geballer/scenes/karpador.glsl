@@ -11,9 +11,18 @@ const float id_retweto_small_glider = 7.;
 const float id_blubberbrunnen = 8.;
 const float id_blubberbrunnen_smooth = 9.;
 
+uniform float kpd_anim;
+
+const float kpd_blubber_loco_angle = -kpd_anim;
+const float kpd_locopyr_rot = .5 * kpd_anim;
+const float kpd_raum_loco_rot = kpd_anim;
+const float kpd_tweto_loco_angle = -.5 * kpd_anim;
+const float tweto_glider_rotation = kpd_anim;
+const float tweto_tor_rotation = -kpd_anim;
+
 float fTotwi(vec3 p, float rBig, float rSmall) {
 	vec2 q = vec2(f2Sphere(p.xz, rBig), p.y);
-	pRot(q, Tau * kpd_locopyr_rot_rt_float);
+	pRot(q, Tau * kpd_locopyr_rot);
 	return f2BoxRounded(q, vec2(1., .5) * rSmall, kpd_locopyr_rounded_rt_float);
 }
 
@@ -22,7 +31,7 @@ MatWrap wPyramidLoco(vec3 p, float height, float angle) {
 	pRotX(p, -angle);
 	/*
 	pDomrepMirror(p.x, kpd_locopyr_domrep_rt_float);
-	pRotY(p, Tau * kpd_locopyr_rot_rt_float);
+	pRotY(p, Tau * kpd_locopyr_rot);
 	float f = f2BoxRounded(p.xz, kpd_locopyr_dim_rt_vec2, kpd_locopyr_rounded_rt_float);
 	// */
 	pDomrep(p.xy, vec2(kpd_locopyr_domrep_rt_float));
@@ -43,7 +52,7 @@ MatWrap wRaum(vec3 p) {
 	float f_groundhole = fHexprismEdge(p_groundhole, kpd_raum_groundhole_dim_rt_vec2.x, kpd_raum_groundhole_dim_rt_vec2.y);
 	vec2 q_groundhole = vec2(f_groundhole, p_groundhole.y);
 	pMirrorLoco(q_groundhole, vec2(0.));
-	pRot(q_groundhole, Tau * kpd_raum_loco_rot_rt_float);
+	pRot(q_groundhole, Tau * kpd_raum_loco_rot);
 	f_groundhole = f2BoxEdge(q_groundhole, 1.);
 	MatWrap w_groundhole = MatWrap(f_groundhole, newMaterialId(id_raum_groundhole, p_groundhole));
 
@@ -68,18 +77,18 @@ MatWrap wTweto(vec3 p, float scale, float my_id_torus, float my_id_glider) {
 		float r_tor = length(p_tor.xz) - tweto_tor_r_big_rt_float * scale;
 		float angle_tor = atan(p_tor.z, p_tor.x);
 		vec2 q_tor = vec2(r_tor, p_tor.y);
-		pRot(q_tor, angle_tor / 4. * tweto_tor_num_twists_rt_float + Tau * tweto_tor_rotation_rt_float);
+		pRot(q_tor, angle_tor / 4. * tweto_tor_num_twists_rt_float + Tau * tweto_tor_rotation);
 		pMirrorLoco(q_tor, vec2(0.));
-		pRot(q_tor, Tau * kpd_tweto_loco_angle_rt_float);
+		pRot(q_tor, Tau * kpd_tweto_loco_angle);
 		w_torus.f = f2Box(q_tor, vec2(.5, 1.) * tweto_tor_r_small_rt_float * scale);
 		w_torus.m.coord = vec3(q_tor, angle_tor);
 	}
 
 	// glider
 	vec3 p_glider = p;
-	pRotY(p_glider, Tau * tweto_glider_rotation_rt_float);
+	pRotY(p_glider, Tau * tweto_glider_rotation);
 	p_glider.x -= tweto_tor_r_big_rt_float * scale;
-	pRotZ(p_glider, Tau / 8. + Tau * tweto_tor_rotation_rt_float - Tau * tweto_glider_rotation_rt_float / 4. * tweto_tor_num_twists_rt_float);
+	pRotZ(p_glider, Tau / 8. + Tau * tweto_tor_rotation - Tau * tweto_glider_rotation / 4. * tweto_tor_num_twists_rt_float);
 	pMirrorTrans(p_glider.xy, vec2(tweto_glider_r_big_rt_float * tweto_tor_r_small_rt_float * sqrt(.5) * scale));
 	float f_glider = fSphere(p_glider, tweto_glider_r_small_rt_float * scale);
 	MatWrap w_glider = MatWrap(f_glider, newMaterialId(my_id_glider, p_glider));
@@ -98,7 +107,6 @@ MatWrap wRetweto(vec3 p) {
 	pRotY(p_small, Tau / 6.);
 	pDomrepAngle(p_small.xz, 6., 0.);
 	p_small.x -= tweto_tor_r_big_rt_float * kpd_retweto_scale_outer_rt_float;
-	//pRotZ(p_small, Tau * reto_small_rot_rt_float);
 	p_small.z = -p_small.z;
 	float small_scale = kpd_retweto_scale_inner_rt_float * kpd_retweto_scale_outer_rt_float;
 	MatWrap w_small = wTweto(p_small.xzy, small_scale, id_retweto_small_torus, id_retweto_small_glider);
@@ -108,7 +116,7 @@ MatWrap wRetweto(vec3 p) {
 
 MatWrap wBlubberbrunnen(vec3 p, float r) {
 	pMirrorLoco(p.zyx, vec3(r * kpd_blubber_r_big_rt_float));
-	pRotX(p, Tau * kpd_blubber_loco_angle_rt_float);
+	pRotX(p, Tau * kpd_blubber_loco_angle);
 	float f_blubber = f2BoxRounded(p.yz, vec2(r * kpd_blubber_r_small_rt_vec2), r * kpd_blubber_r_rounded_rt_float);
 
 	return MatWrap(f_blubber, newMaterialId(id_blubberbrunnen, p));
@@ -146,8 +154,7 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	vec3 emission = material.emission;
-	return ambientColor(normal, -direction, material) + emission;
+	return applyNormalLights(origin, marched, direction, hit, normal, material);
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -157,28 +164,5 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = .1;
-
-	vec3 ekelhaft = vec3(38,62,54)/255.;
-	vec3 lets_celebrate = vec3(49,90,85)/255.;
-	vec3 blue = vec3(26,76,107)/255.;
-	vec3 egeagb = vec3(59,121,165)/255.;
-	vec3 arista = vec3(108,97,125)/255.;
-
-	if (materialId.id == id_retweto_small_torus) {
-		mat.color = ekelhaft;
-	} else if (materialId.id == id_retweto_big_torus) {
-		mat.color = blue;
-	} else if (materialId.id == id_raum) {
-		mat.color = lets_celebrate;
-	} else if (materialId.id == id_blubberbrunnen) {
-		mat.color = egeagb;
-	} else if (materialId.id == id_blubberbrunnen_smooth) {
-		mat.color = blue;
-	} else if (materialId.id == id_raum_boden) {
-		mat.color = arista;
-	} else if (materialId.id == id_raum_groundhole) {
-		mat.color = ekelhaft;
-	}
-
 	return mat;
 }
