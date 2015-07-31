@@ -116,6 +116,17 @@ void mUnionStairs(float f2, MaterialId m, float r, float n, float id_stairs) {
 	//}
 }
 
+void mUnionSmooth(float f2, MaterialId m, float r, float id_smooth) {
+	float f1 = current_dist;
+	if (f1 < r && f2 < r) {
+		float h = clamp(.5 + .5 * (f2 - f1) / r, 0., 1. );
+		float f_smooth = mix(f2, f1, h) - r * h * (1. - h);
+		current_dist = f_smooth;
+		current_material = newMaterialId(id_smooth, vec3(f1, f2, h));
+	}
+	mUnion(f2, m);
+}
+
 MatWrap mUnionChamfer(MatWrap w1, MatWrap w2, float r, float id_chamfer) {
 	//if (calculate_material) {
 		MatWrap w_min = mUnion(w1, w2);
@@ -124,4 +135,16 @@ MatWrap mUnionChamfer(MatWrap w1, MatWrap w2, float r, float id_chamfer) {
 	//} else {
 		//current_dist = opUnionChamfer(current_dist, f2, r);
 	//}
+}
+
+MatWrap mUnionSmooth(MatWrap w1, MatWrap w2, float r, float id_smooth) {
+	float f1 = w1.f;
+	float f2 = w2.f;
+	if (f1 < r && f2 < r) {
+		float h = clamp(.5 + .5 * (f2 - f1) / r, 0., 1. );
+		float f_smooth = mix(f2, f1, h) - r * h * (1. - h);
+		return MatWrap(f_smooth, newMaterialId(id_smooth, vec3(f1, f2, 0.)));
+	}
+	MatWrap w_min = mUnion(w1, w2);
+	return w_min;
 }
