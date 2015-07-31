@@ -46,28 +46,7 @@
       "uniformStandardValue": {
         "valueFloatX": 0
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 575,
-          "sequenceStart": 1000,
-          "sequenceDuration": 3500,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 3500,
-              "keyframeValue": {
-                "valueFloatX": 1
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "bill_racer_orbit_r_rt_float",
@@ -1314,20 +1293,6 @@
       },
       "sequencesArray": [
         {
-          "sequenceSceneId": 803,
-          "sequenceStart": 250,
-          "sequenceDuration": 8250,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 500
-              }
-            }
-          ]
-        },
-        {
           "sequenceSceneId": 888,
           "sequenceStart": 0,
           "sequenceDuration": 7250,
@@ -1517,28 +1482,7 @@
       "uniformStandardValue": {
         "valueFloatX": 0
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 728,
-          "sequenceStart": 750,
-          "sequenceDuration": 6500,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 6500,
-              "keyframeValue": {
-                "valueFloatX": 0.20000000000004547474
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "reto_cutout_r_rt_float",
@@ -1578,28 +1522,7 @@
       "uniformStandardValue": {
         "valueFloatX": 0
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 728,
-          "sequenceStart": 750,
-          "sequenceDuration": 6500,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 6500,
-              "keyframeValue": {
-                "valueFloatX": 1
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "rlx_basis_bigblock_rt_vec3",
@@ -2664,28 +2587,7 @@
       "uniformStandardValue": {
         "valueFloatX": 0
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 794,
-          "sequenceStart": 500,
-          "sequenceDuration": 6625,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 6625,
-              "keyframeValue": {
-                "valueFloatX": 2
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "shal_saulen_width_rt_float",
@@ -2773,28 +2675,7 @@
       "uniformStandardValue": {
         "valueFloatX": 1
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 932,
-          "sequenceStart": 0,
-          "sequenceDuration": 7750,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 7750,
-              "keyframeValue": {
-                "valueFloatX": 1
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "tple_bg_angle_rt_float",
@@ -3306,46 +3187,6 @@
               }
             }
           ]
-        },
-        {
-          "sequenceSceneId": 728,
-          "sequenceStart": 750,
-          "sequenceDuration": 6500,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 6500,
-              "keyframeValue": {
-                "valueFloatX": -1
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 944,
-          "sequenceStart": 1000,
-          "sequenceDuration": 6000,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 6000,
-              "keyframeValue": {
-                "valueFloatX": 1
-              }
-            }
-          ]
         }
       ]
     },
@@ -3399,140 +3240,34 @@
               }
             }
           ]
-        },
-        {
-          "sequenceSceneId": 728,
-          "sequenceStart": 750,
-          "sequenceDuration": 6500,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 6500,
-              "keyframeValue": {
-                "valueFloatX": -1
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 944,
-          "sequenceStart": 1000,
-          "sequenceDuration": 6000,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 6000,
-              "keyframeValue": {
-                "valueFloatX": -1
-              }
-            }
-          ]
         }
       ]
     }
   ],
   "scenesArray": [
     {
-      "sceneId": 156,
-      "sceneStart": 73000,
-      "sceneDuration": 8000,
-      "sceneShaderSource": "spimi"
-    },
-    {
       "sceneId": 247,
-      "sceneStart": 101000,
+      "sceneStart": 0,
       "sceneDuration": 6500,
       "sceneShaderSource": "kleinstein"
     },
     {
       "sceneId": 392,
-      "sceneStart": 108500,
+      "sceneStart": 10000,
       "sceneDuration": 5250,
       "sceneShaderSource": "glumanda"
     },
     {
       "sceneId": 539,
-      "sceneStart": 115000,
+      "sceneStart": 21000,
       "sceneDuration": 5250,
       "sceneShaderSource": "karpador"
     },
     {
-      "sceneId": 575,
-      "sceneStart": 46250,
-      "sceneDuration": 8000,
-      "sceneShaderSource": "bill"
-    },
-    {
-      "sceneId": 631,
-      "sceneStart": 82500,
-      "sceneDuration": 8000,
-      "sceneShaderSource": "stegr"
-    },
-    {
-      "sceneId": 728,
-      "sceneStart": 19000,
-      "sceneDuration": 8000,
-      "sceneShaderSource": "reto"
-    },
-    {
-      "sceneId": 771,
-      "sceneStart": 92500,
-      "sceneDuration": 7000,
-      "sceneShaderSource": "blocks"
-    },
-    {
-      "sceneId": 794,
-      "sceneStart": 0,
-      "sceneDuration": 8000,
-      "sceneShaderSource": "shal"
-    },
-    {
-      "sceneId": 803,
-      "sceneStart": 28000,
-      "sceneDuration": 9000,
-      "sceneShaderSource": "tple"
-    },
-    {
-      "sceneId": 897,
-      "sceneStart": 65000,
-      "sceneDuration": 7000,
-      "sceneShaderSource": "dosta"
-    },
-    {
       "sceneId": 888,
-      "sceneStart": 122000,
+      "sceneStart": 29000,
       "sceneDuration": 7000,
       "sceneShaderSource": "relaxo"
-    },
-    {
-      "sceneId": 921,
-      "sceneStart": 38250,
-      "sceneDuration": 7250,
-      "sceneShaderSource": "tunnel"
-    },
-    {
-      "sceneId": 932,
-      "sceneStart": 8750,
-      "sceneDuration": 9500,
-      "sceneShaderSource": "spoid"
-    },
-    {
-      "sceneId": 944,
-      "sceneStart": 55250,
-      "sceneDuration": 7750,
-      "sceneShaderSource": "tweto"
     }
   ]
 }
