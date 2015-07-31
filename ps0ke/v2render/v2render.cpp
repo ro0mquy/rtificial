@@ -10,7 +10,7 @@ static V2MPlayer player;
 extern "C" const sU8 soundtrack[];
 
 #define CHANNELS 2
-#define LENGTH 180
+#define LENGTH 220
 
 void main(){
 	player.Init();
