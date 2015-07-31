@@ -264,7 +264,7 @@
       "uniformName": "glum_signal_glow_total_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 70
+        "valueFloatX": 1000
       },
       "sequencesArray": []
     },

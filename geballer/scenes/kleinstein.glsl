@@ -422,10 +422,10 @@ Material getMaterial(MaterialId materialId) {
 		mat.color = phryne;
 	}
 	if (materialId.id == id_inside) {
-		mat.emission = noe * 2000;
+		//mat.emission = noe * 2000;
 	}
 	if (materialId.id == id_rahmen) {
-		mat.emission = hills * 8000;
+		//mat.emission = hills * 8000;
 	}
 
 	return mat;
