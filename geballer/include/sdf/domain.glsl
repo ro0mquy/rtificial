@@ -332,10 +332,14 @@ vec3 pMirrorTrans(inout vec3 p, vec3 c) {
 	return s;
 }
 
-vec2 pMirrorLoco(inout vec2 p, vec2 c) {
-	vec2 s = pMirrorTrans(p, c);
+vec3 pMirrorLoco(inout vec2 p, vec2 c) {
+	vec3 s;
+	s.xy = pMirrorTrans(p, c);
 	if (p.y > p.x) {
+		s.z = -1.;
 		p.xy = p.yx;
+	} else {
+		s.z = 1.;
 	}
 	return s;
 }

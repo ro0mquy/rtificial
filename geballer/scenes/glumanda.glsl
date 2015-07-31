@@ -87,7 +87,7 @@ float fStreben(vec3 p, float atan_value) {
 }
 
 float fScene(vec3 p) {
-	pMirrorLoco(p.xz, vec2(glum_total_loco_trans_rt_float));
+	vec3 cell_mirror_total = pMirrorLoco(p.xz, vec2(glum_total_loco_trans_rt_float));
 	pRotY(p, Tau * glum_total_loco_rot_rt_float);
 	//pRotZ(p, glum_total_rot_rt_float * p.z);
 
@@ -112,7 +112,7 @@ float fScene(vec3 p) {
 
 	// tunnel
 	float f_tunnel = fTunnel(p);
-	mUnion(f_tunnel, newMaterialId(id_tunnel, p));
+	mUnion(f_tunnel, MaterialId(id_tunnel, p, vec4(cell_mirror_total, 0.)));
 
 	// signal
 	vec3 p_signal = p_domrep_cell;
@@ -187,6 +187,7 @@ Material getMaterial(MaterialId materialId) {
 	vec3 tatiana = vec3(214,47,39)/255.;
 	vec3 zwo = vec3(242,110,4)/255.;
 
+	// glow
 	if (materialId.id == id_signal) {
 		float t_anim = materialId.misc.x;
 		float hash_dom = materialId.misc.y;
@@ -202,9 +203,23 @@ Material getMaterial(MaterialId materialId) {
 
 		float glow_intensity = t_final_hit + glum_signal_glow_mid_rt_float * t_mid_wobbel + glum_signal_glow_base_rt_float;
 		glow_intensity /= 1. + glum_signal_glow_mid_rt_float + glum_signal_glow_base_rt_float;
-		glow_intensity *= glum_signal_glow_total_rt_float;
+		glow_intensity *= 1000. * glum_signal_glow_total_rt_float;
 
-		mat.emission = vec3(glow_intensity) * adpating_is_hard;
+		mat.emission = glow_intensity * adpating_is_hard;
+	} else if (materialId.id == id_tunnel) {
+		vec3 p_tunnel = materialId.coord;
+		vec3 cell_mirror = materialId.misc.xyz;
+
+		float t_height = linstep(glum_tunnel_glow_start_rt_float - glum_tunnel_glow_height_rt_float, glum_tunnel_glow_start_rt_float, p_tunnel.y);
+		t_height = pow(t_height, glum_tunnel_glow_falloff_rt_float);
+
+		float pos_length = mult(cell_mirror) * p_tunnel.z - glum_anim * glum_tunnel_glow_stripes_small_rt_float * glum_tunnel_glow_stripes_big_rt_float;
+		float t_length = max(0., iqPowerCurve(23., 3., fract(pos_length / glum_tunnel_glow_stripes_small_rt_float)));
+		t_length *= max(0., iqPowerCurve(23., 3., fract(pos_length / glum_tunnel_glow_stripes_small_rt_float / glum_tunnel_glow_stripes_big_rt_float)));
+
+		float t_glow = t_height * t_length;
+
+		mat.emission = 1000. * t_glow * glum_tunnel_glow_intensity_rt_float * adpating_is_hard;
 	}
 
 	if (materialId.id == id_tunnel) {

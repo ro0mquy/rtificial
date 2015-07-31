@@ -168,7 +168,7 @@
       "uniformName": "glum_signal_glow_total_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1000
+        "valueFloatX": 10
       },
       "sequencesArray": []
     },
@@ -305,6 +305,54 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.04000000000007730705
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_tunnel_glow_falloff_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5.971000000000003638
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_tunnel_glow_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.7720000000000482032
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_tunnel_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_tunnel_glow_start_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10.089000000000055479
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_tunnel_glow_stripes_big_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "glum_tunnel_glow_stripes_small_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3
       },
       "sequencesArray": []
     },
