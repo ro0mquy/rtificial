@@ -2320,26 +2320,38 @@
   "scenesArray": [
     {
       "sceneId": 247,
-      "sceneStart": 0,
-      "sceneDuration": 6500,
+      "sceneStart": 376000,
+      "sceneDuration": 65000,
       "sceneShaderSource": "kleinstein"
     },
     {
       "sceneId": 392,
-      "sceneStart": 10000,
-      "sceneDuration": 5250,
+      "sceneStart": 0,
+      "sceneDuration": 83000,
       "sceneShaderSource": "glumanda"
     },
     {
       "sceneId": 539,
-      "sceneStart": 21000,
-      "sceneDuration": 5250,
+      "sceneStart": 162000,
+      "sceneDuration": 96000,
       "sceneShaderSource": "karpador"
     },
     {
+      "sceneId": 761,
+      "sceneStart": 520000,
+      "sceneDuration": 14000,
+      "sceneShaderSource": "relaxo"
+    },
+    {
       "sceneId": 888,
-      "sceneStart": 29000,
-      "sceneDuration": 7000,
+      "sceneStart": 83000,
+      "sceneDuration": 79000,
+      "sceneShaderSource": "relaxo"
+    },
+    {
+      "sceneId": 954,
+      "sceneStart": 258000,
+      "sceneDuration": 118000,
       "sceneShaderSource": "relaxo"
     }
   ]
