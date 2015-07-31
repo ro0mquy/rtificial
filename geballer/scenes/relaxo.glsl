@@ -1,6 +1,27 @@
 #include "march.glsl"
 #line 3
 
+const float id_berge_bg1 = 0.;
+const float id_berge_bg2 = 1.;
+const float id_berge_hugel = 2.;
+const float id_berge_smooth = 3.;
+const float id_pyr_spitze = 5.;
+const float id_pyr_baum = 6.;
+const float id_pyr_wand = 7.;
+const float id_pyr_wand_top = 8.;
+const float id_pyr_wand_bottom = 9.;
+const float id_pyr_ceiling = 10.;
+const float id_pyr_fenster = 11.;
+const float id_pyr_fenster_rahmen = 12.;
+const float id_pyr_fenster_saule = 13.;
+const float id_pyr_fenster_saule_stairs = 14.;
+const float id_pyr_wandbox = 15.;
+const float id_hutten_zaun = 16.;
+const float id_weg_saule = 17.;
+const float id_zaun = 18.;
+const float id_zaun_pfosten = 19.;
+const float id_zaun_gelander = 20.;
+
 float fSaule(vec3 p) {
 	vec3 p_stamm = p;
 	float f_stamm = fCylinder(p_stamm, rlx_saule_stamm_r_rt_float, rlx_saule_stamm_h_rt_float);
@@ -60,45 +81,70 @@ float fCylWald(vec3 p) {
 
 }
 
-float fPyramidStep(vec3 p, float pyramid_sidelen, float pyramid_height) {
+MatWrap wPyramidStep(vec3 p, float pyramid_sidelen, float pyramid_height) {
 	vec3 p_wand = p;
 	pMirrorLoco(p_wand.zx, vec2(pyramid_sidelen));
 	p_wand.x += pyramid_sidelen;
 
+	// untere stufe der wand
 	float f_wand_bottom = p_wand.z;
-	float f_wand_top = p_wand.z - rlx_pyr_wand_inset_rt_float;
-	float f_ceiling = p_wand.y - pyramid_height;
+	MatWrap w_wand_bottom = MatWrap(f_wand_bottom, newMaterialId(id_pyr_wand_bottom, p_wand));
 
+	// obere stufe der wand
+	float f_wand_top = p_wand.z - rlx_pyr_wand_inset_rt_float;
+	MatWrap w_wand_top = MatWrap(f_wand_top, newMaterialId(id_pyr_wand_top, p_wand));
+
+	// decke
+	float f_ceiling = p_wand.y - pyramid_height;
+	MatWrap w_ceiling = MatWrap(f_ceiling, newMaterialId(id_pyr_ceiling, p_wand));
+
+	// main wand part
 	p_wand.z -= rlx_pyr_wand_inset_rt_float * .5;
 	p_wand.y -= pyramid_height * .5;
 	vec3 p_wand_sub = p_wand;
 	pRotX(p_wand_sub, atan(rlx_pyr_wand_inset_rt_float / (rlx_pyr_wand_edge_height_rt_float * pyramid_height)));
 	float f_wand_simple = p_wand_sub.z;
-	/*
-	pRotZ(p_wand_sub, Tau * rlx_pyr_wand_sub_schief_rt_float);
-	pDomrepMirror(p_wand_sub.x, rlx_pyr_wand_sub_spacing_rt_float);
-	pRotY(p_wand_sub, Tau * rlx_pyr_wand_sub_angle_rt_float);
-	float f_wand = p_wand_sub.z;
-	// */
 	float f_wand = f_wand_simple;
+	MatWrap w_wand = MatWrap(f_wand_simple, newMaterialId(id_pyr_wand, p_wand_sub));
 
 
+	// fenster insets
 	vec3 p_fenster = p_wand;
 	float cell_fenster = pDomrep(p_fenster.x, rlx_pyr_fenster_spacing_rt_float);
 	float f_fenster = f2BoxEdge(p_fenster.xy, rlx_pyr_fenster_dim_rt_vec2);
+	MatWrap w_fenster = MatWrap(f_fenster, newMaterialId(id_pyr_fenster, p_fenster));
+
+	// fenster rahmen
 	vec2 q_fenster_rahmen = vec2(f_wand_simple, f_fenster);
 	float f_fenster_rahmen = f2Box(q_fenster_rahmen, rlx_pyr_fenster_rahmen_rt_vec2);
+	MatWrap w_fenster_rahmen = MatWrap(f_fenster_rahmen, newMaterialId(id_pyr_fenster_rahmen, vec3(q_fenster_rahmen, 0.)));
 
+	// saulen in fenstern
 	vec3 p_fenster_saule = p_fenster;
 	p_fenster_saule.z -= rlx_pyr_fenster_saule_offset_rt_float;
 	float f_fenster_saule = fCylinder(p_fenster_saule, rlx_pyr_fenster_saule_r_rt_float, rlx_pyr_fenster_dim_rt_vec2.y);
+	MatWrap w_fenster_saule = MatWrap(f_fenster_saule, newMaterialId(id_pyr_fenster_saule, p_fenster_saule));
 
+	// rechteck zu verzierung
 	vec3 p_wandbox = vec3(p_fenster.x, p_wand_sub.yz);
 	pMirrorTrans(p_wandbox.x, .5 * rlx_pyr_fenster_spacing_rt_float);
 	p_wandbox.y -= rlx_pyr_wandbox_pos_y_rt_float;
 	float f_wandbox = fBox(p_wandbox, rlx_pyr_wandbox_dim_rt_vec3);
+	MatWrap w_wandbox = MatWrap(f_wandbox, newMaterialId(id_pyr_wandbox, p_wandbox));
 
 
+	MatWrap w_pyr = w_wand;
+	w_pyr = mIntersect(w_pyr, w_wand_bottom);
+	w_pyr = mUnion(w_pyr, w_wand_top);
+	w_pyr = mSubtract(w_pyr, w_fenster);
+	w_pyr = mUnionStairs(w_pyr, w_fenster_saule, rlx_pyr_fenster_saule_smooth_rt_float, 3., id_pyr_fenster_saule_stairs);
+	w_pyr = mUnion(w_pyr, w_fenster_rahmen);
+	w_pyr = mUnion(w_pyr, w_wandbox);
+	w_pyr = mIntersect(w_pyr, w_ceiling);
+
+	return w_pyr;
+
+	/*
 	float f = f_wand;
 	f = max(f, f_wand_bottom);
 	f = min(f, f_wand_top);
@@ -110,31 +156,36 @@ float fPyramidStep(vec3 p, float pyramid_sidelen, float pyramid_height) {
 
 
 	return f;
+	// */
 }
 
-float fBasis(vec3 p) {
+MatWrap wBasis(vec3 p) {
+	// main tempel step
 	p.y -= rlx_hugel_dim_rt_vec3.y;
 	p.xz -= rlx_hugel_pos_rt_vec2;
 	p.xz -= rlx_basis_offset_rt_vec2;
 	float height = rlx_basis_height_rt_float / 3.;
-	float f1 = fPyramidStep(p, rlx_basis_width_rt_float, height);
+	MatWrap w_tempel = wPyramidStep(p, rlx_basis_width_rt_float, height);
 
-	//*
+	// pyramiden dach
 	p.y -= height;
 	float f_spitze = fPyramid(p, height, Tau * rlx_basis_spitze_angle_rt_float);
+	MatWrap w_spitze = MatWrap(f_spitze, newMaterialId(id_pyr_spitze, p));
 
-	vec3 p_saule = p;
-	p_saule.y -= rlx_basis_saule_pos_y_rt_float;
-	pMirrorLoco(p_saule.xz, vec2(rlx_basis_saule_pos_rt_float));
-	float saule_offset = .5 * rlx_basis_saule_pos_rt_float * rlx_basis_saule_offset_rt_float;
-	p_saule.z -= -saule_offset;
-	pMirrorTrans(p_saule.z, saule_offset);
-	float f_saule = fSaule(p_saule);
-	f_spitze = min(f_spitze, f_saule);
+	// baum saulen auf dach
+	vec3 p_baum = p;
+	p_baum.y -= rlx_basis_baum_pos_y_rt_float;
+	pMirrorLoco(p_baum.xz, vec2(rlx_basis_baum_pos_rt_float));
+	float baum_offset = .5 * rlx_basis_baum_pos_rt_float * rlx_basis_baum_offset_rt_float;
+	p_baum.z -= -baum_offset;
+	pMirrorTrans(p_baum.z, baum_offset);
+	float f_baum = fSaule(p_baum);
+	MatWrap w_baum = MatWrap(f_baum, newMaterialId(id_pyr_baum, p_baum));
 
-	f_spitze = max(f_spitze, -p.y);
-	return min(f1, f_spitze);
-	// */
+	MatWrap w_basis = mUnion(w_baum, w_spitze);
+	w_basis.f = max(w_basis.f, -p.y);
+	w_basis = mUnion(w_basis, w_tempel);
+	return w_basis;
 
 	/*
 	vec3 p_dach = p;
@@ -168,41 +219,7 @@ float fBasis(vec3 p) {
 	// */
 }
 
-float fVorbau(vec3 p) {
-	float height = rlx_vorbau_height_rt_float * .5;
-	vec3 p_vorbau = p;
-	pTrans(p_vorbau.xz, rlx_vorbau_pos_rt_vec2);
-
-	vec3 p1 = p_vorbau;
-	float f1 = fPyramidStep(p1, rlx_vorbau_width_rt_float, height);
-
-	vec3 p2 = p_vorbau;
-	p2.y -= height;
-	float f2 = fPyramidStep(p2, .5 * rlx_vorbau_width_rt_float, height);
-
-
-	vec3 p_klein = p;
-	pMirrorTrans(p_klein.x, rlx_vorbau_klein_offset_rt_vec2.x);
-	float cell_klein = pMirrorTrans(p_klein.z, rlx_vorbau_pos_rt_vec2.y + rlx_vorbau_klein_offset_rt_vec2.y);
-	float klein_width = rlx_vorbau_klein_width_rt_float;
-	if (cell_klein < 0.) {
-		p_klein.xz -= rlx_vorbau_klein_smaller_offset_rt_vec2;
-		klein_width *= rlx_vorbau_klein_smaller_rt_float;
-	}
-	float f_klein = fPyramidStep(p_klein, klein_width, rlx_vorbau_klein_height_rt_float);
-
-
-	return min3(f1, f2, f_klein);
-}
-
-float fFluegel(vec3 p) {
-	pMirrorTrans(p.x, rlx_fluegel_pos_rt_vec2.x);
-	p.z -= rlx_fluegel_pos_rt_vec2.y;
-	//pDomrepInterval(p.z, );
-	return 0;
-}
-
-float fWeg(vec3 p) {
+MatWrap wWeg(vec3 p) {
 	p.xz -= rlx_hugel_pos_rt_vec2;
 
 	//pMirrorLoco(p.xz, vec2(0.));
@@ -210,7 +227,8 @@ float fWeg(vec3 p) {
 	pMirrorTrans(p.z, rlx_weg_width_rt_float);
 	pDomrepSingle(p.x, rlx_weg_spacing_rt_float);
 	float f_saule = fSaule(p);
-	return f_saule;
+	MatWrap w_saule = MatWrap(f_saule, newMaterialId(id_weg_saule, p));
+	return w_saule;
 }
 
 float fFeld(vec3 p) {
@@ -231,28 +249,34 @@ float fTurm(vec3 p) {
 	return f_turm;
 }
 
-float fBerge(vec3 p) {
+MatWrap wBerge(vec3 p) {
+	// background berg 1
 	vec3 p_bg = p;
 	p_bg -= rlx_berg_pos_rt_vec3;
 	pMirrorAtPlane(p_bg, normalize(rlx_berg_pos_rt_vec3), length(rlx_berg_pos_rt_vec3));
 	float f_bg = fPyramid(p_bg, rlx_berg_h_rt_float, Tau * rlx_berg_angle_rt_float);
+	MatWrap w_bg = MatWrap(f_bg, newMaterialId(id_berge_bg1, p_bg));
 
+	// background berg 2
 	vec3 p_bg2 = p;
 	p_bg2 -= rlx_berg2_pos_rt_vec3;
 	pMirrorAtPlane(p_bg2, normalize(rlx_berg2_pos_rt_vec3), length(rlx_berg2_pos_rt_vec3));
 	float f_bg2 = fPyramid(p_bg2, rlx_berg2_h_rt_float, Tau * rlx_berg2_angle_rt_float);
-	f_bg = min(f_bg, f_bg2);
+	MatWrap w_bg2 = MatWrap(f_bg2, newMaterialId(id_berge_bg2, p_bg2));
+	w_bg = mUnion(w_bg, w_bg2);
 
+	// tempel hugel & boden
 	vec3 p_hugel = p;
 	p_hugel.xz -= rlx_hugel_pos_rt_vec2;
 	float q_hugel = f2BoxRounded(p_hugel.xz, rlx_hugel_dim_rt_vec3.xz, rlx_hugel_corner_r_rt_float);
 	float f_hugel = p_hugel.y - rlx_hugel_dim_rt_vec3.y * (1. - smoothstep(0., rlx_hugel_widht_rt_float, q_hugel));
+	MatWrap w_hugel = MatWrap(f_hugel, newMaterialId(id_berge_hugel, vec3(p_hugel.xz, q_hugel)));
 
-	float f_berge = opUnionSmooth(f_bg, f_hugel, rlx_hugel_smooth_rt_float);
-	return f_berge;
+	MatWrap w_berge = mUnionSmooth(w_bg, w_hugel, rlx_hugel_smooth_rt_float, id_berge_smooth);
+	return w_berge;
 }
 
-float fZaun(vec3 p) {
+MatWrap wZaun(vec3 p) {
 	p.y -= rlx_hugel_dim_rt_vec3.y;
 	p.xz -= rlx_hugel_pos_rt_vec2;
 
@@ -265,29 +289,30 @@ float fZaun(vec3 p) {
 	vec3 p_gelander = p_zaun;
 	pMirrorTrans(p_zaun.x, zaun_length);
 
+	// zaun box
 	vec2 q_zaun = p_zaun.yz - rlx_zaun_dim_rt_vec2;
 	float f_zaun = max3(p_zaun.x, q_zaun.x, abs(q_zaun.y));
+	MatWrap w_zaun = MatWrap(f_zaun, newMaterialId(id_zaun, p_zaun));
 
+	// eckpfosten
 	vec3 p_pfosten = p_zaun;
-	/*
-	float f_pfosten = fBox(p_pfosten, rlx_zaun_pfosten_dim_rt_vec3);
-	p_pfosten.y -= rlx_zaun_pfosten_dim_rt_vec3.y;
-	float f_spitze = fPyramid(p_pfosten, rlx_zaun_spitze_h_rt_float, atan(rlx_zaun_pfosten_dim_rt_vec3.x / rlx_zaun_spitze_h_rt_float));
-	f_spitze = max(f_spitze, -p_pfosten.y);
-	f_pfosten = min(f_pfosten, f_spitze);
-	// */
 	float f_pfosten = fPyramid(p_pfosten, 1./tan(Tau * rlx_zaun_pfosten_angle_rt_float) * rlx_zaun_pfosten_dim_rt_vec3.x, Tau * rlx_zaun_pfosten_angle_rt_float);
 	f_pfosten = max(f_pfosten, p_pfosten.y - rlx_zaun_pfosten_dim_rt_vec3.y);
+	MatWrap w_pfosten = MatWrap(f_pfosten, newMaterialId(id_zaun_pfosten, p_pfosten));
 
+	// gelander am berg
 	p_gelander.x -= -zaun_length;
 	pRotX(p_gelander, Tau * rlx_zaun_gelander_angle_rt_float);
 	p_gelander.z -= rlx_zaun_gelander_dim_rt_vec3.z;
 	float f_gelander = fBox(p_gelander, rlx_zaun_gelander_dim_rt_vec3);
+	MatWrap w_gelander = MatWrap(f_gelander, newMaterialId(id_zaun_gelander, p_gelander));
 
-	return min3(f_zaun, f_pfosten, f_gelander);
+	w_zaun = mUnion(w_zaun, w_pfosten);
+	w_zaun = mUnion(w_zaun, w_gelander);
+	return w_zaun;
 }
 
-float fHutten(vec3 p) {
+MatWrap wHutten(vec3 p) {
 	p.xz -= rlx_hugel_pos_rt_vec2;
 
 	vec3 p_hutte = p;
@@ -299,17 +324,25 @@ float fHutten(vec3 p) {
 
 	float hutte_width = cell_hutte > 0. ? rlx_hutte_outer_width_rt_float : rlx_hutte_inner_width_rt_float;
 	float hutte_height = cell_hutte > 0. ? rlx_hutte_outer_height_rt_float : rlx_hutte_inner_height_rt_float;
-	float f_hutte = fPyramidStep(p_hutte, hutte_width, hutte_height);
+	MatWrap w_hutte = wPyramidStep(p_hutte, hutte_width, hutte_height);
 
 	vec3 p_zaun = p_hutte;
 	pMirrorTrans(p_zaun.z, rlx_hutte_pos_rt_vec2.y * .5);
 	float f_zaun = fBox(p_zaun, rlx_hutte_zaun_dim_rt_vec3);
+	MatWrap w_zaun = MatWrap(f_zaun, newMaterialId(id_hutten_zaun, p_zaun));
 
-	return min(f_hutte, f_zaun);
+	return mUnion(w_hutte, w_zaun);
 }
 
 float fScene(vec3 p) {
-	float f = p.y;
+	mUnion(wBasis(p));
+	mUnion(wWeg(p));
+	mUnion(wBerge(p));
+	mUnion(wZaun(p));
+	mUnion(wHutten(p));
+
+	/*
+	float f = Inf;
 	f = min(f, fCylWald(p));
 	f = min(f, fBasis(p));
 	//f = min(f, fVorbau(p));
@@ -320,9 +353,10 @@ float fScene(vec3 p) {
 	f = min(f, fBerge(p));
 	f = min(f, fZaun(p));
 	f = min(f, fHutten(p));
+	// */
 
-	mUnion(f, newMaterialId(0., p));
-	return f;
+	//mUnion(f, newMaterialId(0., p));
+	return current_dist;
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {

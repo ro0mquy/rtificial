@@ -37,6 +37,10 @@ void mUnion(float f, MaterialId m) {
 	}
 }
 
+void mUnion(MatWrap w) {
+	mUnion(w.f, w.m);
+}
+
 MatWrap mUnion(MatWrap w1, MatWrap w2) {
 	return w1.f < w2.f ? w1 : w2;
 }
@@ -116,6 +120,10 @@ void mUnionStairs(float f2, MaterialId m, float r, float n, float id_stairs) {
 	//}
 }
 
+void mUnionStairs(MatWrap w, float r, float n, float id_stairs) {
+	mUnionStairs(w.f, w.m, r, n, id_stairs);
+}
+
 void mUnionSmooth(float f2, MaterialId m, float r, float id_smooth) {
 	float f1 = current_dist;
 	if (f1 < r && f2 < r) {
@@ -147,4 +155,38 @@ MatWrap mUnionSmooth(MatWrap w1, MatWrap w2, float r, float id_smooth) {
 	}
 	MatWrap w_min = mUnion(w1, w2);
 	return w_min;
+}
+
+MatWrap mUnionStairs(MatWrap w1, MatWrap w2, float r, float n, float id_stairs) {
+	//if (calculate_material) {
+		float f1 = w1.f;
+		float f2 = w2.f;
+		//float f_min = min(f1, f2);
+		//if (f1 < 2.*r && f2 < 2.*r) {
+			vec2 q = vec2(f1, f2);
+			float radius = r / n * sqrt(.5);
+			q.y -= r - sqrt(.5) * radius;
+			q.x -= sqrt(.5) * radius;
+			pRot(q, -Tau / 8.);
+			pDomrep(q.x, 2. * radius);
+
+			q.x = abs(q.x);
+			float offset = radius * sqrt(.5);
+			float f_columns = dot(q, vec2(sqrt(.5))) - offset;
+
+			f_columns = min(f_columns, q.y);
+			MatWrap w_columns = MatWrap(f_columns, newMaterialId(id_stairs, vec3(q, 0.)));
+
+			MatWrap w_min = mUnion(w1, w2);
+			w_min = mUnion(w_min, w_columns);
+			return w_min;
+
+			//mUnion(f2, m);
+			//mUnion(f_columns, newMaterialId(id_stairs, vec3(q, 0.)));
+			//return min(f_columns, f_min);
+		//}
+		//return f_min;
+	//} else {
+		//current_dist = opUnionStairs(current_dist, f2, r, n);
+	//}
 }

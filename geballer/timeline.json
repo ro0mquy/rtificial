@@ -1525,6 +1525,30 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "rlx_basis_baum_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.8240000000000691216
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_baum_pos_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 18.676000000000044565
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_basis_baum_pos_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -3
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "rlx_basis_bigblock_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
@@ -1604,30 +1628,6 @@
       "uniformStandardValue": {
         "valueVec2X": -6.9890000000000327418,
         "valueVec2Y": 0
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "rlx_basis_saule_offset_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.8240000000000691216
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "rlx_basis_saule_pos_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 18.676000000000044565
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "rlx_basis_saule_pos_y_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": -3
       },
       "sequencesArray": []
     },
