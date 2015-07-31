@@ -173,7 +173,13 @@ Material getMaterial(MaterialId materialId) {
 	vec3 arista = vec3(108,97,125)/255.;
 
 	if (materialId.id == id_retweto_small_torus) {
-		mat.color = ekelhaft;
+		vec2 p_torbox = abs(materialId.coord.xy);
+		// different colors for different sides of cube
+		if (2. * p_torbox.x > p_torbox.y) {
+			mat.color = ekelhaft;
+		} else {
+			mat.color = blue;
+		}
 	} else if (materialId.id == id_retweto_big_torus) {
 		mat.color = blue;
 	} else if (materialId.id == id_raum) {
