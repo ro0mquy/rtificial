@@ -962,7 +962,7 @@
         {
           "sequenceSceneId": 539,
           "sequenceStart": 750,
-          "sequenceDuration": 3250,
+          "sequenceDuration": 11750,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -972,7 +972,7 @@
               }
             },
             {
-              "keyframePosition": 3250,
+              "keyframePosition": 11750,
               "keyframeValue": {
                 "valueFloatX": 1
               }
@@ -1054,6 +1054,38 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.24000000000000906719
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_locopyr_welle_amp_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.23199999999997089617
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_locopyr_welle_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.4759999999999990905
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_locopyr_welle_velo_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_locopyr_welle_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.0879999999999654392
       },
       "sequencesArray": []
     },

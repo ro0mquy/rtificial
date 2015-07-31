@@ -34,10 +34,16 @@ MatWrap wPyramidLoco(vec3 p, float height, float angle) {
 	pRotY(p, Tau * kpd_locopyr_rot);
 	float f = f2BoxRounded(p.xz, kpd_locopyr_dim_rt_vec2, kpd_locopyr_rounded_rt_float);
 	// */
+	/*
 	pDomrep(p.xy, vec2(kpd_locopyr_domrep_rt_float));
 	float f = -p.z;
 	p.z -= kpd_locopyr_dim_rt_vec2.y;
 	f = smin(f, fTotwi(p.xzy, kpd_locopyr_dim_rt_vec2.x, kpd_locopyr_dim_rt_vec2.y), .5);
+	// */
+	float spacing = kpd_locopyr_welle_spacing_rt_float;
+	float r = length(p.xy) - spacing * kpd_anim * kpd_locopyr_welle_velo_rt_float;
+	pDomrep(r, spacing);
+	float f = -p.z - kpd_locopyr_welle_amp_rt_float * iqCubicPulse(0., kpd_locopyr_welle_width_rt_float, r);
 	return MatWrap(f, newMaterialId(id_raum, p));
 }
 
