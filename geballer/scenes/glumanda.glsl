@@ -239,11 +239,13 @@ Material getMaterial(MaterialId materialId) {
 
 	// colors
 	if (materialId.id == id_tunnel) {
-		mat.color = hex;
-	} else if (materialId.id == id_strebe || materialId.id == id_strebe_stairs || materialId.id == id_spikes || materialId.id == id_spikes_top) {
-		mat.color = murky;
+		mat.color = glum_col_tunnel_rt_color;
+	} else if (materialId.id == id_strebe || materialId.id == id_strebe_stairs) {
+		mat.color = glum_col_strebe_rt_color;
+	} else if (materialId.id == id_spikes || materialId.id == id_spikes_top) {
+		mat.color = glum_col_spikes_rt_color;
 	} else if (materialId.id == id_floor) {
-		mat.color = tatiana;
+		mat.color = glum_col_floor_rt_color;
 	} else if (materialId.id == id_blades || materialId.id == id_blades_chamfer) {
 		mat.color = murky;
 	}

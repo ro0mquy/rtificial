@@ -350,9 +350,11 @@ Material getMaterial(MaterialId materialId) {
 	} else if (materialId.id == id_pyr_fenster_rahmen) {
 		mat.color = end_is_near;
 	} else if (materialId.id == id_pyr_fenster_saule || materialId.id == id_pyr_fenster_saule_stairs) {
-		mat.color = faded_barn;
+		mat.color = rlx_col_pyr_saule_rt_color;
 	} else if (materialId.id == id_pyr_baum) {
 		mat.color = end_is_near;
+	} else if (materialId.id == id_weg_saule) {
+		mat.color = rlx_col_saule_rt_color;
 	}
 
 

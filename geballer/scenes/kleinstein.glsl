@@ -411,11 +411,11 @@ Material getMaterial(MaterialId materialId) {
 	if (materialId.id == id_kern || materialId.id == id_kern_deckel_ecke) {
 		mat.color = hills;
 	} else if (materialId.id == id_kern_deckel || materialId.id == id_kern_deckel_chamfer) {
-		mat.color = phryne;
+		mat.color = klest_col_kern_deckel_rt_color;
 	} else if (materialId.id == id_wand || materialId.id == id_tunnel) {
-		mat.color = warm_wool;
+		mat.color = warm_wool * 1.1;
 	} else if (materialId.id == id_stairbox_stamper) {
-		mat.color = noe;
+		mat.color = klest_col_stairbox_rt_color;
 	}
 	if (materialId.id == id_boden) {
 	}

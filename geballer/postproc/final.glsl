@@ -17,6 +17,10 @@ uniform float post_film_grain_intensity;
 uniform float post_film_grain_frequency;
 uniform float post_film_grain_power;
 
+uniform vec3 post_color_lift; // color
+uniform vec3 post_color_gamma; // color
+uniform vec3 post_color_gain; // color
+
 vec2 lens_distort(float aspect, float k, float kcube, vec2 c) {
 	c = c * 2. - 1.;
 	float r2 = (aspect * aspect) * (c.x * c.x) + c.y * c.y;
@@ -111,4 +115,5 @@ void main() {
 	out_color = col + intensity * grain;
 
 	out_color = tonemap(out_color * 2)/tonemap(vec3(W));
+	out_color = pow(max(vec3(0.), post_color_gain * 2. * (out_color + (2. * post_color_lift - 1.) * (1. - out_color))), 1./max(post_color_gamma * 2., 1e-6));
 }
