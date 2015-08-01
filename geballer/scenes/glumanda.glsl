@@ -14,6 +14,33 @@ const float id_blades = 6.;
 const float id_blades_chamfer = 7.;
 const float id_floor = 8.;
 
+uniform float zzz_dummy1;
+uniform float zzz_dummy2;
+uniform float zzz_dummy3;
+uniform float zzz_dummy4;
+uniform float zzz_dummy5;
+uniform float zzz_dummy7;
+uniform float zzz_dummy6;
+uniform float zzz_dummy8;
+uniform float zzz_dummy9;
+uniform float zzz_dummy10;
+uniform float zzz_dummy11;
+uniform float zzz_dummy12;
+uniform float zzz_dummy13;
+uniform float zzz_dummy14;
+uniform float zzz_dummy15;
+uniform float zzz_dummy16;
+uniform float zzz_dummy17;
+uniform float zzz_dummy18;
+uniform float zzz_dummy19;
+uniform float zzz_dummy20;
+uniform float zzz_dummy21;
+uniform float zzz_dummy22;
+uniform float zzz_dummy23;
+uniform float zzz_dummy24;
+uniform float zzz_dummy25;
+uniform float zzz_dummy26;
+
 float fSpimiDisc(vec3 p, float scale, float i, float discAtan) {
 	float innerRadius = glum_spimi_radius_rt_float + sin(i) * glum_spimi_radius_var_rt_float;
 	innerRadius *= scale;
