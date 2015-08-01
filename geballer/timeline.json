@@ -519,9 +519,9 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": -0.047057311981916427612,
-                "valueQuatY": 0.48808509111404418945,
-                "valueQuatZ": 0.026365768164396286011,
+                "valueQuatX": -0.047057311981916434551,
+                "valueQuatY": 0.48808509111404413394,
+                "valueQuatZ": 0.02636576816439628948,
                 "valueQuatW": 0.87112796306610107422
               }
             }
@@ -536,10 +536,10 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": -0.025090046226978302002,
+                "valueQuatX": -0.025090046226978305471,
                 "valueQuatY": 0.43237015604972839355,
                 "valueQuatZ": 0.01203661598265171051,
-                "valueQuatW": 0.90126740932464599609
+                "valueQuatW": 0.90126740932464610712
               }
             },
             {
@@ -562,7 +562,7 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": -0.019523087888956069946,
+                "valueQuatX": -0.019523087888956073416,
                 "valueQuatY": 0.93213891983032226562,
                 "valueQuatZ": 0.050835441797971725464,
                 "valueQuatW": 0.35798370838165283203
@@ -588,9 +588,9 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueQuatX": -0.039031770080327987671,
+                "valueQuatX": -0.039031770080327980732,
                 "valueQuatY": 0.56205773353576660156,
-                "valueQuatZ": 0.026567460969090461731,
+                "valueQuatZ": 0.0265674609690904652,
                 "valueQuatW": 0.82575017213821411133
               }
             },
@@ -615,7 +615,7 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueQuatX": 0.025131853297352790833,
-                "valueQuatY": 0.87092572450637817383,
+                "valueQuatY": 0.87092572450637828485,
                 "valueQuatZ": -0.042772606015205383301,
                 "valueQuatW": 0.48890599608421325684
               }
@@ -624,7 +624,7 @@
               "keyframePosition": 16500,
               "keyframeValue": {
                 "valueQuatX": 0.025131853297352790833,
-                "valueQuatY": 0.87092572450637817383,
+                "valueQuatY": 0.87092572450637828485,
                 "valueQuatZ": -0.042772606015205383301,
                 "valueQuatW": 0.48890599608421325684
               }
@@ -876,7 +876,7 @@
             {
               "keyframePosition": 14000,
               "keyframeValue": {
-                "valueFloatX": 0.028999999999996362021
+                "valueFloatX": 0.028999999999996358552
               }
             },
             {
@@ -1567,14 +1567,16 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "klest_stairbox_glow_end_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "klest_stairbox_glow_falloff_rt_float",
@@ -1597,7 +1599,8 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "klest_stairbox_glow_width_rt_float",
@@ -2593,6 +2596,22 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 8.9120000000000345608
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_bounding_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.7150000000000318323
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rlx_saule_bounding_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.89600000000007185008
       },
       "sequencesArray": []
     },

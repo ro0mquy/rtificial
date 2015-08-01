@@ -23,6 +23,12 @@ const float id_zaun_pfosten = 19.;
 const float id_zaun_gelander = 20.;
 
 float fSaule(vec3 p) {
+	// bounding
+	float f_bounding = fCylinder(p, rlx_saule_bounding_r_rt_float, rlx_saule_bounding_h_rt_float);
+	if (f_bounding > 1.) {
+		return f_bounding;
+	}
+
 	vec3 p_stamm = p;
 	float f_stamm = fCylinder(p_stamm, rlx_saule_stamm_r_rt_float, rlx_saule_stamm_h_rt_float);
 
@@ -30,7 +36,7 @@ float fSaule(vec3 p) {
 	p_top.y -= rlx_saule_stamm_h_rt_float;
 	pMirrorTrans(p_top, vec3(.1));
 	pMirrorAtPlane(p_top, normalize(rlx_saulen_top_mirror_dir_rt_vec3), length(rlx_saulen_top_mirror_dir_rt_vec3));
-	float f_top = fBox(p_top, rlx_saulen_top_dim_rt_vec3);
+	float f_top = fBoxEdge(p_top, rlx_saulen_top_dim_rt_vec3);
 
 	vec3 p_cut = p;
 	p_cut.y -= rlx_saule_stamm_h_rt_float;
@@ -45,14 +51,6 @@ float fSaule(vec3 p) {
 	f_saule = min(f_saule, f_top);
 	f_saule = max(f_saule, -f_cut);
 	return f_saule;
-
-	/*
-	p.y -= rlx_saule_knick_height_rt_float;
-	pMirror(p.y);
-	pRotX(p, Tau * rlx_saule_rotation_rt_float);
-	float f_saule = fBox(p, rlx_saule_dim_rt_vec3);
-	return f_saule;
-	// */
 }
 
 float fCylWald(vec3 p) {
@@ -116,7 +114,7 @@ MatWrap wPyramidStep(vec3 p, float pyramid_sidelen, float pyramid_height) {
 
 	// fenster rahmen
 	vec2 q_fenster_rahmen = vec2(f_wand_simple, f_fenster);
-	float f_fenster_rahmen = f2Box(q_fenster_rahmen, rlx_pyr_fenster_rahmen_rt_vec2);
+	float f_fenster_rahmen = f2BoxEdge(q_fenster_rahmen, rlx_pyr_fenster_rahmen_rt_vec2);
 	MatWrap w_fenster_rahmen = MatWrap(f_fenster_rahmen, newMaterialId(id_pyr_fenster_rahmen, vec3(q_fenster_rahmen, 0.)));
 
 	// saulen in fenstern
@@ -129,7 +127,7 @@ MatWrap wPyramidStep(vec3 p, float pyramid_sidelen, float pyramid_height) {
 	vec3 p_wandbox = vec3(p_fenster.x, p_wand_sub.yz);
 	pMirrorTrans(p_wandbox.x, .5 * rlx_pyr_fenster_spacing_rt_float);
 	p_wandbox.y -= rlx_pyr_wandbox_pos_y_rt_float;
-	float f_wandbox = fBox(p_wandbox, rlx_pyr_wandbox_dim_rt_vec3);
+	float f_wandbox = fBoxEdge(p_wandbox, rlx_pyr_wandbox_dim_rt_vec3);
 	MatWrap w_wandbox = MatWrap(f_wandbox, newMaterialId(id_pyr_wandbox, p_wandbox));
 
 
@@ -231,24 +229,6 @@ MatWrap wWeg(vec3 p) {
 	return w_saule;
 }
 
-float fFeld(vec3 p) {
-	pMirrorLoco(p.xz, vec2(0.));
-	p.z -= rlx_feld_spacing_rt_vec2.y * .5;
-	p.x -= rlx_feld_offset_first_rt_float;
-	pDomrepInterval(p.xz, rlx_feld_spacing_rt_vec2, vec2(0.), rlx_feld_interval_end_rt_vec2);
-	float f_saule = fSaule(p);
-	return f_saule;
-}
-
-float fTurm(vec3 p) {
-	pMirrorTrans(p.xz, rlx_turm_pos_rt_vec2);
-	float f_basis = f2Sphere(p.xz, rlx_turm_r_rt_float);
-	p.y -= rlx_turm_h_rt_float;
-	float f_spitze = fConeAngle(p, Tau * rlx_turm_angle_rt_float);
-	float f_turm = max(f_basis, f_spitze);
-	return f_turm;
-}
-
 MatWrap wBerge(vec3 p) {
 	// background berg 1
 	vec3 p_bg = p;
@@ -304,7 +284,7 @@ MatWrap wZaun(vec3 p) {
 	p_gelander.x -= -zaun_length;
 	pRotX(p_gelander, Tau * rlx_zaun_gelander_angle_rt_float);
 	p_gelander.z -= rlx_zaun_gelander_dim_rt_vec3.z;
-	float f_gelander = fBox(p_gelander, rlx_zaun_gelander_dim_rt_vec3);
+	float f_gelander = fBoxEdge(p_gelander, rlx_zaun_gelander_dim_rt_vec3);
 	MatWrap w_gelander = MatWrap(f_gelander, newMaterialId(id_zaun_gelander, p_gelander));
 
 	w_zaun = mUnion(w_zaun, w_pfosten);
@@ -324,11 +304,15 @@ MatWrap wHutten(vec3 p) {
 
 	float hutte_width = cell_hutte > 0. ? rlx_hutte_outer_width_rt_float : rlx_hutte_inner_width_rt_float;
 	float hutte_height = cell_hutte > 0. ? rlx_hutte_outer_height_rt_float : rlx_hutte_inner_height_rt_float;
-	MatWrap w_hutte = wPyramidStep(p_hutte, hutte_width, hutte_height);
+	float f_bounding = fBoxEdge(p_hutte, vec3(hutte_width, hutte_height, hutte_width));
+	MatWrap w_hutte = MatWrap(f_bounding, newMaterialId(id_pyr_wand, p_hutte)); // whatever
+	if (f_bounding < 1.) {
+		w_hutte = wPyramidStep(p_hutte, hutte_width, hutte_height);
+	}
 
 	vec3 p_zaun = p_hutte;
 	pMirrorTrans(p_zaun.z, rlx_hutte_pos_rt_vec2.y * .5);
-	float f_zaun = fBox(p_zaun, rlx_hutte_zaun_dim_rt_vec3);
+	float f_zaun = fBoxEdge(p_zaun, rlx_hutte_zaun_dim_rt_vec3);
 	MatWrap w_zaun = MatWrap(f_zaun, newMaterialId(id_hutten_zaun, p_zaun));
 
 	return mUnion(w_hutte, w_zaun);
