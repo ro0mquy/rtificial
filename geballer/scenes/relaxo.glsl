@@ -163,6 +163,10 @@ MatWrap wBasis(vec3 p) {
 	p.xz -= rlx_hugel_pos_rt_vec2;
 	p.xz -= rlx_basis_offset_rt_vec2;
 	float height = rlx_basis_height_rt_float / 3.;
+	float f_bounding = fBoxEdge(vec3(p.x, p.y - height, p.z), vec3(rlx_basis_width_rt_float, height, rlx_basis_width_rt_float));
+	if (f_bounding > 1.) {
+		return MatWrap(f_bounding, newMaterialId(id_pyr_wand, p)); // whatever
+	}
 	MatWrap w_tempel = wPyramidStep(p, rlx_basis_width_rt_float, height);
 
 	// pyramiden dach
@@ -184,37 +188,6 @@ MatWrap wBasis(vec3 p) {
 	w_basis.f = max(w_basis.f, -p.y);
 	w_basis = mUnion(w_basis, w_tempel);
 	return w_basis;
-
-	/*
-	vec3 p_dach = p;
-	p_dach.y -= height;
-	p_dach.x -= rlx_basis_dach_width_rt_float;
-	pMirrorTrans(p_dach.z, rlx_basis_dach_width_rt_float);
-	float f_bigblock = fBox(p_dach, rlx_basis_bigblock_rt_vec3);
-
-	vec3 p_bogen = p_dach;
-	p_bogen.z -= rlx_basis_bogen_pos_z_rt_float;
-	p_bogen.y -= rlx_basis_bogen_height_rt_float;
-	float f_bogen = fCylinder(p_bogen, rlx_basis_bogen_r_rt_float, rlx_basis_bogen_height_rt_float);
-	p_bogen.y -= rlx_basis_bogen_height_rt_float;
-	p_bogen.z -= rlx_basis_bogen_offset_rt_float;
-	float f_bogen_dach = f2PlaneAngle(p_bogen.zy, Tau * rlx_basis_bogen_angle_rt_float);
-	f_bogen_dach = max3(f_bogen_dach, -p_bogen.y, abs(p_bogen.x) - rlx_basis_bogen_depth_rt_float);
-	f_bogen = min(f_bogen, f_bogen_dach);
-
-	float f_dach = f_bigblock;
-	f_dach = min(f_dach, f_bogen);
-
-	return min(f1, f_dach);
-	// */
-
-	/*
-	p.y -= height;
-	float f2 = fPyramidStep(p, 2./3. * rlx_basis_width_rt_float, height);
-	p.y -= height;
-	float f3 = fPyramidStep(p, 1./3. * rlx_basis_width_rt_float, height);
-	return min3(f1, f2, f3);
-	// */
 }
 
 MatWrap wWeg(vec3 p) {
