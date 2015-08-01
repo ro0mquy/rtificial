@@ -1,6 +1,6 @@
-#ifndef mienenkraft_environment_H
-#define mienenkraft_environment_H
-const char mienenkraft_environment_source[] =R"shader_source(#version 430
+#ifndef rotator_environment_H
+#define rotator_environment_H
+const char rotator_environment_source[] =R"shader_source(#version 430
 )shader_source"
 R"shader_source(vec3 sun_dir = vec3(0.000000, 0.390731, 0.920505);
 )shader_source"

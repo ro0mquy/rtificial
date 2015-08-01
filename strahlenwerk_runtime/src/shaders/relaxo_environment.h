@@ -1,6 +1,6 @@
-#ifndef biene_environment_H
-#define biene_environment_H
-const char biene_environment_source[] =R"shader_source(#version 430
+#ifndef relaxo_environment_H
+#define relaxo_environment_H
+const char relaxo_environment_source[] =R"shader_source(#version 430
 )shader_source"
 R"shader_source(vec3 sun_dir = vec3(0.000000, 0.390731, 0.920505);
 )shader_source"

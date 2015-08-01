@@ -1,5 +1,6 @@
 #version 430
 // lens distort, vignette, noise
+#include "noise.glsl"
 
 in vec2 tc;
 layout(location = 0) uniform vec2 res;
@@ -93,7 +94,9 @@ void main() {
 		col[i] = textureLod(color, lens_distort(aspect, k * primaries[i], kcube, tc), 0.)[i];
 	}
 
-	col *= vignette(post_vignette_intensity, tc);
+
+	vec2 tc2 = tc + vec2(1, 0) * smoothNoise(vec2(time * 10, gl_FragCoord.y)) * post_distortion_scheiss_rt_float;
+	col *= vignette(post_vignette_intensity, tc2);
 
 	// TODO richtiger grain
 	float phi1 = radians(30.);

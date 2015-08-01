@@ -1,6 +1,10 @@
-#ifndef bloom_down_3rd_H
-#define bloom_down_3rd_H
-const char bloom_down_3rd_source[] =R"shader_source(#version 430
+#ifndef ao_blur_v_H
+#define ao_blur_v_H
+const char ao_blur_v_source[] =R"shader_source(#version 430
+)shader_source"
+R"shader_source(layout(location = 76) uniform float post_ao_edge_blurriness_rt_float;
+)shader_source"
+R"shader_source(layout(location = 77) uniform float post_ao_gauss_offset_rt_float;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -14,7 +18,7 @@ R"shader_source(layout(location = 66) uniform float time;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(
+R"shader_source(vec2 blurDirection = vec2(0, 1);
 )shader_source"
 R"shader_source(#line 2 "helper"
 )shader_source"
@@ -484,111 +488,63 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(vec3 karis_average(vec3 a, vec3 b, vec3 c, vec3 d) {
-)shader_source"
-R"shader_source(	float weights = 0.;
-)shader_source"
-R"shader_source(	float weight_a = 1/(1 + rgb2luma(a));
-)shader_source"
-R"shader_source(	float weight_b = 1/(1 + rgb2luma(b));
-)shader_source"
-R"shader_source(	float weight_c = 1/(1 + rgb2luma(c));
-)shader_source"
-R"shader_source(	float weight_d = 1/(1 + rgb2luma(d));
-)shader_source"
-R"shader_source(	return (a * weight_a + b * weight_b + c * weight_c + d * weight_d)
-)shader_source"
-R"shader_source(		/ (weight_a + weight_b + weight_c + weight_d);
-)shader_source"
-R"shader_source(}
+R"shader_source(#line 3
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(vec3 average(vec3 a, vec3 b, vec3 c, vec3 d, bool karis) {
+R"shader_source(layout(binding = 10) uniform sampler2D ao; // float
 )shader_source"
-R"shader_source(	if (karis) {
+R"shader_source(layout(binding = 8) uniform sampler2D depth; // float
 )shader_source"
-R"shader_source(		return karis_average(a, b, c, d);
-)shader_source"
-R"shader_source(	} else {
-)shader_source"
-R"shader_source(		return .25 * a + .25 * b + .25 * c + .25 * d;
-)shader_source"
-R"shader_source(	}
-)shader_source"
-R"shader_source(}
+R"shader_source(layout(location = 0) out float out_ao;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(vec3 downsample(sampler2D inputTexture, vec2 bigPixelCenter, vec2 smallPixelSize, bool karis) {
-)shader_source"
-R"shader_source(	vec3 topLeftOuter = textureLod(inputTexture, bigPixelCenter - 2. * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 topRightOuter = textureLod(inputTexture, bigPixelCenter + vec2(2., -2.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomLeftOuter = textureLod(inputTexture, bigPixelCenter + vec2(-2., 2.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomRightOuter = textureLod(inputTexture, bigPixelCenter + 2. * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 top = textureLod(inputTexture, bigPixelCenter - vec2(0., 1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 right = textureLod(inputTexture, bigPixelCenter + vec2(1., 0.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 left = textureLod(inputTexture, bigPixelCenter - vec2(1., 0.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottom = textureLod(inputTexture, bigPixelCenter + vec2(0., 1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 center = textureLod(inputTexture, bigPixelCenter, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 topLeftInner = textureLod(inputTexture, bigPixelCenter - smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 topRightInner = textureLod(inputTexture, bigPixelCenter + vec2(1., -1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomLeftInner = textureLod(inputTexture, bigPixelCenter + vec2(-1., 1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomRightInner = textureLod(inputTexture, bigPixelCenter + smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 middleResult      = average(topLeftInner, topRightInner, bottomLeftInner, bottomRightInner, karis);
-)shader_source"
-R"shader_source(	vec3 topLeftResult     = average(topLeftOuter, top, left, center, karis);
-)shader_source"
-R"shader_source(	vec3 topRightResult    = average(topRightOuter, top, right, center, karis);
-)shader_source"
-R"shader_source(	vec3 bottomLeftResult  = average(bottomLeftOuter, bottom, left, center, karis);
-)shader_source"
-R"shader_source(	vec3 bottomRightResult = average(bottomRightOuter, bottom, right, center, karis);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	return middleResult * .5 + .125 * topLeftResult + .125 * topRightResult + .125 * bottomLeftResult + .125 * bottomRightResult;
-)shader_source"
-R"shader_source(}
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(#line 5
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(layout(binding = 15) uniform sampler2D color; // vec3
-)shader_source"
-R"shader_source(layout(location = 0) out vec3 out_color;
+R"shader_source(// level(1)
 )shader_source"
 R"shader_source(
 )shader_source"
 R"shader_source(void main() {
 )shader_source"
-R"shader_source(	out_color = downsample(color, tc, .5/res, false);
+R"shader_source(	float originalAO = textureLod(ao, tc, 0).r;
+)shader_source"
+R"shader_source(	float centerDepth = textureLod(depth, tc, 0).r;
+)shader_source"
+R"shader_source(	out_ao = originalAO;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	int n_width = 9;
+)shader_source"
+R"shader_source(	vec2 result = vec2(0);
+)shader_source"
+R"shader_source(	vec2 pixelSize = 1./res;
+)shader_source"
+R"shader_source(	float stddev = n_width / 3;
+)shader_source"
+R"shader_source(	for (int i = -n_width; i <= n_width; i++) {
+)shader_source"
+R"shader_source(		vec2 sampleCoord = tc + i * pixelSize * blurDirection;
+)shader_source"
+R"shader_source(		float sampleValue = textureLod(ao, sampleCoord, 0).r;
+)shader_source"
+R"shader_source(		float sampleDepth = textureLod(depth, sampleCoord, 0).r;
+)shader_source"
+R"shader_source(		float gaussianWeight = exp(-.5 * square(i/stddev)) + post_ao_gauss_offset_rt_float;
+)shader_source"
+R"shader_source(		float bilateralWeight = exp(-.5 * square(abs(sampleDepth - centerDepth)/post_ao_edge_blurriness_rt_float));
+)shader_source"
+R"shader_source(		result += gaussianWeight * bilateralWeight * vec2(sampleValue, 1);
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(	out_ao = result.r / result.g;
 )shader_source"
 R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(// level(3)
+R"shader_source(
 )shader_source"
 ;
 #endif

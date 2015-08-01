@@ -192,7 +192,7 @@ Material getMaterial(MaterialId materialId) {
 	} else if (materialId.id == id_raum) {
 		mat.color = lets_celebrate;
 		float t_glow = pow(materialId.misc.x, kpd_raum_glow_falloff_rt_float);
-		t_glow *= iqPowerCurve(3., 23., min(.5, kpd_anim) * 2.);
+		t_glow *= iqPowerCurve(3., 23., min(.5, fract(kpd_anim)) * 2.);
 		mat.emission = vec3(1.) * 1000. * t_glow * kpd_raum_glow_intensity_rt_float;
 	} else if (materialId.id == id_blubberbrunnen) {
 		mat.color = egeagb;

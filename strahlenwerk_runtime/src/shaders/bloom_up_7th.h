@@ -1,6 +1,6 @@
-#ifndef bloom_up_2nd_H
-#define bloom_up_2nd_H
-const char bloom_up_2nd_source[] =R"shader_source(#version 430
+#ifndef bloom_up_7th_H
+#define bloom_up_7th_H
+const char bloom_up_7th_source[] =R"shader_source(#version 430
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -58,23 +58,21 @@ R"shader_source(#line 5
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(binding = 15) uniform sampler2D color; // vec3
-)shader_source"
-R"shader_source(layout(binding = 25) uniform sampler2D previous; // vec3
+R"shader_source(layout(binding = 20) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(void main() {
-)shader_source"
-R"shader_source(	out_color = upsample(color, tc, 1./res) + textureLod(previous, tc, 0.).rgb;
-)shader_source"
-R"shader_source(}
+R"shader_source(// level(6)
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(// level(1)
+R"shader_source(void main() {
+)shader_source"
+R"shader_source(	out_color = upsample(color, tc, 1./res);
+)shader_source"
+R"shader_source(}
 )shader_source"
 ;
 #endif

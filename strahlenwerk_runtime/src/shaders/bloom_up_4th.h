@@ -4,7 +4,19 @@ const char bloom_up_4th_source[] =R"shader_source(#version 430
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(location = 64) uniform float post_bloom_radius;
+R"shader_source(in vec2 tc;
+)shader_source"
+R"shader_source(layout(location = 0) uniform vec2 res;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 66) uniform float time;
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(layout(location = 78) uniform float post_bloom_radius;
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -46,23 +58,11 @@ R"shader_source(#line 5
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(in vec2 tc;
+R"shader_source(layout(binding = 17) uniform sampler2D color; // vec3
 )shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(layout(location = 0) uniform vec2 res;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(layout(binding = 16) uniform sampler2D color; // vec3
-)shader_source"
-R"shader_source(layout(binding = 18) uniform sampler2D previous; // vec3
+R"shader_source(layout(binding = 23) uniform sampler2D previous; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(// level(3)
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -71,6 +71,10 @@ R"shader_source(void main() {
 R"shader_source(	out_color = upsample(color, tc, 1./res) + textureLod(previous, tc, 0.).rgb;
 )shader_source"
 R"shader_source(}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(// level(3)
 )shader_source"
 ;
 #endif

@@ -1,6 +1,6 @@
-#ifndef bloom_down_3rd_H
-#define bloom_down_3rd_H
-const char bloom_down_3rd_source[] =R"shader_source(#version 430
+#ifndef remove_fireflies_H
+#define remove_fireflies_H
+const char remove_fireflies_source[] =R"shader_source(#version 430
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -11,8 +11,6 @@ R"shader_source(layout(location = 0) uniform vec2 res;
 R"shader_source(
 )shader_source"
 R"shader_source(layout(location = 66) uniform float time;
-)shader_source"
-R"shader_source(
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -484,89 +482,99 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(
+R"shader_source(void min_max(float a, float b, out float min_out, out float max_out) {
 )shader_source"
-R"shader_source(vec3 karis_average(vec3 a, vec3 b, vec3 c, vec3 d) {
+R"shader_source(	min_out = min(a, b);
 )shader_source"
-R"shader_source(	float weights = 0.;
-)shader_source"
-R"shader_source(	float weight_a = 1/(1 + rgb2luma(a));
-)shader_source"
-R"shader_source(	float weight_b = 1/(1 + rgb2luma(b));
-)shader_source"
-R"shader_source(	float weight_c = 1/(1 + rgb2luma(c));
-)shader_source"
-R"shader_source(	float weight_d = 1/(1 + rgb2luma(d));
-)shader_source"
-R"shader_source(	return (a * weight_a + b * weight_b + c * weight_c + d * weight_d)
-)shader_source"
-R"shader_source(		/ (weight_a + weight_b + weight_c + weight_d);
+R"shader_source(	max_out = max(a, b);
 )shader_source"
 R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(vec3 average(vec3 a, vec3 b, vec3 c, vec3 d, bool karis) {
+R"shader_source(float median(float elements[9]) {
 )shader_source"
-R"shader_source(	if (karis) {
+R"shader_source(	float min10, max10;
 )shader_source"
-R"shader_source(		return karis_average(a, b, c, d);
+R"shader_source(	min_max(elements[1], elements[2], min10, max10);
 )shader_source"
-R"shader_source(	} else {
+R"shader_source(	float min11, max11;
 )shader_source"
-R"shader_source(		return .25 * a + .25 * b + .25 * c + .25 * d;
+R"shader_source(	min_max(elements[4], elements[5], min11, max11);
 )shader_source"
-R"shader_source(	}
+R"shader_source(	float min12, max12;
+)shader_source"
+R"shader_source(	min_max(elements[7], elements[8], min12, max12);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float min20, max20;
+)shader_source"
+R"shader_source(	min_max(elements[0], min10, min20, max20);
+)shader_source"
+R"shader_source(	float min21, max21;
+)shader_source"
+R"shader_source(	min_max(elements[3], min11, min21, max21);
+)shader_source"
+R"shader_source(	float min22, max22;
+)shader_source"
+R"shader_source(	min_max(elements[6], min12, min22, max22);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float min30, max30;
+)shader_source"
+R"shader_source(	min_max(max20, max10, min30, max30);
+)shader_source"
+R"shader_source(	float min31, max31;
+)shader_source"
+R"shader_source(	min_max(max21, max11, min31, max31);
+)shader_source"
+R"shader_source(	float min32, max32;
+)shader_source"
+R"shader_source(	min_max(max22, max12, min32, max32);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float max40 = max(min20, min21);
+)shader_source"
+R"shader_source(	float min41 = min(max31, max32);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float min50, max50;
+)shader_source"
+R"shader_source(	min_max(min31, min32, min50, max50);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float max60 = max(max40, min22);
+)shader_source"
+R"shader_source(	float max61 = max(min30, min50);
+)shader_source"
+R"shader_source(	float min62 = min(max30, min41);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float min70 = min(max61, max50);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float min80, max80;
+)shader_source"
+R"shader_source(	min_max(min70, min62, min80, max80);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	float max90 = max(max60, min80);
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	return min(max90, max80);
 )shader_source"
 R"shader_source(}
 )shader_source"
 R"shader_source(
-)shader_source"
-R"shader_source(vec3 downsample(sampler2D inputTexture, vec2 bigPixelCenter, vec2 smallPixelSize, bool karis) {
-)shader_source"
-R"shader_source(	vec3 topLeftOuter = textureLod(inputTexture, bigPixelCenter - 2. * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 topRightOuter = textureLod(inputTexture, bigPixelCenter + vec2(2., -2.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomLeftOuter = textureLod(inputTexture, bigPixelCenter + vec2(-2., 2.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomRightOuter = textureLod(inputTexture, bigPixelCenter + 2. * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 top = textureLod(inputTexture, bigPixelCenter - vec2(0., 1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 right = textureLod(inputTexture, bigPixelCenter + vec2(1., 0.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 left = textureLod(inputTexture, bigPixelCenter - vec2(1., 0.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottom = textureLod(inputTexture, bigPixelCenter + vec2(0., 1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 center = textureLod(inputTexture, bigPixelCenter, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 topLeftInner = textureLod(inputTexture, bigPixelCenter - smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 topRightInner = textureLod(inputTexture, bigPixelCenter + vec2(1., -1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomLeftInner = textureLod(inputTexture, bigPixelCenter + vec2(-1., 1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomRightInner = textureLod(inputTexture, bigPixelCenter + smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 middleResult      = average(topLeftInner, topRightInner, bottomLeftInner, bottomRightInner, karis);
-)shader_source"
-R"shader_source(	vec3 topLeftResult     = average(topLeftOuter, top, left, center, karis);
-)shader_source"
-R"shader_source(	vec3 topRightResult    = average(topRightOuter, top, right, center, karis);
-)shader_source"
-R"shader_source(	vec3 bottomLeftResult  = average(bottomLeftOuter, bottom, left, center, karis);
-)shader_source"
-R"shader_source(	vec3 bottomRightResult = average(bottomRightOuter, bottom, right, center, karis);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	return middleResult * .5 + .125 * topLeftResult + .125 * topRightResult + .125 * bottomLeftResult + .125 * bottomRightResult;
-)shader_source"
-R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -574,21 +582,75 @@ R"shader_source(#line 5
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(layout(binding = 15) uniform sampler2D color; // vec3
+R"shader_source(layout(binding = 7) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(void main() {
-)shader_source"
-R"shader_source(	out_color = downsample(color, tc, .5/res, false);
-)shader_source"
-R"shader_source(}
+R"shader_source(layout(location = 93) uniform bool post_disable_median;
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(// level(3)
+R"shader_source(void main() {
+)shader_source"
+R"shader_source(	if (post_disable_median) {
+)shader_source"
+R"shader_source(		out_color = textureLod(color, tc, 0).rgb;
+)shader_source"
+R"shader_source(		return;
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	vec2 pixelSize = 1. / textureSize(color, 0);
+)shader_source"
+R"shader_source(	vec2 base = tc - pixelSize;
+)shader_source"
+R"shader_source(	vec3 colors[9];
+)shader_source"
+R"shader_source(	float values[9];
+)shader_source"
+R"shader_source(	float avg_value = 0;
+)shader_source"
+R"shader_source(	for (int y = 0; y < 3; y++) {
+)shader_source"
+R"shader_source(		for (int x = 0; x < 3; x++) {
+)shader_source"
+R"shader_source(			vec3 sampleValue = textureLod(color, base + vec2(x, y) * pixelSize, 0).rgb;
+)shader_source"
+R"shader_source(			colors[y * 3 + x] = sampleValue;
+)shader_source"
+R"shader_source(			values[y * 3 + x] = rgb2luma(colors[y * 3 + x]);
+)shader_source"
+R"shader_source(			avg_value += values[y * 3 + x] * (1./9);
+)shader_source"
+R"shader_source(		}
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(
+)shader_source"
+R"shader_source(	out_color = colors[5];
+)shader_source"
+R"shader_source(	if (values[5] > avg_value * 2 || isinf(values[5]) || isnan(values[5])) {
+)shader_source"
+R"shader_source(		float median_luma = median(values);
+)shader_source"
+R"shader_source(		for (int i = 0; i < 9; i++) {
+)shader_source"
+R"shader_source(			if ((values[i] - median_luma) < 1e-6) {
+)shader_source"
+R"shader_source(				out_color = colors[i];
+)shader_source"
+R"shader_source(			}
+)shader_source"
+R"shader_source(		}
+)shader_source"
+R"shader_source(	}
+)shader_source"
+R"shader_source(}
 )shader_source"
 ;
 #endif

@@ -1,6 +1,6 @@
-#ifndef bloom_down_3rd_H
-#define bloom_down_3rd_H
-const char bloom_down_3rd_source[] =R"shader_source(#version 430
+#ifndef ao_blend_H
+#define ao_blend_H
+const char ao_blend_source[] =R"shader_source(#version 430
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -11,8 +11,6 @@ R"shader_source(layout(location = 0) uniform vec2 res;
 R"shader_source(
 )shader_source"
 R"shader_source(layout(location = 66) uniform float time;
-)shader_source"
-R"shader_source(
 )shader_source"
 R"shader_source(
 )shader_source"
@@ -484,97 +482,13 @@ R"shader_source(}
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(vec3 karis_average(vec3 a, vec3 b, vec3 c, vec3 d) {
-)shader_source"
-R"shader_source(	float weights = 0.;
-)shader_source"
-R"shader_source(	float weight_a = 1/(1 + rgb2luma(a));
-)shader_source"
-R"shader_source(	float weight_b = 1/(1 + rgb2luma(b));
-)shader_source"
-R"shader_source(	float weight_c = 1/(1 + rgb2luma(c));
-)shader_source"
-R"shader_source(	float weight_d = 1/(1 + rgb2luma(d));
-)shader_source"
-R"shader_source(	return (a * weight_a + b * weight_b + c * weight_c + d * weight_d)
-)shader_source"
-R"shader_source(		/ (weight_a + weight_b + weight_c + weight_d);
-)shader_source"
-R"shader_source(}
+R"shader_source(#line 4
 )shader_source"
 R"shader_source(
 )shader_source"
-R"shader_source(vec3 average(vec3 a, vec3 b, vec3 c, vec3 d, bool karis) {
+R"shader_source(layout(binding = 11) uniform sampler2D ao; // float
 )shader_source"
-R"shader_source(	if (karis) {
-)shader_source"
-R"shader_source(		return karis_average(a, b, c, d);
-)shader_source"
-R"shader_source(	} else {
-)shader_source"
-R"shader_source(		return .25 * a + .25 * b + .25 * c + .25 * d;
-)shader_source"
-R"shader_source(	}
-)shader_source"
-R"shader_source(}
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(vec3 downsample(sampler2D inputTexture, vec2 bigPixelCenter, vec2 smallPixelSize, bool karis) {
-)shader_source"
-R"shader_source(	vec3 topLeftOuter = textureLod(inputTexture, bigPixelCenter - 2. * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 topRightOuter = textureLod(inputTexture, bigPixelCenter + vec2(2., -2.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomLeftOuter = textureLod(inputTexture, bigPixelCenter + vec2(-2., 2.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomRightOuter = textureLod(inputTexture, bigPixelCenter + 2. * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 top = textureLod(inputTexture, bigPixelCenter - vec2(0., 1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 right = textureLod(inputTexture, bigPixelCenter + vec2(1., 0.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 left = textureLod(inputTexture, bigPixelCenter - vec2(1., 0.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottom = textureLod(inputTexture, bigPixelCenter + vec2(0., 1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 center = textureLod(inputTexture, bigPixelCenter, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 topLeftInner = textureLod(inputTexture, bigPixelCenter - smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 topRightInner = textureLod(inputTexture, bigPixelCenter + vec2(1., -1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomLeftInner = textureLod(inputTexture, bigPixelCenter + vec2(-1., 1.) * smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(	vec3 bottomRightInner = textureLod(inputTexture, bigPixelCenter + smallPixelSize, 0.).rgb;
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	vec3 middleResult      = average(topLeftInner, topRightInner, bottomLeftInner, bottomRightInner, karis);
-)shader_source"
-R"shader_source(	vec3 topLeftResult     = average(topLeftOuter, top, left, center, karis);
-)shader_source"
-R"shader_source(	vec3 topRightResult    = average(topRightOuter, top, right, center, karis);
-)shader_source"
-R"shader_source(	vec3 bottomLeftResult  = average(bottomLeftOuter, bottom, left, center, karis);
-)shader_source"
-R"shader_source(	vec3 bottomRightResult = average(bottomRightOuter, bottom, right, center, karis);
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(	return middleResult * .5 + .125 * topLeftResult + .125 * topRightResult + .125 * bottomLeftResult + .125 * bottomRightResult;
-)shader_source"
-R"shader_source(}
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(#line 5
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(layout(binding = 15) uniform sampler2D color; // vec3
+R"shader_source(layout(binding = 12) uniform sampler2D color; // vec3
 )shader_source"
 R"shader_source(layout(location = 0) out vec3 out_color;
 )shader_source"
@@ -582,13 +496,13 @@ R"shader_source(
 )shader_source"
 R"shader_source(void main() {
 )shader_source"
-R"shader_source(	out_color = downsample(color, tc, .5/res, false);
+R"shader_source(	vec3 originalColor = textureLod(color, tc, 0).rgb;
+)shader_source"
+R"shader_source(	float centerAO = textureLod(ao, tc, 0).r;
+)shader_source"
+R"shader_source(	out_color = originalColor * centerAO;
 )shader_source"
 R"shader_source(}
-)shader_source"
-R"shader_source(
-)shader_source"
-R"shader_source(// level(3)
 )shader_source"
 ;
 #endif

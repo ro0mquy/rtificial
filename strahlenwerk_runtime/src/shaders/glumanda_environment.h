@@ -1,6 +1,6 @@
-#ifndef shapemorph_environment_H
-#define shapemorph_environment_H
-const char shapemorph_environment_source[] =R"shader_source(#version 430
+#ifndef glumanda_environment_H
+#define glumanda_environment_H
+const char glumanda_environment_source[] =R"shader_source(#version 430
 )shader_source"
 R"shader_source(vec3 sun_dir = vec3(0.000000, 0.390731, 0.920505);
 )shader_source"
