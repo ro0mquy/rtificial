@@ -103,7 +103,7 @@ float fScene(vec3 p) {
 	// floor
 	vec3 p_floor = p;
 	float f_floor = fFloor(p_floor, floor_height);
-	mUnion(f_floor, newMaterialId(id_floor, p_floor));
+	mUnion(f_floor, MaterialId(id_floor, p_floor, vec4(cell_mirror_total, 0.)));
 
 	// strebe
 	vec3 p_strebe = p_domrep_cell;
@@ -220,8 +220,23 @@ Material getMaterial(MaterialId materialId) {
 		float t_glow = t_height * t_length;
 
 		mat.emission = 1000. * t_glow * glum_tunnel_glow_intensity_rt_float * adpating_is_hard;
+	} else if (materialId.id == id_floor) {
+		vec3 p_floor = materialId.coord;
+		vec3 cell_mirror = materialId.misc.xyz;
+		p_floor.y -= glum_tunnel_glow_posy_offset_rt_float;
+
+		float pos_z = mult(cell_mirror) * p_floor.z - glum_anim * glum_floor_glow_velo_rt_float;
+		pos_z = mod(pos_z, glum_floor_glow_length_rt_float) / glum_floor_glow_length_rt_float;
+		pos_z = max(0., 2. * pos_z - 1.);
+		pos_z = pow(pos_z, glum_floor_glow_falloff_rt_float);
+
+		float t_glow = step(glum_floor_glow_space_rt_float, fract(p_floor.y / glum_floor_glow_thick_rt_float));
+		t_glow *= pos_z;
+
+		mat.emission = 1000. * t_glow * glum_floor_glow_intensity_rt_float * adpating_is_hard;
 	}
 
+	// colors
 	if (materialId.id == id_tunnel) {
 		mat.color = hex;
 	} else if (materialId.id == id_strebe || materialId.id == id_strebe_stairs || materialId.id == id_spikes || materialId.id == id_spikes_top) {
