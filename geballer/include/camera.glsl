@@ -23,7 +23,7 @@ vec3 camGetDirection() {
 		smoothNoise(vec2(time * camera_shake_freq_rt_float, 23)),
 		smoothNoise(vec2(time * camera_shake_freq_rt_float, 283))
 	) * camera_shake_intensity_rt_float;
-	vec3 dir = camGetDirectionSS(gl_FragCoord.xy + shake * res, screen_distance);
+	vec3 dir = camGetDirectionSS(gl_FragCoord.xy, screen_distance);
 	dir.z = -dir.z;
 	pQuatRotate(dir, camera_rotation);
 	return dir;
