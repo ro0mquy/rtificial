@@ -873,7 +873,7 @@
             {
               "keyframePosition": 29500,
               "keyframeValue": {
-                "valueVec3X": 0.40212389826774597168,
+                "valueVec3X": 0.40212389826774602719,
                 "valueVec3Y": 15.654578208923339844,
                 "valueVec3Z": 10.589060783386230469
               }
@@ -4050,12 +4050,6 @@
               }
             },
             {
-              "keyframePosition": 16812,
-              "keyframeValue": {
-                "valueFloatX": 0.031779713928699493408
-              }
-            },
-            {
               "keyframePosition": 16875,
               "keyframeValue": {
                 "valueFloatX": 0
@@ -4280,9 +4274,9 @@
       "uniformName": "post_color_lift",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.49361622333526611328,
-        "valueColorG": 0.49361622333526611328,
-        "valueColorB": 0.49361622333526611328
+        "valueColorR": 0.49361622333526605777,
+        "valueColorG": 0.49361622333526605777,
+        "valueColorB": 0.49361622333526605777
       },
       "sequencesArray": [
         {
@@ -4294,9 +4288,9 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueColorR": 0.4980392158031463623,
-                "valueColorG": 0.4980392158031463623,
-                "valueColorB": 0.4980392158031463623
+                "valueColorR": 0.49803921580314641782,
+                "valueColorG": 0.49803921580314641782,
+                "valueColorB": 0.49803921580314641782
               }
             }
           ]
@@ -4715,7 +4709,7 @@
             {
               "keyframePosition": 7000,
               "keyframeValue": {
-                "valueFloatX": 0.11700000000007548806
+                "valueFloatX": 0.11700000000007547418
               }
             },
             {
