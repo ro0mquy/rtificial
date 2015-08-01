@@ -125,6 +125,11 @@ RT_MAIN {
 	RT_DEBUG("End environments\n");
 #		endif
 
+	for (int i = 0; i < n_scenes; i++) {
+		fbos[0].bind();
+		scenes[i].draw(fbos[0].width, fbos[0].height, 0);
+	}
+
 	backend.sleep(2000);
 
 	backend.playAudio();
