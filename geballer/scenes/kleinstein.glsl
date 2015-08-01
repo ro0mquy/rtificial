@@ -171,6 +171,7 @@ MatWrap wStairBoxRow(vec3 p) {
 	pTrans(p_stamper.y, height_stamper + stamp(t_stamp) - klest_stairbox_chamfer_rt_float);
 	float f_stamper = fStairBox(p_stamper, height_stamper);
 	MatWrap w_stamper = MatWrap(f_stamper, newMaterialId(id_stairbox_stamper, p_stamper));
+	w_stamper.m.misc.x = t_stamp;
 
 
 	MatWrap w = w_boden;
@@ -426,6 +427,26 @@ Material getMaterial(MaterialId materialId) {
 	}
 	if (materialId.id == id_rahmen) {
 		//mat.emission = hills * 8000;
+	}
+	if (materialId.id == id_stairbox_stamper) {
+		vec3 p_stamper = materialId.coord;
+		float height_stamper = Golden_Ratio * klest_stairbox_width_rt_float;
+		p_stamper.y += height_stamper;
+		float t_stamp = materialId.misc.x;
+
+		/*
+		float r = (t_stamp - .9) * 10. * klest_stairbox_glow_height_rt_float;
+		float t_glow = step(.9, t_stamp);
+		t_glow *= iqCubicPulse(r, klest_stairbox_glow_width_rt_float, length(p_stamper));
+		t_glow = pow(t_glow, klest_stairbox_glow_falloff_rt_float);
+		// */
+
+		float t_stamp_scaled = max(0., (t_stamp - .9) * 10.);
+		float t_glow = step(.9, t_stamp);
+		t_glow *= iqPowerCurve(1.3, 4.7, t_stamp_scaled);
+		t_glow *= 1. - smoothstep(klest_stairbox_glow_begin_rt_float, klest_stairbox_glow_end_rt_float, length(p_stamper));
+
+		mat.emission = vec3(1.) * 1000. * t_glow * klest_stairbox_glow_intensity_rt_float;
 	}
 
 	return mat;

@@ -1113,6 +1113,30 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "klest_stairbox_glow_falloff_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5.1200000000000045475
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_stairbox_glow_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.807999999999992724
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "klest_stairbox_glow_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.77499999999997726263
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "klest_stairbox_offset_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
