@@ -9,7 +9,7 @@ extern "C" {
 //#define SYNTH_4KLANG
 
 #ifdef SYNTH_V2
-	#define BPM 90
+	#define BPM 150
 
 	// use GetTickCount() instead of V2 for time
 	// #define SYSTEM_TIME
