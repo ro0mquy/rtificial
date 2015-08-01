@@ -157,8 +157,8 @@ float sdfMarch(vec3 o, vec3 d, float t_max) {
 
 void setDebugParameters() {
 	int mode = int(debug_mode);
-	switch (mode) {
-		case 0: // default
+	if (mode == 0) {
+		// default
 			debug_default_pass_scene_visible = true;
 			debug_default_pass_plane_visible = false;
 			debug_isoline_pass_scene_visible = false;
@@ -166,8 +166,7 @@ void setDebugParameters() {
 			debug_gradient_visualization = false;
 			debug_gradient_pass_scene_visible = false;
 			debug_gradient_pass_plane_visible = false;
-			break;
-		case 1: // debug plane
+	} else if(mode == 1) { // debug plane
 			debug_default_pass_scene_visible = true;
 			debug_default_pass_plane_visible = true;
 			debug_isoline_pass_scene_visible = true;
@@ -175,8 +174,7 @@ void setDebugParameters() {
 			debug_gradient_visualization = false;
 			debug_gradient_pass_scene_visible = false;
 			debug_gradient_pass_plane_visible = false;
-			break;
-		case 2: // debug plane without scene geometry
+	} else if(mode == 2) { // debug plane without scene geometry
 			debug_default_pass_scene_visible = false;
 			debug_default_pass_plane_visible = true;
 			debug_isoline_pass_scene_visible = true;
@@ -184,8 +182,7 @@ void setDebugParameters() {
 			debug_gradient_visualization = false;
 			debug_gradient_pass_scene_visible = false;
 			debug_gradient_pass_plane_visible = false;
-			break;
-		case 3: // visualize gradient length
+	} else if(mode == 3) { // visualize gradient length
 			debug_default_pass_scene_visible = true;
 			debug_default_pass_plane_visible = false;
 			debug_isoline_pass_scene_visible = false;
@@ -193,8 +190,7 @@ void setDebugParameters() {
 			debug_gradient_visualization = true;
 			debug_gradient_pass_scene_visible = true;
 			debug_gradient_pass_plane_visible = false;
-			break;
-		case 4: // visualize gradient length with debug plane
+	} else if(mode == 4) { // visualize gradient length with debug plane
 			debug_default_pass_scene_visible = true;
 			debug_default_pass_plane_visible = true;
 			debug_isoline_pass_scene_visible = true;
@@ -202,8 +198,7 @@ void setDebugParameters() {
 			debug_gradient_visualization = true;
 			debug_gradient_pass_scene_visible = true;
 			debug_gradient_pass_plane_visible = false;
-			break;
-		case 5: // visualize gradient length with debug plane and without geometry
+	} else if(mode == 5) { // visualize gradient length with debug plane and without geometry
 			debug_default_pass_scene_visible = false;
 			debug_default_pass_plane_visible = true;
 			debug_isoline_pass_scene_visible = true;
@@ -211,8 +206,7 @@ void setDebugParameters() {
 			debug_gradient_visualization = true;
 			debug_gradient_pass_scene_visible = true;
 			debug_gradient_pass_plane_visible = false;
-			break;
-		default: // same as default
+	} else { // same as default
 			debug_default_pass_scene_visible = true;
 			debug_default_pass_plane_visible = false;
 			debug_isoline_pass_scene_visible = false;
@@ -220,7 +214,6 @@ void setDebugParameters() {
 			debug_gradient_visualization = false;
 			debug_gradient_pass_scene_visible = false;
 			debug_gradient_pass_plane_visible = false;
-			break;
 	}
 
 	scene_visible = debug_default_pass_scene_visible;

@@ -11,7 +11,7 @@ uint hash(uint a) {
 
 // http://webstaff.itn.liu.se/~stegu/simplexnoise/SimplexNoise.java
 
-vec3 simplexGradients[] = vec3[](
+vec3 simplexGradients[12] = vec3[12](
 	vec3(1,1,0), vec3(-1,1,0), vec3(1,-1,0), vec3(-1,-1,0),
 	vec3(1,0,1), vec3(-1,0,1), vec3(1,0,-1), vec3(-1,0,-1),
 	vec3(0,1,1), vec3(0,-1,1), vec3(0,1,-1), vec3(0,-1,-1)
@@ -77,7 +77,7 @@ float smoothNoise(vec2 p) {
 	float G2 = (3. - sqrt(3.)) / 6.;
 	p -= index - (index.x + index.y) * G2;
 	ivec2 index1 = p.x > p.y ? ivec2(1, 0) : ivec2(0, 1);
-	vec2 pV[] = vec2[](p, p - index1 + G2, p - 1. + 2. * G2);
+	vec2 pV[3] = vec2[3](p, p - index1 + G2, p - 1. + 2. * G2);
 	ivec3 vertexX = ivec3(index.x) + ivec3(0, index1.x, 1);
 	ivec3 vertexY = ivec3(index.y) + ivec3(0, index1.y, 1);
 	float result = 0;
@@ -98,10 +98,10 @@ float smoothNoise(vec3 p) {
 	vec3 g = step(p.yzx, p);
 	ivec3 index1 = ivec3(min(g, (1. - g).zxy));
 	ivec3 index2 = ivec3(max(g, (1. - g).zxy));
-	vec3 pV[] = vec3[](p, p - index1 + G3, p - index2 + 2. * G3, p - 1. + 3. * G3);
-	int vertexX[] = int[]( index.x, index.x + index1.x, index.x + index2.x, index.x + 1);
-	int vertexY[] = int[](index.y, index.y + index1.y, index.y + index2.y, index.y + 1);
-	int vertexZ[] = int[](index.z, index.z + index1.z, index.z + index2.z, index.z + 1);
+	vec3 pV[4] = vec3[4](p, p - index1 + G3, p - index2 + 2. * G3, p - 1. + 3. * G3);
+	int vertexX[4] = int[4]( index.x, index.x + index1.x, index.x + index2.x, index.x + 1);
+	int vertexY[4] = int[4](index.y, index.y + index1.y, index.y + index2.y, index.y + 1);
+	int vertexZ[4] = int[4](index.z, index.z + index1.z, index.z + index2.z, index.z + 1);
 	float result = 0;
 	for (uint i = 0; i < 4; i++) {
 		float t = max(0., .6 - pV[i].x * pV[i].x - pV[i].y * pV[i].y - pV[i].z * pV[i].z);
