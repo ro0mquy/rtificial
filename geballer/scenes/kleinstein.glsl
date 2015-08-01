@@ -200,7 +200,7 @@ MatWrap wWand(vec3 p, float phi) {
 	vec3 p_cubes = p;
 	pRotX(p_cubes, Tau * .1);
 	vec2 cell_cubes = pDomrep(p_cubes.yz, vec2(klest_wand_spacing_rt_float));
-	float hash_cubes = .1 + .9 * rand(ivec2(cell_cubes)) * (.9 + .1 * (1. - stamp()));
+	float hash_cubes = .1 + .9 * rand(ivec2(cell_cubes)) * (.3 + .7 * (1. - stamp()));
 	float length_cubes = hash_cubes * klest_wand_ratio_rt_float;
 	vec3 dim_cubes = vec3(klest_wand_ratio_rt_float - length_cubes, length_cubes, length_cubes);
 	float f_cubes = fBoxEdge(p_cubes, dim_cubes);

@@ -62,6 +62,7 @@ float fTunnel(vec3 p) {
 	pRotY(p_tunnel, tunnel_pulse * Tau);
 	pDomrepMirror(p_tunnel.y, 3);
 	pRotZ(p_tunnel, tunnel_pulse * Tau);
+	pMirrorTrans(p_tunnel.x, .01);
 	float f = p_tunnel.x;
 	pTrans(p_tunnel.x, -.3);
 	float f2 = fPlane(p_tunnel, unitVector(-.125 * Tau, .2 * Pi).yxz);
