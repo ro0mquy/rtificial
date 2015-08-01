@@ -136,8 +136,13 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	// export shaders
 	for(int i = 1; i < postprocShaders; i++) {
 		const PostprocShader& shader = postproc.getShader(i);
-		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
-		shaderFile.replaceWithText(shader.getSource());//std::regex_replace(shader.getSource(), search, replacement));
+		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("h");
+		std::string shaderSource = "const char " + shader.getName() + "_source[] = {";
+		for (char c : shader.getSource()) {
+			shaderSource += std::to_string(c) + ", ";
+		}
+		shaderSource += "};";
+		shaderFile.replaceWithText(shaderSource);//std::regex_replace(shader.getSource(), search, replacement));
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 
 		auto& inputs = shader.getInputs();
@@ -166,16 +171,26 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 
 	for(int i = 0; i < sceneShaders; i++) {
 		const Shader& shader = scenes.getObject(i);
-		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("glsl");
-		shaderFile.replaceWithText(shader.getSource());//std::regex_replace(shader.getSource(), search, replacement));
+		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("h");
+		std::string shaderSource = "const char " + shader.getName() + "_source[] = {";
+		for (char c : shader.getSource()) {
+			shaderSource += std::to_string(c) + ", ";
+		}
+		shaderSource += "};";
+		shaderFile.replaceWithText(shaderSource);//std::regex_replace(shader.getSource(), search, replacement));
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 		scenesArrayDeclaration += "\tShader(" + shader.getName() + "_source, 0, nullptr),\n";
 
 		const int shaderId = ambient.getObjectId(shader.getName());
 		if (shaderId != -1) {
 			const AmbientLight& environment = ambient.getObject(shaderId);
-			const File& environmentFile = buildDir.getChildFile(String(shader.getName() + "_environment")).withFileExtension("glsl");
-			environmentFile.replaceWithText(environment.getSource());
+			const File& environmentFile = buildDir.getChildFile(String(shader.getName() + "_environment")).withFileExtension("h");
+			std::string shaderSource = "const char " + shader.getName() + "_environment_source[] = {";
+			for (char c : shader.getSource()) {
+				shaderSource += std::to_string(c) + ", ";
+			}
+			shaderSource += "};";
+			environmentFile.replaceWithText(shaderSource);//std::regex_replace(shader.getSource(), search, replacement));
 			shadersHeaderContent += "#include \"shaders/" + shader.getName() + "_environment.h\"\n";
 			environmentsArrayDeclaration += "\tAmbientLight(" + shader.getName() + "_environment_source),\n";
 		} else {
