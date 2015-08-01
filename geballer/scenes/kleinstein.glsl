@@ -434,17 +434,11 @@ Material getMaterial(MaterialId materialId) {
 		p_stamper.y += height_stamper;
 		float t_stamp = materialId.misc.x;
 
-		/*
-		float r = (t_stamp - .9) * 10. * klest_stairbox_glow_height_rt_float;
-		float t_glow = step(.9, t_stamp);
-		t_glow *= iqCubicPulse(r, klest_stairbox_glow_width_rt_float, length(p_stamper));
-		t_glow = pow(t_glow, klest_stairbox_glow_falloff_rt_float);
-		// */
-
 		float t_stamp_scaled = max(0., (t_stamp - .9) * 10.);
 		float t_glow = step(.9, t_stamp);
 		t_glow *= iqPowerCurve(1.3, 4.7, t_stamp_scaled);
 		t_glow *= 1. - smoothstep(klest_stairbox_glow_begin_rt_float, klest_stairbox_glow_end_rt_float, length(p_stamper));
+		t_glow = pow(t_glow, klest_stairbox_glow_falloff_rt_float);
 
 		mat.emission = vec3(1.) * 1000. * t_glow * klest_stairbox_glow_intensity_rt_float;
 	}

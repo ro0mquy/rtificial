@@ -1566,7 +1566,7 @@
       "uniformName": "klest_stairbox_glow_begin_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 0.080000000000040927262
       },
       "sequencesArray": []
     },
@@ -1574,7 +1574,7 @@
       "uniformName": "klest_stairbox_glow_end_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 2.4360000000000354703
       },
       "sequencesArray": []
     },
@@ -1582,15 +1582,7 @@
       "uniformName": "klest_stairbox_glow_falloff_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 5.1200000000000045475
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "klest_stairbox_glow_height_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 3.807999999999992724
+        "valueFloatX": 2.5199999999999818101
       },
       "sequencesArray": []
     },
@@ -1599,14 +1591,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "klest_stairbox_glow_width_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.77499999999997726263
       },
       "sequencesArray": []
     },
