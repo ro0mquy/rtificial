@@ -141,7 +141,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 		for (char c : shader.getSource()) {
 			shaderSource += std::to_string(c) + ", ";
 		}
-		shaderSource += "};";
+		shaderSource += "0};";
 		shaderFile.replaceWithText(shaderSource);//std::regex_replace(shader.getSource(), search, replacement));
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 
@@ -176,7 +176,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 		for (char c : shader.getSource()) {
 			shaderSource += std::to_string(c) + ", ";
 		}
-		shaderSource += "};";
+		shaderSource += "0};";
 		shaderFile.replaceWithText(shaderSource);//std::regex_replace(shader.getSource(), search, replacement));
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 		scenesArrayDeclaration += "\tShader(" + shader.getName() + "_source, 0, nullptr),\n";
@@ -186,10 +186,10 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 			const AmbientLight& environment = ambient.getObject(shaderId);
 			const File& environmentFile = buildDir.getChildFile(String(shader.getName() + "_environment")).withFileExtension("h");
 			std::string shaderSource = "const char " + shader.getName() + "_environment_source[] = {";
-			for (char c : shader.getSource()) {
+			for (char c : environment.getSource()) {
 				shaderSource += std::to_string(c) + ", ";
 			}
-			shaderSource += "};";
+			shaderSource += "0};";
 			environmentFile.replaceWithText(shaderSource);//std::regex_replace(shader.getSource(), search, replacement));
 			shadersHeaderContent += "#include \"shaders/" + shader.getName() + "_environment.h\"\n";
 			environmentsArrayDeclaration += "\tAmbientLight(" + shader.getName() + "_environment_source),\n";
