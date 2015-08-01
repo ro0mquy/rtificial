@@ -4388,15 +4388,9 @@
         {
           "sequenceSceneId": 392,
           "sequenceStart": 6000,
-          "sequenceDuration": 77000,
+          "sequenceDuration": 16875,
           "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
-            {
-              "keyframePosition": -6000,
-              "keyframeValue": {
-                "valueFloatX": 0.047000000000025465852
-              }
-            },
             {
               "keyframePosition": 0,
               "keyframeValue": {
@@ -4411,12 +4405,6 @@
             },
             {
               "keyframePosition": 16875,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 77000,
               "keyframeValue": {
                 "valueFloatX": 0
               }
