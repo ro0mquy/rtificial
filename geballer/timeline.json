@@ -3296,7 +3296,6 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 539,
-          "sequenceStart": 0,
           "sequenceDuration": 96000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -3433,6 +3432,22 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "kpd_raum_glow_falloff_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10.524000000000000909
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_raum_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.53200000000003910827
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "kpd_raum_ground_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -3480,6 +3495,14 @@
         "valueVec3X": 8.6220000000000709406,
         "valueVec3Y": 16.685000000000059117,
         "valueVec3Z": 25.055000000000063665
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "kpd_retweto_glider_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },

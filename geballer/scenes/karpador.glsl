@@ -43,8 +43,9 @@ MatWrap wPyramidLoco(vec3 p, float height, float angle) {
 	float spacing = kpd_locopyr_welle_spacing_rt_float;
 	float r = length(p.xy) - spacing * kpd_anim * kpd_locopyr_welle_velo_rt_float;
 	pDomrep(r, spacing);
-	float f = -p.z - kpd_locopyr_welle_amp_rt_float * iqCubicPulse(0., kpd_locopyr_welle_width_rt_float, r);
-	return MatWrap(f, newMaterialId(id_raum, p));
+	float t_welle = iqCubicPulse(0., kpd_locopyr_welle_width_rt_float, r);
+	float f = -p.z - kpd_locopyr_welle_amp_rt_float * t_welle;
+	return MatWrap(f, MaterialId(id_raum, p, vec4(t_welle, 0., 0., 0.)));
 }
 
 MatWrap wRaum(vec3 p) {
@@ -190,6 +191,9 @@ Material getMaterial(MaterialId materialId) {
 		mat.color = blue;
 	} else if (materialId.id == id_raum) {
 		mat.color = lets_celebrate;
+		float t_glow = pow(materialId.misc.x, kpd_raum_glow_falloff_rt_float);
+		t_glow *= iqPowerCurve(3., 23., min(.5, kpd_anim) * 2.);
+		mat.emission = vec3(1.) * 1000. * t_glow * kpd_raum_glow_intensity_rt_float;
 	} else if (materialId.id == id_blubberbrunnen) {
 		mat.color = egeagb;
 	} else if (materialId.id == id_blubberbrunnen_smooth) {
@@ -198,6 +202,9 @@ Material getMaterial(MaterialId materialId) {
 		mat.color = arista;
 	} else if (materialId.id == id_raum_groundhole) {
 		mat.color = ekelhaft;
+	} else if (materialId.id == id_retweto_small_glider) {
+		float t_glow = iqPowerCurve(3., 23., min(.5, fract(.5 + kpd_anim)) * 2.);
+		mat.emission = vec3(1.) * 1000. * t_glow * kpd_retweto_glider_glow_intensity_rt_float;
 	}
 
 	return mat;
