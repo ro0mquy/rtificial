@@ -1,5 +1,6 @@
 #include "quat_rotate.glsl"
-#line 3 "camera"
+#include "noise.glsl"
+#line 4 "camera"
 
 uniform vec3 camera_position;
 uniform vec4 camera_rotation; // quat
@@ -18,7 +19,11 @@ vec3 camGetDirectionSS(vec2 coord, out float screen_d) {
 }
 
 vec3 camGetDirection() {
-	vec3 dir = camGetDirectionSS(gl_FragCoord.xy, screen_distance);
+	vec2 shake = vec2(
+		smoothNoise(vec2(time * camera_shake_freq_rt_float, 23)),
+		smoothNoise(vec2(time * camera_shake_freq_rt_float, 283))
+	) * camera_shake_intensity_rt_float;
+	vec3 dir = camGetDirectionSS(gl_FragCoord.xy + shake * res, screen_distance);
 	dir.z = -dir.z;
 	pQuatRotate(dir, camera_rotation);
 	return dir;

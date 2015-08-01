@@ -5,7 +5,8 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "camera_exposure_rt_float",
@@ -69,7 +70,7 @@
             {
               "keyframePosition": 0,
               "keyframeValue": {
-                "valueFloatX": 0.050000000000068212103
+                "valueFloatX": 0.050000000000068205164
               }
             }
           ]
@@ -213,7 +214,7 @@
               "keyframePosition": 10500,
               "keyframeValue": {
                 "valueVec3X": 32.77167510986328125,
-                "valueVec3Y": 0.21510566771030426025,
+                "valueVec3Y": 0.2151056677103042325,
                 "valueVec3Z": 39.669849395751953125
               }
             }
@@ -229,7 +230,7 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueVec3X": 32.77167510986328125,
-                "valueVec3Y": 0.21510566771030426025,
+                "valueVec3Y": 0.2151056677103042325,
                 "valueVec3Z": 39.669849395751953125
               }
             }
@@ -245,7 +246,7 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueVec3X": 32.77167510986328125,
-                "valueVec3Y": 0.21510566771030426025,
+                "valueVec3Y": 0.2151056677103042325,
                 "valueVec3Z": 39.669849395751953125
               }
             },
@@ -307,7 +308,7 @@
                 "valueQuatX": -0.0077501423656940460205,
                 "valueQuatY": 0.32517364621162414551,
                 "valueQuatZ": 0.0026650819927453994751,
-                "valueQuatW": 0.94562005996704101562
+                "valueQuatW": 0.9456200599670409046
               }
             },
             {
@@ -341,7 +342,7 @@
               "keyframeValue": {
                 "valueQuatX": -0.038718327879905700684,
                 "valueQuatY": 0.063464276492595672607,
-                "valueQuatZ": 0.0024861723650246858597,
+                "valueQuatZ": 0.002486172365024685426,
                 "valueQuatW": 0.99723047018051147461
               }
             }
@@ -358,7 +359,7 @@
               "keyframeValue": {
                 "valueQuatX": -0.038718327879905700684,
                 "valueQuatY": 0.063464276492595672607,
-                "valueQuatZ": 0.0024861723650246858597,
+                "valueQuatZ": 0.002486172365024685426,
                 "valueQuatW": 0.99723047018051147461
               }
             },
@@ -383,9 +384,9 @@
               "keyframePosition": 0,
               "keyframeValue": {
                 "valueQuatX": 0.017008405178785324097,
-                "valueQuatY": -0.9774932861328125,
+                "valueQuatY": -0.97749328613281238898,
                 "valueQuatZ": -0.086797490715980529785,
-                "valueQuatW": -0.19154657423496246338
+                "valueQuatW": -0.19154657423496249113
               }
             },
             {
@@ -475,6 +476,22 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.024000000000000909495
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_shake_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_shake_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -1462,7 +1479,7 @@
       "uniformName": "kpd_locopyr_welle_amp_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.23199999999997089617
+        "valueFloatX": 0.23199999999997086841
       },
       "sequencesArray": []
     },
@@ -1580,7 +1597,8 @@
         "valueColorR": 0.17999999999999999334,
         "valueColorG": 0.17999999999999999334,
         "valueColorB": 0.17999999999999999334
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "main_marching_distance",
