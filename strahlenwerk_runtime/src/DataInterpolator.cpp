@@ -209,11 +209,13 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 					// return first keyframe that comes before the current time
 					const int currentKeyframeDataOffset = keyframeDataOffset + j;
 					setValue(nthUniform, type, location, currentKeyframeDataOffset);
+					return;
 				}
 			}
 
 			// cursor between origin and first keyframe, return standard value
 			setValue(nthUniform, type, location, 0);
+			return;
 		} else if (sequenceInterpolation == SEQ_INTERPOLATION_LINEAR) {
 			const int firstKeyframeTime = keyframe_time[keyframeTimeOffset];
 			const int lastKeyframeTime = keyframe_time[keyframeTimeOffset + numKeyframes - 1];
@@ -240,6 +242,7 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 					const float mixT = float(moreRelativeTime) / float(timeBetweenKeyframes);
 
 					setLinearValue(nthUniform, type, location, keyframeDataOffset, indexP1, indexP2, mixT, numKeyframes, useStdAtStart, useStdAtEnd);
+					return;
 				}
 			}
 		} else if (sequenceInterpolation == SEQ_INTERPOLATION_CCRSPLINE) {
@@ -292,6 +295,7 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 					const float mixT = float(moreRelativeTime) / float(timeBetweenKeyframes);
 
 					setSplineValue(nthUniform, type, location, keyframeDataOffset, indexP0, indexP1, indexP2, indexP3, mixT, numKeyframes, useStdAtStart, useStdAtEnd);
+					return;
 				}
 			}
 		}
@@ -403,7 +407,8 @@ void DataInterpolator::setLinearValue(const int nthUniform, const int type, cons
 	if (wrappedIndex2 == -1) {
 		// standardValue
 		offset2 = 0;
-	} else {
+	}
+	else {
 		offset2 = keyframeDataOffset + wrappedIndex2;
 	}
 
