@@ -26,6 +26,7 @@ OpenGLComponent::OpenGLComponent() :
 	addAndMakeVisible(fixedAspectRatioComponent);
 
 	context.setRenderer(&renderer);
+	//context.setComponentPaintingEnabled(false);
 	context.attachTo(fixedAspectRatioComponent);
 }
 
