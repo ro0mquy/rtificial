@@ -1,10 +1,18 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "aman_cube_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.050000000000068212103
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "camera_exposure_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -5
+        "valueFloatX": -6
       },
       "sequencesArray": []
     },
