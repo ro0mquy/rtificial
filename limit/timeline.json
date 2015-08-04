@@ -1,0 +1,299 @@
+{
+  "uniformsArray": [
+    {
+      "uniformName": "camera_exposure_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_f_stop",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.5360000000000582077
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_f_stop_max",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_f_stop_min",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_focal_length",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.022000000000048203219
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_focus_dist",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.894000000000005457
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_position",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_rotation",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": 0,
+        "valueQuatY": 0,
+        "valueQuatZ": 0,
+        "valueQuatW": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_sensor_width",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.024000000000000909495
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_shake_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_shake_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_mode",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_plane_height",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "debug_plane_normal",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 1,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "main_marching_distance",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "main_normal_epsilon_bias",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_avg_occlusion",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.13200000000006184564
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_edge_blurriness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.94100000000003092282
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_gauss_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_n_rays",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_ao_radius",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_bloom_amount",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.326999999999998181
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_bloom_radius",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2090000000000600267
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_disable_ao",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_disable_median",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_distortion_scheiss_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_dof_bilateral_scale_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.84300000000007457857
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_dof_sharpness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.19400000000007366907
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_frequency",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.540000000000077307
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.0049999999999954525265
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_film_grain_power",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_lens_distort_k",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_lens_distort_kcube",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_vignette_intensity",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.15899999999999178679
+      },
+      "sequencesArray": []
+    }
+  ],
+  "scenesArray": [
+    {
+      "sceneId": 854,
+      "sceneStart": 0,
+      "sceneDuration": 30000,
+      "sceneShaderSource": "szenchen"
+    }
+  ]
+}

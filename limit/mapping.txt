@@ -1,0 +1,64 @@
+input.color scale.color
+input.depth scale.depth
+scale.out_depth ao.depth
+
+scale.out_color remove_fireflies.color
+remove_fireflies.out_color ao_blend.color
+
+ao.out_ao ao_blur_h.ao
+scale.out_depth ao_blur_h.depth
+scale.out_depth ao_blur_v.depth
+ao_blur_h.out_ao ao_blur_v.ao
+ao_blur_v.out_ao ao_blend.ao
+
+scale.out_depth dof_downsample_depth.depth
+dof_downsample_depth.out_depth dof_tile.depth
+dof_downsample_depth.out_depth dof_presort.depth
+dof_downsample_depth.out_depth dof_prefilter.depth
+
+dof_tile.closest_depth dof_tile_post.closest_depth
+dof_tile.max_coc dof_tile_post.max_coc
+dof_tile_post.out_closest_depth dof_presort.closest_depth
+dof_tile_post.out_max_coc dof_filter.max_coc
+
+ao_blend.out_color dof_prefilter.color
+dof_presort.weights dof_prefilter.weights
+dof_tile_post.out_max_coc dof_prefilter.max_coc
+
+dof_prefilter.out_color dof_filter.color
+dof_presort.weights dof_filter.weights
+
+dof_filter.out_color dof_median.color
+ao_blend.out_color dof_upscale.fullres
+dof_median.out_color dof_upscale.color
+
+// DOF disabled for now
+ao_blend.out_color bloom_up_final.color
+ao_blend.out_color bloom_down_1st.color
+//dof_upscale.out_color bloom_up_final.color
+//dof_upscale.out_color bloom_down_1st.color
+
+bloom_down_1st.out_color bloom_down_2nd.color
+bloom_down_2nd.out_color bloom_down_3rd.color
+bloom_down_3rd.out_color bloom_down_4th.color
+bloom_down_4th.out_color bloom_down_5th.color
+bloom_down_5th.out_color bloom_down_6th.color
+bloom_down_6th.out_color bloom_down_7th.color
+
+bloom_down_7th.out_color bloom_up_7th.color
+bloom_up_7th.out_color bloom_up_6th.previous
+bloom_down_6th.out_color bloom_up_6th.color
+bloom_up_6th.out_color bloom_up_5th.previous
+bloom_down_5th.out_color bloom_up_5th.color
+bloom_up_5th.out_color bloom_up_4th.previous
+bloom_down_4th.out_color bloom_up_4th.color
+bloom_up_4th.out_color bloom_up_3rd.previous
+bloom_down_3rd.out_color bloom_up_3rd.color
+bloom_up_3rd.out_color bloom_up_2nd.previous
+bloom_down_2nd.out_color bloom_up_2nd.color
+bloom_up_2nd.out_color bloom_up_1st.previous
+bloom_down_1st.out_color bloom_up_1st.color
+bloom_up_1st.out_color bloom_up_final.previous
+bloom_up_final.out_color final.color
+
+final.out_color output.color
