@@ -51,3 +51,7 @@
 * The Creatives Thinker's Toolkit (Buch)
 * [Video Copilot](http://www.videocopilot.net)
 * [FZD School of Design](https://www.youtube.com/user/FZDSCHOOL)
+* [The Filmmaker's Eye](http://www.amazon.com/Filmmakers-Eye-Learning-Cinematic-Composition/dp/0240812174/)
+* [The Ultimate Guide to Composition](https://fstoppers.com/architecture/ultimate-guide-composition-part-one-just-say-nokeh-31359)
+* [Art and Visual Perception](http://www.amazon.com/Art-Visual-Perception-Psychology-Creative/dp/0520243838)
+* [How to become better at design/aesthetics?-Thread](http://www.pouet.net/topic.php?which=10448)
