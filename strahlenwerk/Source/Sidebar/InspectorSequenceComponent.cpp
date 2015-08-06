@@ -82,6 +82,10 @@ void InspectorSequenceComponent::mouseUp(const MouseEvent& event) {
 			data.addKeyframe(sequenceData, relativeMouseDownGrid);
 		}
 
+	} else if (event.mouseWasClicked() && m.isRightButtonDown() && !m.isAnyModifierKeyDown()) {
+		// add sequence to selection
+		data.getSelection().set(sequenceData);
+
 	} else {
 		Component::mouseUp(event);
 	}

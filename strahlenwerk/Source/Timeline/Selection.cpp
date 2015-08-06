@@ -49,19 +49,31 @@ void Selection::add(ValueTree tree) {
 	sendChangeMessage();
 }
 
+void Selection::remove(ValueTree tree) {
+	if (!contains(tree)) {
+		return;
+	}
+	selectedTrees.remove(indexOf(tree));
+	sendChangeMessage();
+}
+
 void Selection::clear() {
 	selectedTrees.clear();
 	sendChangeMessage();
 }
 
-bool Selection::contains(ValueTree treeToCheckFor) {
+int Selection::indexOf(ValueTree treeToCheckFor) {
 	const int numTrees = selectedTrees.size();
 	for (int i = 0; i < numTrees; i++) {
 		if (*selectedTrees.getUnchecked(i) == treeToCheckFor) {
-			return true;
+			return i;
 		}
 	}
-	return false;
+	return -1;
+}
+
+bool Selection::contains(ValueTree treeToCheckFor) {
+	return indexOf(treeToCheckFor) != -1;
 }
 
 

@@ -19,7 +19,9 @@ class Selection :
 		ValueTree* operator[](const int index);
 		void set(ValueTree tree);
 		void add(ValueTree tree);
+		void remove(ValueTree tree);
 		void clear();
+		int indexOf(ValueTree treeToCheckFor);
 		bool contains(ValueTree treeToCheckFor);
 
 		void changeListenerCallback(ChangeBroadcaster* source) override;
