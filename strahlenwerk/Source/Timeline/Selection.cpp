@@ -83,16 +83,25 @@ void Selection::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 }
 
 void Selection::checkIfNeedToLoop() {
-	if (size() == 1 && data.isSequence(*selectedTrees[0])) {
+	if (size() == 1) {
 		// loop selection
-		const int sequenceStart = data.getAbsoluteStartForSequence(*selectedTrees[0]);
-		const int sequenceDuration = data.getSequenceDuration(*selectedTrees[0]);
-		const int sequenceEnd = sequenceStart + sequenceDuration;
+		int start;
+		int duration;
+		if (data.isSequence(*selectedTrees[0])) {
+			start = data.getAbsoluteStartForSequence(*selectedTrees[0]);
+			duration = data.getSequenceDuration(*selectedTrees[0]);
+		} else if (data.isScene(*selectedTrees[0])) {
+			start = data.getSceneStart(*selectedTrees[0]);
+			duration = data.getSceneDuration(*selectedTrees[0]);
+		} else {
+			return;
+		}
+		const int end = start + duration;
 		const int currentTime = audioManager.getTime();
-		const int deltaTime = currentTime - sequenceEnd;
+		const int deltaTime = currentTime - end;
 
 		if (deltaTime > 0) {
-			audioManager.setTime(sequenceStart + deltaTime % sequenceDuration);
+			audioManager.setTime(start + deltaTime % duration);
 		}
 	}
 }
