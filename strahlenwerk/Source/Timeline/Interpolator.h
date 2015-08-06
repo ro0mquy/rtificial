@@ -11,7 +11,7 @@ class Interpolator {
 	public:
 		Interpolator(TimelineData& data_);
 
-		// typedef: pair.first is curent value, pair.second is bool for if on keyframe
+		// typedef: pair.first is current value, pair.second is bool for if on keyframe
 		using UniformState = std::pair<ValueTree, bool>;
 
 		bool shouldAddUniformToTimlineData(String uniformName);
