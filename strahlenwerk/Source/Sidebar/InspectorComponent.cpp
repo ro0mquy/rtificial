@@ -23,7 +23,9 @@ InspectorComponent::~InspectorComponent() {
 void InspectorComponent::changeListenerCallback(ChangeBroadcaster* source) {
 	if (source == &audioManager) {
 		// time changed
-		updateSequenceEditor();
+		if (isEditingSequence()) {
+			updateSequenceEditor();
+		}
 	} else if (source == &selection) {
 		// selection changed
 		const int selectionSize = selection.size();
