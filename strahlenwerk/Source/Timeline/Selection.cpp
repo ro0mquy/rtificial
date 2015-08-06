@@ -89,9 +89,10 @@ void Selection::checkIfNeedToLoop() {
 		const int sequenceDuration = data.getSequenceDuration(*selectedTrees[0]);
 		const int sequenceEnd = sequenceStart + sequenceDuration;
 		const int currentTime = audioManager.getTime();
+		const int deltaTime = currentTime - sequenceEnd;
 
-		if (currentTime > sequenceEnd) {
-			audioManager.setTime(sequenceStart);
+		if (deltaTime > 0) {
+			audioManager.setTime(sequenceStart + deltaTime % sequenceDuration);
 		}
 	}
 }
