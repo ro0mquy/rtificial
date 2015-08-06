@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="gxTjTP" name="strahlenwerk" projectType="guiapp" version=""
               bundleIdentifier="org.rtificial.strahlenwerk" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.1" companyName="rtificial" companyWebsite="http://rtificial.org"
+              jucerVersion="3.2.0" companyName="rtificial" companyWebsite="http://rtificial.org/"
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" companyEmail="mail@rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
@@ -255,7 +255,7 @@
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="strahlenwerk" useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="strahlenwerk" useRuntimeLibDLL="0"/>
+                       isDebug="0" optimisation="3" targetName="strahlenwerk" useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_opengl" path="juce_modules"/>
