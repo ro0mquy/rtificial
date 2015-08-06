@@ -44,6 +44,10 @@ class InspectorComponent :
 
 		void initalizeSequenceEditing();
 		void updateSequenceEditor();
+		bool isEditingSequence();
+
+		void initalizeKeyframeEditing();
+		bool isEditingKeyframe();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorComponent)
 };

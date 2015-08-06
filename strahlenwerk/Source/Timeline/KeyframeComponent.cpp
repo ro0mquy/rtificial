@@ -90,7 +90,11 @@ void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 
 void KeyframeComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
+	if (event.mouseWasClicked() && m.isRightButtonDown() && !m.isAnyModifierKeyDown()) {
+		// add keyframe to selection
+		data.getSelection().set(keyframeData);
+	} else if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
+		// delete keyframe
 		data.getUndoManager().beginNewTransaction("Delete Keyframe");
 		data.removeKeyframe(keyframeData);
 		// this component gets deleted after this, so don't do stupid things

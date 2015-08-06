@@ -28,23 +28,27 @@ void InspectorComponent::changeListenerCallback(ChangeBroadcaster* source) {
 		// selection changed
 		const int selectionSize = selection.size();
 
+		singleSelectedTree = ValueTree();
+		sequencePreview = nullptr;
+		keyframeValueEditor = nullptr;
+
 		if (selectionSize == 0) {
-			singleSelectedTree = ValueTree();
-			sequencePreview = nullptr;
-			keyframeValueEditor = nullptr;
 		} else if (selectionSize == 1) {
-			initalizeSequenceEditing();
+			singleSelectedTree = *selection[0];
+			if (isEditingSequence()) {
+				initalizeSequenceEditing();
+			} else if (isEditingKeyframe()) {
+				initalizeKeyframeEditing();
+			} else {
+			}
 		} else {
-			singleSelectedTree = ValueTree();
-			sequencePreview = nullptr;
-			keyframeValueEditor = nullptr;
 		}
 		repaint();
 	}
 }
 
 void InspectorComponent::resized() {
-	if (sequencePreview != nullptr && keyframeValueEditor != nullptr) {
+	if ((isEditingSequence() || isEditingKeyframe()) && sequencePreview != nullptr && keyframeValueEditor != nullptr) {
 		const int scenesBarHeightHalf = 30 / 2;
 		const int rowHeight = 20;
 		const int padding = 30;
@@ -58,7 +62,8 @@ void InspectorComponent::resized() {
 }
 
 void InspectorComponent::paint(Graphics& g) {
-	if (singleSelectedTree.hasType(treeId::sequence)) {
+	if (isEditingSequence()) {
+	} else if (isEditingKeyframe()) {
 	} else {
 		g.setColour(findColour(InspectorComponent::textColourId));
 		g.setFont(g.getCurrentFont().withStyle(Font::FontStyleFlags::italic));
@@ -67,7 +72,6 @@ void InspectorComponent::paint(Graphics& g) {
 }
 
 void InspectorComponent::initalizeSequenceEditing() {
-	singleSelectedTree = *selection[0];
 	sequencePreview = new SequenceBackgroundComponent(singleSelectedTree);
 
 	ValueTree uniform = data.getSequenceParentUniform(singleSelectedTree);
@@ -98,33 +102,63 @@ void InspectorComponent::updateSequenceEditor() {
 	keyframeValueEditor->setEnabled(isOnKeyframe);
 }
 
+bool InspectorComponent::isEditingSequence() {
+	return data.isSequence(singleSelectedTree);
+}
+
+void InspectorComponent::initalizeKeyframeEditing() {
+	ValueTree parentSequence = data.getKeyframeParentSequence(singleSelectedTree);
+	sequencePreview = new SequenceBackgroundComponent(parentSequence);
+
+	ValueTree uniform = data.getSequenceParentUniform(parentSequence);
+	const String name = data.getUniformName(uniform);
+	ValueTree value = data.getKeyframeValue(singleSelectedTree);
+
+	keyframeValueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(name, value);
+	keyframeValueEditor->setEnabled(true);
+
+	resized();
+	addAndMakeVisible(sequencePreview);
+	addAndMakeVisible(keyframeValueEditor);
+}
+
+bool InspectorComponent::isEditingKeyframe() {
+	return data.isKeyframe(singleSelectedTree);
+}
+
 // ValueTree::Listener callbacks
 void InspectorComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
-	if (parentTree == singleSelectedTree) {
-		// any of the sequence properties changed
-		updateSequenceEditor();
-	} else if (property == treeId::sceneStart) {
-		if (singleSelectedTree.isValid() && parentTree == data.getScene(data.getSequenceSceneId(singleSelectedTree))) {
-			// the scene this sequence belongs to has been moved
+	if (isEditingSequence()) {
+		if (parentTree == singleSelectedTree) {
+			// any of the sequence properties changed
+			updateSequenceEditor();
+		} else if (property == treeId::sceneStart) {
+			if (parentTree == data.getScene(data.getSequenceSceneId(singleSelectedTree))) {
+				// the scene this sequence belongs to has been moved
+				updateSequenceEditor();
+			}
+		} else if ((parentTree.hasType(treeId::keyframe) && data.getKeyframeParentSequence(parentTree) == singleSelectedTree) || (parentTree.hasType(treeId::keyframeValue) && data.getKeyframeParentSequence(parentTree.getParent()) == singleSelectedTree)) {
+			// a keyframe from the sequence has changed
 			updateSequenceEditor();
 		}
-	} else if ((parentTree.hasType(treeId::keyframe) && data.getKeyframeParentSequence(parentTree) == singleSelectedTree) || (parentTree.hasType(treeId::keyframeValue) && data.getKeyframeParentSequence(parentTree.getParent()) == singleSelectedTree)) {
-		// a keyframe from the sequence has changed
-		updateSequenceEditor();
 	}
 }
 
 void InspectorComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& /*childWhichHasBeenAdded*/) {
-	if (singleSelectedTree.isValid() && data.getKeyframesArray(singleSelectedTree) == parentTree) {
-		// a keyframe was added
-		updateSequenceEditor();
+	if (isEditingSequence()) {
+		if (data.getKeyframesArray(singleSelectedTree) == parentTree) {
+			// a keyframe was added
+			updateSequenceEditor();
+		}
 	}
 }
 
 void InspectorComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& /*childWhichHasBeenRemoved*/, int /*indexFromWhichChildWasRemoved*/) {
-	if (singleSelectedTree.isValid() && data.getKeyframesArray(singleSelectedTree) == parentTree) {
-		// a keyframe was removed
-		updateSequenceEditor();
+	if (isEditingSequence()) {
+		if (data.getKeyframesArray(singleSelectedTree) == parentTree) {
+			// a keyframe was removed
+			updateSequenceEditor();
+		}
 	}
 }
 
