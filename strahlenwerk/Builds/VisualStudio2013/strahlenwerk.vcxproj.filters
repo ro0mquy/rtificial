@@ -376,6 +376,9 @@
     <ClCompile Include="..\..\Source\Sidebar\InfoLogComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\SceneBackgroundComponent.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
@@ -1756,6 +1759,9 @@
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\InfoLogComponent.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\SceneBackgroundComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h">

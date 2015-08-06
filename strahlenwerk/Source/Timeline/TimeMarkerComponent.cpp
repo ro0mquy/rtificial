@@ -61,14 +61,27 @@ float TimelineTimeMarkerComponent::getCurrentPosition() {
 }
 
 
-InspectorTimeMarkerComponent::InspectorTimeMarkerComponent(ValueTree sequenceData_) :
+InspectorSequenceTimeMarkerComponent::InspectorSequenceTimeMarkerComponent(ValueTree sequenceData_) :
 	sequenceData(sequenceData_),
 	data(TimelineData::getTimelineData())
 {
 }
 
-float InspectorTimeMarkerComponent::getCurrentPosition() {
+float InspectorSequenceTimeMarkerComponent::getCurrentPosition() {
 	const int sequenceStart = data.getAbsoluteStartForSequence(sequenceData);
 	const float sequenceDuration = data.getSequenceDuration(sequenceData);
 	return float(audioManager.getTime() - sequenceStart) / sequenceDuration * getParentWidth();
+}
+
+
+InspectorSceneTimeMarkerComponent::InspectorSceneTimeMarkerComponent(ValueTree sceneData_) :
+	sceneData(sceneData_),
+	data(TimelineData::getTimelineData())
+{
+}
+
+float InspectorSceneTimeMarkerComponent::getCurrentPosition() {
+	const int sceneStart = data.getSceneStart(sceneData);
+	const float sceneDuration = data.getSceneDuration(sceneData);
+	return float(audioManager.getTime() - sceneStart) / sceneDuration * getParentWidth();
 }

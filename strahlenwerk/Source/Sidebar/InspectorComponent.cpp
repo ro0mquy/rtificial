@@ -31,6 +31,7 @@ void InspectorComponent::changeListenerCallback(ChangeBroadcaster* source) {
 		singleSelectedTree = ValueTree();
 		sequencePreview = nullptr;
 		keyframeValueEditor = nullptr;
+		scenePreview = nullptr;
 
 		if (selectionSize == 0) {
 		} else if (selectionSize == 1) {
@@ -39,6 +40,8 @@ void InspectorComponent::changeListenerCallback(ChangeBroadcaster* source) {
 				initalizeSequenceEditing();
 			} else if (isEditingKeyframe()) {
 				initalizeKeyframeEditing();
+			} else if (isEditingScene()) {
+				initalizeSceneEditing();
 			} else {
 			}
 		} else {
@@ -58,12 +61,21 @@ void InspectorComponent::resized() {
 		sequencePreview->setBounds(previewRect);
 
 		keyframeValueEditor->setBounds(previewRect.getX(), previewRect.getBottom() + padding, previewRect.getWidth(), keyframeValueEditor->getPreferredHeight());
+	} else if (isEditingScene() && scenePreview != nullptr) {
+		const int scenesBarHeightHalf = 30 / 2;
+		const int rowHeight = 20;
+		const int padding = 30;
+		Rectangle<int> previewRect(0, 0, getWidth(), scenesBarHeightHalf + rowHeight + 2 * padding);
+		previewRect.reduce(padding, padding);
+
+		scenePreview->setBounds(previewRect);
 	}
 }
 
 void InspectorComponent::paint(Graphics& g) {
 	if (isEditingSequence()) {
 	} else if (isEditingKeyframe()) {
+	} else if (isEditingScene()) {
 	} else {
 		g.setColour(findColour(InspectorComponent::textColourId));
 		g.setFont(g.getCurrentFont().withStyle(Font::FontStyleFlags::italic));
@@ -90,7 +102,7 @@ void InspectorComponent::initalizeSequenceEditing() {
 }
 
 void InspectorComponent::updateSequenceEditor() {
-	if (sequencePreview == nullptr || keyframeValueEditor == nullptr) {
+	if (keyframeValueEditor == nullptr) {
 		return;
 	}
 
@@ -124,6 +136,16 @@ void InspectorComponent::initalizeKeyframeEditing() {
 
 bool InspectorComponent::isEditingKeyframe() {
 	return data.isKeyframe(singleSelectedTree);
+}
+
+void InspectorComponent::initalizeSceneEditing() {
+	scenePreview = new SceneBackgroundComponent(singleSelectedTree);
+	resized();
+	addAndMakeVisible(scenePreview);
+}
+
+bool InspectorComponent::isEditingScene() {
+	return data.isScene(singleSelectedTree);
 }
 
 // ValueTree::Listener callbacks

@@ -50,11 +50,11 @@ class TimelineTimeMarkerComponent :
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TimelineTimeMarkerComponent)
 };
 
-class InspectorTimeMarkerComponent :
+class InspectorSequenceTimeMarkerComponent :
 	public TimeMarkerComponent
 {
 	public:
-		InspectorTimeMarkerComponent(ValueTree sequenceData_);
+		InspectorSequenceTimeMarkerComponent(ValueTree sequenceData_);
 
 		float getCurrentPosition() override;
 
@@ -62,7 +62,22 @@ class InspectorTimeMarkerComponent :
 		ValueTree sequenceData;
 		TimelineData& data;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorTimeMarkerComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorSequenceTimeMarkerComponent)
+};
+
+class InspectorSceneTimeMarkerComponent :
+	public TimeMarkerComponent
+{
+	public:
+		InspectorSceneTimeMarkerComponent(ValueTree sceneData_);
+
+		float getCurrentPosition() override;
+
+	private:
+		ValueTree sceneData;
+		TimelineData& data;
+
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorSceneTimeMarkerComponent)
 };
 
 #endif // TIMEMARKERCOMPONENT_H

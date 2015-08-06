@@ -260,11 +260,12 @@ void SequenceComponent::resized() {
 }
 
 void SequenceComponent::changeListenerCallback(ChangeBroadcaster* source) {
-	// zoomFactor update
 	if (source == &zoomFactor) {
+		// zoomFactor update
 		constrainer.setMinimumWidth(zoomFactor.getGridWidth() * zoomFactor);
 		updateBounds();
 	} else if (source == &data.getSelection()) {
+		// selection update
 		repaint();
 	}
 }

@@ -72,6 +72,7 @@ OBJECTS := \
   $(OBJDIR)/DraggableQuaternion_55786799.o \
   $(OBJDIR)/QuaternionEditor_3c7fc27.o \
   $(OBJDIR)/InfoLogComponent_7ff61de3.o \
+  $(OBJDIR)/SceneBackgroundComponent_3365f63f.o \
   $(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o \
   $(OBJDIR)/InspectorSequenceComponent_294b0841.o \
   $(OBJDIR)/InspectorComponent_96983e82.o \
@@ -248,6 +249,11 @@ $(OBJDIR)/QuaternionEditor_3c7fc27.o: ../../Source/Sidebar/QuaternionEditor.cpp
 $(OBJDIR)/InfoLogComponent_7ff61de3.o: ../../Source/Sidebar/InfoLogComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling InfoLogComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/SceneBackgroundComponent_3365f63f.o: ../../Source/Sidebar/SceneBackgroundComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SceneBackgroundComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o: ../../Source/Sidebar/SequenceBackgroundComponent.cpp

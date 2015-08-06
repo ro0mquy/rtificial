@@ -3,6 +3,7 @@
 
 #include <juce>
 #include <Sidebar/SequenceBackgroundComponent.h>
+#include <Sidebar/SceneBackgroundComponent.h>
 #include <Sidebar/ValueEditorPropertyComponent.h>
 
 class TimelineData;
@@ -41,6 +42,7 @@ class InspectorComponent :
 		ValueTree singleSelectedTree;
 		ScopedPointer<SequenceBackgroundComponent> sequencePreview;
 		ScopedPointer<ValueEditorPropertyComponent> keyframeValueEditor;
+		ScopedPointer<SceneBackgroundComponent> scenePreview;
 
 		void initalizeSequenceEditing();
 		void updateSequenceEditor();
@@ -48,6 +50,9 @@ class InspectorComponent :
 
 		void initalizeKeyframeEditing();
 		bool isEditingKeyframe();
+
+		void initalizeSceneEditing();
+		bool isEditingScene();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(InspectorComponent)
 };

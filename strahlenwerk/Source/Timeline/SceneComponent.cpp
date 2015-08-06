@@ -32,6 +32,7 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	addAndMakeVisible(resizableBorder);
 
 	sceneData.addListener(this);
+	data.getSelection().addChangeListener(this);
 	zoomFactor.addChangeListener(this);
 }
 
@@ -45,6 +46,7 @@ SceneComponent::Positioner::Positioner(Component& component, ValueTree sceneData
 
 SceneComponent::~SceneComponent() {
 	sceneData.removeListener(this);
+	data.getSelection().removeChangeListener(this);
 	zoomFactor.removeChangeListener(this);
 }
 
@@ -97,7 +99,7 @@ void SceneComponent::paint(Graphics& g) {
 	Rectangle<float> sceneRect = getLocalBounds().toFloat();
 	sceneRect.removeFromBottom(1.0f);
 
-	const bool selected = false;
+	const bool selected = data.getSelection().contains(sceneData);
 
 	if (nullptr == laf) {
 		Colour fillColor = findColour(SceneComponent::fillColourId);
@@ -109,7 +111,7 @@ void SceneComponent::paint(Graphics& g) {
 		g.setColour(findColour(SceneComponent::outlineColourId));
 		g.drawRect(sceneRect, 1);
 	} else {
-		laf->drawScene(g, *this, sceneRect, selected);
+		laf->drawScene(g, sceneRect, selected);
 	}
 }
 
@@ -154,9 +156,15 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 
 	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
 		// delete scene
+		data.getSelection().remove(sceneData);
 		data.getUndoManager().beginNewTransaction("Delete Scene");
 		data.removeScene(sceneData);
 		// this component gets deleted after this, so don't do stupid things
+
+	} else if (event.mouseWasClicked() && m.isRightButtonDown() && !m.isAnyModifierKeyDown()) {
+		// add sequence to selection
+		data.getSelection().set(sceneData);
+
 	} else {
 		McbComponent::mouseUp(event);
 	}
@@ -173,10 +181,15 @@ void SceneComponent::parentHierarchyChanged() {
 	updateBounds();
 }
 
-void SceneComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
-	// zoomFactor update
-	constrainer.setMinimumWidth(zoomFactor.getGridWidth() * zoomFactor);
-	updateBounds();
+void SceneComponent::changeListenerCallback(ChangeBroadcaster* source) {
+	if (source == &zoomFactor) {
+		// zoomFactor update
+		constrainer.setMinimumWidth(zoomFactor.getGridWidth() * zoomFactor);
+		updateBounds();
+	} else if (source == &data.getSelection()) {
+		// selection update
+		repaint();
+	}
 }
 
 // ValueTree::Listener callbacks

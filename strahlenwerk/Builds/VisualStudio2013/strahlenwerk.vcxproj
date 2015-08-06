@@ -158,6 +158,7 @@
     <ClCompile Include="..\..\Source\Sidebar\DraggableQuaternion.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InfoLogComponent.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\SceneBackgroundComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp"/>
@@ -1321,6 +1322,7 @@
     <ClInclude Include="..\..\Source\Sidebar\DraggableQuaternion.h"/>
     <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InfoLogComponent.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\SceneBackgroundComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h"/>

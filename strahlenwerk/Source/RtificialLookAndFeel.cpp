@@ -91,7 +91,7 @@ void RtificialLookAndFeel::drawResizableFrame(Graphics& /*g*/, int /*w*/, int /*
 }
 
 
-void RtificialLookAndFeel::drawScene(Graphics& g, SceneComponent& /*scene*/, Rectangle<float>& area, const bool selected) {
+void RtificialLookAndFeel::drawScene(Graphics& g, Rectangle<float>& area, const bool selected) {
 	Rectangle<float> sceneRect = area;
 	sceneRect.reduce(0.5f, 0.5f);
 

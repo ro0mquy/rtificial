@@ -1,22 +1,21 @@
-#ifndef SEQUENCEBACKGROUNDCOMPONENT_H
-#define SEQUENCEBACKGROUNDCOMPONENT_H
+#ifndef SCENEBACKGROUNDCOMPONENT_H
+#define SCENEBACKGROUNDCOMPONENT_H
 
 #include <juce>
 
-#include <Sidebar/InspectorSequenceComponent.h>
 #include <Timeline/TimeMarkerComponent.h>
 
 class TimelineData;
 class ZoomFactor;
 
-class SequenceBackgroundComponent :
+class SceneBackgroundComponent :
 	public Component,
 	private ValueTree::Listener,
 	private ChangeListener
 {
 	public:
-		SequenceBackgroundComponent(ValueTree sequenceData_);
-		~SequenceBackgroundComponent();
+		SceneBackgroundComponent(ValueTree sceneData_);
+		~SceneBackgroundComponent();
 
 		void resized() override;
 		void paint(Graphics& g) override;
@@ -32,13 +31,12 @@ class SequenceBackgroundComponent :
 		void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
 	private:
-		ValueTree sequenceData;
-		InspectorSequenceComponent sequenceComponent;
-		InspectorSequenceTimeMarkerComponent timeMarker;
+		ValueTree sceneData;
+		InspectorSceneTimeMarkerComponent timeMarker;
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
 
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceBackgroundComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SceneBackgroundComponent)
 };
 
-#endif // SEQUENCEBACKGROUNDCOMPONENT_H
+#endif // SCENEBACKGROUNDCOMPONENT_H
