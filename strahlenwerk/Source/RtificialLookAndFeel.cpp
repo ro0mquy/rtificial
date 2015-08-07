@@ -49,6 +49,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 
 	// KeyframeComponent
 	setColour(KeyframeComponent::fillColourId, Colours::white.withAlpha(0.6f));
+	setColour(KeyframeComponent::highlightedFillColourId, Colour(0xff3be684).withAlpha(0.6f));
 
 	// TimeMarkerComponent
 	setColour(TimeMarkerComponent::fillColourId, theme.Timeline.currentFrame);

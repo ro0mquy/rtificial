@@ -10,6 +10,7 @@ KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFa
 	zoomFactor(zoomFactor_)
 {
 	keyframeData.addListener(this);
+	data.getSelection().addChangeListener(this);
 
 	setPositioner(new Positioner(*this, keyframeData, data, zoomFactor));
 
@@ -30,6 +31,7 @@ KeyframeComponent::Positioner::Positioner(KeyframeComponent& component, ValueTre
 
 KeyframeComponent::~KeyframeComponent() {
 	keyframeData.removeListener(this);
+	data.getSelection().removeChangeListener(this);
 }
 
 void KeyframeComponent::updateBounds() {
@@ -65,7 +67,13 @@ void KeyframeComponent::paint(Graphics& g) {
 	keyRect.removeFromTop(1.0);
 	keyRect.removeFromBottom(2.0);
 
-	g.setColour(findColour(fillColourId));
+	const bool isSelected = data.getSelection().contains(keyframeData);
+
+	if (isSelected) {
+		g.setColour(findColour(KeyframeComponent::highlightedFillColourId));
+	} else {
+		g.setColour(findColour(KeyframeComponent::fillColourId));
+	}
 	g.fillRect(keyRect);
 }
 
@@ -108,6 +116,13 @@ void KeyframeComponent::parentHierarchyChanged() {
 	updateBounds();
 }
 
+void KeyframeComponent::changeListenerCallback(ChangeBroadcaster* source) {
+	if (source == &data.getSelection()) {
+		// selction changed
+		repaint();
+	}
+}
+
 // ValueTree::Listener callbacks
 void KeyframeComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& property) {
 	// parent is always the keyframeData tree
@@ -147,9 +162,13 @@ int TimelineKeyframeComponent::pixelsToTime(const float pixels) {
 	return zoomFactor.pixelsToTime(pixels);
 }
 
-void TimelineKeyframeComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
-	// zoomFactor update
-	updateBounds();
+void TimelineKeyframeComponent::changeListenerCallback(ChangeBroadcaster* source) {
+	if (source == &zoomFactor) {
+		// zoomFactor update
+		updateBounds();
+	} else {
+		KeyframeComponent::changeListenerCallback(source);
+	}
 }
 
 

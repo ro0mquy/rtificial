@@ -11,6 +11,7 @@ class InspectorSequenceComponent;
 class KeyframeComponent :
 	public McbComponent,
 	private ComponentDragger,
+	protected ChangeListener,
 	protected ValueTree::Listener
 {
 	public:
@@ -22,6 +23,7 @@ class KeyframeComponent :
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
 		void parentHierarchyChanged() override;
+		void changeListenerCallback(ChangeBroadcaster* source) override;
 
 		void updateBounds();
 
@@ -36,6 +38,7 @@ class KeyframeComponent :
 
 		enum ColourIds {
 			fillColourId = 0x9414001,
+			highlightedFillColourId,
 		};
 
 		ValueTree keyframeData;
@@ -65,8 +68,7 @@ class KeyframeComponent :
 };
 
 class TimelineKeyframeComponent :
-	public KeyframeComponent,
-	private ChangeListener
+	public KeyframeComponent
 {
 	public:
 		TimelineKeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_);
