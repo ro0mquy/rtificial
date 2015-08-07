@@ -36,8 +36,6 @@ class SequenceComponent :
 		void valueTreeChildOrderChanged(ValueTree& parentTree, int oldIndex, int newIndex) override;
 		void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
-		const String getInterpolationMethod();
-
 		enum ColourIds {
 			fillColourId = 0x4934001,
 			highlightedFillColourId,

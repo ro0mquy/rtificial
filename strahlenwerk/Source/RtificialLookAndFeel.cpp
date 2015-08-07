@@ -121,7 +121,7 @@ void RtificialLookAndFeel::drawScene(Graphics& g, Rectangle<float>& area, const 
 	g.drawRoundedRectangle(sceneRect, proportionalCornerRadius, 1);
 }
 
-void RtificialLookAndFeel::drawSequence(Graphics& g, SequenceComponent& sequence, Rectangle<float>& area, const bool selected) {
+void RtificialLookAndFeel::drawSequence(Graphics& g, Rectangle<float>& area, const bool selected, const String sequenceInterpolation) {
 	Rectangle<float> seqRect = area;
 	seqRect.reduce(0.5f, 0.5f);
 
@@ -150,6 +150,8 @@ void RtificialLookAndFeel::drawSequence(Graphics& g, SequenceComponent& sequence
 	g.setColour(Colours::white.withAlpha(bevelAlpha));
 	g.strokePath(roundedBevelAbovePath(seqRect, cornerRadius), PathStrokeType(1.0f));
 
-	g.setColour(textColor);
-	g.drawText(sequence.getInterpolationMethod(), seqRect, Justification::centred, true);
+	if (sequenceInterpolation.isNotEmpty()) {
+		g.setColour(textColor);
+		g.drawText(sequenceInterpolation, seqRect, Justification::centred, true);
+	}
 }

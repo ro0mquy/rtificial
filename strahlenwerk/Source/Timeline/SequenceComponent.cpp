@@ -140,6 +140,7 @@ void SequenceComponent::paint(Graphics& g) {
 	seqRect.removeFromBottom(1.0f);
 
 	const bool selected = data.getSelection().contains(sequenceData);
+	const String sequenceInterpolation = data.getSequenceInterpolation(sequenceData);
 
 	if (nullptr == laf) {
 		Colour fillColor = findColour(SequenceComponent::fillColourId);
@@ -152,9 +153,9 @@ void SequenceComponent::paint(Graphics& g) {
 		g.drawRect(seqRect, 1);
 
 		g.setColour(findColour(SequenceComponent::textColourId));
-		g.drawText(getInterpolationMethod(), seqRect, Justification::centred, true);
+		g.drawText(sequenceInterpolation, seqRect, Justification::centred, true);
 	} else {
-		laf->drawSequence(g, *this, seqRect, selected);
+		laf->drawSequence(g, seqRect, selected, sequenceInterpolation);
 	}
 }
 
@@ -313,8 +314,4 @@ void SequenceComponent::valueTreeChildOrderChanged(ValueTree& parentTree, int /*
 }
 
 void SequenceComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
-}
-
-const String SequenceComponent::getInterpolationMethod() {
-	return data.getSequenceInterpolation(sequenceData);
 }

@@ -3,6 +3,7 @@
 #include <Timeline/TimelineData.h>
 #include <Timeline/ZoomFactor.h>
 #include <Timeline/SequenceComponent.h>
+#include <RtificialLookAndFeel.h>
 
 InspectorSequenceComponent::InspectorSequenceComponent(ValueTree sequenceData_) :
 	sequenceData(sequenceData_),
@@ -25,15 +26,25 @@ void InspectorSequenceComponent::resized() {
 }
 
 void InspectorSequenceComponent::paint(Graphics& g) {
-	// draw sequence
-	const float cornerSize = 5.0;
-	Rectangle<float> boundsSequence = getLocalBounds().toFloat();
+	RtificialLookAndFeel* laf = dynamic_cast<RtificialLookAndFeel*>(&getLookAndFeel());
 
-	g.setColour(findColour(SequenceComponent::fillColourId));
-	g.fillRoundedRectangle(boundsSequence, cornerSize);
+	Rectangle<float> seqRect = getLocalBounds().toFloat();
+	seqRect.removeFromBottom(1.0f);
 
-	g.setColour(findColour(SequenceComponent::outlineColourId));
-	g.drawRoundedRectangle(boundsSequence, cornerSize, 1);
+	const bool selected = data.getSelection().contains(sequenceData);
+
+	if (nullptr == laf) {
+		Colour fillColor = findColour(SequenceComponent::fillColourId);
+		if (selected) {
+			fillColor = findColour(SequenceComponent::highlightedFillColourId);
+		}
+		g.fillAll(fillColor);
+
+		g.setColour(findColour(SequenceComponent::outlineColourId));
+		g.drawRect(seqRect, 1);
+	} else {
+		laf->drawSequence(g, seqRect, selected, String::empty);
+	}
 }
 
 void InspectorSequenceComponent::addKeyframeComponent(ValueTree keyframeData) {

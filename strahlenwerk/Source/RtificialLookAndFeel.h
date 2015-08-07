@@ -17,7 +17,7 @@ class RtificialLookAndFeel : public BlenderLookAndFeel
 		void drawResizableFrame(Graphics& g, int w, int h, const BorderSize<int>& borderSize) override;
 
 		void drawScene(Graphics& g, juce::Rectangle<float>& area, const bool selected);
-		void drawSequence(Graphics& g, SequenceComponent& sequence, juce::Rectangle<float>& area, const bool selected);
+		void drawSequence(Graphics& g, juce::Rectangle<float>& area, const bool selected, const String sequenceInterpolation);
 
 	private:
 		const float cornerRadius = 4.0f;
