@@ -32,8 +32,9 @@ void InspectorComponent::changeListenerCallback(ChangeBroadcaster* source) {
 
 		singleSelectedTree = ValueTree();
 		sequencePreview = nullptr;
-		keyframeValueEditor = nullptr;
 		scenePreview = nullptr;
+		keyframeValueEditor = nullptr;
+		propertyEditorPanel = nullptr;
 
 		if (selectionSize == 0) {
 		} else if (selectionSize == 1) {
@@ -53,16 +54,17 @@ void InspectorComponent::changeListenerCallback(ChangeBroadcaster* source) {
 }
 
 void InspectorComponent::resized() {
-	if ((isEditingSequence() || isEditingKeyframe()) && sequencePreview != nullptr && keyframeValueEditor != nullptr) {
+	if ((isEditingSequence() || isEditingKeyframe()) && sequencePreview != nullptr && propertyEditorPanel != nullptr) {
 		const int scenesBarHeightHalf = 30 / 2;
 		const int rowHeight = 20;
 		const int padding = 30;
-		Rectangle<int> previewRect(0, 0, getWidth(), scenesBarHeightHalf + rowHeight + 2 * padding);
-		previewRect.reduce(padding, padding);
+
+		Rectangle<int> boundsRect = getLocalBounds().reduced(padding);
+		Rectangle<int> previewRect = boundsRect.removeFromTop(scenesBarHeightHalf + rowHeight);
 
 		sequencePreview->setBounds(previewRect);
 
-		keyframeValueEditor->setBounds(previewRect.getX(), previewRect.getBottom() + padding, previewRect.getWidth(), keyframeValueEditor->getPreferredHeight());
+		propertyEditorPanel->setBounds(boundsRect.withTrimmedTop(padding));
 	} else if (isEditingScene() && scenePreview != nullptr) {
 		const int scenesBarHeightHalf = 30 / 2;
 		const int rowHeight = 20;
@@ -98,13 +100,16 @@ void InspectorComponent::initalizeSequenceEditing() {
 	keyframeValueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(name, value);
 	keyframeValueEditor->setEnabled(isOnKeyframe);
 
+	propertyEditorPanel = new PropertyPanel;
+	propertyEditorPanel->addProperties({{ keyframeValueEditor }});
+
 	resized();
 	addAndMakeVisible(sequencePreview);
-	addAndMakeVisible(keyframeValueEditor);
+	addAndMakeVisible(propertyEditorPanel);
 }
 
 void InspectorComponent::updateSequenceEditor() {
-	if (keyframeValueEditor == nullptr) {
+	if (keyframeValueEditor == nullptr || propertyEditorPanel == nullptr) {
 		return;
 	}
 
@@ -128,12 +133,29 @@ void InspectorComponent::initalizeKeyframeEditing() {
 	const String name = data.getUniformName(uniform);
 	ValueTree value = data.getKeyframeValue(singleSelectedTree);
 
-	keyframeValueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(name, value);
-	keyframeValueEditor->setEnabled(true);
+	PropertyComponent* valueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(name, value);
+	valueEditor->setEnabled(true);
+
+	/*
+	Value keyframePosition = data.getKeyframePositionAsValue(singleSelectedTree);
+	double sequenceDuration = data.getSequenceDuration(parentSequence);
+	PropertyComponent* positionEditor = new SliderPropertyComponent(keyframePosition, "Position", 0., sequenceDuration, 1.);
+	// */
+
+	Value keyframeEaseToward = data.getKeyframeEaseTowardAsValue(singleSelectedTree);
+	PropertyComponent* easeTowardEditor = new BooleanPropertyComponent(keyframeEaseToward, "ease toward", String::empty);
+	easeTowardEditor->setColour(BooleanPropertyComponent::backgroundColourId, Colour(0x00000000));
+
+	Value keyframeEaseAway = data.getKeyframeEaseAwayAsValue(singleSelectedTree);
+	PropertyComponent* easeAwayEditor = new BooleanPropertyComponent(keyframeEaseAway, "ease away", String::empty);
+	easeAwayEditor->setColour(BooleanPropertyComponent::backgroundColourId, Colour(0x00000000));
+
+	propertyEditorPanel = new PropertyPanel;
+	propertyEditorPanel->addProperties({{ valueEditor, /*positionEditor,*/ easeTowardEditor, easeAwayEditor }});
 
 	resized();
 	addAndMakeVisible(sequencePreview);
-	addAndMakeVisible(keyframeValueEditor);
+	addAndMakeVisible(propertyEditorPanel);
 }
 
 bool InspectorComponent::isEditingKeyframe() {

@@ -126,14 +126,22 @@ class TimelineData :
 		ValueTree getKeyframe(ValueTree sequence, const var& position);
 		bool isKeyframe(ValueTree keyframe);
 		ValueTree addKeyframe(ValueTree sequence, ValueTree keyframe);
-		ValueTree addKeyframe(ValueTree sequence, var keyframePosition);
+		ValueTree addKeyframe(ValueTree sequence, var keyframePosition, var keyframeEaseToward = false, var keyframeEaseAway = false);
 		ValueTree addKeyframeUnchecked(ValueTree sequence, ValueTree keyframe);
 		void removeKeyframe(ValueTree keyframe);
 
 		var getKeyframePosition(ValueTree keyframe);
+		var getKeyframeEaseToward(ValueTree keyframe);
+		var getKeyframeEaseAway(ValueTree keyframe);
 		ValueTree getKeyframeValue(ValueTree keyframe);
 
+		Value getKeyframePositionAsValue(ValueTree keyframe);
+		Value getKeyframeEaseTowardAsValue(ValueTree keyframe);
+		Value getKeyframeEaseAwayAsValue(ValueTree keyframe);
+
 		void setKeyframePosition(ValueTree keyframe, var position);
+		void setKeyframeEaseToward(ValueTree keyframe, var easeToward);
+		void setKeyframeEaseAway(ValueTree keyframe, var easeAway);
 		void setKeyframeValue(ValueTree keyframe, ValueTree value);
 
 		int getKeyframeIndex(ValueTree keyframe);

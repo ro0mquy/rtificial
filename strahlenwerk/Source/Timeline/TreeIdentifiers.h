@@ -52,6 +52,10 @@ namespace treeId {
 							const Identifier keyframe("keyframe");
 								// time position, relative to keyframe start
 								const Identifier keyframePosition("keyframePosition");
+								// should ease before this keyframe
+								const Identifier keyframeEaseToward("keyframeEaseToward");
+								// should ease after this keyframe
+								const Identifier keyframeEaseAway("keyframeEaseAway");
 								// the value of this keyframe
 								const Identifier keyframeValue("keyframeValue");
 									// the value holds a set of properties, depending on it's type
@@ -85,7 +89,7 @@ namespace treeId {
 
 	// extra value type for interpolated stuff
 	const Identifier interpolatedValue("interpolatedValue");
-	// extra value id for values form SpecialUniformControllers
+	// extra value id for values from SpecialUniformControllers
 	const Identifier controlledValue("controlledValue");
 }
 

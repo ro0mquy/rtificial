@@ -41,8 +41,10 @@ class InspectorComponent :
 
 		ValueTree singleSelectedTree;
 		ScopedPointer<SequenceBackgroundComponent> sequencePreview;
-		ScopedPointer<ValueEditorPropertyComponent> keyframeValueEditor;
 		ScopedPointer<SceneBackgroundComponent> scenePreview;
+
+		ValueEditorPropertyComponent* keyframeValueEditor;
+		ScopedPointer<PropertyPanel> propertyEditorPanel;
 
 		void initalizeSequenceEditing();
 		void updateSequenceEditor();

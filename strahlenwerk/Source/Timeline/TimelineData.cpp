@@ -854,6 +854,8 @@ bool TimelineData::isKeyframe(ValueTree keyframe) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	bool isKeyframe = keyframe.hasType(treeId::keyframe);
 	isKeyframe &= keyframe.hasProperty(treeId::keyframePosition);
+	//isKeyframe &= keyframe.hasProperty(treeId::keyframeEaseToward);
+	//isKeyframe &= keyframe.hasProperty(treeId::keyframeEaseAway);
 	isKeyframe &= getKeyframeValue(keyframe).isValid();
 
 	/*
@@ -891,9 +893,11 @@ ValueTree TimelineData::addKeyframe(ValueTree sequence, ValueTree keyframe) {
 // sequence must already be added to a uniform
 // initializes the keyframe with a zero value
 // returns the new keyframe
-ValueTree TimelineData::addKeyframe(ValueTree sequence, var keyframePosition) {
+ValueTree TimelineData::addKeyframe(ValueTree sequence, var keyframePosition, var keyframeEaseToward, var keyframeEaseAway) {
 	ValueTree keyframe(treeId::keyframe);
 	setKeyframePosition(keyframe, keyframePosition);
+	setKeyframeEaseToward(keyframe, keyframeEaseToward);
+	setKeyframeEaseAway(keyframe, keyframeEaseAway);
 
 	ValueTree interpolatedValue = interpolator.calculateInterpolatedState(sequence, keyframePosition).first;
 	getKeyframeValue(keyframe).copyPropertiesFrom(interpolatedValue, nullptr);
@@ -936,6 +940,18 @@ var TimelineData::getKeyframePosition(ValueTree keyframe) {
 	return keyframe.getProperty(treeId::keyframePosition);
 }
 
+// gets the easing mode towards a keyframe
+var TimelineData::getKeyframeEaseToward(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getProperty(treeId::keyframeEaseToward);
+}
+
+// gets the easing mode away from a keyframe
+var TimelineData::getKeyframeEaseAway(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getProperty(treeId::keyframeEaseAway);
+}
+
 // gets the value for a keyframe
 ValueTree TimelineData::getKeyframeValue(ValueTree keyframe) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
@@ -943,10 +959,41 @@ ValueTree TimelineData::getKeyframeValue(ValueTree keyframe) {
 }
 
 
+// gets the time position of a keyframe as a juce::Value
+Value TimelineData::getKeyframePositionAsValue(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getPropertyAsValue(treeId::keyframePosition, &undoManager);
+}
+
+// gets the easing mode towards a keyframe as a juce::Value
+Value TimelineData::getKeyframeEaseTowardAsValue(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getPropertyAsValue(treeId::keyframeEaseToward, &undoManager);
+}
+
+// gets the easing mode away from a keyframe as a juce::Value
+Value TimelineData::getKeyframeEaseAwayAsValue(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getPropertyAsValue(treeId::keyframeEaseAway, &undoManager);
+}
+
+
 // sets the time position for the given keyframe
 void TimelineData::setKeyframePosition(ValueTree keyframe, var position) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	keyframe.setProperty(treeId::keyframePosition, position, &undoManager);
+}
+
+// sets the easing mode towards the the given keyframe
+void TimelineData::setKeyframeEaseToward(ValueTree keyframe, var easeToward) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	keyframe.setProperty(treeId::keyframeEaseToward, easeToward, &undoManager);
+}
+
+// sets the easing mode away from the given keyframe
+void TimelineData::setKeyframeEaseAway(ValueTree keyframe, var easeAway) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	keyframe.setProperty(treeId::keyframeEaseAway, easeAway, &undoManager);
 }
 
 // sets the value for the given keyframe
