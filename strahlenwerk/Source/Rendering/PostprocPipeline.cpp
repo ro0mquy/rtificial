@@ -73,7 +73,7 @@ uint64_t PostprocPipeline::render(SceneShader& scene, int width, int height) {
 
 	const bool TIMINGS_ENABLED = false;
 	if(TIMINGS_ENABLED) {
-		for(int i = 0; i < queries.size(); i++) {
+		for(size_t i = 0; i < queries.size(); i++) {
 			GLuint64 time;
 			glGetQueryObjectui64v(queries[i], GL_QUERY_RESULT, &time);
 			std::cout << queryNames[i] << ": " << time/1000 << " µs" << std::endl;
