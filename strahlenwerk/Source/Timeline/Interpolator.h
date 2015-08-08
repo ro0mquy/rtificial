@@ -26,12 +26,13 @@ class Interpolator {
 		UniformState calculateInterpolatedState(ValueTree sequence, const int relativeCurrentTime);
 
 	private:
-		std::pair<ValueTree, const int> wrappedGetKeyframe(ValueTree sequence, const int index, const int numKeyframes, const bool useStdAtStart, const bool useStdAtEnd) const;
-
 		// functions for interpolation methods
 		UniformState interpolationMethodStep(ValueTree sequence, const int currentTime);
 		UniformState interpolationMethodLinear(ValueTree sequence, const int currentTime);
 		UniformState interpolationMethodCcrSpline(ValueTree sequence, const int currentTime);
+
+		std::tuple<ValueTree, const int, const bool, const bool> wrappedGetKeyframe(ValueTree sequence, const int index, const int numKeyframes, const bool useStdAtStart, const bool useStdAtEnd) const;
+		static float easingRemapping(const float mixT, const bool easeAwayP1, const bool easeTowardP2);
 
 		TimelineData& data;
 		OwnedArray<SpecialUniformController> specialUniformControllers;

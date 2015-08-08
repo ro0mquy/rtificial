@@ -2,7 +2,6 @@
 #line 3 "szenchen"
 
 float fScene(vec3 p) {
-	pRotY(p, time);
 	float f1 = fBox(p, vec3(8., 4., 2.));
 	pRotZ(p, -.2);
 	float f2 = fBox(p, vec3(2., 8., 4.));
