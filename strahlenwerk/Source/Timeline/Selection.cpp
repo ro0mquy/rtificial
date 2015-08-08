@@ -90,6 +90,10 @@ void Selection::checkIfNeedToLoop() {
 		if (data.isSequence(*selectedTrees[0])) {
 			start = data.getAbsoluteStartForSequence(*selectedTrees[0]);
 			duration = data.getSequenceDuration(*selectedTrees[0]);
+		} else if (data.isKeyframe(*selectedTrees[0])) {
+			ValueTree parentSequence = data.getKeyframeParentSequence(*selectedTrees[0]);
+			start = data.getAbsoluteStartForSequence(parentSequence);
+			duration = data.getSequenceDuration(parentSequence);
 		} else if (data.isScene(*selectedTrees[0])) {
 			start = data.getSceneStart(*selectedTrees[0]);
 			duration = data.getSceneDuration(*selectedTrees[0]);
