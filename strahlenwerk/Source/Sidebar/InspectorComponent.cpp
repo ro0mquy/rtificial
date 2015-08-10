@@ -2,6 +2,7 @@
 
 #include <Timeline/TimelineData.h>
 #include <Timeline/TreeIdentifiers.h>
+#include <StrahlenwerkApplication.h>
 #include <AudioManager.h>
 
 InspectorComponent::InspectorComponent() :
@@ -65,14 +66,17 @@ void InspectorComponent::resized() {
 		sequencePreview->setBounds(previewRect);
 
 		propertyEditorPanel->setBounds(boundsRect.withTrimmedTop(padding));
-	} else if (isEditingScene() && scenePreview != nullptr) {
+	} else if (isEditingScene() && scenePreview != nullptr && propertyEditorPanel != nullptr) {
 		const int scenesBarHeightHalf = 30 / 2;
 		const int rowHeight = 20;
 		const int padding = 30;
-		Rectangle<int> previewRect(0, 0, getWidth(), scenesBarHeightHalf + rowHeight + 2 * padding);
-		previewRect.reduce(padding, padding);
+
+		Rectangle<int> boundsRect = getLocalBounds().reduced(padding);
+		Rectangle<int> previewRect = boundsRect.removeFromTop(scenesBarHeightHalf + rowHeight);
 
 		scenePreview->setBounds(previewRect);
+
+		propertyEditorPanel->setBounds(boundsRect.withTrimmedTop(padding));
 	}
 }
 
@@ -171,8 +175,35 @@ bool InspectorComponent::isEditingKeyframe() {
 
 void InspectorComponent::initalizeSceneEditing() {
 	scenePreview = new SceneBackgroundComponent(singleSelectedTree);
+
+	Value sceneShaderSource = data.getSceneShaderSourceAsValue(singleSelectedTree);
+	const std::vector<File> allSceneShaderFiles = StrahlenwerkApplication::getInstance()->getProject().getLoader().listSceneFiles();
+	StringArray sceneShaderStringArray;
+	Array<var> sceneShaderVarArray;
+	for (const File& shaderFile : allSceneShaderFiles) {
+		const String shaderName = shaderFile.getFileNameWithoutExtension();
+		sceneShaderStringArray.add(shaderName);
+		sceneShaderVarArray.add(shaderName);
+	}
+	PropertyComponent* shaderSourceEditor = new ChoicePropertyComponent(sceneShaderSource, "shader name", sceneShaderStringArray, sceneShaderVarArray);
+
+	Value sceneEnvironmentSource;
+	const std::vector<File> allEnvironmentFiles = StrahlenwerkApplication::getInstance()->getProject().getLoader().listEnvironmentFiles();
+	StringArray environmentStringArray;
+	Array<var> environmentVarArray;
+	for (const File& environmentFile : allEnvironmentFiles) {
+		const String shaderName = environmentFile.getFileNameWithoutExtension();
+		environmentStringArray.add(shaderName);
+		environmentVarArray.add(shaderName);
+	}
+	PropertyComponent* environmentSourceEditor = new ChoicePropertyComponent(sceneEnvironmentSource, "environment name", environmentStringArray, environmentVarArray);
+
+	propertyEditorPanel = new PropertyPanel;
+	propertyEditorPanel->addProperties({{ shaderSourceEditor, environmentSourceEditor }});
+
 	resized();
 	addAndMakeVisible(scenePreview);
+	addAndMakeVisible(propertyEditorPanel);
 }
 
 bool InspectorComponent::isEditingScene() {
