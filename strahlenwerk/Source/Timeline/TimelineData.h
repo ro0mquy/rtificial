@@ -104,6 +104,8 @@ class TimelineData :
 		var getSequenceDuration(ValueTree sequence);
 		var getSequenceInterpolation(ValueTree sequence);
 
+		Value getSequenceInterpolationAsValue(ValueTree sequence);
+
 		void setSequenceSceneId(ValueTree sequence, var sceneId);
 		void setSequenceStart(ValueTree sequence, var start);
 		void setSequenceDuration(ValueTree sequence, var duration);

@@ -100,8 +100,15 @@ void InspectorComponent::initalizeSequenceEditing() {
 	keyframeValueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(name, value);
 	keyframeValueEditor->setEnabled(isOnKeyframe);
 
+	const String interpolationMethods[] = { "step", "linear", "ccrSpline" };
+	const int numMethods = numElementsInArray(interpolationMethods);
+	const StringArray interpolationMethodsStringArray(interpolationMethods, numMethods);
+	const Array<var> interpolationMethodsVarArray(interpolationMethods, numMethods);
+	Value sequenceInterpolation = data.getSequenceInterpolationAsValue(singleSelectedTree);
+	PropertyComponent* interpolationEditor = new ChoicePropertyComponent(sequenceInterpolation, "interpolation method", interpolationMethodsStringArray, interpolationMethodsVarArray);
+
 	propertyEditorPanel = new PropertyPanel;
-	propertyEditorPanel->addProperties({{ keyframeValueEditor }});
+	propertyEditorPanel->addProperties({{ static_cast<PropertyComponent*>(keyframeValueEditor), interpolationEditor }});
 
 	resized();
 	addAndMakeVisible(sequencePreview);

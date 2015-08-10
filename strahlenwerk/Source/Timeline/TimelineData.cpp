@@ -712,6 +712,13 @@ var TimelineData::getSequenceInterpolation(ValueTree sequence) {
 }
 
 
+// gets the interpolation method of a sequence as a juce::Value
+Value TimelineData::getSequenceInterpolationAsValue(ValueTree sequence) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return sequence.getPropertyAsValue(treeId::sequenceInterpolation, &undoManager);
+}
+
+
 // sets the sceneId for the given sequence
 void TimelineData::setSequenceSceneId(ValueTree sequence, var sceneId) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
