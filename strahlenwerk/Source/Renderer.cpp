@@ -64,15 +64,19 @@ void Renderer::renderOpenGL() {
 	if(scenes == nullptr) {
 		lastFrameDuration = postproc->render(defaultShader, width, height);
 	} else {
-		auto& data = TimelineData::getTimelineData();
-		const String shaderName = data.getSceneShaderSource(data.getCurrentScene());
-		const int shaderId = scenes->getObjectId(shaderName.toStdString());
+		TimelineData& data = TimelineData::getTimelineData();
+		const ValueTree currentScene = data.getCurrentScene();
+		const String shaderSourceName = data.getSceneShaderSource(currentScene);
+		const String environmentSourceName = data.getSceneEnvironmentSource(currentScene);
+
 		if (ambientLights != nullptr) {
-			const int ambientId = ambientLights->getObjectId(shaderName.toStdString());
+			const int ambientId = ambientLights->getObjectId(environmentSourceName.toStdString());
 			if (ambientId != -1) {
 				ambientLights->getObject(ambientId).bind();
 			}
 		}
+
+		const int shaderId = scenes->getObjectId(shaderSourceName.toStdString());
 		if(shaderId == -1) {
 			lastFrameDuration = defaultPostproc->render(defaultShader, width, height);
 		} else {

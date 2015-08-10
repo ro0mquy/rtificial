@@ -39,7 +39,7 @@ class TimelineData :
 		ValueTree getScene(const var& sceneId);
 		bool isScene(ValueTree scene);
 		ValueTree addScene(ValueTree scene, int position = -1);
-		ValueTree addScene(var start, var duration, var shaderSource, int position = -1);
+		ValueTree addScene(var start, var duration, var shaderSource, var environmentSource, int position = -1);
 		ValueTree addSceneUnchecked(ValueTree scene, int position = -1);
 		void removeScene(ValueTree scene);
 
@@ -47,13 +47,16 @@ class TimelineData :
 		var getSceneStart(ValueTree scene);
 		var getSceneDuration(ValueTree scene);
 		var getSceneShaderSource(ValueTree scene);
+		var getSceneEnvironmentSource(ValueTree scene);
 
 		Value getSceneShaderSourceAsValue(ValueTree scene);
+		Value getSceneEnvironmentSourceAsValue(ValueTree scene);
 
 		void setSceneId(ValueTree scene, var id);
 		void setSceneStart(ValueTree scene, var start);
 		void setSceneDuration(ValueTree scene, var duration);
 		void setSceneShaderSource(ValueTree scene, var shaderSource);
+		void setSceneEnvironmentSource(ValueTree scene, var environmentSource);
 
 		int getLastSceneEndTime();
 		ValueTree getSceneForTime(const int time);

@@ -598,7 +598,8 @@
       "sceneId": 932,
       "sceneStart": 0,
       "sceneDuration": 24000,
-      "sceneShaderSource": "szenchen"
+      "sceneShaderSource": "szenchen",
+      "sceneEnvironmentSource": "sky"
     }
   ]
 }

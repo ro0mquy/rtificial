@@ -23,7 +23,7 @@ TimelineData::TimelineData() :
 {
 	MainWindow::getApplicationCommandManager().addListener(this);
 	for (int i = 0; i < 4; i++) {
-		addScene(300 * i, 50 * (i + 1), String(i) + String(41 * i) + ".glsl");
+		addScene(300 * i, 50 * (i + 1), String(i) + String(41 * i) + ".glsl", String(i) + String(41 * i) + ".glsl");
 	}
 
 	for (int i = 0; i < 30; i++) {
@@ -157,6 +157,7 @@ bool TimelineData::isScene(ValueTree scene) {
 	isScene &= scene.hasProperty(treeId::sceneStart);
 	isScene &= scene.hasProperty(treeId::sceneDuration);
 	isScene &= scene.hasProperty(treeId::sceneShaderSource);
+	isScene &= scene.hasProperty(treeId::sceneEnvironmentSource);
 	return isScene;
 }
 
@@ -172,13 +173,14 @@ ValueTree TimelineData::addScene(ValueTree scene, int position) {
 // adds a scene with the given vars at position
 // returns the assembled scene ValueTree
 // position defaults to -1 (add sorted)
-ValueTree TimelineData::addScene(var start, var duration, var shaderSource, int position) {
+ValueTree TimelineData::addScene(var start, var duration, var shaderSource, var environmentSource, int position) {
 	var id = getNewSceneId();
 	ValueTree scene(treeId::scene);
 	setSceneId(scene, id);
 	setSceneStart(scene, start);
 	setSceneDuration(scene, duration);
 	setSceneShaderSource(scene, shaderSource);
+	setSceneEnvironmentSource(scene, environmentSource);
 	addSceneUnchecked(scene, position);
 	return scene;
 }
@@ -263,11 +265,23 @@ var TimelineData::getSceneShaderSource(ValueTree scene) {
 	return scene.getProperty(treeId::sceneShaderSource);
 }
 
+// gets the environmentSource of a scene
+var TimelineData::getSceneEnvironmentSource(ValueTree scene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return scene.getProperty(treeId::sceneEnvironmentSource);
+}
 
-// gets the shaderSource of a scene as a value
+
+// gets the shaderSource of a scene as a juce::value
 Value TimelineData::getSceneShaderSourceAsValue(ValueTree scene) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return scene.getPropertyAsValue(treeId::sceneShaderSource, &undoManager);
+}
+
+// gets the environmentSource of a scene as a juce::value
+Value TimelineData::getSceneEnvironmentSourceAsValue(ValueTree scene) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return scene.getPropertyAsValue(treeId::sceneEnvironmentSource, &undoManager);
 }
 
 
@@ -343,6 +357,12 @@ void TimelineData::setSceneDuration(ValueTree scene, var duration) {
 void TimelineData::setSceneShaderSource(ValueTree scene, var shaderSource) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	scene.setProperty(treeId::sceneShaderSource, shaderSource, &undoManager);
+}
+
+// sets the shaderSource for the given scene
+void TimelineData::setSceneEnvironmentSource(ValueTree scene, var environmentSource) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	scene.setProperty(treeId::sceneEnvironmentSource, environmentSource, &undoManager);
 }
 
 

@@ -118,7 +118,7 @@ void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 		var sceneDuration = 0.f;
 		var sceneShaderSource = "szenchen" + String(data.getNewSceneId());
 		data.getUndoManager().beginNewTransaction("Create Scene");
-		currentlyCreatedSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource);
+		currentlyCreatedSceneData = data.addScene(sceneStart, sceneDuration, sceneShaderSource, sceneShaderSource);
 	} else {
 		McbComponent::mouseDown(event);
 	}

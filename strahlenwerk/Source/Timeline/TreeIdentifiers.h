@@ -22,6 +22,8 @@ namespace treeId {
 				// the filename of the glsl shader to be used in this scene
 				// (maybe another unique identifier?)
 				const Identifier sceneShaderSource("sceneShaderSource");
+				// the filename of the glsl shader to be used for this scene environment maps
+				const Identifier sceneEnvironmentSource("sceneEnvironmentSource");
 		// an array with all uniforms from all shaders
 		const Identifier uniformsArray("uniformsArray");
 			// an individual uniform

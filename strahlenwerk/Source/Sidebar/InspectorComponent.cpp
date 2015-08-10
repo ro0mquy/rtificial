@@ -187,7 +187,7 @@ void InspectorComponent::initalizeSceneEditing() {
 	}
 	PropertyComponent* shaderSourceEditor = new ChoicePropertyComponent(sceneShaderSource, "shader name", sceneShaderStringArray, sceneShaderVarArray);
 
-	Value sceneEnvironmentSource;
+	Value sceneEnvironmentSource = data.getSceneEnvironmentSourceAsValue(singleSelectedTree);
 	const std::vector<File> allEnvironmentFiles = StrahlenwerkApplication::getInstance()->getProject().getLoader().listEnvironmentFiles();
 	StringArray environmentStringArray;
 	Array<var> environmentVarArray;
