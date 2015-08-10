@@ -249,7 +249,7 @@ void Shader::applyIncludes(std::string& source, std::unordered_set<std::string>&
 }
 
 void Shader::addRtUniforms() {
-	const std::regex uniformRegex(R"regex(\w+_rt_(float|vec[234]|color|quat))regex");
+	const std::regex uniformRegex(R"regex(\w+_rt_(bool|float|vec[234]|color|quat))regex");
 
 	std::sregex_iterator matches_begin(fragmentSource.begin(), fragmentSource.end(), uniformRegex);
 	const std::sregex_iterator end;
