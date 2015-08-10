@@ -5871,43 +5871,50 @@
       "sceneId": 247,
       "sceneStart": 332000,
       "sceneDuration": 129250,
-      "sceneShaderSource": "kleinstein"
+      "sceneShaderSource": "kleinstein",
+      "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 392,
       "sceneStart": 0,
       "sceneDuration": 87500,
-      "sceneShaderSource": "glumanda"
+      "sceneShaderSource": "glumanda",
+      "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 486,
       "sceneStart": 509000,
       "sceneDuration": 49000,
-      "sceneShaderSource": "kleinstein"
+      "sceneShaderSource": "kleinstein",
+      "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 539,
       "sceneStart": 166500,
       "sceneDuration": 94000,
-      "sceneShaderSource": "karpador"
+      "sceneShaderSource": "karpador",
+      "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 761,
       "sceneStart": 460000,
       "sceneDuration": 49000,
-      "sceneShaderSource": "relaxo"
+      "sceneShaderSource": "relaxo",
+      "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 888,
       "sceneStart": 87500,
       "sceneDuration": 79000,
-      "sceneShaderSource": "relaxo"
+      "sceneShaderSource": "relaxo",
+      "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 954,
       "sceneStart": 260500,
       "sceneDuration": 71500,
-      "sceneShaderSource": "relaxo"
+      "sceneShaderSource": "relaxo",
+      "sceneEnvironmentSource": "sky"
     }
   ]
 }

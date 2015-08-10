@@ -4216,43 +4216,50 @@
       "sceneId": 248,
       "sceneStart": 160000,
       "sceneDuration": 36000,
-      "sceneShaderSource": "biene"
+      "sceneShaderSource": "biene",
+	  "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 148,
       "sceneStart": 0,
       "sceneDuration": 56000,
-      "sceneShaderSource": "mienenkraft"
+      "sceneShaderSource": "mienenkraft",
+	  "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 259,
       "sceneStart": 104000,
       "sceneDuration": 16000,
-      "sceneShaderSource": "shapemorph"
+      "sceneShaderSource": "shapemorph",
+	  "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 601,
       "sceneStart": 120000,
       "sceneDuration": 32000,
-      "sceneShaderSource": "biene"
+      "sceneShaderSource": "biene",
+	  "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 744,
       "sceneStart": 152000,
       "sceneDuration": 8000,
-      "sceneShaderSource": "shapemorph"
+      "sceneShaderSource": "shapemorph",
+	  "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 797,
       "sceneStart": 88000,
       "sceneDuration": 16000,
-      "sceneShaderSource": "mienenkraft"
+      "sceneShaderSource": "mienenkraft",
+	  "sceneEnvironmentSource": "sky"
     },
     {
       "sceneId": 855,
       "sceneStart": 56000,
       "sceneDuration": 32000,
-      "sceneShaderSource": "biene"
+      "sceneShaderSource": "biene",
+	  "sceneEnvironmentSource": "sky"
     }
   ]
 }
