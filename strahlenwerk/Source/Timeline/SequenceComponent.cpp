@@ -153,7 +153,7 @@ void SequenceComponent::paint(Graphics& g) {
 		g.drawRect(seqRect, 1);
 
 		g.setColour(findColour(SequenceComponent::textColourId));
-		g.drawText(sequenceInterpolation, seqRect, Justification::centred, true);
+		g.drawFittedText(sequenceInterpolation, seqRect.getSmallestIntegerContainer(), Justification::centred, 1);
 	} else {
 		laf->drawSequence(g, seqRect, selected, sequenceInterpolation);
 	}

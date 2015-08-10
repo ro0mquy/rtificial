@@ -43,7 +43,7 @@ void UniformsBarComponent::paint(Graphics& g) {
 
 		const String name = data.getUniformName(uniform);
 		g.setColour(findColour(UniformsBarComponent::uniformTextColourId));
-		g.drawText(name, rect.withLeft(3), Justification(Justification::centredLeft), true);
+		g.drawFittedText(name, rect.withLeft(3).getSmallestIntegerContainer(), Justification::centredLeft, 1);
 	}
 }
 

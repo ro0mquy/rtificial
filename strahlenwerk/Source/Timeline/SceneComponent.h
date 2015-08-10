@@ -47,7 +47,6 @@ class SceneComponent :
 		TimelineData& data;
 		ZoomFactor& zoomFactor;
 
-		McbLabel shaderSourceLabel;
 		ComponentBoundsConstrainer constrainer;
 		McbResizableBorder resizableBorder;
 

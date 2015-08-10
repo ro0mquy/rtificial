@@ -92,12 +92,13 @@ void RtificialLookAndFeel::drawResizableFrame(Graphics& /*g*/, int /*w*/, int /*
 }
 
 
-void RtificialLookAndFeel::drawScene(Graphics& g, Rectangle<float>& area, const bool selected) {
+void RtificialLookAndFeel::drawScene(Graphics& g, Rectangle<float>& area, const bool selected, const String shaderSource) {
 	Rectangle<float> sceneRect = area;
 	sceneRect.reduce(0.5f, 0.5f);
 
 	Colour fillColor = findColour(SceneComponent::fillColourId);
 	Colour outlineColor = findColour(SceneComponent::outlineColourId);
+	Colour textColor = findColour(SceneComponent::textColourId);
 
 	const float proportionalCornerRadius = (cornerRadius / 20.0f) * area.getHeight();
 
@@ -120,6 +121,11 @@ void RtificialLookAndFeel::drawScene(Graphics& g, Rectangle<float>& area, const 
 
 	g.setColour(outlineColor);
 	g.drawRoundedRectangle(sceneRect, proportionalCornerRadius, 1);
+
+	if (shaderSource.isNotEmpty()) {
+		g.setColour(textColor);
+		g.drawFittedText(shaderSource, sceneRect.getSmallestIntegerContainer(), Justification::centred, 1);
+	}
 }
 
 void RtificialLookAndFeel::drawSequence(Graphics& g, Rectangle<float>& area, const bool selected, const String sequenceInterpolation) {
@@ -153,6 +159,6 @@ void RtificialLookAndFeel::drawSequence(Graphics& g, Rectangle<float>& area, con
 
 	if (sequenceInterpolation.isNotEmpty()) {
 		g.setColour(textColor);
-		g.drawText(sequenceInterpolation, seqRect, Justification::centred, true);
+		g.drawFittedText(sequenceInterpolation, seqRect.getSmallestIntegerContainer(), Justification::centred, 1);
 	}
 }

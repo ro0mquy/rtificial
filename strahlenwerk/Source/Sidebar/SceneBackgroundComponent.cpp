@@ -88,7 +88,7 @@ void SceneBackgroundComponent::paint(Graphics& g) {
 		g.setColour(findColour(SceneComponent::outlineColourId));
 		g.drawRect(sceneRect, 1);
 	} else {
-		laf->drawScene(g, sceneRect, selected);
+		laf->drawScene(g, sceneRect, selected, String::empty);
 	}
 }
 

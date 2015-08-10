@@ -2,6 +2,7 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include "ZoomFactor.h"
+#include <StrahlenwerkApplication.h>
 #include <RtificialLookAndFeel.h>
 
 SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
@@ -10,17 +11,6 @@ SceneComponent::SceneComponent(ValueTree _sceneData, ZoomFactor& zoomFactor_) :
 	zoomFactor(zoomFactor_),
 	resizableBorder(this, &constrainer)
 {
-	Value shaderSourceValue = data.getSceneShaderSourceAsValue(sceneData);
-	shaderSourceLabel.getTextValue().referTo(shaderSourceValue);
-	shaderSourceLabel.setEditable(false, true, false);
-	shaderSourceLabel.setJustificationType(Justification::centred);
-	shaderSourceLabel.setColour(Label::backgroundColourId, Colours::transparentBlack);
-	shaderSourceLabel.setColour(Label::outlineColourId, Colours::transparentBlack);
-	shaderSourceLabel.setColour(Label::outlineWhenEditingColourId, Colours::transparentBlack);
-	shaderSourceLabel.setColour(Label::textColourId, findColour(SceneComponent::textColourId));
-	shaderSourceLabel.setColour(Label::textWhenEditingColourId, findColour(SceneComponent::highlightedTextColourId));
-	addAndMakeVisible(shaderSourceLabel);
-
 	setPositioner(new Positioner(*this, sceneData, data, zoomFactor));
 
 	// don't drag over the parent's edges
@@ -99,6 +89,7 @@ void SceneComponent::paint(Graphics& g) {
 	Rectangle<float> sceneRect = getLocalBounds().toFloat();
 	sceneRect.removeFromBottom(1.0f);
 
+	const String shaderSource = data.getSceneShaderSource(sceneData);
 	const bool selected = data.getSelection().contains(sceneData);
 
 	if (nullptr == laf) {
@@ -110,8 +101,11 @@ void SceneComponent::paint(Graphics& g) {
 
 		g.setColour(findColour(SceneComponent::outlineColourId));
 		g.drawRect(sceneRect, 1);
+
+		g.setColour(findColour(SceneComponent::textColourId));
+		g.drawFittedText(shaderSource, sceneRect.getSmallestIntegerContainer(), Justification::centred, 1);
 	} else {
-		laf->drawScene(g, sceneRect, selected);
+		laf->drawScene(g, sceneRect, selected, shaderSource);
 	}
 }
 
@@ -161,6 +155,31 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 		data.removeScene(sceneData);
 		// this component gets deleted after this, so don't do stupid things
 
+	} else if (event.mouseWasClicked() && m.isCommandDown() && m.isPopupMenu()) {
+		// select shader source
+		const String currentShaderSource = data.getSceneShaderSource(sceneData);
+		int currentShaderSourceId = 0;
+		const std::vector<File> allSceneShaderFiles = StrahlenwerkApplication::getInstance()->getProject().getLoader().listSceneFiles();
+
+		PopupMenu menu;
+		const size_t numSceneShaderFiles = allSceneShaderFiles.size();
+		for (size_t i = 0; i < numSceneShaderFiles; i++) {
+			const String shaderName = allSceneShaderFiles[i].getFileNameWithoutExtension();
+			const bool isTicked = currentShaderSource == shaderName;
+			if (isTicked) { currentShaderSourceId = i+1; }
+			menu.addItem(i+1, shaderName, true, isTicked);
+		}
+
+		const int menuResult = menu.showAt(this, currentShaderSourceId, getWidth(), 1, getHeight());
+		if (menuResult == 0) {
+			// user dismissed menu
+			return;
+		}
+
+		// set shader source to selected one
+		data.getUndoManager().beginNewTransaction("Change Shader Source");
+		data.setSceneShaderSource(sceneData, allSceneShaderFiles[menuResult - 1].getFileNameWithoutExtension());
+
 	} else if (event.mouseWasClicked() && m.isRightButtonDown() && !m.isAnyModifierKeyDown()) {
 		// add sequence to selection
 		data.getSelection().set(sceneData);
@@ -173,7 +192,6 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 void SceneComponent::resized() {
 	Rectangle<int> theBounds = getLocalBounds();
 	theBounds.removeFromBottom(1);
-	shaderSourceLabel.setBounds(theBounds);
 	resizableBorder.setBounds(theBounds);
 }
 
@@ -197,6 +215,8 @@ void SceneComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const I
 	// callback comes only from the sceneData that belongs to this component
 	if (property == treeId::sceneStart || property == treeId::sceneDuration) {
 		updateBounds();
+	} else if (property == treeId::sceneShaderSource) {
+		repaint();
 	}
 }
 
