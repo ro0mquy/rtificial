@@ -1009,9 +1009,35 @@ Value TimelineData::getKeyframeEaseAwayAsValue(ValueTree keyframe) {
 void TimelineData::setKeyframePosition(ValueTree keyframe, var position) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	keyframe.setProperty(treeId::keyframePosition, position, &undoManager);
+
+	ValueTree sequence = getKeyframeParentSequence(keyframe);
+	const int currentPosition = getKeyframesArray(sequence).indexOf(keyframe);
+
+	const int numKeyframes = getNumKeyframes(sequence);
+	int sortedPosition = 0;
+	for (; sortedPosition < numKeyframes; sortedPosition++) {
+		if (sortedPosition == currentPosition) {
+			// don't compare with oneself
+			continue;
+		}
+
+		ValueTree otherKeyframe = getKeyframe(sequence, sortedPosition);
+		if (compareKeyframes(keyframe, otherKeyframe) < 0) {
+			// break if the new keyframe comes before the currently checked one
+			break;
+		}
+		// if the new keyframe comes last sortedPosition will contain numKeyframes
+		// and the new keyframe will be added at the end
+	}
+
+	if (sortedPosition > currentPosition) {
+		// the childs get shuffled, so decrement the index for  childs after the current
+		sortedPosition--;
+	}
+	getKeyframesArray(sequence).moveChild(currentPosition, sortedPosition, &undoManager);
 }
 
-// sets the easing mode towards the the given keyframe
+// sets the easing mode towards the given keyframe
 void TimelineData::setKeyframeEaseToward(ValueTree keyframe, var easeToward) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	keyframe.setProperty(treeId::keyframeEaseToward, easeToward, &undoManager);
