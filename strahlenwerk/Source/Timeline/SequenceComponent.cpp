@@ -74,12 +74,19 @@ void SequenceComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 	} else if (xChanged && widthChanged) {
 		// stretching left
 		const int newX = newBounds.getX() / zoomFactor;
-		const int newStart = zoomFactor.snapValueToGrid(newX);
+		int newStart = zoomFactor.snapValueToGrid(newX);
+
+		const int oldStart = data.getAbsoluteStartForSequence(sequenceData);
+
+		ValueTree firstKeyframe = data.getKeyframe(sequenceData, 0);
+		if (firstKeyframe.isValid()) {
+			const int posFirstKeyframe = data.getKeyframePosition(firstKeyframe);
+			newStart = jmin(newStart, oldStart + posFirstKeyframe);
+		}
 
 		// calculate the new width through the change of X
 		// so that the right end stays where it is
 		// otherwise the duration and not the right side would be snapped to grid
-		const int oldStart = data.getAbsoluteStartForSequence(sequenceData);
 		const int deltaStart = oldStart - newStart;
 		const int oldDuration = data.getSequenceDuration(sequenceData);
 		const int newDuration = oldDuration + deltaStart;
@@ -101,7 +108,15 @@ void SequenceComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 		const int start = data.getAbsoluteStartForSequence(sequenceData);
 		const int newAbsoluteEnd = start + newWidth;
 		const int newAbsoluteEndGrid = zoomFactor.snapValueToGrid(newAbsoluteEnd);
-		const int newDuration = newAbsoluteEndGrid - start;
+		int newDuration = newAbsoluteEndGrid - start;
+
+		const int numKeyframes = data.getNumKeyframes(sequenceData);
+		ValueTree lastKeyframe = data.getKeyframe(sequenceData, numKeyframes-1);
+		if (lastKeyframe.isValid()) {
+			const int posLastKeyframe = data.getKeyframePosition(lastKeyframe);
+			newDuration = jmax(newDuration, posLastKeyframe);
+		}
+
 		data.setSequenceDuration(sequenceData, newDuration);
 	}
 }
