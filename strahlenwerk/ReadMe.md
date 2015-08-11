@@ -20,11 +20,13 @@
 * `B` Reset Camera Rotation
 * `[Ctrl]+B` Reset Camera Position
 * `[Ctrl]+S` save all timeline data to `timeline.xml`
+* `[Rightclick]` Select Scene, Sequence or Keyframe
+* `[Ctrl]+\`|[Del]|[Backspace]` Delete current selection
 * `8` toggle looping of current selection
 
 #### Scenes
 * `[Ctrl]+[Drag]` create new scene or move already existing
-* `[Ctrl]+[Doubleclick]` edit shader source name
+* `[Ctrl]+[Rightclick]` select shader source name
 * `[Ctrl]+[Middleclick]` delete scene
 
 #### Sequences
