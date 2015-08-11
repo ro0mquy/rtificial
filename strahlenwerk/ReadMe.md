@@ -21,7 +21,7 @@
 * `[Ctrl]+B` Reset Camera Position
 * `[Ctrl]+S` save all timeline data to `timeline.xml`
 * `[Rightclick]` Select Scene, Sequence or Keyframe
-* `[Ctrl]+\`|[Del]|[Backspace]` Delete current selection
+* ``[Ctrl]+`|[Del]|[Backspace]`` Delete current selection
 * `8` toggle looping of current selection
 
 #### Scenes
@@ -73,7 +73,7 @@ Just run `Builds/Linux/build/strahlenwerk` and be happy with this awesome lookin
 
 ### Windows
 #### Install Visual Studio
-You need *Microsoft® Visual Studio® Express 2013 with Update 3 for Windows® **Desktop*** (because of some C++11 features). [Download](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop) and install it. You probably need a *Live* Account and 5GB space on EVERY DISK. I don't even...
+You need *MicrosoftÂ® Visual StudioÂ® Express 2013 with Update 3 for WindowsÂ® **Desktop*** (because of some C++11 features). [Download](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop) and install it. You probably need a *Live* Account and 5GB space on EVERY DISK. I don't even...
 
 #### Install JUCE
 Use Git Shell to clone JUCE in any folder you want.
