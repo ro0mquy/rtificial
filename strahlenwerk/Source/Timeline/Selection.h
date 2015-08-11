@@ -30,6 +30,7 @@ class Selection :
 
 		enum CommandIDs {
 			toggleLoop = 0x47e15a00,
+			deleteSelection,
 		};
 
 	private:
@@ -40,6 +41,8 @@ class Selection :
 
 		void checkIfNeedToLoop();
 		void performToggleLoop();
+
+		void performDeleteSelection();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Selection)
 };

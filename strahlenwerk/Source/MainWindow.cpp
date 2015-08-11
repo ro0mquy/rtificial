@@ -101,6 +101,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		TimelineData::redoAction,
 		AudioManager::toggleMute,
 		Selection::toggleLoop,
+		Selection::deleteSelection,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -218,6 +219,13 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 		case Selection::toggleLoop:
 			result.setInfo("Toggle Selection Looping", "Loops the current selection", programCategory, 0);
 			result.addDefaultKeypress('8', ModifierKeys::noModifiers);
+			break;
+
+		case Selection::deleteSelection:
+			result.setInfo("Delete Selection", "Deletes the current selection", programCategory, 0);
+			result.addDefaultKeypress(KeyPress::deleteKey, ModifierKeys::noModifiers);
+			result.addDefaultKeypress(KeyPress::backspaceKey, ModifierKeys::noModifiers);
+			result.addDefaultKeypress('`', ModifierKeys::commandModifier);
 			break;
 
 		default:

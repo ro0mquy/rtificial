@@ -123,10 +123,47 @@ void Selection::performToggleLoop() {
 	properties.setValue(PropertyNames::LoopEnabled, !previous);
 }
 
+void Selection::performDeleteSelection() {
+	const int numSelection = size();
+	if (numSelection == 1) {
+		ValueTree singleElement = *selectedTrees.getUnchecked(0);
+		if (data.isScene(singleElement)) {
+			data.getUndoManager().beginNewTransaction("Delete Scene");
+			data.removeScene(singleElement);
+		} else if (data.isSequence(singleElement)) {
+			data.getUndoManager().beginNewTransaction("Delete Sequence");
+			data.removeSequence(singleElement);
+		} else if (data.isKeyframe(singleElement)) {
+			data.getUndoManager().beginNewTransaction("Delete Keyframe");
+			data.removeKeyframe(singleElement);
+		} else {
+			jassertfalse;
+		}
+	} else {
+		data.getUndoManager().beginNewTransaction("Delete Selection");
+		for (int i = 0; i < numSelection; i++) {
+			ValueTree element = *selectedTrees[i];
+			if (data.isScene(element)) {
+				data.removeScene(element);
+			} else if (data.isSequence(element)) {
+				data.removeSequence(element);
+			} else if (data.isKeyframe(element)) {
+				data.removeKeyframe(element);
+			} else {
+				jassertfalse;
+			}
+		}
+	}
+	clear();
+}
+
 void Selection::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
 	switch (info.commandID) {
 		case Selection::toggleLoop:
 			performToggleLoop();
+			break;
+		case Selection::deleteSelection:
+			performDeleteSelection();
 			break;
 	}
 }
