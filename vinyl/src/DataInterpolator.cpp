@@ -29,6 +29,144 @@ void DataInterpolator::loadUniforms(const int time) {
 	}
 }
 
+int wrappedGetKeyframeTime(const int keyframeTimeOffset, const int index, const int numKeyframes, const int sequenceDuration, const bool useStdAtStart, const bool useStdAtEnd) {
+	if (index == -1 && useStdAtStart) {
+		return 0;
+	} else if (index <= -1) {
+		return -1;
+	} else if (index == numKeyframes && useStdAtEnd) {
+		return sequenceDuration;
+	} else if (index >= numKeyframes) {
+		return -1;
+	} else {
+		return keyframe_time[keyframeTimeOffset + index];
+	}
+}
+
+int wrappedGetKeyframeValueOffset(const int index, const int numKeyframes, const bool useStdAtStart, const bool useStdAtEnd) {
+	// -1: standardValue, -2: invalid data
+	if (index == -1 && useStdAtStart) {
+		return -1;
+	} else if (index <= -1) {
+		return -2;
+	} else if (index == numKeyframes && useStdAtEnd) {
+		return -1;
+	} else if (index >= numKeyframes) {
+		return -2;
+	} else {
+		return index;
+	}
+}
+
+bool areValuesEqual(const int nthUniform, const int type, const int keyframeDataOffset, const int index1, const int index2, const int numKeyframes, const bool useStdAtStart, const bool useStdAtEnd) {
+	const float e = .00005f;
+
+	const int standardValuePos = keyframe_index[nthUniform];
+
+	const int wrappedIndex1 = wrappedGetKeyframeValueOffset(index1, numKeyframes, useStdAtStart, useStdAtEnd);
+	const int wrappedIndex2 = wrappedGetKeyframeValueOffset(index2, numKeyframes, useStdAtStart, useStdAtEnd);
+
+	if (wrappedIndex1 == -2 || wrappedIndex2 == -2) {
+		return false;
+	}
+
+	int offset1;
+	if (wrappedIndex1 == -1) {
+		// standardValue
+		offset1 = 0;
+	} else {
+		offset1 = keyframeDataOffset + wrappedIndex1;
+	}
+
+	int offset2;
+	if (wrappedIndex2 == -1) {
+		// standardValue
+		offset2 = 0;
+	} else {
+		offset2 = keyframeDataOffset + wrappedIndex2;
+	}
+
+	switch (type) {
+		case UNIFORM_TYPE_FLOAT:
+		case UNIFORM_TYPE_BOOL:
+			{
+				const int numFloatsInValue = 1;
+
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
+
+				const float floatValue1 = keyframe_data[keyframeDataIndex1];
+				const float floatValue2 = keyframe_data[keyframeDataIndex2];
+
+				return abs(floatValue1 - floatValue2) < e;
+			}
+			break;
+		case UNIFORM_TYPE_VEC2:
+			{
+				const int numFloatsInValue = 2;
+
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * wrappedIndex1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * wrappedIndex2;
+
+				const float vec2X1 = keyframe_data[keyframeDataIndex1];
+				const float vec2Y1 = keyframe_data[keyframeDataIndex1 + 1];
+
+				const float vec2X2 = keyframe_data[keyframeDataIndex2];
+				const float vec2Y2 = keyframe_data[keyframeDataIndex2 + 1];
+
+				return abs(vec2X1 - vec2X2) < e
+					&& abs(vec2Y1 - vec2Y2) < e;
+			}
+			break;
+		case UNIFORM_TYPE_VEC3:
+		case UNIFORM_TYPE_COLOR:
+			{
+				const int numFloatsInValue = 3;
+
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * wrappedIndex1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * wrappedIndex2;
+
+				const float vec3X1 = keyframe_data[keyframeDataIndex1];
+				const float vec3Y1 = keyframe_data[keyframeDataIndex1 + 1];
+				const float vec3Z1 = keyframe_data[keyframeDataIndex1 + 2];
+
+				const float vec3X2 = keyframe_data[keyframeDataIndex2];
+				const float vec3Y2 = keyframe_data[keyframeDataIndex2 + 1];
+				const float vec3Z2 = keyframe_data[keyframeDataIndex2 + 2];
+
+				return abs(vec3X1 - vec3X2) < e
+					&& abs(vec3Y1 - vec3Y2) < e
+					&& abs(vec3Z1 - vec3Z2) < e;
+			}
+			break;
+		case UNIFORM_TYPE_VEC4:
+		case UNIFORM_TYPE_QUAT:
+			{
+				const int numFloatsInValue = 4;
+
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * wrappedIndex1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * wrappedIndex2;
+
+				const float vec4X1 = keyframe_data[keyframeDataIndex1];
+				const float vec4Y1 = keyframe_data[keyframeDataIndex1 + 1];
+				const float vec4Z1 = keyframe_data[keyframeDataIndex1 + 2];
+				const float vec4W1 = keyframe_data[keyframeDataIndex1 + 3];
+
+				const float vec4X2 = keyframe_data[keyframeDataIndex2];
+				const float vec4Y2 = keyframe_data[keyframeDataIndex2 + 1];
+				const float vec4Z2 = keyframe_data[keyframeDataIndex2 + 2];
+				const float vec4W2 = keyframe_data[keyframeDataIndex2 + 3];
+
+				return abs(vec4X1 - vec4X2) < e
+					&& abs(vec4Y1 - vec4Y2) < e
+					&& abs(vec4Z1 - vec4Z2) < e
+					&& abs(vec4W1 - vec4W2) < e;
+			}
+			break;
+	}
+	return false;
+}
+
 void DataInterpolator::setUniformValue(const int time, const int nthUniform, const int type, const int location) {
 	const int firstSequence = sequence_index[nthUniform];
 	const int lastSequences = sequence_index[nthUniform+1];
@@ -50,6 +188,7 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 
 		const int sequenceStart = sequence.start;
 		const int sequenceEnd = sequence.end;
+		const int sequenceDuration = sequenceEnd - sequenceStart;
 		if (sequenceStart > time || sequenceEnd < time) {
 			// sequence not matching
 			continue;
@@ -62,6 +201,106 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 		const int keyframeTimeOffset = keyframeTimeIndex + totalNumKeyframe - numKeyframes;
 		const int keyframeDataOffset = totalNumKeyframe - numKeyframes + 1; // first keyframe data is standard value
 
+		if (sequenceInterpolation == SEQ_INTERPOLATION_STEP) {
+			// iterate keyframes from the end
+			for (int j = numKeyframes - 1; j >= 0; j--) {
+				const int keyframeTime = keyframe_time[keyframeTimeOffset + j];
+				if (keyframeTime <= relativeTime) {
+					// return first keyframe that comes before the current time
+					const int currentKeyframeDataOffset = keyframeDataOffset + j;
+					setValue(nthUniform, type, location, currentKeyframeDataOffset);
+					return;
+				}
+			}
+
+			// cursor between origin and first keyframe, return standard value
+			setValue(nthUniform, type, location, 0);
+			return;
+		} else if (sequenceInterpolation == SEQ_INTERPOLATION_LINEAR) {
+			const int firstKeyframeTime = keyframe_time[keyframeTimeOffset];
+			const int lastKeyframeTime = keyframe_time[keyframeTimeOffset + numKeyframes - 1];
+
+			// insert the standard value at start or end if there is no keyframe
+			const bool useStdAtStart = firstKeyframeTime != 0;
+			const bool useStdAtEnd = lastKeyframeTime != sequenceDuration;
+
+			for (int j = 0; j <= numKeyframes; j++) {
+				const int timeP2 = wrappedGetKeyframeTime(keyframeTimeOffset, j, numKeyframes, sequenceDuration, useStdAtStart, useStdAtEnd);
+
+				if (relativeTime <= timeP2) {
+					// '=='-case for standard value at last position
+					// we need P0, P1, P2 and P3 to interpolate
+					// the keyframe we found is P2
+
+					const int indexP1 = j - 1;
+					const int indexP2 = j;
+
+					// calculation of mixing parameter t
+					const int timeP1 = wrappedGetKeyframeTime(keyframeTimeOffset, indexP1, numKeyframes, sequenceDuration, useStdAtStart, useStdAtEnd);
+					const int timeBetweenKeyframes = timeP2 - timeP1;
+					const int moreRelativeTime = relativeTime - timeP1;
+					const float mixT = float(moreRelativeTime) / float(timeBetweenKeyframes);
+
+					setLinearValue(nthUniform, type, location, keyframeDataOffset, indexP1, indexP2, mixT, numKeyframes, useStdAtStart, useStdAtEnd);
+					return;
+				}
+			}
+		} else if (sequenceInterpolation == SEQ_INTERPOLATION_CCRSPLINE) {
+			const int firstKeyframeTime = keyframe_time[keyframeTimeOffset];
+			const int lastKeyframeTime = keyframe_time[keyframeTimeOffset + numKeyframes - 1];
+
+			// insert the standard value at start or end if there is no keyframe
+			const bool useStdAtStart = firstKeyframeTime != 0;
+			const bool useStdAtEnd = lastKeyframeTime != sequenceDuration;
+
+			for (int j = 0; j <= numKeyframes; j++) {
+				const int timeP2 = wrappedGetKeyframeTime(keyframeTimeOffset, j, numKeyframes, sequenceDuration, useStdAtStart, useStdAtEnd);
+
+				if (relativeTime <= timeP2) {
+					// '=='-case for standard value at last position
+					// we need P0, P1, P2 and P3 to interpolate
+					// the keyframe we found is P2
+
+					const int indexP1 = j - 1;
+					const int indexP2 = j;
+
+					if (areValuesEqual(nthUniform, type, keyframeDataOffset, indexP1, indexP2, numKeyframes, useStdAtStart, useStdAtEnd)) {
+						// currently in an area between two two same values
+						// spline interpolation would horriably breal
+						// so just return the value
+						const int currentKeyframeDataOffset = keyframeDataOffset + j;
+						setValue(nthUniform, type, location, currentKeyframeDataOffset);
+					}
+
+					// search for the first value for P0 that is not equal to P1
+					int indexP0;
+					for (indexP0 = j - 2; ; indexP0--) {
+						if (!areValuesEqual(nthUniform, type, keyframeDataOffset, indexP0, indexP1, numKeyframes, useStdAtStart, useStdAtEnd)) {
+							break;
+						}
+					}
+
+					// search for the first value for P3 that is not equal to P2
+					int indexP3;
+					for (indexP3 = j + 1; ; indexP3++) {
+						if (!areValuesEqual(nthUniform, type, keyframeDataOffset, indexP2, indexP3, numKeyframes, useStdAtStart, useStdAtEnd)) {
+							break;
+						}
+					}
+
+					// calculation of mixing parameter t
+					const int timeP1 = wrappedGetKeyframeTime(keyframeTimeOffset, indexP1, numKeyframes, sequenceDuration, useStdAtStart, useStdAtEnd);
+					const int timeBetweenKeyframes = timeP2 - timeP1;
+					const int moreRelativeTime = relativeTime - timeP1;
+					const float mixT = float(moreRelativeTime) / float(timeBetweenKeyframes);
+
+					setSplineValue(nthUniform, type, location, keyframeDataOffset, indexP0, indexP1, indexP2, indexP3, mixT, numKeyframes, useStdAtStart, useStdAtEnd);
+					return;
+				}
+			}
+		}
+
+/*
 		for (int j = 0; j < numKeyframes; j++) {
 			const int keyframeTime = keyframe_time[keyframeTimeOffset + j];
 
@@ -92,6 +331,7 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 				return;
 			}
 		}
+		// */
 	}
 
 	// no sequence for current time, return standard value
@@ -149,17 +389,40 @@ void DataInterpolator::setValue(const int nthUniform, const int type, const int 
 	}
 }
 
-void DataInterpolator::setLinearValue(const int nthUniform, const int type, const int location, const int offset, const float mixT) {
+void DataInterpolator::setLinearValue(const int nthUniform, const int type, const int location, const int keyframeDataOffset, const int indexP1, const int indexP2, const float mixT, const int numKeyframes, const int useStdAtStart, const int useStdAtEnd) {
+	const int standardValuePos = keyframe_index[nthUniform];
+
+	const int wrappedIndex1 = wrappedGetKeyframeValueOffset(indexP1, numKeyframes, useStdAtStart, useStdAtEnd);
+	const int wrappedIndex2 = wrappedGetKeyframeValueOffset(indexP2, numKeyframes, useStdAtStart, useStdAtEnd);
+
+	int offset1;
+	if (wrappedIndex1 == -1) {
+		// standardValue
+		offset1 = 0;
+	} else {
+		offset1 = keyframeDataOffset + wrappedIndex1;
+	}
+
+	int offset2;
+	if (wrappedIndex2 == -1) {
+		// standardValue
+		offset2 = 0;
+	}
+	else {
+		offset2 = keyframeDataOffset + wrappedIndex2;
+	}
+
 	switch (type) {
 		case UNIFORM_TYPE_FLOAT:
 		case UNIFORM_TYPE_BOOL:
 			{
 				const int numFloatsInValue = 1;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
 
-				const float P1 = keyframe_data[keyframeDataIndex];
-				const float P2 = keyframe_data[keyframeDataIndex + numFloatsInValue];
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
+
+				const float P1 = keyframe_data[keyframeDataIndex1];
+				const float P2 = keyframe_data[keyframeDataIndex2];
 
 				const float mixed = mix(P1, P2, mixT);
 				glUniform1f(location, mixed);
@@ -168,15 +431,16 @@ void DataInterpolator::setLinearValue(const int nthUniform, const int type, cons
 		case UNIFORM_TYPE_VEC2:
 			{
 				const int numFloatsInValue = 2;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
 
 				const vec2 P1 = vec2(
-						keyframe_data[keyframeDataIndex],
-						keyframe_data[keyframeDataIndex + 1]);
+						keyframe_data[keyframeDataIndex1],
+						keyframe_data[keyframeDataIndex1 + 1]);
 				const vec2 P2 = vec2(
-						keyframe_data[keyframeDataIndex + numFloatsInValue],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 1]);
+						keyframe_data[keyframeDataIndex2],
+						keyframe_data[keyframeDataIndex2 + 1]);
 
 				const vec2 mixed = mix(P1, P2, mixT);
 				glUniform2f(location, mixed.x, mixed.y);
@@ -186,17 +450,18 @@ void DataInterpolator::setLinearValue(const int nthUniform, const int type, cons
 		case UNIFORM_TYPE_COLOR:
 			{
 				const int numFloatsInValue = 3;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
 
 				const vec3 P1 = vec3(
-						keyframe_data[keyframeDataIndex],
-						keyframe_data[keyframeDataIndex + 1],
-						keyframe_data[keyframeDataIndex + 2]);
+						keyframe_data[keyframeDataIndex1],
+						keyframe_data[keyframeDataIndex1 + 1],
+						keyframe_data[keyframeDataIndex1 + 2]);
 				const vec3 P2 = vec3(
-						keyframe_data[keyframeDataIndex + numFloatsInValue],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 2]);
+						keyframe_data[keyframeDataIndex2],
+						keyframe_data[keyframeDataIndex2 + 1],
+						keyframe_data[keyframeDataIndex2 + 2]);
 
 				const vec3 mixed = mix(P1, P2, mixT);
 				glUniform3f(location, mixed.x, mixed.y, mixed.z);
@@ -205,19 +470,20 @@ void DataInterpolator::setLinearValue(const int nthUniform, const int type, cons
 		case UNIFORM_TYPE_VEC4:
 			{
 				const int numFloatsInValue = 4;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
 
 				const vec4 P1 = vec4(
-						keyframe_data[keyframeDataIndex],
-						keyframe_data[keyframeDataIndex + 1],
-						keyframe_data[keyframeDataIndex + 2],
-						keyframe_data[keyframeDataIndex + 3]);
+						keyframe_data[keyframeDataIndex1],
+						keyframe_data[keyframeDataIndex1 + 1],
+						keyframe_data[keyframeDataIndex1 + 2],
+						keyframe_data[keyframeDataIndex1 + 3]);
 				const vec4 P2 = vec4(
-						keyframe_data[keyframeDataIndex + numFloatsInValue],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 2],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 3]);
+						keyframe_data[keyframeDataIndex2],
+						keyframe_data[keyframeDataIndex2 + 1],
+						keyframe_data[keyframeDataIndex2 + 2],
+						keyframe_data[keyframeDataIndex2 + 3]);
 
 				const vec4 mixed = mix(P1, P2, mixT);
 				glUniform4f(location, mixed.x, mixed.y, mixed.z, mixed.w);
@@ -226,20 +492,21 @@ void DataInterpolator::setLinearValue(const int nthUniform, const int type, cons
 		case UNIFORM_TYPE_QUAT:
 			{
 				const int numFloatsInValue = 4;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
 
 				// it's quat(w, x, y, z)
 				const quat P1 = quat(
-						keyframe_data[keyframeDataIndex + 3],
-						keyframe_data[keyframeDataIndex],
-						keyframe_data[keyframeDataIndex + 1],
-						keyframe_data[keyframeDataIndex + 2]);
+						keyframe_data[keyframeDataIndex1 + 3],
+						keyframe_data[keyframeDataIndex1],
+						keyframe_data[keyframeDataIndex1 + 1],
+						keyframe_data[keyframeDataIndex1 + 2]);
 				const quat P2 = quat(
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 3],
-						keyframe_data[keyframeDataIndex + numFloatsInValue],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 2]);
+						keyframe_data[keyframeDataIndex2 + 3],
+						keyframe_data[keyframeDataIndex2],
+						keyframe_data[keyframeDataIndex2 + 1],
+						keyframe_data[keyframeDataIndex2 + 2]);
 
 				const quat mixed = slerp(P1, P2, mixT);
 				glUniform4f(location, mixed.x, mixed.y, mixed.z, mixed.w);
@@ -249,28 +516,70 @@ void DataInterpolator::setLinearValue(const int nthUniform, const int type, cons
 }
 
 // offset is for P1, not P2
-void DataInterpolator::setSplineValue(const int nthUniform, const int type, const int location, const int offset, const float mixT, const bool noFirstValue, const bool noLastValue) {
+void DataInterpolator::setSplineValue(const int nthUniform, const int type, const int location, const int keyframeDataOffset, const int indexP0, const int indexP1, const int indexP2, const int indexP3, const float mixT, const int numKeyframes, const int useStdAtStart, const int useStdAtEnd) {
+	const int standardValuePos = keyframe_index[nthUniform];
+
+	const int wrappedIndex0 = wrappedGetKeyframeValueOffset(indexP0, numKeyframes, useStdAtStart, useStdAtEnd);
+	const int wrappedIndex1 = wrappedGetKeyframeValueOffset(indexP1, numKeyframes, useStdAtStart, useStdAtEnd);
+	const int wrappedIndex2 = wrappedGetKeyframeValueOffset(indexP2, numKeyframes, useStdAtStart, useStdAtEnd);
+	const int wrappedIndex3 = wrappedGetKeyframeValueOffset(indexP3, numKeyframes, useStdAtStart, useStdAtEnd);
+
+	int offset0;
+	if (wrappedIndex0 == -1) {
+		// standardValue
+		offset0 = 0;
+	} else {
+		offset0 = keyframeDataOffset + wrappedIndex0;
+	}
+
+	int offset1;
+	if (wrappedIndex1 == -1) {
+		// standardValue
+		offset1 = 0;
+	} else {
+		offset1 = keyframeDataOffset + wrappedIndex1;
+	}
+
+	int offset2;
+	if (wrappedIndex2 == -1) {
+		// standardValue
+		offset2 = 0;
+	} else {
+		offset2 = keyframeDataOffset + wrappedIndex2;
+	}
+
+	int offset3;
+	if (wrappedIndex3 == -1) {
+		// standardValue
+		offset3 = 0;
+	} else {
+		offset3 = keyframeDataOffset + wrappedIndex3;
+	}
+
 	switch (type) {
 		case UNIFORM_TYPE_FLOAT:
 		case UNIFORM_TYPE_BOOL:
 			{
 				const int numFloatsInValue = 1;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
 
-				const float P1 = keyframe_data[keyframeDataIndex];
-				const float P2 = keyframe_data[keyframeDataIndex + numFloatsInValue];
+				const int keyframeDataIndex0 = standardValuePos + numFloatsInValue * offset0;
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
+				const int keyframeDataIndex3 = standardValuePos + numFloatsInValue * offset3;
+
+				const float P1 = keyframe_data[keyframeDataIndex1];
+				const float P2 = keyframe_data[keyframeDataIndex2];
 
 				float P0, P3;
-				if (noFirstValue) {
+				if (wrappedIndex0 == -2) {
 					P0 = 2. * P1 - P2;
 				} else {
-					P0 = keyframe_data[keyframeDataIndex - numFloatsInValue];
+					P0 = keyframe_data[keyframeDataIndex0];
 				}
-				if (noLastValue) {
+				if (wrappedIndex3 == -2) {
 					P3 = 2. * P2 - P1;
 				} else {
-					P3 = keyframe_data[keyframeDataIndex + 2 * numFloatsInValue];
+					P3 = keyframe_data[keyframeDataIndex3];
 				}
 
 				const float dt01 = sqrt(distance(P0, P1));
@@ -293,30 +602,33 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 		case UNIFORM_TYPE_VEC2:
 			{
 				const int numFloatsInValue = 2;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const int keyframeDataIndex0 = standardValuePos + numFloatsInValue * offset0;
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
+				const int keyframeDataIndex3 = standardValuePos + numFloatsInValue * offset3;
 
 				const vec2 P1 = vec2(
-						keyframe_data[keyframeDataIndex],
-						keyframe_data[keyframeDataIndex + 1]);
+						keyframe_data[keyframeDataIndex1],
+						keyframe_data[keyframeDataIndex1 + 1]);
 				const vec2 P2 = vec2(
-						keyframe_data[keyframeDataIndex + numFloatsInValue],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 1]);
+						keyframe_data[keyframeDataIndex2],
+						keyframe_data[keyframeDataIndex2 + 1]);
 
 				vec2 P0, P3;
-				if (noFirstValue) {
+				if (wrappedIndex0 == -2) {
 					P0 = 2. * P1 - P2;
 				} else {
 					P0 = vec2(
-						keyframe_data[keyframeDataIndex - numFloatsInValue],
-						keyframe_data[keyframeDataIndex - numFloatsInValue + 1]);
+						keyframe_data[keyframeDataIndex0],
+						keyframe_data[keyframeDataIndex0 + 1]);
 				}
-				if (noLastValue) {
+				if (wrappedIndex3 == -2) {
 					P3 = 2. * P2 - P1;
 				} else {
 					P3 = vec2(
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue],
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 1]);
+						keyframe_data[keyframeDataIndex3],
+						keyframe_data[keyframeDataIndex3 + 1]);
 				}
 
 				const float dt01 = sqrt(distance(P0, P1));
@@ -340,34 +652,37 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 		case UNIFORM_TYPE_COLOR:
 			{
 				const int numFloatsInValue = 3;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const int keyframeDataIndex0 = standardValuePos + numFloatsInValue * offset0;
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
+				const int keyframeDataIndex3 = standardValuePos + numFloatsInValue * offset3;
 
 				const vec3 P1 = vec3(
-						keyframe_data[keyframeDataIndex],
-						keyframe_data[keyframeDataIndex + 1],
-						keyframe_data[keyframeDataIndex + 2]);
+						keyframe_data[keyframeDataIndex1],
+						keyframe_data[keyframeDataIndex1 + 1],
+						keyframe_data[keyframeDataIndex1 + 2]);
 				const vec3 P2 = vec3(
-						keyframe_data[keyframeDataIndex + numFloatsInValue],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 2]);
+						keyframe_data[keyframeDataIndex2],
+						keyframe_data[keyframeDataIndex2 + 1],
+						keyframe_data[keyframeDataIndex2 + 2]);
 
 				vec3 P0, P3;
-				if (noFirstValue) {
+				if (wrappedIndex0 == -2) {
 					P0 = 2. * P1 - P2;
 				} else {
 					P0 = vec3(
-						keyframe_data[keyframeDataIndex - numFloatsInValue],
-						keyframe_data[keyframeDataIndex - numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex - numFloatsInValue + 2]);
+						keyframe_data[keyframeDataIndex0],
+						keyframe_data[keyframeDataIndex0 + 1],
+						keyframe_data[keyframeDataIndex0 + 2]);
 				}
-				if (noLastValue) {
+				if (wrappedIndex3 == -2) {
 					P3 = 2. * P2 - P1;
 				} else {
 					P3 = vec3(
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue],
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 2]);
+						keyframe_data[keyframeDataIndex3],
+						keyframe_data[keyframeDataIndex3 + 1],
+						keyframe_data[keyframeDataIndex3 + 2]);
 				}
 
 				const float dt01 = sqrt(distance(P0, P1));
@@ -390,38 +705,41 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 		case UNIFORM_TYPE_VEC4:
 			{
 				const int numFloatsInValue = 4;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const int keyframeDataIndex0 = standardValuePos + numFloatsInValue * offset0;
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
+				const int keyframeDataIndex3 = standardValuePos + numFloatsInValue * offset3;
 
 				const vec4 P1 = vec4(
-						keyframe_data[keyframeDataIndex],
-						keyframe_data[keyframeDataIndex + 1],
-						keyframe_data[keyframeDataIndex + 2],
-						keyframe_data[keyframeDataIndex + 3]);
+						keyframe_data[keyframeDataIndex1],
+						keyframe_data[keyframeDataIndex1 + 1],
+						keyframe_data[keyframeDataIndex1 + 2],
+						keyframe_data[keyframeDataIndex1 + 3]);
 				const vec4 P2 = vec4(
-						keyframe_data[keyframeDataIndex + numFloatsInValue],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 2],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 3]);
+						keyframe_data[keyframeDataIndex2],
+						keyframe_data[keyframeDataIndex2 + 1],
+						keyframe_data[keyframeDataIndex2 + 2],
+						keyframe_data[keyframeDataIndex2 + 3]);
 
 				vec4 P0, P3;
-				if (noFirstValue) {
+				if (wrappedIndex0 == -2) {
 					P0 = 2. * P1 - P2;
 				} else {
 					P0 = vec4(
-						keyframe_data[keyframeDataIndex - numFloatsInValue],
-						keyframe_data[keyframeDataIndex - numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex - numFloatsInValue + 2],
-						keyframe_data[keyframeDataIndex - numFloatsInValue + 3]);
+						keyframe_data[keyframeDataIndex0],
+						keyframe_data[keyframeDataIndex0 + 1],
+						keyframe_data[keyframeDataIndex0 + 2],
+						keyframe_data[keyframeDataIndex0 + 3]);
 				}
-				if (noLastValue) {
+				if (wrappedIndex3 == -2) {
 					P3 = 2. * P2 - P1;
 				} else {
 					P3 = vec4(
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue],
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 2],
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 3]);
+						keyframe_data[keyframeDataIndex3],
+						keyframe_data[keyframeDataIndex3 + 1],
+						keyframe_data[keyframeDataIndex3 + 2],
+						keyframe_data[keyframeDataIndex3 + 3]);
 				}
 
 				const float dt01 = sqrt(distance(P0, P1));
@@ -444,39 +762,42 @@ void DataInterpolator::setSplineValue(const int nthUniform, const int type, cons
 		case UNIFORM_TYPE_QUAT:
 			{
 				const int numFloatsInValue = 4;
-				const int standardValuePos = keyframe_index[nthUniform];
-				const int keyframeDataIndex = standardValuePos + numFloatsInValue * offset;
+
+				const int keyframeDataIndex0 = standardValuePos + numFloatsInValue * offset0;
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
+				const int keyframeDataIndex3 = standardValuePos + numFloatsInValue * offset3;
 
 				// it's quat(w, x, y, z)
 				const quat P1 = quat(
-						keyframe_data[keyframeDataIndex + 3],
-						keyframe_data[keyframeDataIndex],
-						keyframe_data[keyframeDataIndex + 1],
-						keyframe_data[keyframeDataIndex + 2]);
+						keyframe_data[keyframeDataIndex1 + 3],
+						keyframe_data[keyframeDataIndex1],
+						keyframe_data[keyframeDataIndex1 + 1],
+						keyframe_data[keyframeDataIndex1 + 2]);
 				const quat P2 = quat(
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 3],
-						keyframe_data[keyframeDataIndex + numFloatsInValue],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex + numFloatsInValue + 2]);
+						keyframe_data[keyframeDataIndex2 + 3],
+						keyframe_data[keyframeDataIndex2],
+						keyframe_data[keyframeDataIndex2 + 1],
+						keyframe_data[keyframeDataIndex2 + 2]);
 
 				quat P0, P3;
-				if (noFirstValue) {
+				if (wrappedIndex0 == -2) {
 					P0 = mirror(P2, P1);
 				} else {
 					P0 = quat(
-						keyframe_data[keyframeDataIndex - numFloatsInValue + 3],
-						keyframe_data[keyframeDataIndex - numFloatsInValue],
-						keyframe_data[keyframeDataIndex - numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex - numFloatsInValue + 2]);
+						keyframe_data[keyframeDataIndex0 + 3],
+						keyframe_data[keyframeDataIndex0],
+						keyframe_data[keyframeDataIndex0 + 1],
+						keyframe_data[keyframeDataIndex0 + 2]);
 				}
-				if (noLastValue) {
+				if (wrappedIndex3 == -2) {
 					P3 = mirror(P1, P2);
 				} else {
 					P3 = quat(
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 3],
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue],
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 1],
-						keyframe_data[keyframeDataIndex + 2 * numFloatsInValue + 2]);
+						keyframe_data[keyframeDataIndex3 + 3],
+						keyframe_data[keyframeDataIndex3],
+						keyframe_data[keyframeDataIndex3 + 1],
+						keyframe_data[keyframeDataIndex3 + 2]);
 				}
 
 				const float dt01 = sqrt(acos(clamp(abs(dot(P0, P1)), 0.f, 1.f)));
