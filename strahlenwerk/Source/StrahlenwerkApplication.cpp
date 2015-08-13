@@ -29,7 +29,7 @@ void StrahlenwerkApplication::initialise(const String& /*commandLine*/) {
 	properties = new PropertiesFile(options);
 
 	audioManager = new AudioManager();
-	project = new Project(properties->getValue(PropertyNames::PROJECT_DIR, "./").toStdString(), *audioManager);
+	project = new Project(properties->getValue(PropertyNames::ProjectDir, "./").toStdString(), *audioManager);
 
 	lookAndFeel = new RtificialLookAndFeel();
 	Desktop::getInstance().setDefaultLookAndFeel(lookAndFeel);

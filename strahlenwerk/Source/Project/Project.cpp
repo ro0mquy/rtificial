@@ -78,7 +78,7 @@ TimelineData& Project::getTimelineData() {
 void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
 	watchFiles(dir);
-	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::PROJECT_DIR, var(dir));
+	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::ProjectDir, var(dir));
 	reloadTimelineData();
 	reloadShaders();
 	reloadAudio();

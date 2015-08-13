@@ -18,7 +18,7 @@ OpenGLTargetComponent::OpenGLTargetComponent(Renderer& _renderer) : renderer(_re
 
 void OpenGLTargetComponent::paint(Graphics& g) {
 	const Rectangle<int> bounds = getLocalBounds();
-	if(StrahlenwerkApplication::getInstance()->getProperties().getBoolValue(PropertyNames::GRID_ENABLED)) {
+	if(StrahlenwerkApplication::getInstance()->getProperties().getBoolValue(PropertyNames::GridEnabled)) {
 		const float thirdHoriz = bounds.getWidth() / 3.;
 		const float thirdVert = bounds.getHeight() / 3.;
 		const float thickness = bounds.getWidth() / 200.;

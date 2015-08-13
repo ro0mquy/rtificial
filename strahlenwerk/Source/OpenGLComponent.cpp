@@ -84,8 +84,8 @@ void OpenGLComponent::scenesChanged() {
 
 void OpenGLComponent::doToggleGrid() {
 	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
-	const bool previous = properties.getBoolValue(PropertyNames::GRID_ENABLED);
-	properties.setValue(PropertyNames::GRID_ENABLED, !previous);
+	const bool previous = properties.getBoolValue(PropertyNames::GridEnabled);
+	properties.setValue(PropertyNames::GridEnabled, !previous);
 	fixedAspectRatioComponent.repaint();
 }
 
