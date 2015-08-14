@@ -18,139 +18,142 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\Backend.h">
+    <ClInclude Include="..\..\..\Source\BRDFLut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Framebuffer.h">
+    <ClInclude Include="..\..\..\Source\Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\glcorearb.h">
+    <ClInclude Include="..\..\..\Source\DataInterpolator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Shader.h">
+    <ClInclude Include="..\..\..\Source\DiffuseFilterSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\strahlenwerk_export.h">
+    <ClInclude Include="..\..\..\Source\EnvironmentMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\gl_identifiers.h">
+    <ClInclude Include="..\..\..\Source\Framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\DataInterpolator.h">
+    <ClInclude Include="..\..\..\Source\gl_identifiers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Keyframe.h">
+    <ClInclude Include="..\..\..\Source\glcorearb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Scene.h">
+    <ClInclude Include="..\..\..\Source\quat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Sequence.h">
+    <ClInclude Include="..\..\..\Source\scalar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Uniform.h">
+    <ClInclude Include="..\..\..\Source\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\quat.h">
+    <ClInclude Include="..\..\..\Source\Sequence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\scalar.h">
+    <ClInclude Include="..\..\..\Source\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\vec2.h">
+    <ClInclude Include="..\..\..\Source\SpecularFilterSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\vec3.h">
+    <ClInclude Include="..\..\..\Source\stdlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\stdlib.h">
+    <ClInclude Include="..\..\..\Source\stdmath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\stdmath.h">
+    <ClInclude Include="..\..\..\Source\strahlenwerk_export.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\music\4klang.windows.h">
+    <ClInclude Include="..\..\..\Source\strahlenwerk_export_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\vec4.h">
+    <ClInclude Include="..\..\..\Source\Uniform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Lib\include\v2mplayer.h">
+    <ClInclude Include="..\..\..\Source\vec2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\vec3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\vec4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\AmbientLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Backend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\BRDFIntegratorSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\music\4klang.windows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Lib\include\v2mplayer.h">
       <Filter>libv2</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Lib\include\libv2.h">
+    <ClInclude Include="..\..\..\Lib\include\libv2.h">
       <Filter>libv2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\AmbientLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\BRDFIntegratorSource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\BRDFLut.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\DiffuseFilterSource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\EnvironmentMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\SpecularFilterSource.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Framebuffer.cpp">
+    <ClCompile Include="..\..\..\Source\vec3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LinuxBackend.cpp">
+    <ClCompile Include="..\..\..\Source\vec4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\main.cpp">
+    <ClCompile Include="..\..\..\Source\WindowsBackend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Shader.cpp">
+    <ClCompile Include="..\..\..\Source\AmbientLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\WindowsBackend.cpp">
+    <ClCompile Include="..\..\..\Source\BRDFLut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\DataInterpolator.cpp">
+    <ClCompile Include="..\..\..\Source\DataInterpolator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\vec3.cpp">
+    <ClCompile Include="..\..\..\Source\EnvironmentMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\quat.cpp">
+    <ClCompile Include="..\..\..\Source\Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\scalar.cpp">
+    <ClCompile Include="..\..\..\Source\LinuxBackend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\vec2.cpp">
+    <ClCompile Include="..\..\..\Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\stdlib.cpp">
+    <ClCompile Include="..\..\..\Source\quat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\stdmath.cpp">
+    <ClCompile Include="..\..\..\Source\scalar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\vec4.cpp">
+    <ClCompile Include="..\..\..\Source\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Lib\include\v2mplayer.cpp">
+    <ClCompile Include="..\..\..\Source\stdlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\stdmath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\vec2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Lib\include\v2mplayer.cpp">
       <Filter>libv2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\AmbientLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\BRDFLut.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\EnvironmentMap.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,7 +162,7 @@
     </Library>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\src\music\v2inc.asm">
+    <CustomBuild Include="..\..\..\Source\music\v2inc.asm">
       <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>
