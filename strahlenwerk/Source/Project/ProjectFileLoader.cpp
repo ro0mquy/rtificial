@@ -47,6 +47,10 @@ File ProjectFileLoader::getBakeFile() const {
 	return projectDir.getChildFile("uniforms.baked");
 }
 
+const File& ProjectFileLoader::getProjectDir() const {
+	return projectDir;
+}
+
 const File& ProjectFileLoader::getSceneDir() const {
 	return sceneDir;
 }

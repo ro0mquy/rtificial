@@ -21,10 +21,13 @@ MainWindow::MainWindow() :
 			LookAndFeel::getDefaultLookAndFeel().findColour(ResizableWindow::backgroundColourId), // nicht mehr kritzelila
 			DocumentWindow::allButtons)
 {
-	setName(StrahlenwerkApplication::getInstance()->getApplicationName()
+	StrahlenwerkApplication* strahlenwerkApp = StrahlenwerkApplication::getInstance();
+	setName(strahlenwerkApp->getProject().getProjectName()
 		+ " - "
+		+ strahlenwerkApp->getApplicationName()
+		+ " ("
 		+ "Elbphilharmonie" //StrahlenwerkApplication::getInstance()->getApplicationVersion()
-		+ " Edition"
+		+ " Edition)"
 	);
 	setMenuBar(this);
 	setContentOwned(&mainContentComponent, true);

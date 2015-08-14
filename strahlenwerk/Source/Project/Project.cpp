@@ -29,6 +29,10 @@ Project::Project(const std::string& dir, AudioManager& _audioManager) :
 
 Project::~Project() = default;
 
+String Project::getProjectName() const {
+	return loader.getProjectDir().getFileName();
+}
+
 void Project::addListener(Project::Listener* const listener) {
 	listeners.add(listener);
 }

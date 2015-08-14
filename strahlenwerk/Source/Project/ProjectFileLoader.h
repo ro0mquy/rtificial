@@ -18,6 +18,7 @@ class ProjectFileLoader {
 		File getEnvelopeFile() const;
 		File getBakeFile() const;
 
+		const File& getProjectDir() const;
 		const File& getSceneDir() const;
 		const File& getPostprocDir() const;
 		const File& getIncludeDir() const;

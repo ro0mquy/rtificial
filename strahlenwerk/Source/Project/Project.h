@@ -26,6 +26,7 @@ class Project :
 		Project(const std::string& dir, AudioManager& audioManager);
 		~Project();
 
+		String getProjectName() const;
 		void reloadShaders(bool reloadScenes = true, bool reloadPostproc = true);
 		void saveTimelineData();
 		void contextChanged(OpenGLContext& context);
