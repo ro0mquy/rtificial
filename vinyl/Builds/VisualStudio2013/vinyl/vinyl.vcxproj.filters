@@ -87,9 +87,6 @@
     <ClInclude Include="..\..\..\Source\AmbientLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Source\Backend.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Source\BRDFIntegratorSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -102,15 +99,15 @@
     <ClInclude Include="..\..\..\Lib\include\libv2.h">
       <Filter>libv2</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Source\Frontend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\vec3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\vec4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\WindowsBackend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\AmbientLight.cpp">
@@ -126,9 +123,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Framebuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\LinuxBackend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\main.cpp">
@@ -154,6 +148,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Lib\include\v2mplayer.cpp">
       <Filter>libv2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\WindowsFrontend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\LinuxFrontend.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

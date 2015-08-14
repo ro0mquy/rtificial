@@ -100,7 +100,7 @@
     <ClInclude Include="..\..\..\Lib\include\libv2.h" />
     <ClInclude Include="..\..\..\Lib\include\v2mplayer.h" />
     <ClInclude Include="..\..\..\Source\AmbientLight.h" />
-    <ClInclude Include="..\..\..\Source\Backend.h" />
+    <ClInclude Include="..\..\..\Source\Frontend.h" />
     <ClInclude Include="..\..\..\Source\BRDFIntegratorSource.h" />
     <ClInclude Include="..\..\..\Source\BRDFLut.h" />
     <ClInclude Include="..\..\..\Source\Constants.h" />
@@ -133,7 +133,7 @@
     <ClCompile Include="..\..\..\Source\DataInterpolator.cpp" />
     <ClCompile Include="..\..\..\Source\EnvironmentMap.cpp" />
     <ClCompile Include="..\..\..\Source\Framebuffer.cpp" />
-    <ClCompile Include="..\..\..\Source\LinuxBackend.cpp" />
+    <ClCompile Include="..\..\..\Source\LinuxFrontend.cpp" />
     <ClCompile Include="..\..\..\Source\main.cpp" />
     <ClCompile Include="..\..\..\Source\quat.cpp" />
     <ClCompile Include="..\..\..\Source\scalar.cpp" />
@@ -143,7 +143,7 @@
     <ClCompile Include="..\..\..\Source\vec2.cpp" />
     <ClCompile Include="..\..\..\Source\vec3.cpp" />
     <ClCompile Include="..\..\..\Source\vec4.cpp" />
-    <ClCompile Include="..\..\..\Source\WindowsBackend.cpp" />
+    <ClCompile Include="..\..\..\Source\WindowsFrontend.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\Lib\lib\libv2.lib" />

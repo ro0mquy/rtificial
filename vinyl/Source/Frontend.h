@@ -1,5 +1,5 @@
-#ifndef BACKEND_H
-#define BACKEND_H
+#ifndef FRONTEND_H
+#define FRONTEND_H
 
 using int16_t = short;
 
@@ -36,7 +36,7 @@ using int16_t = short;
 		ExitProcess(0);
 #endif
 
-class WindowsBackend {
+class WindowsFrontend {
 	public:
 		void init(int width, int height, bool fullscreen);
 
@@ -82,7 +82,7 @@ class WindowsBackend {
 		std::cerr << str << '\n';
 #endif
 
-class LinuxBackend {
+class LinuxFrontend {
 	public:
 		void init(int width, int height, bool fullscreen);
 

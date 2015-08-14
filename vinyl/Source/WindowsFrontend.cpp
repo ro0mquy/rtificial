@@ -15,7 +15,7 @@ extern "C" {
 	// #define SYSTEM_TIME
 #endif
 
-#include "Backend.h"
+#include "Frontend.h"
 #include "glcorearb.h"
 
 PFNGLACTIVETEXTUREPROC            glActiveTexture;
@@ -50,7 +50,7 @@ PFNGLDEBUGMESSAGECONTROLPROC      glDebugMessageControl;
 PFNGLDEBUGMESSAGECALLBACKPROC     glDebugMessageCallback;
 
 
-void WindowsBackend::init(int width, int height, bool fullscreen) {
+void WindowsFrontend::init(int width, int height, bool fullscreen) {
 	DEVMODE device_mode = {
 		"", 0, 0, sizeof(device_mode), 0, DM_PELSWIDTH | DM_PELSHEIGHT, { { 0, 0, 0, 0, 0, 0, 0, 0 } }, 0, 0, 0, 0, 0,
 		"", 0, 0, width, height, { 0 }, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -135,7 +135,7 @@ extern "C" const sU8 soundtrack[];
 	long startPosition;
 #endif
 
-void WindowsBackend::initAudio(bool threaded) {
+void WindowsFrontend::initAudio(bool threaded) {
 #ifdef SYNTH_4KLANG
 	if (threaded) {
 		// thx to xTr1m/blu-flame for providing a smarter and smaller way to create the thread :)
@@ -179,7 +179,7 @@ void WindowsBackend::initAudio(bool threaded) {
 #endif
 }
 
-void WindowsBackend::playAudio() {
+void WindowsFrontend::playAudio() {
 #ifdef SYNTH_4KLANG
 	waveOutWrite(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
@@ -194,7 +194,7 @@ void WindowsBackend::playAudio() {
 
 
 // returns time in milli beats
-int WindowsBackend::getTime(){
+int WindowsFrontend::getTime(){
 #ifdef SYNTH_4KLANG
 	MMTIME time;
 	time.wType = TIME_SAMPLES;
@@ -211,7 +211,7 @@ int WindowsBackend::getTime(){
 }
 
 
-bool WindowsBackend::beforeFrame() {
+bool WindowsFrontend::beforeFrame() {
 	MSG msg;
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 		//TranslateMessage( &msg ); // Don't have any keys that need translating to WM_CHAR messages
@@ -221,17 +221,17 @@ bool WindowsBackend::beforeFrame() {
 	return !GetAsyncKeyState(VK_ESCAPE);
 }
 
-void WindowsBackend::afterFrame() {
+void WindowsFrontend::afterFrame() {
 	SwapBuffers(window_handle);
 }
 
 
-void WindowsBackend::sleep(int milliseconds) {
+void WindowsFrontend::sleep(int milliseconds) {
 	Sleep(milliseconds);
 }
 
 
-void WindowsBackend::cleanup() {
+void WindowsFrontend::cleanup() {
 #ifdef SYNTH_V2
 	dsClose();
 	player.Close();

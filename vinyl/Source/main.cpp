@@ -1,4 +1,4 @@
-#include "Backend.h"
+#include "Frontend.h"
 
 #include "Shader.h"
 #include "Framebuffer.h"
@@ -12,9 +12,9 @@
 #include "BRDFLut.h"
 
 #ifdef __linux
-	using Backend = LinuxBackend;
+	using Backend = LinuxFrontend;
 #elif _WINDOWS
-	using Backend = WindowsBackend;
+	using Backend = WindowsFrontend;
 #endif
 
 const int width = 1280;

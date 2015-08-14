@@ -1,6 +1,6 @@
 #ifdef __linux
 
-#include "Backend.h"
+#include "Frontend.h"
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/gl.h>
@@ -36,7 +36,7 @@ PFNGLGETSHADERINFOLOGPROC         glGetShaderInfoLog;
 PFNGLDEBUGMESSAGECONTROLPROC      glDebugMessageControl;
 PFNGLDEBUGMESSAGECALLBACKPROC     glDebugMessageCallback;
 
-void LinuxBackend::init(int width, int height, bool fullscreen) {
+void LinuxFrontend::init(int width, int height, bool fullscreen) {
 	// get local X display
 	x_display = XOpenDisplay(NULL);
 #	ifdef _DEBUG
@@ -169,7 +169,7 @@ static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 static snd_pcm_t* alsa_handle;
 static snd_pcm_uframes_t audio_frames;
 
-void LinuxBackend::initAudio(bool threaded) {
+void LinuxFrontend::initAudio(bool threaded) {
 	// run 4klang rendering in a thread
 	if (threaded) {
 		pthread_t audio_render_thread;
@@ -233,19 +233,19 @@ static void* __playAudio(void* arg) {
 	return NULL;
 }
 
-void LinuxBackend::playAudio(){
+void LinuxFrontend::playAudio(){
 	pthread_t audio_play_thread;
 	pthread_create(&audio_play_thread, NULL, __playAudio, NULL);
 }
 
 // returns time in milli beats
 static int rt_time = 0;
-int LinuxBackend::getTime(){
+int LinuxFrontend::getTime(){
 	return rt_time += 1000;
 }
 
 
-bool LinuxBackend::beforeFrame() {
+bool LinuxFrontend::beforeFrame() {
 	XEvent x_event;
 	const KeySym escape_key = XKeysymToKeycode(x_display, XK_Escape);
 
@@ -270,18 +270,18 @@ bool LinuxBackend::beforeFrame() {
 	return true;
 }
 
-void LinuxBackend::afterFrame() {
+void LinuxFontend::afterFrame() {
 	glXSwapBuffers(x_display, x_window);
 }
 
 
 #include <unistd.h>
-void LinuxBackend::sleep(int miliseconds) {
+void LinuxFrontend::sleep(int miliseconds) {
 	usleep(miliseconds * 1000);
 }
 
 
-void LinuxBackend::cleanup() {
+void LinuxFrontend::cleanup() {
 	// stop audio immediately
 	snd_pcm_drop(alsa_handle);
 	snd_pcm_close(alsa_handle);

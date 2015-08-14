@@ -27,7 +27,7 @@ _soundtrack:
 %ifdef NDEBUG
 
 ; http://stackoverflow.com/questions/1583196/building-visual-c-app-that-doesnt-use-crt-functions-still-references-some
-; already defined in WindowsBackend.cpp
+; already defined in WindowsFrontend.cpp
 ;global __fltused
 ;__fltused dd 0
 
