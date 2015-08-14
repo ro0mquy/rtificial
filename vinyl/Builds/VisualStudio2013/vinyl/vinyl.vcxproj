@@ -110,21 +110,21 @@
     <ClInclude Include="..\..\..\Source\Framebuffer.h" />
     <ClInclude Include="..\..\..\Source\glcorearb.h" />
     <ClInclude Include="..\..\..\Source\gl_identifiers.h" />
+    <ClInclude Include="..\..\..\Source\math\quat.h" />
+    <ClInclude Include="..\..\..\Source\math\scalar.h" />
+    <ClInclude Include="..\..\..\Source\math\stdmath.h" />
+    <ClInclude Include="..\..\..\Source\math\vec2.h" />
+    <ClInclude Include="..\..\..\Source\math\vec3.h" />
+    <ClInclude Include="..\..\..\Source\math\vec4.h" />
     <ClInclude Include="..\..\..\Source\music\4klang.windows.h" />
-    <ClInclude Include="..\..\..\Source\quat.h" />
-    <ClInclude Include="..\..\..\Source\scalar.h" />
     <ClInclude Include="..\..\..\Source\Scene.h" />
     <ClInclude Include="..\..\..\Source\Sequence.h" />
     <ClInclude Include="..\..\..\Source\Shader.h" />
     <ClInclude Include="..\..\..\Source\SpecularFilterSource.h" />
     <ClInclude Include="..\..\..\Source\stdlib.h" />
-    <ClInclude Include="..\..\..\Source\stdmath.h" />
     <ClInclude Include="..\..\..\Source\strahlenwerk_export.h" />
     <ClInclude Include="..\..\..\Source\strahlenwerk_export_interface.h" />
     <ClInclude Include="..\..\..\Source\Uniform.h" />
-    <ClInclude Include="..\..\..\Source\vec2.h" />
-    <ClInclude Include="..\..\..\Source\vec3.h" />
-    <ClInclude Include="..\..\..\Source\vec4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Lib\include\v2mplayer.cpp" />
@@ -135,14 +135,14 @@
     <ClCompile Include="..\..\..\Source\Framebuffer.cpp" />
     <ClCompile Include="..\..\..\Source\LinuxFrontend.cpp" />
     <ClCompile Include="..\..\..\Source\main.cpp" />
-    <ClCompile Include="..\..\..\Source\quat.cpp" />
-    <ClCompile Include="..\..\..\Source\scalar.cpp" />
+    <ClCompile Include="..\..\..\Source\math\quat.cpp" />
+    <ClCompile Include="..\..\..\Source\math\scalar.cpp" />
+    <ClCompile Include="..\..\..\Source\math\stdmath.cpp" />
+    <ClCompile Include="..\..\..\Source\math\vec2.cpp" />
+    <ClCompile Include="..\..\..\Source\math\vec3.cpp" />
+    <ClCompile Include="..\..\..\Source\math\vec4.cpp" />
     <ClCompile Include="..\..\..\Source\Shader.cpp" />
     <ClCompile Include="..\..\..\Source\stdlib.cpp" />
-    <ClCompile Include="..\..\..\Source\stdmath.cpp" />
-    <ClCompile Include="..\..\..\Source\vec2.cpp" />
-    <ClCompile Include="..\..\..\Source\vec3.cpp" />
-    <ClCompile Include="..\..\..\Source\vec4.cpp" />
     <ClCompile Include="..\..\..\Source\WindowsFrontend.cpp" />
   </ItemGroup>
   <ItemGroup>

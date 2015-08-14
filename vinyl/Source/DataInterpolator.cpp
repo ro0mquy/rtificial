@@ -4,12 +4,12 @@
 #include "Uniform.h"
 #include "Sequence.h"
 
-#include "scalar.h"
-#include "vec2.h"
-#include "vec3.h"
-#include "vec4.h"
-#include "quat.h"
-#include "stdmath.h"
+#include "math/scalar.h"
+#include "math/vec2.h"
+#include "math/vec3.h"
+#include "math/vec4.h"
+#include "math/quat.h"
+#include "math/stdmath.h"
 
 using namespace DataInterpolator;
 
