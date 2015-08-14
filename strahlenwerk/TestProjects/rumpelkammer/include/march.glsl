@@ -382,7 +382,7 @@ void main() {
 				Material material = getMaterial(materialId);
 				// TODO move this somewhere else
 				// should be done for debug materials too to avoid false differentials
-				perturbNormal(hit, normal, material.height);
+				//perturbNormal(hit, normal, material.height);
 				out_color = applyLights(origin, marched, direction, hit, normal, materialId, material);
 			}
 		}

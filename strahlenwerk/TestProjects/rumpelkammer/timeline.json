@@ -385,6 +385,65 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "ldb_content_progress_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 506,
+          "sequenceStart": 500,
+          "sequenceDuration": 8000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 8000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.3999999999999772626
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "ldb_content_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.82000000000005002221
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ldb_rahmen_loco_trans_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 6.1119999999999663487,
+        "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ldb_rahmen_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.050000000000068212103
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "lk_radius_gross_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -594,6 +653,15 @@
     }
   ],
   "scenesArray": [
+    {
+      "sceneId": 506,
+      "sceneStart": 26500,
+      "sceneDuration": 9000,
+      "sceneShaderSource": "ladebalken",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
     {
       "sceneId": 932,
       "sceneStart": 0,
