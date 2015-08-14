@@ -1,4 +1,4 @@
-# Strahlenwerk
+﻿# Strahlenwerk
 *ist gerade noch etwas doof aber ich arbeite dran*
 
 ## Controls
@@ -98,14 +98,6 @@ Open the project `.\make\Windows\efsw-static.vcxproj` in Visual Studio and compi
 
 #### Building and running
 Open `rtificial\strahlenwerk\Builds\VisualStudio2013\strahlenwerk.vcxproj` in Visual Studio and hit `F7` to build, `F5` to build-and-run with the debugger and `Ctrl+F5` to build-and-run without the debugger. Hopefully nothing breaks, good luck with that! And you don't even need to reboot your computer twice and wait for a myriad of "finishing updates" to complete. It just runs!
-
-You probably need to create the directory `%APPDATA%\strahlenwerk` (most likely `C:\Users\<username>\AppData\Roaming\strahlenwerk`) and create a file `strahlenwerk.settings` in there containing the following:
-
-    <?xml version="1.0" encoding="UTF-8"?>
-    
-    <PROPERTIES>
-      <VALUE name="project_dir" val="C:\absolute\path\to\a\project"/>
-    </PROPERTIES
 
 
 ## Scene directory contents

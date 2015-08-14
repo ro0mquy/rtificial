@@ -253,7 +253,7 @@
       </MODULEPATHS>
     </LINUX_MAKE>
     <VS2013 targetFolder="Builds/VisualStudio2013" externalLibraries="efsw"
-            extraCompilerFlags="/I..\..\Source /I..\..\Lib\include /MT" extraLinkerFlags="/LIBPATH:&quot;..\..\Lib\lib&quot;"
+            extraCompilerFlags="/I..\..\Source /I..\..\Lib\include" extraLinkerFlags="/LIBPATH:&quot;..\..\Lib\lib&quot;"
             extraDefs="NOMINMAX">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
