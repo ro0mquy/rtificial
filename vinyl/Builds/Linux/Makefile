@@ -1,5 +1,5 @@
-CPP_FILES := $(wildcard src/*.cpp)
-OBJ_FILES := $(addprefix build_linux/,$(notdir $(CPP_FILES:.cpp=.o))) src/music/4klang.linux.o
+CPP_FILES := $(wildcard ../../Source/**/*.cpp)
+OBJ_FILES := $(notdir $(CPP_FILES:.cpp=.o)) ../../Source/music/4klang.linux.o
 LD_FLAGS := -m32 -lGL -lX11 -lasound -pthread
 CXX_FLAGS := -std=c++11 -m32 -Wall -Wextra
 CXX := clang++
@@ -7,21 +7,21 @@ CXX := clang++
 DEPS := $(OBJ_FILES:.o=.d)
 CXX_FLAGS += -MMD
 
-all: demo
-debug: demo
+all: vinyl
+debug: vinyl
 
 # define _DEBUG when compiling with debug-support
 # for compatibility with visual studio
 debug: CXX_FLAGS += -g -D_DEBUG
 
-demo: $(OBJ_FILES)
-	$(CXX) $(LD_FLAGS) -o $@ $^
+vinyl: $(OBJ_FILES)
+	$(CXX) $(LD_FLAGS) -o build/$@ $^
 
-build_linux/%.o: src/%.cpp
-	$(CXX) $(CXX_FLAGS) -c -o $@ $<
+build/%.o: ../../Source/%.cpp
+	$(CXX) $(CXX_FLAGS) -c -o build/$@ $<
 
 .PHONY: clean
 clean:
-	rm -f build_linux/* demo
+	rm -f build/* vinyl
 
 -include $(DEPS)

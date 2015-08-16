@@ -36,7 +36,7 @@ PFNGLGETSHADERINFOLOGPROC         glGetShaderInfoLog;
 PFNGLDEBUGMESSAGECONTROLPROC      glDebugMessageControl;
 PFNGLDEBUGMESSAGECALLBACKPROC     glDebugMessageCallback;
 
-void LinuxFrontend::init(int width, int height, bool fullscreen) {
+void LinuxFrontend::init(int width, int height, bool /*fullscreen*/) {
 	// get local X display
 	x_display = XOpenDisplay(NULL);
 #	ifdef _DEBUG
@@ -210,7 +210,7 @@ void LinuxFrontend::initAudio(bool threaded) {
 	snd_pcm_hw_params(alsa_handle, params);
 }
 
-static void* __playAudio(void* arg) {
+static void* __playAudio(void* /*arg*/) {
 	size_t audio_buffer_size = audio_frames * AUDIO_CHANNELS;
 
 	for (size_t audio_buffer_offset = 0;
@@ -218,7 +218,7 @@ static void* __playAudio(void* arg) {
 			audio_buffer_offset += audio_buffer_size
 		) {
 		// write data directly from 4klang buffer to sound card
-		size_t bytes_written = snd_pcm_writei(alsa_handle,
+		int bytes_written = snd_pcm_writei(alsa_handle,
 				audio_buffer + audio_buffer_offset,
 				audio_frames
 				);
@@ -270,7 +270,7 @@ bool LinuxFrontend::beforeFrame() {
 	return true;
 }
 
-void LinuxFontend::afterFrame() {
+void LinuxFrontend::afterFrame() {
 	glXSwapBuffers(x_display, x_window);
 }
 
