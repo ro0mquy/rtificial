@@ -1,7 +1,7 @@
 --
 -- TODO
 -- * resolution, threading commandline flags
--- * tokens
+-- * debug configs not building on windows
 --
 solution "Demo"
 	location ("PremakeBuilds/".._ACTION)
@@ -94,23 +94,25 @@ project "vinyl"
 		files {
 			"Source/music/soundtrack.v2m",
 			"Source/music/v2inc.asm",
+			"Lib/include/libv2.h",
+			"Lib/include/v2mplayer.cpp",
+			"Lib/include/v2mplayer.h",
 		}
 		links {
 			"Dsound",
 			"winmm",
-			"libv2";
+			"libv2",
+			"%{cfg.objdir}/v2inc",
 		}
 
---[[
 	filter { "configurations:Debug", "platforms:V2", "system:windows", "files:Source/music/v2inc.asm" }
-		buildcommands "%{wks.location}nasm.exe -f win32 -o %{OutDir}%{Filename}.obj %{FullPath}"
-		buildmessage "%{Filename}%{Extension}"
-		buildoutputs "${OutDir}%{Filename}.obj;%(Outputs)"
+		buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath}"
+		buildmessage "%{file.name}"
+		buildoutputs "%{cfg.objdir}%{file.basename}.lib"
 	filter { "configurations:Release", "platforms:V2", "system:windows", "files:Source/music/v2inc.asm" }
-		buildcommands "nasm.exe -f win32 -o ${OutDir}%{Filename}.obj %{FullPath} -DNDEBUG%3b"
-		buildmessage "%{Filename}%{Extension}"
-		buildoutputs "${OutDir}%{Filename}.obj;%{Outputs}"
-]]
+		buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DNDEBUG%3b"
+		buildmessage "%{file.name}"
+		buildoutputs "%{cfg.objdir}%{file.basename}.lib"
 
 	-- 4klang
 

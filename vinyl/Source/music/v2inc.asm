@@ -16,7 +16,7 @@ section .data
 
 global _soundtrack
 _soundtrack:
-  incbin "..\..\..\Source\music\soundtrack.v2m"
+  incbin "..\..\Source\music\soundtrack.v2m"
 
 ;*************************************************************************************
 ;**                                                                                 **
