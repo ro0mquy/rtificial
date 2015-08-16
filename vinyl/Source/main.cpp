@@ -12,9 +12,9 @@
 #include "BRDFLut.h"
 
 #ifdef __linux
-	using Backend = LinuxFrontend;
+	using Frontend = LinuxFrontend;
 #elif _WINDOWS
-	using Backend = WindowsFrontend;
+	using Frontend = WindowsFrontend;
 #endif
 
 const int width = 1280;
@@ -28,9 +28,9 @@ void CALLBACK debugOutputGL(GLenum source, GLenum type, GLuint id, GLenum severi
 
 RT_MAIN {
 	RT_INIT
-	Backend backend;
-	backend.init(width, height, fullscreen);
-	backend.initAudio(use_sound_thread);
+	Frontend frontend;
+	frontend.init(width, height, fullscreen);
+	frontend.initAudio(use_sound_thread);
 
 #	ifdef _DEBUG
 	glEnable(GL_DEBUG_OUTPUT);
@@ -59,13 +59,13 @@ RT_MAIN {
 #		ifdef _DEBUG
 		RT_DEBUG("Compile done.\n");
 #		endif
-		backend.beforeFrame();
+		frontend.beforeFrame();
 		ladebalken.bind();
 		progress += progress_step;
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1);
-		backend.afterFrame();
-		backend.sleep(200);
+		frontend.afterFrame();
+		frontend.sleep(200);
 	}
 	for (int i = 0; i < n_postproc; i++) {
 #		ifdef _DEBUG
@@ -78,13 +78,13 @@ RT_MAIN {
 		fbos[i].create(width, height);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
-		backend.beforeFrame();
+		frontend.beforeFrame();
 		ladebalken.bind();
 		progress += progress_step;
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1);
-		backend.afterFrame();
-		backend.sleep(200);
+		frontend.afterFrame();
+		frontend.sleep(200);
 	}
 	Shader diffuseFilterShader(diffuseFilterSource, 0, nullptr);
 	Shader specularFilterShader(specularFilterSource, 0, nullptr);
@@ -93,12 +93,12 @@ RT_MAIN {
 	specularFilterShader.compile();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);
-	backend.beforeFrame();
+	frontend.beforeFrame();
 	ladebalken.bind();
 	progress += progress_step * 2;
 	glUniform1f(74, progress);
 	ladebalken.draw(width, height, -1);
-	backend.afterFrame();
+	frontend.afterFrame();
 #		ifdef _DEBUG
 		RT_DEBUG("Begin environments\n");
 #		endif
@@ -114,12 +114,12 @@ RT_MAIN {
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
-		backend.beforeFrame();
+		frontend.beforeFrame();
 		ladebalken.bind();
 		progress += progress_step;
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1);
-		backend.afterFrame();
+		frontend.afterFrame();
 	}
 #		ifdef _DEBUG
 	RT_DEBUG("End environments\n");
@@ -130,15 +130,15 @@ RT_MAIN {
 		scenes[i].draw(fbos[0].width, fbos[0].height, 0);
 	}
 
-	backend.sleep(2000);
+	frontend.sleep(2000);
 
-	backend.playAudio();
+	frontend.playAudio();
 
 	int scene_id = 0;
 	int shader_id = scenes_data[scene_id].sceneId;
 	const int last_scene_id = sizeof(scenes_data) / sizeof(Scene) - 1;
-	while(backend.beforeFrame()) {
-		if(scenes_data[scene_id].end < backend.getTime()) {
+	while(frontend.beforeFrame()) {
+		if(scenes_data[scene_id].end < frontend.getTime()) {
 			if(scene_id == last_scene_id) {
 				break;
 			} else {
@@ -147,7 +147,7 @@ RT_MAIN {
 			}
 		}
 
-		const int currentTime = backend.getTime();
+		const int currentTime = frontend.getTime();
 
 		if (environments[shader_id].isValid()) {
 			environments[shader_id].bind();
@@ -166,10 +166,10 @@ RT_MAIN {
 		glViewport(0, 0, width, height);
 		postproc[n_postproc - 1].draw(width, height, currentTime);
 		glDisable(GL_FRAMEBUFFER_SRGB);
-		backend.afterFrame();
+		frontend.afterFrame();
 
 #		ifdef _DEBUG
-			// RT_DEBUG((std::to_string(backend.getTime()) + "\n").c_str());
+			// RT_DEBUG((std::to_string(frontend.getTime()) + "\n").c_str());
 #		endif
 	}
 
@@ -186,7 +186,7 @@ RT_MAIN {
 	diffuseFilterShader.destroy();
 	specularFilterShader.destroy();
 
-	backend.cleanup();
+	frontend.cleanup();
 	RT_DEINIT
 }
 
