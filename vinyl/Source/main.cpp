@@ -21,6 +21,7 @@ const int width = 1280;
 const int height = 720;
 const bool fullscreen = true;
 const bool use_sound_thread = true;
+const int precalc_minimum_time = 5000;
 
 #ifdef _DEBUG
 void CALLBACK debugOutputGL(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, void *userParam);
@@ -32,7 +33,12 @@ RT_MAIN {
 	frontend.init(width, height, fullscreen);
 	frontend.initAudio(use_sound_thread);
 
-	if (!frontend.checkMessageLoop()) goto deinit;
+	if (!frontend.checkMessageLoop()) {
+		frontend.cleanup();
+		RT_DEINIT
+	}
+
+	const int program_start_time = frontend.getTime() * 60. / BPM;
 
 #	ifdef _DEBUG
 	glEnable(GL_DEBUG_OUTPUT);
@@ -50,7 +56,10 @@ RT_MAIN {
 
 	ladebalken.compile();
 
-	if (!frontend.checkMessageLoop()) goto deinit;
+	if (!frontend.checkMessageLoop()) {
+		frontend.cleanup();
+		RT_DEINIT
+	}
 
 	float progress = 0.;
 	float progress_step = 1./ (2 * n_scenes + n_postproc + 3.);
@@ -64,7 +73,10 @@ RT_MAIN {
 		RT_DEBUG("Compile done.\n");
 #		endif
 
-		if (!frontend.checkMessageLoop()) goto deinit;
+		if (!frontend.checkMessageLoop()) {
+			frontend.cleanup();
+			RT_DEINIT
+		}
 
 		frontend.beforeFrame();
 		ladebalken.bind();
@@ -72,7 +84,6 @@ RT_MAIN {
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1);
 		frontend.afterFrame();
-		frontend.sleep(200);
 	}
 	for (int i = 0; i < n_postproc; i++) {
 #		ifdef _DEBUG
@@ -84,7 +95,10 @@ RT_MAIN {
 #		endif
 		fbos[i].create(width, height);
 
-		if (!frontend.checkMessageLoop()) goto deinit;
+		if (!frontend.checkMessageLoop()) {
+			frontend.cleanup();
+			RT_DEINIT
+		}
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
@@ -94,7 +108,6 @@ RT_MAIN {
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1);
 		frontend.afterFrame();
-		frontend.sleep(200);
 	}
 	Shader diffuseFilterShader(diffuseFilterSource, 0, nullptr);
 	Shader specularFilterShader(specularFilterSource, 0, nullptr);
@@ -102,7 +115,10 @@ RT_MAIN {
 	diffuseFilterShader.compile();
 	specularFilterShader.compile();
 
-	if (!frontend.checkMessageLoop()) goto deinit;
+	if (!frontend.checkMessageLoop()) {
+		frontend.cleanup();
+		RT_DEINIT
+	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);
@@ -126,7 +142,10 @@ RT_MAIN {
 #		endif
 		}
 
-		if (!frontend.checkMessageLoop()) goto deinit;
+		if (!frontend.checkMessageLoop()) {
+			frontend.cleanup();
+			RT_DEINIT
+		}
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
@@ -146,7 +165,12 @@ RT_MAIN {
 		scenes[i].draw(fbos[0].width, fbos[0].height, 0);
 	}
 
-	frontend.sleep(2000);
+	const int precalc_end_time = frontend.getTime() * 60. / BPM;
+	const int precalc_duration_time = precalc_end_time - program_start_time;
+	const int precalc_waiting_time = precalc_minimum_time - precalc_duration_time;
+	if (precalc_waiting_time > 0) {
+		frontend.sleep(precalc_waiting_time);
+	}
 
 	frontend.playAudio();
 
@@ -154,7 +178,9 @@ RT_MAIN {
 	int shader_id = scenes_data[scene_id].sceneId;
 	const int last_scene_id = sizeof(scenes_data) / sizeof(Scene) - 1;
 	while(frontend.checkMessageLoop()) {
-		if(scenes_data[scene_id].end < frontend.getTime()) {
+		const int currentTime = frontend.getTime();
+
+		if(scenes_data[scene_id].end < currentTime) {
 			if(scene_id == last_scene_id) {
 				break;
 			} else {
@@ -162,8 +188,6 @@ RT_MAIN {
 				shader_id = scenes_data[scene_id].sceneId;
 			}
 		}
-
-		const int currentTime = frontend.getTime();
 
 		if (environments[shader_id].isValid()) {
 			environments[shader_id].bind();
@@ -189,7 +213,6 @@ RT_MAIN {
 #		endif
 	}
 
-deinit: // sprung im vinyl
 	for(int i = 0; i < n_scenes; i++) {
 		scenes[i].destroy();
 		if (environments[shader_id].isValid()) {
