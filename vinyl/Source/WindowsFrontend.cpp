@@ -211,7 +211,7 @@ int WindowsFrontend::getTime(){
 }
 
 
-bool WindowsFrontend::beforeFrame() {
+bool WindowsFrontend::checkMessageLoop() {
 	MSG msg;
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 		//TranslateMessage( &msg ); // Don't have any keys that need translating to WM_CHAR messages
@@ -219,6 +219,10 @@ bool WindowsFrontend::beforeFrame() {
 	}
 
 	return !GetAsyncKeyState(VK_ESCAPE);
+}
+
+
+void WindowsFrontend::beforeFrame() {
 }
 
 void WindowsFrontend::afterFrame() {

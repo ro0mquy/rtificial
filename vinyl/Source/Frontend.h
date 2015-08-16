@@ -44,7 +44,8 @@ class WindowsFrontend {
 		void playAudio();
 		int getTime();
 
-		bool beforeFrame();
+		bool checkMessageLoop();
+		void beforeFrame();
 		void afterFrame();
 
 		void sleep(int milliseconds);
@@ -90,7 +91,8 @@ class LinuxFrontend {
 		void playAudio();
 		int getTime();
 
-		bool beforeFrame();
+		bool checkMessageLoop();
+		void beforeFrame();
 		void afterFrame();
 
 		void sleep(int milliseconds);

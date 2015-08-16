@@ -245,7 +245,7 @@ int LinuxFrontend::getTime(){
 }
 
 
-bool LinuxFrontend::beforeFrame() {
+bool LinuxFrontend::checkMessageLoop() {
 	XEvent x_event;
 	const KeySym escape_key = XKeysymToKeycode(x_display, XK_Escape);
 
@@ -268,6 +268,9 @@ bool LinuxFrontend::beforeFrame() {
 	}
 
 	return true;
+}
+
+void LinuxFontend::beforeFrame() {
 }
 
 void LinuxFontend::afterFrame() {
