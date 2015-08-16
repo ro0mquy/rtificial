@@ -3,7 +3,9 @@
 -- * resolution, threading commandline flags
 -- * tokens
 --
-workspace "Demo"
+solution "Demo"
+	location ("PremakeBuilds/".._ACTION)
+
 	configurations {
 		"Debug",
 		"Release",
@@ -21,17 +23,11 @@ workspace "Demo"
 		}
 	filter "configurations:Release"
 		defines { "NDEBUG" }
-		flags {
---			"OmitDefaultLibrary", -- Omit the specification of a runtime library in object files.
---			"WinMain", --Use `WinMain()` as entry point for Windows applications, rather than the default `main()`.
-		}
-		-- 
 
 
 project "vinyl"
 	language   "C++"
 	kind       "WindowedApp"
-	location   "PremakeBuilds"
 	targetname "demo"
 
 	platforms {
@@ -41,9 +37,10 @@ project "vinyl"
 	filter { "platforms:V2", "system:windows" }
 		defines { "SYNTH_V2" }
 	filter "platforms:4klang"
-		defines { "SYNTH_4KLANG"}
+		defines { "SYNTH_4KLANG" }
 
-	foo = files {
+	filter {}
+	files {
 		"Source/**.cpp",
 		"Source/**.h",
 	}
@@ -74,7 +71,18 @@ project "vinyl"
 
 	filter { "system:windows" }
 		flags {
-			"MultiProcessorCompile"
+			"MultiProcessorCompile",
+			"OmitDefaultLibrary", -- Omit the specification of a runtime library in object files.
+			"WinMain", -- Use `WinMain()` as entry point for Windows applications, rather than the default `main()`.
+			"NoExceptions",
+		}
+		buildoptions {
+			"/GS-", -- Disable Security checks
+			"/MT", -- Runtime Library Multi-threaded
+		}
+		linkoptions {
+			"/NODEFAULTLIB", -- Ignore All Default Libraries
+			"/SAFESEH:NO", -- Image Has Safe Exception Handers: No
 		}
 		links {
 			"opengl32",
@@ -82,7 +90,7 @@ project "vinyl"
 
 	-- V2
 
-	filter { "platforms:V2*", "system:windows" }
+	filter { "platforms:V2", "system:windows" }
 		files {
 			"Source/music/soundtrack.v2m",
 			"Source/music/v2inc.asm",
@@ -93,6 +101,7 @@ project "vinyl"
 			"libv2";
 		}
 
+--[[
 	filter { "configurations:Debug", "platforms:V2", "system:windows", "files:Source/music/v2inc.asm" }
 		buildcommands "%{wks.location}nasm.exe -f win32 -o %{OutDir}%{Filename}.obj %{FullPath}"
 		buildmessage "%{Filename}%{Extension}"
@@ -101,15 +110,17 @@ project "vinyl"
 		buildcommands "nasm.exe -f win32 -o ${OutDir}%{Filename}.obj %{FullPath} -DNDEBUG%3b"
 		buildmessage "%{Filename}%{Extension}"
 		buildoutputs "${OutDir}%{Filename}.obj;%{Outputs}"
+]]
 
 	-- 4klang
 
 	filter { "platforms:4klang", "system:windows" }
 		files {
 			"Source/music/4klang.windows.h",
-			"Source/music/4klang.windows",
+			"Source/music/4klang.windows.lib",
 		}
 		links {
+			"winmm",
 			"4klang.windows",
 		}
 

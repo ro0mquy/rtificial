@@ -5,7 +5,7 @@ extern "C" {
 	int _fltused = 1;
 }
 
-#define SYNTH_V2
+//#define SYNTH_V2
 //#define SYNTH_4KLANG
 
 #ifdef SYNTH_V2
