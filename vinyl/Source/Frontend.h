@@ -65,6 +65,7 @@ class WindowsFrontend {
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
+#include <alloca.h>
 #define ALSA_PCM_NEW_HW_PARAMS_API
 #include <alsa/asoundlib.h>
 

@@ -74,7 +74,6 @@ project "vinyl"
 			"MultiProcessorCompile",
 			"OmitDefaultLibrary", -- Omit the specification of a runtime library in object files.
 			"WinMain", -- Use `WinMain()` as entry point for Windows applications, rather than the default `main()`.
-			"NoExceptions",
 		}
 		buildoptions {
 			"/GS-", -- Disable Security checks
@@ -87,6 +86,7 @@ project "vinyl"
 		links {
 			"opengl32",
 		}
+		exceptionhandling "Off"
 
 	-- V2
 
@@ -132,31 +132,36 @@ project "vinyl"
 	--
 
 	filter { "system:linux" }
+		removeplatforms { "V2" }
 		buildoptions {
 			"-std=c++11",
 			"-Wall",
 			"-Wextra",
 		}
 		links {
-			"libGL",
-			"libX11",
-			"libasound",
+			"GL",
+			"X11",
+			"asound",
 		}
+		filter { "configurations:release" }
+			linkoptions {
+				"-nodefaultlibs",
+			}
 
 	-- 4klang
 
 	filter { "platforms:4klang", "system:linux" }
 		files {
 			"Source/music/4klang.linux.h",
-			"Source/music/4klang.linux",
+			"Source/music/4klang.linux.o",
 		}
 		links {
-			"4klang.linux"
+			"Source/music/4klang.linux.o"
 		}
 		buildoptions {
 			"-m32",
 		}
 		linkoptions {
 			"-m32",
-			"-pthread"
+			"-pthread",
 		}
