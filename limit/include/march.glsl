@@ -6,7 +6,7 @@
 #include "sdf/distances.glsl"
 #include "lighting.glsl"
 #include "helper.glsl"
-#line 11 "march"
+#line 11
 
 /// marchingloopkram.glsl
 

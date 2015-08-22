@@ -4,7 +4,7 @@
       "uniformName": "aman_cube_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068212103
+        "valueFloatX": 0.050000000000068205164
       },
       "sequencesArray": []
     },
@@ -301,7 +301,10 @@
       "sceneId": 854,
       "sceneStart": 0,
       "sceneDuration": 30000,
-      "sceneShaderSource": "szenchen"
+      "sceneShaderSource": "aman",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
     }
   ]
 }

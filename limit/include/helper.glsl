@@ -1,4 +1,4 @@
-#line 2 "helper"
+#line 2
 
 const float Pi = 3.14159265359;
 const float Tau = 6.28318530718;
@@ -109,6 +109,12 @@ float smootherstep(float edge0, float edge1, float x) {
 	return t*t*t*(t*(t*6. - 15.) + 10.);
 }
 
+vec2 smootherstep(vec2 edge0, vec2 edge1, vec2 x) {
+	// directly from master Ken
+	vec2 t = clamp((x - edge0) / (edge1 - edge0), 0., 1.);
+	return t*t*t*(t*(t*6. - 15.) + 10.);
+}
+
 float pdot(vec2 a, vec2 b) {
 	return max(0., dot(a, b));
 }
@@ -132,6 +138,12 @@ vec3 sgn(vec3 x) {
 			x.x < 0. ? -1. : 1.,
 			x.y < 0. ? -1. : 1.,
 			x.z < 0. ? -1. : 1.);
+}
+
+mat2 rotMat2D(float phi) {
+	float c = cos(phi);
+	float s = sin(phi);
+	return mat2(c, -s, s, c);
 }
 
 vec2 unitVector(float phi) {

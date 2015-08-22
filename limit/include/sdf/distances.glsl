@@ -1,7 +1,7 @@
 #include "helper.glsl"
 #include "sdf/operators.glsl"
 #include "sdf/domain.glsl"
-#line 5 "sdf/distances"
+#line 5
 
 float fSphere(vec3 p, float r) {
 	return length(p) - r;

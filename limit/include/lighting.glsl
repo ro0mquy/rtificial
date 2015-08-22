@@ -1,6 +1,6 @@
 #include "helper.glsl"
 #include "material.glsl"
-#line 4 "lighting"
+#line 4
 
 layout(binding = 0) uniform sampler2D brdf;
 layout(binding = 1) uniform samplerCube environment;

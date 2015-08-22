@@ -1,6 +1,6 @@
 #include "helper.glsl"
 #include "sdf/operators.glsl"
-#line 4 "material"
+#line 4
 
 struct MaterialId {
 	float id;

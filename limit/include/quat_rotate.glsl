@@ -1,4 +1,4 @@
-#line 2 "quat_rotate"
+#line 2
 
 // TODO figure out how to get rid of this special include file
 

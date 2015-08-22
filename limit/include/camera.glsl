@@ -1,6 +1,6 @@
 #include "quat_rotate.glsl"
 #include "noise.glsl"
-#line 4 "camera"
+#line 4
 
 uniform vec3 camera_position;
 uniform vec4 camera_rotation; // quat

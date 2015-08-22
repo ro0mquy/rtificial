@@ -1,5 +1,5 @@
 #version 430
-#include "sky1.glsl"
+#include "sky.glsl"
 #line 4
 
 layout(location = 0) uniform vec2 res;

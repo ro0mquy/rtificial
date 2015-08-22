@@ -1,5 +1,5 @@
 #version 430
-#line 3 "fragment"
+#line 3
 
 // main output color
 out vec3 out_color;

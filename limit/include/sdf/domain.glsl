@@ -1,6 +1,6 @@
 #include "quat_rotate.glsl"
 #include "helper.glsl"
-#line 4 "sdf/domain"
+#line 4
 
 void pTrans(inout float p, float d) {
 	p -= d;
@@ -25,7 +25,7 @@ void pTrans(inout vec3 p, float x, float y, float z) {
 // rotates clockwise when looking in the direction given by the right-hand rule
 // don't use this directly (unless for 2d coordinates)!
 void pRot(inout vec2 p, float phi) {
-	p *= mat2(cos(phi), sin(phi), -sin(phi), cos(phi));
+	p *= rotMat2D(-phi);
 }
 
 // rotate clockwise around X axis

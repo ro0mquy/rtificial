@@ -1,6 +1,6 @@
 #include "helper.glsl"
 #include "sdf/domain.glsl"
-#line 3 "sdf/operators"
+#line 3
 
 // unions two object and produces a very smooth transition
 // affects an area of r between the meet point, underestimates the distance
