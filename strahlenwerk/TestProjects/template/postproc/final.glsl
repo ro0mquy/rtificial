@@ -17,9 +17,9 @@ uniform float post_film_grain_frequency;
 uniform float post_film_grain_power;
 uniform bool post_disable_grain;
 
-uniform vec3 post_color_lift; // color
-uniform vec3 post_color_gamma; // color
-uniform vec3 post_color_gain; // color
+uniform vec3 post_colorgrading_lift; // color
+uniform vec3 post_colorgrading_gamma; // color
+uniform vec3 post_colorgrading_gain; // color
 
 float A = 0.15;
 float B = 0.50;
@@ -114,5 +114,5 @@ void main() {
 	}
 
 	// color grading
-	out_color = pow(max(vec3(0.), post_color_gain * 2. * (out_color + (2. * post_color_lift - 1.) * (1. - out_color))), 1./max(post_color_gamma * 2., 1e-6));
+	out_color = pow(max(vec3(0.), post_colorgrading_gain * 2. * (out_color + (2. * post_colorgrading_lift - 1.) * (1. - out_color))), 1./max(post_colorgrading_gamma * 2., 1e-6));
 }

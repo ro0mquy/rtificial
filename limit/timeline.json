@@ -4,7 +4,7 @@
       "uniformName": "aman_cube_r",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068212103
+        "valueFloatX": 0.050000000000068205164
       },
       "sequencesArray": []
     },
@@ -176,31 +176,7 @@
       "uniformName": "camera_exposure_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -6
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "camera_f_stop",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1.5360000000000582077
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "camera_f_stop_max",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 10
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "camera_f_stop_min",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.5
+        "valueFloatX": -5
       },
       "sequencesArray": []
     },
@@ -209,14 +185,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.022000000000048203219
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "camera_focus_dist",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 4.894000000000005457
       },
       "sequencesArray": []
     },
@@ -372,7 +340,45 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_colorgrading_lift",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.5,
+        "valueColorG": 0.5,
+        "valueColorB": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_colorgrading_gamma",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.5,
+        "valueColorG": 0.5,
+        "valueColorB": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_colorgrading_gain",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.5,
+        "valueColorG": 0.5,
+        "valueColorB": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_disable_ao",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_disable_grain",
       "uniformType": "bool",
       "uniformStandardValue": {
         "valueBoolState": true
@@ -384,30 +390,6 @@
       "uniformType": "bool",
       "uniformStandardValue": {
         "valueBoolState": true
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "post_distortion_scheiss_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "post_dof_bilateral_scale_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.84300000000007457857
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "post_dof_sharpness_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.19400000000007366907
       },
       "sequencesArray": []
     },
@@ -436,6 +418,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_image_distortion",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_lens_distort_k",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -452,19 +442,27 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_vignette_distortion",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_vignette_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.15899999999999178679
+        "valueFloatX": 0.5
       },
       "sequencesArray": []
     }
   ],
   "scenesArray": [
     {
-      "sceneId": 854,
+      "sceneId": 379,
       "sceneStart": 0,
-      "sceneDuration": 30000,
+      "sceneDuration": 52000,
       "sceneShaderSource": "aman",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {

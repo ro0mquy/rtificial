@@ -168,7 +168,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "post_color_gain",
+      "uniformName": "post_colorgrading_lift",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.5,
@@ -178,7 +178,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "post_color_gamma",
+      "uniformName": "post_colorgrading_gamma",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.5,
@@ -188,7 +188,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "post_color_lift",
+      "uniformName": "post_colorgrading_gain",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.5,
