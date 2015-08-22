@@ -4,23 +4,23 @@
 const float id_floor = 0.;
 const float id_aman = 1.;
 
+uniform float aman_cube_r;
+const float aman_cube_d = 2. * aman_cube_r;
+
 uniform bool aman_hand_up_left;
 uniform bool aman_hand_up_right;
 
 float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
-	float r = aman_cube_r_rt_float;
-	float d = 2. * r;
-
-	vec3 dimension = vec3(dim, 1) * r;
-	p.xy -= pos * d;
+	vec3 dimension = vec3(dim, 1) * aman_cube_r;
+	p.xy -= pos * aman_cube_d;
 	p -= dimension;
 	return fBox(p, dimension);
 }
 
 float fAman(vec3 p) {
-	float r = aman_cube_r_rt_float;
-	float d = 2. * r;
-	p.y -= r;
+	p.y -= aman_cube_r;
+
+	p.y -= aman_cube_d * aman_jump_h_rt_float;
 
 	float f_foot_row = fAmanBox(p, vec2(0, 0), vec2(12, 1));
 	float f_foot_left = fAmanBox(p, vec2(0, 1), vec2(1, 1));
