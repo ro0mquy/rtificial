@@ -9,6 +9,31 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "aman_cut_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 854,
+          "sequenceStart": 2187,
+          "sequenceDuration": 18313,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "aman_hand_up_left",
       "uniformType": "bool",
       "uniformStandardValue": {

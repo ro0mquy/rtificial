@@ -150,6 +150,8 @@ float fAman(vec3 p) {
 		f = min(f, f_body_middle);
 	}
 
+	f = max(f, -p.y + aman_cube_d * floor(aman_cut_h_rt_float));
+
 	return f;
 }
 
