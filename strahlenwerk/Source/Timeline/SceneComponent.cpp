@@ -111,7 +111,7 @@ void SceneComponent::paint(Graphics& g) {
 
 void SceneComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (event.originalComponent == &resizableBorder && m.isLeftButtonDown() && m.isCommandDown()) {
+	if (event.originalComponent == &resizableBorder && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		data.getUndoManager().beginNewTransaction("Resize Scene");
 		return;
 	}
@@ -163,7 +163,7 @@ void SceneComponent::mouseDrag(const MouseEvent& event) {
 
 void SceneComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (event.originalComponent == &resizableBorder && m.isLeftButtonDown() && m.isCommandDown()) {
+	if (event.originalComponent == &resizableBorder && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		return;
 	}
 

@@ -285,7 +285,7 @@ void McbResizableBorder::mouseExit(const MouseEvent& e) {
 
 // action in here
 void McbResizableBorder::mouseDown(const MouseEvent& e) {
-	if (e.mods.isLeftButtonDown() && e.mods.isCommandDown()) {
+	if (e.mods == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		ResizableBorderComponent::mouseDown(e);
 		// let parent handle resize start
 		//return;
@@ -308,7 +308,7 @@ void McbResizableBorder::mouseDown(const MouseEvent& e) {
 
 // action in here
 void McbResizableBorder::mouseUp(const MouseEvent& e) {
-	if (e.mods.isLeftButtonDown() && e.mods.isCommandDown()) {
+	if (e.mods == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		ResizableBorderComponent::mouseUp(e);
 		// let parent handle resize start
 		//return;
@@ -331,7 +331,7 @@ void McbResizableBorder::mouseUp(const MouseEvent& e) {
 
 // action in here
 void McbResizableBorder::mouseDrag(const MouseEvent& e) {
-	if (e.mods.isLeftButtonDown() && e.mods.isCommandDown()) {
+	if (e.mods == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		ResizableBorderComponent::mouseDrag(e);
 		return;
 	}

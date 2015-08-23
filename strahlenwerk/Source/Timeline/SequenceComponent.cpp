@@ -176,7 +176,7 @@ void SequenceComponent::paint(Graphics& g) {
 
 void SequenceComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (event.originalComponent == &resizableBorder && m.isLeftButtonDown() && m.isCommandDown()) {
+	if (event.originalComponent == &resizableBorder && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		data.getUndoManager().beginNewTransaction("Resize Sequence");
 		return;
 	}
@@ -215,6 +215,7 @@ void SequenceComponent::mouseDrag(const MouseEvent& event) {
 		parentViewport->autoScroll(viewportEvent.x, 21, 20, 5);
 
 	} else if (currentlyCopiedSequenceData.isValid()) {
+		// copy sequence
 		const int thisSequenceStart = data.getAbsoluteStartForSequence(sequenceData);
 		const int mouseDistanceX = event.getDistanceFromDragStartX() / zoomFactor;
 		const int newSequenceStart = jmax(0, thisSequenceStart + mouseDistanceX);
@@ -228,7 +229,7 @@ void SequenceComponent::mouseDrag(const MouseEvent& event) {
 
 void SequenceComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (event.originalComponent == &resizableBorder && m.isLeftButtonDown() && m.isCommandDown()) {
+	if (event.originalComponent == &resizableBorder && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		return;
 	}
 
