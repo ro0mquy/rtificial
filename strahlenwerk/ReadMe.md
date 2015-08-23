@@ -26,6 +26,7 @@
 
 #### Scenes
 * `[Ctrl]+[Drag]` create new scene or move already existing
+* `[Ctrl]+[Shift}+[Drag]` copy scene
 * `[Ctrl]+[Rightclick]` select shader source name
 * `[Ctrl]+[Middleclick]` delete scene
 

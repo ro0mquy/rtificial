@@ -116,10 +116,16 @@ void SceneComponent::mouseDown(const MouseEvent& event) {
 		return;
 	}
 
-	if (m.isLeftButtonDown() && m.isCommandDown()) {
+	if (m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		data.getUndoManager().beginNewTransaction("Drag Scene");
 		beginDragAutoRepeat(10); // time between drag events
 		startDraggingComponent(this, event);
+	} else if (m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier | ModifierKeys::shiftModifier)) {
+		// copy scene
+		std::lock_guard<std::recursive_mutex> lock(data.getMutex());
+		currentlyCopiedSceneData = sceneData.createCopy();
+		data.getUndoManager().beginNewTransaction("Copy Scene");
+		data.addScene(currentlyCopiedSceneData);
 	} else {
 		McbComponent::mouseDown(event);
 	}
@@ -127,16 +133,29 @@ void SceneComponent::mouseDown(const MouseEvent& event) {
 
 void SceneComponent::mouseDrag(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (!event.mouseWasClicked() && m.isLeftButtonDown() && m.isCommandDown()) {
+	if (!event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
+		// drag scene
 		dragComponent(this, event, &constrainer);
 
 		// scroll viewport if necessary
 		Viewport* parentViewport = findParentComponentOfClass<Viewport>();
+		if (parentViewport == nullptr) {
+			return;
+		}
 		const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
 		// scroll only X- not Y-Direction
 		// current X position gets normally set
 		// current Y position is a constant that is greater than the minimum distance to the border (21 > 20)
 		parentViewport->autoScroll(viewportEvent.x, 21, 20, 5);
+
+	} else if (currentlyCopiedSceneData.isValid()) {
+		// copy scene
+		const int thisSceneStart = data.getSceneStart(sceneData);
+		const int mouseDistanceX = event.getDistanceFromDragStartX() / zoomFactor;
+		const int newSceneStart = jmax(0, thisSceneStart + mouseDistanceX);
+		const int newSceneStartGrid = zoomFactor.snapValueToGrid(newSceneStart);
+		data.setSceneStart(currentlyCopiedSceneData, newSceneStartGrid);
+
 	} else {
 		McbComponent::mouseDrag(event);
 	}
@@ -148,14 +167,14 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 		return;
 	}
 
-	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
+	if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::middleButtonModifier | ModifierKeys::commandModifier)) {
 		// delete scene
 		data.getSelection().remove(sceneData);
 		data.getUndoManager().beginNewTransaction("Delete Scene");
 		data.removeScene(sceneData);
 		// this component gets deleted after this, so don't do stupid things
 
-	} else if (event.mouseWasClicked() && m.isCommandDown() && m.isPopupMenu()) {
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::commandModifier | ModifierKeys::popupMenuClickModifier)) {
 		// select shader source
 		const String currentShaderSource = data.getSceneShaderSource(sceneData);
 		int currentShaderSourceId = 0;
@@ -180,9 +199,18 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 		data.getUndoManager().beginNewTransaction("Change Shader Source");
 		data.setSceneShaderSource(sceneData, allSceneShaderFiles[menuResult - 1].getFileNameWithoutExtension());
 
-	} else if (event.mouseWasClicked() && m.isRightButtonDown() && !m.isAnyModifierKeyDown()) {
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier)) {
 		// add sequence to selection
 		data.getSelection().set(sceneData);
+
+	} else if (currentlyCopiedSceneData.isValid()) {
+		// end of scene copying
+		if (data.getSceneStart(sceneData) == data.getSceneStart(currentlyCopiedSceneData)) {
+			// copied scene at same position as this one
+			data.removeScene(currentlyCopiedSceneData);
+			data.getUndoManager().undoCurrentTransactionOnly();
+		}
+		currentlyCopiedSceneData = ValueTree();
 
 	} else {
 		McbComponent::mouseUp(event);

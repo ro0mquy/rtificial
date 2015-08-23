@@ -50,6 +50,8 @@ class SceneComponent :
 		ComponentBoundsConstrainer constrainer;
 		McbResizableBorder resizableBorder;
 
+		ValueTree currentlyCopiedSceneData;
+
 		class Positioner : public Component::Positioner {
 			public:
 				Positioner(Component& component, ValueTree sceneData_, TimelineData& data_, ZoomFactor& zoomFactor_);
