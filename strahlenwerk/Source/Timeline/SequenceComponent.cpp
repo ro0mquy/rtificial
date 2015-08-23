@@ -181,10 +181,17 @@ void SequenceComponent::mouseDown(const MouseEvent& event) {
 		return;
 	}
 
-	if (m.isLeftButtonDown() && m.isCommandDown()) {
+	if (m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
+		// drag sequence
 		data.getUndoManager().beginNewTransaction("Drag Sequence");
 		beginDragAutoRepeat(10); // time between drag events
 		startDraggingComponent(this, event);
+	} else if (m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier | ModifierKeys::shiftModifier)) {
+		// copy sequence
+		std::lock_guard<std::recursive_mutex> lock(data.getMutex());
+		currentlyCopiedSequenceData = sequenceData.createCopy();
+		data.getUndoManager().beginNewTransaction("Copy Sequence");
+		data.addSequence(data.getSequenceParentUniform(sequenceData), currentlyCopiedSequenceData);
 	} else {
 		McbComponent::mouseDown(event);
 	}
@@ -192,16 +199,28 @@ void SequenceComponent::mouseDown(const MouseEvent& event) {
 
 void SequenceComponent::mouseDrag(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (!event.mouseWasClicked() && m.isLeftButtonDown() && m.isCommandDown()) {
+	if (!event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
+		// drag sequence
 		dragComponent(this, event, &constrainer);
 
 		// scroll viewport if necessary
 		Viewport* parentViewport = findParentComponentOfClass<Viewport>();
+		if (parentViewport == nullptr) {
+			return;
+		}
 		const MouseEvent viewportEvent = event.getEventRelativeTo(parentViewport);
 		// scroll only X- not Y-Direction
 		// current X position gets normally set
 		// current Y position is a constant that is greater than the minimum distance to the border (21 > 20)
 		parentViewport->autoScroll(viewportEvent.x, 21, 20, 5);
+
+	} else if (currentlyCopiedSequenceData.isValid()) {
+		const int thisSequenceStart = data.getAbsoluteStartForSequence(sequenceData);
+		const int mouseDistanceX = event.getDistanceFromDragStartX() / zoomFactor;
+		const int newSequenceStart = jmax(0, thisSequenceStart + mouseDistanceX);
+		const int newSequenceStartGrid = zoomFactor.snapValueToGrid(newSequenceStart);
+		data.setSequencePropertiesForAbsoluteStart(currentlyCopiedSequenceData, newSequenceStartGrid);
+
 	} else {
 		McbComponent::mouseDrag(event);
 	}
@@ -213,7 +232,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		return;
 	}
 
-	if (event.mouseWasClicked() && m.isCommandDown() && m.isLeftButtonDown()) {
+	if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		// add keyframe
 		const int sequenceStart = data.getAbsoluteStartForSequence(sequenceData);
 		const int sequenceDuration = data.getSequenceDuration(sequenceData);
@@ -230,7 +249,7 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 			data.addKeyframe(sequenceData, relativeMouseDownGrid);
 		}
 
-	} else if (event.mouseWasClicked() && m.isCommandDown() && m.isPopupMenu()) {
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::popupMenuClickModifier | ModifierKeys::commandModifier)) {
 		// select interpolation method
 		String interpolationMethods[] = { "step", "linear", "ccrSpline" };
 		const int numMethods = numElementsInArray(interpolationMethods);
@@ -255,16 +274,25 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		data.getUndoManager().beginNewTransaction("Change Interpolation");
 		data.setSequenceInterpolation(sequenceData, interpolationMethods[menuResult - 1]);
 
-	} else if (event.mouseWasClicked() && m.isCommandDown() && m.isMiddleButtonDown()) {
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::middleButtonModifier | ModifierKeys::commandModifier)) {
 		// delete sequence
 		data.getSelection().remove(sequenceData);
 		data.getUndoManager().beginNewTransaction("Remove Sequence");
 		data.removeSequence(sequenceData);
 		// this component gets deleted after this, so don't do stupid things
 
-	} else if (event.mouseWasClicked() && m.isRightButtonDown() && !m.isAnyModifierKeyDown()) {
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier)) {
 		// add sequence to selection
 		data.getSelection().set(sequenceData);
+
+	} else if (currentlyCopiedSequenceData.isValid()) {
+		// end of sequence copying
+		if (data.getAbsoluteStartForSequence(sequenceData) == data.getAbsoluteStartForSequence(currentlyCopiedSequenceData)) {
+			// copied sequence at same position as this one
+			data.removeSequence(currentlyCopiedSequenceData);
+			data.getUndoManager().undoCurrentTransactionOnly();
+		}
+		currentlyCopiedSequenceData = ValueTree();
 
 	} else {
 		McbComponent::mouseUp(event);

@@ -118,7 +118,7 @@ void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 
 	// uniform is invalid if click was in empty area
 	const ModifierKeys& m = event.mods;
-	if (m.isLeftButtonDown() && m.isCommandDown() && uniform.isValid()) {
+	if (uniform.isValid() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		const int absoluteStart = event.getMouseDownX() / zoomFactor;
 		const int absoluteStartGrid = zoomFactor.snapValueToGrid(absoluteStart);
 		var sequenceDuration = 0.f;

@@ -79,7 +79,7 @@ void KeyframeComponent::paint(Graphics& g) {
 
 void KeyframeComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (m.isLeftButtonDown() && m.isCommandDown()) {
+	if (m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		data.getUndoManager().beginNewTransaction("Move Keyframe");
 		startDraggingComponent(this, event);
 	} else {
@@ -89,7 +89,7 @@ void KeyframeComponent::mouseDown(const MouseEvent& event) {
 
 void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (!event.mouseWasClicked() && m.isLeftButtonDown() && m.isCommandDown()) {
+	if (!event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
 		dragComponent(this, event, &constrainer);
 	} else {
 		McbComponent::mouseDrag(event);
@@ -98,10 +98,10 @@ void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 
 void KeyframeComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
-	if (event.mouseWasClicked() && m.isRightButtonDown() && !m.isAnyModifierKeyDown()) {
+	if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier)) {
 		// add keyframe to selection
 		data.getSelection().set(keyframeData);
-	} else if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::middleButtonModifier | ModifierKeys::commandModifier)) {
 		// delete keyframe
 		data.getSelection().remove(keyframeData);
 		data.getUndoManager().beginNewTransaction("Delete Keyframe");

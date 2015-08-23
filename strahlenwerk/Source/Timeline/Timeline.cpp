@@ -44,7 +44,7 @@ void Timeline::resized() {
 
 void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) {
 	const float posXInViewport = event.getEventRelativeTo(&viewportSequenceView).position.x;
-	if (posXInViewport >= 0 && event.mods.isCommandDown()) {
+	if (posXInViewport >= 0 && event.mods == ModifierKeys(ModifierKeys::commandModifier)) {
 		const float scaleFactor = exp(wheel.deltaY);
 		zoomFactor *= scaleFactor;
 		Point<int> position = viewportSequenceView.getViewPosition();
@@ -70,7 +70,7 @@ void Timeline::mouseDown(const MouseEvent& event) {
 	const bool isNotInUniBar = eventViewportSeqView.getMouseDownX() >= 0;
 
 	const ModifierKeys& m = event.mods;
-	if (isNotInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
+	if (isNotInUniBar && m.isLeftButtonDown() && (m.withoutMouseButtons() == ModifierKeys(ModifierKeys::shiftModifier) || !m.isAnyModifierKeyDown())) {
 		// set current Time
 		mouseDrag(event);
 	} else {
@@ -83,7 +83,8 @@ void Timeline::mouseDrag(const MouseEvent& event) {
 	const bool isNotInUniBar = eventViewportSeqView.getMouseDownX() >= 0;
 
 	const ModifierKeys& m = event.mods;
-	if (isNotInUniBar && m.isLeftButtonDown() && (m.isShiftDown() || !m.isAnyModifierKeyDown())) {
+	if (isNotInUniBar && m.isLeftButtonDown() && (m.withoutMouseButtons() == ModifierKeys(ModifierKeys::shiftModifier) || !m.isAnyModifierKeyDown())) {
+		// set current Time
 		if (CameraController::globalCameraController != nullptr) {
 			if (m.isShiftDown()) {
 				CameraController::globalCameraController->releaseControl();

@@ -54,6 +54,8 @@ class SequenceComponent :
 		McbResizableBorder resizableBorder;
 		OwnedArray<KeyframeComponent> keyframeComponentsArray;
 
+		ValueTree currentlyCopiedSequenceData;
+
 		class Positioner : public Component::Positioner {
 			public:
 				Positioner(Component& component, ValueTree sequenceData_, TimelineData& data_, ZoomFactor& zoomFactor_);
