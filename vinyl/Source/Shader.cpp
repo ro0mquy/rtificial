@@ -14,7 +14,7 @@ void Shader::compile() {
 	const GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
 	const GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
 
-	const char* vertexSource = "#version 410\nlayout(location = 0) in vec2 c;\nlayout(location = 0) out vec2 tc;\nvoid main() { tc = c * .5 + .5;\ngl_Position = vec4(c, 0., 1.);}";
+	const char* vertexSource = "#version 430\nvoid main() { gl_position = vec4(vec2[](vec2(-1,-1),vec2(3,-1),vec2(-1,3))[gl_vertexid], 0, 1); }";
 	glShaderSource(vertex, 1, &vertexSource, nullptr);
 	glCompileShader(vertex);
 	glShaderSource(fragment, 1, &source, nullptr);
@@ -66,13 +66,6 @@ void Shader::draw(int width, int height, const int time) {
 	}
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	glEnableVertexAttribArray(0);
-	const GLfloat rectangleVertices[] = {
-		-1.0, -1.0,
-		 3.0, -1.0,
-		-1.0,  3.0,
-	};
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	glUniform2f(0, width, height);
 	if (time >= 0) {
 		glUniform1f(65, time / 1000.f); // here time should be in beats
@@ -81,7 +74,6 @@ void Shader::draw(int width, int height, const int time) {
 //	glUniform3f(35, 0.0f, 5.0f, 7.0f);
 //	glUniform4f(36, 0.0f, 0.0f, 0.0f, 1.0f);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glDisableVertexAttribArray(0);
 }
 
 void Shader::destroy() {

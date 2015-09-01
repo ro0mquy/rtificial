@@ -1,11 +1,7 @@
-#version 430
+#include "post.glsl"
 
 #include "bloom_upsample.glsl"
 #line 5
-
-in vec2 tc;
-
-layout(location = 0) uniform vec2 res;
 
 uniform sampler2D color; // vec3
 uniform sampler2D previous; // vec3

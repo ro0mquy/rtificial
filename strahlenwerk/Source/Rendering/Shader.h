@@ -47,7 +47,6 @@ class Shader {
 		bool shaderOk = false;
 
 		OpenGLShaderProgram program;
-		GLint attributeCoord;
 
 		std::vector<int> uniformIds;
 		std::string name;

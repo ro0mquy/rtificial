@@ -119,13 +119,6 @@ void Shader::drawWithoutRecompile(int width, int height) {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	program.use();
-	context.extensions.glEnableVertexAttribArray(attributeCoord);
-	const GLfloat rectangleVertices[] = {
-		-1.0, -1.0,
-		 3.0, -1.0,
-		-1.0,  3.0,
-	};
-	context.extensions.glVertexAttribPointer(attributeCoord, 2, GL_FLOAT, GL_FALSE, 0, rectangleVertices);
 	context.extensions.glUniform2f(0, width, height);
 	AudioManager& audioManager = StrahlenwerkApplication::getInstance()->getAudioManager();
 	float* envelopes = audioManager.getCurrentEnvelopes();
@@ -135,8 +128,6 @@ void Shader::drawWithoutRecompile(int width, int height) {
 	loadUniformValues();
 	glGetError(); // clear error
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-	context.extensions.glDisableVertexAttribArray(attributeCoord);
-
 }
 
 const std::vector<int>& Shader::getUniformIds() const {
@@ -174,7 +165,7 @@ void Shader::insertLocations(const std::vector<std::pair<size_t, int>>& location
  */
 void Shader::recompile() {
 	program.release();
-	const bool vertexOk = program.addVertexShader("#version 410\nin vec2 c;\nlayout(location = 0) out vec2 tc;\nvoid main() { tc = c * .5 + .5;\ngl_Position = vec4(c, 0., 1.); }");
+	const bool vertexOk = program.addVertexShader("#version 430\nvoid main() { gl_Position = vec4(vec2[](vec2(-1,-1),vec2(3,-1),vec2(-1,3))[gl_VertexID], 0, 1); }");
 	// TODO better logging
 	if(!vertexOk) {
 		std::cerr << getName() + " Vertex error: " << program.getLastError() << std::endl;
@@ -187,9 +178,6 @@ void Shader::recompile() {
 	}
 	if(vertexOk && fragmentOk) {
 		program.link();
-
-		auto coord = OpenGLShaderProgram::Attribute(program, "c");
-		attributeCoord = coord.attributeID;
 		shaderOk = true;
 	} else {
 		shaderOk = false;

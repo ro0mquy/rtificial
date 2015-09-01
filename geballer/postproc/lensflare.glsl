@@ -1,8 +1,6 @@
-#version 430
-// lens distort, vignette, noise
+#include "post.glsl"
 
-in vec2 tc;
-layout(location = 0) uniform vec2 res;
+// lens distort, vignette, noise
 
 uniform sampler2D color; // vec3
 out vec3 out_color;
