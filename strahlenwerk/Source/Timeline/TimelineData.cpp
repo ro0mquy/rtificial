@@ -386,39 +386,40 @@ int TimelineData::getLastSceneEndTime() {
 // a invalid tree is returned if there is none
 ValueTree TimelineData::getSceneForTime(const int absoluteTime) {
 	const int numScenes = getNumScenes();
-	/*
-	// needs convertion to new TimelineData functions
-	// matches if the time is inside the scene and also if after the end
-	int smallestDistance = INT_MAX;
-	int bestScene = 0;
 
-	for (int i = 0; i < numScenes; i++) {
-		ValueTree scene = scenesArray.getChild(i);
-		const int start = scene.getProperty(treeId::sceneStart);
-		const int distance = absoluteTime - start;
-		if (isPositiveAndBelow(distance, smallestDistance)) {
-			smallestDistance = distance;
-			bestScene = i;
+	if (getSelection().size() == 1) {
+		ValueTree& selectedTree = *getSelection()[0];
+		ValueTree scene;
+		if (isScene(selectedTree)) {
+			scene = selectedTree;
+		} else if (isSequence(selectedTree)) {
+			scene = getScene(getSequenceSceneId(selectedTree));
+		} else if (isKeyframe(selectedTree)) {
+			scene = getScene(getSequenceSceneId(getKeyframeParentSequence(selectedTree)));
+		}
+
+		if (scene.isValid()) {
+			const int start = getSceneStart(scene);
+			const int duration = getSceneDuration(scene);
+			const int distance = absoluteTime - start;
+			if (isPositiveAndNotGreaterThan(distance, duration)) {
+				return scene;
+			}
 		}
 	}
 
-	return scenesArray.getChild(bestScene);
-	// */
-
-	//*
 	// matches only if inside scene
 	for (int i = 0; i < numScenes; i++) {
 		ValueTree scene = getScene(i);
 		const int start = getSceneStart(scene);
 		const int duration = getSceneDuration(scene);
 		const int distance = absoluteTime - start;
-		if (isPositiveAndBelow(distance, duration)) {
+		if (isPositiveAndNotGreaterThan(distance, duration)) {
 			return scene;
 		}
 	}
 	// in case of no matching scene, return invalid tree
 	return ValueTree();
-	// */
 }
 
 // returns the scene that should be displayed at the current time
