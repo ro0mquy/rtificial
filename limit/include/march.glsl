@@ -340,12 +340,18 @@ void perturbNormal(vec3 p, inout vec3 n, float height) {
 }
 
 void main() {
+	vec2 screen_coord = gl_FragCoord.xy / res.x * 2. - 1.;
+	if (aman_2D_mode_rt_bool && abs(screen_coord.x) > 3./4.) {
+		out_color = vec3(0.);
+		return;
+	}
+
 	setDebugParameters();
 
 	vec3 origin = camera_position;
 	vec3 direction = camGetDirection();
 	if (aman_2D_mode_rt_bool) {
-		vec3 pos_displacement = vec3(aman_2D_camera_width_rt_float * (gl_FragCoord.xy / res.x * 2. - 1.), 0.);
+		vec3 pos_displacement = vec3(aman_2D_camera_width_rt_float * screen_coord, 0.);
 		pQuatRotate(pos_displacement, camera_rotation);
 		origin += pos_displacement;
 

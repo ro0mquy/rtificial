@@ -4,8 +4,8 @@
 const float id_floor = 0.;
 const float id_aman = 1.;
 
-uniform float aman_cube_r;
-const float aman_cube_d = 2. * aman_cube_r;
+uniform float aman_cube_d;
+const float aman_cube_r = .5 * aman_cube_d;
 
 uniform bool aman_hand_up_left;
 uniform bool aman_hand_up_right;
@@ -18,9 +18,9 @@ float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 }
 
 float fAman(vec3 p) {
-	p.y -= aman_cube_r;
+	//p.y -= aman_cube_r;
 
-	p.y -= aman_cube_d * aman_jump_h_rt_float;
+	p.y -= aman_cube_d * aman_jump_h_rt_float * sqrt(aman_jump_anim_rt_float);
 
 	float f_foot_row = fAmanBox(p, vec2(0, 0), vec2(12, 1));
 	float f_foot_left = fAmanBox(p, vec2(0, 1), vec2(1, 1));
