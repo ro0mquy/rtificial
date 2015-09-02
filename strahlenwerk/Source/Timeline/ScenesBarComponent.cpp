@@ -131,7 +131,7 @@ void ScenesBarComponent::mouseDrag(const MouseEvent& event) {
 		const int mouseDownGrid = zoomFactor.snapValueToGrid(mouseDown);
 
 		const int mousePos = event.x / zoomFactor;
-		const int mousePosGrid = zoomFactor.snapValueToGrid(mousePos);
+		const int mousePosGrid = jmax(0, zoomFactor.snapValueToGrid(mousePos));
 
 		const int distanceGrid = mousePosGrid - mouseDownGrid;
 		const int absDistanceGrid = std::abs(distanceGrid);
