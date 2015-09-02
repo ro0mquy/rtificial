@@ -49,6 +49,7 @@ class KeyframeComponent :
 
 	private:
 		ComponentBoundsConstrainer constrainer;
+		ValueTree currentlyCopiedKeyframeData;
 
 		class Positioner : public Component::Positioner {
 			public:

@@ -80,8 +80,15 @@ void KeyframeComponent::paint(Graphics& g) {
 void KeyframeComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
+		// drag keyframe
 		data.getUndoManager().beginNewTransaction("Move Keyframe");
 		startDraggingComponent(this, event);
+	} else if (m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier | ModifierKeys::shiftModifier)) {
+		// copy keyframe
+		std::lock_guard<std::recursive_mutex> lock(data.getMutex());
+		currentlyCopiedKeyframeData = keyframeData.createCopy();
+		data.getUndoManager().beginNewTransaction("Copy Keyframe");
+		data.addKeyframe(data.getKeyframeParentSequence(keyframeData), currentlyCopiedKeyframeData);
 	} else {
 		McbComponent::mouseDown(event);
 	}
@@ -90,7 +97,16 @@ void KeyframeComponent::mouseDown(const MouseEvent& event) {
 void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (!event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
+		// drag keyframe
 		dragComponent(this, event, &constrainer);
+	} else if (currentlyCopiedKeyframeData.isValid()) {
+		// copy keyframe
+		const int thisKeyframePosition = data.getKeyframePosition(keyframeData);
+		const int parentSequenceDuration = data.getSequenceDuration(data.getKeyframeParentSequence(keyframeData));
+		const int mouseDistanceX = pixelsToTime(event.getDistanceFromDragStartX());
+		const int newKeyframePosition = jlimit(0, parentSequenceDuration, thisKeyframePosition + mouseDistanceX);
+		const int newKeyframePositionGrid = zoomFactor.snapValueToGrid(newKeyframePosition);
+		data.setKeyframePosition(currentlyCopiedKeyframeData, newKeyframePositionGrid);
 	} else {
 		McbComponent::mouseDrag(event);
 	}
@@ -107,6 +123,14 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 		data.getUndoManager().beginNewTransaction("Delete Keyframe");
 		data.removeKeyframe(keyframeData);
 		// this component gets deleted after this, so don't do stupid things
+	} else if (currentlyCopiedKeyframeData.isValid()) {
+		// end of keyframe copying
+		if (data.getKeyframePosition(keyframeData) == data.getKeyframePosition(currentlyCopiedKeyframeData)) {
+			// copied keyframe at same position as this one
+			data.removeKeyframe(currentlyCopiedKeyframeData);
+			data.getUndoManager().undoCurrentTransactionOnly();
+		}
+		currentlyCopiedKeyframeData = ValueTree();
 	} else {
 		McbComponent::mouseUp(event);
 	}
