@@ -97,11 +97,31 @@ UniformState Interpolator::getCurrentUniformStateWithSequence(ValueTree sequence
 
 UniformState Interpolator::getUniformStateFromTimelineData(ValueTree uniformData) {
 	const int absoluteCurrentTime = AudioManager::getAudioManager().getTime();
+
+	Selection& selection = data.getSelection();
+	bool alwaysDisableEditing = false;
+	if (selection.size() == 1) {
+		// exactly one element selected
+		alwaysDisableEditing = true;
+		ValueTree& selectedTree = *selection[0];
+		if (data.isSequence(selectedTree) && data.getSequenceParentUniform(selectedTree) == uniformData) {
+			// sequence of uniformData selected
+			const int relativeCurrentTime = absoluteCurrentTime - data.getAbsoluteStartForSequence(selectedTree);
+			const int sequenceDuration = data.getSequenceDuration(selectedTree);
+			if (isPositiveAndNotGreaterThan(relativeCurrentTime, sequenceDuration)) {
+				// time in sequence
+				return calculateInterpolatedState(selectedTree, relativeCurrentTime);
+			}
+		}
+	}
+
 	ValueTree currentSequence = data.getSequenceForTime(uniformData, absoluteCurrentTime);
 
 	if (currentSequence.isValid()) {
 		const int relativeCurrentTime = absoluteCurrentTime - data.getAbsoluteStartForSequence(currentSequence);
-		return calculateInterpolatedState(currentSequence, relativeCurrentTime);
+		UniformState currentState = calculateInterpolatedState(currentSequence, relativeCurrentTime);
+		currentState.second = currentState.second && !alwaysDisableEditing;
+		return currentState;
 	}
 
 	// no sequence at current time, use standard value

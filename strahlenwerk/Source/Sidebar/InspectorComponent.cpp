@@ -97,7 +97,7 @@ void InspectorComponent::initalizeSequenceEditing() {
 	ValueTree uniform = data.getSequenceParentUniform(singleSelectedTree);
 	const String name = data.getUniformName(uniform);
 
-	Interpolator::UniformState uniformState = data.getInterpolator().getCurrentUniformStateWithSequence(singleSelectedTree);
+	Interpolator::UniformState uniformState = data.getInterpolator().getCurrentUniformState(data.getSequenceParentUniform(singleSelectedTree));
 	ValueTree value = uniformState.first;
 	const bool isOnKeyframe = uniformState.second;
 
@@ -124,7 +124,7 @@ void InspectorComponent::updateSequenceEditor() {
 		return;
 	}
 
-	Interpolator::UniformState uniformState = data.getInterpolator().getCurrentUniformStateWithSequence(singleSelectedTree);
+	Interpolator::UniformState uniformState = data.getInterpolator().getCurrentUniformState(data.getSequenceParentUniform(singleSelectedTree));
 	ValueTree value = uniformState.first;
 	const bool isOnKeyframe = uniformState.second;
 

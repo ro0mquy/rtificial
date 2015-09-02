@@ -14,6 +14,7 @@ OpenGLComponent::OpenGLComponent() :
 	// TODO: remove listeners again
 	MainWindow::getApplicationCommandManager().addListener(this);
 	TimelineData::getTimelineData().addListenerToTree(this);
+	TimelineData::getTimelineData().getSelection().addChangeListener(this);
 	CameraController::globalCameraController->addChangeListener(this);
 	AudioManager::getAudioManager().addChangeListener(this);
 	StrahlenwerkApplication::getInstance()->getProject().addListener(this);
@@ -68,7 +69,7 @@ void OpenGLComponent::applicationCommandListChanged() {
 }
 
 void OpenGLComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
-	// time or camera changed
+	// time, selection or camera changed
 	fixedAspectRatioComponent.repaint();
 	// it seems that a repaint of the target component also repaints the gl context
 	//context.triggerRepaint();
