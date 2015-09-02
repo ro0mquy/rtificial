@@ -1,6 +1,22 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "aman_2D_camera_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "aman_2D_mode_rt_bool",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "aman_cube_r",
       "uniformType": "float",
       "uniformStandardValue": {

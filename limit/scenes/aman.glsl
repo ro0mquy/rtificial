@@ -156,13 +156,18 @@ float fAman(vec3 p) {
 }
 
 float fScene(vec3 p) {
-	mUnion(p.y, newMaterialId(id_floor, p));
+	if (!aman_2D_mode_rt_bool) {
+		mUnion(p.y, newMaterialId(id_floor, p));
+	}
 	mUnion(fAman(p), newMaterialId(id_aman, p));
 
 	return current_dist;
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
+	if (aman_2D_mode_rt_bool) {
+		return material.color;
+	}
 	return ambientColor(normal, -direction, material);
 }
 

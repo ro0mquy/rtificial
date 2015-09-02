@@ -120,7 +120,7 @@ float sdfMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, float pixelRadi
 		}
 
 		previousRadius = radius;
-		float error = radius / t;
+		float error = aman_2D_mode_rt_bool ? radius : radius / t;
 		if (!sorFail && error < candidate_error) {
 			candidate_t = t;
 			candidate_error = error;
@@ -344,10 +344,29 @@ void main() {
 
 	vec3 origin = camera_position;
 	vec3 direction = camGetDirection();
+	if (aman_2D_mode_rt_bool) {
+		vec3 pos_displacement = vec3(aman_2D_camera_width_rt_float * (gl_FragCoord.xy / res.x * 2. - 1.), 0.);
+		pQuatRotate(pos_displacement, camera_rotation);
+		origin += pos_displacement;
+
+		vec3 new_direction = vec3(0., 0., -1.);
+		pQuatRotate(new_direction, camera_rotation);
+		direction = new_direction;
+	}
 	float marched = sdfMarch(origin, direction, main_marching_distance);
 
 	if (isinf(marched)) {
-		out_color = environmentColor(origin, direction, main_marching_distance);
+		if (aman_2D_mode_rt_bool) {
+			if (origin.y > 0.) {
+				// sky
+				out_color = vec3(138., 133., 95.) / 255.;
+			} else {
+				// floor
+				out_color = vec3(96., 110., 113.) / 255.;
+			}
+		} else {
+			out_color = environmentColor(origin, direction, main_marching_distance);
+		}
 		out_depth = main_marching_distance;
 	} else {
 		vec3 hit = origin + marched * direction;

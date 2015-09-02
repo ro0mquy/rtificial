@@ -30,5 +30,8 @@ vec3 camGetDirection() {
 }
 
 float camGetPixelSize(float dist) {
+	if (aman_2D_mode_rt_bool) {
+		return .5 * aman_2D_camera_width_rt_float / res.x;
+	}
 	return .5 * dist / (screen_distance * res.x);
 }
