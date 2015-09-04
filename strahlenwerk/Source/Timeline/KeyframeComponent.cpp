@@ -58,7 +58,10 @@ void KeyframeComponent::Positioner::applyNewBounds(const Rectangle<int>& newBoun
 
 		const int clampedPosition = jlimit(0, sequenceDuration, relativeNewPositionGrid);
 
-		data.setKeyframePosition(keyframeData, clampedPosition);
+		if (! data.getKeyframe(data.getKeyframeParentSequence(keyframeData), var(clampedPosition)).isValid()) {
+			// check if there's already a keyframe with this position
+			data.setKeyframePosition(keyframeData, clampedPosition);
+		}
 	}
 }
 

@@ -245,9 +245,13 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		const int relativeMouseDownGrid = absoluteMouseDownGrid - sequenceStart;
 
 		if (relativeMouseDownGrid >= 0 && relativeMouseDownGrid <= sequenceDuration) {
-			// don't set keyframe at start or end
-			data.getUndoManager().beginNewTransaction("Create Keyframe");
-			data.addKeyframe(sequenceData, relativeMouseDownGrid);
+			// don't set keyframe beyond start or end
+
+			if (! data.getKeyframe(sequenceData, var(relativeMouseDownGrid)).isValid()) {
+				// check if there's already a keyframe with this position
+				data.getUndoManager().beginNewTransaction("Create Keyframe");
+				data.addKeyframe(sequenceData, relativeMouseDownGrid);
+			}
 		}
 
 	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::popupMenuClickModifier | ModifierKeys::commandModifier)) {
