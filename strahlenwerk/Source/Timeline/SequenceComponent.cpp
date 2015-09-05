@@ -287,8 +287,12 @@ void SequenceComponent::mouseUp(const MouseEvent& event) {
 		// this component gets deleted after this, so don't do stupid things
 
 	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier)) {
-		// add sequence to selection
+		// set sequence as selection
 		data.getSelection().set(sequenceData);
+
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier | ModifierKeys::shiftModifier)) {
+		// add sequence to selection
+		data.getSelection().toggle(sequenceData);
 
 	} else if (currentlyCopiedSequenceData.isValid()) {
 		// end of sequence copying

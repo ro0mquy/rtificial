@@ -57,6 +57,15 @@ void Selection::remove(ValueTree tree) {
 	sendChangeMessage();
 }
 
+void Selection::toggle(ValueTree tree) {
+	if (contains(tree)) {
+		selectedTrees.remove(indexOf(tree));
+	} else {
+		selectedTrees.add(new ValueTree(tree));
+	}
+	sendChangeMessage();
+}
+
 void Selection::clear() {
 	selectedTrees.clear();
 	sendChangeMessage();

@@ -20,6 +20,7 @@ class Selection :
 		void set(ValueTree tree);
 		void add(ValueTree tree);
 		void remove(ValueTree tree);
+		void toggle(ValueTree tree);
 		void clear();
 		int indexOf(ValueTree treeToCheckFor);
 		bool contains(ValueTree treeToCheckFor);

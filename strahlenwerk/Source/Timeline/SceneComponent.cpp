@@ -200,8 +200,12 @@ void SceneComponent::mouseUp(const MouseEvent& event) {
 		data.setSceneShaderSource(sceneData, allSceneShaderFiles[menuResult - 1].getFileNameWithoutExtension());
 
 	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier)) {
-		// add sequence to selection
+		// set sequence as selection
 		data.getSelection().set(sceneData);
+
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier | ModifierKeys::shiftModifier)) {
+		// add sequence to selection
+		data.getSelection().toggle(sceneData);
 
 	} else if (currentlyCopiedSceneData.isValid()) {
 		// end of scene copying

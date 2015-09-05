@@ -118,8 +118,11 @@ void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 void KeyframeComponent::mouseUp(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier)) {
-		// add keyframe to selection
+		// set keyframe as selection
 		data.getSelection().set(keyframeData);
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier | ModifierKeys::shiftModifier)) {
+		// add keyframe to selection
+		data.getSelection().toggle(keyframeData);
 	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::middleButtonModifier | ModifierKeys::commandModifier)) {
 		// delete keyframe
 		data.getSelection().remove(keyframeData);
