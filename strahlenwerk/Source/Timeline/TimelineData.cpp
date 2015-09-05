@@ -788,6 +788,18 @@ int TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
 // returns the active sequence of a uniform for a timepoint
 // a invalid tree is returned if there is none
 ValueTree TimelineData::getSequenceForTime(ValueTree uniform, const int absoluteTime) {
+	const int numSelected = selection.size();
+	for (int i = 0; i < numSelected; i++) {
+		ValueTree& selectedTree = *selection[i];
+		if (isSequence(selectedTree) && getSequenceParentUniform(selectedTree) == uniform) {
+			const int relativeTime = absoluteTime - getAbsoluteStartForSequence(selectedTree);
+			const int sequenceDuration = getSequenceDuration(selectedTree);
+			if (isPositiveAndNotGreaterThan(relativeTime, sequenceDuration)) {
+				return selectedTree;
+			}
+		}
+	}
+
 	const int numSequences = getNumSequences(uniform);
 	for (int i = 0; i < numSequences; i++) {
 		ValueTree sequence = getSequence(uniform, i);
