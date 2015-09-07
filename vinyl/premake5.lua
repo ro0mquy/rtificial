@@ -3,6 +3,10 @@
 -- * resolution, threading commandline flags
 -- * use Custom Build Commands for executing kkrunchy/linux pack script
 --
+-- premake5 alpha stuff not yet available on windows
+-- * solution -> workspace
+-- * flags "NoExceptions" -> exceptionhandling "Off"
+--
 
 solution "Demo"
 	location ("PremakeBuilds/".._ACTION)
@@ -74,6 +78,7 @@ project "vinyl"
 			"MultiProcessorCompile",
 			"OmitDefaultLibrary", -- Omit the specification of a runtime library in object files.
 			"WinMain", -- Use `WinMain()` as entry point for Windows applications, rather than the default `main()`.
+			"NoExceptions",
 		}
 		buildoptions {
 			"/GS-", -- Disable Security checks
@@ -86,7 +91,6 @@ project "vinyl"
 		links {
 			"opengl32",
 		}
-		exceptionhandling "Off"
 
 	-- V2
 
