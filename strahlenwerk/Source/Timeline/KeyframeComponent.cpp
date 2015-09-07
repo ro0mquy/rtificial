@@ -3,6 +3,7 @@
 #include "TreeIdentifiers.h"
 #include "ZoomFactor.h"
 #include <Sidebar/InspectorSequenceComponent.h>
+#include <Sidebar/ValueEditorPropertyComponent.h>
 
 KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
 	keyframeData(keyframeData_),
@@ -116,8 +117,23 @@ void KeyframeComponent::mouseDrag(const MouseEvent& event) {
 }
 
 void KeyframeComponent::mouseUp(const MouseEvent& event) {
+	const int editorWidth = 300;
+
 	const ModifierKeys& m = event.mods;
-	if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier)) {
+	if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
+		// show value editor
+		ValueTree valueData = data.getKeyframeValue(keyframeData);
+		jassert(valueData.isValid());
+
+		const String uniformName = data.getUniformName(data.getKeyframeParentUniform(keyframeData));
+
+		PropertyComponent* valueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(uniformName, valueData);
+		valueEditor->setSize(editorWidth, valueEditor->getPreferredHeight());
+
+		// bounding rectangle of this uniform
+		CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, getScreenBounds(), nullptr);
+		callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
+	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier)) {
 		// set keyframe as selection
 		data.getSelection().set(keyframeData);
 	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier | ModifierKeys::shiftModifier)) {

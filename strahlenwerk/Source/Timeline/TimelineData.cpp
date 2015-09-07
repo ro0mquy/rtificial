@@ -1083,6 +1083,13 @@ ValueTree TimelineData::getKeyframeParentSequence(ValueTree keyframe) {
 	return keyframe.getParent().getParent();
 }
 
+// returns the uniform the keyframe belongs to
+// of course the keyframe must already be added to a sequence
+ValueTree TimelineData::getKeyframeParentUniform(ValueTree keyframe) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	return keyframe.getParent().getParent().getParent().getParent();
+}
+
 // comparator function for keyframes in the keyframes array of a sequence
 int TimelineData::compareKeyframes(const ValueTree& first, const ValueTree& second) {
 		int firstPosition = getKeyframePosition(first);

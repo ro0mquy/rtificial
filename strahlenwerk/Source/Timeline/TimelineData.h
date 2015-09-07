@@ -151,6 +151,7 @@ class TimelineData :
 
 		int getKeyframeIndex(ValueTree keyframe);
 		ValueTree getKeyframeParentSequence(ValueTree keyframe);
+		ValueTree getKeyframeParentUniform(ValueTree keyframe);
 		int compareKeyframes(const ValueTree& first, const ValueTree& second);
 
 
