@@ -228,7 +228,7 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.setInfo("Delete Selection", "Deletes the current selection", programCategory, 0);
 			result.addDefaultKeypress(KeyPress::deleteKey, ModifierKeys::noModifiers);
 			result.addDefaultKeypress(KeyPress::backspaceKey, ModifierKeys::noModifiers);
-			result.addDefaultKeypress('`', ModifierKeys::commandModifier);
+			result.addDefaultKeypress('`', ModifierKeys::noModifiers);
 			break;
 
 		default:

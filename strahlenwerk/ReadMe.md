@@ -21,7 +21,7 @@
 * `[Ctrl]+B` Reset Camera Position
 * `[Ctrl]+S` save all timeline data to `timeline.xml`
 * `[Rightclick]` Select Scene, Sequence or Keyframe
-* ``[Ctrl]+`|[Del]|[Backspace]`` Delete current selection
+* ```|[Del]|[Backspace]`` Delete current selection
 * `8` toggle looping of current selection
 
 #### Scenes
