@@ -23,7 +23,7 @@ const bool fullscreen = true;
 const bool use_sound_thread = true;
 
 #ifdef _DEBUG
-void CALLBACK debugOutputGL(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, void *userParam);
+void debugOutputGL(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, void *userParam);
 #endif
 
 RT_MAIN {
@@ -191,7 +191,7 @@ RT_MAIN {
 }
 
 #ifdef _DEBUG
-void CALLBACK debugOutputGL(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, void *userParam) {
+void debugOutputGL(GLenum /* source */, GLenum /* type */, GLuint /* id */, GLenum /* severity */, GLsizei length, const GLchar *message, void * /* userParam */) {
 	char* debugMessage = new char[length + 2];
 	for (GLsizei i = 0; i < length; i++) {
 		debugMessage[i] = message[i];
@@ -202,3 +202,4 @@ void CALLBACK debugOutputGL(GLenum source, GLenum type, GLuint id, GLenum severi
 	delete[] debugMessage;
 }
 #endif
+

@@ -1,8 +1,9 @@
 --
 -- TODO
 -- * resolution, threading commandline flags
--- * debug configs not building on windows
+-- * use Custom Build Commands for executing kkrunchy/linux pack script
 --
+
 solution "Demo"
 	location ("PremakeBuilds/".._ACTION)
 
@@ -56,7 +57,6 @@ project "vinyl"
 
 	includedirs {
 		"Lib/include",
-		"Source",
 	}
 
 	filter { "configurations:Release" }
@@ -145,7 +145,8 @@ project "vinyl"
 		}
 		filter { "configurations:release" }
 			linkoptions {
-				"-nodefaultlibs",
+				-- usleep is a problem
+				-- "-nodefaultlibs",
 			}
 
 	-- 4klang
@@ -159,6 +160,8 @@ project "vinyl"
 			"Source/music/4klang.linux.o"
 		}
 		buildoptions {
+			-- for use with -nodefaultlibs
+			-- "-fno-use-cxa-atexit",
 			"-m32",
 		}
 		linkoptions {
