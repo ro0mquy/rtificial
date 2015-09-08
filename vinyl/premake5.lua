@@ -76,21 +76,29 @@ project "vinyl"
 	filter { "system:windows" }
 		flags {
 			"MultiProcessorCompile",
-			"OmitDefaultLibrary", -- Omit the specification of a runtime library in object files.
 			"WinMain", -- Use `WinMain()` as entry point for Windows applications, rather than the default `main()`.
 			"NoExceptions",
 		}
 		buildoptions {
 			"/GS-", -- Disable Security checks
-			"/MT", -- Runtime Library Multi-threaded
 		}
 		linkoptions {
-			"/NODEFAULTLIB", -- Ignore All Default Libraries
 			"/SAFESEH:NO", -- Image Has Safe Exception Handers: No
 		}
 		links {
 			"opengl32",
 		}
+
+		filter { "configurations:Release" }
+			flags {
+				"OmitDefaultLibrary", -- Omit the specification of a runtime library in object files.
+			}
+			buildoptions {
+				"/MT", -- Runtime Library Multi-threaded
+			}
+			linkoptions {
+				"/NODEFAULTLIB", -- Ignore All Default Libraries
+			}
 
 	-- V2
 
