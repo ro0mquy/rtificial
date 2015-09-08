@@ -5,42 +5,42 @@
 --
 
 workspace "Demo"
-	location ("PremakeBuilds/".._ACTION)
+	location ("Builds/".._ACTION)
 
 	configurations {
 		"Debug",
 		"Release",
 	}
 
-	filter "system:linux"
-		defines { "__linux" }
-	filter "system:windows"
-		defines { "_WINDOWS" }
+	filter { "system:linux" }
+		defines "__linux"
+	filter { "system:windows" }
+		defines "_WINDOWS"
 
-	filter "configurations:Debug"
-		defines { "_DEBUG" }
+	filter { "configurations:Debug" }
+		defines "_DEBUG"
 		flags {
 			"Symbols" -- Generate debugging information.
 		}
-	filter "configurations:Release"
-		defines { "NDEBUG" }
+	filter { "configurations:Release" }
+		defines "NDEBUG"
 
 
 project "vinyl"
 	language   "C++"
 	kind       "WindowedApp"
-	targetname "demo"
+	targetname "rt"
 
 	platforms {
 		"V2",
 		"4klang",
 	}
 	filter { "platforms:V2", "system:windows" }
-		defines { "SYNTH_V2" }
-	filter "platforms:4klang"
-		defines { "SYNTH_4KLANG" }
+		defines "SYNTH_V2"
+	filter { "platforms:4klang" }
+		defines "SYNTH_4KLANG"
+	filter {} -- reset filters
 
-	filter {}
 	files {
 		"Source/**.cpp",
 		"Source/**.h",
@@ -53,7 +53,6 @@ project "vinyl"
 		"Lib/lib",
 		"Source/music",
 	}
-	-- links { }
 
 	includedirs {
 		"Lib/include",
@@ -85,7 +84,7 @@ project "vinyl"
 		}
 		exceptionhandling "Off"
 
-		filter { "configurations:Release" }
+		filter { "configurations:Release", "system:windows" }
 			flags {
 				"OmitDefaultLibrary", -- Omit the specification of a runtime library in object files.
 			}
@@ -113,12 +112,12 @@ project "vinyl"
 			"%{cfg.objdir}/v2inc",
 		}
 
-	filter { "configurations:Debug", "platforms:V2", "system:windows", "files:Source/music/v2inc.asm" }
-		buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath}"
+	filter { "files:Source/music/v2inc.asm", "configurations:Release", "platforms:V2", "system:windows" }
+		buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DNDEBUG%3b"
 		buildmessage "%{file.name}"
 		buildoutputs "%{cfg.objdir}%{file.basename}.lib"
-	filter { "configurations:Release", "platforms:V2", "system:windows", "files:Source/music/v2inc.asm" }
-		buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DNDEBUG%3b"
+	filter { "files:Source/music/v2inc.asm", "configurations:Debug", "platforms:V2", "system:windows" }
+		buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath}"
 		buildmessage "%{file.name}"
 		buildoutputs "%{cfg.objdir}%{file.basename}.lib"
 
@@ -151,7 +150,7 @@ project "vinyl"
 			"X11",
 			"asound",
 		}
-		filter { "configurations:release" }
+		filter { "configurations:release", "system:linux" }
 			linkoptions {
 				-- usleep is a problem
 				-- "-nodefaultlibs",

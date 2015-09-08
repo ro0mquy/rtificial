@@ -1,4 +1,4 @@
-BUILDDIR=PremakeBuilds/gmake
+BUILDDIR=Builds/gmake
 
 premake5 gmake
 cd $BUILDDIR
