@@ -5,16 +5,6 @@ extern "C" {
 	int _fltused = 1;
 }
 
-#define SYNTH_V2
-//#define SYNTH_4KLANG
-
-#ifdef SYNTH_V2
-	#define BPM 150
-
-	// use GetTickCount() instead of V2 for time
-	// #define SYSTEM_TIME
-#endif
-
 #include "Frontend.h"
 #include "glcorearb.h"
 
@@ -125,6 +115,8 @@ static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 #endif
 
 #ifdef SYNTH_V2
+// use GetTickCount() instead of V2 for time
+// #define SYSTEM_TIME
 #include "v2mplayer.h"
 #include "libv2.h"
 static V2MPlayer player;

@@ -8,6 +8,13 @@ using int16_t = short;
 #include <windows.h>
 #include "stdlib.h"
 
+#ifdef SYNTH_V2
+#include "music/bpm.h"
+#endif
+#ifdef SYNTH_4KLANG
+#include "music/4klang.windows.h" // for BPM define
+#endif
+
 // las said this was good
 #define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN
@@ -66,8 +73,13 @@ class WindowsFrontend {
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
+#include <alloca.h>
 #define ALSA_PCM_NEW_HW_PARAMS_API
 #include <alsa/asoundlib.h>
+
+#ifdef SYNTH_4KLANG
+#include "music/4klang.linux.h" // for BPM define
+#endif
 
 #define RT_MAIN int main()
 #define RT_INIT
