@@ -14,7 +14,7 @@ void Shader::compile() {
 	const GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
 	const GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
 
-	const char* vertexSource = "#version 430\nvoid main() { gl_position = vec4(vec2[](vec2(-1,-1),vec2(3,-1),vec2(-1,3))[gl_vertexid], 0, 1); }";
+	const char* vertexSource = "#version 430\nvoid main() { gl_Position = vec4(vec2[](vec2(-1,-1),vec2(3,-1),vec2(-1,3))[gl_VertexID], 0, 1); }";
 	glShaderSource(vertex, 1, &vertexSource, nullptr);
 	glCompileShader(vertex);
 	glShaderSource(fragment, 1, &source, nullptr);
