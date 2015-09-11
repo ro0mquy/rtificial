@@ -261,7 +261,6 @@
     <ClCompile Include="..\..\Source\DataInterpolator.cpp" />
     <ClCompile Include="..\..\Source\EnvironmentMap.cpp" />
     <ClCompile Include="..\..\Source\Framebuffer.cpp" />
-    <ClCompile Include="..\..\Source\LinuxFrontend.cpp" />
     <ClCompile Include="..\..\Source\Shader.cpp" />
     <ClCompile Include="..\..\Source\WindowsFrontend.cpp" />
     <ClCompile Include="..\..\Source\main.cpp" />

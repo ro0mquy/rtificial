@@ -72,7 +72,6 @@ OBJECTS := \
 	$(OBJDIR)/Framebuffer.o \
 	$(OBJDIR)/LinuxFrontend.o \
 	$(OBJDIR)/Shader.o \
-	$(OBJDIR)/WindowsFrontend.o \
 	$(OBJDIR)/main.o \
 	$(OBJDIR)/quat.o \
 	$(OBJDIR)/scalar.o \
@@ -157,9 +156,6 @@ $(OBJDIR)/LinuxFrontend.o: ../../Source/LinuxFrontend.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Shader.o: ../../Source/Shader.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/WindowsFrontend.o: ../../Source/WindowsFrontend.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: ../../Source/main.cpp

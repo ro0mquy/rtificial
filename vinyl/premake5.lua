@@ -46,7 +46,8 @@ project "vinyl"
 		"Source/**.h",
 	}
 	removefiles {
-		"Source/Music/*",
+		"Source/music/*",
+		"Source/*Frontend.cpp",
 	}
 
 	libdirs {
@@ -69,6 +70,9 @@ project "vinyl"
 	--
 
 	filter { "system:windows" }
+		files {
+			"Source/WindowsFrontend.cpp",
+		}
 		flags {
 			"MultiProcessorCompile",
 			"WinMain", -- Use `WinMain()` as entry point for Windows applications, rather than the default `main()`.
@@ -140,6 +144,9 @@ project "vinyl"
 
 	filter { "system:linux" }
 		removeplatforms { "V2" }
+		files {
+			"Source/LinuxFrontend.cpp",
+		}
 		buildoptions {
 			"-std=c++11",
 			"-Wall",

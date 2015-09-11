@@ -229,9 +229,6 @@
     <ClCompile Include="..\..\Source\Framebuffer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\LinuxFrontend.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Shader.cpp">
       <Filter>Source</Filter>
     </ClCompile>
