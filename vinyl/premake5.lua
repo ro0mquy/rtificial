@@ -1,7 +1,8 @@
 --
 -- TODO
 -- * resolution, threading commandline flags
--- * use Custom Build Commands for executing kkrunchy/linux pack script
+-- * use Custom Build Commands for executing kkrunchy/linux pack script/shader minifier
+-- * generalize nasm define pass through http://stackoverflow.com/questions/32531784/get-list-of-defines-as-token-or-string-in-premake-5
 --
 
 workspace "Demo"
@@ -34,11 +35,19 @@ project "vinyl"
 	platforms {
 		"V2",
 		"4klang",
+		"vorbis",
 	}
+	SYNTH_DEFINE = ""
 	filter { "platforms:V2", "system:windows" }
 		defines "SYNTH_V2"
 	filter { "platforms:4klang" }
 		defines "SYNTH_4KLANG"
+	filter { "platforms:vorbis" }
+		defines {
+			"SYNTH_VORBIS",
+			"STB_VORBIS_NOPUSHDATA_API",
+			"STB_VORBIS_NO_STDIO",
+		}
 	filter {} -- reset filters
 
 	files {
@@ -48,6 +57,7 @@ project "vinyl"
 	removefiles {
 		"Source/music/*",
 		"Source/*Frontend.cpp",
+		"Source/incbin.asm",
 	}
 
 	libdirs {
@@ -103,8 +113,9 @@ project "vinyl"
 
 	filter { "platforms:V2", "system:windows" }
 		files {
+			"Source/music/bpm.h",
 			"Source/music/soundtrack.v2m",
-			"Source/music/v2inc.asm",
+			"Source/incbin.asm",
 			"Lib/include/libv2.h",
 			"Lib/include/v2mplayer.cpp",
 			"Lib/include/v2mplayer.h",
@@ -113,17 +124,18 @@ project "vinyl"
 			"Dsound",
 			"winmm",
 			"libv2",
-			"%{cfg.objdir}/v2inc",
+			"%{cfg.objdir}/incbin",
 		}
 
-	filter { "files:Source/music/v2inc.asm", "configurations:Release", "platforms:V2", "system:windows" }
-		buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DNDEBUG%3b"
-		buildmessage "%{file.name}"
-		buildoutputs "%{cfg.objdir}%{file.basename}.lib"
-	filter { "files:Source/music/v2inc.asm", "configurations:Debug", "platforms:V2", "system:windows" }
-		buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath}"
-		buildmessage "%{file.name}"
-		buildoutputs "%{cfg.objdir}%{file.basename}.lib"
+		-- nasm custom build commands for including binary data
+		filter { "files:Source/incbin.asm", "configurations:Release", "system:windows", "platforms:V2" }
+			buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DNDEBUG%3b -DSYNTH_V2"
+			buildmessage "%{file.name}"
+			buildoutputs "%{cfg.objdir}%{file.basename}.lib"
+		filter { "files:Source/incbin.asm", "configurations:Debug", "system:windows", "platforms:V2" }
+			buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DSYNTH_V2"
+			buildmessage "%{file.name}"
+			buildoutputs "%{cfg.objdir}%{file.basename}.lib"
 
 	-- 4klang
 
@@ -137,13 +149,42 @@ project "vinyl"
 			"4klang.windows",
 		}
 
+	-- vorbis
+
+	filter { "platforms:vorbis", "system:windows" }
+		files {
+			"Source/music/bpm.h",
+			"Source/music/vorbis_info.h",
+			"Source/music/soundtrack.ogg",
+			"Source/incbin.asm",
+			"Lib/include/stb_vorbis.c",
+			"Lib/include/stb_vorbis.h",
+		}
+		links {
+			"winmm",
+			"%{cfg.objdir}/incbin",
+		}
+
+		filter { "configurations:Release", "platforms:vorbis", "system:windows" }
+			defines "STB_VORBIS_NO_CRT"
+
+		-- nasm custom build commands for including binary data
+		filter { "files:Source/incbin.asm", "configurations:Release", "system:windows", "platforms:vorbis" }
+			buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DNDEBUG%3b -DSYNTH_VORBIS"
+			buildmessage "%{file.name}"
+			buildoutputs "%{cfg.objdir}%{file.basename}.lib"
+		filter { "files:Source/incbin.asm", "configurations:Debug", "system:windows", "platforms:vorbis" }
+			buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DSYNTH_VORBIS"
+			buildmessage "%{file.name}"
+			buildoutputs "%{cfg.objdir}%{file.basename}.lib"
+
 
 	--
 	-- Linux
 	--
 
 	filter { "system:linux" }
-		removeplatforms { "V2" }
+		removeplatforms { "V2", "vorbis", }
 		files {
 			"Source/LinuxFrontend.cpp",
 		}

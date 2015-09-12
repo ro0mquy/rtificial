@@ -1,0 +1,26 @@
+bits 32
+section .data
+
+%ifdef SYNTH_V2
+global _soundtrack
+_soundtrack:
+	incbin "..\..\Source\music\soundtrack.v2m"
+%endif
+%ifdef SYNTH_VORBIS
+global _soundtrack
+_soundtrack:
+	incbin "..\..\Source\music\soundtrack.ogg"
+%endif
+
+; Some replacements for things VC2005 needs when compiling without CRT
+%ifdef NDEBUG
+; http://stackoverflow.com/questions/1583196/building-visual-c-app-that-doesnt-use-crt-functions-still-references-some
+; already defined in WindowsFrontend.cpp
+;global __fltused
+;__fltused dd 0
+
+section .text
+
+global __chkstk
+__chkstk ret
+%endif

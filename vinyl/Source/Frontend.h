@@ -8,7 +8,7 @@ using int16_t = short;
 #include <windows.h>
 #include "stdlib.h"
 
-#ifdef SYNTH_V2
+#if defined(SYNTH_V2) || defined(SYNTH_VORBIS)
 #include "music/bpm.h"
 #endif
 #ifdef SYNTH_4KLANG

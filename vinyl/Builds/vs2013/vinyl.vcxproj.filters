@@ -24,12 +24,18 @@
     <None Include="..\..\Source\music\4klang.windows.lib">
       <Filter>Source\music</Filter>
     </None>
+    <None Include="..\..\Source\music\soundtrack.ogg">
+      <Filter>Source\music</Filter>
+    </None>
     <None Include="..\..\Source\music\soundtrack.v2m">
       <Filter>Source\music</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Lib\include\libv2.h">
+      <Filter>Lib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Lib\include\stb_vorbis.h">
       <Filter>Lib\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Lib\include\v2mplayer.h">
@@ -102,6 +108,12 @@
       <Filter>Source\math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\music\4klang.windows.h">
+      <Filter>Source\music</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\music\bpm.h">
+      <Filter>Source\music</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\music\vorbis_info.h">
       <Filter>Source\music</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\ao.h">
@@ -211,6 +223,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Lib\include\stb_vorbis.c">
+      <Filter>Lib\include</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Lib\include\v2mplayer.cpp">
       <Filter>Lib\include</Filter>
     </ClCompile>
@@ -261,8 +276,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\Source\music\v2inc.asm">
-      <Filter>Source\music</Filter>
+    <CustomBuild Include="..\..\Source\incbin.asm">
+      <Filter>Source</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

@@ -9,12 +9,20 @@
       <Configuration>Debug 4klang</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug vorbis|Win32">
+      <Configuration>Debug vorbis</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release V2|Win32">
       <Configuration>Release V2</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release 4klang|Win32">
       <Configuration>Release 4klang</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release vorbis|Win32">
+      <Configuration>Release vorbis</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -37,6 +45,12 @@
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -44,6 +58,12 @@
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release 4klang|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
@@ -58,10 +78,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug 4klang|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release 4klang|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -79,6 +105,13 @@
     <TargetName>rt</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>bin\vorbis\Debug\</OutDir>
+    <IntDir>obj\vorbis\Debug\</IntDir>
+    <TargetName>rt</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>bin\V2\Release\</OutDir>
@@ -90,6 +123,13 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>bin\4klang\Release\</OutDir>
     <IntDir>obj\4klang\Release\</IntDir>
+    <TargetName>rt</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>bin\vorbis\Release\</OutDir>
+    <IntDir>obj\vorbis\Release\</IntDir>
     <TargetName>rt</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
@@ -110,7 +150,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;libv2.lib;obj\V2\Debug\v2inc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;libv2.lib;obj\V2\Debug\incbin.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -137,6 +177,28 @@
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;SYNTH_VORBIS;STB_VORBIS_NOPUSHDATA_API;STB_VORBIS_NO_STDIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\Lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/GS- %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;winmm.lib;obj\vorbis\Debug\incbin.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -158,7 +220,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;libv2.lib;obj\V2\Release\v2inc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;libv2.lib;obj\V2\Release\incbin.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO /NODEFAULTLIB %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -189,8 +251,35 @@
       <AdditionalOptions>/SAFESEH:NO /NODEFAULTLIB %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;SYNTH_VORBIS;STB_VORBIS_NOPUSHDATA_API;STB_VORBIS_NO_STDIO;STB_VORBIS_NO_CRT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\Lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>MinSpace</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/GS- /MT %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;winmm.lib;obj\vorbis\Release\incbin.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/SAFESEH:NO /NODEFAULTLIB %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Lib\include\libv2.h" />
+    <ClInclude Include="..\..\Lib\include\stb_vorbis.h" />
     <ClInclude Include="..\..\Lib\include\v2mplayer.h" />
     <ClInclude Include="..\..\Source\AmbientLight.h" />
     <ClInclude Include="..\..\Source\BRDFIntegratorSource.h" />
@@ -215,6 +304,8 @@
     <ClInclude Include="..\..\Source\math\vec3.h" />
     <ClInclude Include="..\..\Source\math\vec4.h" />
     <ClInclude Include="..\..\Source\music\4klang.windows.h" />
+    <ClInclude Include="..\..\Source\music\bpm.h" />
+    <ClInclude Include="..\..\Source\music\vorbis_info.h" />
     <ClInclude Include="..\..\Source\shaders\ao.h" />
     <ClInclude Include="..\..\Source\shaders\ao_blend.h" />
     <ClInclude Include="..\..\Source\shaders\ao_blur_h.h" />
@@ -252,9 +343,17 @@
     <ClInclude Include="..\..\Source\strahlenwerk_export_interface.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Lib\include\stb_vorbis.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug 4klang|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release 4klang|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Lib\include\v2mplayer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug 4klang|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release 4klang|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\AmbientLight.cpp" />
     <ClCompile Include="..\..\Source\BRDFLut.cpp" />
@@ -274,17 +373,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\music\4klang.windows.lib" />
+    <None Include="..\..\Source\music\soundtrack.ogg" />
     <None Include="..\..\Source\music\soundtrack.v2m" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\Source\music\v2inc.asm">
+    <CustomBuild Include="..\..\Source\incbin.asm">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">nasm.exe -f win32 -o $(IntDir)v2inc.lib ../../Source/music/v2inc.asm</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">$(IntDir)v2inc.lib</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">v2inc.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">nasm.exe -f win32 -o $(IntDir)v2inc.lib ../../Source/music/v2inc.asm -DNDEBUG%3b</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">$(IntDir)v2inc.lib</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">v2inc.asm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DSYNTH_V2</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">$(IntDir)incbin.lib</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">incbin.asm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DSYNTH_VORBIS</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">$(IntDir)incbin.lib</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">incbin.asm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DNDEBUG%3b -DSYNTH_V2</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">$(IntDir)incbin.lib</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">incbin.asm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DNDEBUG%3b -DSYNTH_VORBIS</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">$(IntDir)incbin.lib</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">incbin.asm</Message>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
