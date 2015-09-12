@@ -159,6 +159,7 @@ void WindowsFrontend::initAudio(bool threaded) {
 
 #ifdef SYNTH_VORBIS
 	#if !(defined(AUDIO_CHANNELS) && defined(SAMPLE_RATE))
+		#define VORBIS_INFO_QUERY
 		int vorbis_error = 0;
 		vorbis_decoder = stb_vorbis_open_memory(soundtrack, VORBIS_SOUNDTRACK_SIZE, &vorbis_error, NULL);
 		stb_vorbis_info info = stb_vorbis_get_info(vorbis_decoder);
@@ -301,7 +302,7 @@ void WindowsFrontend::cleanup() {
 	dsClose();
 	player.Close();
 #endif
-#ifdef SYNTH_VORBIS
+#ifdef VORBIS_INFO_QUERY
 	stb_vorbis_close(vorbis_decoder);
 #endif
 }

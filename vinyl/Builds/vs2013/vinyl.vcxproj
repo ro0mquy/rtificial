@@ -265,7 +265,7 @@
       <OmitDefaultLibName>true</OmitDefaultLibName>
       <ExceptionHandling>false</ExceptionHandling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/GS- /MT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/GS- /MT /d2noftol3 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

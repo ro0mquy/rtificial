@@ -166,7 +166,15 @@ project "vinyl"
 		}
 
 		filter { "configurations:Release", "platforms:vorbis", "system:windows" }
-			defines "STB_VORBIS_NO_CRT"
+			defines {
+				"STB_VORBIS_NO_CRT",
+			}
+			buildoptions {
+				-- trade __dtoui3 missing against __ftol2 missing
+				-- this option is undocumented!
+				-- http://stackoverflow.com/questions/19556103/how-to-get-vs2013-to-stop-generating-calls-to-dtol3-dtoui3-and-other-funct
+				"/d2noftol3",
+			}
 
 		-- nasm custom build commands for including binary data
 		filter { "files:Source/incbin.asm", "configurations:Release", "system:windows", "platforms:vorbis" }
