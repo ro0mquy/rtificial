@@ -305,7 +305,6 @@
     <ClInclude Include="..\..\Source\math\vec4.h" />
     <ClInclude Include="..\..\Source\music\4klang.windows.h" />
     <ClInclude Include="..\..\Source\music\bpm.h" />
-    <ClInclude Include="..\..\Source\music\vorbis_info.h" />
     <ClInclude Include="..\..\Source\shaders\ao.h" />
     <ClInclude Include="..\..\Source\shaders\ao_blend.h" />
     <ClInclude Include="..\..\Source\shaders\ao_blur_h.h" />
@@ -343,7 +342,7 @@
     <ClInclude Include="..\..\Source\strahlenwerk_export_interface.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Lib\include\stb_vorbis.c">
+    <ClCompile Include="..\..\Lib\include\stb_vorbis_wrapper.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug 4klang|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">true</ExcludedFromBuild>
@@ -382,13 +381,13 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DSYNTH_V2</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">$(IntDir)incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">incbin.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DSYNTH_VORBIS</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -D_WINDOWS -DSYNTH_VORBIS</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">$(IntDir)incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">incbin.asm</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DNDEBUG%3b -DSYNTH_V2</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">$(IntDir)incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">incbin.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DNDEBUG%3b -DSYNTH_VORBIS</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -D_WINDOWS -DNDEBUG -DSYNTH_VORBIS</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">$(IntDir)incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">incbin.asm</Message>
     </CustomBuild>

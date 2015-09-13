@@ -154,7 +154,6 @@ project "vinyl"
 	filter { "platforms:vorbis", "system:windows" }
 		files {
 			"Source/music/bpm.h",
-			"Source/music/vorbis_info.h",
 			"Source/music/soundtrack.ogg",
 			"Source/incbin.asm",
 			"Lib/include/stb_vorbis_wrapper.c",
@@ -239,7 +238,6 @@ project "vinyl"
 	filter { "platforms:vorbis", "system:linux" }
 		files {
 			"Source/music/bpm.h",
-			"Source/music/vorbis_info.h",
 			"Source/music/soundtrack.ogg",
 			"Source/incbin.asm",
 			"Lib/include/stb_vorbis_wrapper.c",

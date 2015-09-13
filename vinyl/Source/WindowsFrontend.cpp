@@ -129,15 +129,14 @@ extern "C" const sU8 soundtrack[];
 
 #ifdef SYNTH_VORBIS
 #include "stb_vorbis.h"
-#include "music/vorbis_info.h"
 static stb_vorbis *vorbis_decoder;
 extern "C" const unsigned char soundtrack[];
+extern "C" int soundtrack_size;
 #define SAMPLE_TYPE short
-#ifndef SAMPLE_RATE
-	#define SAMPLE_RATE_UNDEFINED
-	int SAMPLE_RATE;
-#endif
-static void _vorbis_decode(int *num_samples /* see blow ... SAMPLE_TYPE *audio_buffer */);
+static int SAMPLE_RATE = 44100;
+static int AUDIO_CHANNELS = 2;
+static int MAX_SAMPLES = 0;
+static void _vorbis_decode(SAMPLE_TYPE *audio_buffer);
 static SAMPLE_TYPE *audio_buffer;
 #endif
 
@@ -158,26 +157,26 @@ void WindowsFrontend::initAudio(bool threaded) {
 #endif
 
 #ifdef SYNTH_VORBIS
-	#if !(defined(AUDIO_CHANNELS) && defined(SAMPLE_RATE))
-		#define VORBIS_INFO_QUERY
-		int vorbis_error = 0;
-		vorbis_decoder = stb_vorbis_open_memory(soundtrack, VORBIS_SOUNDTRACK_SIZE, &vorbis_error, NULL);
-		stb_vorbis_info info = stb_vorbis_get_info(vorbis_decoder);
-	
-		#ifdef _DEBUG
-			int err = stb_vorbis_get_error(vorbis_decoder);
-			RT_DEBUG(("vorbis error code: " + std::to_string(err) + "\n").c_str());
-			RT_DEBUG((std::to_string(info.channels) + " channels, " + std::to_string(info.sample_rate) + "samples/sec\n").c_str());
-			RT_DEBUG(("predicted memory usage: " + std::to_string(info.setup_memory_required) + " setup + " + std::to_string(info.temp_memory_required) + " temp\n").c_str());
-		#endif
+	int vorbis_error = 0;
+	stb_vorbis *vorbis_decoder = stb_vorbis_open_memory(soundtrack, soundtrack_size, &vorbis_error, NULL);
+	stb_vorbis_info vorbis_info = stb_vorbis_get_info(vorbis_decoder);
+
+	#ifdef _DEBUG
+		vorbis_error = stb_vorbis_get_error(vorbis_decoder);
+		RT_DEBUG(("vorbis error code: " + std::to_string(vorbis_error) + "\n").c_str());
+		RT_DEBUG(("channels:          " + std::to_string(vorbis_info.channels) + "\n").c_str());
+		RT_DEBUG(("sample_rate:       " + std::to_string(vorbis_info.sample_rate) + "\n").c_str());
+		RT_DEBUG(("predicted memory usage:\n"
+				"  total: " + std::to_string(vorbis_info.setup_memory_required + vorbis_info.temp_memory_required) + "\n" +
+				"  setup: " + std::to_string(vorbis_info.setup_memory_required) + "\n" +
+				"  temp:  " + std::to_string(vorbis_info.temp_memory_required) + "\n"
+			).c_str());
 	#endif
-	
-	#ifndef AUDIO_CHANNELS
-		const int AUDIO_CHANNELS = info.channels;
-	#endif
-	#ifdef SAMPLE_RATE_UNDEFINED
-		SAMPLE_RATE = info.sample_rate;
-	#endif
+
+	AUDIO_CHANNELS = vorbis_info.channels;
+	SAMPLE_RATE = vorbis_info.sample_rate;
+
+	stb_vorbis_close(vorbis_decoder);
 
 	/*
 	 * don't thread because we need the number of decoded threads for the WAVEHDR
@@ -188,8 +187,7 @@ void WindowsFrontend::initAudio(bool threaded) {
 //	if (threaded) {
 //		CreateThread(0, 0, (LPTHREAD_START_ROUTINE) _vorbis_decode, audio_buffer, 0, 0);
 //	} else {
-		int MAX_SAMPLES;
-		_vorbis_decode(&MAX_SAMPLES);
+		_vorbis_decode(audio_buffer);
 //	}
 #endif
 
@@ -225,15 +223,15 @@ void WindowsFrontend::initAudio(bool threaded) {
 }
 
 #ifdef SYNTH_VORBIS
-static void _vorbis_decode(int *num_samples_decoded /* see above ... SAMPLE_TYPE *audio_buffer */){
-	int num_samples, channels, sample_rate;
-	num_samples = stb_vorbis_decode_memory(soundtrack, VORBIS_SOUNDTRACK_SIZE, &channels, &sample_rate, &audio_buffer);
+static void _vorbis_decode(SAMPLE_TYPE* /*audio_buffer*/){
+	/* use the global audio_buffer here, the param is just for matching the 4klang call */
+	int num_samples;
+	MAX_SAMPLES = stb_vorbis_decode_memory(soundtrack, soundtrack_size, &AUDIO_CHANNELS, &SAMPLE_RATE, &audio_buffer);
 	#ifdef _DEBUG
-		int err = stb_vorbis_get_error(vorbis_decoder);
-		RT_DEBUG(("vorbis error code: " + std::to_string(err) + "\n").c_str());
-		RT_DEBUG(("number of samples decoded: " + std::to_string(num_samples) + "\n").c_str());
+		RT_DEBUG(("number of samples decoded: " + std::to_string(MAX_SAMPLES)).c_str());
+		RT_DEBUG(("channels:                  " + std::to_string(AUDIO_CHANNELS)).c_str());
+		RT_DEBUG(("sample_rate:               " + std::to_string(SAMPLE_RATE)).c_str());
 	#endif
-	*num_samples_decoded = num_samples;
 }
 #endif
 
@@ -267,9 +265,6 @@ int WindowsFrontend::getTime(){
 		return int(.5 + (dsGetCurSmp() - startPosition) / (44.100 * sizeof(float))) * (BPM / 60.);
 	#endif
 #endif
-#ifdef SYNTH_VORBIS
-	return 0;
-#endif
 }
 
 
@@ -301,9 +296,6 @@ void WindowsFrontend::cleanup() {
 #ifdef SYNTH_V2
 	dsClose();
 	player.Close();
-#endif
-#ifdef VORBIS_INFO_QUERY
-	stb_vorbis_close(vorbis_decoder);
 #endif
 }
 

@@ -113,9 +113,6 @@
     <ClInclude Include="..\..\Source\music\bpm.h">
       <Filter>Source\music</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\music\vorbis_info.h">
-      <Filter>Source\music</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\shaders\ao.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
@@ -223,7 +220,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Lib\include\stb_vorbis.c">
+    <ClCompile Include="..\..\Lib\include\stb_vorbis_wrapper.c">
       <Filter>Lib\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Lib\include\v2mplayer.cpp">

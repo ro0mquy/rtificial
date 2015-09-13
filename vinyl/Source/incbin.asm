@@ -3,8 +3,7 @@ section .data
 
 %ifdef SYNTH_V2
 global _soundtrack
-_soundtrack:
-	incbin "..\..\Source\music\soundtrack.v2m"
+_soundtrack incbin "../../Source/music/soundtrack.v2m"
 %endif
 %ifdef SYNTH_VORBIS
 global _soundtrack

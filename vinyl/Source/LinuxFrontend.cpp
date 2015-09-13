@@ -202,8 +202,8 @@ void LinuxFrontend::initAudio(bool threaded) {
 	stb_vorbis_info vorbis_info = stb_vorbis_get_info(vorbis_decoder);
 
 	#ifdef _DEBUG
-		int err = stb_vorbis_get_error(vorbis_decoder);
-		RT_DEBUG(("vorbis error code: " + std::to_string(err)                    ).c_str());
+		vorbis_error = stb_vorbis_get_error(vorbis_decoder);
+		RT_DEBUG(("vorbis error code: " + std::to_string(vorbis_error)                    ).c_str());
 		RT_DEBUG(("channels:          " + std::to_string(vorbis_info.channels)   ).c_str());
 		RT_DEBUG(("sample_rate:       " + std::to_string(vorbis_info.sample_rate)).c_str());
 		RT_DEBUG(("predicted memory usage:\n"
