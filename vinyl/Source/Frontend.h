@@ -77,6 +77,9 @@ class WindowsFrontend {
 #define ALSA_PCM_NEW_HW_PARAMS_API
 #include <alsa/asoundlib.h>
 
+#ifdef SYNTH_VORBIS
+#include "music/bpm.h"
+#endif
 #ifdef SYNTH_4KLANG
 #include "music/4klang.linux.h" // for BPM define
 #endif

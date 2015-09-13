@@ -24,7 +24,34 @@ ifeq ($(config),debug_4klang)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += -lGL -lX11 -lasound ../../Source/music/4klang.linux.o
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -m32 -pthread
+  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -pthread -m32
+  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  define PREBUILDCMDS
+  endef
+  define PRELINKCMDS
+  endef
+  define POSTBUILDCMDS
+  endef
+all: $(TARGETDIR) $(OBJDIR) prebuild prelink $(TARGET)
+	@:
+
+endif
+
+ifeq ($(config),debug_vorbis)
+  RESCOMP = windres
+  TARGETDIR = bin/vorbis/Debug
+  TARGET = $(TARGETDIR)/rt
+  OBJDIR = obj/vorbis/Debug
+  DEFINES += -D__linux -D_DEBUG -DSYNTH_VORBIS -DSTB_VORBIS_NOPUSHDATA_API -DSTB_VORBIS_NO_STDIO
+  INCLUDES += -I../../Lib/include
+  FORCE_INCLUDE +=
+  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -O0 -std=c++11 -Wall -Wextra
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
+  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
+  LIBS += -lGL -lX11 -lasound
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -pthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -51,7 +78,34 @@ ifeq ($(config),release_4klang)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += -lGL -lX11 -lasound ../../Source/music/4klang.linux.o
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -s -m32 -pthread
+  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -s -pthread -m32
+  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  define PREBUILDCMDS
+  endef
+  define PRELINKCMDS
+  endef
+  define POSTBUILDCMDS
+  endef
+all: $(TARGETDIR) $(OBJDIR) prebuild prelink $(TARGET)
+	@:
+
+endif
+
+ifeq ($(config),release_vorbis)
+  RESCOMP = windres
+  TARGETDIR = bin/vorbis/Release
+  TARGET = $(TARGETDIR)/rt
+  OBJDIR = obj/vorbis/Release
+  DEFINES += -D__linux -DNDEBUG -DSYNTH_VORBIS -DSTB_VORBIS_NOPUSHDATA_API -DSTB_VORBIS_NO_STDIO
+  INCLUDES += -I../../Lib/include
+  FORCE_INCLUDE +=
+  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -Os -std=c++11 -Wall -Wextra
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
+  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
+  LIBS += -lGL -lX11 -lasound
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -s -pthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -84,6 +138,20 @@ OBJECTS := \
 RESOURCES := \
 
 CUSTOMFILES := \
+
+ifeq ($(config),debug_vorbis)
+  OBJECTS += \
+	$(OBJDIR)/stb_vorbis_wrapper.o \
+	obj/vorbis/Debug/incbin.o \
+
+endif
+
+ifeq ($(config),release_vorbis)
+  OBJECTS += \
+	$(OBJDIR)/stb_vorbis_wrapper.o \
+	obj/vorbis/Release/incbin.o \
+
+endif
 
 SHELLTYPE := msdos
 ifeq (,$(ComSpec)$(COMSPEC))
@@ -137,6 +205,9 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) -x c++-header $(ALL_CXXFLAGS) -o "$@" -MF "$(@:%.gch=%.d)" -c "$<"
 endif
 
+$(OBJDIR)/stb_vorbis_wrapper.o: ../../Lib/include/stb_vorbis_wrapper.c
+	@echo $(notdir $<)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/AmbientLight.o: ../../Source/AmbientLight.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -158,6 +229,16 @@ $(OBJDIR)/LinuxFrontend.o: ../../Source/LinuxFrontend.cpp
 $(OBJDIR)/Shader.o: ../../Source/Shader.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+ifeq ($(config),debug_vorbis)
+obj/vorbis/Debug/incbin.o: ../../Source/incbin.asm
+	@echo "incbin.asm"
+	$(SILENT) nasm -f elf64 -o obj/vorbis/Debug/incbin.o ../../Source/incbin.asm -D__linux -DSYNTH_VORBIS
+endif
+ifeq ($(config),release_vorbis)
+obj/vorbis/Release/incbin.o: ../../Source/incbin.asm
+	@echo "incbin.asm"
+	$(SILENT) nasm -f elf64 -o obj/vorbis/Release/incbin.o ../../Source/incbin.asm -D__linux -DNDEBUG -DSYNTH_VORBIS
+endif
 $(OBJDIR)/main.o: ../../Source/main.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"

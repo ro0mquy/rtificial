@@ -8,8 +8,10 @@ _soundtrack:
 %endif
 %ifdef SYNTH_VORBIS
 global _soundtrack
-_soundtrack:
-	incbin "..\..\Source\music\soundtrack.ogg"
+_soundtrack incbin "../../Source/music/soundtrack.ogg"
+_soundtrack_end:
+global _soundtrack_size
+_soundtrack_size dd _soundtrack_end - _soundtrack
 %endif
 
 ; Some replacements for things VC2005 needs when compiling without CRT

@@ -158,6 +158,7 @@ void LinuxFrontend::init(int width, int height, bool /*fullscreen*/) {
 #define ALSA_PCM_NEW_HW_PARAMS_API
 #include <alsa/asoundlib.h>
 
+#ifdef SYNTH_4KLANG
 #include "music/4klang.linux.h"
 #define AUDIO_CHANNELS 2
 #ifndef LINUX_OBJECT
@@ -165,11 +166,25 @@ void LinuxFrontend::init(int width, int height, bool /*fullscreen*/) {
 #endif
 
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
+#endif
+
+#ifdef SYNTH_VORBIS
+#include "stb_vorbis.h"
+extern "C" const unsigned char _soundtrack[];
+extern "C" int _soundtrack_size;
+#define SAMPLE_TYPE short
+static int SAMPLE_RATE = 44100;
+static int AUDIO_CHANNELS = 2;
+static int MAX_SAMPLES = 0;
+static void* _vorbis_decode(void *param);
+static SAMPLE_TYPE *audio_buffer;
+#endif
 
 static snd_pcm_t* alsa_handle;
 static snd_pcm_uframes_t audio_frames;
 
 void LinuxFrontend::initAudio(bool threaded) {
+#ifdef SYNTH_4KLANG
 	// run 4klang rendering in a thread
 	if (threaded) {
 		pthread_t audio_render_thread;
@@ -177,6 +192,45 @@ void LinuxFrontend::initAudio(bool threaded) {
 	} else {
 		__4klang_render(audio_buffer);
 	}
+#endif
+
+
+#ifdef SYNTH_VORBIS
+	// get info about the vorbis file (needed to setup alsa)
+	int vorbis_error = 0;
+	stb_vorbis *vorbis_decoder = stb_vorbis_open_memory(_soundtrack, _soundtrack_size, &vorbis_error, NULL);
+	stb_vorbis_info vorbis_info = stb_vorbis_get_info(vorbis_decoder);
+
+	#ifdef _DEBUG
+		int err = stb_vorbis_get_error(vorbis_decoder);
+		RT_DEBUG(("vorbis error code: " + std::to_string(err)                    ).c_str());
+		RT_DEBUG(("channels:          " + std::to_string(vorbis_info.channels)   ).c_str());
+		RT_DEBUG(("sample_rate:       " + std::to_string(vorbis_info.sample_rate)).c_str());
+		RT_DEBUG(("predicted memory usage:\n"
+					"  total: " + std::to_string(vorbis_info.setup_memory_required + vorbis_info.temp_memory_required) + "\n" +
+					"  setup: " + std::to_string(vorbis_info.setup_memory_required) + "\n" +
+					"  temp:  " + std::to_string(vorbis_info.temp_memory_required)  + "\n"
+				).c_str());
+	#endif
+
+	AUDIO_CHANNELS = vorbis_info.channels;
+	SAMPLE_RATE = vorbis_info.sample_rate;
+
+	stb_vorbis_close(vorbis_decoder);
+
+	/*
+	 * wemight be creating a race condition here. if the audio file is not
+	 * decoded before the playback begins, MAX_SAMPLES is not set to the
+	 * correct value. Usually compiling all shaders should take long enough
+	 * to decode the file. If you want to be safe, dont't use threading.
+	 */
+	if (threaded) {
+		pthread_t audio_render_thread;
+		pthread_create(&audio_render_thread, NULL, _vorbis_decode, audio_buffer);
+	} else {
+		_vorbis_decode(audio_buffer);
+	}
+#endif
 
 	// setup alsa
 	int rounding_direction = 0;
@@ -193,7 +247,7 @@ void LinuxFrontend::initAudio(bool threaded) {
 	// interleaved mode
 	snd_pcm_hw_params_set_access(alsa_handle, params, SND_PCM_ACCESS_RW_INTERLEAVED);
 	// signed 16bit little endian
-#	ifdef INTEGER_16BIT
+#	if (defined(SYNTH_4KLANG) && defined(INTEGER_16BIT)) || defined(SYNTH_VORBIS)
 		snd_pcm_hw_params_set_format(alsa_handle, params, SND_PCM_FORMAT_S16_LE);
 #	else
 #		error "4klang export sample type does not match alsa sample format"
@@ -210,11 +264,25 @@ void LinuxFrontend::initAudio(bool threaded) {
 	snd_pcm_hw_params(alsa_handle, params);
 }
 
+#ifdef SYNTH_VORBIS
+static void* _vorbis_decode(void* /* param */){
+	MAX_SAMPLES = stb_vorbis_decode_memory(_soundtrack, _soundtrack_size, &AUDIO_CHANNELS, &SAMPLE_RATE, &audio_buffer);
+	#ifdef _DEBUG
+		RT_DEBUG(("number of samples decoded: " + std::to_string(MAX_SAMPLES)   ).c_str());
+		RT_DEBUG(("channels:                  " + std::to_string(AUDIO_CHANNELS)).c_str());
+		RT_DEBUG(("sample_rate:               " + std::to_string(SAMPLE_RATE)   ).c_str());
+	#endif
+	return NULL;
+}
+#endif
+
 static void* __playAudio(void* /*arg*/) {
 	size_t audio_buffer_size = audio_frames * AUDIO_CHANNELS;
+	size_t audio_buffer_max = (size_t) (MAX_SAMPLES * AUDIO_CHANNELS);
+
 
 	for (size_t audio_buffer_offset = 0;
-			audio_buffer_offset < MAX_SAMPLES * AUDIO_CHANNELS;
+			audio_buffer_offset < audio_buffer_max;
 			audio_buffer_offset += audio_buffer_size
 		) {
 		// write data directly from 4klang buffer to sound card

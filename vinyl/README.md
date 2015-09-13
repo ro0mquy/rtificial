@@ -4,10 +4,10 @@
 
 `vinyl` uses the [Premake](https://premake.github.io) meta build system to generate build system files for different platforms. Currently Premake 5.0 (alpha) in the latest development snapshot is used. A Linux Makefile and a Visual Studio 2013 Solution are already generated for your convenience.
 
-Currently there are two "Configurations": `Release` and `Debug`. `Release` builds a small-as-possible binary without symbols, debug output and does not link against the standard library. This is suitable for entry in compos. `Debug` has all the fancy stuff like (OpenGL-) debug output. On Top of that, there are three supported audio sources (formally synthesizers) ("Platforms"): `4klang` (Windows + Linux), `V2` (Windows only), and `vorbis` (Windows only for now). Premake generates projects that allow you to build any combination of those.
+Currently there are two "Configurations": `Release` and `Debug`. `Release` builds a small-as-possible binary without symbols, debug output and does not link against the standard library. This is suitable for entry in compos. `Debug` has all the fancy stuff like (OpenGL-) debug output. On Top of that, there are three supported audio sources (formally synthesizers) ("Platforms"): `4klang` (Windows & Linux), `V2` (Windows only), and `vorbis` (Windows & Linux). Premake generates projects that allow you to build any combination of those.
 
 ### Linux
-Get the latest Premake 5.0 development snapshot for your distribution. On Arch this is [premake-git](https://aur.archlinux.org/packages/premake-git/) from the AUR.
+Get the latest Premake 5.0 development snapshot for your distribution. On Arch this is [premake-git](https://aur.archlinux.org/packages/premake-git/) from the AUR. You also might need the [NASM](http://nasm.us) assembler. Install it from your distribution. On Arch this is [extra/nasm](https://www.archlinux.org/packages/extra/x86_64/nasm/).
 
 Now run
 
@@ -43,7 +43,7 @@ It may be the case that you need a `nasm.exe` executable. It is used for include
 
 ### Audio Sources
 #### 4klang
-On Windows place the 4klang header into `rtificial/vinyl/Source/music/4klang.windows.h` and the `.obj` in rtificial/vinyl/Source/music/4klang.windows.lib`.
+On Windows place the 4klang header into `rtificial/vinyl/Source/music/4klang.windows.h` and the `.obj` in `rtificial/vinyl/Source/music/4klang.windows.lib`.
 
 On Linux place the 4klang export into `rtificial/vinyl/Source/music/4klang.linux.h` and `rtificial/vinyl/Source/music/4klang.linux.o`.
 
@@ -51,7 +51,7 @@ On Linux place the 4klang export into `rtificial/vinyl/Source/music/4klang.linux
 Place the V2 export into `rtificial/vinyl/Source/music/soundtrack.v2m` and set the `BPM` in `rtificial/vinyl/Spource/music/bpm.h`.
 
 #### vorbis
-Place the Ogg Vorbis file into `rtificial/vinyl/Source/music/soundtrack.ogg` and set the `BPM` in `rtificial/vinyl/Spource/music/bpm.h`. You alsow have to set the size of the Ogg file in bytes as `VORBIS_SOUNDTRACK_SIZE` in `/rtificial/vinyl/Source/music/vorbis_info.h`. This file also allows you to set the number of channels (`AUDIO_CHANNELS`) and the sample rate (`SAMPLE_RATE`) manually. If you don't, the file will be queried for it. If you do, that code is not compiled in and it might save you a teeny tiny bit of executable size. Also note that at the current state it is not possible to decode the file in a thread parallel to compiling shaders, this might lengthen the loading time a bit.
+Place the Ogg Vorbis file into `rtificial/vinyl/Source/music/soundtrack.ogg` and set the `BPM` in `rtificial/vinyl/Spource/music/bpm.h`. Note that at the current state it is not possible to decode the file in a thread parallel to compiling shaders on windows, this might lengthen the loading time a bit.
 
 
 ### Debugging
@@ -59,6 +59,7 @@ Place the Ogg Vorbis file into `rtificial/vinyl/Source/music/soundtrack.ogg` and
 To make use of platform independent debugging functions, define the preprocessor-define `_DEBUG`. Then you can use the macro `RT_DEBUG(str)` to print the c-string `str` to standard out/error. You must wrap all calls to `RT_DEBUG` in an `#ifdef _DEBUG`. To output the value of a non-cstring variable `myvar`, convert it:
 
 	#ifdef _DEBUG
-		RT_DEBUG((std::to_string(myvar) + "\n").c_str());
+		RT_DEBUG((std::to_string(myvar)``).c_str());
 	#endif
 
+A newline character `\n` is automatically appended to the string.
