@@ -232,12 +232,12 @@ $(OBJDIR)/Shader.o: ../../Source/Shader.cpp
 ifeq ($(config),debug_vorbis)
 obj/vorbis/Debug/incbin.o: ../../Source/incbin.asm
 	@echo "incbin.asm"
-	$(SILENT) nasm -f elf64 -o obj/vorbis/Debug/incbin.o ../../Source/incbin.asm -D__linux -DSYNTH_VORBIS
+	$(SILENT) nasm -f elf64 -o obj/vorbis/Debug/incbin.o ../../Source/incbin.asm -D__linux -D_DEBUG -DSYNTH_VORBIS -DSTB_VORBIS_NOPUSHDATA_API -DSTB_VORBIS_NO_STDIO
 endif
 ifeq ($(config),release_vorbis)
 obj/vorbis/Release/incbin.o: ../../Source/incbin.asm
 	@echo "incbin.asm"
-	$(SILENT) nasm -f elf64 -o obj/vorbis/Release/incbin.o ../../Source/incbin.asm -D__linux -DNDEBUG -DSYNTH_VORBIS
+	$(SILENT) nasm -f elf64 -o obj/vorbis/Release/incbin.o ../../Source/incbin.asm -D__linux -DNDEBUG -DSYNTH_VORBIS -DSTB_VORBIS_NOPUSHDATA_API -DSTB_VORBIS_NO_STDIO
 endif
 $(OBJDIR)/main.o: ../../Source/main.cpp
 	@echo $(notdir $<)

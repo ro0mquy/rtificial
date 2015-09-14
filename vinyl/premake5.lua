@@ -37,7 +37,6 @@ project "vinyl"
 		"4klang",
 		"vorbis",
 	}
-	SYNTH_DEFINE = ""
 	filter { "platforms:V2", "system:windows" }
 		defines "SYNTH_V2"
 	filter { "platforms:4klang" }
@@ -73,6 +72,12 @@ project "vinyl"
 		optimize "Size"
 	filter { "configurations:Debug" }
 		optimize "Off" -- "Debug"
+
+	-- nasm custom build commands for including binary data
+	filter { "files:Source/incbin.asm", "platforms:vorbis or V2" }
+		buildcommands 'nasm -f %{cfg.system == "linux" and "elf64" or cfg.system == "windows" and "win32"} -o %{cfg.objdir}/%{file.basename}.%{cfg.system == "linux" and "o" or cfg.system == "windows" and "lib"} %{file.abspath} %{table.implode(cfg.defines, "-D", "", " ")}'
+		buildmessage "%{file.name}"
+		buildoutputs '%{cfg.objdir}/%{file.basename}.%{cfg.system == "linux" and "o" or cfg.system == "windows" and "lib"}'
 
 
 	--
@@ -124,18 +129,7 @@ project "vinyl"
 			"Dsound",
 			"winmm",
 			"libv2",
-			"%{cfg.objdir}/incbin",
 		}
-
-		-- nasm custom build commands for including binary data
-		filter { "files:Source/incbin.asm", "configurations:Release", "system:windows", "platforms:V2" }
-			buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DNDEBUG%3b -DSYNTH_V2"
-			buildmessage "%{file.name}"
-			buildoutputs "%{cfg.objdir}%{file.basename}.lib"
-		filter { "files:Source/incbin.asm", "configurations:Debug", "system:windows", "platforms:V2" }
-			buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -DSYNTH_V2"
-			buildmessage "%{file.name}"
-			buildoutputs "%{cfg.objdir}%{file.basename}.lib"
 
 	-- 4klang
 
@@ -176,15 +170,7 @@ project "vinyl"
 			}
 			optimize "Off"
 
-		-- nasm custom build commands for including binary data
-		filter { "files:Source/incbin.asm", "configurations:Release", "system:windows", "platforms:vorbis" }
-			buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -D_WINDOWS -DNDEBUG -DSYNTH_VORBIS"
-			buildmessage "%{file.name}"
-			buildoutputs "%{cfg.objdir}%{file.basename}.lib"
-		filter { "files:Source/incbin.asm", "configurations:Debug", "system:windows", "platforms:vorbis" }
-			buildcommands "nasm.exe -f win32 -o %{cfg.objdir}%{file.basename}.lib %{file.abspath} -D_WINDOWS -DSYNTH_VORBIS"
-			buildmessage "%{file.name}"
-			buildoutputs "%{cfg.objdir}%{file.basename}.lib"
+
 
 
 	--
@@ -253,14 +239,3 @@ project "vinyl"
 				"STB_VORBIS_NO_CRT",
 			}
 		--]]
-
-		-- nasm custom build commands for including binary data
-		filter { "files:Source/incbin.asm", "configurations:Release", "system:linux", "platforms:vorbis" }
-			buildcommands "nasm -f elf64 -o %{cfg.objdir}/%{file.basename}.o %{file.abspath} -D__linux -DNDEBUG -DSYNTH_VORBIS"
-			buildmessage "%{file.name}"
-			buildoutputs "%{cfg.objdir}/%{file.basename}.o"
-		filter { "files:Source/incbin.asm", "configurations:Debug", "system:linux", "platforms:vorbis" }
-			buildcommands "nasm -f elf64 -o %{cfg.objdir}/%{file.basename}.o %{file.abspath} -D__linux -DSYNTH_VORBIS"
-			buildmessage "%{file.name}"
-			buildoutputs "%{cfg.objdir}/%{file.basename}.o"
-

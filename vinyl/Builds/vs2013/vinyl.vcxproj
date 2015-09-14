@@ -150,7 +150,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;libv2.lib;obj\V2\Debug\incbin.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;libv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -220,7 +220,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;libv2.lib;obj\V2\Release\incbin.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;Dsound.lib;winmm.lib;libv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO /NODEFAULTLIB %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -266,7 +266,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO /NODEFAULTLIB %(AdditionalOptions)</AdditionalOptions>
@@ -373,17 +373,17 @@
   <ItemGroup>
     <CustomBuild Include="..\..\Source\incbin.asm">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DSYNTH_V2</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">$(IntDir)incbin.lib</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -D_DEBUG -DSYNTH_V2</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">$(IntDir)/incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">incbin.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -D_WINDOWS -DSYNTH_VORBIS</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">$(IntDir)incbin.lib</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -D_DEBUG -DSYNTH_VORBIS -DSTB_VORBIS_NOPUSHDATA_API -DSTB_VORBIS_NO_STDIO</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">$(IntDir)/incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">incbin.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -DNDEBUG%3b -DSYNTH_V2</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">$(IntDir)incbin.lib</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -DNDEBUG -DSYNTH_V2</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">$(IntDir)/incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">incbin.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">nasm.exe -f win32 -o $(IntDir)incbin.lib ../../Source/incbin.asm -D_WINDOWS -DNDEBUG -DSYNTH_VORBIS</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">$(IntDir)incbin.lib</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -DNDEBUG -DSYNTH_VORBIS -DSTB_VORBIS_NOPUSHDATA_API -DSTB_VORBIS_NO_STDIO -DSTB_VORBIS_NO_CRT</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">$(IntDir)/incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">incbin.asm</Message>
     </CustomBuild>
   </ItemGroup>
