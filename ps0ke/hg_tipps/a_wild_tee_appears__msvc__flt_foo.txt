@@ -1,0 +1,56 @@
+﻿14:21 ▬▬▶ abductee (~a@95.91.236.186) has joined #<5
+14:21 <abductee> tach!
+14:22 <abductee> hasis
+14:25 <abductee> was genau tut/braucht ihr?
+14:26 <abductee> was genau ist den die fehlermeldung?
+14:27 <_vincent> oh
+14:27 <_vincent> tach!
+14:27 <_vincent> worum gehts denn?
+14:28 <abductee> [14:10] <@urs> die rtificials sitzen gerade neben mir, sie haben den _ftoul2 fehler in visual studio... was war nochmal das compilerflag, das dagegen hilft?
+14:30 <@ro0mquy> der linker findet das nicht
+14:30 <abductee> ok
+14:30 <abductee> wegen ignore default libaries
+14:31 <abductee> vc 2012?
+14:32 <abductee> je nach compiler/flags gibts mehrere möglichkeiten das wieder unter zu jubeln
+14:32 <@urs> d gibt's doch dieses flag, das wir haben, ueber das sich VS immer wegen deprecated beschwert
+14:33 <abductee> urs, ja, das ist VC versuon sepzifisch
+14:34 <abductee> für VC 2015,2013 /QIfist
+14:35 <abductee> für ältere versionen:
+14:36 <abductee> long _declspec(naked) _ftol2 () {
+14:36 <abductee> static long fistTemp;
+14:36 <abductee> __asm {
+14:36 <abductee> fistp fistTemp
+14:36 <abductee> mov eax,fistTemp
+14:36 <abductee> ret
+14:36 <abductee> }
+14:36 <abductee> }
+14:36 <_vincent> ich glaub wir haben 2013 oder schon '15
+14:36 <abductee> evntl noch nen extern "C" drumherum
+14:36 <_vincent> keine ahnung was die physiker da treiben
+14:37 <_vincent> anscheinend ist das praktikum doch nicht so anstrengend
+14:37 <abductee> dann sollte compilerswitch /QIfist reichen
+14:48 <@ro0mquy> Okay wir probieren das mal aus
+14:48 -- Mode #<5 [+oo _vincent abductee] by ro0mquy
+14:48 <@ro0mquy> _vincent: science hier!
+14:49 <@ro0mquy> Sonnenwinde und Elektronen!
+14:51 <@_vincent> hier eher so ganz viel matrizen
+14:56 <@Ps0ke> abductee: Danke schon mal, ich teste das mal. Was wäre denn gegen __dtoui3 zu machen, weil ich verwende atm /d2noftol3 und dem traue ich irgendwie nicht so richtig
+14:57 <@Ps0ke> (Grade noch VS2013 hier, aber will demnächst auf 2015)
+14:58 <@_vincent> wenn du eh gerade rumfrickelst geh doch gleich auf 15
+14:58 <@_vincent> will ich auch demnächst mal machen
+15:05 <@abductee> erm
+15:05 <@abductee> Ps0ke: keine doubles verwenden? ;)
+15:06 <@abductee> ihr könnt mir das projekt auch mal übern zaun werfen und ich check das mal
+15:07 <@abductee> so remote-irc-fehlermeldungs buschfunk hat turnaround zeiten .... das geht ja garnich :)
+15:15 <@Ps0ke> _vincent: meine Windows Partition hat aber nur noch 200mb frei, Temp umbiegen hat nichts gebracht und ich will mein Windows eh bei installieren. War halt immer was anderes zu tun
+15:16 <@Ps0ke> Außerdem ist der Umzug zu premake ja auch Grade erst fertig u d vorher hatte ich Angst das build System anzupassen, solange es tat
+15:16 <@Ps0ke> Aber ja, ich sollte das mal tun
+15:17 <@abductee> ihr nehmt auch premake <3
+15:17 <@abductee> ICH WILL EUCH ALLE KNUDDELN
+15:17 <@Ps0ke> abductee: Ich schau mal ob ich das jetzt hinbekomme, ansonsten Bau ich da mal ein zip
+15:18 <@urs> soll ich sie mal knuddeln?
+15:18 <@urs> ich bin in knuddelreichweite.
+15:20 <@abductee> AU JA!
+17:33 <@Ps0ke> und er knuddelte uns nicht
+17:33 <@Ps0ke> ich prangere!
+17:33 <@Ps0ke> abductee: und auf euere empfehlung auch premake5

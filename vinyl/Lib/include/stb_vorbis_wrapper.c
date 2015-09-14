@@ -23,6 +23,7 @@ static void free(void *ptr){
 
 static void *realloc(void *ptr, size_t size) {
 	if (ptr) HeapReAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, ptr, size);
+	return NULL;
 }
 
 
@@ -129,10 +130,21 @@ static float rt_floor(float x){
 	return (float) res;
 }
 
-#define memset rt_memset
-static void rt_memset(void *base, int val, int len) {
-	int i;
+static float abs(float x){
+	if (x >= 0){
+		return x;
+	}
+	else {
+		return (-1)*x;
+	}
+}
+
+// http://stackoverflow.com/questions/2938966/how-to-use-vc-intrinsic-functions-w-o-run-time-library
+#pragma function(memset)
+static void* __cdecl memset(void *base, int val, size_t len) {
+	size_t i;
 	for (i = 0; i < len; ++i) ((char *)base)[i] = val;
+	return NULL;
 }
 
 #define memcmp rt_memcmp

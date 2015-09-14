@@ -161,7 +161,6 @@ project "vinyl"
 		}
 		links {
 			"winmm",
-			"%{cfg.objdir}/incbin",
 		}
 
 		filter { "configurations:Release", "platforms:vorbis", "system:windows" }
@@ -172,8 +171,10 @@ project "vinyl"
 				-- trade __dtoui3 missing against __ftol2 missing
 				-- this option is undocumented!
 				-- http://stackoverflow.com/questions/19556103/how-to-get-vs2013-to-stop-generating-calls-to-dtol3-dtoui3-and-other-funct
-				"/d2noftol3",
+				-- "/d2noftol3",
+				"/QIfist", -- see rtificial/ps0ke/hg_tipps/a_wild_tee_appears__msvc__flt_foo.txt
 			}
+			optimize "Off"
 
 		-- nasm custom build commands for including binary data
 		filter { "files:Source/incbin.asm", "configurations:Release", "system:windows", "platforms:vorbis" }

@@ -136,7 +136,7 @@ extern "C" int soundtrack_size;
 static int SAMPLE_RATE = 44100;
 static int AUDIO_CHANNELS = 2;
 static int MAX_SAMPLES = 0;
-static void _vorbis_decode(SAMPLE_TYPE *audio_buffer);
+static void _vorbis_decode();
 static SAMPLE_TYPE *audio_buffer;
 #endif
 
@@ -180,14 +180,11 @@ void WindowsFrontend::initAudio(bool threaded) {
 
 	/*
 	 * don't thread because we need the number of decoded threads for the WAVEHDR
-	 * if another way of optaining this is found, threading can be enabled again.
-	 * the parameter to _vorbis_decode() should then be SAMPLE_TYPE *audiobuffer
-	 * again to be symmetric to the 4klang flow.
 	 */
 //	if (threaded) {
-//		CreateThread(0, 0, (LPTHREAD_START_ROUTINE) _vorbis_decode, audio_buffer, 0, 0);
+//		CreateThread(0, 0, (LPTHREAD_START_ROUTINE) _vorbis_decode, NULL, 0, 0);
 //	} else {
-		_vorbis_decode(audio_buffer);
+		_vorbis_decode();
 //	}
 #endif
 
@@ -223,9 +220,8 @@ void WindowsFrontend::initAudio(bool threaded) {
 }
 
 #ifdef SYNTH_VORBIS
-static void _vorbis_decode(SAMPLE_TYPE* /*audio_buffer*/){
+static void _vorbis_decode(){
 	/* use the global audio_buffer here, the param is just for matching the 4klang call */
-	int num_samples;
 	MAX_SAMPLES = stb_vorbis_decode_memory(soundtrack, soundtrack_size, &AUDIO_CHANNELS, &SAMPLE_RATE, &audio_buffer);
 	#ifdef _DEBUG
 		RT_DEBUG(("number of samples decoded: " + std::to_string(MAX_SAMPLES)).c_str());
