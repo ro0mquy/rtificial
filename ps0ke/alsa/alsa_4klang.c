@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <alloca.h> // ALSA
-#include <unistd.h> // sleep()
+#include <time.h>
+#include <sys/time.h>
 #define ALSA_PCM_NEW_HW_PARAMS_API
 #include <alsa/asoundlib.h>
 
@@ -12,6 +13,8 @@ void initAudio(int threaded);
 void playAudio();
 static void* __playAudio(void* arg);
 void cleanup();
+
+static float audio_time;
 
 int main(){
 
@@ -25,7 +28,15 @@ int main(){
 	playAudio();
 
 	/* draw loop */
-	sleep(180);
+	struct timespec sp, tp, slp, slp_res;
+	clock_gettime(CLOCK_REALTIME, &sp);
+	slp.tv_sec = 1;
+	slp.tv_nsec = 0;
+	for(int i=0; i<180; i++){
+		clock_gettime(CLOCK_REALTIME, &tp);
+		printf("time elapsed: \n  gettime:\t%li.%09li\n  alsa calc:\t%f\n", tp.tv_sec - sp.tv_sec, tp.tv_nsec, audio_time);
+		nanosleep(&slp, &slp_res);
+	}
 
 	cleanup();
 	return 0;
@@ -90,6 +101,7 @@ static void* __playAudio(void* arg) {
 			audio_buffer_offset < MAX_SAMPLES * AUDIO_CHANNELS;
 			audio_buffer_offset += audio_buffer_size
 		) {
+		audio_time = audio_buffer_offset / AUDIO_CHANNELS / 44100.0f;
 		// write data directly from 4klang buffer to sound card
 		size_t bytes_written = snd_pcm_writei(alsa_handle,
 				audio_buffer + audio_buffer_offset,

@@ -157,6 +157,7 @@ void LinuxFrontend::init(int width, int height, bool /*fullscreen*/) {
 #include <pthread.h>
 #define ALSA_PCM_NEW_HW_PARAMS_API
 #include <alsa/asoundlib.h>
+static size_t audio_buffer_offset;
 
 #ifdef SYNTH_4KLANG
 #include "music/4klang.linux.h"
@@ -281,7 +282,7 @@ static void* __playAudio(void* /*arg*/) {
 	size_t audio_buffer_max = (size_t) (MAX_SAMPLES * AUDIO_CHANNELS);
 
 
-	for (size_t audio_buffer_offset = 0;
+	for (audio_buffer_offset = 0;
 			audio_buffer_offset < audio_buffer_max;
 			audio_buffer_offset += audio_buffer_size
 		) {
@@ -307,9 +308,9 @@ void LinuxFrontend::playAudio(){
 }
 
 // returns time in milli beats
-static int rt_time = 0;
 int LinuxFrontend::getTime(){
-	return rt_time += 1000;
+	const float play_time = float(audio_buffer_offset) / float(AUDIO_CHANNELS) / float(SAMPLE_RATE);
+	return int(.5 + play_time * 1000 * BPM / 60.);
 }
 
 
