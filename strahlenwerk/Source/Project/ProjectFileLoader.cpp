@@ -11,7 +11,8 @@ ProjectFileLoader::ProjectFileLoader(std::string projectRoot) :
 	sceneDir(projectDir.getChildFile("scenes")),
 	includeDir(projectDir.getChildFile("include")),
 	buildDir(projectDir.getChildFile("build")),
-	environmentsDir(projectDir.getChildFile("environments"))
+	environmentsDir(projectDir.getChildFile("environments")),
+	texturesDir(projectDir.getChildFile("textures"))
 {
 }
 
@@ -25,6 +26,10 @@ std::vector<File> ProjectFileLoader::listSceneFiles() const {
 
 std::vector<File> ProjectFileLoader::listEnvironmentFiles() const {
 	return listFiles(environmentsDir);
+}
+
+std::vector<File> ProjectFileLoader::listTextureFiles() const {
+	return listFiles(texturesDir);
 }
 
 File ProjectFileLoader::getMappingFile() const {
@@ -69,6 +74,10 @@ const File& ProjectFileLoader::getBuildDir() const {
 
 const File& ProjectFileLoader::getEnvironmentsDir() const {
 	return environmentsDir;
+}
+
+const File& ProjectFileLoader::getTexturesDir() const {
+	return texturesDir;
 }
 
 std::string ProjectFileLoader::loadFile(const std::string& path) {

@@ -15,6 +15,7 @@
 #include "AudioManager.h"
 #include "MainWindow.h"
 #include "Rendering/AmbientLight.h"
+#include "Rendering/Texture.h"
 
 Project::Project(const std::string& dir, AudioManager& _audioManager) :
 	loader(dir),
@@ -73,6 +74,10 @@ std::unique_ptr<Scenes<SceneShader>> Project::getScenes() {
 
 std::unique_ptr<Scenes<AmbientLight>> Project::getAmbientLights() {
 	return std::move(ambientLights);
+}
+
+std::vector<Texture> Project::getTextures() {
+	return textures;
 }
 
 TimelineData& Project::getTimelineData() {
@@ -523,6 +528,8 @@ void Project::handleFileAction(
 		reloadShaders();
 	} else if (changedFile == loader.getAudioFile()) {
 		reloadAudio();
+	} else if (changedFile.isAChildOf(loader.getTexturesDir())) {
+		reloadTextures();
 	}
 }
 
@@ -689,4 +696,18 @@ void Project::reloadAmbientLights() {
 		ambientLights = std::unique_ptr<Scenes<AmbientLight>>(new Scenes<AmbientLight>(std::move(ambientLightObjects)));
 	}
 	ambientLightsChanged();
+}
+
+void Project::reloadTextures() {
+	textures.clear();
+	std::vector<File> textureFiles = loader.listTextureFiles();
+	for (const File& file : textureFiles) {
+		Image image = ImageFileFormat::loadFrom(file);
+		if (image.isValid()) {
+			// TODO figure out id
+			const GLenum textureUnit = GL_TEXTURE0;
+			textures.emplace_back(image, textureUnit);
+		}
+	}
+	listeners.call(&Project::Listener::texturesChanged);
 }

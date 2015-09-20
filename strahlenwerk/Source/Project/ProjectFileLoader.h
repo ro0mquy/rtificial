@@ -12,6 +12,7 @@ class ProjectFileLoader {
 		std::vector<File> listPostprocFiles() const;
 		std::vector<File> listSceneFiles() const;
 		std::vector<File> listEnvironmentFiles() const;
+		std::vector<File> listTextureFiles() const;
 		File getMappingFile() const;
 		File getTimelineDataFile() const;
 		File getAudioFile() const;
@@ -24,6 +25,7 @@ class ProjectFileLoader {
 		const File& getIncludeDir() const;
 		const File& getBuildDir() const;
 		const File& getEnvironmentsDir() const;
+		const File& getTexturesDir() const;
 
 		static std::string loadFile(const std::string& path);
 
@@ -36,5 +38,6 @@ class ProjectFileLoader {
 		File includeDir;
 		File buildDir;
 		File environmentsDir;
+		File texturesDir;
 };
 #endif

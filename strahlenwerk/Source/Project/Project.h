@@ -17,6 +17,7 @@ class Scenes;
 class Shader;
 class AudioManager;
 class AmbientLight;
+class Texture;
 
 class Project :
 	private efsw::FileWatchListener,
@@ -33,6 +34,7 @@ class Project :
 		std::unique_ptr<PostprocPipeline> getPostproc();
 		std::unique_ptr<Scenes<SceneShader>> getScenes();
 		std::unique_ptr<Scenes<AmbientLight>> getAmbientLights();
+		std::vector<Texture> getTextures();
 		TimelineData& getTimelineData();
 		void loadDirectory(const std::string& dir);
 		const ProjectFileLoader& getLoader() const;
@@ -66,6 +68,7 @@ class Project :
 				virtual void scenesChanged() {}
 				virtual void infoLogChanged() {}
 				virtual void ambientLightsChanged() {}
+				virtual void texturesChanged() {}
 		};
 
 		void addListener(Listener* const listener);
@@ -88,10 +91,12 @@ class Project :
 		void reloadTimelineData();
 		void performOpenProject();
 		void reloadAmbientLights();
+		void reloadTextures();
 
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes<SceneShader>> scenes;
 		std::unique_ptr<Scenes<AmbientLight>> ambientLights;
+		std::vector<Texture> textures;
 		ListenerList<Listener> listeners;
 		OpenGLContext* context;
 		ProjectFileLoader loader;
