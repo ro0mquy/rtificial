@@ -81,6 +81,8 @@
         <FILE id="nByUmg" name="Shader.h" compile="0" resource="0" file="Source/Rendering/Shader.h"/>
         <FILE id="xlV49r" name="SpecularFilterSource.h" compile="0" resource="0"
               file="Source/Rendering/SpecularFilterSource.h"/>
+        <FILE id="dapZJE" name="Texture.cpp" compile="1" resource="0" file="Source/Rendering/Texture.cpp"/>
+        <FILE id="YESDKo" name="Texture.h" compile="0" resource="0" file="Source/Rendering/Texture.h"/>
         <FILE id="xWlp4q" name="Uniform.cpp" compile="1" resource="0" file="Source/Rendering/Uniform.cpp"/>
         <FILE id="UNEnWx" name="Uniform.h" compile="0" resource="0" file="Source/Rendering/Uniform.h"/>
         <FILE id="mPQd5a" name="UniformManager.cpp" compile="1" resource="0"

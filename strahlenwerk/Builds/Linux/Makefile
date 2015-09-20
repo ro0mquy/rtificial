@@ -67,6 +67,7 @@ OBJECTS := \
   $(OBJDIR)/PostprocShader_df5d2107.o \
   $(OBJDIR)/SceneShader_b92468cf.o \
   $(OBJDIR)/Shader_cfe69b71.o \
+  $(OBJDIR)/Texture_68071d9.o \
   $(OBJDIR)/Uniform_96b281f2.o \
   $(OBJDIR)/UniformManager_63433de5.o \
   $(OBJDIR)/DraggableQuaternion_55786799.o \
@@ -224,6 +225,11 @@ $(OBJDIR)/SceneShader_b92468cf.o: ../../Source/Rendering/SceneShader.cpp
 $(OBJDIR)/Shader_cfe69b71.o: ../../Source/Rendering/Shader.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Shader.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Texture_68071d9.o: ../../Source/Rendering/Texture.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Texture.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Uniform_96b281f2.o: ../../Source/Rendering/Uniform.cpp

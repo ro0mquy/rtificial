@@ -361,6 +361,9 @@
     <ClCompile Include="..\..\Source\Rendering\Shader.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Rendering\Texture.cpp">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Rendering\Uniform.cpp">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClCompile>
@@ -713,6 +716,9 @@
       <Filter>Juce Modules\juce_audio_utils\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioThumbnailCache.cpp">
+      <Filter>Juce Modules\juce_audio_utils\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioVisualiserComponent.cpp">
       <Filter>Juce Modules\juce_audio_utils\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\gui\juce_MidiKeyboardComponent.cpp">
@@ -1743,6 +1749,9 @@
     <ClInclude Include="..\..\Source\Rendering\SpecularFilterSource.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Rendering\Texture.h">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\Uniform.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
@@ -2122,6 +2131,9 @@
       <Filter>Juce Modules\juce_audio_utils\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioThumbnailCache.h">
+      <Filter>Juce Modules\juce_audio_utils\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioVisualiserComponent.h">
       <Filter>Juce Modules\juce_audio_utils\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_MidiKeyboardComponent.h">

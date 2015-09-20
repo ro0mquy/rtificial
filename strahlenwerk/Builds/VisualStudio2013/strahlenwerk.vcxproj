@@ -153,6 +153,7 @@
     <ClCompile Include="..\..\Source\Rendering\PostprocShader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\SceneShader.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Shader.cpp"/>
+    <ClCompile Include="..\..\Source\Rendering\Texture.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\Uniform.cpp"/>
     <ClCompile Include="..\..\Source\Rendering\UniformManager.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\DraggableQuaternion.cpp"/>
@@ -420,6 +421,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioThumbnailCache.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioVisualiserComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\gui\juce_MidiKeyboardComponent.cpp">
@@ -1316,6 +1320,7 @@
     <ClInclude Include="..\..\Source\Rendering\SceneShader.h"/>
     <ClInclude Include="..\..\Source\Rendering\Shader.h"/>
     <ClInclude Include="..\..\Source\Rendering\SpecularFilterSource.h"/>
+    <ClInclude Include="..\..\Source\Rendering\Texture.h"/>
     <ClInclude Include="..\..\Source\Rendering\Uniform.h"/>
     <ClInclude Include="..\..\Source\Rendering\UniformManager.h"/>
     <ClInclude Include="..\..\Source\Rendering\UniformType.h"/>
@@ -1443,6 +1448,7 @@
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioThumbnail.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioThumbnailBase.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioThumbnailCache.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioVisualiserComponent.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_MidiKeyboardComponent.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\players\juce_AudioProcessorPlayer.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\juce_audio_utils.h"/>
