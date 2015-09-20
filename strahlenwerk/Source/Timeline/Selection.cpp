@@ -166,6 +166,24 @@ void Selection::performDeleteSelection() {
 	clear();
 }
 
+void Selection::performSplitSequence() {
+	data.getUndoManager().beginNewTransaction("Split Sequence");
+	const int currentTime = audioManager.getTime();
+	const int numSelection = size();
+	for (int i = 0; i < numSelection; i++) {
+		ValueTree& tree = *selectedTrees[i];
+		if (data.isSequence(tree)) {
+			data.splitSequence(tree, currentTime);
+		} else if (data.isKeyframe(tree)) {
+			const ValueTree parentSequence = data.getKeyframeParentSequence(tree);
+			const int keyframePos = data.getKeyframePosition(tree);
+			const int sequenceStart = data.getSequenceAbsoluteStart(parentSequence);
+			const int splitTime = sequenceStart + keyframePos;
+			data.splitSequence(parentSequence, splitTime);
+		}
+	}
+}
+
 void Selection::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
 	switch (info.commandID) {
 		case Selection::toggleLoop:
@@ -173,6 +191,9 @@ void Selection::applicationCommandInvoked(const ApplicationCommandTarget::Invoca
 			break;
 		case Selection::deleteSelection:
 			performDeleteSelection();
+			break;
+		case Selection::splitSequence:
+			performSplitSequence();
 			break;
 	}
 }

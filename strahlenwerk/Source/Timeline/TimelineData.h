@@ -115,11 +115,13 @@ class TimelineData :
 		void setSequenceInterpolation(ValueTree sequence, var interpolation);
 
 		void setSequencePropertiesForAbsoluteStart(ValueTree sequence, int absoluteStart);
+		int getSequenceAbsoluteStart(ValueTree sequence);
 		int getAbsoluteStartForSequence(ValueTree sequence);
 		ValueTree getSequenceForTime(ValueTree uniform, const int absoluteTime);
 		ValueTree getCurrentSequence(ValueTree uniform);
 		ValueTree getSequenceParentUniform(ValueTree sequence);
 		ValueTree getSequenceUniformStandardValue(ValueTree sequence);
+		void splitSequence(ValueTree sequence, const int absoluteTime);
 		int compareSequences(const ValueTree& first, const ValueTree& second);
 
 

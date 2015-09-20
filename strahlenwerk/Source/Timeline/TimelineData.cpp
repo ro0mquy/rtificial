@@ -779,10 +779,14 @@ void TimelineData::setSequencePropertiesForAbsoluteStart(ValueTree sequence, int
 
 // returns the start time of the sequence in absolute time
 // and not relative to the scene start time
-int TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
+int TimelineData::getSequenceAbsoluteStart(ValueTree sequence) {
 	const int sceneStart = getSceneStart(getScene(getSequenceSceneId(sequence)));
 	const int sequenceStart = getSequenceStart(sequence);
 	return sceneStart + sequenceStart;
+}
+int TimelineData::getAbsoluteStartForSequence(ValueTree sequence) {
+	// deprecated
+	return getSequenceAbsoluteStart(sequence);
 }
 
 // returns the active sequence of a uniform for a timepoint
@@ -830,6 +834,42 @@ ValueTree TimelineData::getSequenceParentUniform(ValueTree sequence) {
 ValueTree TimelineData::getSequenceUniformStandardValue(ValueTree sequence) {
 	std::lock_guard<std::recursive_mutex> lock(treeMutex);
 	return getUniformStandardValue(getSequenceParentUniform(sequence));
+}
+
+// splits a sequence at a specific time
+// a keyframe at the split point will be present in both sequences
+void TimelineData::splitSequence(ValueTree sequence, const int absoluteTime) {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	const int thisStart = getAbsoluteStartForSequence(sequence);
+	const int thisDuration = getSequenceDuration(sequence);
+	const int relativeTime = absoluteTime - thisStart;
+	if (relativeTime <= 0 || relativeTime >= thisDuration) {
+		// time not inside this sequence
+		return;
+	}
+
+	setSequenceDuration(sequence, relativeTime);
+
+	const var& thisInterpolation = getSequenceInterpolation(sequence);
+	const int otherDuration = thisDuration - relativeTime;
+	ValueTree otherSequence = addSequence(getSequenceParentUniform(sequence), absoluteTime, otherDuration, thisInterpolation);
+
+	const int numKeyframes = getNumKeyframes(sequence);
+	for (int i = numKeyframes - 1; i >= 0; i--) {
+		ValueTree keyframe = getKeyframe(sequence, i);
+		const int keyframePos = getKeyframePosition(keyframe);
+		const int newKeyframePos = keyframePos - relativeTime;
+		if (newKeyframePos >= 0) {
+			if (newKeyframePos == 0) {
+				// copy a keyframe directly at the split point
+				keyframe = keyframe.createCopy();
+			} else {
+				removeKeyframe(keyframe);
+			}
+			setKeyframePosition(keyframe, newKeyframePos);
+			addKeyframe(otherSequence, keyframe);
+		}
+	}
 }
 
 

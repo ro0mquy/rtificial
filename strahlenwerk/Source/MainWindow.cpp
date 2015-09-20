@@ -105,6 +105,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		AudioManager::toggleMute,
 		Selection::toggleLoop,
 		Selection::deleteSelection,
+		Selection::splitSequence,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -231,6 +232,11 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.addDefaultKeypress('`', ModifierKeys::noModifiers);
 			break;
 
+		case Selection::splitSequence:
+			result.setInfo("Split Sequence", "Splits the current selected sequence", programCategory, 0);
+			result.addDefaultKeypress('t', ModifierKeys::noModifiers);
+			break;
+
 		default:
 			break;
 
@@ -286,6 +292,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);
 	} else if (topLevelMenuIndex == 3 /* Timeline */) {
 		menu.addCommandItem(commandManager, CameraController::setKeyframe);
+		menu.addCommandItem(commandManager, Selection::splitSequence);
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, CameraController::resetCameraPosition);
 		menu.addCommandItem(commandManager, CameraController::resetCameraRotation);

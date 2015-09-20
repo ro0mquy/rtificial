@@ -23,6 +23,7 @@
 * `[Rightclick]` Select Scene, Sequence or Keyframe
 * ```|[Del]|[Backspace]`` Delete current selection
 * `8` toggle looping of current selection
+* `T` split selected sequences at current time or selected keyframe
 
 #### Scenes
 * `[Ctrl]+[Drag]` create new scene or move already existing
