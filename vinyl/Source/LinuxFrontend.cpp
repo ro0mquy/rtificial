@@ -27,6 +27,7 @@ PFNGLUNIFORM1FPROC                glUniform1f;
 PFNGLUNIFORM2FPROC                glUniform2f;
 PFNGLUNIFORM3FPROC                glUniform3f;
 PFNGLUNIFORM4FPROC                glUniform4f;
+PFNGLUNIFORM1IPROC                glUniform1i;
 PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
 PFNGLDELETEPROGRAMPROC            glDeleteProgram;
 PFNGLGETPROGRAMIVPROC             glGetProgramiv;
@@ -143,6 +144,7 @@ void LinuxFrontend::init(int width, int height, bool /*fullscreen*/) {
 	glUniform2f                = (PFNGLUNIFORM2FPROC)                glXGetProcAddressARB((unsigned char*) "glUniform2f");
 	glUniform3f                = (PFNGLUNIFORM3FPROC)                glXGetProcAddressARB((unsigned char*) "glUniform3f");
 	glUniform4f                = (PFNGLUNIFORM4FPROC)                glXGetProcAddressARB((unsigned char*) "glUniform4f");
+	glUniform1i                = (PFNGLUNIFORM1IPROC)                glXGetProcAddressARB((unsigned char*) "glUniform1i");
 	glDisableVertexAttribArray = (PFNGLDISABLEVERTEXATTRIBARRAYPROC) glXGetProcAddressARB((unsigned char*) "glDisableVertexAttribArray");
 	glDeleteProgram            = (PFNGLDELETEPROGRAMPROC)            glXGetProcAddressARB((unsigned char*) "glDeleteProgram");
 	glGetProgramiv             = (PFNGLGETPROGRAMIVPROC)             glXGetProcAddressARB((unsigned char*) "glGetProgramiv");

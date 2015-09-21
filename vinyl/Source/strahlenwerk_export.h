@@ -30,9 +30,13 @@
 #include "shaders/final.h"
 #include "shaders/output.h"
 #include "shaders/glumanda.h"
+#include "shaders/glumanda_environment.h"
 #include "shaders/karpador.h"
+#include "shaders/karpador_environment.h"
 #include "shaders/kleinstein.h"
+#include "shaders/kleinstein_environment.h"
 #include "shaders/relaxo.h"
+#include "shaders/relaxo_environment.h"
 Input scale_inputs[2] = {
 	{0, 0},
 	{1, 0},
@@ -145,10 +149,10 @@ Shader scenes[4] = {
 	Shader(relaxo_source, 0, nullptr),
 };
 AmbientLight environments[4] = {
-	AmbientLight(nullptr),
-	AmbientLight(nullptr),
-	AmbientLight(nullptr),
-	AmbientLight(nullptr),
+	AmbientLight(glumanda_environment_source),
+	AmbientLight(karpador_environment_source),
+	AmbientLight(kleinstein_environment_source),
+	AmbientLight(relaxo_environment_source),
 };
 Output input_outputs[2] = {
 	{3, 0, 0},
