@@ -22,8 +22,7 @@ static void free(void *ptr){
 }
 
 static void *realloc(void *ptr, size_t size) {
-	if (ptr) HeapReAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, ptr, size);
-	return NULL;
+	return HeapReAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, ptr, size);
 }
 
 
