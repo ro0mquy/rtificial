@@ -3,6 +3,7 @@
 
 #include "EnvironmentMap.h"
 #include "Shader.h"
+#include "TextureUnits.h"
 
 EnvironmentMap::~EnvironmentMap() {
 	if (deleteTexture) {
@@ -22,7 +23,7 @@ void EnvironmentMap::create(unsigned int width_, unsigned int height_, unsigned 
 	deleteTexture = true;
 
 	// could just use the current active texture unit TODO
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTexture(GL_TEXTURE1 + TextureUnitOffset::AmbientLight);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -108,6 +109,6 @@ void EnvironmentMap::render(Shader& shader) {
 void EnvironmentMap::bind(GLenum textureUnit) {
 	// TODO find a better place for this, actually it needs to be called only once
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-	glActiveTexture(textureUnit);
+	glActiveTexture(textureUnit + TextureUnitOffset::AmbientLight);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 }

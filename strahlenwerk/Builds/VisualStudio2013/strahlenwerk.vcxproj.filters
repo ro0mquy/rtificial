@@ -1752,6 +1752,9 @@
     <ClInclude Include="..\..\Source\Rendering\Texture.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Rendering\TextureUnits.h">
+      <Filter>strahlenwerk\Source\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Rendering\Uniform.h">
       <Filter>strahlenwerk\Source\Rendering</Filter>
     </ClInclude>

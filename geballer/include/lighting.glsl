@@ -2,10 +2,10 @@
 #include "material.glsl"
 #line 4 "lighting"
 
-layout(binding = 0) uniform sampler2D brdf;
-layout(binding = 1) uniform samplerCube environment;
-layout(binding = 2) uniform samplerCube filteredDiffuse;
-layout(binding = 3) uniform samplerCube filteredSpecular;
+layout(binding = 20) uniform sampler2D brdf;
+layout(binding = 21) uniform samplerCube environment;
+layout(binding = 22) uniform samplerCube filteredDiffuse;
+layout(binding = 23) uniform samplerCube filteredSpecular;
 
 struct SphereLight {
 	vec3 position;

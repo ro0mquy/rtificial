@@ -7,10 +7,10 @@ uniform vec3 foo; // color
 uniform vec3 camera_position;
 uniform vec4 camera_rotation; // quat
 
-layout(binding = 0) uniform sampler2D brdf;
-layout(binding = 1) uniform samplerCube environment;
-layout(binding = 2) uniform samplerCube filteredDiffuse;
-layout(binding = 3) uniform samplerCube filteredSpecular;
+layout(binding = 20) uniform sampler2D brdf;
+layout(binding = 21) uniform samplerCube environment;
+layout(binding = 22) uniform samplerCube filteredDiffuse;
+layout(binding = 23) uniform samplerCube filteredSpecular;
 
 out vec4 out_color;
 

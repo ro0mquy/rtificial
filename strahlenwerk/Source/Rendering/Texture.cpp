@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "TextureUnits.h"
 
 Texture::Texture(const Image& image, GLenum textureUnit_)
 	: textureUnit(textureUnit_), width(image.getWidth()), height(image.getHeight())
@@ -24,7 +25,7 @@ void Texture::load() {
 }
 
 void Texture::bind() {
-	glActiveTexture(textureUnit);
+	glActiveTexture(textureUnit + TextureUnitOffset::UserTextures);
 	glBindTexture(GL_TEXTURE_2D, textureName);
 }
 

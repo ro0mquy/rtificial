@@ -7,6 +7,7 @@
 #include <utility>
 #include <algorithm>
 
+#include "TextureUnits.h"
 
 PostprocShader::~PostprocShader() {
 	deleteFBO();
@@ -65,7 +66,7 @@ void PostprocShader::insertBindings() {
 	const int inputsSize = inputs.size();
 	for(int i = 0; i < inputsSize; i++) {
 		const auto bindingString = "layout(binding = "
-			+ std::to_string(textureUnitOffset + inputs[i].bindingId) + ") ";
+			+ std::to_string(TextureUnitOffset::Postproc + inputs[i].bindingId) + ") ";
 		if(fragmentSource[positions[i] + offset] == '\n') {
 			// insert after newline
 			offset++;
@@ -89,7 +90,7 @@ void PostprocShader::bindFBO(int width, int height) {
 void PostprocShader::unbindFBO() {
 	const int texturesSize = textures.size();
 	for(int i = 0; i < texturesSize; i++) {
-		glActiveTexture(GL_TEXTURE0 + textureUnitOffset + outputs[i].bindingId);
+		glActiveTexture(GL_TEXTURE0 + TextureUnitOffset::Postproc + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
 		if(outputs[i].maxLod - outputLod > 0) {
 			glGenerateMipmap(GL_TEXTURE_2D);
@@ -149,11 +150,11 @@ void PostprocShader::onSourceProcessed() {
 
 void PostprocShader::onBeforeDraw() {
 	for(const auto& output : outputs) {
-		glActiveTexture(GL_TEXTURE0 + textureUnitOffset + output.bindingId);
+		glActiveTexture(GL_TEXTURE0 + TextureUnitOffset::Postproc + output.bindingId);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	for(const auto& input : inputs) {
-		glActiveTexture(GL_TEXTURE0 + textureUnitOffset + input.bindingId);
+		glActiveTexture(GL_TEXTURE0 + TextureUnitOffset::Postproc + input.bindingId);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, input.lod);
 	}
 }
@@ -188,7 +189,7 @@ void PostprocShader::createFBO(int width, int height) {
 
 	ext.glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
 	for(int i = 0; i < n; i++) {
-		glActiveTexture(GL_TEXTURE0 + textureUnitOffset + outputs[i].bindingId);
+		glActiveTexture(GL_TEXTURE0 + TextureUnitOffset::Postproc + outputs[i].bindingId);
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
 		// GL_RGB and GL_FLOAT are actually not needed, these are just sane
 		// parameters in case we actually would transfer data

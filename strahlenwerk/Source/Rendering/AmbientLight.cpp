@@ -5,6 +5,7 @@
 #include "DiffuseFilterSource.h"
 #include "SpecularFilterSource.h"
 #include "BRDFIntegratorSource.h"
+#include "TextureUnits.h"
 
 AmbientLight::AmbientLight(OpenGLContext& context, std::string name_) :
 	diffuseShader(context, "diffuse environment filter"),
@@ -40,7 +41,7 @@ void AmbientLight::bind() {
 
 		// create BRDF LUT
 		glGenTextures(1, &brdfLUT);
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0 + TextureUnitOffset::AmbientLight);
 		glBindTexture(GL_TEXTURE_2D, brdfLUT);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16, brdfLUTWidth, brdfLUTHeight, 0, GL_RG, GL_INT, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -68,7 +69,7 @@ void AmbientLight::bind() {
 
 		rendered = true;
 	}
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + TextureUnitOffset::AmbientLight);
 	glBindTexture(GL_TEXTURE_2D, brdfLUT);
 	environment.bind(GL_TEXTURE1);
 	filteredDiffuse.bind(GL_TEXTURE2);

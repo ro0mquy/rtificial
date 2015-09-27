@@ -405,10 +405,10 @@ float squarerep(float x, float a, float b, float min_cell) {
 	return x;
 }
 
-layout(binding = 0) uniform sampler2D brdf;
-layout(binding = 1) uniform samplerCube environment;
-layout(binding = 2) uniform samplerCube filteredDiffuse;
-layout(binding = 3) uniform samplerCube filteredSpecular;
+layout(binding = 20) uniform sampler2D brdf;
+layout(binding = 21) uniform samplerCube environment;
+layout(binding = 22) uniform samplerCube filteredDiffuse;
+layout(binding = 23) uniform samplerCube filteredSpecular;
 
 vec3 approximateSpecular(vec3 color, float roughness, vec3 N, vec3 V) {
 	float NoV = clamp(dot(N, V), 0., 1.);
