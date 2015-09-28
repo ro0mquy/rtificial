@@ -29,7 +29,13 @@ std::vector<File> ProjectFileLoader::listEnvironmentFiles() const {
 }
 
 std::vector<File> ProjectFileLoader::listTextureFiles() const {
-	return listFiles(texturesDir);
+	Array<File> results;
+	texturesDir.findChildFiles(results, texturesDir.findFiles, false);
+	std::vector<File> files;
+	for(const auto& file : results) {
+		files.push_back(file);
+	}
+	return files;
 }
 
 File ProjectFileLoader::getMappingFile() const {

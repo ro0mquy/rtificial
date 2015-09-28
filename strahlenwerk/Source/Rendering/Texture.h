@@ -16,8 +16,9 @@ class Texture {
 		std::vector<uint8> data;
 		GLenum textureUnit;
 		GLuint textureName;
-		const size_t width;
-		const size_t height;
+		size_t width;
+		size_t height;
+		bool textureAllocated = false;
 };
 
 #endif // TEXTURE_H

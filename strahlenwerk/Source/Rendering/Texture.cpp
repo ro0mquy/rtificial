@@ -20,15 +20,26 @@ Texture::Texture(const Image& image, GLenum textureUnit_)
 
 void Texture::load() {
 	glGenTextures(1, &textureName);
+	// set this to true before calling bind to avoid infinite mutual recursion
+	textureAllocated = true;
 	bind();
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &data[0]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
 void Texture::bind() {
+	if (!textureAllocated) {
+		load();
+	}
 	glActiveTexture(textureUnit + TextureUnitOffset::UserTextures);
 	glBindTexture(GL_TEXTURE_2D, textureName);
 }
 
 void Texture::destroy() {
-	glDeleteTextures(1, &textureName);
+	if (textureAllocated) {
+		glDeleteTextures(1, &textureName);
+	}
 }

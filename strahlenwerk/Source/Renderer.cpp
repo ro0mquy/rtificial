@@ -60,6 +60,14 @@ void Renderer::renderOpenGL() {
 	scenesDeletionQueue.clear();
 	postprocDeletionQueue.clear();
 	ambientLightsDeletionQueue.clear();
+	for (Texture& textureToDestroy : texturesDeletionQueue) {
+		textureToDestroy.destroy();
+	}
+	texturesDeletionQueue.clear();
+
+	for (Texture& texture : textures) {
+		texture.bind();
+	}
 
 	if(scenes == nullptr) {
 		lastFrameDuration = postproc->render(defaultShader, width, height);
@@ -96,6 +104,16 @@ void Renderer::scenesChanged() {
 
 void Renderer::ambientLightsChanged() {
 	reloadAmbientLights();
+}
+
+void Renderer::texturesChanged() {
+	std::vector<Texture> newTextures = StrahlenwerkApplication::getInstance()->getProject().getTextures();
+	{
+		std::lock_guard<std::mutex> lock(renderMutex);
+		texturesDeletionQueue.insert(texturesDeletionQueue.end(), textures.begin(), textures.end());
+		textures = newTextures;
+	}
+	context.triggerRepaint();
 }
 
 void Renderer::setSize(int _width, int _height) {

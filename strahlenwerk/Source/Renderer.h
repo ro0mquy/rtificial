@@ -27,6 +27,7 @@ class Renderer :
 		void postprocChanged() override;
 		void scenesChanged() override;
 		void ambientLightsChanged() override;
+		void texturesChanged() override;
 		void setSize(int width, int height);
 		uint64_t getLastFrameDuration();
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
@@ -44,11 +45,13 @@ class Renderer :
 		std::unique_ptr<PostprocPipeline> postproc;
 		std::unique_ptr<Scenes<SceneShader>> scenes;
 		std::unique_ptr<Scenes<AmbientLight>> ambientLights;
+		std::vector<Texture> textures;
 		std::mutex renderMutex;
 		int width, height;
 		std::vector<std::unique_ptr<PostprocPipeline>> postprocDeletionQueue;
 		std::vector<std::unique_ptr<Scenes<SceneShader>>> scenesDeletionQueue;
 		std::vector<std::unique_ptr<Scenes<AmbientLight>>> ambientLightsDeletionQueue;
+		std::vector<Texture> texturesDeletionQueue;
 		uint64_t lastFrameDuration = 0;
 
 		void performMakeDemo();

@@ -16,6 +16,7 @@
 #include "MainWindow.h"
 #include "Rendering/AmbientLight.h"
 #include "Rendering/Texture.h"
+#include "Rendering/TextureUnits.h"
 
 Project::Project(const std::string& dir, AudioManager& _audioManager) :
 	loader(dir),
@@ -62,6 +63,7 @@ void Project::saveTimelineData() {
 void Project::contextChanged(OpenGLContext& _context) {
 	context = &_context;
 	reloadShaders();
+	reloadTextures();
 }
 
 std::unique_ptr<PostprocPipeline> Project::getPostproc() {
@@ -91,6 +93,7 @@ void Project::loadDirectory(const std::string& dir) {
 	reloadTimelineData();
 	reloadShaders();
 	reloadAudio();
+	reloadTextures();
 }
 
 const ProjectFileLoader& Project::getLoader() const {
@@ -701,11 +704,26 @@ void Project::reloadAmbientLights() {
 void Project::reloadTextures() {
 	textures.clear();
 	std::vector<File> textureFiles = loader.listTextureFiles();
+
+	// matches number from start of filename, removing leading zeroes
+	std::regex filenameRegex("0*([0-9]+).*");
+	std::smatch filenameMatch;
+
 	for (const File& file : textureFiles) {
+		const std::string filename = file.getFileName().toStdString();
+		std::regex_match(filename, filenameMatch, filenameRegex);
+		if (filenameMatch.size() != 2) {
+			std::cerr << "Invalid texture name: " << filename << std::endl;
+			continue;
+		}
+		unsigned int textureNumber = std::stoi(filenameMatch[1].str());
+		if (textureNumber >= TextureUnitOffset::AmbientLight) {
+			std::cerr << "Invalid texture number: " << textureNumber << std::endl;
+			continue;
+		}
 		Image image = ImageFileFormat::loadFrom(file);
 		if (image.isValid()) {
-			// TODO figure out id
-			const GLenum textureUnit = GL_TEXTURE0;
+			const GLenum textureUnit = GL_TEXTURE0 + textureNumber;
 			textures.emplace_back(image, textureUnit);
 		}
 	}

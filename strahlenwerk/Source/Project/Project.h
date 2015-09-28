@@ -8,6 +8,7 @@
 #include "ProjectFileLoader.h"
 #include "FileWatchMessageThreadListener.h"
 #include "Timeline/TimelineData.h"
+#include "Rendering/Texture.h"
 
 class PostprocShader;
 class SceneShader;
@@ -17,7 +18,6 @@ class Scenes;
 class Shader;
 class AudioManager;
 class AmbientLight;
-class Texture;
 
 class Project :
 	private efsw::FileWatchListener,
