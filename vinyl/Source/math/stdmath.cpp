@@ -2,7 +2,11 @@
 
 float abs(float x) {
 #ifdef _MSC_VER
-	__asm { fld x fabs fstp x }
+	__asm {
+		fld x
+		fabs
+		fstp x
+	}
 #elif __GNUC__ || __clang__
 	asm("fabs" : "+t" (x));
 #endif
@@ -19,7 +23,11 @@ float abs(float x) {
 
 float sqrt(float x) {
 #ifdef _MSC_VER
-	__asm { fld x fsqrt fstp x }
+	__asm {
+		fld x
+		fsqrt
+		fstp x
+	}
 #elif __GNUC__ || __clang__
 	asm("fsqrt" : "+t" (x));
 #endif
@@ -37,7 +45,11 @@ float sqrt(float x) {
 
 float sin(float x) {
 #ifdef _MSC_VER
-	__asm { fld x fsin fstp x }
+	__asm {
+		fld x
+		fsin
+		fstp x
+	}
 #elif __GNUC__ || __clang__
 	asm("fsin" : "+t" (x));
 #endif
