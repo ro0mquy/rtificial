@@ -95,7 +95,7 @@ class WindowsFrontend {
 
 	// http://stackoverflow.com/questions/8311058/n-or-n-or-stdendl-to-stdcout
 #	define RT_DEBUG(str) \
-		std::cerr << str << '\n';
+		std::cerr << (str) << '\n';
 #endif
 
 class LinuxFrontend {

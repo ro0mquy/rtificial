@@ -8,11 +8,10 @@
 		};
 #elif __GNUC__ || __clang__
 #	define RT_ASM(asm_literal) \
-		"__asm__(\".intel_syntax noprefix\");" \
-		"__asm__(\"" \
+		__asm__(".intel_syntax noprefix \n" \
 			#asm_literal \
-		"\" : : );" \
-		"__asm__(\".att_syntax prefix\");"
+				"\n .att_syntax prefix" \
+		 : : );
 #endif
 
 

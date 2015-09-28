@@ -105,8 +105,8 @@ bool areValuesEqual(const int nthUniform, const int type, const int keyframeData
 			{
 				const int numFloatsInValue = 2;
 
-				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * wrappedIndex1;
-				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * wrappedIndex2;
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
 
 				const float vec2X1 = keyframe_data[keyframeDataIndex1];
 				const float vec2Y1 = keyframe_data[keyframeDataIndex1 + 1];
@@ -123,8 +123,8 @@ bool areValuesEqual(const int nthUniform, const int type, const int keyframeData
 			{
 				const int numFloatsInValue = 3;
 
-				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * wrappedIndex1;
-				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * wrappedIndex2;
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
 
 				const float vec3X1 = keyframe_data[keyframeDataIndex1];
 				const float vec3Y1 = keyframe_data[keyframeDataIndex1 + 1];
@@ -144,8 +144,8 @@ bool areValuesEqual(const int nthUniform, const int type, const int keyframeData
 			{
 				const int numFloatsInValue = 4;
 
-				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * wrappedIndex1;
-				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * wrappedIndex2;
+				const int keyframeDataIndex1 = standardValuePos + numFloatsInValue * offset1;
+				const int keyframeDataIndex2 = standardValuePos + numFloatsInValue * offset2;
 
 				const float vec4X1 = keyframe_data[keyframeDataIndex1];
 				const float vec4Y1 = keyframe_data[keyframeDataIndex1 + 1];
@@ -229,7 +229,7 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 
 				if (relativeTime <= timeP2) {
 					// '=='-case for standard value at last position
-					// we need P0, P1, P2 and P3 to interpolate
+					// we need P1 and P2 to interpolate
 					// the keyframe we found is P2
 
 					const int indexP1 = j - 1;
@@ -265,11 +265,26 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 					const int indexP2 = j;
 
 					if (areValuesEqual(nthUniform, type, keyframeDataOffset, indexP1, indexP2, numKeyframes, useStdAtStart, useStdAtEnd)) {
-						// currently in an area between two two same values
-						// spline interpolation would horriably breal
+						// currently in an area between two same values
+						// spline interpolation would horriably break
 						// so just return the value
-						const int currentKeyframeDataOffset = keyframeDataOffset + j;
-						setValue(nthUniform, type, location, currentKeyframeDataOffset);
+
+						const int wrappedIndexP2 = wrappedGetKeyframeValueOffset(indexP2, numKeyframes, useStdAtStart, useStdAtEnd);
+
+						if (wrappedIndexP2 == -2) {
+							// oehm shouldn't happen
+							return;
+						}
+
+						int offsetP2;
+						if (wrappedIndexP2 == -1) {
+							// standardValue
+							offsetP2 = 0;
+						} else {
+							offsetP2 = keyframeDataOffset + wrappedIndexP2;
+						}
+						setValue(nthUniform, type, location, offsetP2);
+						return;
 					}
 
 					// search for the first value for P0 that is not equal to P1
@@ -336,6 +351,7 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 
 	// no sequence for current time, return standard value
 	setValue(nthUniform, type, location, 0);
+	return;
 }
 
 // offset is for P1 not P2
