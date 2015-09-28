@@ -87,7 +87,7 @@ void InspectorComponent::paint(Graphics& g) {
 	} else {
 		g.setColour(findColour(InspectorComponent::textColourId));
 		g.setFont(g.getCurrentFont().withStyle(Font::FontStyleFlags::italic));
-		g.drawSingleLineText("No Sequence Selected", getWidth() / 2, 50, Justification::horizontallyCentred);
+		g.drawSingleLineText("Nothing selected.", getWidth() / 2, 50, Justification::horizontallyCentred);
 	}
 }
 
