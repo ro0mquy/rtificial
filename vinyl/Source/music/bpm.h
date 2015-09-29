@@ -1,3 +1,4 @@
-#ifndef BPM
-#define BPM 150
+#ifndef BPM_H
+#define BPM_H
+#include "../strahlenwerk_export_interface.h"
 #endif

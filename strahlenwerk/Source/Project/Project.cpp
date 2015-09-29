@@ -472,7 +472,12 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	shadersHeaderContent += uniformsArray;
 	shadersHeaderContent += keyframeTimeArray;
 	shadersHeaderContent += keyframeTimeIndexArray;
+	const int timeUniformLocation = UniformManager::Instance().getUniform("time")->id;
 	shadersHeaderContent += "#endif\n";
+	interfaceHeaderContent += "const int time_uniform_location = " + std::to_string(timeUniformLocation) + ";\n";
+	interfaceHeaderContent += "#ifndef BPM\n";
+	interfaceHeaderContent += "#define BPM " + std::to_string(audioManager.getBpm()) + "\n";
+	interfaceHeaderContent += "#endif\n";
 	interfaceHeaderContent += "#endif\n";
 
 	shadersHeader.replaceWithText(shadersHeaderContent);

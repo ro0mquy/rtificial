@@ -2,6 +2,7 @@
 #include "DataInterpolator.h"
 #include "Frontend.h" // for RT_DEBUG
 #include "Constants.h"
+#include "strahlenwerk_export_interface.h"
 
 Shader::Shader(const char* _source, int _inputsNumber, const Input* _inputs) :
 	source(_source),
@@ -68,7 +69,7 @@ void Shader::draw(int width, int height, const int time) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUniform2f(0, width, height);
 	if (time >= 0) {
-		glUniform1f(65, time / 1000.f); // here time should be in beats
+		glUniform1f(time_uniform_location, time / 1000.f); // here time should be in beats
 		DataInterpolator::loadUniforms(time);
 	}
 //	glUniform3f(35, 0.0f, 5.0f, 7.0f);
