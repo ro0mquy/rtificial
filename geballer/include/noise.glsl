@@ -1,11 +1,11 @@
 // jenkins hash
 uint hash(uint a) {
-	a = (a + uint(0x7ed55d16)) + (a << 12);
-	a = (a ^ uint(0xc761c23c)) ^ (a >> 19);
-	a = (a + uint(0x165667b1)) + (a << 5);
-	a = (a + uint(0xd3a2646c)) ^ (a << 9);
-	a = (a + uint(0xfd7046c5)) + (a << 3);
-	a = (a ^ uint(0xb55a4f09)) ^ (a >> 16);
+	a = (a + 0x7ed55d16u) + (a << 12u);
+	a = (a ^ 0xc761c23cu) ^ (a >> 19u);
+	a = (a + 0x165667b1u) + (a << 5u);
+	a = (a + 0xd3a2646cu) ^ (a << 9u);
+	a = (a + 0xfd7046c5u) + (a << 3u);
+	a = (a ^ 0xb55a4f09u) ^ (a >> 16u);
 	return a;
 }
 
@@ -18,7 +18,7 @@ vec3 simplexGradients[12] = vec3[12](
 );
 
 float uintToFloat(uint x) {
-	return float(x % (1 << 20)) / float(1 << 20);
+	return float(x % (1u << 20u)) / float(1u << 20u);
 }
 
 float rand(int x) {
@@ -84,7 +84,7 @@ float smoothNoise(vec2 p) {
 	for (uint i = 0; i < 3; i++) {
 		float t = max(0, .5 - pV[i].x * pV[i].x - pV[i].y * pV[i].y);
 		t *= t;
-		uint gradientIndex = hash(vertexX[i] + hash(vertexY[i])) % 12;
+		uint gradientIndex = hash(vertexX[i] + hash(vertexY[i])) % 12u;
 		result += t * t * dot(simplexGradients[gradientIndex].xy, pV[i]);
 	}
 	return 70. * result;
@@ -106,7 +106,7 @@ float smoothNoise(vec3 p) {
 	for (uint i = 0; i < 4; i++) {
 		float t = max(0., .6 - pV[i].x * pV[i].x - pV[i].y * pV[i].y - pV[i].z * pV[i].z);
 		t *= t;
-		uint gradientIndex = hash(vertexX[i] + hash(vertexY[i] + hash(vertexZ[i]))) % 12;
+		uint gradientIndex = hash(vertexX[i] + hash(vertexY[i] + hash(vertexZ[i]))) % 12u;
 		result += t * t * dot(simplexGradients[gradientIndex], pV[i]);
 	}
 	return 32. * result;

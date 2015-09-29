@@ -112,6 +112,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	const File& buildDir = loader.getBuildDir();
 	buildDir.deleteRecursively();
 	buildDir.createDirectory();
+	const File& validationDir = buildDir.getChildFile("validation");
+	validationDir.createDirectory();
 
 	const int postprocShaders = postproc.getNumShaders();
 	const int sceneShaders = scenes.getNumShaders();
@@ -149,12 +151,14 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	for(int i = 1; i < postprocShaders; i++) {
 		const PostprocShader& shader = postproc.getShader(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("h");
+		const File& shaderValidationFile = validationDir.getChildFile(String(shader.getName())).withFileExtension("frag");
 		std::string shaderSource = "const char " + shader.getName() + "_source[] = {";
 		for (char c : shader.getSource()) {
 			shaderSource += std::to_string(c) + ", ";
 		}
 		shaderSource += "0};";
 		shaderFile.replaceWithText(shaderSource);//std::regex_replace(shader.getSource(), search, replacement));
+		shaderValidationFile.replaceWithText(shader.getSource());
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 
 		auto& inputs = shader.getInputs();
@@ -184,12 +188,14 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	for(int i = 0; i < sceneShaders; i++) {
 		const Shader& shader = scenes.getObject(i);
 		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("h");
+		const File& shaderValidationFile = validationDir.getChildFile(String(shader.getName())).withFileExtension("frag");
 		std::string shaderSource = "const char " + shader.getName() + "_source[] = {";
 		for (char c : shader.getSource()) {
 			shaderSource += std::to_string(c) + ", ";
 		}
 		shaderSource += "0};";
 		shaderFile.replaceWithText(shaderSource);//std::regex_replace(shader.getSource(), search, replacement));
+		shaderValidationFile.replaceWithText(shader.getSource());
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 		scenesArrayDeclaration += "\tShader(" + shader.getName() + "_source, 0, nullptr),\n";
 

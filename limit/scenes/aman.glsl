@@ -1,11 +1,11 @@
 #include "march.glsl"
-#line 3 "szenchen"
+#line 3
 
 const float id_floor = 0.;
 const float id_aman = 1.;
 
 uniform float aman_cube_d;
-const float aman_cube_r = .5 * aman_cube_d;
+float aman_cube_r = .5 * aman_cube_d;
 
 uniform bool aman_hand_up_left;
 uniform bool aman_hand_up_right;
