@@ -17,6 +17,11 @@ uniform float post_film_grain_frequency;
 uniform float post_film_grain_power;
 uniform bool post_disable_grain;
 
+uniform bool post_scanlines;
+uniform float post_scanlines_offset;
+uniform float post_scanlines_width;
+uniform float post_scanlines_darken;
+
 uniform vec3 post_colorgrading_lift; // color
 uniform vec3 post_colorgrading_gamma; // color
 uniform vec3 post_colorgrading_gain; // color
@@ -92,6 +97,9 @@ void main() {
 		out_color[i] = textureLod(color, lens_distort(aspect, k * primaries[i], kcube, tc_lens), 0.)[i];
 	}
 
+	if((floor(mod(gl_FragCoord.y, post_scanlines_offset)) < post_scanlines_width) && post_scanlines){
+		out_color *= post_scanlines_darken;
+	}
 
 	vec2 tc_vignette = tc;
 	if (post_vignette_distortion != 0.) {

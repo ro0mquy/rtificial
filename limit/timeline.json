@@ -1055,6 +1055,38 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_scanlines",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_scanlines_darken",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.8000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_scanlines_offset",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_scanlines_width",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_vignette_distortion",
       "uniformType": "float",
       "uniformStandardValue": {
