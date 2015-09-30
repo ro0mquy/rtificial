@@ -30,6 +30,7 @@
 #include "shaders/final.h"
 #include "shaders/output.h"
 #include "shaders/aman.h"
+#include "shaders/aman_environment.h"
 Input scale_inputs[2] = {
 	{0, 0},
 	{1, 0},
@@ -139,7 +140,7 @@ Shader scenes[1] = {
 	Shader(aman_source, 0, nullptr),
 };
 AmbientLight environments[1] = {
-	AmbientLight(nullptr),
+	AmbientLight(aman_environment_source),
 };
 Output input_outputs[2] = {
 	{3, 0, 0},
