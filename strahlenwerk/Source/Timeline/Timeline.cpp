@@ -18,7 +18,7 @@ Timeline::Timeline() :
 	viewportUniformsBar.setViewedComponent(&uniformsBar, false);
 	viewportUniformsBar.setScrollBarsShown(false, false, true, false);
 
-	scenesBarSequenceViewLayout.setItemLayout(0, 30, 30, 30); // scenesBar
+	scenesBarSequenceViewLayout.setItemLayout(0, 45, 45, 45); // scenesBar
 	scenesBarSequenceViewLayout.setItemLayout(1, 170, -1., -1.); // sequenceView
 
 	timelineLayout.setItemLayout(0, 100, -1., 150); // uniformsBar
@@ -31,7 +31,7 @@ Timeline::Timeline() :
 }
 
 void Timeline::resized() {
-	const int scenesBarHeight = 30;
+	const int scenesBarHeight = 45;
 
 	// the timelineBoxLayout doesn't update the components height
 	// so the uniformsBar could be made somewhat smaller
