@@ -80,6 +80,9 @@
     <ClInclude Include="..\..\Source\SpecularFilterSource.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Texture.h">
+      <Filter>Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Uniform.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -191,6 +194,9 @@
     <ClInclude Include="..\..\Source\shaders\scale.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\texture_1.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\stdlib.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -224,6 +230,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Shader.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Texture.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\WindowsFrontend.cpp">

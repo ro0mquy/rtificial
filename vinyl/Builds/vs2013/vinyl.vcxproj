@@ -289,6 +289,7 @@
     <ClInclude Include="..\..\Source\Sequence.h" />
     <ClInclude Include="..\..\Source\Shader.h" />
     <ClInclude Include="..\..\Source\SpecularFilterSource.h" />
+    <ClInclude Include="..\..\Source\Texture.h" />
     <ClInclude Include="..\..\Source\Uniform.h" />
     <ClInclude Include="..\..\Source\gl_identifiers.h" />
     <ClInclude Include="..\..\Source\glcorearb.h" />
@@ -326,6 +327,7 @@
     <ClInclude Include="..\..\Source\shaders\output.h" />
     <ClInclude Include="..\..\Source\shaders\remove_fireflies.h" />
     <ClInclude Include="..\..\Source\shaders\scale.h" />
+    <ClInclude Include="..\..\Source\shaders\texture_1.h" />
     <ClInclude Include="..\..\Source\stdlib.h" />
     <ClInclude Include="..\..\Source\strahlenwerk_export.h" />
     <ClInclude Include="..\..\Source\strahlenwerk_export_interface.h" />
@@ -349,6 +351,7 @@
     <ClCompile Include="..\..\Source\EnvironmentMap.cpp" />
     <ClCompile Include="..\..\Source\Framebuffer.cpp" />
     <ClCompile Include="..\..\Source\Shader.cpp" />
+    <ClCompile Include="..\..\Source\Texture.cpp" />
     <ClCompile Include="..\..\Source\WindowsFrontend.cpp" />
     <ClCompile Include="..\..\Source\main.cpp" />
     <ClCompile Include="..\..\Source\math\quat.cpp" />
