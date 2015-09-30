@@ -478,6 +478,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	interfaceHeaderContent += "#ifndef BPM\n";
 	interfaceHeaderContent += "#define BPM " + std::to_string(audioManager.getBpm()) + "\n";
 	interfaceHeaderContent += "#endif\n";
+	interfaceHeaderContent += "const unsigned int textureOffsetAmbient = " + std::to_string(TextureUnitOffset::AmbientLight) + ";\n";
+	interfaceHeaderContent += "const unsigned int textureOffsetPostproc = " + std::to_string(TextureUnitOffset::Postproc) + ";\n";
 	interfaceHeaderContent += "#endif\n";
 
 	shadersHeader.replaceWithText(shadersHeaderContent);

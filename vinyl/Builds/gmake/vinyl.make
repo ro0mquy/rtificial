@@ -24,7 +24,7 @@ ifeq ($(config),debug_4klang)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += -lGL -lX11 -lasound ../../Source/music/4klang.linux.o
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -pthread -m32
+  ALL_LDFLAGS += $(LDFLAGS) -L../../Source/music -pthread -m32
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -51,7 +51,7 @@ ifeq ($(config),debug_vorbis)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += -lGL -lX11 -lasound
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -pthread
+  ALL_LDFLAGS += $(LDFLAGS) -pthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -78,7 +78,7 @@ ifeq ($(config),release_4klang)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += -lGL -lX11 -lasound ../../Source/music/4klang.linux.o
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -s -pthread -m32
+  ALL_LDFLAGS += $(LDFLAGS) -L../../Source/music -s -pthread -m32
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -105,7 +105,7 @@ ifeq ($(config),release_vorbis)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += -lGL -lX11 -lasound
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L../../Lib/lib -L../../Source/music -s -pthread
+  ALL_LDFLAGS += $(LDFLAGS) -s -pthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -161,7 +161,7 @@ ifeq (/bin,$(findstring /bin,$(SHELL)))
   SHELLTYPE := posix
 endif
 
-$(TARGET): $(GCH) $(OBJECTS) $(LDDEPS) $(RESOURCES) ${CUSTOMFILES}
+$(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES)
 	@echo Linking vinyl
 	$(SILENT) $(LINKCMD)
 	$(POSTBUILDCMDS)

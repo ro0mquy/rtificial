@@ -62,7 +62,7 @@ void Shader::bind() {
 void Shader::draw(int width, int height, const int time) {
 	bind();
 	for(int i = 0; i < inputsNumber; i++) {
-		glActiveTexture(GL_TEXTURE0 + TEXTURE_UNIT_OFFSET + inputs[i].bindingId);
+		glActiveTexture(GL_TEXTURE0 + textureOffsetPostproc + inputs[i].bindingId);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, inputs[i].lod);
 	}
 

@@ -1,4 +1,5 @@
 #include "EnvironmentMap.h"
+#include "strahlenwerk_export_interface.h"
 
 EnvironmentMap::EnvironmentMap(GLenum textureUnit_) : textureUnit(textureUnit_) {}
 
@@ -6,7 +7,7 @@ void EnvironmentMap::create(unsigned int width, unsigned int height, unsigned in
 	glGenTextures(1, &texture);
 
 	// TODO why this unit?
-	glActiveTexture(GL_TEXTURE4);
+	glActiveTexture(GL_TEXTURE4 + textureOffsetAmbient);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -88,6 +89,6 @@ void EnvironmentMap::destroy() {
 }
 
 void EnvironmentMap::bind() {
-	glActiveTexture(textureUnit);
+	glActiveTexture(textureUnit + textureOffsetAmbient);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 }

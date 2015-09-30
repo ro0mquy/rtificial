@@ -2,7 +2,7 @@
 #define SPECULAR_FILTER_SOURCE_H
 
 const char specularFilterSource[] = R"shader(#version 430
-layout(binding = 1) uniform samplerCube environment;
+layout(binding = 21) uniform samplerCube environment;
 
 layout(location = 0) uniform vec2 res;
 layout(location = 35) uniform vec3 camera_direction;

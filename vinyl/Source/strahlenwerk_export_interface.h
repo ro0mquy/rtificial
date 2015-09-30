@@ -30,15 +30,21 @@ extern Input bloom_up_1st_inputs[2];
 extern Input bloom_up_final_inputs[2];
 extern Input final_inputs[1];
 extern Input output_inputs[1];
-extern Shader scenes[4];
-extern AmbientLight environments[4];
+extern Shader scenes[1];
+extern AmbientLight environments[1];
 extern Framebuffer fbos[23];
-extern Scene scenes_data[7];
-extern float keyframe_data[1513];
-extern Sequence sequence_data[138];
-extern int sequence_index[41];
-extern int keyframe_index[41];
-extern Uniform uniforms[40];
-extern int keyframe_time[591];
-extern int keyframe_time_index[41];
+extern Scene scenes_data[1];
+extern float keyframe_data[119];
+extern Sequence sequence_data[31];
+extern int sequence_index[47];
+extern int keyframe_index[47];
+extern Uniform uniforms[46];
+extern int keyframe_time[58];
+extern int keyframe_time_index[47];
+const int time_uniform_location = 68;
+#ifndef BPM
+#define BPM 125
+#endif
+const unsigned int textureOffsetAmbient = 20;
+const unsigned int textureOffsetPostproc = 25;
 #endif

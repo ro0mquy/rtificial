@@ -1,13 +1,14 @@
 #include "BRDFLut.h"
 #include "BRDFIntegratorSource.h"
 #include "Shader.h"
+#include "strahlenwerk_export_interface.h"
 
 BRDFLut::BRDFLut() {
 	const unsigned int brdfLUTWidth = 512;
 	const unsigned int brdfLUTHeight = 512;
 
 	glGenTextures(1, &brdfLUT);
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + textureOffsetAmbient);
 	glBindTexture(GL_TEXTURE_2D, brdfLUT);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16, brdfLUTWidth, brdfLUTHeight, 0, GL_RG, GL_INT, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -28,7 +29,7 @@ BRDFLut::BRDFLut() {
 	brdfIntegratorShader.destroy();
 	glDeleteFramebuffers(1, &fbo);
 
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + textureOffsetAmbient);
 	glBindTexture(GL_TEXTURE_2D, brdfLUT);
 }
 
