@@ -300,6 +300,7 @@
     <ClInclude Include="..\..\Source\math\vec4.h" />
     <ClInclude Include="..\..\Source\music\4klang.windows.h" />
     <ClInclude Include="..\..\Source\music\bpm.h" />
+    <ClInclude Include="..\..\Source\shaders\aman.h" />
     <ClInclude Include="..\..\Source\shaders\ao.h" />
     <ClInclude Include="..\..\Source\shaders\ao_blend.h" />
     <ClInclude Include="..\..\Source\shaders\ao_blur_h.h" />
@@ -320,16 +321,8 @@
     <ClInclude Include="..\..\Source\shaders\bloom_up_7th.h" />
     <ClInclude Include="..\..\Source\shaders\bloom_up_final.h" />
     <ClInclude Include="..\..\Source\shaders\final.h" />
-    <ClInclude Include="..\..\Source\shaders\glumanda.h" />
-    <ClInclude Include="..\..\Source\shaders\glumanda_environment.h" />
-    <ClInclude Include="..\..\Source\shaders\karpador.h" />
-    <ClInclude Include="..\..\Source\shaders\karpador_environment.h" />
-    <ClInclude Include="..\..\Source\shaders\kleinstein.h" />
-    <ClInclude Include="..\..\Source\shaders\kleinstein_environment.h" />
     <ClInclude Include="..\..\Source\shaders\ladebalken.h" />
     <ClInclude Include="..\..\Source\shaders\output.h" />
-    <ClInclude Include="..\..\Source\shaders\relaxo.h" />
-    <ClInclude Include="..\..\Source\shaders\relaxo_environment.h" />
     <ClInclude Include="..\..\Source\shaders\remove_fireflies.h" />
     <ClInclude Include="..\..\Source\shaders\scale.h" />
     <ClInclude Include="..\..\Source\stdlib.h" />

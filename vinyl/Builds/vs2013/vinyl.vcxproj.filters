@@ -113,6 +113,9 @@
     <ClInclude Include="..\..\Source\music\bpm.h">
       <Filter>Source\music</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\aman.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\shaders\ao.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
@@ -173,34 +176,10 @@
     <ClInclude Include="..\..\Source\shaders\final.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\glumanda.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\glumanda_environment.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\karpador.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\karpador_environment.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\kleinstein.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\kleinstein_environment.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\shaders\ladebalken.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\output.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\relaxo.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\relaxo_environment.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\remove_fireflies.h">
