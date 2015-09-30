@@ -301,6 +301,7 @@
     <ClInclude Include="..\..\Source\music\4klang.windows.h" />
     <ClInclude Include="..\..\Source\music\bpm.h" />
     <ClInclude Include="..\..\Source\shaders\aman.h" />
+    <ClInclude Include="..\..\Source\shaders\aman_environment.h" />
     <ClInclude Include="..\..\Source\shaders\ao.h" />
     <ClInclude Include="..\..\Source\shaders\ao_blend.h" />
     <ClInclude Include="..\..\Source\shaders\ao_blur_h.h" />
