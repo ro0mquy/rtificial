@@ -8,14 +8,20 @@ uniform sampler2D color; // vec3
 out vec3 out_color;
 
 uniform float post_image_distortion;
+
 uniform float post_lens_distort_k;
 uniform float post_lens_distort_kcube;
+
 uniform float post_vignette_intensity;
 uniform float post_vignette_distortion;
+
 uniform float post_film_grain_intensity;
 uniform float post_film_grain_frequency;
 uniform float post_film_grain_power;
 uniform bool post_disable_grain;
+
+uniform float post_strobo;
+uniform float post_strobo_gamma;
 
 uniform bool post_scanlines;
 uniform float post_scanlines_offset;
@@ -97,7 +103,7 @@ void main() {
 		out_color[i] = textureLod(color, lens_distort(aspect, k * primaries[i], kcube, tc_lens), 0.)[i];
 	}
 
-	if((floor(mod(gl_FragCoord.y, post_scanlines_offset)) < post_scanlines_width) && post_scanlines){
+	if ((floor(mod(gl_FragCoord.y, post_scanlines_offset)) < post_scanlines_width) && post_scanlines) {
 		out_color *= post_scanlines_darken;
 	}
 
@@ -123,4 +129,22 @@ void main() {
 
 	// color grading
 	out_color = pow(max(vec3(0.), post_colorgrading_gain * 2. * (out_color + (2. * post_colorgrading_lift - 1.) * (1. - out_color))), 1./max(post_colorgrading_gamma * 2., 1e-6));
+
+	float post_strobo = fract(post_strobo);
+	if (post_strobo > 0.0) {
+		vec3 out_color_orig = out_color;
+
+		/*
+		 * post_strobo_gamma is best around 2.5 = 1.0/0.4
+		 * as an aproximation to the real luminance formula
+		 * http://www.poynton.com/notes/colour_and_gamma/GammaFAQ.html#lightness
+		 */
+		out_color = pow(out_color, vec3(1./post_strobo_gamma));
+		out_color = 1.0 - out_color;
+		out_color = pow(out_color, vec3(post_strobo_gamma));
+
+		out_color = mix(out_color, vec3(1.0), smoothstep(0.33, 0.66, post_strobo));
+
+		out_color = mix(out_color, out_color_orig, smoothstep(0.66, 1.0, post_strobo));
+	}
 }
