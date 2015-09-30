@@ -1216,7 +1216,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 2.5,
-                "valueVec3Y": 0.93583071231842041016,
+                "valueVec3Y": 0.93583071231842052118,
                 "valueVec3Z": 11.2353668212890625
               }
             },
@@ -1226,7 +1226,7 @@
               "keyframeEaseAway": true,
               "keyframeValue": {
                 "valueVec3X": 2.9615936279296875,
-                "valueVec3Y": 0.93583071231842041016,
+                "valueVec3Y": 0.93583071231842052118,
                 "valueVec3Z": 111.23500000000012733
               }
             }
@@ -1244,7 +1244,7 @@
               "keyframeEaseAway": true,
               "keyframeValue": {
                 "valueVec3X": 2.9615936279296875,
-                "valueVec3Y": 0.93583071231842041016,
+                "valueVec3Y": 0.93583071231842052118,
                 "valueVec3Z": 111.23500000000012733
               }
             },
@@ -1254,7 +1254,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 1.25241851806640625,
-                "valueVec3Y": 0.42439556121826171875,
+                "valueVec3Y": 0.42439556121826177426,
                 "valueVec3Z": 115.57405853271484375
               }
             }
@@ -1398,7 +1398,7 @@
                 "valueQuatX": -0.045941382646560668945,
                 "valueQuatY": 0,
                 "valueQuatZ": 0,
-                "valueQuatW": 0.99894422292709350586
+                "valueQuatW": 0.99894422292709339484
               }
             },
             {
@@ -1409,7 +1409,7 @@
                 "valueQuatX": -0.045941382646560668945,
                 "valueQuatY": 0,
                 "valueQuatZ": 0,
-                "valueQuatW": 0.99894422292709350586
+                "valueQuatW": 0.99894422292709339484
               }
             },
             {
@@ -1417,7 +1417,7 @@
               "keyframeEaseToward": true,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueQuatX": -0.007258718833327293396,
+                "valueQuatX": -0.0072587188333272925286,
                 "valueQuatY": 0.98170638084411621094,
                 "valueQuatZ": 0.038233269006013870239,
                 "valueQuatW": 0.1863804161548614502
@@ -1428,7 +1428,7 @@
               "keyframeEaseToward": true,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueQuatX": -0.007258718833327293396,
+                "valueQuatX": -0.0072587188333272925286,
                 "valueQuatY": 0.98170638084411621094,
                 "valueQuatZ": 0.038233269006013870239,
                 "valueQuatW": 0.1863804161548614502
@@ -1447,7 +1447,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": true,
               "keyframeValue": {
-                "valueQuatX": -0.007258718833327293396,
+                "valueQuatX": -0.0072587188333272925286,
                 "valueQuatY": 0.98170638084411621094,
                 "valueQuatZ": 0.038233269006013870239,
                 "valueQuatW": 0.1863804161548614502
@@ -1459,9 +1459,9 @@
               "keyframeEaseAway": true,
               "keyframeValue": {
                 "valueQuatX": 0.0027305260300636291504,
-                "valueQuatY": 0.98234528303146362305,
+                "valueQuatY": 0.98234528303146373407,
                 "valueQuatZ": -0.014382235705852508545,
-                "valueQuatW": 0.18650169670581817627
+                "valueQuatW": 0.18650169670581814851
               }
             },
             {
@@ -1470,7 +1470,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueQuatX": 0.11057157069444656372,
-                "valueQuatY": 0.79121071100234985352,
+                "valueQuatY": 0.79121071100234996454,
                 "valueQuatZ": -0.5824044346809387207,
                 "valueQuatW": 0.15021413564682006836
               }
@@ -1542,6 +1542,46 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_cut_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 50
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_planes_chamfer_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.73099999999999454303
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_planes_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.0230000000000245564
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_prism_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.0240000000000009095
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_prism_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.4510000000000218279
       },
       "sequencesArray": []
     },
@@ -2044,7 +2084,7 @@
       "uniformName": "post_strobo_gamma",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 2.5
+        "valueFloatX": 4.5
       },
       "sequencesArray": []
     },
@@ -2067,9 +2107,18 @@
   ],
   "scenesArray": [
     {
+      "sceneId": 235,
+      "sceneStart": 170000,
+      "sceneDuration": 40000,
+      "sceneShaderSource": "matrix",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
       "sceneId": 379,
       "sceneStart": 0,
-      "sceneDuration": 210000,
+      "sceneDuration": 170000,
       "sceneShaderSource": "aman",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {

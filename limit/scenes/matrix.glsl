@@ -1,7 +1,6 @@
 #include "march.glsl"
 #line 3
 
-const float id_floor = 0.;
 const float id_aman = 1.;
 const float id_matrix = 2.;
 
@@ -167,8 +166,6 @@ float fAman(vec3 p) {
 }
 
 float fMatrix(vec3 p) {
-	float f_cut = p.y - matrix_cut_rt_float;
-
 	vec3 p_domrep = p;
 	pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
 
@@ -184,15 +181,12 @@ float fMatrix(vec3 p) {
 	float f_planes = abs(p_planes.y) - matrix_planes_thick_rt_float;
 
 	float f_matrix = f_prism;
-	f_matrix = max(f_matrix, -f_cut);
 	f_matrix = opIntersectChamfer(f_matrix, -f_planes, matrix_planes_chamfer_rt_float);
 	return f_matrix;
 }
 
 float fScene(vec3 p) {
-	if (!aman_2D_mode_rt_bool) {
-		mUnion(p.y, newMaterialId(id_floor, p));
-	}
+	p = p.yxz;
 	mUnion(fAman(p), newMaterialId(id_aman, p));
 	mUnion(fMatrix(p), newMaterialId(id_matrix, p));
 
@@ -214,9 +208,7 @@ Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = .1;
 
-	if (materialId.id == id_floor) {
-		mat.color = vec3(96., 110., 113.) / 255.;
-	} else if (materialId.id == id_aman) {
+	if (materialId.id == id_aman) {
 		mat.color = vec3(.0);
 	} else if (materialId.id == id_matrix) {
 		mat.color = vec3(.2);
