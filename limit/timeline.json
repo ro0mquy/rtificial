@@ -59,6 +59,16 @@
       ]
     },
     {
+      "uniformName": "aman_color_glow_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.55422711372375488281,
+        "valueColorG": 0.047775756567716598511,
+        "valueColorB": 0.6120656132698059082
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "aman_cube_d",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -140,6 +150,22 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "aman_glow_gamma_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.7749999999999772626
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "aman_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.75999999999999090505
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "aman_hand_up_left",

@@ -18,7 +18,7 @@ float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 	return fBox(p, dimension);
 }
 
-float fAman(vec3 p) {
+MatWrap wAman(vec3 p) {
 	if (aman_domrep_rt_bool) {
 		float cell_x = pDomrep(p.x, aman_domrep_cell_rt_vec2.x);
 		float cell_z = pDomrepSingle(p.z, aman_domrep_cell_rt_vec2.y);
@@ -162,8 +162,9 @@ float fAman(vec3 p) {
 	}
 
 	f = max(f, -p.y + aman_cube_d * floor(aman_cut_h_rt_float));
+	MatWrap w = MatWrap(f, newMaterialId(id_aman, p));
 
-	return f;
+	return w;
 }
 
 float fMatrix(vec3 p) {
@@ -193,7 +194,7 @@ float fScene(vec3 p) {
 	if (!aman_2D_mode_rt_bool) {
 		mUnion(p.y, newMaterialId(id_floor, p));
 	}
-	mUnion(fAman(p), newMaterialId(id_aman, p));
+	mUnion(wAman(p));
 	if (aman_ceiling_rt_bool) {
 		mUnion(fMatrix(p), newMaterialId(id_matrix, p));
 	}
@@ -205,7 +206,8 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 	if (aman_2D_mode_rt_bool) {
 		return material.color;
 	}
-	return ambientColor(normal, -direction, material);
+	vec3 emission = material.emission;
+	return ambientColor(normal, -direction, material) + emission;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -219,7 +221,25 @@ Material getMaterial(MaterialId materialId) {
 	if (materialId.id == id_floor) {
 		mat.color = vec3(96., 110., 113.) / 255.;
 	} else if (materialId.id == id_aman) {
-		mat.color = vec3(.0);
+		vec3 p_aman = materialId.coord;
+		vec3 p_cell = p_aman;
+		p_cell.xy = mod(p_cell.xy, aman_cube_d) / aman_cube_r - 1.;
+		vec2 i_cell = floor(p_aman.xy / aman_cube_d);
+
+		float t_glow = 0.;
+		if (i_cell == vec2(0., 1.) || // (0, 1) pixel with neighbors
+				i_cell == vec2(-1., 1.) ||
+
+				i_cell == vec2(4., 6.) || // (4, 6) pixel with neighbors
+				i_cell == vec2(4., 7.) ||
+				i_cell == vec2(4., 5.)
+		   ) {
+					t_glow = 1. - length(p_cell) / sqrt(3.);
+					t_glow = pow(t_glow, aman_glow_gamma_rt_float);
+		}
+
+		mat.emission = aman_color_glow_rt_color * 1000. * aman_glow_intensity_rt_float * t_glow;
+		mat.color = vec3(0.);
 	} else if (materialId.id == id_matrix) {
 		mat.color = vec3(.2);
 	}

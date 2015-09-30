@@ -194,10 +194,8 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	if (aman_2D_mode_rt_bool) {
-		return material.color;
-	}
-	return ambientColor(normal, -direction, material);
+	vec3 emission = material.emission;
+	return ambientColor(normal, -direction, material) + emission;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
