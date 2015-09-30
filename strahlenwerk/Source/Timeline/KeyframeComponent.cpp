@@ -37,9 +37,27 @@ KeyframeComponent::~KeyframeComponent() {
 
 void KeyframeComponent::updateBounds() {
 	const float keyframeWidth = 4.;
-	const float position = timeToPixels(data.getKeyframePosition(keyframeData));
+
+	const ValueTree seq = data.getKeyframeParentSequence(keyframeData);
+	const int seqDuration = int(data.getSequenceDuration(seq));
+	const int kfRelPosition = int(data.getKeyframePosition(keyframeData));
+	const float kfPixelPosition = timeToPixels(data.getKeyframePosition(keyframeData));
+
+	const bool isSeqStart = (kfRelPosition == 0);
+	const bool isSeqEnd = (kfRelPosition == seqDuration);
+
 	const int height = getParentHeight();
-	setBounds(roundFloatToInt(position - keyframeWidth / 2), 0, roundFloatToInt(keyframeWidth), height);
+
+	float boundsX;
+	if (isSeqStart) {
+		boundsX = roundFloatToInt(kfPixelPosition);
+	} else if (isSeqEnd) {
+		boundsX = roundFloatToInt(kfPixelPosition - keyframeWidth - 0.5f);
+	} else {
+		boundsX = roundFloatToInt(kfPixelPosition - keyframeWidth / 2.0f);
+	}
+
+	setBounds(boundsX, 0, roundFloatToInt(keyframeWidth), height);
 }
 
 void KeyframeComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds) {
@@ -71,6 +89,28 @@ void KeyframeComponent::paint(Graphics& g) {
 	keyRect.removeFromTop(1.0);
 	keyRect.removeFromBottom(2.0);
 
+	const float cornerRadius = 4.0f;
+
+	const ValueTree seq = data.getKeyframeParentSequence(keyframeData);
+	const int seqDuration = int(data.getSequenceDuration(seq));
+	const int kfPosition = int(data.getKeyframePosition(keyframeData));
+	const bool isSeqStart = (kfPosition == 0);
+	const bool isSeqEnd = (kfPosition == seqDuration);
+
+	Path kfPath;
+	kfPath.addRoundedRectangle(
+		(isSeqStart ? 1.0f : 0.0f),
+		1.0f,
+		keyRect.getWidth() - (isSeqEnd ? 1.0f : 0.0f),
+		keyRect.getHeight(),// + (flatOnBottom ? 1.0f : 0.0f),
+		cornerRadius,
+		cornerRadius,
+		isSeqStart,
+		isSeqEnd,
+		isSeqStart,
+		isSeqEnd
+	);
+
 	const bool isSelected = data.getSelection().contains(keyframeData);
 
 	if (isSelected) {
@@ -78,7 +118,7 @@ void KeyframeComponent::paint(Graphics& g) {
 	} else {
 		g.setColour(findColour(KeyframeComponent::fillColourId));
 	}
-	g.fillRect(keyRect);
+	g.fillPath(kfPath);
 }
 
 void KeyframeComponent::mouseDown(const MouseEvent& event) {
