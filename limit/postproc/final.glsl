@@ -4,8 +4,6 @@
 #line 5
 // lens distort, vignette, tonemapping, color grading, noise
 
-layout(binding = 1) uniform sampler2D jarig;
-
 uniform sampler2D color; // vec3
 out vec3 out_color;
 
@@ -148,8 +146,5 @@ void main() {
 		out_color = mix(out_color, vec3(1.0), smoothstep(0.33, 0.66, post_strobo));
 
 		out_color = mix(out_color, out_color_orig, smoothstep(0.66, 1.0, post_strobo));
-	}
-	if (tc.x > .5) {
-		out_color = textureLod(jarig, tc, 0).rgb;
 	}
 }
