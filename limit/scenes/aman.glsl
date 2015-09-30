@@ -194,7 +194,9 @@ float fScene(vec3 p) {
 		mUnion(p.y, newMaterialId(id_floor, p));
 	}
 	mUnion(fAman(p), newMaterialId(id_aman, p));
-	mUnion(fMatrix(p), newMaterialId(id_matrix, p));
+	if (aman_ceiling_rt_bool) {
+		mUnion(fMatrix(p), newMaterialId(id_matrix, p));
+	}
 
 	return current_dist;
 }
