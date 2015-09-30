@@ -43,3 +43,18 @@ void Texture::destroy() {
 		glDeleteTextures(1, &textureName);
 	}
 }
+
+unsigned int Texture::id() const {
+	return textureUnit - GL_TEXTURE0;
+}
+
+const std::vector<uint8>& Texture::getData() const {
+	return data;
+}
+size_t Texture::getWidth() const {
+	return width;
+}
+
+size_t Texture::getHeight() const {
+	return height;
+}

@@ -10,6 +10,10 @@ class Texture {
 		void load();
 		void bind();
 		void destroy();
+		unsigned int id() const;
+		const std::vector<uint8>& getData() const;
+		size_t getWidth() const;
+		size_t getHeight() const;
 
 	private:
 		// data is stored as 8 bit unsigned rgba

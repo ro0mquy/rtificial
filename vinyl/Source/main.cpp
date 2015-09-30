@@ -53,6 +53,7 @@ RT_MAIN {
 
 	const int n_scenes = sizeof(scenes) / sizeof(Shader);
 	const int n_postproc = sizeof(postproc) / sizeof(Shader);
+	const int n_textures = sizeof(textures) / sizeof(Texture);
 
 	ladebalken.compile();
 
@@ -62,7 +63,7 @@ RT_MAIN {
 	}
 
 	float progress = 0.;
-	float progress_step = 1./ (2 * n_scenes + n_postproc + 3.);
+	float progress_step = 1./ (2 * n_scenes + n_postproc + 3. + n_textures);
 
 	for (int i = 0; i < n_scenes; i++) {
 #		ifdef _DEBUG
@@ -160,6 +161,15 @@ RT_MAIN {
 	RT_DEBUG("End environments\n");
 #		endif
 
+	for (int i = 0; i < n_textures; i++) {
+		textures[i].load();
+		progress += progress_step;
+		ladebalken.bind();
+		glUniform1f(74, progress);
+		ladebalken.draw(width, height, -1);
+		frontend.afterFrame();
+	}
+
 	for (int i = 0; i < n_scenes; i++) {
 		fbos[0].bind();
 		scenes[i].draw(fbos[0].width, fbos[0].height, 0);
@@ -171,6 +181,10 @@ RT_MAIN {
 	if (precalc_waiting_time > 0) {
 		frontend.sleep(precalc_waiting_time);
 	}
+	ladebalken.bind();
+	glUniform1f(74, progress);
+	ladebalken.draw(width, height, -1);
+	frontend.afterFrame();
 
 	frontend.playAudio();
 
@@ -222,6 +236,9 @@ RT_MAIN {
 	for(int i = 0; i < n_postproc; i++) {
 		postproc[i].destroy();
 		fbos[i].destroy();
+	}
+	for (int i =0 ;i < n_textures; i++) {
+		textures[i].destroy();
 	}
 	diffuseFilterShader.destroy();
 	specularFilterShader.destroy();

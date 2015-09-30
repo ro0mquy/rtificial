@@ -108,7 +108,7 @@ int Project::compareElements(const ValueTree& first, const ValueTree& second) {
 	return startFirst - startSecond;
 }
 
-void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, Scenes<AmbientLight>& ambient) {
+void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, Scenes<AmbientLight>& ambient, const std::vector<Texture>& textures) {
 	const File& buildDir = loader.getBuildDir();
 	buildDir.deleteRecursively();
 	buildDir.createDirectory();
@@ -132,6 +132,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 #include "Sequence.h"
 #include "Uniform.h"
 #include "AmbientLight.h"
+#include "Texture.h"
 )source";
 	std::string interfaceHeaderContent = R"source(#ifndef STRAHLENWERK_EXPORT_INTERFACE_H
 #define STRAHLENWERK_EXPORT_INTERFACE_H
@@ -141,6 +142,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 #include "Sequence.h"
 #include "Uniform.h"
 #include "AmbientLight.h"
+#include "Texture.h"
 )source";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
@@ -218,10 +220,32 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	scenesArrayDeclaration += "};\n";
 	environmentsArrayDeclaration += "};\n";
 
+	std::string texturesArrayDeclaration = "Texture textures[" + std::to_string(textures.size()) + "] = {\n";
+	interfaceHeaderContent += "extern Texture textures[" + std::to_string(textures.size()) + "];\n";
+
+	for (const Texture& texture : textures) {
+		const std::string textureName = "texture_" + std::to_string(texture.id());
+		std::string textureSource = "const unsigned char " + textureName + "_source[] = {";
+		for (uint8 value : texture.getData()) {
+			textureSource += std::to_string(value) + ", ";
+		}
+		textureSource.pop_back();
+		textureSource.pop_back();
+		textureSource += "};\n";
+		textureSource += "const unsigned int " + textureName + "_width = " + std::to_string(texture.getWidth()) + ";\n";
+		textureSource += "const unsigned int " + textureName + "_height = " + std::to_string(texture.getHeight()) + ";\n";
+		shadersHeaderContent += "#include \"shaders/" + textureName + ".h\"\n";
+		texturesArrayDeclaration += "\tTexture(" + std::to_string(texture.id()) + ", " + textureName + "_source, " + std::to_string(texture.getWidth()) + ", " + std::to_string(texture.getHeight()) + "),\n";
+		const File& textureFile = buildDir.getChildFile(String(textureName)).withFileExtension("h");
+		textureFile.replaceWithText(textureSource);
+	}
+	texturesArrayDeclaration += "};\n";
+
 	shadersHeaderContent += inputsDeclaration;
 	shadersHeaderContent += postprocArrayDeclaration;
 	shadersHeaderContent += scenesArrayDeclaration;
 	shadersHeaderContent += environmentsArrayDeclaration;
+	shadersHeaderContent += texturesArrayDeclaration;
 
 	std::string fboDeclaration = "Framebuffer fbos[" + std::to_string(postprocShaders - 1) + "] = {\n";
 	interfaceHeaderContent += "extern Framebuffer fbos[" + std::to_string(postprocShaders - 1) + "];\n";

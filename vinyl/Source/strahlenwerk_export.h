@@ -6,6 +6,7 @@
 #include "Sequence.h"
 #include "Uniform.h"
 #include "AmbientLight.h"
+#include "Texture.h"
 #include "shaders/scale.h"
 #include "shaders/ao.h"
 #include "shaders/ao_blur_h.h"
@@ -31,6 +32,7 @@
 #include "shaders/output.h"
 #include "shaders/aman.h"
 #include "shaders/aman_environment.h"
+#include "shaders/texture_1.h"
 Input scale_inputs[2] = {
 	{0, 0},
 	{1, 0},
@@ -141,6 +143,9 @@ Shader scenes[1] = {
 };
 AmbientLight environments[1] = {
 	AmbientLight(aman_environment_source),
+};
+Texture textures[1] = {
+	Texture(1, texture_1_source, 640, 400),
 };
 Output input_outputs[2] = {
 	{3, 0, 0},

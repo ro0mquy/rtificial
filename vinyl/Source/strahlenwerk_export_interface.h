@@ -6,6 +6,7 @@
 #include "Sequence.h"
 #include "Uniform.h"
 #include "AmbientLight.h"
+#include "Texture.h"
 extern Shader postproc[23];
 extern Input scale_inputs[2];
 extern Input ao_inputs[1];
@@ -32,6 +33,7 @@ extern Input final_inputs[1];
 extern Input output_inputs[1];
 extern Shader scenes[1];
 extern AmbientLight environments[1];
+extern Texture textures[1];
 extern Framebuffer fbos[23];
 extern Scene scenes_data[1];
 extern float keyframe_data[119];

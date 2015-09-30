@@ -126,6 +126,7 @@ OBJECTS := \
 	$(OBJDIR)/Framebuffer.o \
 	$(OBJDIR)/LinuxFrontend.o \
 	$(OBJDIR)/Shader.o \
+	$(OBJDIR)/Texture.o \
 	$(OBJDIR)/main.o \
 	$(OBJDIR)/quat.o \
 	$(OBJDIR)/scalar.o \
@@ -227,6 +228,9 @@ $(OBJDIR)/LinuxFrontend.o: ../../Source/LinuxFrontend.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Shader.o: ../../Source/Shader.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Texture.o: ../../Source/Texture.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 ifeq ($(config),debug_vorbis)

@@ -39,7 +39,7 @@ class Project :
 		void loadDirectory(const std::string& dir);
 		const ProjectFileLoader& getLoader() const;
 		int compareElements(const ValueTree& first, const ValueTree& second);
-		void makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, Scenes<AmbientLight>& ambient);
+		void makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, Scenes<AmbientLight>& ambient, const std::vector<Texture>& textures);
 		const String& getLog();
 		void addToLog(String newString);
 		void clearLog();
