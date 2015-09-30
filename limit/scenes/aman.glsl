@@ -19,7 +19,13 @@ float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 
 float fAman(vec3 p) {
 	if (aman_domrep_rt_bool) {
-		pDomrepSingle(p.xz, aman_domrep_cell_rt_vec2);
+		float cell_x = pDomrep(p.x, aman_domrep_cell_rt_vec2.x);
+		float cell_z = pDomrepSingle(p.z, aman_domrep_cell_rt_vec2.y);
+		p.x *= mod(cell_x, 2.) * 2. - 1.;
+
+		if (cell_x == 0 && cell_z == 15) {
+			p.y -= aman_cube_d * aman_single_jump_height_rt_float;
+		}
 	}
 	p.x = aman_mirror_rt_bool ? (aman_mirror_plane_rt_float*aman_cube_d - p.x) : p.x;
 	//p.y -= aman_cube_r;
