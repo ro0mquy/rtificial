@@ -37,4 +37,5 @@ bloom_down_1st.out_color bloom_up_1st.color
 bloom_up_1st.out_color bloom_up_final.previous
 bloom_up_final.out_color final.color
 
-final.out_color output.color
+final.out_color colorseparation.color
+colorseparation.out_color output.color

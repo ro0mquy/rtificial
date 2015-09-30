@@ -2481,6 +2481,33 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_sep_blue_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1,
+        "valueVec2Y": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_sep_green_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1,
+        "valueVec2Y": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_sep_red_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1,
+        "valueVec2Y": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_strobo",
       "uniformType": "float",
       "uniformStandardValue": {
