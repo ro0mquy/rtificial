@@ -122,6 +122,7 @@ class TimelineData :
 		ValueTree getSequenceParentUniform(ValueTree sequence);
 		ValueTree getSequenceUniformStandardValue(ValueTree sequence);
 		void splitSequence(ValueTree sequence, const int absoluteTime);
+		void mergeSequences(Array<ValueTree*>& sequencesToMerge);
 		int compareSequences(const ValueTree& first, const ValueTree& second);
 
 

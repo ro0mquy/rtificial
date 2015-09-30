@@ -106,6 +106,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Selection::toggleLoop,
 		Selection::deleteSelection,
 		Selection::splitSequence,
+		Selection::mergeSequence,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -237,6 +238,11 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.addDefaultKeypress('t', ModifierKeys::noModifiers);
 			break;
 
+		case Selection::mergeSequence:
+			result.setInfo("Merge Sequences", "Merges selected sequences", programCategory, 0);
+			result.addDefaultKeypress('t', ModifierKeys::commandModifier);
+			break;
+
 		default:
 			break;
 
@@ -293,6 +299,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 	} else if (topLevelMenuIndex == 3 /* Timeline */) {
 		menu.addCommandItem(commandManager, CameraController::setKeyframe);
 		menu.addCommandItem(commandManager, Selection::splitSequence);
+		menu.addCommandItem(commandManager, Selection::mergeSequence);
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, CameraController::resetCameraPosition);
 		menu.addCommandItem(commandManager, CameraController::resetCameraRotation);

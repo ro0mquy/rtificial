@@ -33,6 +33,7 @@ class Selection :
 			toggleLoop = 0x47e15a00,
 			deleteSelection,
 			splitSequence,
+			mergeSequence,
 		};
 
 	private:
@@ -46,6 +47,7 @@ class Selection :
 
 		void performDeleteSelection();
 		void performSplitSequence();
+		void performMergeSequence();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Selection)
 };

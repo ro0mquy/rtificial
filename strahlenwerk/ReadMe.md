@@ -24,6 +24,7 @@
 * ```|[Del]|[Backspace]`` Delete current selection
 * `8` toggle looping of current selection
 * `T` split selected sequences at current time or selected keyframe
+* `[Ctrl]+T` merge selected sequences
 
 #### Scenes
 * `[Ctrl]+[Drag]` create new scene or move already existing

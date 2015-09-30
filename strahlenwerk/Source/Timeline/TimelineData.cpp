@@ -872,6 +872,53 @@ void TimelineData::splitSequence(ValueTree sequence, const int absoluteTime) {
 	}
 }
 
+// merges several sequences
+// all keyframes will keep their absolute positions
+void TimelineData::mergeSequences(Array<ValueTree*>& sequencesToMerge) {
+	const int numSequences = sequencesToMerge.size();
+	if (numSequences == 0) {
+		return;
+	}
+
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	int newStart = INT_MAX;
+	int newEnd = 0;
+
+	for (int i = 0; i < numSequences; i++) {
+		ValueTree& sequence = *sequencesToMerge[i];
+		const int sequenceStart = getSequenceAbsoluteStart(sequence);
+		const int sequenceDuration = getSequenceDuration(sequence);
+		const int sequenceEnd = sequenceStart + sequenceDuration;
+
+		newStart = sequenceStart < newStart ? sequenceStart : newStart;
+		newEnd = sequenceEnd > newEnd ? sequenceEnd : newEnd;
+	}
+
+	ValueTree& firstSequence = *sequencesToMerge[0];
+	setSequencePropertiesForAbsoluteStart(firstSequence, newStart);
+	setSequenceDuration(firstSequence, newEnd - newStart);
+
+	for (int i = 1; i < numSequences; i++) {
+		ValueTree& sequence = *sequencesToMerge[i];
+		const int sequenceStart = getSequenceAbsoluteStart(sequence);
+		const int positionOffset = sequenceStart - newStart;
+		const int numKeyframes = getNumKeyframes(sequence);
+		for (int j = numKeyframes - 1; j >= 0; j--) {
+			ValueTree keyframe = getKeyframe(sequence, j);
+			const int keyframePos = getKeyframePosition(keyframe);
+			int newKeyframePos = keyframePos + positionOffset;
+			removeKeyframe(keyframe);
+			while (getKeyframe(firstSequence, var(newKeyframePos)).isValid()) {
+				// if there is already a keyframe, move this keyframe slightly to the right
+				newKeyframePos += ZoomFactor::getZoomFactor().getGridWidth();
+			}
+			setKeyframePosition(keyframe, newKeyframePos);
+			addKeyframe(firstSequence, keyframe);
+		}
+		removeSequence(sequence);
+	}
+}
+
 
 // comparator function for sequences
 // sort at first for sceneIds, then for start time

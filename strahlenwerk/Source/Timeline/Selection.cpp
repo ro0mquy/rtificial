@@ -6,6 +6,8 @@
 #include <StrahlenwerkApplication.h>
 #include <PropertyNames.h>
 
+#include <unordered_set>
+
 Selection::Selection(TimelineData& data_) :
 	data(data_),
 	audioManager(AudioManager::getAudioManager())
@@ -184,6 +186,47 @@ void Selection::performSplitSequence() {
 	}
 }
 
+void Selection::performMergeSequence() {
+	std::lock_guard<std::recursive_mutex> lock(data.getMutex());
+	data.getUndoManager().beginNewTransaction("Merge Sequences");
+
+	const int numSelection = size();
+	std::unordered_set<std::string> selectedUniforms;
+
+	for (int i = 0; i < numSelection; i++) {
+		ValueTree& tree = *selectedTrees[i];
+		if (data.isSequence(tree)) {
+			const std::string uniformName = data.getUniformName(data.getSequenceParentUniform(tree)).toString().toStdString();
+			selectedUniforms.insert(uniformName);
+		}
+	}
+
+	for (const std::string& uniformName : selectedUniforms) {
+		ValueTree uniformTree = data.getUniform(var(String(uniformName)));
+		Array<ValueTree*> sequencesForThisUniform;
+
+		for (int i = 0; i < numSelection; i++) {
+			ValueTree* tree = selectedTrees[i];
+			if (data.isSequence(*tree) && data.getSequenceParentUniform(*tree) == uniformTree) {
+				sequencesForThisUniform.add(tree);
+			}
+		}
+
+		struct SeqComparator {
+			TimelineData& data;
+			SeqComparator(TimelineData& data_) : data(data_) {}
+			int compareElements(ValueTree* first, ValueTree* second) {
+				const int firstStart = data.getSequenceAbsoluteStart(*first);
+				const int secondStart = data.getSequenceAbsoluteStart(*second);
+				return firstStart - secondStart;
+			}
+		} seqComparator(data);
+		sequencesForThisUniform.sort(seqComparator);
+
+		data.mergeSequences(sequencesForThisUniform);
+	}
+}
+
 void Selection::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
 	switch (info.commandID) {
 		case Selection::toggleLoop:
@@ -194,6 +237,9 @@ void Selection::applicationCommandInvoked(const ApplicationCommandTarget::Invoca
 			break;
 		case Selection::splitSequence:
 			performSplitSequence();
+			break;
+		case Selection::mergeSequence:
+			performMergeSequence();
 			break;
 	}
 }
