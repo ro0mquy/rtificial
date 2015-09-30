@@ -166,22 +166,29 @@ float fAman(vec3 p) {
 }
 
 float fMatrix(vec3 p) {
+
 	vec3 p_domrep = p;
-	pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
+	float i = pDomrepMirror(p_domrep.y, 10);
+	vec2 i_domrep = pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
+	if (rand(ivec2(i_domrep)) > .5) {
+		pFlip(p_domrep.y);
+	}
 
 	vec3 p_prism = p_domrep;
 	float f_prism = f2Hexprism(p_prism.xz, matrix_prism_r_rt_float);
 	f_prism = abs(f_prism) - matrix_prism_thick_rt_float;
 
-	vec3 p_planes = p_domrep;
-	pDomrep(p_planes.y, 40.);
-	pMirrorTrans(p_planes.y, 8.);
-	pRotX(p_planes, Tau * .1);
-	pRotZ(p_planes, Tau * .2);
-	float f_planes = abs(p_planes.y) - matrix_planes_thick_rt_float;
-
 	float f_matrix = f_prism;
-	f_matrix = opIntersectChamfer(f_matrix, -f_planes, matrix_planes_chamfer_rt_float);
+	//f_matrix = opIntersectChamfer(f_matrix, -f_planes, matrix_planes_chamfer_rt_float);
+	f_matrix = max(f_matrix, p_domrep.y);
+
+	vec3 p_verbindung = p_domrep;
+	pDomrepAngle(p_verbindung.xz, 6, matrix_prism_r_rt_float);
+	float f_verbindung = f2Hexprism(p_verbindung.xz, matrix_prism_thick_rt_float);
+	f_matrix = opUnionChamfer(f_matrix, f_verbindung, matrix_verbindung_chamfer_rt_float);
+
+	f_matrix = max(f_matrix, p.y);
+
 	return f_matrix;
 }
 

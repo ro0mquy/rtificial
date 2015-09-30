@@ -2940,7 +2940,7 @@
       "uniformName": "matrix_planes_thick_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.0230000000000245564
+        "valueFloatX": 2.7699999999999818101
       },
       "sequencesArray": []
     },
@@ -2948,7 +2948,7 @@
       "uniformName": "matrix_prism_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3.0240000000000009095
+        "valueFloatX": 1.6620000000000345608
       },
       "sequencesArray": []
     },
@@ -2956,7 +2956,15 @@
       "uniformName": "matrix_prism_thick_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.4510000000000218279
+        "valueFloatX": 0.071000000000026375346
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_verbindung_chamfer_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.14800000000002455636
       },
       "sequencesArray": []
     },
