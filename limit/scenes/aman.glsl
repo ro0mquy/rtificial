@@ -15,7 +15,7 @@ float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 	vec3 dimension = vec3(dim, 1) * aman_cube_r;
 	p.xy -= pos * aman_cube_d;
 	p -= dimension;
-	return fBox(p, dimension);
+	return fBoxEdge(p, dimension);
 }
 
 MatWrap wAman(vec3 p) {
@@ -32,6 +32,13 @@ MatWrap wAman(vec3 p) {
 	//p.y -= aman_cube_r;
 
 	p.y -= aman_cube_d * aman_jump_h_rt_float * sqrt(aman_jump_anim_rt_float);
+
+	vec3 p_bounding = p;
+	pTrans(p_bounding, vec3(6., 8., .5) * aman_cube_d);
+	float f_bounding = fBoxEdge(p_bounding, vec3(8., 8., .5) * aman_cube_d);
+	if (f_bounding > .5) {
+		return MatWrap(f_bounding, newMaterialId(id_aman, p));
+	}
 
 	float f_foot_row = fAmanBox(p, vec2(0, 0), vec2(12, 1));
 	float f_foot_left = fAmanBox(p, vec2(0, 1), vec2(1, 1));
@@ -191,9 +198,6 @@ float fMatrix(vec3 p) {
 }
 
 float fScene(vec3 p) {
-	if (!aman_2D_mode_rt_bool) {
-		mUnion(p.y, newMaterialId(id_floor, p));
-	}
 	mUnion(wAman(p));
 	if (aman_ceiling_rt_bool) {
 		mUnion(fMatrix(p), newMaterialId(id_matrix, p));

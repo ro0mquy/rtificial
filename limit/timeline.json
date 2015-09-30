@@ -2227,6 +2227,47 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "main_ground_plane_enabled_rt_bool",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 0,
+          "sequenceDuration": 64000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueBoolState": false
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 172000,
+          "sequenceDuration": 36000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueBoolState": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "main_marching_distance",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -2625,7 +2666,7 @@
     {
       "sceneId": 235,
       "sceneStart": 172000,
-      "sceneDuration": 38000,
+      "sceneDuration": 36000,
       "sceneShaderSource": "matrix",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {

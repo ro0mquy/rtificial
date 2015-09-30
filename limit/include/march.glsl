@@ -29,6 +29,10 @@ bool debug_gradient_pass_plane_visible = false;
 bool scene_visible = debug_default_pass_scene_visible;
 bool debug_plane_visible = debug_default_pass_plane_visible;
 
+float id_ground_plane = 4235.;
+MaterialId m_ground_plane = newMaterialId(id_ground_plane, vec3(0.));
+bool hit_ground_plane = false;
+
 float fScene(vec3 p);
 
 float fDebugPlane(vec3 p) {
@@ -143,7 +147,9 @@ float sdfMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, float pixelRadi
 float sdfMarch(vec3 o, vec3 d, float t_max) {
 	float marched = sdfMarchAdvanced(o, d, .001, t_max, camGetPixelSize(1), 256, 1.2, false);
 
-	if (isinf(marched)) {
+	float lambda = -o.y / d.y;
+
+	if (isinf(marched) && (! main_ground_plane_enabled_rt_bool || isinf(lambda) || lambda < 0.)) {
 		return marched;
 	}
 
@@ -152,7 +158,11 @@ float sdfMarch(vec3 o, vec3 d, float t_max) {
 		marched += fMain(o + marched * d, false) - camGetPixelSize(marched);
 	}
 
-	return marched;
+	if (! main_ground_plane_enabled_rt_bool || lambda < 0 || lambda > marched) {
+		return marched;
+	}
+	hit_ground_plane = true;
+	return lambda;
 }
 
 void setDebugParameters() {
@@ -377,10 +387,10 @@ void main() {
 	} else {
 		vec3 hit = origin + marched * direction;
 
-		float marching_error = fMain(hit, true);
-		MaterialId materialId = current_material;
+		float marching_error = hit_ground_plane ? 0. : fMain(hit, true);
+		MaterialId materialId = hit_ground_plane ? m_ground_plane : current_material;
 
-		vec3 normal = sdfNormalForeward(hit, direction);
+		vec3 normal = hit_ground_plane ? vec3(0., 1., 0.) : sdfNormalForeward(hit, direction);
 
 		if (materialId.id == debug_plane_material_id) {
 			vec3 c_isoline = debugColorIsolines(origin, marched, hit);
