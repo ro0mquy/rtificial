@@ -185,30 +185,35 @@ MatWrap wAman(vec3 p) {
 
 MatWrap wMatrix(vec3 p) {
 	p.y -= matrix_cut_rt_float;
+	p.z -= 15. * aman_domrep_cell_rt_vec2.y;
 
 	vec3 p_domrep = p;
-	vec2 i_domrep = pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
+	//vec2 i_domrep = pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
 	vec3 p_verbindung = p_domrep;
+	/*
 	if (rand(ivec2(i_domrep)) > .5) {
 		pFlip(p_domrep.y);
 	}
+	// */
 
 	vec3 p_prism = p_domrep;
 	float f_prism = f2Hexprism(p_prism.xz, matrix_prism_r_rt_float);
 	f_prism = abs(f_prism) - matrix_prism_thick_rt_float;
-	MatWrap w_prism = MatWrap(f_prism, MaterialId(id_prism, p_prism, vec4(i_domrep, 0, 0.)));
+	MatWrap w_prism = MatWrap(f_prism, MaterialId(id_prism, p_prism, vec4(0., 0., 0, 0.)));
+	//MatWrap w_prism = MatWrap(f_prism, MaterialId(id_prism, p_prism, vec4(i_domrep, 0, 0.)));
 
 	//pDomrepAngle(p_verbindung.xz, 6, matrix_prism_r_rt_float);
 	vec2 i_mirror = pMirrorTrans(p_verbindung.zx, matrix_prism_r_rt_float * unitVector(Tau / 12.));
 	float f_verbindung = f2Hexprism(p_verbindung.xz, matrix_prism_thick_rt_float);
 
-	pDomrep(p_verbindung.y, matrix_verbindung_domrep_rt_float);
+	//pDomrep(p_verbindung.y, matrix_verbindung_domrep_rt_float);
 	pMirrorGrid(p_verbindung.xz, 0.);
 	float f_verbindung_up = f2Hexprism(p_verbindung.yz, matrix_prism_thick_rt_float);
 
 	f_verbindung = min(f_verbindung, f_verbindung_up);
 
-	MatWrap w_verbindung = MatWrap(f_verbindung, MaterialId(id_verbindung, p_verbindung, vec4(i_domrep, i_mirror)));
+	//MatWrap w_verbindung = MatWrap(f_verbindung, MaterialId(id_verbindung, p_verbindung, vec4(i_domrep, i_mirror)));
+	MatWrap w_verbindung = MatWrap(f_verbindung, MaterialId(id_verbindung, p_verbindung, vec4(0., 0., i_mirror)));
 
 	MatWrap w_matrix = w_prism;
 	w_matrix = mUnion(w_matrix, w_verbindung);

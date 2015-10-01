@@ -1,12 +1,12 @@
 #include "post.glsl"
 #include "helper.glsl"
-#line 4
+#line 5
 
 uniform sampler2D color; // vec3
 out vec3 out_color;
 
 vec2 distort(vec2 tc, vec2 offset) {
-	// TODO distortions
+	offset.x *= pow(tc.y * .5 + .2, post_hustensaft_gamma_rt_float);
 	return tc + offset;
 }
 
