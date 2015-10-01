@@ -98,7 +98,10 @@ Download `premake` from [its home page](http://industriousone.com/premake/downlo
 
     path\to\premake4.exe vs2010
 
-Open the project `.\make\Windows\efsw-static.vcxproj` in Visual Studio and compile it (Note: if you get LNK2038-Errors you might have to manually change the cpmpileroption /MDd to /MTd ). Now move `.\lib\efsw-debug.lib` to `rtificial\strahlenwerk\Lib\lib\efsw.obj` and the folder `.\include\efsw` to `rtificial\strahlenwerk\Lib\include\efsw`. Copy `.\lib\efsw-debug.dll` to `rtificial\strahlenwerk\Builds\VisualStudio2013\Debug\efsw-debug.dll`. You don't need the rest.
+Open the project `.\make\Windows\efsw-static.vcxproj` in Visual Studio and compile it 
+(Note: if you get LNK2038-Errors you might have to manually change the compileroption /MDd to /MTd). 
+Now move `.\lib\efsw-debug.lib` to `rtificial\strahlenwerk\Lib\lib\efsw.obj` and the folder `.\include\efsw` to `rtificial\strahlenwerk\Lib\include\efsw`. 
+Copy `.\lib\efsw-debug.dll` to `rtificial\strahlenwerk\Builds\VisualStudio2013\Debug\efsw-debug.dll`. You don't need the rest.
 
 #### Building and running
 Open `rtificial\strahlenwerk\Builds\VisualStudio2013\strahlenwerk.vcxproj` in Visual Studio and hit `F7` to build, `F5` to build-and-run with the debugger and `Ctrl+F5` to build-and-run without the debugger. Hopefully nothing breaks, good luck with that! And you don't even need to reboot your computer twice and wait for a myriad of "finishing updates" to complete. It just runs!

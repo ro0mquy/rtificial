@@ -279,6 +279,29 @@
         <MODULEPATH id="juce_audio_basics" path="juce_modules"/>
       </MODULEPATHS>
     </VS2013>
+    <VS2015 targetFolder="Builds/VisualStudio2015" extraDefs="NOMINMAX" extraCompilerFlags="/I..\..\Source /I..\..\Lib\include"
+            extraLinkerFlags="/LIBPATH:&quot;..\..\Lib\lib&quot;" externalLibraries="efsw">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="3" targetName="strahlenwerk"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="strahlenwerk"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_opengl" path="juce_modules"/>
+        <MODULEPATH id="juce_gui_extra" path="juce_modules"/>
+        <MODULEPATH id="juce_gui_basics" path="juce_modules"/>
+        <MODULEPATH id="juce_graphics" path="juce_modules"/>
+        <MODULEPATH id="juce_events" path="juce_modules"/>
+        <MODULEPATH id="juce_data_structures" path="juce_modules"/>
+        <MODULEPATH id="juce_core" path="juce_modules"/>
+        <MODULEPATH id="juce_audio_utils" path="juce_modules"/>
+        <MODULEPATH id="juce_audio_processors" path="juce_modules"/>
+        <MODULEPATH id="juce_audio_formats" path="juce_modules"/>
+        <MODULEPATH id="juce_audio_devices" path="juce_modules"/>
+        <MODULEPATH id="juce_audio_basics" path="juce_modules"/>
+      </MODULEPATHS>
+    </VS2015>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
