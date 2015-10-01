@@ -73,7 +73,7 @@ void ScenesBarComponent::paint(Graphics& g) {
 				1
 			);
 
-		if (i%(longLineDistance*3) == 0) {
+		if (i%(longLineDistance*4) == 0) {
 			g.setColour(findColour(ScenesBarComponent::textColourId));
 			g.drawSingleLineText(String(i * gridWidth / 1000.), i*lineDistance + 2, g.getCurrentFont().getHeight());
 		}
