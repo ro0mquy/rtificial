@@ -17,13 +17,13 @@ float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 	vec3 dimension = vec3(dim, 1) * aman_cube_r;
 	p.xy -= pos * aman_cube_d;
 	p -= dimension;
-	return fBox(p, dimension);
+	return fBoxEdge(p, dimension);
 }
 
 float fAman(vec3 p) {
 	if (aman_domrep_rt_bool) {
 		float cell_x = pDomrep(p.x, aman_domrep_cell_rt_vec2.x);
-		float cell_z = pDomrepSingle(p.z, aman_domrep_cell_rt_vec2.y);
+		float cell_z = pDomrep(p.z, aman_domrep_cell_rt_vec2.y);
 		p.x *= mod(cell_x, 2.) * 2. - 1.;
 
 		if (cell_x == 0 && cell_z == 15) {
