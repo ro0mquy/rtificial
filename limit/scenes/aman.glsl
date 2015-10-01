@@ -255,8 +255,23 @@ Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = .1;
 
-	if (materialId.id == id_floor) {
+	if (materialId.id == id_ground_plane) {
 		mat.color = vec3(96., 110., 113.) / 255.;
+		vec2 p = materialId.coord.xz;
+		vec2 plate_id = pDomrepGrid(p.yx, vec2(aman_plate_width_rt_float));
+		pMirrorTrans(p.x, aman_plate_sep_width_rt_float);
+		float f_grid = p.x;
+		if (f_grid < 0) {
+			// plate separator
+			mat.color = vec3(0);
+			mat.metallic = 0;
+			mat.roughness = 1;
+		} else {
+			// plates
+			mat.color.r = .5 + .5 * sin(plate_id.x) * cos(plate_id.y);
+			mat.metallic = 1.;
+			mat.roughness = .1;
+		}
 	} else if (materialId.id == id_aman) {
 		vec3 p_aman = materialId.coord;
 		vec3 p_cell = p_aman;

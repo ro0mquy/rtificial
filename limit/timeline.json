@@ -2042,6 +2042,22 @@
       ]
     },
     {
+      "uniformName": "aman_plate_sep_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "aman_plate_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "aman_single_jump_height_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {

@@ -388,6 +388,7 @@ void main() {
 		vec3 hit = origin + marched * direction;
 
 		float marching_error = hit_ground_plane ? 0. : fMain(hit, true);
+		m_ground_plane.coord = hit;
 		MaterialId materialId = hit_ground_plane ? m_ground_plane : current_material;
 
 		vec3 normal = hit_ground_plane ? vec3(0., 1., 0.) : sdfNormalForeward(hit, direction);
