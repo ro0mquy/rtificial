@@ -10,21 +10,19 @@ vec3 godRays() {
 	vec2 temp_position = position;
 	vec3 accumulation = vec3(0.0);
 	int iterations = 30;
-	float contrast = 2;
-	vec2 movement = vec2(.5, .5);
+	vec2 movement = post_godray_origin_rt_vec2;
 
 	float fadefactor = 1. / iterations;
 	float multiplier = 1.0;
 	for (int i=0; i<iterations; i++) {
 		vec3 texturesample = textureLod(color, position + temp_position, 0).rgb;
-		accumulation += multiplier * texturesample;
+		accumulation += multiplier * pow(texturesample, vec3(post_godray_gamma_rt_float));
 		//smoothstep(0.1, 1.0, texturesample * texturesample);
 		multiplier *= 1.0 - fadefactor;
 		temp_position += ((movement * .5) - position) / iterations;
 	}
 	accumulation /= iterations;
-	//contrast enhance to accentuate bright fragments
-	return textureLod(color, tc, 0).rgb + (accumulation * (contrast / (1.0 + dot(position, position))));
+	return textureLod(color, tc, 0).rgb + accumulation * post_godray_intesity_rt_float;
 }
 
 void main() {

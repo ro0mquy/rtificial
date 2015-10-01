@@ -3564,6 +3564,31 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_godray_gamma_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_godray_intesity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_godray_origin_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.5,
+        "valueVec2Y": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_gradient_alpha_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
