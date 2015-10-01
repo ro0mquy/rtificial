@@ -2967,9 +2967,9 @@
       "uniformName": "matrix_fog_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.46474117040634155273,
+        "valueColorR": 0.46474117040634149722,
         "valueColorG": 0.71546542644500732422,
-        "valueColorB": 0.96581465005874633789
+        "valueColorB": 0.96581465005874644891
       },
       "sequencesArray": []
     },
@@ -3284,6 +3284,75 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_gradient_alpha_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_gradient_color1_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 1,
+        "valueColorG": 1,
+        "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_gradient_color2_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0,
+        "valueColorG": 0,
+        "valueColorB": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_gradient_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_gradient_radial_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0,
+        "valueVec2Y": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_gradient_radial_rt_bool",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_gradient_rotation_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_gradient_spread_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
       },
       "sequencesArray": []
     },

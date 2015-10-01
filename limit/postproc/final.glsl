@@ -1,7 +1,8 @@
 #include "post.glsl"
 #include "helper.glsl"
 #include "noise.glsl"
-#line 5
+#include "sdf/domain.glsl"
+#line 6
 // lens distort, vignette, tonemapping, color grading, noise
 
 uniform sampler2D color; // vec3
@@ -128,6 +129,19 @@ void main() {
 
 	// color grading
 	out_color = pow(max(vec3(0.), post_colorgrading_gain * 2. * (out_color + (2. * post_colorgrading_lift - 1.) * (1. - out_color))), 1./max(post_colorgrading_gamma * 2., 1e-6));
+
+	// gradient
+	vec3 color1 = post_gradient_color1_rt_color;
+	vec3 color2 = post_gradient_color2_rt_color;
+	vec2 to_center = vec2(.5) + post_gradient_radial_offset_rt_vec2 - tc;
+	pRot(to_center, post_gradient_rotation_rt_float * Tau);
+	float spread = max(0, post_gradient_spread_rt_float);
+	if (post_gradient_radial_rt_bool) {
+		to_center.x = length(to_center);
+	}
+	float gradient_t = smoothstep(-spread, spread, to_center.x + post_gradient_offset_rt_float);
+	vec3 gradient_color = mix(color1, color2, gradient_t);
+	out_color = mix(out_color, gradient_color, post_gradient_alpha_rt_float);
 
 	float post_strobo = fract(post_strobo);
 	if (post_strobo > 0.0) {
