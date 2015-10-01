@@ -131,8 +131,8 @@ void main() {
 	out_color = pow(max(vec3(0.), post_colorgrading_gain * 2. * (out_color + (2. * post_colorgrading_lift - 1.) * (1. - out_color))), 1./max(post_colorgrading_gamma * 2., 1e-6));
 
 	// gradient
-	vec3 color1 = post_gradient_color1_rt_color;
-	vec3 color2 = post_gradient_color2_rt_color;
+	vec4 color1 = vec4(post_gradient_color1_rt_color, post_gradient_alpha1_rt_float);
+	vec4 color2 = vec4(post_gradient_color2_rt_color, post_gradient_alpha2_rt_float);
 	vec2 to_center = vec2(.5) + post_gradient_radial_offset_rt_vec2 - tc;
 	pRot(to_center, post_gradient_rotation_rt_float * Tau);
 	float spread = max(0, post_gradient_spread_rt_float);
@@ -140,8 +140,8 @@ void main() {
 		to_center.x = length(to_center);
 	}
 	float gradient_t = smoothstep(-spread, spread, to_center.x + post_gradient_offset_rt_float);
-	vec3 gradient_color = mix(color1, color2, gradient_t);
-	out_color = mix(out_color, gradient_color, post_gradient_alpha_rt_float);
+	vec4 gradient_color = mix(color1, color2, gradient_t);
+	out_color = mix(out_color, gradient_color.rgb, post_gradient_alpha_rt_float * gradient_color.a);
 
 	float post_strobo = fract(post_strobo);
 	if (post_strobo > 0.0) {

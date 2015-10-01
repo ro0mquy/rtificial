@@ -3597,6 +3597,22 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_gradient_alpha1_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_gradient_alpha2_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_gradient_color1_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
