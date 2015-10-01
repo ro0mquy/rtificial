@@ -176,6 +176,7 @@ float fAman(vec3 p) {
 }
 
 MatWrap wMatrix(vec3 p) {
+	p.y -= matrix_translation_rt_float;
 
 	vec3 p_domrep = p;
 	vec2 i_domrep = pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
@@ -188,7 +189,7 @@ MatWrap wMatrix(vec3 p) {
 	vec3 p_prism = p_domrep;
 	float f_prism = f2Hexprism(p_prism.xz, matrix_prism_r_rt_float);
 	f_prism = abs(f_prism) - matrix_prism_thick_rt_float;
-	float f_prism_cut = p_domrep.y - 3. * (-.5 + 1.5 * (1. - smoothstep(0., 10., i)));
+	float f_prism_cut = p_domrep.y - 3. * (-1. + 1.5 * (1. - smoothstep(0., 50., i)));
 	f_prism = opIntersectChamfer(f_prism, f_prism_cut, matrix_prism_cut_chamfer_rt_float);
 	MatWrap w_prism = MatWrap(f_prism, MaterialId(id_prism, p_prism, vec4(i_domrep, i, 0.)));
 
@@ -206,7 +207,6 @@ MatWrap wMatrix(vec3 p) {
 
 	MatWrap w_matrix = w_prism;
 	w_matrix = mUnionChamfer(w_matrix, w_verbindung, matrix_verbindung_chamfer_rt_float, id_verbindung_chamfer);
-	w_matrix.f = max(w_matrix.f, -p.y);
 
 	return w_matrix;
 }

@@ -127,8 +127,8 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 235,
-          "sequenceStart": 15000,
-          "sequenceDuration": 10000,
+          "sequenceStart": 0,
+          "sequenceDuration": 36000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -154,7 +154,7 @@
         {
           "sequenceSceneId": 379,
           "sequenceStart": 136000,
-          "sequenceDuration": 74000,
+          "sequenceDuration": 72000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -3028,6 +3028,39 @@
         "valueFloatX": 0.071000000000026375346
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_translation_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 235,
+          "sequenceStart": 0,
+          "sequenceDuration": 36000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 36000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": -500
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "matrix_verbindung_chamfer_rt_float",
