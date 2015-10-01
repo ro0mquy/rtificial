@@ -273,9 +273,25 @@ Material getMaterial(MaterialId materialId) {
 			mat.roughness = 1;
 		} else {
 			// plates
-			mat.color.r = .5 + .5 * sin(plate_id.x) * cos(plate_id.y);
 			mat.metallic = 1.;
 			mat.roughness = .1;
+
+			const uint num_colors = 3;
+			vec3[num_colors] plate_colors = vec3[num_colors](
+					vec3(1., 0., 0.),
+					vec3(0., 1., 1.),
+					vec3(1., 1., 1.)
+					);
+
+			plate_id += floor(plate_glow_random_seed_rt_float);
+			uint plate_hash = hash(int(plate_id.x) + hash(int(plate_id.y)));
+			uint color_id = plate_hash % 15;
+
+			if (color_id < num_colors) {
+				vec3 plate_c = plate_colors[color_id];
+				mat.color = plate_c;
+				mat.emission = plate_c * 1000. * plate_glow_intensity_rt_float;
+			}
 		}
 	} else if (materialId.id == id_aman) {
 		vec3 p_aman = materialId.coord;
