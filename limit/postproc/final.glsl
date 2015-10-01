@@ -23,7 +23,6 @@ uniform bool post_disable_grain;
 uniform float post_strobo;
 uniform float post_strobo_gamma;
 
-uniform bool post_scanlines;
 uniform float post_scanlines_offset;
 uniform float post_scanlines_width;
 uniform float post_scanlines_darken;
@@ -103,9 +102,9 @@ void main() {
 		out_color[i] = textureLod(color, lens_distort(aspect, k * primaries[i], kcube, tc_lens), 0.)[i];
 	}
 
-	if ((floor(mod(gl_FragCoord.y, post_scanlines_offset)) < post_scanlines_width) && post_scanlines) {
-		out_color *= post_scanlines_darken;
-	}
+	//if ((floor(mod(gl_FragCoord.y, post_scanlines_offset)) < post_scanlines_width) && post_scanlines) {
+	//	out_color *= post_scanlines_darken;
+	//}
 
 	vec2 tc_vignette = tc;
 	if (post_vignette_distortion != 0.) {
@@ -139,8 +138,8 @@ void main() {
 		 * as an aproximation to the real luminance formula
 		 * http://www.poynton.com/notes/colour_and_gamma/GammaFAQ.html#lightness
 		 */
-		out_color = pow(out_color, vec3(1./post_strobo_gamma));
-		out_color = 1.0 - out_color;
+		out_color = pow(saturate(out_color), vec3(1./post_strobo_gamma));
+		out_color = saturate(1.0 - out_color);
 		out_color = pow(out_color, vec3(post_strobo_gamma));
 
 		out_color = mix(out_color, vec3(1.0), smoothstep(0.33, 0.66, post_strobo));
