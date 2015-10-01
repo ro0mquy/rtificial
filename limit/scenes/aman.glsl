@@ -11,6 +11,12 @@ float aman_cube_r = .5 * aman_cube_d;
 uniform bool aman_hand_up_left;
 uniform bool aman_hand_up_right;
 
+uniform float overlay_offset_x;
+uniform float overlay_offset_y;
+uniform float overlay_scale;
+
+layout(binding = 2) uniform sampler2D tex_rt_loves_deadline;
+
 float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 	vec3 dimension = vec3(dim, 1) * aman_cube_r;
 	p.xy -= pos * aman_cube_d;
@@ -215,6 +221,18 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
+	if (overlay_visible_rt_loves_deadline_rt_bool) {
+		vec2 tex_coords;
+		ivec2 texture_size = textureSize(tex_rt_loves_deadline, 0);
+		tex_coords = gl_FragCoord.xy / res.xy;
+		tex_coords.y = 1.-tex_coords.y;
+		tex_coords.y *= texture_size.x / texture_size.y;
+		tex_coords.x -= overlay_offset_x;
+		tex_coords.y += overlay_offset_y * (texture_size.x / texture_size.y);
+		tex_coords /= overlay_scale;
+		vec4 tex_color = texture(tex_rt_loves_deadline, tex_coords);
+		color = mix(color, tex_color.rgb, tex_color.a);
+	}
 	return color;
 }
 

@@ -2595,7 +2595,7 @@
                 "valueQuatX": 0.11963083595037460327,
                 "valueQuatY": 0.20865119993686676025,
                 "valueQuatZ": -0.02572503313422203064,
-                "valueQuatW": 0.97030460834503173828
+                "valueQuatW": 0.97030460834503162726
               }
             },
             {
@@ -2967,6 +2967,106 @@
         "valueFloatX": 0.14800000000002455636
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "overlay_offset_x",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 32500,
+          "sequenceDuration": 24000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.13499999999999090505
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "overlay_offset_y",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 32500,
+          "sequenceDuration": 24000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": -0.69100000000003092282
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "overlay_scale",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 32500,
+          "sequenceDuration": 24000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.72300000000007003109
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "overlay_visible_rt_loves_deadline_rt_bool",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 32500,
+          "sequenceDuration": 24000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueBoolState": true
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "post_ao_avg_occlusion",
