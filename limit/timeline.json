@@ -198,7 +198,7 @@
       "uniformName": "aman_eye_switch_rt_bool",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": true
+        "valueBoolState": false
       },
       "sequencesArray": [
         {
@@ -8624,6 +8624,16 @@
       "uniformStandardValue": {
         "valueVec2X": 0,
         "valueVec2Y": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "spot3_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 1,
+        "valueVec3Z": 1
       },
       "sequencesArray": []
     },
