@@ -63,7 +63,7 @@ RT_MAIN {
 	}
 
 	float progress = 0.;
-	float progress_step = 1./ (2 * n_scenes + n_postproc + 3. + n_textures);
+	float progress_step = 1./ (3 * n_scenes + n_postproc + 2. + n_textures);
 
 	for (int i = 0; i < n_scenes; i++) {
 #		ifdef _DEBUG
@@ -171,8 +171,15 @@ RT_MAIN {
 	}
 
 	for (int i = 0; i < n_scenes; i++) {
-		fbos[0].bind();
+		if (environments[i].isValid()) {
+			environments[i].bind();
+		}
 		scenes[i].draw(fbos[0].width, fbos[0].height, 0);
+		progress += progress_step;
+		ladebalken.bind();
+		glUniform1f(74, progress);
+		ladebalken.draw(width, height, -1);
+		frontend.afterFrame();
 	}
 
 	const int precalc_end_time = frontend.getTime() * 60. / BPM;
