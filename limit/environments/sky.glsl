@@ -27,8 +27,8 @@ vec3 sky(vec3 d) {
 	pDomrepInterval(theta_stripes, sky_stripes_dist_rt_float * sky_stripes_thick_rt_float, -2, 2);
 	//pDomrep(theta_stripes, sky_stripes_dist_rt_float * sky_stripes_thick_rt_float);
 	float f_stripes = abs(theta_stripes) - sky_stripes_thick_rt_float;
-	background = mix(background, orange * 5, f_stripes < 0? 1 : 0);
-	return background * 10;
+	background = mix(background, orange * 5, 1 - smoothstep(0., 1e-3, f_stripes));
+	return background * 15;
 }
 
 void main() {

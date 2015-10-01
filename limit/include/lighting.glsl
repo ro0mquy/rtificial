@@ -75,8 +75,8 @@ vec3 sky(vec3 d) {
 	pDomrepInterval(theta_stripes, sky_stripes_dist_rt_float * sky_stripes_thick_rt_float, -2, 2);
 	//pDomrep(theta_stripes, sky_stripes_dist_rt_float * sky_stripes_thick_rt_float);
 	float f_stripes = abs(theta_stripes) - sky_stripes_thick_rt_float;
-	background = mix(background, orange * 5, f_stripes < 0? 1 : 0);
-	return background * 10;
+	background = mix(background, orange * 5, 1 - smoothstep(0., 1e-3, f_stripes));
+	return background * 15;
 }
 
 // o: camera origin
@@ -88,7 +88,8 @@ vec3 environmentColor(vec3 o, vec3 d, float r) {
 	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
 	float t = -dot(d, o) + sqrt(radicand);
 	//return sky(normalize(o + t * d));
-	return textureLod(environment, normalize(o + t * d), 0.).rgb;
+	return textureLod(environment, d, 0.).rgb;
+	//return textureLod(environment, normalize(o + t * d), 0.).rgb;
 }
 
 // handy standard applyLights() function at your hands, just copy this into yout applyLights() function
