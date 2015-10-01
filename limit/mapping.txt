@@ -35,7 +35,9 @@ bloom_down_2nd.out_color bloom_up_2nd.color
 bloom_up_2nd.out_color bloom_up_1st.previous
 bloom_down_1st.out_color bloom_up_1st.color
 bloom_up_1st.out_color bloom_up_final.previous
-bloom_up_final.out_color final.color
+bloom_up_final.out_color godrays.color
+
+godrays.out_color final.color
 
 final.out_color colorseparation.color
 colorseparation.out_color scanlines.color

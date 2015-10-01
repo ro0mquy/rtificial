@@ -3248,6 +3248,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_disable_godrays_rt_bool",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_disable_grain",
       "uniformType": "bool",
       "uniformStandardValue": {
