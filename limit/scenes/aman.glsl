@@ -4,6 +4,9 @@
 const float id_floor = 0.;
 const float id_aman = 1.;
 const float id_matrix = 2.;
+const float id_prism = 3.;
+const float id_verbindung = 4.;
+const float id_verbindung_chamfer = 5.;
 
 uniform float aman_cube_d;
 float aman_cube_r = .5 * aman_cube_d;
@@ -180,33 +183,45 @@ MatWrap wAman(vec3 p) {
 	return w;
 }
 
-float fMatrix(vec3 p) {
-	float f_cut = p.y - matrix_cut_rt_float;
+MatWrap wMatrix(vec3 p) {
+	p.y -= matrix_cut_rt_float;
 
 	vec3 p_domrep = p;
-	pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
+	vec2 i_domrep = pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
+	vec3 p_verbindung = p_domrep;
+	if (rand(ivec2(i_domrep)) > .5) {
+		pFlip(p_domrep.y);
+	}
 
 	vec3 p_prism = p_domrep;
 	float f_prism = f2Hexprism(p_prism.xz, matrix_prism_r_rt_float);
 	f_prism = abs(f_prism) - matrix_prism_thick_rt_float;
+	MatWrap w_prism = MatWrap(f_prism, MaterialId(id_prism, p_prism, vec4(i_domrep, 0, 0.)));
 
-	vec3 p_planes = p_domrep;
-	pDomrep(p_planes.y, 40.);
-	pMirrorTrans(p_planes.y, 8.);
-	pRotX(p_planes, Tau * .1);
-	pRotZ(p_planes, Tau * .2);
-	float f_planes = abs(p_planes.y) - matrix_planes_thick_rt_float;
+	//pDomrepAngle(p_verbindung.xz, 6, matrix_prism_r_rt_float);
+	vec2 i_mirror = pMirrorTrans(p_verbindung.zx, matrix_prism_r_rt_float * unitVector(Tau / 12.));
+	float f_verbindung = f2Hexprism(p_verbindung.xz, matrix_prism_thick_rt_float);
 
-	float f_matrix = f_prism;
-	f_matrix = max(f_matrix, -f_cut);
-	f_matrix = opIntersectChamfer(f_matrix, -f_planes, matrix_planes_chamfer_rt_float);
-	return f_matrix;
+	pDomrep(p_verbindung.y, matrix_verbindung_domrep_rt_float);
+	pMirrorGrid(p_verbindung.xz, 0.);
+	float f_verbindung_up = f2Hexprism(p_verbindung.yz, matrix_prism_thick_rt_float);
+
+	f_verbindung = min(f_verbindung, f_verbindung_up);
+
+	MatWrap w_verbindung = MatWrap(f_verbindung, MaterialId(id_verbindung, p_verbindung, vec4(i_domrep, i_mirror)));
+
+	MatWrap w_matrix = w_prism;
+	w_matrix = mUnion(w_matrix, w_verbindung);
+	w_matrix.f = max(w_matrix.f, -p.y);
+	float f_cut = p.y - matrix_cut_rt_float;
+
+	return w_matrix;
 }
 
 float fScene(vec3 p) {
 	mUnion(wAman(p));
 	if (aman_ceiling_rt_bool) {
-		mUnion(fMatrix(p), newMaterialId(id_matrix, p));
+		mUnion(wMatrix(p));
 	}
 
 	return current_dist;
@@ -262,7 +277,9 @@ Material getMaterial(MaterialId materialId) {
 
 		mat.emission = aman_color_glow_rt_color * 1000. * aman_glow_intensity_rt_float * t_glow;
 		mat.color = vec3(0.);
-	} else if (materialId.id == id_matrix) {
+	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
+		mat.color = vec3(1.);
+	} else if (materialId.id == id_verbindung) {
 		mat.color = vec3(.2);
 	}
 	return mat;
