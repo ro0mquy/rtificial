@@ -124,7 +124,25 @@
         "valueVec2X": 5,
         "valueVec2Y": 8
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 235,
+          "sequenceStart": 15000,
+          "sequenceDuration": 10000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 7,
+                "valueVec2Y": 10
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "aman_domrep_rt_bool",
@@ -2910,7 +2928,24 @@
       "uniformStandardValue": {
         "valueFloatX": 200
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 235,
+          "sequenceStart": 0,
+          "sequenceDuration": 36000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 70
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "main_normal_epsilon_bias",
@@ -2925,6 +2960,40 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 50
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_fog_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.46474117040634155273,
+        "valueColorG": 0.71546542644500732422,
+        "valueColorB": 0.96581465005874633789
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_fog_gamma_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_fog_lightnesss_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 30
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "matrix_fog_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.56399999999996452971
       },
       "sequencesArray": []
     },
@@ -3067,6 +3136,14 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "matrix_verbindung_domrep_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 9.1520000000000436557
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "post_ao_avg_occlusion",

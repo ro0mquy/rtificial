@@ -1,27 +1,27 @@
 #include "post.glsl"
 #include "helper.glsl"
-#include "bloom_upsample.glsl"
-#line 5
+#line 4
 
+uniform bool post_scanlines;
 uniform sampler2D color; // vec3
-uniform sampler2D previous; // vec3
 out vec3 out_color;
 
-uniform float post_bloom_amount;
-
-// level(0)
-
-vec2 emulated_res = res/6.0;
+vec2 emulated_res = res/4.0;
 
 // Hardness of scanline.
 //  -8.0 = soft
 // -16.0 = medium
-float hardScan=-4.0;
+float hardScan=-8.0;
 
 // Hardness of pixels in scanline.
 // -2.0 = soft
 // -4.0 = hard
-float hardPix=-4.0;
+float hardPix=-2.0;
+
+// Display warp.
+// 0.0 = none
+// 1.0/8.0 = extreme
+vec2 warp=vec2(1.0/32.0,1.0/24.0);
 
 // Amount of shadow mask.
 float maskDark=0.5;
@@ -32,7 +32,7 @@ float maskLight=1.5;
 vec3 Fetch(vec2 pos,vec2 off) {
 	pos=floor(pos*emulated_res+off)/emulated_res;
 	if(max(abs(pos.x-0.5),abs(pos.y-0.5))>0.5)return vec3(0.0,0.0,0.0);
-	return textureLod(previous,pos.xy, 0).rgb;
+	return textureLod(color,pos.xy, 0).rgb;
 }
 
 // Distance in emulated pixels to nearest texel.
@@ -96,6 +96,13 @@ vec3 Tri(vec2 pos){
 	return a*wa+b*wb+c*wc;
 }
 
+// Distortion of scanlines, and end of screen alpha.
+vec2 Warp(vec2 pos){
+	pos=pos*2.0-1.0;
+	pos*=vec2(1.0+(pos.y*pos.y)*warp.x,1.0+(pos.x*pos.x)*warp.y);
+	return pos*0.5+0.5;
+}
+
 // Shadow mask.
 vec3 Mask(vec2 pos){
 	pos.x+=pos.y*3.0;
@@ -108,14 +115,16 @@ vec3 Mask(vec2 pos){
 }
 
 void main() {
-	//out_color = mix(textureLod(color, tc, 0.).rgb, textureLod(previous, tc, 0.).rgb, post_bloom_amount);
-	//out_color = textureLod(color, tc, 0.).rgb + textureLod(previous, tc, 0.).rgb / 7 * post_bloom_amount;
-	vec3 mask = Mask(gl_FragCoord.xy);
-	vec3 bloom_color_masked = Tri(tc) / 7 * mask;
-	vec3 bloom_color = textureLod(previous, tc, 0).rgb / 7;
-	//mask = mix(vec3(1), mask, smoothstep(.0, .8, rgb2luma(bloom_color)));
-	//out_color= bloom_color * mask * post_bloom_amount;
-	out_color = mix(bloom_color, bloom_color_masked, smoothstep(0.2, .8, rgb2luma(bloom_color))) * post_bloom_amount;
-	out_color = bloom_color_masked * post_bloom_amount;
-	out_color += textureLod(color, tc, 0.).rgb;
+	if(!post_scanlines) {
+		out_color = textureLod(color, tc, 0).rgb;
+		return;
+	}
+	//if(gl_FragCoord.x<res.x*0.333) return;
+	vec2 pos=Warp(tc);
+		//if(gl_FragCoord.x<res.x*0.666) {
+		 ////hardScan=-12.0;
+		 maskDark=maskLight=1.0;
+		 pos=Warp(tc);
+		//}
+		out_color=Tri(pos)*Mask(gl_FragCoord.xy);
 }

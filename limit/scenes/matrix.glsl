@@ -3,6 +3,9 @@
 
 const float id_aman = 1.;
 const float id_matrix = 2.;
+const float id_prism = 3.;
+const float id_verbindung = 4.;
+const float id_verbindung_chamfer = 5.;
 
 uniform float aman_cube_d;
 float aman_cube_r = .5 * aman_cube_d;
@@ -14,13 +17,13 @@ float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 	vec3 dimension = vec3(dim, 1) * aman_cube_r;
 	p.xy -= pos * aman_cube_d;
 	p -= dimension;
-	return fBox(p, dimension);
+	return fBoxEdge(p, dimension);
 }
 
 float fAman(vec3 p) {
 	if (aman_domrep_rt_bool) {
 		float cell_x = pDomrep(p.x, aman_domrep_cell_rt_vec2.x);
-		float cell_z = pDomrepSingle(p.z, aman_domrep_cell_rt_vec2.y);
+		float cell_z = pDomrep(p.z, aman_domrep_cell_rt_vec2.y);
 		p.x *= mod(cell_x, 2.) * 2. - 1.;
 
 		if (cell_x == 0 && cell_z == 15) {
@@ -31,6 +34,13 @@ float fAman(vec3 p) {
 	//p.y -= aman_cube_r;
 
 	p.y -= aman_cube_d * aman_jump_h_rt_float * sqrt(aman_jump_anim_rt_float);
+
+	vec3 p_bounding = p;
+	pTrans(p_bounding, vec3(6., 8., .5) * aman_cube_d);
+	float f_bounding = fBoxEdge(p_bounding, vec3(8., 8., .5) * aman_cube_d);
+	if (f_bounding > .5) {
+		return f_bounding;
+	}
 
 	float f_foot_row = fAmanBox(p, vec2(0, 0), vec2(12, 1));
 	float f_foot_left = fAmanBox(p, vec2(0, 1), vec2(1, 1));
@@ -165,11 +175,12 @@ float fAman(vec3 p) {
 	return f;
 }
 
-float fMatrix(vec3 p) {
+MatWrap wMatrix(vec3 p) {
 
 	vec3 p_domrep = p;
-	float i = pDomrepMirror(p_domrep.y, 10);
 	vec2 i_domrep = pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
+	vec3 p_verbindung = p_domrep;
+	float i = pDomrepMirror(p_domrep.y, 10);
 	if (rand(ivec2(i_domrep)) > .5) {
 		pFlip(p_domrep.y);
 	}
@@ -177,25 +188,33 @@ float fMatrix(vec3 p) {
 	vec3 p_prism = p_domrep;
 	float f_prism = f2Hexprism(p_prism.xz, matrix_prism_r_rt_float);
 	f_prism = abs(f_prism) - matrix_prism_thick_rt_float;
+	float f_prism_cut = p_domrep.y - 3. * (-.5 + 1.5 * (1. - smoothstep(0., 10., i)));
+	f_prism = opIntersectChamfer(f_prism, f_prism_cut, matrix_prism_cut_chamfer_rt_float);
+	MatWrap w_prism = MatWrap(f_prism, MaterialId(id_prism, p_prism, vec4(i_domrep, i, 0.)));
 
-	float f_matrix = f_prism;
-	//f_matrix = opIntersectChamfer(f_matrix, -f_planes, matrix_planes_chamfer_rt_float);
-	f_matrix = max(f_matrix, p_domrep.y);
-
-	vec3 p_verbindung = p_domrep;
-	pDomrepAngle(p_verbindung.xz, 6, matrix_prism_r_rt_float);
+	//pDomrepAngle(p_verbindung.xz, 6, matrix_prism_r_rt_float);
+	vec2 i_mirror = pMirrorTrans(p_verbindung.zx, matrix_prism_r_rt_float * unitVector(Tau / 12.));
 	float f_verbindung = f2Hexprism(p_verbindung.xz, matrix_prism_thick_rt_float);
-	f_matrix = opUnionChamfer(f_matrix, f_verbindung, matrix_verbindung_chamfer_rt_float);
 
-	f_matrix = max(f_matrix, p.y);
+	pDomrep(p_verbindung.y, matrix_verbindung_domrep_rt_float);
+	pMirrorGrid(p_verbindung.xz, 0.);
+	float f_verbindung_up = f2Hexprism(p_verbindung.yz, matrix_prism_thick_rt_float);
 
-	return f_matrix;
+	f_verbindung = opUnionChamfer(f_verbindung, f_verbindung_up, matrix_verbindung_chamfer_rt_float);
+
+	MatWrap w_verbindung = MatWrap(f_verbindung, MaterialId(id_verbindung, p_verbindung, vec4(i_domrep, i_mirror)));
+
+	MatWrap w_matrix = w_prism;
+	w_matrix = mUnionChamfer(w_matrix, w_verbindung, matrix_verbindung_chamfer_rt_float, id_verbindung_chamfer);
+	w_matrix.f = max(w_matrix.f, -p.y);
+
+	return w_matrix;
 }
 
 float fScene(vec3 p) {
 	p = p.yxz;
 	mUnion(fAman(p), newMaterialId(id_aman, p));
-	mUnion(fMatrix(p), newMaterialId(id_matrix, p));
+	mUnion(wMatrix(p));
 
 	return current_dist;
 }
@@ -206,6 +225,8 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
+	float t_fog = pow(smoothstep(1. - matrix_fog_width_rt_float, 1., marched / main_marching_distance), matrix_fog_gamma_rt_float);
+	color = mix(color, matrix_fog_color_rt_color * matrix_fog_lightnesss_rt_float, t_fog);
 	return color;
 }
 
@@ -215,7 +236,9 @@ Material getMaterial(MaterialId materialId) {
 
 	if (materialId.id == id_aman) {
 		mat.color = vec3(.0);
-	} else if (materialId.id == id_matrix) {
+	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
+		mat.color = vec3(1.);
+	} else if (materialId.id == id_verbindung) {
 		mat.color = vec3(.2);
 	}
 	return mat;
