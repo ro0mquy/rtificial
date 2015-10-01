@@ -263,19 +263,99 @@ Material getMaterial(MaterialId materialId) {
 		p_cell.xy = mod(p_cell.xy, aman_cube_d) / aman_cube_r - 1.;
 		vec2 i_cell = floor(p_aman.xy / aman_cube_d);
 
-		float t_glow = 0.;
-		if (i_cell == vec2(0., 1.) || // (0, 1) pixel with neighbors
-				i_cell == vec2(-1., 1.) ||
+		const int num_glowpixels = 15;
+		const bool glowpixels[num_glowpixels] = {
+			(
+				   i_cell == vec2( 0.,  1.)
+				|| i_cell == vec2(-1.,  1.)
+			),
+			(
+				   i_cell == vec2( 4.,  6.)
+				|| i_cell == vec2( 4.,  7.)
+				|| i_cell == vec2( 4.,  5.)
+			),
+			(
+				   i_cell == vec2( 9.,  9.)
+				|| i_cell == vec2( 8.,  9.)
+				|| i_cell == vec2( 9., 10.)
+				|| i_cell == vec2(10.,  9.)
+			),
+			(
+				   i_cell == vec2( -2,  9.)
+				|| i_cell == vec2( -1., 9.)
+				|| i_cell == vec2( -3., 9.)
+			),
+			(
+				   i_cell == vec2( 4., 13.)
+			),
+			(
+				   i_cell == vec2(13.,  5.)
+				|| i_cell == vec2(14.,  5.)
+			),
+			(
+				   i_cell == vec2( 7.,  0.)
+				|| i_cell == vec2( 7.,  1.)
+				|| i_cell == vec2( 7., -1.)
+			),
+			(
+				   i_cell == vec2( 7.,  6.)
+				|| i_cell == vec2( 7.,  5.)
+				|| i_cell == vec2( 7.,  7.)
+			),
+			(
+				   i_cell == vec2( 5., 11.)
+				|| i_cell == vec2( 5., 10.)
+				|| i_cell == vec2( 5., 12.)
+			),
+			(
+				   i_cell == vec2( 0.,  6.)
+			),
+			(
+				   i_cell == vec2(10.,  3.)
+				|| i_cell == vec2( 9.,  3.)
+			),
+			(
+				   i_cell == vec2(11., 15.)
+				|| i_cell == vec2(11., 14.)
+				|| i_cell == vec2(11., 16.)
+			),
+			(
+				   i_cell == vec2( 3.,  2.)
+				|| i_cell == vec2( 4.,  2.)
+			),
+			(
+				   i_cell == vec2( 0., 12.)
+				|| i_cell == vec2( 0., 13.)
+			),
+			(
+				   i_cell == vec2(13.,  9.)
+				|| i_cell == vec2(14.,  9.)
+			),
+		};
 
-				i_cell == vec2(4., 6.) || // (4, 6) pixel with neighbors
-				i_cell == vec2(4., 7.) ||
-				i_cell == vec2(4., 5.)
-		   ) {
-					t_glow = 1. - length(p_cell) / sqrt(3.);
-					t_glow = pow(t_glow, aman_glow_gamma_rt_float);
+		const int num_glowcolors = 4;
+		const vec3 glowcolors[num_glowcolors][num_glowcolors] = {
+			{ vec3(.554, .047, .612), vec3(.0  , 1.  , .651), vec3(1.  , .282, .251), vec3(.800, .078, .800) },
+			{ vec3(.078, .655, .800), vec3(.239, .525, .600), vec3(.078, .800, .369), vec3(.031, .600, .259) },
+			{ vec3(.208, 1.  , .0  ), vec3(.867, .180, 1.  ), vec3(.486, .078, .800), vec3(.078, .800, .722) },
+			{ vec3(.031, .600, .537), vec3(.0  , 1.  , .325), vec3(1.  , .180, .529), vec3(.800, .078, .749) },
+		};
+
+		bool glowgroup = false;
+		for (int i=0; i<aman_glowgroup_size_rt_float; i++) {
+			float index = mod(i + aman_glowgroup_offset_rt_float, num_glowpixels);
+			glowgroup = glowgroup || glowpixels[int(index)];
 		}
 
-		mat.emission = aman_color_glow_rt_color * 1000. * aman_glow_intensity_rt_float * t_glow;
+		float t_glow = 0.;
+		if (glowgroup) {
+			t_glow = 1. - length(p_cell) / sqrt(3.);
+			t_glow = pow(t_glow, aman_glow_gamma_rt_float);
+		}
+
+		vec2 color_index = floor(vec2(i_cell.x + 3, i_cell.y + 1) / vec2(5.) + aman_glow_color_offset_rt_float);
+		vec3 glowcolor = glowcolors[int(mod(color_index.x, num_glowcolors))][int(mod(color_index.y, num_glowcolors))];
+		mat.emission = glowcolor * 1000. * aman_glow_intensity_rt_float * t_glow;
 		mat.color = vec3(0.);
 	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
 		mat.color = vec3(1.);
