@@ -87,8 +87,8 @@ vec3 environmentColor(vec3 o, vec3 d, float r) {
 	o.xz -= camera_position.xz;
 	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
 	float t = -dot(d, o) + sqrt(radicand);
-	return sky(normalize(o + t * d));
-	//return textureLod(environment, normalize(o + t * d), 0.).rgb;
+	//return sky(normalize(o + t * d));
+	return textureLod(environment, normalize(o + t * d), 0.).rgb;
 }
 
 // handy standard applyLights() function at your hands, just copy this into yout applyLights() function
