@@ -5567,6 +5567,31 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "overlay_brightness",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 235,
+          "sequenceStart": 5375,
+          "sequenceDuration": 2125,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "overlay_offset_x",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -5635,6 +5660,47 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueFloatX": 0.72300000000007003109
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "overlay_visible_are_you_ready_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 235,
+          "sequenceStart": 5375,
+          "sequenceDuration": 2125,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 250,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 2
+              }
+            },
+            {
+              "keyframePosition": 625,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 3
               }
             }
           ]

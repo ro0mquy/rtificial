@@ -13,6 +13,13 @@ float aman_cube_r = .5 * aman_cube_d;
 uniform bool aman_hand_up_left;
 uniform bool aman_hand_up_right;
 
+uniform float overlay_offset_x;
+uniform float overlay_offset_y;
+uniform float overlay_scale;
+uniform float overlay_brightness;
+
+layout(binding = 3) uniform sampler2D tex_are_you_ready;
+
 float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 	vec3 dimension = vec3(dim, 1) * aman_cube_r;
 	p.xy -= pos * aman_cube_d;
@@ -227,6 +234,36 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 	float t_fog = pow(smoothstep(1. - matrix_fog_width_rt_float, 1., marched / main_marching_distance), matrix_fog_gamma_rt_float);
 	color = mix(color, matrix_fog_color_rt_color * matrix_fog_lightnesss_rt_float, t_fog);
+
+	if (overlay_visible_are_you_ready_rt_float > 0.) {
+		vec2 tex_coords;
+		ivec2 texture_size = textureSize(tex_are_you_ready, 0);
+		tex_coords = gl_FragCoord.xy / res.xy;
+		tex_coords.y = 1.-tex_coords.y;
+		tex_coords.y *= texture_size.x / texture_size.y;
+		tex_coords.x -= overlay_offset_x;
+		tex_coords.y += overlay_offset_y * (texture_size.x / texture_size.y);
+		tex_coords /= overlay_scale;
+		vec4 tex_color = texture(tex_are_you_ready, tex_coords);
+
+		if (
+			( // ARE
+				overlay_visible_are_you_ready_rt_float >= 1.
+				&& tex_coords.y < .5
+				&& tex_coords.x < .5
+			)
+			|| ( // YOU
+				overlay_visible_are_you_ready_rt_float >= 2.
+				&& tex_coords.y < .5
+			)
+			|| ( // READY?!
+				overlay_visible_are_you_ready_rt_float >= 3.
+			)
+		) {
+			color = mix(color, tex_color.rgb * overlay_brightness, tex_color.a);
+		}
+	}
+
 	return color;
 }
 
