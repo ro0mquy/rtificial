@@ -189,7 +189,7 @@ float getDistanceAttenuation(vec3 lightVector) {
 }
 
 float getAngleAttenuation(vec3 L, PointLight light) {
-	float outer = radians(light.angle);
+	float outer = light.angle;
 	float foo = 1 - smoothstep(0, outer, acos(-dot(light.direction, L)));
 	return square(foo);
 }

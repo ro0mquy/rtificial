@@ -263,8 +263,19 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 	if (aman_2D_mode_rt_bool) {
 		return material.color;
 	}
-	vec3 emission = material.emission;
-	return ambientColor(normal, -direction, material) + emission;
+	vec3 c_emission = material.emission;
+	vec3 c_ambient = ambientColor(normal, -direction, material);
+
+	PointLight l_spot1 = PointLight(spot1_pos_rt_vec3, unitVector(Tau * spot1_dir_rt_vec2), Tau * spot1_angle_rt_float, spot1_color_rt_color, 1e5 * spot1_power_rt_float);
+	vec3 c_spot1 = applyPointLight(origin, marched, direction, hit, normal, material, l_spot1);
+
+	PointLight l_spot2 = PointLight(spot2_pos_rt_vec3, unitVector(Tau * spot2_dir_rt_vec2), Tau * spot2_angle_rt_float, spot2_color_rt_color, 1e5 * spot2_power_rt_float);
+	vec3 c_spot2 = applyPointLight(origin, marched, direction, hit, normal, material, l_spot2);
+
+	PointLight l_spot3 = PointLight(spot3_pos_rt_vec3, unitVector(Tau * spot3_dir_rt_vec2), Tau * spot3_angle_rt_float, spot3_color_rt_color, 1e5 * spot3_power_rt_float);
+	vec3 c_spot3 = applyPointLight(origin, marched, direction, hit, normal, material, l_spot3);
+
+	return c_emission + c_ambient + c_spot1 + c_spot2 + c_spot3;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -418,6 +429,8 @@ Material getMaterial(MaterialId materialId) {
 		vec3 glowcolor = glowcolors[int(mod(color_index.x, num_glowcolors))][int(mod(color_index.y, num_glowcolors))];
 		mat.emission = glowcolor * 1000. * aman_glow_intensity_rt_float * t_glow;
 		mat.color = vec3(0.);
+		mat.metallic = 0.;
+		mat.roughness = 1.;
 	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
 		mat.color = vec3(1.);
 	} else if (materialId.id == id_verbindung) {

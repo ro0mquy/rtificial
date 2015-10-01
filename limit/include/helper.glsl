@@ -159,6 +159,13 @@ vec3 unitVector(float phi, float theta) {
 	float cp = cos(phi);
 	return vec3(st * cp, ct, st * sp);
 }
+vec3 unitVector(vec2 phitheta) {
+	float ct = cos(phitheta.y);
+	float sp = sin(phitheta.x);
+	float st = sin(phitheta.y);
+	float cp = cos(phitheta.x);
+	return vec3(st * cp, ct, st * sp);
+}
 
 // m: anything above stays unchanged
 // n: value at x = 0
