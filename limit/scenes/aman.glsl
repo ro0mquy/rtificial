@@ -261,6 +261,8 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .1;
 
 	if (materialId.id == id_ground_plane) {
+		mat.metallic = 1.;
+		mat.roughness = 1.;
 		mat.color = vec3(96., 110., 113.) / 255.;
 		vec2 p = materialId.coord.xz;
 		vec2 plate_id = pDomrepGrid(p.yx, vec2(aman_plate_width_rt_float));
@@ -268,13 +270,9 @@ Material getMaterial(MaterialId materialId) {
 		float f_grid = p.x;
 		if (f_grid < 0) {
 			// plate separator
-			mat.color = vec3(0);
-			mat.metallic = 0;
-			mat.roughness = 1;
-		} else {
+			mat.color = mix(mat.color, plate_seperator_color_rt_color, plate_seperator_alpha_rt_float);
+		} else if (plate_show_color_rt_bool) {
 			// plates
-			mat.metallic = 1.;
-			mat.roughness = .1;
 
 			const uint num_colors = 3;
 			vec3[num_colors] plate_colors = vec3[num_colors](
