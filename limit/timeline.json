@@ -5450,9 +5450,26 @@
       "uniformName": "plate_seperator_alpha_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 0
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 108250,
+          "sequenceDuration": 6250,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "plate_seperator_color_rt_color",
@@ -5468,9 +5485,26 @@
       "uniformName": "plate_show_color_rt_bool",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": true
+        "valueBoolState": false
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 108500,
+          "sequenceDuration": 8000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueBoolState": true
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "post_ao_avg_occlusion",
