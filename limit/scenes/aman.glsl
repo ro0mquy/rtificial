@@ -27,6 +27,24 @@ float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 	return fBoxEdge(p, dimension);
 }
 
+float fAmanSphere(vec3 p, vec2 pos, vec2 dim) {
+	vec3 dimension = vec3(dim, 1) * aman_cube_r;
+	p.xy -= pos * aman_cube_d;
+	p -= dimension;
+	return fSphere(p, dimension.x);
+}
+
+float fAmanX(vec3 p, vec2 pos, vec2 dim, float scale) {
+	vec3 dimension = vec3(dim, 1) * aman_cube_r;
+	p.xy -= pos * aman_cube_d;
+	p -= dimension;
+	pRotZ(p, Tau / 8);
+	float f_box = fBoxEdge(p, dimension);
+	pMirrorGrid(p.yx, 0.);
+	float f_x = f2Box(p.xz, vec2(.02) * scale);
+	return max(f_x, f_box);
+}
+
 MatWrap wAman(vec3 p) {
 	if (aman_domrep_rt_bool) {
 		float cell_x = pDomrep(p.x, aman_domrep_cell_rt_vec2.x);
@@ -78,8 +96,17 @@ MatWrap wAman(vec3 p) {
 	f = min(f, f_head_top);
 	f = min(f, f_head_bottom);
 
-	float f_eye_left = fAmanBox(p, vec2(4, 13), vec2(1, 1));
-	float f_eye_right = fAmanBox(p, vec2(6, 13), vec2(1, 1));
+	float f_eye_left;
+	float f_eye_right;
+	if (!aman_eye_switch_rt_bool) {
+		f_eye_left = fAmanBox(p, vec2(4, 13), vec2(1, 1));
+		f_eye_right = fAmanBox(p, vec2(6, 13), vec2(1, 1));
+	} else {
+		//f_eye_left = fAmanSphere(p, vec2(4, 13), vec2(1, 1));
+		//f_eye_right = fAmanSphere(p, vec2(6, 13), vec2(1.3, 1.2));
+		f_eye_left = fAmanX(p, vec2(4, 13)-.15, vec2(1.3), 1);
+		f_eye_right = fAmanX(p, vec2(6-.3, 13-.15), vec2(1.6), 1.3);
+	}
 	f = min(f, f_eye_left);
 	f = min(f, f_eye_right);
 
