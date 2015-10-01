@@ -8418,7 +8418,7 @@
       "uniformName": "sky_dark_blue_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.011126082390546798706,
+        "valueColorR": 0.011126082390546800441,
         "valueColorG": 0.010397803038358688354,
         "valueColorB": 0.025371275842189788818
       },
@@ -8440,7 +8440,7 @@
       "uniformStandardValue": {
         "valueColorR": 0.75929951667785644531,
         "valueColorG": 0.3297290503978729248,
-        "valueColorB": 0.080219261348247528076
+        "valueColorB": 0.080219261348247514198
       },
       "sequencesArray": []
     },
@@ -8498,7 +8498,7 @@
       "uniformName": "sky_stripes_height_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.38300000000003819878
+        "valueFloatX": 0.38300000000003825429
       },
       "sequencesArray": []
     },
@@ -8524,7 +8524,7 @@
       "uniformStandardValue": {
         "valueColorR": 0.31118053197860717773,
         "valueColorG": 0.75929951667785644531,
-        "valueColorB": 0.080219261348247528076
+        "valueColorB": 0.080219261348247514198
       },
       "sequencesArray": []
     },
@@ -8639,7 +8639,7 @@
   "scenesArray": [
     {
       "sceneId": 235,
-      "sceneStart": 172000,
+      "sceneStart": 176000,
       "sceneDuration": 42250,
       "sceneShaderSource": "matrix",
       "sceneEnvironmentSource": "sky",
@@ -8648,8 +8648,17 @@
     },
     {
       "sceneId": 379,
-      "sceneStart": 0,
+      "sceneStart": 4000,
       "sceneDuration": 172000,
+      "sceneShaderSource": "aman",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
+      "sceneId": 680,
+      "sceneStart": 0,
+      "sceneDuration": 4000,
       "sceneShaderSource": "aman",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
