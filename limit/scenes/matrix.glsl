@@ -19,6 +19,7 @@ uniform float overlay_scale;
 uniform float overlay_brightness;
 
 layout(binding = 3) uniform sampler2D tex_are_you_ready;
+layout(binding = 4) uniform sampler2D tex_rt_loves_all;
 
 float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 	vec3 dimension = vec3(dim, 1) * aman_cube_r;
@@ -235,16 +236,19 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 	float t_fog = pow(smoothstep(1. - matrix_fog_width_rt_float, 1., marched / main_marching_distance), matrix_fog_gamma_rt_float);
 	color = mix(color, matrix_fog_color_rt_color * matrix_fog_lightnesss_rt_float, t_fog);
 
+	vec2 tex_coords;
+	ivec2 texture_size;
+	vec4 tex_color;
+
 	if (overlay_visible_are_you_ready_rt_float > 0.) {
-		vec2 tex_coords;
-		ivec2 texture_size = textureSize(tex_are_you_ready, 0);
+		texture_size = textureSize(tex_are_you_ready, 0);
 		tex_coords = gl_FragCoord.xy / res.xy;
 		tex_coords.y = 1.-tex_coords.y;
 		tex_coords.y *= texture_size.x / texture_size.y;
 		tex_coords.x -= overlay_offset_x;
 		tex_coords.y += overlay_offset_y * (texture_size.x / texture_size.y);
 		tex_coords /= overlay_scale;
-		vec4 tex_color = texture(tex_are_you_ready, tex_coords);
+		tex_color = texture(tex_are_you_ready, tex_coords);
 
 		if (
 			( // ARE
@@ -262,6 +266,18 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 		) {
 			color = mix(color, tex_color.rgb * overlay_brightness, tex_color.a);
 		}
+	}
+
+	if (overlay_visible_rt_loves_all_rt_bool) {
+		texture_size = textureSize(tex_rt_loves_all, 0);
+		tex_coords = gl_FragCoord.xy / res.xy;
+		tex_coords.y = 1.-tex_coords.y;
+		tex_coords.y *= texture_size.x / texture_size.y;
+		tex_coords.x -= overlay_offset_x;
+		tex_coords.y += overlay_offset_y * (texture_size.x / texture_size.y);
+		tex_coords /= overlay_scale;
+		tex_color = texture(tex_rt_loves_all, tex_coords);
+		color = mix(vec3(0.), tex_color.rgb * overlay_brightness, tex_color.a);
 	}
 
 	return color;
