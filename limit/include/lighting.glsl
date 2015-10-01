@@ -1,6 +1,8 @@
 #include "helper.glsl"
 #include "material.glsl"
-#line 4
+#include "noise.glsl"
+#include "sdf/domain.glsl"
+#line 5
 
 layout(binding = 20) uniform sampler2D brdf;
 layout(binding = 21) uniform samplerCube environment;
@@ -56,6 +58,27 @@ vec3 ambientColor(vec3 n, vec3 v, Material mat) {
 	return mix(dielectric, metal, mat.metallic);
 }
 
+vec3 sky(vec3 d) {
+	vec3 pink = sky_pink_rt_color;
+	vec3 dark_blue = sky_dark_blue_rt_color;
+	vec3 dark_purple = sky_dark_purple_rt_color;
+	float theta = abs(acos(d.y) / Pi * 2 - 1);
+	float phi = atan(d.z, d.x) / Pi;
+	//dark_blue = mix(dark_blue, dark_purple, smoothNoise(vec2(phi * 2, theta) * 5.) * .5 + .5);
+	dark_blue = mix(dark_purple, dark_blue, smoothNoise(d * 2) * .5 + .5);
+	phi = abs(phi);
+	float theta_distorted = theta + valueNoise(phi * sky_pink_freq_rt_float) * sky_pink_ampl_rt_float;
+	vec3 background = mix(pink, dark_blue, smoothstep(sky_pink_offset_rt_float, sky_pink_offset_rt_float+ sky_pink_spread_rt_float, theta_distorted));
+	vec3 orange = sky_orange_rt_color;
+	float theta_stripes = theta;
+	pTrans(theta_stripes, sky_stripes_height_rt_float);
+	pDomrepInterval(theta_stripes, sky_stripes_dist_rt_float * sky_stripes_thick_rt_float, -2, 2);
+	//pDomrep(theta_stripes, sky_stripes_dist_rt_float * sky_stripes_thick_rt_float);
+	float f_stripes = abs(theta_stripes) - sky_stripes_thick_rt_float;
+	background = mix(background, orange * 5, f_stripes < 0? 1 : 0);
+	return background * 10;
+}
+
 // o: camera origin
 // d: camera view direction
 // r: radius of "bounding sphere"
@@ -64,7 +87,8 @@ vec3 environmentColor(vec3 o, vec3 d, float r) {
 	o.xz -= camera_position.xz;
 	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
 	float t = -dot(d, o) + sqrt(radicand);
-	return textureLod(environment, normalize(o + t * d), 0.).rgb;
+	return sky(normalize(o + t * d));
+	//return textureLod(environment, normalize(o + t * d), 0.).rgb;
 }
 
 // handy standard applyLights() function at your hands, just copy this into yout applyLights() function

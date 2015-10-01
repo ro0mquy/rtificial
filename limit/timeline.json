@@ -198,7 +198,7 @@
       "uniformName": "aman_eye_switch_rt_bool",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": false
+        "valueBoolState": true
       },
       "sequencesArray": [
         {
@@ -6531,6 +6531,102 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_dark_blue_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.011126082390546798706,
+        "valueColorG": 0.010397803038358688354,
+        "valueColorB": 0.025371275842189788818
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_dark_purple_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.011881334707140922546,
+        "valueColorG": 0.0055217444896697998047,
+        "valueColorB": 0.022012993693351745605
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_orange_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.75929951667785644531,
+        "valueColorG": 0.3297290503978729248,
+        "valueColorB": 0.080219261348247528076
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_pink_ampl_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.019000000000005456968
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_pink_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 25.873000000000047294
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_pink_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.26999999999998181011
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_pink_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.76674365997314453125,
+        "valueColorG": 0.00017512394697405397892,
+        "valueColorB": 0.2120443880558013916
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_pink_spread_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.4120000000000345608
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_stripes_dist_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 34.416999999999916326
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_stripes_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.38300000000003819878
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_stripes_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.003000000000042746251
       },
       "sequencesArray": []
     }
