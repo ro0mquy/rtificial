@@ -7015,31 +7015,6 @@
       ]
     },
     {
-      "uniformName": "overlay_visible_rt_loves_all_rt_bool",
-      "uniformType": "bool",
-      "uniformStandardValue": {
-        "valueBoolState": false
-      },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 235,
-          "sequenceStart": 33500,
-          "sequenceDuration": 10500,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueBoolState": true
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "uniformName": "overlay_visible_rt_loves_deadline_rt_bool",
       "uniformType": "bool",
       "uniformStandardValue": {
@@ -8915,7 +8890,7 @@
     {
       "sceneId": 235,
       "sceneStart": 176000,
-      "sceneDuration": 44000,
+      "sceneDuration": 33500,
       "sceneShaderSource": "matrix",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
@@ -8926,6 +8901,15 @@
       "sceneStart": 4000,
       "sceneDuration": 172000,
       "sceneShaderSource": "aman",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
+      "sceneId": 518,
+      "sceneStart": 209500,
+      "sceneDuration": 10500,
+      "sceneShaderSource": "love",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
