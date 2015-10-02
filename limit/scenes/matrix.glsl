@@ -229,7 +229,7 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 	float t_fog = pow(smoothstep(1. - matrix_fog_width_rt_float, 1., marched / main_marching_distance), matrix_fog_gamma_rt_float);
-	color = mix(color, matrix_fog_color_rt_color * matrix_fog_lightnesss_rt_float, t_fog);
+	color = mix(color, matrix_fog_color_rt_color * 1000. * matrix_fog_lightnesss_rt_float, t_fog);
 
 	vec2 tex_coords;
 	ivec2 texture_size;
