@@ -30,7 +30,7 @@ float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 
 float fAman(vec3 p, vec2 index_domrep, float hash_domrep) {
 	float t_offset = hash_domrep * 2. - 1.;
-	t_offset *= sin(Tau * (matrix_rand_phase_rt_float * matrix_rand_freq_rt_float * hash_domrep + hash_domrep));
+	t_offset *= -1. + 2. * iqPowerCurve(3., 1., fract(matrix_rand_phase_rt_float * matrix_rand_freq_rt_float * hash_domrep + hash_domrep));
 	t_offset *= matrix_rand_amp_rt_float;
 	p.y -= aman_cube_d * t_offset;
 
