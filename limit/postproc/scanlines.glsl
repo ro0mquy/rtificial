@@ -6,6 +6,11 @@ uniform bool post_scanlines;
 uniform sampler2D color; // vec3
 out vec3 out_color;
 
+layout(binding = 2) uniform sampler2D tex_rt_loves_deadline;
+uniform float overlay_offset_x;
+uniform float overlay_offset_y;
+uniform float overlay_scale;
+
 vec2 emulated_res = res/4.0;
 
 // Hardness of scanline.
@@ -127,4 +132,17 @@ void main() {
 		 pos=Warp(tc);
 		//}
 		out_color=Tri(pos)*Mask(gl_FragCoord.xy);
+if (overlay_visible_rt_loves_deadline_rt_bool) {
+		vec2 tex_coords;
+		ivec2 texture_size = textureSize(tex_rt_loves_deadline, 0);
+		tex_coords = gl_FragCoord.xy / res.xy;
+		tex_coords = Warp(tex_coords);
+		tex_coords.y = 1.-tex_coords.y;
+		tex_coords.y *= texture_size.x / texture_size.y;
+		tex_coords.x -= overlay_offset_x;
+		tex_coords.y += overlay_offset_y * (texture_size.x / texture_size.y);
+		tex_coords /= overlay_scale;
+		vec4 tex_color = texture(tex_rt_loves_deadline, tex_coords);
+		out_color = mix(out_color, tex_color.rgb * .5, tex_color.a * .4);
+	}
 }
