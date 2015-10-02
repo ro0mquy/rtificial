@@ -54,7 +54,9 @@ RT_MAIN {
 	const int n_scenes = sizeof(scenes) / sizeof(Shader);
 	const int n_postproc = sizeof(postproc) / sizeof(Shader);
 	const int n_textures = sizeof(textures) / sizeof(Texture);
-
+	glClearColor(0, 0, 0, 1);
+	glClear(GL_COLOR_BUFFER_BIT);
+	frontend.afterFrame();
 	ladebalken.compile();
 
 	if (!frontend.checkMessageLoop()) {

@@ -179,10 +179,19 @@
     <ClInclude Include="..\..\Source\shaders\bloom_up_final.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\colorseparation.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\shaders\final.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\godrays.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\shaders\ladebalken.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\matrix.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\output.h">
@@ -194,7 +203,19 @@
     <ClInclude Include="..\..\Source\shaders\scale.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\scanlines.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\shaders\texture_1.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\texture_2.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\texture_3.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\texture_4.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\stdlib.h">
