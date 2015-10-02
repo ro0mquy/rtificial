@@ -279,14 +279,16 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
-	mat.roughness = .1;
+	mat.roughness = .0;
+	//mat.metallic = 1.;
 
 	if (materialId.id == id_aman) {
-		mat.color = vec3(.0);
-	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
 		mat.color = vec3(1.);
-	} else if (materialId.id == id_verbindung) {
+		mat.emission = vec3(1.) * 1000. * matrix_aman_glow_intensity_rt_float;
+	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
 		mat.color = vec3(.2);
+	} else if (materialId.id == id_verbindung) {
+		mat.color = vec3(.0);
 	}
 	return mat;
 }

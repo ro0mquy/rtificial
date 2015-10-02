@@ -6638,6 +6638,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "matrix_aman_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.036000000000058207661
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "matrix_cut_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -6909,7 +6917,7 @@
       "uniformName": "matrix_rand_amp_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 30
+        "valueFloatX": 100
       },
       "sequencesArray": []
     },
@@ -9144,7 +9152,7 @@
       "sceneStart": 176000,
       "sceneDuration": 33500,
       "sceneShaderSource": "matrix",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "matrix_fog",
       "keyframeValue": {
       }
     },
@@ -9153,7 +9161,7 @@
       "sceneStart": 4000,
       "sceneDuration": 172000,
       "sceneShaderSource": "aman",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "matrix_fog",
       "keyframeValue": {
       }
     },
@@ -9171,7 +9179,7 @@
       "sceneStart": 0,
       "sceneDuration": 4000,
       "sceneShaderSource": "aman",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "pink_stripes",
       "keyframeValue": {
       }
     }
