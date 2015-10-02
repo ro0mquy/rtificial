@@ -290,6 +290,9 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 		tex_coords /= overlay_scale;
 		vec4 tex_color = texture(tex_rt_loves_deadline, tex_coords);
 		color = mix(color, tex_color.rgb * 10, tex_color.a);
+		if (tex_color.a > 0.) {
+			out_depth = 0;
+		}
 	}
 	return color;
 }

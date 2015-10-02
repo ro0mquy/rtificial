@@ -19,4 +19,7 @@ void main() {
 	vec4 tex_color = texture(tex_rt_loves_all, tex_coords);
 	out_color = mix(vec3(0.), tex_color.rgb * overlay_brightness, tex_color.a);
 	out_color *= exp2(camera_exposure_rt_float);
+	if (tex_color.a > 0.) {
+		out_depth = 0;
+	}
 }

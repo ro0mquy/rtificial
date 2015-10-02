@@ -271,6 +271,9 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 			}
 
 			color = mix(color, tex_color.rgb * overlay_brightness, tex_color.a);
+			if (tex_color.a > 0.) {
+				out_depth = 0;
+			}
 		}
 	}
 
