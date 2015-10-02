@@ -7039,7 +7039,7 @@
           "sequenceSceneId": 235,
           "sequenceStart": 4500,
           "sequenceDuration": 2500,
-          "sequenceInterpolation": "step",
+          "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
               "keyframePosition": 0,
@@ -7047,6 +7047,14 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueFloatX": 50
+              }
+            },
+            {
+              "keyframePosition": 2500,
+              "keyframeEaseToward": true,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 500
               }
             }
           ]
@@ -7104,6 +7112,14 @@
       ]
     },
     {
+      "uniformName": "overlay_ready_background_brightness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 100
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "overlay_scale",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -7122,6 +7138,39 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueFloatX": 0.72300000000007003109
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "overlay_strobo_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 235,
+          "sequenceStart": 5500,
+          "sequenceDuration": 1250,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 1250,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 13
               }
             }
           ]

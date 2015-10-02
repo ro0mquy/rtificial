@@ -17,6 +17,7 @@ uniform float overlay_offset_x;
 uniform float overlay_offset_y;
 uniform float overlay_scale;
 uniform float overlay_brightness;
+uniform float post_strobo_gamma;
 
 layout(binding = 3) uniform sampler2D tex_are_you_ready;
 
@@ -245,6 +246,8 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 		tex_coords /= overlay_scale;
 		tex_color = texture(tex_are_you_ready, tex_coords);
 
+		float overlay_strobo = fract(overlay_strobo_rt_float);
+		color = mix(color, vec3(overlay_ready_background_brightness_rt_float), smoothstep(0.33, 0.66, overlay_strobo));
 		if (
 			( // ARE
 				overlay_visible_are_you_ready_rt_float >= 1.
@@ -259,6 +262,14 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 				overlay_visible_are_you_ready_rt_float >= 3.
 			)
 		) {
+			if (overlay_strobo > 0.0) {
+				vec3 tex_color_orig = tex_color.rgb;
+				tex_color.rgb = pow(saturate(tex_color.rgb), vec3(1./post_strobo_gamma));
+				tex_color.rgb = saturate(1.0 - tex_color.rgb);
+				tex_color.rgb = pow(tex_color.rgb, vec3(post_strobo_gamma));
+				tex_color.rgb = mix(tex_color.rgb, tex_color_orig, smoothstep(.33, .66, overlay_strobo));
+			}
+
 			color = mix(color, tex_color.rgb * overlay_brightness, tex_color.a);
 		}
 	}
