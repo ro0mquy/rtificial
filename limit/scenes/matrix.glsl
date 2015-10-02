@@ -286,8 +286,8 @@ Material getMaterial(MaterialId materialId) {
 	//mat.metallic = 1.;
 
 	if (materialId.id == id_aman) {
-		mat.color = vec3(1.);
-		mat.emission = vec3(1.) * 1000. * matrix_aman_glow_intensity_rt_float;
+		mat.color = matrix_aman_color_rt_color;
+		mat.emission = matrix_aman_color_rt_color * 1000. * matrix_aman_glow_intensity_rt_float;
 	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
 		mat.color = vec3(.2);
 	} else if (materialId.id == id_verbindung) {
