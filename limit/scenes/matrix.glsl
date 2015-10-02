@@ -27,20 +27,14 @@ float fAmanBox(vec3 p, vec2 pos, vec2 dim) {
 	return fBoxEdge(p, dimension);
 }
 
-float fAman(vec3 p) {
-	if (aman_domrep_rt_bool) {
-		float cell_x = pDomrep(p.x, aman_domrep_cell_rt_vec2.x);
-		float cell_z = pDomrep(p.z, aman_domrep_cell_rt_vec2.y);
-		p.x *= mod(cell_x, 2.) * 2. - 1.;
+float fAman(vec3 p, vec2 index_domrep, float hash_domrep) {
+	float t_offset = hash_domrep * 2. - 1.;
+	t_offset *= sin(Tau * (matrix_rand_phase_rt_float * matrix_rand_freq_rt_float * hash_domrep + hash_domrep));
+	t_offset *= matrix_rand_amp_rt_float;
+	p.y -= aman_cube_d * t_offset;
 
-		if (cell_x == 0 && cell_z == 15) {
-			p.y -= aman_cube_d * aman_single_jump_height_rt_float;
-		}
-	}
-	p.x = aman_mirror_rt_bool ? (aman_mirror_plane_rt_float*aman_cube_d - p.x) : p.x;
-	//p.y -= aman_cube_r;
-
-	p.y -= aman_cube_d * aman_jump_h_rt_float * sqrt(aman_jump_anim_rt_float);
+	pRotY(p, Tau * matrix_rand_rot_rt_float);
+	p.x -= -aman_cube_d * 6.;
 
 	vec3 p_bounding = p;
 	pTrans(p_bounding, vec3(6., 8., .5) * aman_cube_d);
@@ -182,21 +176,20 @@ float fAman(vec3 p) {
 	return f;
 }
 
-MatWrap wMatrix(vec3 p) {
+MatWrap wMatrix(vec3 p, vec2 i_domrep, float hash_domrep) {
 	p.y -= matrix_translation_rt_float;
 
 	vec3 p_domrep = p;
-	vec2 i_domrep = pDomrepMirror(p_domrep.xz, aman_domrep_cell_rt_vec2);
 	vec3 p_verbindung = p_domrep;
 	float i = pDomrepMirror(p_domrep.y, 10);
-	if (rand(ivec2(i_domrep)) > .5) {
+	if (hash_domrep > .5) {
 		pFlip(p_domrep.y);
 	}
 
 	vec3 p_prism = p_domrep;
 	float f_prism = f2Hexprism(p_prism.xz, matrix_prism_r_rt_float);
 	f_prism = abs(f_prism) - matrix_prism_thick_rt_float;
-	float f_prism_cut = p_domrep.y - 3. * (-1. + 1.5 * (1. - smoothstep(0., 50., i)));
+	float f_prism_cut = p_domrep.y - 3. * (-1. + 1.5 * (1. - smoothstep(0., 30., i)));
 	f_prism = opIntersectChamfer(f_prism, f_prism_cut, matrix_prism_cut_chamfer_rt_float);
 	MatWrap w_prism = MatWrap(f_prism, MaterialId(id_prism, p_prism, vec4(i_domrep, i, 0.)));
 
@@ -220,8 +213,11 @@ MatWrap wMatrix(vec3 p) {
 
 float fScene(vec3 p) {
 	p = p.yxz;
-	mUnion(fAman(p), newMaterialId(id_aman, p));
-	mUnion(wMatrix(p));
+	vec2 index_domrep = pDomrepMirror(p.xz, aman_domrep_cell_rt_vec2);
+	float hash_domrep = rand(ivec2(index_domrep));
+
+	mUnion(fAman(p, index_domrep, hash_domrep), newMaterialId(id_aman, p));
+	mUnion(wMatrix(p, index_domrep, hash_domrep));
 
 	return current_dist;
 }
