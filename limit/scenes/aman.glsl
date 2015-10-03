@@ -312,6 +312,8 @@ Material getMaterial(MaterialId materialId) {
 		if (f_grid < 0) {
 			// plate separator
 			mat.color = mix(mat.color, plate_seperator_color_rt_color, plate_seperator_alpha_rt_float);
+			mat.metallic = 1 - plate_seperator_alpha_rt_float;
+			mat.emission = mat.color * plate_separator_emission_rt_float * plate_seperator_alpha_rt_float;
 		} else if (plate_show_color_rt_bool) {
 			// plates
 
@@ -329,7 +331,19 @@ Material getMaterial(MaterialId materialId) {
 			if (color_id < num_colors) {
 				vec3 plate_c = plate_colors[color_id];
 				mat.color = plate_c;
-				mat.emission = plate_c * 1000. * plate_glow_intensity_rt_float;
+				//p += vec2(aman_plate_width_rt_float * .5);
+				//float glow_texture = saturate(plate_glow_offset_rt_float + smoothstep(0, aman_plate_width_rt_float, length(p)/ sqrt(2)));
+				//glow_texture = pow(glow_texture, plate_glow_gamma_rt_float);
+				//glow_texture = mix(.3, 1., glow_texture);
+
+				vec2 p_plates = materialId.coord.xz;
+				pTrans(p_plates, vec2(aman_plate_width_rt_float * .5));
+				pDomrep(p_plates, vec2(aman_plate_width_rt_float * 2));
+				float glow_texture = 1 - smoothstep(0, aman_plate_width_rt_float, length(p_plates) / sqrt(2));
+				glow_texture = pow(glow_texture, plate_glow_gamma_rt_float);
+				glow_texture = mix(plate_glow_offset_rt_float, 1, glow_texture);
+
+				mat.emission = plate_c * 1000. * plate_glow_intensity_rt_float * glow_texture;
 			}
 		}
 	} else if (materialId.id == id_aman) {

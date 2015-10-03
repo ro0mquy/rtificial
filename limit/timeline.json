@@ -8673,10 +8673,26 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "plate_glow_gamma_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.6159999999999854481
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "plate_glow_intensity_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.10199999999997544364
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "plate_glow_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.1380000000000336513
       },
       "sequencesArray": []
     },
@@ -8714,6 +8730,14 @@
       ]
     },
     {
+      "uniformName": "plate_separator_emission_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 20
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "plate_seperator_alpha_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -8742,9 +8766,9 @@
       "uniformName": "plate_seperator_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0,
-        "valueColorG": 0,
-        "valueColorB": 0
+        "valueColorR": 1,
+        "valueColorG": 1,
+        "valueColorB": 1
       },
       "sequencesArray": []
     },
@@ -9190,7 +9214,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": 1.1810000000000400178,
-                "valueVec2Y": 0.79899999999997817213
+                "valueVec2Y": 0.79899999999997828315
               }
             }
           ]
@@ -11100,7 +11124,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.26199999999994361133,
-                "valueVec2Y": 0.23900000000003274181
+                "valueVec2Y": 0.23900000000003271405
               }
             },
             {
@@ -11109,7 +11133,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.24500000000000454747,
-                "valueVec2Y": 0.23900000000003274181
+                "valueVec2Y": 0.23900000000003271405
               }
             },
             {
@@ -11118,7 +11142,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.24500000000000454747,
-                "valueVec2Y": 0.23900000000003274181
+                "valueVec2Y": 0.23900000000003271405
               }
             },
             {
@@ -11163,7 +11187,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.26199999999994361133,
-                "valueVec2Y": 0.21800000000007457857
+                "valueVec2Y": 0.21800000000007455081
               }
             },
             {
@@ -11181,7 +11205,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.24500000000000454747,
-                "valueVec2Y": 0.23900000000003274181
+                "valueVec2Y": 0.23900000000003271405
               }
             },
             {
@@ -11190,7 +11214,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.26199999999994361133,
-                "valueVec2Y": 0.23900000000003274181
+                "valueVec2Y": 0.23900000000003271405
               }
             },
             {
@@ -11208,7 +11232,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.24500000000000454747,
-                "valueVec2Y": 0.23900000000003274181
+                "valueVec2Y": 0.23900000000003271405
               }
             },
             {
@@ -11226,7 +11250,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.26199999999994361133,
-                "valueVec2Y": 0.21800000000007457857
+                "valueVec2Y": 0.21800000000007455081
               }
             },
             {
@@ -11235,7 +11259,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.24500000000000454747,
-                "valueVec2Y": 0.23900000000003274181
+                "valueVec2Y": 0.23900000000003271405
               }
             },
             {
@@ -11244,7 +11268,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": -0.26199999999994361133,
-                "valueVec2Y": 0.23900000000003274181
+                "valueVec2Y": 0.23900000000003271405
               }
             }
           ]
