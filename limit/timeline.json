@@ -7862,55 +7862,19 @@
       "uniformName": "matrix_chamfer_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.20000000298023223877,
-        "valueColorG": 0.20000000298023223877,
-        "valueColorB": 0.20000000298023223877
+        "valueColorR": 0.12198571115732192993,
+        "valueColorG": 1,
+        "valueColorB": 0.45907992124557495117
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 235,
-          "sequenceStart": 14000,
-          "sequenceDuration": 34000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueColorR": 0.12198571115732191605,
-                "valueColorG": 0.97430020570755004883,
-                "valueColorB": 1
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "matrix_chamfer_glow_intensity_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 0.1750000000000682121
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 235,
-          "sequenceStart": 14000,
-          "sequenceDuration": 34000,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueFloatX": 0.1750000000000682121
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "matrix_cut_rt_float",
@@ -7925,8 +7889,8 @@
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.46474117040634149722,
-        "valueColorG": 0.71546542644500732422,
-        "valueColorB": 0.96581465005874644891
+        "valueColorG": 0.96581465005874633789,
+        "valueColorB": 0.72991889715194702148
       },
       "sequencesArray": []
     },
