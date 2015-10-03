@@ -325,6 +325,8 @@ Material getMaterial(MaterialId materialId) {
 		float f_grid = p.x;
 		if (f_grid < 0) {
 			// plate separator
+			float plate_seperator_alpha_rt_float = plate_seperator_alpha_rt_float;
+			plate_seperator_alpha_rt_float *= pow(1. - smoothstep(plate_seperator_alpha_radius_rt_float, plate_seperator_alpha_radius_rt_float + plate_seperator_alpha_width_rt_float, distance(camera_position.xz, materialId.coord.xz)), plate_seperator_alpha_gamma_rt_float);
 			mat.color = mix(mat.color, plate_seperator_color_rt_color, plate_seperator_alpha_rt_float);
 			mat.metallic = 1 - plate_seperator_alpha_rt_float;
 			mat.emission = mat.color * plate_separator_emission_rt_float * plate_seperator_alpha_rt_float;

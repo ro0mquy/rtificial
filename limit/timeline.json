@@ -9400,10 +9400,34 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "plate_seperator_alpha_gamma_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "plate_seperator_alpha_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "plate_seperator_alpha_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "plate_seperator_alpha_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 50
       },
       "sequencesArray": []
     },
