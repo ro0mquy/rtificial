@@ -361,6 +361,7 @@ Material getMaterial(MaterialId materialId) {
 				//glow_texture = mix(.3, 1., glow_texture);
 
 				vec2 p_plates = materialId.coord.xz;
+				p_plates -= aman_plate_offset_rt_vec2;
 				pTrans(p_plates, vec2(aman_plate_width_rt_float * .5));
 				pDomrep(p_plates, vec2(aman_plate_width_rt_float * 2));
 				float glow_texture = 1 - smoothstep(0, aman_plate_width_rt_float, length(p_plates) / sqrt(2));
