@@ -45,6 +45,8 @@ extern int sequence_index[177];
 extern int keyframe_index[177];
 extern Uniform uniforms[176];
 extern int keyframe_time[994];
+extern int keyframe_ease_toward[994];
+extern int keyframe_ease_away[994];
 extern int keyframe_time_index[177];
 const int time_uniform_location = 68;
 #ifndef BPM
