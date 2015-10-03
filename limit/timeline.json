@@ -7859,6 +7859,60 @@
       ]
     },
     {
+      "uniformName": "matrix_chamfer_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.20000000298023223877,
+        "valueColorG": 0.20000000298023223877,
+        "valueColorB": 0.20000000298023223877
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 235,
+          "sequenceStart": 14000,
+          "sequenceDuration": 34000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.12198571115732192993,
+                "valueColorG": 0.97430020570755004883,
+                "valueColorB": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "matrix_chamfer_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 235,
+          "sequenceStart": 14000,
+          "sequenceDuration": 34000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.1750000000000682121
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "matrix_cut_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {

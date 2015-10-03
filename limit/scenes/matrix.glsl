@@ -288,8 +288,11 @@ Material getMaterial(MaterialId materialId) {
 	if (materialId.id == id_aman) {
 		mat.color = matrix_aman_color_rt_color;
 		mat.emission = matrix_aman_color_rt_color * 1000. * matrix_aman_glow_intensity_rt_float;
-	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
+	} else if (materialId.id == id_prism) {
 		mat.color = vec3(.2);
+	} else if (materialId.id == id_verbindung_chamfer) {
+		mat.color = matrix_chamfer_color_rt_color;
+		mat.emission = matrix_chamfer_color_rt_color * 1000. * matrix_chamfer_glow_intensity_rt_float;
 	} else if (materialId.id == id_verbindung) {
 		mat.color = vec3(.0);
 	}
