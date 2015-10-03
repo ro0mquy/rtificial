@@ -1,1 +1,92 @@
 matrix_prism_cut_chamfer_rt_float 0.09900000000004638423
+spot3_color_rt_color vec3(0.73333334922790527344, 0.031372550874948501587, 0)
+spot2_color_rt_color vec3(0, 0.30196079611778259277, 0.12156862765550612016)
+spot1_color_rt_color vec3(0.14117647707462310791, 0.0078431377187371253967, 0.32941177487373352051)
+sky_sun_stripes_spacing_rt_float 0.009999999999990905053
+sky_sun_stripes_offset_rt_float -0.013000000000033651304
+sky_sun_pos_top_rt_float 0.069000000000073669071
+sky_sun_pos_bottom_rt_float -0.024000000000000909495
+sky_sun_intensity_rt_float 14.95600000000001728
+sky_sun_dir_rt_vec3 vec3(0, 0.10099999999999907663, 1)
+sky_sun_color_top_rt_color vec3(0.70829778909683227539, 0.052841626107692718506, 0.017936432734131813049)
+sky_sun_color_bottom_rt_color vec3(0.88317972421646107062, 0.013473397120833395177, 0.013473397120833395177)
+sky_stripes_thick_rt_float 0.003000000000042746251
+sky_stripes_height_rt_float 0.38300000000003825429
+sky_stripes_dist_rt_float 34.416999999999916326
+sky_pink_spread_rt_float 0.4120000000000345608
+sky_pink_rt_color vec3(0.85917359590530395508, 0, 0.11657577753067016602)
+sky_pink_offset_rt_float -0.26999999999998181011
+sky_pink_freq_rt_float 25.873000000000047294
+sky_pink_ampl_rt_float 0.019000000000005456968
+sky_orange_rt_color vec3(0.75929951667785644531, 0.3297290503978729248, 0.080219261348247514198)
+sky_dark_purple_rt_color vec3(0.017936432734131813049, 0.0077510266564786434174, 0.034230206161737442017)
+sky_dark_blue_rt_color vec3(0.016988052055239677429, 0.013473397120833395177, 0.037028513848781585693)
+post_vignette_distortion 0
+post_scanlines_width 2
+post_scanlines_offset 6
+post_scanlines_darken 0.8000000000000682121
+post_lens_distort_kcube 0
+post_lens_distort_k 0
+post_hustensaft_gamma_rt_float -1.5209999999999581632
+post_hustensaft_color_rt_color vec3(0.00017512394697405397892, 0.83552777767181396484, 0.18014428019523620605)
+post_gradient_rotation_rt_float 0
+post_gradient_alpha1_rt_float 1
+post_film_grain_power 1
+post_film_grain_intensity 0.0049999999999954525265
+post_film_grain_frequency 1.540000000000077307
+post_disable_median false
+post_disable_grain false
+post_disable_ao false
+post_bloom_radius 1.2090000000000600267
+post_bloom_amount 2.326999999999998181
+post_ao_radius 2
+post_ao_n_rays 6
+post_ao_intensity 1.0690000000000736691
+post_ao_gauss_offset_rt_float 0.10000000000002273737
+post_ao_edge_blurriness_rt_float 0.94100000000003092282
+post_ao_avg_occlusion 0.13200000000006184564
+plate_seperator_color_rt_color vec3(0.028991185128688812256, 0.028991185128688812256, 0.028991185128688812256)
+plate_seperator_alpha_width_rt_float 50
+plate_seperator_alpha_rt_float 1
+plate_seperator_alpha_radius_rt_float 10
+plate_seperator_alpha_gamma_rt_float 2
+plate_separator_emission_rt_float 1
+plate_ground_color_rt_color vec3(0.26317474246025085449, 0.30212551355361938477, 0.29321616888046264648)
+plate_glow_offset_rt_float 0.1380000000000336513
+plate_glow_gamma_rt_float 1.6159999999999854481
+plate_color_03_rt_color vec3(0.17343902587890625, 0.17343902587890625, 0.17343902587890625)
+plate_color_02_rt_color vec3(0.039215687662363059307, 0, 0.28235295414924621582)
+plate_color_01_rt_color vec3(0.011764706112444400787, 0.34117648005485534668, 0.10980392247438432174)
+matrix_verbindung_domrep_rt_float 9.1520000000000436557
+overlay_rt_deadline_bright_rt_float 0.59900000000004638423
+overlay_ready_background_brightness_rt_float 100
+matrix_verbindung_chamfer_rt_float 0.14800000000002455636
+matrix_prism_thick_rt_float 0.071000000000026375346
+matrix_planes_thick_rt_float 2.7699999999999818101
+matrix_planes_chamfer_rt_float 0.73099999999999454303
+matrix_fog_width_rt_float 0.56399999999996452971
+matrix_fog_gamma_rt_float 2
+matrix_fog_color_rt_color vec3(0.46474117040634149722, 0.96581465005874644891, 0.72991889715194702148)
+matrix_cut_rt_float 50
+matrix_chamfer_glow_intensity_rt_float 0.1750000000000682121
+matrix_chamfer_color_rt_color vec3(0.12198571115732191605, 1, 0.45907992124557495117)
+matrix_aman_color_rt_color vec3(0.81996369361877441406, 0.31118053197860717773, 0.023103555664420127869)
+main_normal_epsilon_bias 1
+debug_plane_normal vec3(0, 1, 0)
+debug_plane_height 0
+debug_mode 0
+camera_shake_freq_rt_float 3
+camera_sensor_width 0.024000000000000909495
+aman_plate_width_rt_float 1
+aman_plate_sep_width_rt_float 0.10000000000002273737
+aman_plate_offset_rt_vec2 vec2(0.58299999999996998667, 0)
+aman_mirror_plane_rt_float 15
+aman_glow_gamma_rt_float 1.7749999999999772626
+aman_glow_colors_04_rt_color vec3(0.047775756567716598511, 0, 0.11657577753067016602)
+aman_glow_colors_03_rt_color vec3(1, 0.039947167038917541504, 0)
+aman_glow_colors_02_rt_color vec3(0, 0.24680043756961825285, 0.10615606606006622314)
+aman_glow_colors_01_rt_color vec3(0.54179835319519042969, 0.031551390886306762695, 0)
+aman_glow_eye_color_rt_color vec3(0.016988052055239677429, 0.3297290503978729248, 0.21951973438262939453)
+aman_cube_d 0.10000000000002273737
+aman_color_glow_rt_color vec3(0, 0, 0)
+aman_color_glow_intensity_rt_float 0.0049999999999954525265
