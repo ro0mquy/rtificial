@@ -13077,7 +13077,7 @@
     {
       "sceneId": 518,
       "sceneStart": 209500,
-      "sceneDuration": 10500,
+      "sceneDuration": 10250,
       "sceneShaderSource": "love",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
