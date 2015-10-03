@@ -320,6 +320,14 @@ Material getMaterial(MaterialId materialId) {
 			mat.color = mix(mat.color, plate_seperator_color_rt_color, plate_seperator_alpha_rt_float);
 			mat.metallic = 1 - plate_seperator_alpha_rt_float;
 			mat.emission = mat.color * plate_separator_emission_rt_float * plate_seperator_alpha_rt_float;
+		} else if (plate_show_single1_rt_bool && plate_id == vec2(0., 1.)) {
+			vec3 plate_c = vec3(1., 0., 0.);
+			mat.color = plate_c;
+			mat.emission = plate_c * 1000. * plate_glow_intensity_rt_float;
+		} else if (plate_show_single2_rt_bool && plate_id == vec2(-1., 1.)) {
+			vec3 plate_c = vec3(0., 1., 1.);
+			mat.color = plate_c;
+			mat.emission = plate_c * 1000. * plate_glow_intensity_rt_float;
 		} else if (plate_show_color_rt_bool) {
 			// plates
 
