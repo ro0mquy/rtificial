@@ -317,7 +317,7 @@ Material getMaterial(MaterialId materialId) {
 	if (materialId.id == id_ground_plane) {
 		mat.metallic = 1.;
 		mat.roughness = 1.;
-		mat.color = vec3(96., 110., 113.) / 255.;
+		mat.color = plate_ground_color_rt_color;
 		vec2 p = materialId.coord.xz;
 		p -= aman_plate_offset_rt_vec2;
 		vec2 plate_id = pDomrepGrid(p.yx, vec2(aman_plate_width_rt_float));
@@ -331,22 +331,22 @@ Material getMaterial(MaterialId materialId) {
 			mat.metallic = 1 - plate_seperator_alpha_rt_float;
 			mat.emission = mat.color * plate_separator_emission_rt_float * plate_seperator_alpha_rt_float;
 		} else if (plate_show_single1_rt_bool && plate_id == vec2(0., 1.)) {
-			vec3 plate_c = vec3(1., 0., 0.);
+			vec3 plate_c = plate_color_01_rt_color;
 			mat.color = plate_c;
 			mat.emission = plate_c * 1000. * plate_glow_intensity_rt_float;
 		} else if (plate_show_single2_rt_bool && plate_id == vec2(-1., 1.)) {
-			vec3 plate_c = vec3(0., 1., 1.);
+			vec3 plate_c = plate_color_02_rt_color;
 			mat.color = plate_c;
 			mat.emission = plate_c * 1000. * plate_glow_intensity_rt_float;
 		} else if (plate_show_color_rt_bool) {
 			// plates
 
 			const uint num_colors = 3;
-			vec3[num_colors] plate_colors = vec3[num_colors](
-					vec3(1., 0., 0.),
-					vec3(0., 1., 1.),
-					vec3(1., 1., 1.)
-					);
+			vec3 plate_colors[num_colors] = {
+				plate_color_01_rt_color,
+				plate_color_02_rt_color,
+				plate_color_03_rt_color,
+			};
 
 			plate_id += floor(plate_glow_random_seed_rt_float);
 			uint plate_hash = hash(int(plate_id.x) + hash(int(plate_id.y)));
@@ -448,12 +448,10 @@ Material getMaterial(MaterialId materialId) {
 			),
 		};
 
-		const int num_glowcolors = 4;
+		const int num_glowcolors = 2;
 		const vec3 glowcolors[num_glowcolors][num_glowcolors] = {
-			{ vec3(.554, .047, .612), vec3(.0  , 1.  , .651), vec3(1.  , .282, .251), vec3(.800, .078, .800) },
-			{ vec3(.078, .655, .800), vec3(.239, .525, .600), vec3(.078, .800, .369), vec3(.031, .600, .259) },
-			{ vec3(.208, 1.  , .0  ), vec3(.867, .180, 1.  ), vec3(.486, .078, .800), vec3(.078, .800, .722) },
-			{ vec3(.031, .600, .537), vec3(.0  , 1.  , .325), vec3(1.  , .180, .529), vec3(.800, .078, .749) },
+			{ aman_glow_colors_01_rt_color, aman_glow_colors_02_rt_color },
+			{ aman_glow_colors_03_rt_color, aman_glow_colors_04_rt_color },
 		};
 
 		bool glowgroup = false;
