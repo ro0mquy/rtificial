@@ -350,7 +350,7 @@
       "uniformName": "aman_glow_body_intensity_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 0.0049999999999954525265
       },
       "sequencesArray": [
         {
@@ -9667,7 +9667,7 @@
       "uniformName": "post_ao_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.5
+        "valueFloatX": 1.0690000000000736691
       },
       "sequencesArray": []
     },
