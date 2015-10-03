@@ -12122,6 +12122,101 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "sky_sun_color_bottom_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.88317972421646118164,
+        "valueColorG": 0.013473397120833396912,
+        "valueColorB": 0.013473397120833396912
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_sun_color_top_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.70829778909683227539,
+        "valueColorG": 0.052841626107692718506,
+        "valueColorB": 0.017936432734131813049
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_sun_dir_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0.10099999999999909051,
+        "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_sun_enabled_rt_bool",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 136000,
+          "sequenceDuration": 36000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueBoolState": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "sky_sun_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 14.95600000000001728
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_sun_pos_bottom_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.024000000000000909495
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_sun_pos_top_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.069000000000073669071
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_sun_stripes_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.013000000000033651304
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "sky_sun_stripes_spacing_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.009999999999990905053
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "spot1_angle_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {

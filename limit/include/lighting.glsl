@@ -76,6 +76,19 @@ vec3 sky(vec3 d) {
 	//pDomrep(theta_stripes, sky_stripes_dist_rt_float * sky_stripes_thick_rt_float);
 	float f_stripes = abs(theta_stripes) - sky_stripes_thick_rt_float;
 	background = mix(background, orange * 5, 1 - smoothstep(0., 1e-3, f_stripes));
+
+	if (sky_sun_enabled_rt_bool) {
+		// some kind of direct sun
+		vec3 c_sun = mix(sky_sun_color_bottom_rt_color, sky_sun_color_top_rt_color, smoothstep(sky_sun_pos_bottom_rt_float, sky_sun_pos_top_rt_float, d.y - sky_sun_dir_rt_vec3.y));
+		c_sun *= sky_sun_intensity_rt_float;
+		float angle = cos(radians(4.));
+		vec3 mix_background = mix(background, c_sun, smoothstep(angle * .999, angle, dot(d, normalize(sky_sun_dir_rt_vec3))));
+		float t_sun_stripes = -(d.y - sky_sun_stripes_offset_rt_float - sky_sun_dir_rt_vec3.y);
+		float i_sun_stripes = pDomrepSingle(t_sun_stripes, sky_sun_stripes_spacing_rt_float);
+		t_sun_stripes = mod(i_sun_stripes, 2.);
+		background = mix(mix_background, background, t_sun_stripes);
+	}
+
 	return background * 15;
 }
 

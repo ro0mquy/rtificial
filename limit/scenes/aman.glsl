@@ -49,8 +49,8 @@ float fAmanX(vec3 p, vec2 pos, vec2 dim, float scale) {
 MatWrap wAman(vec3 p) {
 	vec2 i_cell = vec2(0.);
 	if (aman_domrep_rt_bool) {
-		i_cell.x = pDomrep(p.x, aman_domrep_cell_rt_vec2.x);
-		i_cell.y = pDomrepSingle(p.z, aman_domrep_cell_rt_vec2.y);
+		i_cell.x = pDomrepInterval(p.x, aman_domrep_cell_rt_vec2.x, -4., 3.);
+		i_cell.y = pDomrepInterval(p.z, aman_domrep_cell_rt_vec2.y, 0., 18.);
 		p.x *= mod(i_cell.x, 2.) * 2. - 1.;
 
 		if (i_cell.x == 0 && i_cell.y == 15) {
