@@ -312,6 +312,7 @@ Material getMaterial(MaterialId materialId) {
 		mat.roughness = 1.;
 		mat.color = vec3(96., 110., 113.) / 255.;
 		vec2 p = materialId.coord.xz;
+		p -= aman_plate_offset_rt_vec2;
 		vec2 plate_id = pDomrepGrid(p.yx, vec2(aman_plate_width_rt_float));
 		pMirrorTrans(p.x, aman_plate_sep_width_rt_float);
 		float f_grid = p.x;
