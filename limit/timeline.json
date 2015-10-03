@@ -9189,6 +9189,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "overlay_rt_deadline_bright_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.59900000000004638423
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "overlay_scale",
       "uniformType": "float",
       "uniformStandardValue": {

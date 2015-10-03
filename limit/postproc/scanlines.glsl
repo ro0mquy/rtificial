@@ -143,6 +143,6 @@ if (overlay_visible_rt_loves_deadline_rt_bool) {
 		tex_coords.y += overlay_offset_y * (texture_size.x / texture_size.y);
 		tex_coords /= overlay_scale;
 		vec4 tex_color = texture(tex_rt_loves_deadline, tex_coords);
-		out_color = mix(out_color, tex_color.rgb * .5, tex_color.a * .4);
+		out_color = mix(out_color, tex_color.rgb * overlay_rt_deadline_bright_rt_float, tex_color.a * .3);
 	}
 }
