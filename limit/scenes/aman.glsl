@@ -1,5 +1,6 @@
 #include "march.glsl"
-#line 3
+#include "noise.glsl"
+#line 4
 
 const float id_floor = 0.;
 const float id_aman = 1.;
@@ -46,12 +47,13 @@ float fAmanX(vec3 p, vec2 pos, vec2 dim, float scale) {
 }
 
 MatWrap wAman(vec3 p) {
+	vec2 i_cell = vec2(0.);
 	if (aman_domrep_rt_bool) {
-		float cell_x = pDomrep(p.x, aman_domrep_cell_rt_vec2.x);
-		float cell_z = pDomrepSingle(p.z, aman_domrep_cell_rt_vec2.y);
-		p.x *= mod(cell_x, 2.) * 2. - 1.;
+		i_cell.x = pDomrep(p.x, aman_domrep_cell_rt_vec2.x);
+		i_cell.y = pDomrepSingle(p.z, aman_domrep_cell_rt_vec2.y);
+		p.x *= mod(i_cell.x, 2.) * 2. - 1.;
 
-		if (cell_x == 0 && cell_z == 15) {
+		if (i_cell.x == 0 && i_cell.y == 15) {
 			p.y -= aman_cube_d * aman_single_jump_height_rt_float;
 		}
 	}
@@ -205,7 +207,7 @@ MatWrap wAman(vec3 p) {
 	}
 
 	f = max(f, -p.y + aman_cube_d * floor(aman_cut_h_rt_float));
-	MatWrap w = MatWrap(f, newMaterialId(id_aman, p));
+	MatWrap w = MatWrap(f, MaterialId(id_aman, p, vec4(i_cell, 0., 0.)));
 
 	return w;
 }
@@ -362,6 +364,7 @@ Material getMaterial(MaterialId materialId) {
 			}
 		}
 	} else if (materialId.id == id_aman) {
+		vec2 i_domrep = materialId.misc.xy;
 		vec3 p_aman = materialId.coord;
 		vec3 p_cell = p_aman;
 		p_cell.xy = mod(p_cell.xy, aman_cube_d) / aman_cube_r - 1.;
@@ -457,11 +460,10 @@ Material getMaterial(MaterialId materialId) {
 			t_glow = pow(t_glow, aman_glow_gamma_rt_float);
 		}
 
-		vec2 color_index = floor(vec2(i_cell.x + 3, i_cell.y + 1) / vec2(5.) + aman_glow_color_offset_rt_float);
+		vec2 color_index = floor(vec2(i_cell.x + 3, i_cell.y + 1) / vec2(5.) + aman_glow_color_offset_rt_float + 100. * rand(ivec2(i_domrep)));
 		vec3 glowcolor = glowcolors[int(mod(color_index.x, num_glowcolors))][int(mod(color_index.y, num_glowcolors))];
 		mat.emission = glowcolor * 1000. * aman_glow_intensity_rt_float * t_glow;
 		mat.color = aman_color_rt_color;
-		//mat.emission += 1000. * aman_color_glow_intensity_rt_float * mat.color;
 		mat.metallic = 0.;
 		mat.roughness = 0.;
 	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {

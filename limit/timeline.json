@@ -6427,7 +6427,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueQuatX": -0.051133558154106140137,
+                "valueQuatX": -0.051133558154106147076,
                 "valueQuatY": -0.21292203664779663086,
                 "valueQuatZ": -0.011159004643559455872,
                 "valueQuatW": 0.97566682100296020508
@@ -9001,26 +9001,9 @@
       "uniformName": "plate_seperator_alpha_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 1
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 379,
-          "sequenceStart": 112000,
-          "sequenceDuration": 24000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueFloatX": 1
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "plate_seperator_color_rt_color",
