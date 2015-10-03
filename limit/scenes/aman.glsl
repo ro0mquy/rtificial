@@ -47,6 +47,8 @@ float fAmanX(vec3 p, vec2 pos, vec2 dim, float scale) {
 }
 
 MatWrap wAman(vec3 p) {
+	bool aman_hand_up_right = aman_hand_up_right;
+	bool aman_hand_up_left = aman_hand_up_left;
 	vec2 i_cell = vec2(0.);
 	if (aman_domrep_rt_bool) {
 		i_cell.x = pDomrepInterval(p.x, aman_domrep_cell_rt_vec2.x, -4., 3.);
@@ -55,6 +57,9 @@ MatWrap wAman(vec3 p) {
 
 		if (i_cell.x == 0 && i_cell.y == 15) {
 			p.y -= aman_cube_d * aman_single_jump_height_rt_float;
+		} else if (aman_hand_up_solo_rt_bool) {
+			aman_hand_up_right = false;
+			aman_hand_up_left = false;
 		}
 	}
 	p.x = aman_mirror_rt_bool ? (aman_mirror_plane_rt_float*aman_cube_d - p.x) : p.x;
@@ -370,6 +375,7 @@ Material getMaterial(MaterialId materialId) {
 		p_cell.xy = mod(p_cell.xy, aman_cube_d) / aman_cube_r - 1.;
 		vec2 i_cell = floor(p_aman.xy / aman_cube_d);
 
+		//*
 		const int num_glowpixels = 15;
 		const bool glowpixels[num_glowpixels] = {
 			(
@@ -462,10 +468,26 @@ Material getMaterial(MaterialId materialId) {
 
 		vec2 color_index = floor(vec2(i_cell.x + 3, i_cell.y + 1) / vec2(5.) + aman_glow_color_offset_rt_float + 100. * rand(ivec2(i_domrep)));
 		vec3 glowcolor = glowcolors[int(mod(color_index.x, num_glowcolors))][int(mod(color_index.y, num_glowcolors))];
-		mat.emission = glowcolor * 1000. * aman_glow_intensity_rt_float * t_glow;
-		mat.color = aman_color_rt_color;
+		vec3 glow_pixel = glowcolor * 1000. * aman_glow_pixel_intensity_rt_float * t_glow;
+		// */
+
+		float t_eye_glow = 0.;
+		vec3 eye_glowcolor = aman_glow_eye_color_rt_color;
+		if (i_cell == vec2(4., 13.) || i_cell == vec2(6., 13.)) {
+			t_eye_glow = 1. - length(p_cell) / sqrt(3.);
+			t_eye_glow = pow(t_eye_glow, aman_glow_gamma_rt_float);
+		}
+		vec3 glow_eye = eye_glowcolor * 1000. * aman_glow_eye_intensity_rt_float * t_eye_glow;
+
+		vec3 glow_body = aman_color_rt_color * 1000. * aman_glow_body_intensity_rt_float;
+
 		mat.metallic = 0.;
 		mat.roughness = 0.;
+		mat.color = aman_color_rt_color;
+		mat.emission = glow_pixel;
+		if (!aman_glow_single_rt_bool || i_domrep == vec2(0., 15.)) {
+			mat.emission += glow_eye + glow_body;
+		}
 	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
 		mat.color = vec3(1.);
 	} else if (materialId.id == id_verbindung) {
