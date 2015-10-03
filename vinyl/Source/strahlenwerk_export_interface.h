@@ -34,18 +34,18 @@ extern Input final_inputs[1];
 extern Input colorseparation_inputs[1];
 extern Input scanlines_inputs[1];
 extern Input output_inputs[1];
-extern Shader scenes[2];
-extern AmbientLight environments[2];
+extern Shader scenes[3];
+extern AmbientLight environments[3];
 extern Texture textures[4];
 extern Framebuffer fbos[26];
-extern Scene scenes_data[3];
-extern float keyframe_data[1048];
-extern Sequence sequence_data[244];
-extern int sequence_index[135];
-extern int keyframe_index[135];
-extern Uniform uniforms[134];
-extern int keyframe_time[666];
-extern int keyframe_time_index[135];
+extern Scene scenes_data[4];
+extern float keyframe_data[1625];
+extern Sequence sequence_data[399];
+extern int sequence_index[167];
+extern int keyframe_index[167];
+extern Uniform uniforms[166];
+extern int keyframe_time[1027];
+extern int keyframe_time_index[167];
 const int time_uniform_location = 68;
 #ifndef BPM
 #define BPM 125
