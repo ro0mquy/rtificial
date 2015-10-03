@@ -341,6 +341,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	std::string keyframeIndexArray = "int keyframe_index[" + std::to_string(nUniforms + 1) + "] = {\n";
 	std::string uniformsArray = "Uniform uniforms[" + std::to_string(nUniforms) + "] = {\n";
 	std::string keyframeTimeArray = "int keyframe_time[" + std::to_string(total_keyframes) + "] = {\n";
+	std::string keyframeEaseTowardArray = "bool keyframe_ease_toward[" + std::to_string(total_keyframes) + "] = {\n";
+	std::string keyframeEaseAwayArray = "bool keyframe_ease_away[" + std::to_string(total_keyframes) + "] = {\n";
 	std::string keyframeTimeIndexArray = "int keyframe_time_index[" + std::to_string(nUniforms + 1) + "] = {\n";
 
 	interfaceHeaderContent += "extern float keyframe_data["  + std::to_string(keyframeDataEntries) + "];\n";
@@ -349,6 +351,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	interfaceHeaderContent += "extern int keyframe_index[" + std::to_string(nUniforms + 1) + "];\n";
 	interfaceHeaderContent += "extern Uniform uniforms[" + std::to_string(nUniforms) + "];\n";
 	interfaceHeaderContent += "extern int keyframe_time[" + std::to_string(total_keyframes) + "];\n";
+	interfaceHeaderContent += "extern int keyframe_ease_toward[" + std::to_string(total_keyframes) + "];\n";
+	interfaceHeaderContent += "extern int keyframe_ease_away[" + std::to_string(total_keyframes) + "];\n";
 	interfaceHeaderContent += "extern int keyframe_time_index[" + std::to_string(nUniforms + 1) + "];\n";
 
 	int sequenceIndex = 0;
@@ -476,6 +480,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 				keyframeTimeIndex++;
 				keyframeDataArray += "\n";
 				keyframeTimeArray += "\t" + std::to_string(int(data.getKeyframePosition(keyframe))) + ",\n";
+				keyframeEaseTowardArray += "\t" + std::string(bool(data.getKeyframeEaseToward(keyframe)) ? "true" : "false") + ",\n";
+				keyframeEaseAwayArray += "\t" + std::string(bool(data.getKeyframeEaseAway(keyframe)) ? "true" : "false") + ",\n";
 			}
 		}
 
@@ -488,6 +494,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	keyframeIndexArray += "};\n";
 	uniformsArray += "};\n";
 	keyframeTimeArray += "};\n";
+	keyframeEaseTowardArray += "};\n";
+	keyframeEaseAwayArray += "};\n";
 	keyframeTimeIndexArray += "};\n";
 	shadersHeaderContent += keyframeDataArray;
 	shadersHeaderContent += sequenceDataArray;
@@ -495,6 +503,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	shadersHeaderContent += keyframeIndexArray;
 	shadersHeaderContent += uniformsArray;
 	shadersHeaderContent += keyframeTimeArray;
+	shadersHeaderContent += keyframeEaseTowardArray;
+	shadersHeaderContent += keyframeEaseAwayArray;
 	shadersHeaderContent += keyframeTimeIndexArray;
 	const int timeUniformLocation = UniformManager::Instance().getUniform("time")->id;
 	shadersHeaderContent += "#endif\n";

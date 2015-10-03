@@ -29,6 +29,39 @@ void DataInterpolator::loadUniforms(const int time) {
 	}
 }
 
+float easingRemapping(const float mixT, const bool easeAwayP1, const bool easeTowardP2) {
+	if (easeAwayP1 && easeTowardP2) {
+		// ease in and out
+		// quintic curve
+		// same as smootherstep()
+		return mixT * mixT * mixT * (mixT * (mixT * 6.f - 15.f) + 10.f);
+
+		// cubic curve
+		// same as smoothstep()
+		//return (3.f - 2.f * mixT) * mixT * mixT;
+	} else if (easeAwayP1 && !easeTowardP2) {
+		// only ease in
+		if (mixT < .5f) {
+			// quintic curve
+			return mixT * mixT * mixT * (mixT * (mixT * 48.f - 64.f) + 24.f);
+			// cubic curve
+			//return 4.f * (1.f - mixT) * mixT * mixT;
+		}
+		return mixT;
+	} else if (!easeAwayP1 && easeTowardP2) {
+		// only ease out
+		if (mixT > .5f) {
+			// quintic curve
+			return mixT * (mixT * (mixT * (mixT * (mixT * 48.f - 176.f) + 248.f) - 168.f) + 56.f) - 7.f;
+			// cubic curve
+			//return 1.f + 4.f * (-1.f + (2.f - mixT) * mixT) * mixT;
+		}
+		return mixT;
+	}
+	// do nothing
+	return mixT;
+}
+
 int wrappedGetKeyframeTime(const int keyframeTimeOffset, const int index, const int numKeyframes, const int sequenceDuration, const bool useStdAtStart, const bool useStdAtEnd) {
 	if (index == -1 && useStdAtStart) {
 		return 0;
@@ -40,6 +73,34 @@ int wrappedGetKeyframeTime(const int keyframeTimeOffset, const int index, const 
 		return -1;
 	} else {
 		return keyframe_time[keyframeTimeOffset + index];
+	}
+}
+
+bool wrappedGetKeyframeEaseToward(const int keyframeTimeOffset, const int index, const int numKeyframes, const int /*sequenceDuration*/, const bool useStdAtStart, const bool useStdAtEnd) {
+	if (index == -1 && useStdAtStart) {
+		return false;
+	} else if (index <= -1) {
+		return false;
+	} else if (index == numKeyframes && useStdAtEnd) {
+		return false;
+	} else if (index >= numKeyframes) {
+		return false;
+	} else {
+		return keyframe_ease_toward[keyframeTimeOffset + index];
+	}
+}
+
+bool wrappedGetKeyframeEaseAway(const int keyframeTimeOffset, const int index, const int numKeyframes, const int /*sequenceDuration*/, const bool useStdAtStart, const bool useStdAtEnd) {
+	if (index == -1 && useStdAtStart) {
+		return false;
+	} else if (index <= -1) {
+		return false;
+	} else if (index == numKeyframes && useStdAtEnd) {
+		return false;
+	} else if (index >= numKeyframes) {
+		return false;
+	} else {
+		return keyframe_ease_away[keyframeTimeOffset + index];
 	}
 }
 
@@ -241,7 +302,13 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 					const int moreRelativeTime = relativeTime - timeP1;
 					const float mixT = float(moreRelativeTime) / float(timeBetweenKeyframes);
 
-					setLinearValue(nthUniform, type, location, keyframeDataOffset, indexP1, indexP2, mixT, numKeyframes, useStdAtStart, useStdAtEnd);
+					// easing
+					const bool easeAwayP1 = wrappedGetKeyframeEaseAway(keyframeTimeOffset, indexP1, numKeyframes, sequenceDuration, useStdAtStart, useStdAtEnd);
+					const bool easeTowardP2 = wrappedGetKeyframeEaseToward(keyframeTimeOffset, indexP2, numKeyframes, sequenceDuration, useStdAtStart, useStdAtEnd);
+					const float easedT = easingRemapping(mixT, easeAwayP1, easeTowardP2);
+
+					// set value
+					setLinearValue(nthUniform, type, location, keyframeDataOffset, indexP1, indexP2, easedT, numKeyframes, useStdAtStart, useStdAtEnd);
 					return;
 				}
 			}
@@ -309,7 +376,12 @@ void DataInterpolator::setUniformValue(const int time, const int nthUniform, con
 					const int moreRelativeTime = relativeTime - timeP1;
 					const float mixT = float(moreRelativeTime) / float(timeBetweenKeyframes);
 
-					setSplineValue(nthUniform, type, location, keyframeDataOffset, indexP0, indexP1, indexP2, indexP3, mixT, numKeyframes, useStdAtStart, useStdAtEnd);
+					// easing
+					const bool easeAwayP1 = wrappedGetKeyframeEaseAway(keyframeTimeOffset, indexP1, numKeyframes, sequenceDuration, useStdAtStart, useStdAtEnd);
+					const bool easeTowardP2 = wrappedGetKeyframeEaseToward(keyframeTimeOffset, indexP2, numKeyframes, sequenceDuration, useStdAtStart, useStdAtEnd);
+					const float easedT = easingRemapping(mixT, easeAwayP1, easeTowardP2);
+
+					setSplineValue(nthUniform, type, location, keyframeDataOffset, indexP0, indexP1, indexP2, indexP3, easedT, numKeyframes, useStdAtStart, useStdAtEnd);
 					return;
 				}
 			}
