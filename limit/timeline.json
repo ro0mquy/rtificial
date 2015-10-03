@@ -9737,7 +9737,7 @@
       "uniformName": "post_disable_ao",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": true
+        "valueBoolState": false
       },
       "sequencesArray": []
     },
@@ -9802,7 +9802,7 @@
       "uniformName": "post_disable_grain",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": true
+        "valueBoolState": false
       },
       "sequencesArray": []
     },
@@ -9810,7 +9810,7 @@
       "uniformName": "post_disable_median",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": true
+        "valueBoolState": false
       },
       "sequencesArray": []
     },
