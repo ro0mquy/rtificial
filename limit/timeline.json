@@ -4130,7 +4130,7 @@
         },
         {
           "sequenceSceneId": 379,
-          "sequenceStart": 74000,
+          "sequenceStart": 72000,
           "sequenceDuration": 1000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -4154,7 +4154,55 @@
         },
         {
           "sequenceSceneId": 379,
+          "sequenceStart": 73000,
+          "sequenceDuration": 1000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 250,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
           "sequenceStart": 75000,
+          "sequenceDuration": 1000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 250,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 74000,
           "sequenceDuration": 1000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -5051,7 +5099,7 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 379,
-          "sequenceStart": 74000,
+          "sequenceStart": 72000,
           "sequenceDuration": 1000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
@@ -6469,7 +6517,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": -1
       },
       "sequencesArray": []
     },
@@ -9033,7 +9081,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec2X": 0,
-                "valueVec2Y": -0.049999999999954525265
+                "valueVec2Y": 0
               }
             }
           ]
@@ -9082,7 +9130,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 2.5890000000000554792
+                "valueFloatX": 2.8450000000000272848
               }
             }
           ]
@@ -9139,7 +9187,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.0049999999999954525265
+                "valueFloatX": 0.019000000000005456968
               }
             }
           ]
@@ -10565,6 +10613,22 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 379,
+          "sequenceStart": 72000,
+          "sequenceDuration": 24000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.050000000000068212103
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
           "sequenceStart": 98000,
           "sequenceDuration": 8000,
           "sequenceInterpolation": "step",
@@ -10620,62 +10684,17 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 379,
-          "sequenceStart": 73000,
-          "sequenceDuration": 5000,
-          "sequenceInterpolation": "linear",
+          "sequenceStart": 72000,
+          "sequenceDuration": 24000,
+          "sequenceInterpolation": "step",
           "keyframesArray": [
             {
               "keyframePosition": 0,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec2X": -0.32100000000002637535,
-                "valueVec2Y": 0.20799999999996998667
-              }
-            },
-            {
-              "keyframePosition": 1000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.37799999999992905941,
-                "valueVec2Y": 0.20799999999996998667
-              }
-            },
-            {
-              "keyframePosition": 2000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.2369999999999663487,
-                "valueVec2Y": 0.20799999999996998667
-              }
-            },
-            {
-              "keyframePosition": 3000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.39800000000002455636,
-                "valueVec2Y": 0.20799999999996998667
-              }
-            },
-            {
-              "keyframePosition": 4000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.26800000000002910383,
-                "valueVec2Y": 0.20799999999996998667
-              }
-            },
-            {
-              "keyframePosition": 5000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.32100000000002637535,
-                "valueVec2Y": 0.20799999999996998667
+                "valueVec2X": -0.28599999999994452082,
+                "valueVec2Y": 0.22100000000000363798
               }
             }
           ]
@@ -10684,7 +10703,7 @@
           "sequenceSceneId": 379,
           "sequenceStart": 98000,
           "sequenceDuration": 8000,
-          "sequenceInterpolation": "ccrSpline",
+          "sequenceInterpolation": "step",
           "keyframesArray": [
             {
               "keyframePosition": 0,
@@ -10854,6 +10873,24 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 379,
+          "sequenceStart": 72000,
+          "sequenceDuration": 24000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec3X": 1,
+                "valueVec3Y": 1,
+                "valueVec3Z": 2.5
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
           "sequenceStart": 96000,
           "sequenceDuration": 1500,
           "sequenceInterpolation": "step",
@@ -10899,40 +10936,64 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 379,
-          "sequenceStart": 73000,
-          "sequenceDuration": 23000,
-          "sequenceInterpolation": "linear",
+          "sequenceStart": 72000,
+          "sequenceDuration": 3000,
+          "sequenceInterpolation": "step",
           "keyframesArray": [
             {
               "keyframePosition": 0,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 4.7290000000000418368
+                "valueFloatX": 10
               }
-            },
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 82000,
+          "sequenceDuration": 3000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
             {
-              "keyframePosition": 7000,
+              "keyframePosition": 0,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 4.7290000000000418368
+                "valueFloatX": 10
               }
-            },
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 86000,
+          "sequenceDuration": 3000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
             {
-              "keyframePosition": 11000,
+              "keyframePosition": 0,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.50800000000003819878
+                "valueFloatX": 10
               }
-            },
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 95000,
+          "sequenceDuration": 1000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
             {
-              "keyframePosition": 23000,
+              "keyframePosition": 0,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.50800000000003819878
+                "valueFloatX": 10
               }
             }
           ]
@@ -10978,6 +11039,22 @@
         "valueFloatX": 0.072000000000002728484
       },
       "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 73000,
+          "sequenceDuration": 23000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.050000000000068212103
+              }
+            }
+          ]
+        },
         {
           "sequenceSceneId": 379,
           "sequenceStart": 98000,
@@ -11035,62 +11112,17 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 379,
-          "sequenceStart": 84000,
-          "sequenceDuration": 12000,
-          "sequenceInterpolation": "linear",
+          "sequenceStart": 73000,
+          "sequenceDuration": 23000,
+          "sequenceInterpolation": "step",
           "keyframesArray": [
             {
               "keyframePosition": 0,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec2X": -0.76599999999996271072,
-                "valueVec2Y": 0.2060000000000172804
-              }
-            },
-            {
-              "keyframePosition": 1000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.81100000000003547029,
-                "valueVec2Y": 0.20199999999999815326
-              }
-            },
-            {
-              "keyframePosition": 2000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.70399999999995088729,
-                "valueVec2Y": 0.20199999999999815326
-              }
-            },
-            {
-              "keyframePosition": 3000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.81899999999995998223,
-                "valueVec2Y": 0.20199999999999815326
-              }
-            },
-            {
-              "keyframePosition": 4000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.7129999999999654392,
-                "valueVec2Y": 0.20348148047924038972
-              }
-            },
-            {
-              "keyframePosition": 12000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec2X": -0.76599999999996271072,
-                "valueVec2Y": 0.2060000000000172804
+                "valueVec2X": -0.17999999999994997779,
+                "valueVec2Y": 0.26800000000002910383
               }
             }
           ]
@@ -11116,7 +11148,7 @@
           "sequenceSceneId": 379,
           "sequenceStart": 98000,
           "sequenceDuration": 8000,
-          "sequenceInterpolation": "ccrSpline",
+          "sequenceInterpolation": "step",
           "keyframesArray": [
             {
               "keyframePosition": 0,
@@ -11286,8 +11318,8 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 379,
-          "sequenceStart": 84000,
-          "sequenceDuration": 12000,
+          "sequenceStart": 73000,
+          "sequenceDuration": 23000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -11295,9 +11327,9 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": 0.40200000000004365575,
-                "valueVec3Y": -0.026999999999929968908,
-                "valueVec3Z": -3.0699999999999363354
+                "valueVec3X": 0,
+                "valueVec3Y": 1,
+                "valueVec3Z": 2.5
               }
             }
           ]
@@ -11349,32 +11381,64 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 379,
-          "sequenceStart": 84000,
-          "sequenceDuration": 12000,
-          "sequenceInterpolation": "linear",
+          "sequenceStart": 73000,
+          "sequenceDuration": 3000,
+          "sequenceInterpolation": "step",
           "keyframesArray": [
             {
               "keyframePosition": 0,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 100
+                "valueFloatX": 10
               }
-            },
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 81000,
+          "sequenceDuration": 3000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
             {
-              "keyframePosition": 4000,
+              "keyframePosition": 0,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 100
+                "valueFloatX": 10
               }
-            },
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 87000,
+          "sequenceDuration": 3000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
             {
-              "keyframePosition": 8000,
+              "keyframePosition": 0,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 3
+                "valueFloatX": 10
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 94000,
+          "sequenceDuration": 2000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 10
               }
             }
           ]
@@ -11419,7 +11483,24 @@
       "uniformStandardValue": {
         "valueFloatX": 0.49700000000007094059
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 74000,
+          "sequenceDuration": 22000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.050000000000068212103
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "spot3_color_rt_color",
@@ -11438,7 +11519,25 @@
         "valueVec2X": 0,
         "valueVec2Y": 0.5
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 74000,
+          "sequenceDuration": 22000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": -0.17499999999995452526,
+                "valueVec2Y": 0.26800000000002910383
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "spot3_pos_rt_vec3",
@@ -11448,7 +11547,26 @@
         "valueVec3Y": 1,
         "valueVec3Z": 1
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 74000,
+          "sequenceDuration": 22000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec3X": -1,
+                "valueVec3Y": 1,
+                "valueVec3Z": 2.5
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "spot3_power_rt_float",
@@ -11459,8 +11577,8 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 379,
-          "sequenceStart": 92000,
-          "sequenceDuration": 5500,
+          "sequenceStart": 74000,
+          "sequenceDuration": 3000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -11468,7 +11586,55 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.22300000000007003109
+                "valueFloatX": 10
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 80000,
+          "sequenceDuration": 3000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 10
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 88000,
+          "sequenceDuration": 3000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 10
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 93000,
+          "sequenceDuration": 3000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 10
               }
             }
           ]

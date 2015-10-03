@@ -256,6 +256,12 @@ float fScene(vec3 p) {
 		mUnion(wMatrix(p));
 	}
 
+if (debug_mode == -1.) {
+	mUnion(fSphere(p-spot1_pos_rt_vec3, .1), newMaterialId(101, vec3(0.)));
+	mUnion(fSphere(p-spot2_pos_rt_vec3, .1), newMaterialId(102, vec3(0.)));
+	mUnion(fSphere(p-spot3_pos_rt_vec3, .1), newMaterialId(103, vec3(0.)));
+}
+
 	return current_dist;
 }
 
@@ -452,6 +458,12 @@ Material getMaterial(MaterialId materialId) {
 		mat.color = vec3(1.);
 	} else if (materialId.id == id_verbindung) {
 		mat.color = vec3(.2);
+	} else if (materialId.id == 101) {
+		mat.color = spot1_color_rt_color;
+	} else if (materialId.id == 102) {
+		mat.color = spot2_color_rt_color;
+	} else if (materialId.id == 103) {
+		mat.color = spot3_color_rt_color;
 	}
 	return mat;
 }
