@@ -84,14 +84,121 @@
       ]
     },
     {
+      "uniformName": "aman_color_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.0049999999999954525265
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "aman_color_glow_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.55422711372375488281,
-        "valueColorG": 0.047775756567716598511,
-        "valueColorB": 0.6120656132698059082
+        "valueColorR": 0,
+        "valueColorG": 0,
+        "valueColorB": 0
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "aman_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0,
+        "valueColorG": 0,
+        "valueColorB": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 65000,
+          "sequenceDuration": 23500,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.51139783859252929688,
+                "valueColorG": 0.19397217035293579102,
+                "valueColorB": 0.015175238251686096191
+              }
+            },
+            {
+              "keyframePosition": 1000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.1767743229866027832,
+                "valueColorG": 0.046148840337991714478,
+                "valueColorB": 0.44787085056304931641
+              }
+            },
+            {
+              "keyframePosition": 2000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.091518357396125793457,
+                "valueColorG": 0.38377466797828674316,
+                "valueColorB": 0.058187179267406463623
+              }
+            },
+            {
+              "keyframePosition": 3000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.0071550365537405014038,
+                "valueColorG": 0.2120443880558013916,
+                "valueColorB": 0.46474117040634155273
+              }
+            },
+            {
+              "keyframePosition": 4000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.47044026851654052734,
+                "valueColorG": 0.58597302436828613281,
+                "valueColorB": 0.12198571115732192993
+              }
+            },
+            {
+              "keyframePosition": 5000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.51139783859252929688,
+                "valueColorG": 0.096266120672225952148,
+                "valueColorB": 0.096266120672225952148
+              }
+            },
+            {
+              "keyframePosition": 6000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.15728072822093963623,
+                "valueColorG": 0.57315886020660400391,
+                "valueColorB": 0.32038158178329467773
+              }
+            },
+            {
+              "keyframePosition": 7000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 1,
+                "valueColorG": 1,
+                "valueColorB": 1
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "aman_cube_d",
