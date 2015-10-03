@@ -460,9 +460,9 @@ Material getMaterial(MaterialId materialId) {
 		vec3 glowcolor = glowcolors[int(mod(color_index.x, num_glowcolors))][int(mod(color_index.y, num_glowcolors))];
 		mat.emission = glowcolor * 1000. * aman_glow_intensity_rt_float * t_glow;
 		mat.color = aman_color_rt_color;
-		mat.emission += 1000. * aman_color_glow_intensity_rt_float * mat.color;
+		//mat.emission += 1000. * aman_color_glow_intensity_rt_float * mat.color;
 		mat.metallic = 0.;
-		mat.roughness = 1.;
+		mat.roughness = 0.;
 	} else if (materialId.id == id_prism || materialId.id == id_verbindung_chamfer) {
 		mat.color = vec3(1.);
 	} else if (materialId.id == id_verbindung) {

@@ -133,7 +133,7 @@
               "keyframeValue": {
                 "valueColorR": 0.1767743229866027832,
                 "valueColorG": 0.046148840337991714478,
-                "valueColorB": 0.44787085056304931641
+                "valueColorB": 0.4478708505630492609
               }
             },
             {
@@ -153,7 +153,7 @@
               "keyframeValue": {
                 "valueColorR": 0.0071550365537405014038,
                 "valueColorG": 0.2120443880558013916,
-                "valueColorB": 0.46474117040634155273
+                "valueColorB": 0.46474117040634149722
               }
             },
             {
@@ -161,9 +161,9 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueColorR": 0.47044026851654052734,
+                "valueColorR": 0.47044026851654058285,
                 "valueColorG": 0.58597302436828613281,
-                "valueColorB": 0.12198571115732192993
+                "valueColorB": 0.12198571115732191605
               }
             },
             {
@@ -12931,7 +12931,7 @@
       "sceneStart": 4000,
       "sceneDuration": 172000,
       "sceneShaderSource": "aman",
-      "sceneEnvironmentSource": "pink_stripes",
+      "sceneEnvironmentSource": "matrix_fog",
       "keyframeValue": {
       }
     },
