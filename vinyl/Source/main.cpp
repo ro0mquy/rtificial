@@ -59,6 +59,7 @@ RT_MAIN {
 	frontend.afterFrame();
 	ladebalken.compile();
 
+
 	if (!frontend.checkMessageLoop()) {
 		frontend.cleanup();
 		RT_DEINIT
@@ -66,6 +67,13 @@ RT_MAIN {
 
 	float progress = 0.;
 	float progress_step = 1./ (3 * n_scenes + n_postproc + 2. + n_textures);
+
+	frontend.beforeFrame();
+	ladebalken.bind();
+	glUniform1f(74, progress);
+	ladebalken.draw(width, height, -1);
+	frontend.afterFrame();
+	glUseProgram(0);
 
 	for (int i = 0; i < n_scenes; i++) {
 #		ifdef _DEBUG
@@ -172,16 +180,36 @@ RT_MAIN {
 		frontend.afterFrame();
 	}
 
-	for (int i = 0; i < n_scenes; i++) {
-		if (environments[i].isValid()) {
-			environments[i].bind();
+	for (int j = 0; j < 60; j++) {
+		for (int i = 0; i < n_scenes; i++) {
+			if (environments[i].isValid()) {
+				environments[i].bind();
+			}
+
+			fbos[0].bind();
+			scenes[i].draw(fbos[0].width, fbos[0].height, -1);
+			fbos[0].unbind();
+			for (int i = 0; i < n_postproc - 1; i++) {
+				fbos[i + 1].bind();
+				postproc[i].draw(fbos[i + 1].width, fbos[i + 1].height, -1);
+				fbos[i + 1].unbind();
+			}
+
+			/*
+			glEnable(GL_FRAMEBUFFER_SRGB);
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glViewport(0, 0, width, height);
+			postproc[n_postproc - 1].draw(width, height, 0);
+			glDisable(GL_FRAMEBUFFER_SRGB);
+			frontend.afterFrame();
+			*/
+
+			progress += progress_step;
+			ladebalken.bind();
+			glUniform1f(74, progress);
+			ladebalken.draw(width, height, -1);
+			frontend.afterFrame();
 		}
-		scenes[i].draw(fbos[0].width, fbos[0].height, 0);
-		progress += progress_step;
-		ladebalken.bind();
-		glUniform1f(74, progress);
-		ladebalken.draw(width, height, -1);
-		frontend.afterFrame();
 	}
 
 	const int precalc_end_time = frontend.getTime() * 60. / BPM;

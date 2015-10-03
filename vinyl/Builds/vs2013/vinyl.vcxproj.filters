@@ -191,6 +191,9 @@
     <ClInclude Include="..\..\Source\shaders\ladebalken.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\love.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\shaders\matrix.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
