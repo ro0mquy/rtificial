@@ -93,9 +93,9 @@ void LinuxFrontend::init(int width, int height, bool /*fullscreen*/) {
 
 	// full screen
 	const Atom x_wm_state = XInternAtom(x_display, "_NET_WM_STATE", False);
-	const Atom x_fullscreen = XInternAtom(x_display, "NET_WM_STATE_FULLSCREEN", False);
+	const Atom x_fullscreen = XInternAtom(x_display, "_NET_WM_STATE_FULLSCREEN", False);
 	XEvent fullscreen_message;
-//	memset(&fullscreen_message, 0, sizeof(fullscreen_message));
+	memset(&fullscreen_message, 0, sizeof(fullscreen_message));
 	fullscreen_message.xclient.type = ClientMessage;
 	fullscreen_message.xclient.window = x_window;
 	fullscreen_message.xclient.message_type = x_wm_state;
@@ -104,6 +104,11 @@ void LinuxFrontend::init(int width, int height, bool /*fullscreen*/) {
 	fullscreen_message.xclient.data.l[1] = x_fullscreen;
 	fullscreen_message.xclient.data.l[2] = 0;
 
+	// make the window appear
+	XMapWindow(x_display, x_window);
+	XStoreName(x_display, x_window, "rtificial");
+
+	// send fullscreen event
 	XSendEvent(
 			x_display,
 			x_root_window,
@@ -111,11 +116,6 @@ void LinuxFrontend::init(int width, int height, bool /*fullscreen*/) {
 			SubstructureRedirectMask | SubstructureNotifyMask,
 			&fullscreen_message
 	);
-
-	// make the window appear
-	XMapWindow(x_display, x_window);
-
-	XStoreName(x_display, x_window, "rtificial");
 
 	// create OpenGL context
 	gl_context = glXCreateContext(x_display, x_visual_info, NULL, GL_TRUE);
