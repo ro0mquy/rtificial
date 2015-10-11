@@ -195,14 +195,12 @@ RT_MAIN {
 				fbos[i + 1].unbind();
 			}
 
-			/*
 			glEnable(GL_FRAMEBUFFER_SRGB);
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glViewport(0, 0, width, height);
 			postproc[n_postproc - 1].draw(width, height, 0);
 			glDisable(GL_FRAMEBUFFER_SRGB);
 			frontend.afterFrame();
-			*/
 
 			progress += progress_step;
 			ladebalken.bind();
@@ -229,7 +227,7 @@ RT_MAIN {
 	int shader_id = scenes_data[scene_id].sceneId;
 	const int last_scene_id = sizeof(scenes_data) / sizeof(Scene) - 1;
 	while(frontend.checkMessageLoop()) {
-		const int currentTime = frontend.getTime();
+		const int currentTime = frontend.getTime() + 250;
 
 		if(scenes_data[scene_id].end < currentTime) {
 			if(scene_id == last_scene_id) {

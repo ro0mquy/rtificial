@@ -328,6 +328,7 @@
     <ClInclude Include="..\..\Source\shaders\ladebalken.h" />
     <ClInclude Include="..\..\Source\shaders\love.h" />
     <ClInclude Include="..\..\Source\shaders\matrix.h" />
+    <ClInclude Include="..\..\Source\shaders\matrix_environment.h" />
     <ClInclude Include="..\..\Source\shaders\output.h" />
     <ClInclude Include="..\..\Source\shaders\remove_fireflies.h" />
     <ClInclude Include="..\..\Source\shaders\scale.h" />

@@ -197,6 +197,9 @@
     <ClInclude Include="..\..\Source\shaders\matrix.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\matrix_environment.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\shaders\output.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
