@@ -37,10 +37,16 @@ header h1{
 	margin-bottom: 10px;
 }
 .follow-us{
-	opacity: 0.75;
 	text-align: center;
 	margin-bottom: 50px;
 	font-size: 0.9em;
+}
+.follow-link{
+	opacity: 0.75;
+	margin-left: 20px;
+}
+.follow-link:first-child{
+	margin-left: 0;
 }
 .follow-us a:link, .follow-us a:visited{
 	text-decoration: none;
@@ -52,11 +58,13 @@ img.twitter-icon{
 	vertical-align: middle;
 	opacity: 0.75;
 }
-.follow-us:hover, .follow-us:hover .twitter-icon{
-	opacity: 1.0;
+img.mail-icon{
+	width: 16px;
+	vertical-align: middle;
+	opacity: 0.75;
 }
-.twitter-account{
-	color: #fff;
+.follow-link:hover, .follow-link:hover .follow-icon{
+	opacity: 1.0;
 }
 
 
@@ -127,13 +135,12 @@ img.twitter-icon{
 .content{}
 .demo{
 	display: block;
+	margin-bottom: 75px;
 }
 .demo .title{
 	font-weight: 100;
 	font-size: 2em;
-    -webkit-transition: opacity 0.25s ease-in-out;
-            transition: opacity 0.25s ease-in-out;
-	opacity: 0.0;
+	margin: 0;
 }
 .demo .title a,
 .demo .title a:active,
@@ -145,26 +152,14 @@ img.twitter-icon{
 	margin-left: -1.15em;
 	content: "# ";
 }
-.demo:hover .title{
-    -webkit-transition: opacity 0.5s ease-in-out;
-            transition: opacity 0.5s ease-in-out;
-	opacity: 1.0;
-}
 .demo .title .year{
 	float: right;
 	font-size: 0.5em;
 	padding-top: 15px;
 }
-.demo:hover .screenshot{
-    -webkit-transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
-            transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
-	margin-top: -30px;
-	opacity: 1.0;
-}
 .screenshot{
 	border-radius: 5px;
 	border-top: 1px solid rgba(255,255,255,0.25);
-	margin-bottom: 0px;
 	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
 	height: 400px;
 	width: 800px;
@@ -172,11 +167,6 @@ img.twitter-icon{
 	background-position: center;
 	background-size: cover;
 	position: relative;
-	z-index: 10;
-	margin-top: -70px;
-    -webkit-transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
-            transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
-	opacity: 0.5;
 }
 .toolbar{
 	background: #333;
@@ -188,17 +178,8 @@ img.twitter-icon{
 	box-sizing: border-box;
 	-webkit-border-radius: 0 0 5px 5px;
 	        border-radius: 0 0 5px 5px;
-	margin-top: -100px;
-    -webkit-transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
-            transition: margin-top 0.25s ease-in-out, opacity 0.25s ease-in-out;
-	opacity: 0.0;
-}
-.demo:hover .toolbar{
 	margin-top: -10px;
 	box-shadow: 0 0 10px 5px rgba(0,0,0,1);
-    -webkit-transition: margin-top 0.25s ease-in-out, opacity 0.5s ease-in-out;
-            transition: margin-top 0.25s ease-in-out, opacity 0.5s ease-in-out;
-	opacity: 1.0;
 }
 .toolbar li.right{
 	float: right;
@@ -216,6 +197,31 @@ img.twitter-icon{
 }
 .toolbar a:hover{
 	text-decoration: underline;
+}
+.medal:before{
+	font-size: 0.65em;
+	text-align: center;
+	display: inline-block;
+	width: 12px;
+	height: 11px;
+	-webkit-border-radius: 6px;
+	        border-radius: 6px;
+	vertical-align: middle;
+	margin-right: 3px;
+	border-top: 1px solid rgba(255,255,255,0.5);
+	color: rgba(0,0,0,0.5)
+}
+.medal-1st:before{
+	content: '1';
+	background: gold;
+}
+.medal-2nd:before{
+	content: '2';
+	background: grey;
+}
+.medal-3rd:before{
+	content: '3';
+	background: #CC8100;
 }
 
 
@@ -275,16 +281,14 @@ footer a:hover{
 	}
 
 	.demo .title{
-		opacity: 1.0;
 		font-size: 1.8em;
 	}
-	.screenshot, .demo:hover .screenshot{
+	.screenshot{
 		width: 100%;
 		height: 350px;
-		margin-top: -20px; 
 		opacity: 1.0;
 	}
-	.toolbar, .demo:hover .toolbar{
+	.toolbar{
 		opacity: 1.0;
 		margin-top: -10px;
 		box-shadow: 0 0 10px 5px rgba(0,0,0,1);
