@@ -62,6 +62,22 @@ Selection& TimelineData::getSelection() {
 	return selection;
 }
 
+void TimelineData::performBakeOver() {
+	std::lock_guard<std::recursive_mutex> lock(treeMutex);
+	int numBaked = 0;
+	const int numUniforms = getNumUniforms();
+	for (int i = numUniforms - 1; i >= 0; i--) {
+		ValueTree uniform = getUniform(i);
+		const int numSequences = getNumSequences(uniform);
+		if (numSequences == 0) {
+			bakeUniform(uniform);
+			numBaked++;
+		}
+		std::cout << i << " " << numSequences << "\n";
+	}
+	std::cout << "Backed " << numBaked << " Uniforms \\o/\n";
+}
+
 void TimelineData::readTimelineDataFromFile(const File& dataFile) {
 	var jsonRepresentation;
 	const Result result = JSON::parse(dataFile.loadFileAsString(), jsonRepresentation);
@@ -113,6 +129,9 @@ void TimelineData::applicationCommandInvoked(const ApplicationCommandTarget::Inv
 			break;
 		case TimelineData::redoAction:
 			getUndoManager().redo();
+			break;
+		case TimelineData::bakeOver:
+			performBakeOver();
 			break;
 	}
 }

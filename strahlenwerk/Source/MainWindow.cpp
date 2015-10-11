@@ -102,6 +102,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Renderer::makeDemo,
 		TimelineData::undoAction,
 		TimelineData::redoAction,
+		TimelineData::bakeOver,
 		AudioManager::toggleMute,
 		Selection::toggleLoop,
 		Selection::deleteSelection,
@@ -221,6 +222,10 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			}
 			break;
 
+		case TimelineData::bakeOver:
+			result.setInfo("Bake Over", "Bake all unanimated uniforms", programCategory, 0);
+			break;
+
 		case Selection::toggleLoop:
 			result.setInfo("Toggle Selection Looping", "Loops the current selection", programCategory, 0);
 			result.addDefaultKeypress('8', ModifierKeys::noModifiers);
@@ -307,6 +312,8 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, AudioManager::toggleMute);
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, Selection::toggleLoop);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, TimelineData::bakeOver);
 	} else if (topLevelMenuIndex == 4 /* Help */) {
 		menu.addItem(41, "No Help available. You are lost.", false);
 		menu.addSeparator();

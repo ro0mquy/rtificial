@@ -22,6 +22,7 @@ class TimelineData :
 		UndoManager& getUndoManager();
 		Selection& getSelection();
 
+		void performBakeOver();
 		void readTimelineDataFromFile(const File& dataFile);
 		void writeTimelineDataToFile(const File& dataFile);
 		void addListenerToTree(ValueTree::Listener* listener);
@@ -252,6 +253,7 @@ class TimelineData :
 		enum CommandIDs {
 			undoAction = 0x7f41fa00,
 			redoAction,
+			bakeOver,
 		};
 
 	private:
