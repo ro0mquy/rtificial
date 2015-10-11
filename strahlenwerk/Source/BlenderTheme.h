@@ -84,6 +84,18 @@ class BlenderTheme {
 			/* ShadeDown */  -15,
 		};
 
+		BlenderThemeComponent Menu = BlenderThemeComponent {
+			/* Outline       */ Colour(0xff000000),
+			/* Item          */ Colour(0xffffffff),
+			/* Inner         */ Colour(0xff464646),
+			/* InnerSelected */ Colour(0xff464646),
+			/* Text          */ Colour(0xffffffff),
+			/* TextSelected  */ Colour(0xffcccccc),
+			/* Shaded    */ true,
+			/* ShadeTop  */   15,
+			/* ShadeDown */  -15,
+		};
+
 		BlenderThemeComponent Pulldown = BlenderThemeComponent {
 			/* Outline       */ Colour(0xff000000),
 			/* Item          */ Colour(0xffffffff),

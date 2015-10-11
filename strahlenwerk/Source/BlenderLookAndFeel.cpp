@@ -25,6 +25,12 @@ BlenderLookAndFeel::BlenderLookAndFeel(BlenderTheme theme_) :
 	setColour(PopupMenu::highlightedBackgroundColourId, theme.MenuItem.innerSelected);
 	setColour(PopupMenu::highlightedTextColourId, theme.MenuItem.textSelected);
 
+	setColour(ComboBox::backgroundColourId, theme.Menu.inner);
+	setColour(ComboBox::textColourId, theme.Menu.text);
+	setColour(ComboBox::outlineColourId, theme.Menu.outline);
+	setColour(ComboBox::buttonColourId, theme.Menu.inner);
+	setColour(ComboBox::arrowColourId, theme.Menu.item);
+
 	setColour(Slider::textBoxTextColourId, theme.Text.text);
 	setColour(Slider::textBoxBackgroundColourId, theme.Text.inner);
 	setColour(Slider::textBoxHighlightColourId, theme.Text.item);
@@ -526,6 +532,44 @@ void BlenderLookAndFeel::drawPopupMenuItem(Graphics& g, const Rectangle<int>& ar
 			g.drawText(shortcutString, r, Justification::centredRight, true);
 		}
 	}
+}
+
+void BlenderLookAndFeel::drawComboBox(Graphics& g, int width, int height, const bool isButtonDown, int buttonX, int buttonY, int buttonW, int buttonH, ComboBox& box) {
+	const BlenderThemeComponent themeComponent = theme.Menu;
+
+	Colour baseColor = box.findColour(ComboBox::backgroundColourId);
+	if (isButtonDown) {
+		baseColor = themeComponent.innerSelected;
+	}/* else if (box.isMouseOver()) {
+		baseColor = baseColor.brighter(highlightedBrighter);
+	}*/
+
+	width -= 1;
+	height -= 1 + emboss;
+
+	Path outline;
+	outline.addRoundedRectangle(0.5, 0.5f, width, height, cornerRadius);
+
+	drawBox(g, outline, width, height, themeComponent, baseColor, box.isPopupActive() || box.isMouseButtonDown(), box.isEnabled());
+
+    const float arrowX = 0.35f;
+    const float arrowH = 0.25f;
+
+    Path p;
+    p.addTriangle(
+		buttonX + buttonW * 0.5f,            buttonY + buttonH * (0.45f - arrowH),
+		buttonX + buttonW * (1.0f - arrowX), buttonY + buttonH * 0.45f,
+		buttonX + buttonW * arrowX,          buttonY + buttonH * 0.45f
+	);
+
+    p.addTriangle(
+		buttonX + buttonW * 0.5f,            buttonY + buttonH * (0.55f + arrowH),
+		buttonX + buttonW * (1.0f - arrowX), buttonY + buttonH * 0.55f,
+		buttonX + buttonW * arrowX,          buttonY + buttonH * 0.55f
+	);
+
+    g.setColour(box.findColour(ComboBox::arrowColourId).withMultipliedAlpha(box.isEnabled() ? 1.0f : disabledAlpha).withMultipliedAlpha(0.8f));
+    g.fillPath(p);
 }
 
 

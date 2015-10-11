@@ -31,10 +31,11 @@ class BlenderLookAndFeel : public LookAndFeel_V3
 		void drawMenuBarBackground(Graphics& g, int width, int height, bool isMouseOverBar, MenuBarComponent& menuBar) override;
 		int getMenuBarItemWidth(MenuBarComponent& menuBar, int itemIndex, const String& itemText) override;
 		Font getMenuBarFont(MenuBarComponent& menuBar, int itemIndex, const String& itemText) override;
-		void drawMenuBarItem(Graphics& g, int width, int height, int itemIndex, const String& itemText, bool isMouseOverItem, bool isMenuOpen, bool /*isMouseOverBar*/, MenuBarComponent& menuBar) override;
+		void drawMenuBarItem(Graphics& g, int width, int height, int itemIndex, const String& itemText, bool isMouseOverItem, bool isMenuOpen, bool isMouseOverBar, MenuBarComponent& menuBar) override;
 		Font getPopupMenuFont() override;
 		void drawPopupMenuBackground(Graphics& g, int width, int height) override;
-		void drawPopupMenuItem (Graphics& g, const juce::Rectangle<int>& area, const bool isSeparator, const bool isActive, const bool isHighlighted, const bool isTicked, const bool hasSubMenu, const String& text, const String& shortcutKeyText, const Drawable* icon, const Colour* const textColourToUse) override;
+		void drawPopupMenuItem(Graphics& g, const juce::Rectangle<int>& area, const bool isSeparator, const bool isActive, const bool isHighlighted, const bool isTicked, const bool hasSubMenu, const String& text, const String& shortcutKeyText, const Drawable* icon, const Colour* const textColourToUse) override;
+		void drawComboBox(Graphics& g, int width, int height, const bool isButtonDown, int buttonX, int buttonY, int buttonW, int buttonH, ComboBox& box) override;
 
 		void fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor) override;
 		void drawTextEditorOutline(Graphics& g, int width, int height, TextEditor& textEditor) override;
