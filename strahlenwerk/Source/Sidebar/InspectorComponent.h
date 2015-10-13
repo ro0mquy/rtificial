@@ -43,7 +43,7 @@ class InspectorComponent :
 		ScopedPointer<SequenceBackgroundComponent> sequencePreview;
 		ScopedPointer<SceneBackgroundComponent> scenePreview;
 
-		ValueEditorPropertyComponent* keyframeValueEditor;
+		ScopedPointer<ValueEditorPropertyComponent> keyframeValueEditor;
 		ScopedPointer<PropertyPanel> propertyEditorPanel;
 
 		void initalizeSequenceEditing();
