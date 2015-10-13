@@ -3,6 +3,7 @@
 
 #include <juce>
 #include "MainContentComponent.h"
+#include <Project/Project.h>
 
 /*
    This class implements the desktop window that contains an instance of
@@ -11,7 +12,8 @@
 class MainWindow : public DocumentWindow,
 	public ApplicationCommandTarget,
 	public MenuBarModel,
-	public ChangeListener
+	public ChangeListener,
+	private Project::Listener
 {
 	public:
 		MainWindow();
@@ -31,6 +33,7 @@ class MainWindow : public DocumentWindow,
 		void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
 
 		void changeListenerCallback(ChangeBroadcaster* source) override;
+		void projectChanged() override;
 
 	private:
 		MainContentComponent mainContentComponent;
@@ -40,6 +43,8 @@ class MainWindow : public DocumentWindow,
 		void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
 		bool perform(const InvocationInfo& info) override;
 		void performToggleFullscreen();
+
+		void setWindowTitle();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };

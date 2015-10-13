@@ -64,6 +64,7 @@ class Project :
 
 		class Listener {
 			public:
+				virtual void projectChanged() {}
 				virtual void postprocChanged() {}
 				virtual void scenesChanged() {}
 				virtual void infoLogChanged() {}
@@ -79,6 +80,7 @@ class Project :
 		std::vector<std::unique_ptr<SceneShader>> loadSceneShaders();
 		std::vector<std::unique_ptr<Shader>> loadEnvironmentShaders();
 		std::vector<std::pair<std::string, std::string>> listShaderSources(const std::vector<File>& files);
+		void projectChanged();
 		void postprocChanged();
 		void scenesChanged();
 		void infoLogChanged();

@@ -21,14 +21,7 @@ MainWindow::MainWindow() :
 			LookAndFeel::getDefaultLookAndFeel().findColour(ResizableWindow::backgroundColourId), // nicht mehr kritzelila
 			DocumentWindow::allButtons)
 {
-	StrahlenwerkApplication* strahlenwerkApp = StrahlenwerkApplication::getInstance();
-	setName(strahlenwerkApp->getProject().getProjectName()
-		+ " - "
-		+ strahlenwerkApp->getApplicationName()
-		+ " ("
-		+ "Elbphilharmonie" //StrahlenwerkApplication::getInstance()->getApplicationVersion()
-		+ " Edition)"
-	);
+	setWindowTitle();
 	setMenuBar(this);
 	setContentOwned(&mainContentComponent, true);
 
@@ -43,11 +36,13 @@ MainWindow::MainWindow() :
 	setApplicationCommandManagerToWatch(&getApplicationCommandManager());
 
 	TimelineData::getTimelineData().getUndoManager().addChangeListener(this);
+	StrahlenwerkApplication::getInstance()->getProject().addListener(this);
 }
 
 MainWindow::~MainWindow() {
 	applicationCommandManager = nullptr;
 	setMenuBar(nullptr);
+	StrahlenwerkApplication::getInstance()->getProject().removeListener(this);
 }
 
 void MainWindow::closeButtonPressed() {
@@ -332,9 +327,24 @@ void MainWindow::menuItemSelected(int menuItemID, int /*topLevelMenuIndex*/) {
 	}
 }
 
+void MainWindow::setWindowTitle() {
+	StrahlenwerkApplication* strahlenwerkApp = StrahlenwerkApplication::getInstance();
+	setName(strahlenwerkApp->getProject().getProjectName()
+		+ " - "
+		+ strahlenwerkApp->getApplicationName()
+		+ " ("
+		+ "Elbphilharmonie" //StrahlenwerkApplication::getInstance()->getApplicationVersion()
+		+ " Edition)"
+	);
+}
+
 void MainWindow::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// undoManager changed
 	getApplicationCommandManager().commandStatusChanged();
+}
+
+void MainWindow::projectChanged() {
+	setWindowTitle();
 }
 
 void MainWindow::performToggleFullscreen() {

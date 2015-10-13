@@ -90,6 +90,7 @@ void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
 	watchFiles(dir);
 	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::ProjectDir, var(dir));
+	projectChanged();
 	reloadTimelineData();
 	reloadShaders();
 	reloadAudio();
@@ -619,6 +620,10 @@ std::vector<std::pair<std::string, std::string>> Project::listShaderSources(cons
 		);
 	}
 	return shaderSources;
+}
+
+void Project::projectChanged() {
+	listeners.call(&Project::Listener::projectChanged);
 }
 
 void Project::postprocChanged() {
