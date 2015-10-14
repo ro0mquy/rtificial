@@ -130,7 +130,7 @@ void InspectorComponent::initalizeSequenceEditing() {
 }
 
 void InspectorComponent::updateSequenceEditor() {
-	if (keyframeValueEditor == nullptr || propertyEditorPanel == nullptr) {
+	if (keyframeValueEditor == nullptr || propertyEditorPanel == nullptr || interpolationPlot == nullptr) {
 		return;
 	}
 
