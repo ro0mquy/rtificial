@@ -11,13 +11,10 @@ InterpolationPlotComponent::InterpolationPlotComponent(ValueTree sequence_) :
 	setBufferedToImage(true);
 }
 
-InterpolationPlotComponent::~InterpolationPlotComponent() {
-}
-
 void InterpolationPlotComponent::paint(Graphics& g) {
 	ValueTree uniform = data.getSequenceParentUniform(sequence);
 	const String uniformType = data.getUniformType(uniform);
-	Interpolator::Interpolator& interpolator = data.getInterpolator();
+	Interpolator& interpolator = data.getInterpolator();
 	const int duration = data.getSequenceDuration(sequence);
 	const int width = g.getClipBounds().getWidth();
 	const int height = g.getClipBounds().getHeight();
@@ -29,8 +26,8 @@ void InterpolationPlotComponent::paint(Graphics& g) {
 		Path graph;
 		bool first = true;
 		for (int t = 0; t <= duration; t += stepSize) {
-			Interpolator::UniformState uniformState = interpolator.calculateInterpolatedState(sequence, t);
-			const float y = data.getFloatFromValue(uniformState.first);
+			const ValueTree uniformState = interpolator.calculateInterpolatedState(sequence, t).first;
+			const float y = data.getFloatFromValue(uniformState);
 
 			if (first) {
 				graph.startNewSubPath(t, y);
@@ -38,13 +35,11 @@ void InterpolationPlotComponent::paint(Graphics& g) {
 			} else {
 				graph.lineTo(t, y);
 			}
-
-			if (uniformState.second) {
-			}
 		}
 
 		std::vector<Point<float>> keyPoints;
-		for (int i = 0; i < data.getNumKeyframes(sequence); i++) {
+		const int numKeyframes = data.getNumKeyframes(sequence);
+		for (int i = 0; i < numKeyframes; i++) {
 			const ValueTree keyFrame = data.getKeyframe(sequence, i);
 			const float t = data.getKeyframePosition(keyFrame);
 			const float y = data.getValueFloatX(data.getKeyframeValue(keyFrame));
@@ -82,7 +77,7 @@ void InterpolationPlotComponent::paint(Graphics& g) {
 
 		g.setColour(findColour(InterpolationPlotComponent::keyPointColourId));
 		const float keyPointRadius = 3.0f;
-		for (auto keyPoint : keyPoints) {
+		for (Point<float>& keyPoint : keyPoints) {
 			keyPoint.applyTransform(scaleGraphToFit);
 			g.fillEllipse(
 				keyPoint.getX() - keyPointRadius,
@@ -93,4 +88,3 @@ void InterpolationPlotComponent::paint(Graphics& g) {
 		}
 	}
 }
-

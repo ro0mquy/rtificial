@@ -56,7 +56,7 @@ void InspectorComponent::changeListenerCallback(ChangeBroadcaster* source) {
 }
 
 void InspectorComponent::resized() {
-	if ((isEditingSequence() || isEditingKeyframe()) && sequencePreview != nullptr && propertyEditorPanel != nullptr) {
+	if ((isEditingSequence() || isEditingKeyframe()) && sequencePreview != nullptr && propertyEditorPanel != nullptr && interpolationPlot != nullptr) {
 		const int scenesBarHeightHalf = 30 / 2;
 		const int rowHeight = 20;
 		const int padding = 30;
@@ -176,7 +176,7 @@ void InspectorComponent::initalizeKeyframeEditing() {
 	propertyEditorPanel = new PropertyPanel;
 	propertyEditorPanel->addProperties({{ valueEditor, /*positionEditor,*/ easeTowardEditor, easeAwayEditor }});
 
-	interpolationPlot = new InterpolationPlotComponent(singleSelectedTree);
+	interpolationPlot = new InterpolationPlotComponent(data.getKeyframeParentSequence(singleSelectedTree));
 
 	resized();
 	addAndMakeVisible(sequencePreview);
