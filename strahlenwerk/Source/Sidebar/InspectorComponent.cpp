@@ -36,6 +36,7 @@ void InspectorComponent::changeListenerCallback(ChangeBroadcaster* source) {
 		scenePreview = nullptr;
 		keyframeValueEditor = nullptr;
 		propertyEditorPanel = nullptr;
+		interpolationPlot = nullptr;
 
 		if (selectionSize == 0) {
 		} else if (selectionSize == 1) {
@@ -59,13 +60,19 @@ void InspectorComponent::resized() {
 		const int scenesBarHeightHalf = 30 / 2;
 		const int rowHeight = 20;
 		const int padding = 30;
+		const int propertyEditorMinHeight = propertyEditorPanel->getTotalContentHeight();
+		const int plotMaxHeight = 200;
 
 		Rectangle<int> boundsRect = getLocalBounds().reduced(padding);
 		Rectangle<int> previewRect = boundsRect.removeFromTop(scenesBarHeightHalf + rowHeight);
+		Rectangle<int> propertyEditorRect = boundsRect.removeFromTop(jmin(propertyEditorMinHeight + padding, boundsRect.getHeight() + padding));
+		propertyEditorRect.removeFromTop(padding);
+		Rectangle<int> plotRect = boundsRect.withTrimmedTop(padding);
+		plotRect.setHeight(jmin(plotRect.getHeight(), plotMaxHeight));
 
 		sequencePreview->setBounds(previewRect);
-
-		propertyEditorPanel->setBounds(boundsRect.withTrimmedTop(padding));
+		propertyEditorPanel->setBounds(propertyEditorRect);
+		interpolationPlot->setBounds(plotRect);
 	} else if (isEditingScene() && scenePreview != nullptr && propertyEditorPanel != nullptr) {
 		const int scenesBarHeightHalf = 30 / 2;
 		const int rowHeight = 20;
@@ -114,9 +121,12 @@ void InspectorComponent::initalizeSequenceEditing() {
 	propertyEditorPanel = new PropertyPanel;
 	propertyEditorPanel->addProperties({{ static_cast<PropertyComponent*>(keyframeValueEditor), interpolationEditor }});
 
+	interpolationPlot = new InterpolationPlotComponent(singleSelectedTree);
+
 	resized();
 	addAndMakeVisible(sequencePreview);
 	addAndMakeVisible(propertyEditorPanel);
+	addAndMakeVisible(interpolationPlot);
 }
 
 void InspectorComponent::updateSequenceEditor() {
@@ -130,6 +140,8 @@ void InspectorComponent::updateSequenceEditor() {
 
 	keyframeValueEditor->useValueData(value);
 	keyframeValueEditor->setEnabled(isOnKeyframe);
+
+	interpolationPlot->repaint();
 }
 
 bool InspectorComponent::isEditingSequence() {
@@ -164,9 +176,12 @@ void InspectorComponent::initalizeKeyframeEditing() {
 	propertyEditorPanel = new PropertyPanel;
 	propertyEditorPanel->addProperties({{ valueEditor, /*positionEditor,*/ easeTowardEditor, easeAwayEditor }});
 
+	interpolationPlot = new InterpolationPlotComponent(singleSelectedTree);
+
 	resized();
 	addAndMakeVisible(sequencePreview);
 	addAndMakeVisible(propertyEditorPanel);
+	addAndMakeVisible(interpolationPlot);
 }
 
 bool InspectorComponent::isEditingKeyframe() {

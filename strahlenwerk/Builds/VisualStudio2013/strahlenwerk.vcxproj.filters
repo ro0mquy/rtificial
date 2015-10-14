@@ -373,10 +373,19 @@
     <ClCompile Include="..\..\Source\Sidebar\DraggableQuaternion.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp">
+    <ClCompile Include="..\..\Source\Sidebar\InfoLogComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Sidebar\InfoLogComponent.cpp">
+    <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\InterpolationPlotComponent.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\SceneBackgroundComponent.cpp">
@@ -385,22 +394,16 @@
     <ClCompile Include="..\..\Source\Sidebar\SequenceBackgroundComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp">
-      <Filter>strahlenwerk\Source\Sidebar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp">
-      <Filter>strahlenwerk\Source\Sidebar</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\Sidebar.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\ValueSlider.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\ValueToggleButton.cpp">
-      <Filter>strahlenwerk\Source\Sidebar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\Selection.cpp">
@@ -1767,10 +1770,19 @@
     <ClInclude Include="..\..\Source\Sidebar\DraggableQuaternion.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h">
+    <ClInclude Include="..\..\Source\Sidebar\InfoLogComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Sidebar\InfoLogComponent.h">
+    <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\InterpolationPlotComponent.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\SceneBackgroundComponent.h">
@@ -1779,22 +1791,16 @@
     <ClInclude Include="..\..\Source\Sidebar\SequenceBackgroundComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h">
-      <Filter>strahlenwerk\Source\Sidebar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h">
-      <Filter>strahlenwerk\Source\Sidebar</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\Sidebar.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\ValueSlider.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\ValueToggleButton.h">
-      <Filter>strahlenwerk\Source\Sidebar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Sidebar\ValueEditorPropertyComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\Selection.h">

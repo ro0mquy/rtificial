@@ -5,6 +5,7 @@
 #include <Sidebar/SequenceBackgroundComponent.h>
 #include <Sidebar/SceneBackgroundComponent.h>
 #include <Sidebar/ValueEditorPropertyComponent.h>
+#include <Sidebar/InterpolationPlotComponent.h>
 
 class TimelineData;
 class Selection;
@@ -42,6 +43,7 @@ class InspectorComponent :
 		ValueTree singleSelectedTree;
 		ScopedPointer<SequenceBackgroundComponent> sequencePreview;
 		ScopedPointer<SceneBackgroundComponent> scenePreview;
+		ScopedPointer<InterpolationPlotComponent> interpolationPlot;
 
 		ScopedPointer<ValueEditorPropertyComponent> keyframeValueEditor;
 		ScopedPointer<PropertyPanel> propertyEditorPanel;

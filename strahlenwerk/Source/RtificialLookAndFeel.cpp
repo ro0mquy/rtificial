@@ -62,6 +62,12 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 
 	// InspectorComponent
 	setColour(InspectorComponent::textColourId, Colours::black);
+
+	// InterpolationPlotComponent
+	setColour(InterpolationPlotComponent::backgroundColourId, Colours::black.withAlpha(0.1f));
+	setColour(InterpolationPlotComponent::axisLineColourId, Colours::white.withAlpha(0.2f));
+	setColour(InterpolationPlotComponent::plotLineColourId, Colours::white);
+	setColour(InterpolationPlotComponent::keyPointColourId, Colours::white.withAlpha(0.5f));
 }
 
 BlenderTheme RtificialLookAndFeel::createBlenderTheme() {

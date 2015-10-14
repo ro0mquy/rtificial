@@ -97,14 +97,26 @@
               file="Source/Sidebar/DraggableQuaternion.cpp"/>
         <FILE id="StasNY" name="DraggableQuaternion.h" compile="0" resource="0"
               file="Source/Sidebar/DraggableQuaternion.h"/>
-        <FILE id="ax5XL0" name="QuaternionEditor.cpp" compile="1" resource="0"
-              file="Source/Sidebar/QuaternionEditor.cpp"/>
-        <FILE id="KjzudO" name="QuaternionEditor.h" compile="0" resource="0"
-              file="Source/Sidebar/QuaternionEditor.h"/>
         <FILE id="zmIm6k" name="InfoLogComponent.cpp" compile="1" resource="0"
               file="Source/Sidebar/InfoLogComponent.cpp"/>
         <FILE id="oed0QQ" name="InfoLogComponent.h" compile="0" resource="0"
               file="Source/Sidebar/InfoLogComponent.h"/>
+        <FILE id="jXn5Iw" name="InspectorComponent.cpp" compile="1" resource="0"
+              file="Source/Sidebar/InspectorComponent.cpp"/>
+        <FILE id="PfhqyI" name="InspectorComponent.h" compile="0" resource="0"
+              file="Source/Sidebar/InspectorComponent.h"/>
+        <FILE id="ybEYFF" name="InspectorSequenceComponent.cpp" compile="1"
+              resource="0" file="Source/Sidebar/InspectorSequenceComponent.cpp"/>
+        <FILE id="SmVfgo" name="InspectorSequenceComponent.h" compile="0" resource="0"
+              file="Source/Sidebar/InspectorSequenceComponent.h"/>
+        <FILE id="nhnAJA" name="InterpolationPlotComponent.cpp" compile="1"
+              resource="0" file="Source/Sidebar/InterpolationPlotComponent.cpp"/>
+        <FILE id="um43fW" name="InterpolationPlotComponent.h" compile="0" resource="0"
+              file="Source/Sidebar/InterpolationPlotComponent.h"/>
+        <FILE id="ax5XL0" name="QuaternionEditor.cpp" compile="1" resource="0"
+              file="Source/Sidebar/QuaternionEditor.cpp"/>
+        <FILE id="KjzudO" name="QuaternionEditor.h" compile="0" resource="0"
+              file="Source/Sidebar/QuaternionEditor.h"/>
         <FILE id="Nwbt9r" name="SceneBackgroundComponent.cpp" compile="1" resource="0"
               file="Source/Sidebar/SceneBackgroundComponent.cpp"/>
         <FILE id="UGn2GE" name="SceneBackgroundComponent.h" compile="0" resource="0"
@@ -113,26 +125,18 @@
               resource="0" file="Source/Sidebar/SequenceBackgroundComponent.cpp"/>
         <FILE id="UpgnYw" name="SequenceBackgroundComponent.h" compile="0"
               resource="0" file="Source/Sidebar/SequenceBackgroundComponent.h"/>
-        <FILE id="ybEYFF" name="InspectorSequenceComponent.cpp" compile="1"
-              resource="0" file="Source/Sidebar/InspectorSequenceComponent.cpp"/>
-        <FILE id="SmVfgo" name="InspectorSequenceComponent.h" compile="0" resource="0"
-              file="Source/Sidebar/InspectorSequenceComponent.h"/>
-        <FILE id="jXn5Iw" name="InspectorComponent.cpp" compile="1" resource="0"
-              file="Source/Sidebar/InspectorComponent.cpp"/>
-        <FILE id="PfhqyI" name="InspectorComponent.h" compile="0" resource="0"
-              file="Source/Sidebar/InspectorComponent.h"/>
         <FILE id="HgQiIA" name="Sidebar.cpp" compile="1" resource="0" file="Source/Sidebar/Sidebar.cpp"/>
         <FILE id="YGLoPF" name="Sidebar.h" compile="0" resource="0" file="Source/Sidebar/Sidebar.h"/>
+        <FILE id="BlstJV" name="ValueEditorPropertyComponent.cpp" compile="1"
+              resource="0" file="Source/Sidebar/ValueEditorPropertyComponent.cpp"/>
+        <FILE id="Ku7pWO" name="ValueEditorPropertyComponent.h" compile="0"
+              resource="0" file="Source/Sidebar/ValueEditorPropertyComponent.h"/>
         <FILE id="s6zYi5" name="ValueSlider.cpp" compile="1" resource="0" file="Source/Sidebar/ValueSlider.cpp"/>
         <FILE id="q9qock" name="ValueSlider.h" compile="0" resource="0" file="Source/Sidebar/ValueSlider.h"/>
         <FILE id="nI8x29" name="ValueToggleButton.cpp" compile="1" resource="0"
               file="Source/Sidebar/ValueToggleButton.cpp"/>
         <FILE id="DMZiqT" name="ValueToggleButton.h" compile="0" resource="0"
               file="Source/Sidebar/ValueToggleButton.h"/>
-        <FILE id="BlstJV" name="ValueEditorPropertyComponent.cpp" compile="1"
-              resource="0" file="Source/Sidebar/ValueEditorPropertyComponent.cpp"/>
-        <FILE id="Ku7pWO" name="ValueEditorPropertyComponent.h" compile="0"
-              resource="0" file="Source/Sidebar/ValueEditorPropertyComponent.h"/>
       </GROUP>
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
         <FILE id="It9DHO" name="Selection.cpp" compile="1" resource="0" file="Source/Timeline/Selection.cpp"/>
