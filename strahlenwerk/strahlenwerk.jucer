@@ -7,28 +7,28 @@
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
       <GROUP id="{9C99C7A8-0996-8168-C568-0719FAFA83A9}" name="ColorPicker">
-        <FILE id="VSQJwy" name="ColorTextInputComponent.cpp" compile="1" resource="0"
-              file="Source/ColorPicker/ColorTextInputComponent.cpp"/>
-        <FILE id="be0EpF" name="ColorTextInputComponent.h" compile="0" resource="0"
-              file="Source/ColorPicker/ColorTextInputComponent.h"/>
         <FILE id="KD2TSy" name="ColorPickerComponent.cpp" compile="1" resource="0"
               file="Source/ColorPicker/ColorPickerComponent.cpp"/>
         <FILE id="hwxm2k" name="ColorPickerComponent.h" compile="0" resource="0"
               file="Source/ColorPicker/ColorPickerComponent.h"/>
-        <FILE id="vnJdlh" name="LabColorPropertyComponent.cpp" compile="1"
-              resource="0" file="Source/ColorPicker/LabColorPropertyComponent.cpp"/>
-        <FILE id="pEid38" name="LabColorPropertyComponent.h" compile="0" resource="0"
-              file="Source/ColorPicker/LabColorPropertyComponent.h"/>
         <FILE id="z3X0Ic" name="ColorSpaceMarker.cpp" compile="1" resource="0"
               file="Source/ColorPicker/ColorSpaceMarker.cpp"/>
         <FILE id="Rs48v2" name="ColorSpaceMarker.h" compile="0" resource="0"
               file="Source/ColorPicker/ColorSpaceMarker.h"/>
+        <FILE id="VSQJwy" name="ColorTextInputComponent.cpp" compile="1" resource="0"
+              file="Source/ColorPicker/ColorTextInputComponent.cpp"/>
+        <FILE id="be0EpF" name="ColorTextInputComponent.h" compile="0" resource="0"
+              file="Source/ColorPicker/ColorTextInputComponent.h"/>
         <FILE id="tIv1g2" name="LabColor.cpp" compile="1" resource="0" file="Source/ColorPicker/LabColor.cpp"/>
         <FILE id="NY5EPp" name="LabColor.h" compile="0" resource="0" file="Source/ColorPicker/LabColor.h"/>
         <FILE id="mlOzUi" name="LabColorPicker.cpp" compile="1" resource="0"
               file="Source/ColorPicker/LabColorPicker.cpp"/>
         <FILE id="iwrAXB" name="LabColorPicker.h" compile="0" resource="0"
               file="Source/ColorPicker/LabColorPicker.h"/>
+        <FILE id="vnJdlh" name="LabColorPropertyComponent.cpp" compile="1"
+              resource="0" file="Source/ColorPicker/LabColorPropertyComponent.cpp"/>
+        <FILE id="pEid38" name="LabColorPropertyComponent.h" compile="0" resource="0"
+              file="Source/ColorPicker/LabColorPropertyComponent.h"/>
         <FILE id="sw6ylR" name="LabColorSpaceView.cpp" compile="1" resource="0"
               file="Source/ColorPicker/LabColorSpaceView.cpp"/>
         <FILE id="nYTv9B" name="LabColorSpaceView.h" compile="0" resource="0"
@@ -139,43 +139,26 @@
               file="Source/Sidebar/ValueToggleButton.h"/>
       </GROUP>
       <GROUP id="{C9D81762-28CC-5248-A6F5-9E2D6116C18B}" name="Timeline">
-        <FILE id="It9DHO" name="Selection.cpp" compile="1" resource="0" file="Source/Timeline/Selection.cpp"/>
-        <FILE id="gXZsVl" name="Selection.h" compile="0" resource="0" file="Source/Timeline/Selection.h"/>
-        <FILE id="chWk8Q" name="JsonExporter.cpp" compile="1" resource="0"
-              file="Source/Timeline/JsonExporter.cpp"/>
-        <FILE id="ZhErca" name="JsonExporter.h" compile="0" resource="0" file="Source/Timeline/JsonExporter.h"/>
-        <FILE id="PrQ55n" name="SpecialUniformController.cpp" compile="1" resource="0"
-              file="Source/Timeline/SpecialUniformController.cpp"/>
-        <FILE id="PP9zqk" name="SpecialUniformController.h" compile="0" resource="0"
-              file="Source/Timeline/SpecialUniformController.h"/>
-        <FILE id="xs0QFK" name="Splines.h" compile="0" resource="0" file="Source/Timeline/Splines.h"/>
-        <FILE id="iX1s38" name="TimeMarkerComponent.cpp" compile="1" resource="0"
-              file="Source/Timeline/TimeMarkerComponent.cpp"/>
-        <FILE id="U2u6hD" name="TimeMarkerComponent.h" compile="0" resource="0"
-              file="Source/Timeline/TimeMarkerComponent.h"/>
-        <FILE id="VrNo2o" name="MouseCallbackClasses.cpp" compile="1" resource="0"
-              file="Source/Timeline/MouseCallbackClasses.cpp"/>
-        <FILE id="CZ4PL1" name="MouseCallbackClasses.h" compile="0" resource="0"
-              file="Source/Timeline/MouseCallbackClasses.h"/>
+        <FILE id="C8JVcE" name="CameraController.cpp" compile="1" resource="0"
+              file="Source/Timeline/CameraController.cpp"/>
+        <FILE id="Hhewpg" name="CameraController.h" compile="0" resource="0"
+              file="Source/Timeline/CameraController.h"/>
         <FILE id="SqLxqZ" name="CameraMath.cpp" compile="1" resource="0" file="Source/Timeline/CameraMath.cpp"/>
         <FILE id="il7nWq" name="CameraMath.h" compile="0" resource="0" file="Source/Timeline/CameraMath.h"/>
-        <FILE id="H4Zw2B" name="ZoomFactor.cpp" compile="1" resource="0" file="Source/Timeline/ZoomFactor.cpp"/>
-        <FILE id="dU3OL9" name="ZoomFactor.h" compile="0" resource="0" file="Source/Timeline/ZoomFactor.h"/>
         <FILE id="x9o48o" name="Interpolator.cpp" compile="1" resource="0"
               file="Source/Timeline/Interpolator.cpp"/>
         <FILE id="NaJFSu" name="Interpolator.h" compile="0" resource="0" file="Source/Timeline/Interpolator.h"/>
+        <FILE id="chWk8Q" name="JsonExporter.cpp" compile="1" resource="0"
+              file="Source/Timeline/JsonExporter.cpp"/>
+        <FILE id="ZhErca" name="JsonExporter.h" compile="0" resource="0" file="Source/Timeline/JsonExporter.h"/>
         <FILE id="qaPfWo" name="KeyframeComponent.cpp" compile="1" resource="0"
               file="Source/Timeline/KeyframeComponent.cpp"/>
         <FILE id="M3qMEw" name="KeyframeComponent.h" compile="0" resource="0"
               file="Source/Timeline/KeyframeComponent.h"/>
-        <FILE id="q6A5Cf" name="SequenceComponent.cpp" compile="1" resource="0"
-              file="Source/Timeline/SequenceComponent.cpp"/>
-        <FILE id="BtReWS" name="SequenceComponent.h" compile="0" resource="0"
-              file="Source/Timeline/SequenceComponent.h"/>
-        <FILE id="uGxIMZ" name="UniformsBarComponent.cpp" compile="1" resource="0"
-              file="Source/Timeline/UniformsBarComponent.cpp"/>
-        <FILE id="fuZQJy" name="UniformsBarComponent.h" compile="0" resource="0"
-              file="Source/Timeline/UniformsBarComponent.h"/>
+        <FILE id="VrNo2o" name="MouseCallbackClasses.cpp" compile="1" resource="0"
+              file="Source/Timeline/MouseCallbackClasses.cpp"/>
+        <FILE id="CZ4PL1" name="MouseCallbackClasses.h" compile="0" resource="0"
+              file="Source/Timeline/MouseCallbackClasses.h"/>
         <FILE id="WKk0eU" name="SceneComponent.cpp" compile="1" resource="0"
               file="Source/Timeline/SceneComponent.cpp"/>
         <FILE id="cGETP7" name="SceneComponent.h" compile="0" resource="0"
@@ -184,17 +167,38 @@
               file="Source/Timeline/ScenesBarComponent.cpp"/>
         <FILE id="VHnsdr" name="ScenesBarComponent.h" compile="0" resource="0"
               file="Source/Timeline/ScenesBarComponent.h"/>
-        <FILE id="L6skV4" name="TimelineData.cpp" compile="1" resource="0"
-              file="Source/Timeline/TimelineData.cpp"/>
-        <FILE id="R5BiSQ" name="TimelineData.h" compile="0" resource="0" file="Source/Timeline/TimelineData.h"/>
+        <FILE id="It9DHO" name="Selection.cpp" compile="1" resource="0" file="Source/Timeline/Selection.cpp"/>
+        <FILE id="gXZsVl" name="Selection.h" compile="0" resource="0" file="Source/Timeline/Selection.h"/>
+        <FILE id="q6A5Cf" name="SequenceComponent.cpp" compile="1" resource="0"
+              file="Source/Timeline/SequenceComponent.cpp"/>
+        <FILE id="BtReWS" name="SequenceComponent.h" compile="0" resource="0"
+              file="Source/Timeline/SequenceComponent.h"/>
         <FILE id="AiGAGg" name="SequenceViewComponent.cpp" compile="1" resource="0"
               file="Source/Timeline/SequenceViewComponent.cpp"/>
         <FILE id="ibK1ZX" name="SequenceViewComponent.h" compile="0" resource="0"
               file="Source/Timeline/SequenceViewComponent.h"/>
-        <FILE id="DSM63p" name="TreeIdentifiers.h" compile="0" resource="0"
-              file="Source/Timeline/TreeIdentifiers.h"/>
+        <FILE id="PrQ55n" name="SpecialUniformController.cpp" compile="1" resource="0"
+              file="Source/Timeline/SpecialUniformController.cpp"/>
+        <FILE id="PP9zqk" name="SpecialUniformController.h" compile="0" resource="0"
+              file="Source/Timeline/SpecialUniformController.h"/>
+        <FILE id="xs0QFK" name="Splines.h" compile="0" resource="0" file="Source/Timeline/Splines.h"/>
         <FILE id="ifwpB5" name="Timeline.cpp" compile="1" resource="0" file="Source/Timeline/Timeline.cpp"/>
         <FILE id="cE01V0" name="Timeline.h" compile="0" resource="0" file="Source/Timeline/Timeline.h"/>
+        <FILE id="L6skV4" name="TimelineData.cpp" compile="1" resource="0"
+              file="Source/Timeline/TimelineData.cpp"/>
+        <FILE id="R5BiSQ" name="TimelineData.h" compile="0" resource="0" file="Source/Timeline/TimelineData.h"/>
+        <FILE id="iX1s38" name="TimeMarkerComponent.cpp" compile="1" resource="0"
+              file="Source/Timeline/TimeMarkerComponent.cpp"/>
+        <FILE id="U2u6hD" name="TimeMarkerComponent.h" compile="0" resource="0"
+              file="Source/Timeline/TimeMarkerComponent.h"/>
+        <FILE id="DSM63p" name="TreeIdentifiers.h" compile="0" resource="0"
+              file="Source/Timeline/TreeIdentifiers.h"/>
+        <FILE id="uGxIMZ" name="UniformsBarComponent.cpp" compile="1" resource="0"
+              file="Source/Timeline/UniformsBarComponent.cpp"/>
+        <FILE id="fuZQJy" name="UniformsBarComponent.h" compile="0" resource="0"
+              file="Source/Timeline/UniformsBarComponent.h"/>
+        <FILE id="H4Zw2B" name="ZoomFactor.cpp" compile="1" resource="0" file="Source/Timeline/ZoomFactor.cpp"/>
+        <FILE id="dU3OL9" name="ZoomFactor.h" compile="0" resource="0" file="Source/Timeline/ZoomFactor.h"/>
       </GROUP>
       <FILE id="HGrrNS" name="AudioManager.cpp" compile="1" resource="0"
             file="Source/AudioManager.cpp"/>

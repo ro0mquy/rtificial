@@ -3,6 +3,7 @@
 #include <AudioManager.h>
 #include "TimelineData.h"
 #include "ZoomFactor.h"
+#include <Timeline/CameraController.h>
 
 using UniformState = Interpolator::UniformState;
 

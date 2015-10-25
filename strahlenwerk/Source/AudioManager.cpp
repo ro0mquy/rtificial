@@ -1,7 +1,7 @@
 #include "AudioManager.h"
 #include "StrahlenwerkApplication.h"
 #include <MainWindow.h>
-#include <Timeline/SpecialUniformController.h>
+#include <Timeline/CameraController.h>
 #include <PropertyNames.h>
 
 AudioManager::AudioManager() :

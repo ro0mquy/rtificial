@@ -49,12 +49,12 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
-  $(OBJDIR)/ColorTextInputComponent_c0aee926.o \
   $(OBJDIR)/ColorPickerComponent_bd366953.o \
-  $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o \
   $(OBJDIR)/ColorSpaceMarker_454a1924.o \
+  $(OBJDIR)/ColorTextInputComponent_c0aee926.o \
   $(OBJDIR)/LabColor_145742fd.o \
   $(OBJDIR)/LabColorPicker_2909daab.o \
+  $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o \
   $(OBJDIR)/LabColorSpaceView_bf2be298.o \
   $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o \
   $(OBJDIR)/Project_dae16ce4.o \
@@ -82,22 +82,23 @@ OBJECTS := \
   $(OBJDIR)/ValueEditorPropertyComponent_ae881406.o \
   $(OBJDIR)/ValueSlider_d188aa40.o \
   $(OBJDIR)/ValueToggleButton_fed8bf05.o \
-  $(OBJDIR)/Selection_45a84fa7.o \
-  $(OBJDIR)/JsonExporter_56469f78.o \
-  $(OBJDIR)/SpecialUniformController_926d55c6.o \
-  $(OBJDIR)/TimeMarkerComponent_32217cf1.o \
-  $(OBJDIR)/MouseCallbackClasses_88049c4b.o \
+  $(OBJDIR)/CameraController_be1bf2b0.o \
   $(OBJDIR)/CameraMath_ba81f35c.o \
-  $(OBJDIR)/ZoomFactor_9cf7cc11.o \
   $(OBJDIR)/Interpolator_e73f9cd6.o \
+  $(OBJDIR)/JsonExporter_56469f78.o \
   $(OBJDIR)/KeyframeComponent_bb6b78ca.o \
-  $(OBJDIR)/SequenceComponent_10a22e57.o \
-  $(OBJDIR)/UniformsBarComponent_d6185a18.o \
+  $(OBJDIR)/MouseCallbackClasses_88049c4b.o \
   $(OBJDIR)/SceneComponent_2e62f260.o \
   $(OBJDIR)/ScenesBarComponent_9e1694c0.o \
-  $(OBJDIR)/TimelineData_bd97819a.o \
+  $(OBJDIR)/Selection_45a84fa7.o \
+  $(OBJDIR)/SequenceComponent_10a22e57.o \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
+  $(OBJDIR)/SpecialUniformController_926d55c6.o \
   $(OBJDIR)/Timeline_d3785850.o \
+  $(OBJDIR)/TimelineData_bd97819a.o \
+  $(OBJDIR)/TimeMarkerComponent_32217cf1.o \
+  $(OBJDIR)/UniformsBarComponent_d6185a18.o \
+  $(OBJDIR)/ZoomFactor_9cf7cc11.o \
   $(OBJDIR)/AudioManager_e2e40c00.o \
   $(OBJDIR)/BlenderLookAndFeel_a1c31a69.o \
   $(OBJDIR)/MainContentComponent_19da5e66.o \
@@ -138,24 +139,19 @@ strip:
 	@echo Stripping strahlenwerk
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
-$(OBJDIR)/ColorTextInputComponent_c0aee926.o: ../../Source/ColorPicker/ColorTextInputComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ColorTextInputComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/ColorPickerComponent_bd366953.o: ../../Source/ColorPicker/ColorPickerComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ColorPickerComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/LabColorPropertyComponent_eaa105f5.o: ../../Source/ColorPicker/LabColorPropertyComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling LabColorPropertyComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/ColorSpaceMarker_454a1924.o: ../../Source/ColorPicker/ColorSpaceMarker.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ColorSpaceMarker.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ColorTextInputComponent_c0aee926.o: ../../Source/ColorPicker/ColorTextInputComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ColorTextInputComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/LabColor_145742fd.o: ../../Source/ColorPicker/LabColor.cpp
@@ -166,6 +162,11 @@ $(OBJDIR)/LabColor_145742fd.o: ../../Source/ColorPicker/LabColor.cpp
 $(OBJDIR)/LabColorPicker_2909daab.o: ../../Source/ColorPicker/LabColorPicker.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling LabColorPicker.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/LabColorPropertyComponent_eaa105f5.o: ../../Source/ColorPicker/LabColorPropertyComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling LabColorPropertyComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/LabColorSpaceView_bf2be298.o: ../../Source/ColorPicker/LabColorSpaceView.cpp
@@ -303,29 +304,9 @@ $(OBJDIR)/ValueToggleButton_fed8bf05.o: ../../Source/Sidebar/ValueToggleButton.c
 	@echo "Compiling ValueToggleButton.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/Selection_45a84fa7.o: ../../Source/Timeline/Selection.cpp
+$(OBJDIR)/CameraController_be1bf2b0.o: ../../Source/Timeline/CameraController.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Selection.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/JsonExporter_56469f78.o: ../../Source/Timeline/JsonExporter.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling JsonExporter.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/SpecialUniformController_926d55c6.o: ../../Source/Timeline/SpecialUniformController.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling SpecialUniformController.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/TimeMarkerComponent_32217cf1.o: ../../Source/Timeline/TimeMarkerComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling TimeMarkerComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/MouseCallbackClasses_88049c4b.o: ../../Source/Timeline/MouseCallbackClasses.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling MouseCallbackClasses.cpp"
+	@echo "Compiling CameraController.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/CameraMath_ba81f35c.o: ../../Source/Timeline/CameraMath.cpp
@@ -333,14 +314,14 @@ $(OBJDIR)/CameraMath_ba81f35c.o: ../../Source/Timeline/CameraMath.cpp
 	@echo "Compiling CameraMath.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/ZoomFactor_9cf7cc11.o: ../../Source/Timeline/ZoomFactor.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ZoomFactor.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/Interpolator_e73f9cd6.o: ../../Source/Timeline/Interpolator.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Interpolator.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/JsonExporter_56469f78.o: ../../Source/Timeline/JsonExporter.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling JsonExporter.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/KeyframeComponent_bb6b78ca.o: ../../Source/Timeline/KeyframeComponent.cpp
@@ -348,14 +329,9 @@ $(OBJDIR)/KeyframeComponent_bb6b78ca.o: ../../Source/Timeline/KeyframeComponent.
 	@echo "Compiling KeyframeComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/SequenceComponent_10a22e57.o: ../../Source/Timeline/SequenceComponent.cpp
+$(OBJDIR)/MouseCallbackClasses_88049c4b.o: ../../Source/Timeline/MouseCallbackClasses.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling SequenceComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/UniformsBarComponent_d6185a18.o: ../../Source/Timeline/UniformsBarComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling UniformsBarComponent.cpp"
+	@echo "Compiling MouseCallbackClasses.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SceneComponent_2e62f260.o: ../../Source/Timeline/SceneComponent.cpp
@@ -368,9 +344,14 @@ $(OBJDIR)/ScenesBarComponent_9e1694c0.o: ../../Source/Timeline/ScenesBarComponen
 	@echo "Compiling ScenesBarComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/TimelineData_bd97819a.o: ../../Source/Timeline/TimelineData.cpp
+$(OBJDIR)/Selection_45a84fa7.o: ../../Source/Timeline/Selection.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling TimelineData.cpp"
+	@echo "Compiling Selection.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/SequenceComponent_10a22e57.o: ../../Source/Timeline/SequenceComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SequenceComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SequenceViewComponent_a0963d32.o: ../../Source/Timeline/SequenceViewComponent.cpp
@@ -378,9 +359,34 @@ $(OBJDIR)/SequenceViewComponent_a0963d32.o: ../../Source/Timeline/SequenceViewCo
 	@echo "Compiling SequenceViewComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/SpecialUniformController_926d55c6.o: ../../Source/Timeline/SpecialUniformController.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SpecialUniformController.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/Timeline_d3785850.o: ../../Source/Timeline/Timeline.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Timeline.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/TimelineData_bd97819a.o: ../../Source/Timeline/TimelineData.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling TimelineData.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/TimeMarkerComponent_32217cf1.o: ../../Source/Timeline/TimeMarkerComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling TimeMarkerComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/UniformsBarComponent_d6185a18.o: ../../Source/Timeline/UniformsBarComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling UniformsBarComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ZoomFactor_9cf7cc11.o: ../../Source/Timeline/ZoomFactor.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ZoomFactor.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/AudioManager_e2e40c00.o: ../../Source/AudioManager.cpp

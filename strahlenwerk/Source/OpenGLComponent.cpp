@@ -1,7 +1,7 @@
 #include "OpenGLComponent.h"
 #include <MainWindow.h>
 #include <Timeline/TimelineData.h>
-#include <Timeline/SpecialUniformController.h>
+#include <Timeline/CameraController.h>
 #include <AudioManager.h>
 #include <StrahlenwerkApplication.h>
 #include <Project/Project.h>

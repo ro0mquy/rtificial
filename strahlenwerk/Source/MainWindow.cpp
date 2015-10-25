@@ -2,7 +2,7 @@
 
 #include "StrahlenwerkApplication.h"
 #include <Renderer.h>
-#include <Timeline/SpecialUniformController.h>
+#include <Timeline/CameraController.h>
 #include <OpenGLComponent.h>
 #include <Project/Project.h>
 #include <Timeline/TimelineData.h>

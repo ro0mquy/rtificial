@@ -307,22 +307,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\ColorPicker\ColorTextInputComponent.cpp">
-      <Filter>strahlenwerk\Source\ColorPicker</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\ColorPicker\ColorPickerComponent.cpp">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ColorPicker\LabColorPropertyComponent.cpp">
+    <ClCompile Include="..\..\Source\ColorPicker\ColorSpaceMarker.cpp">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ColorPicker\ColorSpaceMarker.cpp">
+    <ClCompile Include="..\..\Source\ColorPicker\ColorTextInputComponent.cpp">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ColorPicker\LabColor.cpp">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ColorPicker\LabColorPicker.cpp">
+      <Filter>strahlenwerk\Source\ColorPicker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ColorPicker\LabColorPropertyComponent.cpp">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ColorPicker\LabColorSpaceView.cpp">
@@ -406,37 +406,22 @@
     <ClCompile Include="..\..\Source\Sidebar\ValueToggleButton.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\Selection.cpp">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\JsonExporter.cpp">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\SpecialUniformController.cpp">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\TimeMarkerComponent.cpp">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\MouseCallbackClasses.cpp">
+    <ClCompile Include="..\..\Source\Timeline\CameraController.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\CameraMath.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\ZoomFactor.cpp">
+    <ClCompile Include="..\..\Source\Timeline\Interpolator.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\Interpolator.cpp">
+    <ClCompile Include="..\..\Source\Timeline\JsonExporter.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\KeyframeComponent.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\SequenceComponent.cpp">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\UniformsBarComponent.cpp">
+    <ClCompile Include="..\..\Source\Timeline\MouseCallbackClasses.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\SceneComponent.cpp">
@@ -445,13 +430,31 @@
     <ClCompile Include="..\..\Source\Timeline\ScenesBarComponent.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Timeline\TimelineData.cpp">
+    <ClCompile Include="..\..\Source\Timeline\Selection.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\SequenceComponent.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\SequenceViewComponent.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\SpecialUniformController.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\Timeline.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\TimelineData.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\TimeMarkerComponent.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\UniformsBarComponent.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\ZoomFactor.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\AudioManager.cpp">
@@ -1680,22 +1683,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\ColorPicker\ColorTextInputComponent.h">
-      <Filter>strahlenwerk\Source\ColorPicker</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\ColorPicker\ColorPickerComponent.h">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ColorPicker\LabColorPropertyComponent.h">
+    <ClInclude Include="..\..\Source\ColorPicker\ColorSpaceMarker.h">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ColorPicker\ColorSpaceMarker.h">
+    <ClInclude Include="..\..\Source\ColorPicker\ColorTextInputComponent.h">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ColorPicker\LabColor.h">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ColorPicker\LabColorPicker.h">
+      <Filter>strahlenwerk\Source\ColorPicker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ColorPicker\LabColorPropertyComponent.h">
       <Filter>strahlenwerk\Source\ColorPicker</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ColorPicker\LabColorSpaceView.h">
@@ -1803,40 +1806,22 @@
     <ClInclude Include="..\..\Source\Sidebar\ValueToggleButton.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\Selection.h">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\JsonExporter.h">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\SpecialUniformController.h">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\Splines.h">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\TimeMarkerComponent.h">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\MouseCallbackClasses.h">
+    <ClInclude Include="..\..\Source\Timeline\CameraController.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\CameraMath.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\ZoomFactor.h">
+    <ClInclude Include="..\..\Source\Timeline\Interpolator.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\Interpolator.h">
+    <ClInclude Include="..\..\Source\Timeline\JsonExporter.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\KeyframeComponent.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\SequenceComponent.h">
-      <Filter>strahlenwerk\Source\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\UniformsBarComponent.h">
+    <ClInclude Include="..\..\Source\Timeline\MouseCallbackClasses.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\SceneComponent.h">
@@ -1845,16 +1830,37 @@
     <ClInclude Include="..\..\Source\Timeline\ScenesBarComponent.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\TimelineData.h">
+    <ClInclude Include="..\..\Source\Timeline\Selection.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\SequenceComponent.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\SequenceViewComponent.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Timeline\TreeIdentifiers.h">
+    <ClInclude Include="..\..\Source\Timeline\SpecialUniformController.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\Splines.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\Timeline.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\TimelineData.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\TimeMarkerComponent.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\TreeIdentifiers.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\UniformsBarComponent.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\ZoomFactor.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AudioManager.h">

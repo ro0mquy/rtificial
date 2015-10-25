@@ -4,6 +4,7 @@
 #include <Timeline/TreeIdentifiers.h>
 #include <Timeline/ZoomFactor.h>
 #include <Timeline/ScenesBarComponent.h>
+#include <Timeline/CameraController.h>
 #include <AudioManager.h>
 #include <RtificialLookAndFeel.h>
 
