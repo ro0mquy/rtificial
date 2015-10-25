@@ -18,6 +18,7 @@ class InterpolationPlotComponent :
 			axisLineColourId,
 			plotLineColourId,
 			keyPointColourId,
+			colourStopOutlineColourId,
 		};
 
 	private:

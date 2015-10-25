@@ -68,6 +68,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 	setColour(InterpolationPlotComponent::axisLineColourId, Colours::white.withAlpha(0.2f));
 	setColour(InterpolationPlotComponent::plotLineColourId, Colours::white);
 	setColour(InterpolationPlotComponent::keyPointColourId, Colours::white.withAlpha(0.5f));
+	setColour(InterpolationPlotComponent::colourStopOutlineColourId, Colours::black.withAlpha(0.5f));
 }
 
 BlenderTheme RtificialLookAndFeel::createBlenderTheme() {

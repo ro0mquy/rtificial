@@ -239,6 +239,9 @@ class TimelineData :
 		glm::vec3 getColorFromValue(ValueTree value);
 		glm::quat getQuatFromValue(ValueTree value);
 
+		// JUCE's own color type
+		Colour getJuceColourFromValue(ValueTree value);
+
 		void setFloatToValue(ValueTree value, float scalar, bool useUndoManager = true);
 		void setVec2ToValue(ValueTree value, glm::vec2 vector, bool useUndoManager = true);
 		void setVec3ToValue(ValueTree value, glm::vec3 vector, bool useUndoManager = true);

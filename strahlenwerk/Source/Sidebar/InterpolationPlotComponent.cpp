@@ -160,5 +160,55 @@ void InterpolationPlotComponent::paint(Graphics& g) {
 				2 * keyPointRadius
 			);
 		}
+	} else if (uniformType == "color") {
+		const int  stepSize = 2 * duration / width; // sample every 2px
+		const int colourStopHeight = 20;
+		Rectangle<int> canvas(width, jmin(height, 50) - colourStopHeight);
+		canvas.setY(colourStopHeight + 1);
+
+		const float s = float(colourStopHeight) / (1.0f + sqrt(5.0f/4.0f));
+		const float h = s * sqrt(5.0f/4.0f);
+		float x = 0;
+		float y = 0;
+		Path colourStopShape;
+		colourStopShape.startNewSubPath(x, y);
+		x += s/2.0f;
+		y -= h;
+		colourStopShape.lineTo(x, y);
+		y -= s;
+		colourStopShape.lineTo(x, y);
+		x -= s;
+		colourStopShape.lineTo(x, y);
+		y += s;
+		colourStopShape.lineTo(x, y);
+		colourStopShape.closeSubPath();
+
+		const int numKeyframes = data.getNumKeyframes(sequence);
+		for (int i = 0; i < numKeyframes; i++) {
+			const ValueTree keyFrame = data.getKeyframe(sequence, i);
+			float x = float(data.getKeyframePosition(keyFrame)) / float(duration) * canvas.getWidth();
+			float y = canvas.getY();
+			const Colour colour = data.getJuceColourFromValue(data.getKeyframeValue(keyFrame));
+
+			g.setColour(colour);
+			g.fillPath(colourStopShape, AffineTransform::translation(x, y));
+			g.setColour(findColour(InterpolationPlotComponent::colourStopOutlineColourId));
+			g.strokePath(colourStopShape, PathStrokeType(1.0f), AffineTransform::translation(x, y));
+		}
+
+		ValueTree uniformState = interpolator.calculateInterpolatedState(sequence, 0).first;
+		const Colour startColour = data.getJuceColourFromValue(uniformState);
+		uniformState = interpolator.calculateInterpolatedState(sequence, duration).first;
+		const Colour endColour = data.getJuceColourFromValue(uniformState);
+
+		ColourGradient gradient = ColourGradient(startColour, canvas.getX(), canvas.getY(), endColour, canvas.getWidth(), canvas.getY(), false);
+		for (int t = 0; t <= duration; t += stepSize) {
+			uniformState = interpolator.calculateInterpolatedState(sequence, t).first;
+			const Colour colour = data.getJuceColourFromValue(uniformState);
+			gradient.addColour(double(t) / double(duration), colour);
+		}
+
+		g.setGradientFill(gradient);
+		g.fillRect(canvas);
 	}
 }

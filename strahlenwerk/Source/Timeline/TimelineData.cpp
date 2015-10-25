@@ -1699,6 +1699,17 @@ glm::quat TimelineData::getQuatFromValue(ValueTree value) {
 }
 
 
+
+// returns a color value as a juce::Colour
+Colour TimelineData::getJuceColourFromValue(ValueTree value) {
+	const float colorR = getValueColorR(value);
+	const float colorG = getValueColorG(value);
+	const float colorB = getValueColorB(value);
+	return Colour::fromFloatRGBA(colorR, colorG, colorB, 1.0f);
+}
+
+
+
 // sets the contents of a float value to the numbers from a float
 void TimelineData::setFloatToValue(ValueTree value, float scalar, bool useUndoManager) {
 	jassert(isValueFloat(value) || getNumValueProperties(value) == 0);
