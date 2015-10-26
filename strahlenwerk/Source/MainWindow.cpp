@@ -362,3 +362,9 @@ void MainWindow::performToggleFullscreen() {
 		setFullScreen(true);
 	}
 }
+
+void MainWindow::modifierKeysChanged(const ModifierKeys &modifiers) {
+	// also call keyListeners when modifiers change
+	getPeer()->handleKeyUpOrDown(false);
+	Component::modifierKeysChanged(modifiers);
+}

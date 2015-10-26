@@ -63,6 +63,8 @@ bool CameraController::keyPressed(const KeyPress& /*key*/, Component* /*originat
 
 bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*originatingComponent*/) {
 	const bool isCameraKeyDown =
+		ModifierKeys::getCurrentModifiers().isShiftDown() ||
+
 		KeyPress::isKeyCurrentlyDown('w') ||
 		KeyPress::isKeyCurrentlyDown('a') ||
 		KeyPress::isKeyCurrentlyDown('s') ||
@@ -83,6 +85,7 @@ bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*origi
 		std::lock_guard<std::mutex> lock(cameraMutex);
 		startTimer(timerInterval);
 		lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
+		lastMousePos = Desktop::getMousePosition();
 	} else if (!isCameraKeyDown) {
 		// no camera key is pressed anymore
 		stopTimer();
@@ -102,11 +105,9 @@ void CameraController::timerCallback() {
 	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 	const float deltaTime = lastCallback - oldLastCallback;
 
-	const ModifierKeys modKeys = ModifierKeys::getCurrentModifiers();
-	if (modKeys.isAnyModifierKeyDown()) {
-		// do nothing when any modifiers are held down
-		return;
-	}
+	const Point<int> oldLastMousePos = lastMousePos;
+	lastMousePos = Desktop::getMousePosition();
+	const Point<int> deltaMousePos = lastMousePos - oldLastMousePos;
 
 	if (KeyPress::isKeyCurrentlyDown('w')) {
 		position = cameraMath.positionForward(position, rotation, deltaTime);
@@ -148,6 +149,10 @@ void CameraController::timerCallback() {
 	}
 	if (KeyPress::isKeyCurrentlyDown('o')) {
 		rotation = cameraMath.rotationClockwise(position, rotation, deltaTime);
+	}
+
+	if (ModifierKeys::getCurrentModifiers().isShiftDown()) {
+		rotation = cameraMath.mouseMove(position, rotation, deltaTime, glm::vec2(deltaMousePos.x, -deltaMousePos.y)); // origin in bottom left corner
 	}
 
 	sendChangeMessage();

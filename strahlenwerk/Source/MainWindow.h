@@ -35,6 +35,8 @@ class MainWindow : public DocumentWindow,
 		void changeListenerCallback(ChangeBroadcaster* source) override;
 		void projectChanged() override;
 
+		void modifierKeysChanged(const ModifierKeys &modifiers) override;
+
 	private:
 		MainContentComponent mainContentComponent;
 

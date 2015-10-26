@@ -57,6 +57,7 @@ class CameraController :
 		std::mutex cameraMutex;
 		CameraMath cameraMath;
 		double lastCallback;
+		Point<int> lastMousePos;
 		glm::vec3 position;
 		glm::quat rotation;
 		bool hasControl;

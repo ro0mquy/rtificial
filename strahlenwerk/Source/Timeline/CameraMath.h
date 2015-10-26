@@ -2,7 +2,6 @@
 #define CAMERAMATH_H
 
 #include <glm/fwd.hpp>
-#include <utility>
 
 class CameraMath {
 	public:
@@ -23,6 +22,8 @@ class CameraMath {
 
 		glm::quat rotationCounterclockwise(glm::vec3 position, glm::quat rotation, float dtime);
 		glm::quat rotationClockwise(glm::vec3 position, glm::quat rotation, float dtime);
+
+		glm::quat mouseMove(glm::vec3 position, glm::quat rotation, float dtime, glm::vec2 dmouse);
 };
 
 #endif // CAMERAMATH_H
