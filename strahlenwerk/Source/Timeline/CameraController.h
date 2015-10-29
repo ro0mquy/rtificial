@@ -57,13 +57,16 @@ class CameraController :
 		std::mutex cameraMutex;
 		CameraMath cameraMath;
 		double lastCallback;
-		Point<int> lastMousePos;
+		Point<int> originalMousePos;
 		glm::vec3 position;
 		glm::quat rotation;
 		bool hasControl;
 
 		const String cameraPositionName;
 		const String cameraRotationName;
+
+		void startTimerCallback();
+		void stopTimerCallback();
 
 		static const int timerInterval = 15;
 

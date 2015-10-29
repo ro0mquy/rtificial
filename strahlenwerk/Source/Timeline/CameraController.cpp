@@ -81,14 +81,10 @@ bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*origi
 
 	if (!isTimerRunning() && isCameraKeyDown) {
 		// some keys are down now
-		takeOverControl();
-		std::lock_guard<std::mutex> lock(cameraMutex);
-		startTimer(timerInterval);
-		lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
-		lastMousePos = Desktop::getMousePosition();
+		startTimerCallback();
 	} else if (!isCameraKeyDown) {
 		// no camera key is pressed anymore
-		stopTimer();
+		stopTimerCallback();
 	}
 
 	return false;
@@ -104,10 +100,6 @@ void CameraController::timerCallback() {
 	const double oldLastCallback = lastCallback;
 	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 	const float deltaTime = lastCallback - oldLastCallback;
-
-	const Point<int> oldLastMousePos = lastMousePos;
-	lastMousePos = Desktop::getMousePosition();
-	const Point<int> deltaMousePos = lastMousePos - oldLastMousePos;
 
 	if (KeyPress::isKeyCurrentlyDown('w')) {
 		position = cameraMath.positionForward(position, rotation, deltaTime);
@@ -152,6 +144,10 @@ void CameraController::timerCallback() {
 	}
 
 	if (ModifierKeys::getCurrentModifiers().isShiftDown()) {
+		const Point<int> currentMousePos = Desktop::getMousePosition();
+		const Point<int> deltaMousePos = currentMousePos - originalMousePos;
+		Desktop::setMousePosition(originalMousePos);
+
 		rotation = cameraMath.mouseMove(position, rotation, deltaTime, glm::vec2(deltaMousePos.x, -deltaMousePos.y)); // origin in bottom left corner
 	}
 
@@ -272,4 +268,17 @@ void CameraController::releaseControl() {
 		setHasControl(false);
 		sendChangeMessage();
 	}
+}
+
+void CameraController::startTimerCallback() {
+	takeOverControl();
+	std::lock_guard<std::mutex> lock(cameraMutex);
+	startTimer(timerInterval);
+	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
+	originalMousePos = Desktop::getMousePosition();
+}
+
+void CameraController::stopTimerCallback() {
+	stopTimer();
+	Desktop::setMousePosition(originalMousePos);
 }
