@@ -15,6 +15,9 @@ class MainContentComponent : public Component
 		void resized() override;
 
 		Timeline& getTimeline();
+		Sidebar& getSidebar();
+		OpenGLComponent& getOpenGLComponent();
+
 		void setDefaultLayout();
 		void setOpenGLOnlyLayout();
 

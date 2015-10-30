@@ -25,6 +25,14 @@ Timeline& MainContentComponent::getTimeline() {
 	return timeline;
 }
 
+Sidebar& MainContentComponent::getSidebar() {
+	return sidebar;
+}
+
+OpenGLComponent& MainContentComponent::getOpenGLComponent() {
+	return openGLComponent;
+}
+
 void MainContentComponent::setDefaultLayout() {
 	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
 	const double glComponentWidth = properties.getDoubleValue(PropertyNames::OpenGLWidth, .5);

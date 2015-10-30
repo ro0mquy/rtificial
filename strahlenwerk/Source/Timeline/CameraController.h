@@ -14,6 +14,7 @@ class CameraController :
 	public SpecialUniformController,
 	public ChangeBroadcaster,
 	private KeyListener,
+	private MouseListener,
 	private AsyncUpdater,
 	private Timer,
 	private ApplicationCommandManagerListener
@@ -29,6 +30,11 @@ class CameraController :
 
 		bool keyPressed(const KeyPress& key, Component* originatingComponent) override;
 		bool keyStateChanged(bool isKeyPressed, Component* originatingComponent) override;
+
+		void mouseMove(const MouseEvent& m) override;
+		void mouseDown(const MouseEvent& m) override;
+		void mouseDrag(const MouseEvent& m) override;
+		void mouseUp(const MouseEvent& m) override;
 
 		void handleAsyncUpdate() override;
 		void timerCallback() override;
@@ -56,17 +62,22 @@ class CameraController :
 		Interpolator& interpolator;
 		std::mutex cameraMutex;
 		CameraMath cameraMath;
-		double lastCallback;
+		double lastCallbackTime;
+		double lastMouseMoveTime;
 		Point<int> originalMousePos;
 		glm::vec3 position;
 		glm::quat rotation;
-		bool hasControl;
+		bool hasControl = false;
+		bool shiftDraggingActive = false;
 
 		const String cameraPositionName;
 		const String cameraRotationName;
 
 		void startTimerCallback();
 		void stopTimerCallback();
+		void startMouseDragging();
+		void stopMouseDragging();
+		void handleMouseDragging();
 
 		static const int timerInterval = 15;
 

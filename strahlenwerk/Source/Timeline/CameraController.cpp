@@ -2,6 +2,7 @@
 
 #include <StrahlenwerkApplication.h>
 #include <MainWindow.h>
+#include <MainContentComponent.h>
 #include <AudioManager.h>
 #include "TimelineData.h"
 #include "Interpolator.h"
@@ -12,7 +13,6 @@ CameraController* CameraController::globalCameraController = nullptr;
 CameraController::CameraController(TimelineData& data_, Interpolator& interpolator_) :
 	SpecialUniformController(data_),
 	interpolator(interpolator_),
-	hasControl(false),
 	cameraPositionName("camera_position"),
 	cameraRotationName("camera_rotation")
 {
@@ -23,6 +23,12 @@ CameraController::CameraController(TimelineData& data_, Interpolator& interpolat
 
 	// add this as a key listener to the main window, as soon as it is constructed
 	triggerAsyncUpdate();
+}
+
+void CameraController::handleAsyncUpdate() {
+	MainWindow& mainWindow = StrahlenwerkApplication::getInstance()->getMainWindow();
+	mainWindow.addKeyListener(this);
+	mainWindow.getMainContentComponent().getOpenGLComponent().addMouseListener(this, true);
 }
 
 CameraController::~CameraController() {
@@ -63,8 +69,6 @@ bool CameraController::keyPressed(const KeyPress& /*key*/, Component* /*originat
 
 bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*originatingComponent*/) {
 	const bool isCameraKeyDown =
-		ModifierKeys::getCurrentModifiers().isShiftDown() ||
-
 		KeyPress::isKeyCurrentlyDown('w') ||
 		KeyPress::isKeyCurrentlyDown('a') ||
 		KeyPress::isKeyCurrentlyDown('s') ||
@@ -82,24 +86,69 @@ bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*origi
 	if (!isTimerRunning() && isCameraKeyDown) {
 		// some keys are down now
 		startTimerCallback();
-	} else if (!isCameraKeyDown) {
+	} else if (isTimerRunning() && !isCameraKeyDown) {
 		// no camera key is pressed anymore
 		stopTimerCallback();
+	}
+
+	const bool isShiftDown = ModifierKeys::getCurrentModifiers().isShiftDown();
+	if (!shiftDraggingActive && isShiftDown) {
+		// shift key is down
+		shiftDraggingActive = true;
+		Desktop::getInstance().addGlobalMouseListener(this);
+		startMouseDragging();
+	} else if (shiftDraggingActive && !isShiftDown) {
+		// shift got released
+		shiftDraggingActive = false;
+		Desktop::getInstance().removeGlobalMouseListener(this);
+		stopMouseDragging();
 	}
 
 	return false;
 }
 
-void CameraController::handleAsyncUpdate() {
-	StrahlenwerkApplication::getInstance()->getMainWindow().addKeyListener(this);
+void CameraController::mouseMove(const MouseEvent& /*m*/) {
+	// only when shift is held down, this class is registered as a global mouse listener
+	// otherwise the events comes from the openGLComponent
+	if (shiftDraggingActive) {
+		handleMouseDragging();
+	}
+}
+
+void CameraController::mouseDown(const MouseEvent& m) {
+	// click into openGl component
+	if (m.mods == ModifierKeys(ModifierKeys::leftButtonModifier)) {
+		// start to control the camera with the mouse
+		//Desktop::getInstance().getMainMouseSource().enableUnboundedMouseMovement(true); // alot of lag with this
+		startMouseDragging();
+	}
+}
+
+void CameraController::mouseDrag(const MouseEvent& m) {
+	if (m.mods.isLeftButtonDown() || shiftDraggingActive) {
+		handleMouseDragging();
+	}
+}
+
+void CameraController::mouseUp(const MouseEvent& m) {
+	if (m.mods.isLeftButtonDown()) {
+		stopMouseDragging();
+		//Desktop::getInstance().getMainMouseSource().enableUnboundedMouseMovement(false);
+	}
 }
 
 void CameraController::timerCallback() {
 	std::lock_guard<std::mutex> lock(cameraMutex);
 
-	const double oldLastCallback = lastCallback;
-	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
-	const float deltaTime = lastCallback - oldLastCallback;
+	const double oldLastCallbackTime = lastCallbackTime;
+	lastCallbackTime = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
+	const float deltaTime = lastCallbackTime - oldLastCallbackTime;
+
+	const ModifierKeys modKeys = ModifierKeys::getCurrentModifiers().withoutFlags(ModifierKeys::shiftModifier);
+	if (modKeys.isAnyModifierKeyDown()) {
+		// do nothing when any modifiers besides shift are held down
+		return;
+	}
 
 	if (KeyPress::isKeyCurrentlyDown('w')) {
 		position = cameraMath.positionForward(position, rotation, deltaTime);
@@ -141,14 +190,6 @@ void CameraController::timerCallback() {
 	}
 	if (KeyPress::isKeyCurrentlyDown('o')) {
 		rotation = cameraMath.rotationClockwise(position, rotation, deltaTime);
-	}
-
-	if (ModifierKeys::getCurrentModifiers().isShiftDown()) {
-		const Point<int> currentMousePos = Desktop::getMousePosition();
-		const Point<int> deltaMousePos = currentMousePos - originalMousePos;
-		Desktop::setMousePosition(originalMousePos);
-
-		rotation = cameraMath.mouseMove(position, rotation, deltaTime, glm::vec2(deltaMousePos.x, -deltaMousePos.y)); // origin in bottom left corner
 	}
 
 	sendChangeMessage();
@@ -272,13 +313,40 @@ void CameraController::releaseControl() {
 
 void CameraController::startTimerCallback() {
 	takeOverControl();
-	std::lock_guard<std::mutex> lock(cameraMutex);
 	startTimer(timerInterval);
-	lastCallback = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
-	originalMousePos = Desktop::getMousePosition();
+	lastCallbackTime = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 }
 
 void CameraController::stopTimerCallback() {
 	stopTimer();
+}
+
+void CameraController::startMouseDragging() {
+	originalMousePos = Desktop::getMousePosition();
+	lastMouseMoveTime = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
+}
+
+void CameraController::stopMouseDragging() {
 	Desktop::setMousePosition(originalMousePos);
+}
+
+void CameraController::handleMouseDragging() {
+	const Point<int> currentMousePos = Desktop::getMousePosition();
+	const Point<int> deltaMousePos = currentMousePos - originalMousePos;
+	if (deltaMousePos.isOrigin()) {
+		return;
+	}
+
+	// reset position, so the mouse doesn't move
+	Desktop::setMousePosition(originalMousePos);
+
+	const double oldLastMouseMoveTime = lastMouseMoveTime;
+	lastMouseMoveTime = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
+	const float deltaTime = lastMouseMoveTime - oldLastMouseMoveTime;
+
+	cameraMutex.lock();
+	rotation = cameraMath.mouseMove(position, rotation, deltaTime, glm::vec2(deltaMousePos.x, -deltaMousePos.y)); // origin in bottom left corner
+	cameraMutex.unlock();
+
+	sendChangeMessage();
 }
