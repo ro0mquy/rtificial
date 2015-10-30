@@ -22,6 +22,7 @@ class ZoomFactor :
 
 		float getGridWidth();
 		int snapValueToGrid(const int valueAsTime);
+		float getClippedFactor(const float originalZoomLevelFactor);
 
 	private:
 		float zoomLevel;

@@ -46,10 +46,10 @@ void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& 
 	const float posXInViewport = event.getEventRelativeTo(&viewportSequenceView).position.x;
 	if (posXInViewport >= 0 && event.mods == ModifierKeys(ModifierKeys::commandModifier)) {
 		const float scaleFactor = exp(wheel.deltaY);
-		zoomFactor *= scaleFactor;
+		const float clippedScaleFactor = zoomFactor.getClippedFactor(scaleFactor);
 		Point<int> position = viewportSequenceView.getViewPosition();
 		float zoomCenterPosition = position.x;
-		if (scaleFactor > 1.) {
+		if (clippedScaleFactor > 1.) {
 			// zoom in
 			// zoom around mouse position
 			zoomCenterPosition = event.getEventRelativeTo(&sequenceView).position.x;
@@ -58,7 +58,8 @@ void Timeline::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& 
 			// zoom around middle point
 			zoomCenterPosition = position.x + viewportSequenceView.getMaximumVisibleWidth() / 2.;
 		}
-		position.x += (scaleFactor - 1.) * zoomCenterPosition;
+		position.x += (clippedScaleFactor - 1.) * zoomCenterPosition;
+		zoomFactor *= clippedScaleFactor;
 		viewportSequenceView.setViewPosition(position);
 	} else {
 		Component::mouseWheelMove(event, wheel);

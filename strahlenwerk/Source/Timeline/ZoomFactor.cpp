@@ -6,6 +6,8 @@
 #include <cmath>
 
 static const float initialZoomLevel = .02f;
+static const float minZoomLevel = .00015f;
+static const float maxZoomLevel = 2.f;
 
 ZoomFactor::ZoomFactor() :
 	zoomLevel(initialZoomLevel)
@@ -26,11 +28,11 @@ ZoomFactor::operator float() {
 ZoomFactor& ZoomFactor::operator=(const float newZoomLevel) {
 	zoomMutex.lock();
 	const float oldZoomLevel = zoomLevel;
-	zoomLevel = newZoomLevel;
+	zoomLevel = jlimit(minZoomLevel, maxZoomLevel, newZoomLevel);
 	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
-		sendChangeMessage();
+		sendSynchronousChangeMessage();
 	}
 	return *this;
 }
@@ -38,11 +40,12 @@ ZoomFactor& ZoomFactor::operator=(const float newZoomLevel) {
 ZoomFactor& ZoomFactor::operator*=(const float zoomLevelFactor) {
 	zoomMutex.lock();
 	const float oldZoomLevel = zoomLevel;
-	zoomLevel *= zoomLevelFactor;
+	zoomLevel = jlimit(minZoomLevel, maxZoomLevel, zoomLevel * zoomLevelFactor);
 	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
+	DBG(zoomLevel << '\n');
 	if (tmpZoomLevel != oldZoomLevel) {
-		sendChangeMessage();
+		sendSynchronousChangeMessage();
 	}
 	return *this;
 }
@@ -50,11 +53,11 @@ ZoomFactor& ZoomFactor::operator*=(const float zoomLevelFactor) {
 ZoomFactor& ZoomFactor::operator/=(const float zoomLevelDivisor) {
 	zoomMutex.lock();
 	const float oldZoomLevel = zoomLevel;
-	zoomLevel /= zoomLevelDivisor;
+	zoomLevel = jlimit(minZoomLevel, maxZoomLevel, zoomLevel / zoomLevelDivisor);
 	const float tmpZoomLevel = zoomLevel;
 	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
-		sendChangeMessage();
+		sendSynchronousChangeMessage();
 	}
 	return *this;
 }
@@ -80,4 +83,8 @@ int ZoomFactor::snapValueToGrid(const int valueAsTime) {
 	const float posOnGrid = valueAsTime / gridWidth;
 	const int newRoundedPos = roundFloatToInt(posOnGrid) * gridWidth;
 	return newRoundedPos;
+}
+
+float ZoomFactor::getClippedFactor(const float originalZoomLevelFactor) {
+	return jlimit(minZoomLevel / zoomLevel, maxZoomLevel / zoomLevel, originalZoomLevelFactor);
 }
