@@ -137,6 +137,11 @@ void CameraController::mouseUp(const MouseEvent& m) {
 	}
 }
 
+void CameraController::mouseWheelMove(const MouseEvent& /*m*/, const MouseWheelDetails& wheel) {
+	// called when inside of openGLComponent or shift is down
+	cameraMath.movementSpeedScrolling(wheel.deltaY * (wheel.isReversed ? -1 : 1));
+}
+
 void CameraController::timerCallback() {
 	std::lock_guard<std::mutex> lock(cameraMutex);
 

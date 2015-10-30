@@ -35,6 +35,7 @@ class CameraController :
 		void mouseDown(const MouseEvent& m) override;
 		void mouseDrag(const MouseEvent& m) override;
 		void mouseUp(const MouseEvent& m) override;
+		void mouseWheelMove(const MouseEvent& m, const MouseWheelDetails& wheel) override;
 
 		void handleAsyncUpdate() override;
 		void timerCallback() override;

@@ -6,9 +6,7 @@
 
 using namespace glm;
 
-static const float movementSpeed = 5.;
-static const float rotationSpeed = 6.28318530718 /*TAU*/ / 4.;
-static const float rotationMouseSpeed = 6.28318530718 /*TAU*/ / 150.;
+static const float speedAdjustmentFactor = .5;
 
 vec3 CameraMath::positionForward(vec3 position, quat rotation, float dtime) {
 	// only move in xz-plane
@@ -106,4 +104,12 @@ quat CameraMath::mouseMove(vec3 /*position*/, quat rotation, float dtime, vec2 d
 	const float rotationAngleX = - dtime * rotationMouseSpeed * dmouse.x;
 	const float rotationAngleY =   dtime * rotationMouseSpeed * dmouse.y;
 	return angleAxis(rotationAngleX, vec3(0., 1., 0.)) * rotation * angleAxis(rotationAngleY, vec3(1., 0., 0.));
+}
+
+void CameraMath::movementSpeedScrolling(float dscroll) {
+	movementSpeed = clamp(movementSpeed * pow(speedAdjustmentFactor, -dscroll), .001f, 1000.f);
+}
+
+void CameraMath::rotationSpeedScrolling(float dscroll) {
+	rotationSpeed *= clamp(pow(speedAdjustmentFactor, -dscroll), .0001f, 100.f);
 }
