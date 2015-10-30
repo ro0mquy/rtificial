@@ -139,7 +139,7 @@ void CameraController::mouseUp(const MouseEvent& m) {
 
 void CameraController::mouseWheelMove(const MouseEvent& /*m*/, const MouseWheelDetails& wheel) {
 	// called when inside of openGLComponent or shift is down
-	cameraMath.movementSpeedScrolling(wheel.deltaY * (wheel.isReversed ? -1 : 1));
+	cameraMath.movementSpeedTuning(wheel.deltaY * (wheel.isReversed ? -1 : 1));
 }
 
 void CameraController::timerCallback() {
@@ -224,6 +224,18 @@ void CameraController::applicationCommandInvoked(const ApplicationCommandTarget:
 			rotation = glm::quat(1., 0., 0., 0.);
 			cameraMutex.unlock();
 			sendChangeMessage();
+			break;
+		case CameraController::increaseMovementSpeed:
+			cameraMath.movementSpeedTuning(1);
+			break;
+		case CameraController::decreaseMovementSpeed:
+			cameraMath.movementSpeedTuning(-1);
+			break;
+		case CameraController::increaseRotationSpeed:
+			cameraMath.rotationSpeedTuning(1);
+			break;
+		case CameraController::decreaseRotationSpeed:
+			cameraMath.rotationSpeedTuning(-1);
 			break;
 	}
 }

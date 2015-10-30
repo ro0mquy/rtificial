@@ -57,6 +57,10 @@ class CameraController :
 			setKeyframe,
 			resetCameraPosition,
 			resetCameraRotation,
+			increaseMovementSpeed,
+			decreaseMovementSpeed,
+			increaseRotationSpeed,
+			decreaseRotationSpeed,
 		};
 
 	private:

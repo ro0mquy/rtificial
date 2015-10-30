@@ -25,13 +25,12 @@ class CameraMath {
 
 		glm::quat mouseMove(glm::vec3 position, glm::quat rotation, float dtime, glm::vec2 dmouse);
 
-		void movementSpeedScrolling(float dscroll);
-		void rotationSpeedScrolling(float dscroll);
+		void movementSpeedTuning(float dscroll);
+		void rotationSpeedTuning(float dscroll);
 
 	private:
 		float movementSpeed = 5.;
 		float rotationSpeed = 6.28318530718 /*TAU*/ / 4.;
-		float rotationMouseSpeed = 6.28318530718 /*TAU*/ / 150.;
 };
 
 #endif // CAMERAMATH_H

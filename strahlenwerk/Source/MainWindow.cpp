@@ -103,6 +103,10 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Selection::deleteSelection,
 		Selection::splitSequence,
 		Selection::mergeSequence,
+		CameraController::increaseMovementSpeed,
+		CameraController::decreaseMovementSpeed,
+		CameraController::increaseRotationSpeed,
+		CameraController::decreaseRotationSpeed,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -243,6 +247,26 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.addDefaultKeypress('t', ModifierKeys::commandModifier);
 			break;
 
+		case CameraController::increaseMovementSpeed:
+			result.setInfo("Increase Movement Speed", "Increases the movement speed of the camera", programCategory, 0);
+			result.addDefaultKeypress('=', ModifierKeys::noModifiers);
+			break;
+
+		case CameraController::decreaseMovementSpeed:
+			result.setInfo("Decrease Movement Speed", "Decreases the movement speed of the camera", programCategory, 0);
+			result.addDefaultKeypress('-', ModifierKeys::noModifiers);
+			break;
+
+		case CameraController::increaseRotationSpeed:
+			result.setInfo("Increase Rotation Speed", "Increases the rotation speed of the camera", programCategory, 0);
+			result.addDefaultKeypress('=', ModifierKeys::commandModifier);
+			break;
+
+		case CameraController::decreaseRotationSpeed:
+			result.setInfo("Decrease Rotation Speed", "Decreases the rotation speed of the camera", programCategory, 0);
+			result.addDefaultKeypress('-', ModifierKeys::commandModifier);
+			break;
+
 		default:
 			break;
 
@@ -303,6 +327,10 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, CameraController::resetCameraPosition);
 		menu.addCommandItem(commandManager, CameraController::resetCameraRotation);
+		menu.addCommandItem(commandManager, CameraController::increaseMovementSpeed);
+		menu.addCommandItem(commandManager, CameraController::decreaseMovementSpeed);
+		menu.addCommandItem(commandManager, CameraController::increaseRotationSpeed);
+		menu.addCommandItem(commandManager, CameraController::decreaseRotationSpeed);
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, AudioManager::toggleMute);
 		menu.addSeparator();
