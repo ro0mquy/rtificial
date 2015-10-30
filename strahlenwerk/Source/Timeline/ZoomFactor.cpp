@@ -21,16 +21,13 @@ ZoomFactor& ZoomFactor::getZoomFactor() {
 // multiply with ZoomFactor to convert time into pixels
 // divide with ZoomFactor to convert pixels into time
 ZoomFactor::operator float() {
-	std::lock_guard<std::mutex> lock(zoomMutex);
 	return zoomLevel;
 }
 
 ZoomFactor& ZoomFactor::operator=(const float newZoomLevel) {
-	zoomMutex.lock();
 	const float oldZoomLevel = zoomLevel;
 	zoomLevel = jlimit(minZoomLevel, maxZoomLevel, newZoomLevel);
 	const float tmpZoomLevel = zoomLevel;
-	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
 		sendSynchronousChangeMessage();
 	}
@@ -38,12 +35,9 @@ ZoomFactor& ZoomFactor::operator=(const float newZoomLevel) {
 }
 
 ZoomFactor& ZoomFactor::operator*=(const float zoomLevelFactor) {
-	zoomMutex.lock();
 	const float oldZoomLevel = zoomLevel;
 	zoomLevel = jlimit(minZoomLevel, maxZoomLevel, zoomLevel * zoomLevelFactor);
 	const float tmpZoomLevel = zoomLevel;
-	zoomMutex.unlock();
-	DBG(zoomLevel << '\n');
 	if (tmpZoomLevel != oldZoomLevel) {
 		sendSynchronousChangeMessage();
 	}
@@ -51,11 +45,9 @@ ZoomFactor& ZoomFactor::operator*=(const float zoomLevelFactor) {
 }
 
 ZoomFactor& ZoomFactor::operator/=(const float zoomLevelDivisor) {
-	zoomMutex.lock();
 	const float oldZoomLevel = zoomLevel;
 	zoomLevel = jlimit(minZoomLevel, maxZoomLevel, zoomLevel / zoomLevelDivisor);
 	const float tmpZoomLevel = zoomLevel;
-	zoomMutex.unlock();
 	if (tmpZoomLevel != oldZoomLevel) {
 		sendSynchronousChangeMessage();
 	}
@@ -63,17 +55,14 @@ ZoomFactor& ZoomFactor::operator/=(const float zoomLevelDivisor) {
 }
 
 float ZoomFactor::timeToPixels(const int time) {
-	std::lock_guard<std::mutex> lock(zoomMutex);
 	return time * zoomLevel;
 }
 
 int ZoomFactor::pixelsToTime(const float pixels) {
-	std::lock_guard<std::mutex> lock(zoomMutex);
 	return roundFloatToInt(pixels / zoomLevel);
 }
 
 float ZoomFactor::getGridWidth() {
-	std::lock_guard<std::mutex> lock(zoomMutex);
 	return 250. * std::pow(2., -std::floor(std::log2(zoomLevel / initialZoomLevel)));
 }
 

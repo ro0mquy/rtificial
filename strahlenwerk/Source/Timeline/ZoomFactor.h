@@ -2,7 +2,6 @@
 #define ZOOMFACTOR_H
 
 #include <juce>
-#include <mutex>
 
 class ZoomFactor :
 	public ChangeBroadcaster
@@ -26,7 +25,6 @@ class ZoomFactor :
 
 	private:
 		float zoomLevel;
-		std::mutex zoomMutex;
 };
 
 #endif // ZOOMFACTOR_H
