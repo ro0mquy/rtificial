@@ -25,6 +25,8 @@ class CameraMath {
 
 		glm::quat mouseMove(glm::vec3 position, glm::quat rotation, float dtime, glm::vec2 dmouse);
 
+		float focalLengthTuning(float focalLength, float dscroll);
+
 		void movementSpeedTuning(float dscroll);
 		void rotationSpeedTuning(float dscroll);
 

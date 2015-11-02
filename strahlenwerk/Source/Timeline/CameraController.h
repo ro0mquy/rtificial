@@ -70,11 +70,13 @@ class CameraController :
 		double lastCallbackTime;
 		double lastMouseMoveTime;
 		Point<int> originalMousePos;
+		float focalLength = .0f;
 		glm::vec3 position;
 		glm::quat rotation;
 		bool hasControl = false;
 		bool shiftDraggingActive = false;
 
+		const String cameraFocalLengthName;
 		const String cameraPositionName;
 		const String cameraRotationName;
 

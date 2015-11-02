@@ -13,6 +13,7 @@ CameraController* CameraController::globalCameraController = nullptr;
 CameraController::CameraController(TimelineData& data_, Interpolator& interpolator_) :
 	SpecialUniformController(data_),
 	interpolator(interpolator_),
+	cameraFocalLengthName("camera_focal_length"),
 	cameraPositionName("camera_position"),
 	cameraRotationName("camera_rotation")
 {
@@ -41,7 +42,8 @@ CameraController::~CameraController() {
 bool CameraController::wantControlUniform(String& uniformName) {
 	std::lock_guard<std::mutex> lock(cameraMutex);
 	if (hasControl) {
-		return uniformName == cameraPositionName ||
+		return uniformName == cameraFocalLengthName ||
+			uniformName == cameraPositionName ||
 			uniformName == cameraRotationName;
 	}
 	return false;
@@ -49,14 +51,19 @@ bool CameraController::wantControlUniform(String& uniformName) {
 
 Interpolator::UniformState CameraController::getUniformState(String& uniformName) {
 	ValueTree tree(treeId::controlledValue);
-	if (uniformName == cameraPositionName) {
+	if (uniformName == cameraFocalLengthName) {
 		cameraMutex.lock();
-		glm::vec3 tmpPosition = position;
+		const float tmpFocalLength = focalLength;
+		cameraMutex.unlock();
+		data.setFloatToValue(tree, tmpFocalLength, false);
+	} else if (uniformName == cameraPositionName) {
+		cameraMutex.lock();
+		const glm::vec3 tmpPosition = position;
 		cameraMutex.unlock();
 		data.setVec3ToValue(tree, tmpPosition, false);
 	} else if (uniformName == cameraRotationName) {
 		cameraMutex.lock();
-		glm::quat tmpRotation = rotation;
+		const glm::quat tmpRotation = rotation;
 		cameraMutex.unlock();
 		data.setQuatToValue(tree, tmpRotation, false);
 	}
@@ -137,9 +144,17 @@ void CameraController::mouseUp(const MouseEvent& m) {
 	}
 }
 
-void CameraController::mouseWheelMove(const MouseEvent& /*m*/, const MouseWheelDetails& wheel) {
+void CameraController::mouseWheelMove(const MouseEvent& m, const MouseWheelDetails& wheel) {
 	// called when inside of openGLComponent or shift is down
-	cameraMath.movementSpeedTuning(wheel.deltaY * (wheel.isReversed ? -1 : 1));
+	if (m.mods.isCommandDown()) {
+		// zoom lens
+		std::lock_guard<std::mutex> lock(cameraMutex);
+		focalLength = cameraMath.focalLengthTuning(focalLength, wheel.deltaY * (wheel.isReversed ? -1 : 1));
+		sendChangeMessage();
+	} else {
+		// change speed
+		cameraMath.movementSpeedTuning(wheel.deltaY * (wheel.isReversed ? -1 : 1));
+	}
 }
 
 void CameraController::timerCallback() {
@@ -252,6 +267,23 @@ void CameraController::setKeyframeAtCurrentPosition() {
 
 	const int currentTime = AudioManager::getAudioManager().getTime();
 
+	ValueTree focalLengthUniform = data.getUniform(var(cameraFocalLengthName));
+	ValueTree currentFocSequence = data.getSequenceForTime(focalLengthUniform, currentTime);
+	if (currentFocSequence.isValid()) {
+		const var relativeCurrentTime = currentTime - data.getAbsoluteStartForSequence(currentFocSequence);
+		ValueTree keyframe = data.getKeyframe(currentFocSequence, relativeCurrentTime);
+		if (!keyframe.isValid()) {
+			keyframe = data.addKeyframe(currentFocSequence, relativeCurrentTime);
+		}
+		ValueTree keyframeValue = data.getKeyframeValue(keyframe);
+
+		cameraMutex.lock();
+		const float tmpFocalLength = focalLength;
+		cameraMutex.unlock();
+
+		data.setFloatToValue(keyframeValue, tmpFocalLength);
+	}
+
 	ValueTree positionUniform = data.getUniform(var(cameraPositionName));
 	ValueTree currentPosSequence = data.getSequenceForTime(positionUniform, currentTime);
 	if (currentPosSequence.isValid()) {
@@ -263,7 +295,7 @@ void CameraController::setKeyframeAtCurrentPosition() {
 		ValueTree keyframeValue = data.getKeyframeValue(keyframe);
 
 		cameraMutex.lock();
-		glm::vec3 tmpPosition = position;
+		const glm::vec3 tmpPosition = position;
 		cameraMutex.unlock();
 
 		data.setVec3ToValue(keyframeValue, tmpPosition);
@@ -280,24 +312,31 @@ void CameraController::setKeyframeAtCurrentPosition() {
 		ValueTree keyframeValue = data.getKeyframeValue(keyframe);
 
 		cameraMutex.lock();
-		glm::quat tmpRotation = rotation;
+		const glm::quat tmpRotation = rotation;
 		cameraMutex.unlock();
 
 		data.setQuatToValue(keyframeValue, tmpRotation);
 	}
+
+	releaseControl();
 }
 
 void CameraController::getCameraFromCurrentPosition() {
+	ValueTree focalLengthUniform = data.getUniform(var(cameraFocalLengthName));
+	ValueTree focalLengthValue = interpolator.getUniformStateFromTimelineData(focalLengthUniform).first;
+
 	ValueTree positionUniform = data.getUniform(var(cameraPositionName));
 	ValueTree positionValue = interpolator.getUniformStateFromTimelineData(positionUniform).first;
 
 	ValueTree rotationUniform = data.getUniform(var(cameraRotationName));
 	ValueTree rotationValue = interpolator.getUniformStateFromTimelineData(rotationUniform).first;
 
-	glm::vec3 tmpPosition = data.getVec3FromValue(positionValue);
-	glm::quat tmpRotation = data.getQuatFromValue(rotationValue);
+	const float tmpFocalLength = data.getFloatFromValue(focalLengthValue);
+	const glm::vec3 tmpPosition = data.getVec3FromValue(positionValue);
+	const glm::quat tmpRotation = data.getQuatFromValue(rotationValue);
 
 	cameraMutex.lock();
+	focalLength = tmpFocalLength;
 	position = tmpPosition;
 	rotation = tmpRotation;
 	cameraMutex.unlock();
@@ -339,6 +378,7 @@ void CameraController::stopTimerCallback() {
 }
 
 void CameraController::startMouseDragging() {
+	takeOverControl();
 	originalMousePos = Desktop::getMousePosition();
 	lastMouseMoveTime = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 }

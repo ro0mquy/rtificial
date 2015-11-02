@@ -6,6 +6,8 @@
 
 using namespace glm;
 
+static const float focalLengthFactor = .9;
+
 static const float speedAdjustmentFactor = .75;
 static const float rotationMouseFactor = .025;
 
@@ -105,6 +107,10 @@ quat CameraMath::mouseMove(vec3 /*position*/, quat rotation, float dtime, vec2 d
 	const float rotationAngleX = - dtime * rotationSpeed * rotationMouseFactor * dmouse.x;
 	const float rotationAngleY =   dtime * rotationSpeed * rotationMouseFactor * dmouse.y;
 	return angleAxis(rotationAngleX, vec3(0., 1., 0.)) * rotation * angleAxis(rotationAngleY, vec3(1., 0., 0.));
+}
+
+float CameraMath::focalLengthTuning(float focalLength, float dscroll) {
+	return clamp(focalLength * pow(focalLengthFactor, -dscroll), .00001f, 10.f);
 }
 
 void CameraMath::movementSpeedTuning(float dscroll) {
