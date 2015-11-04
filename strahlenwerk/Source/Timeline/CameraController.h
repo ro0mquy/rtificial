@@ -31,11 +31,11 @@ class CameraController :
 		bool keyPressed(const KeyPress& key, Component* originatingComponent) override;
 		bool keyStateChanged(bool isKeyPressed, Component* originatingComponent) override;
 
-		void mouseMove(const MouseEvent& m) override;
-		void mouseDown(const MouseEvent& m) override;
-		void mouseDrag(const MouseEvent& m) override;
-		void mouseUp(const MouseEvent& m) override;
-		void mouseWheelMove(const MouseEvent& m, const MouseWheelDetails& wheel) override;
+		void mouseMove(const MouseEvent& event) override;
+		void mouseDown(const MouseEvent& event) override;
+		void mouseDrag(const MouseEvent& event) override;
+		void mouseUp(const MouseEvent& event) override;
+		void mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) override;
 
 		void handleAsyncUpdate() override;
 		void timerCallback() override;

@@ -98,7 +98,7 @@ bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*origi
 		stopTimerCallback();
 	}
 
-	const bool isShiftDown = ModifierKeys::getCurrentModifiers().isShiftDown();
+	const bool isShiftDown = ModifierKeys::getCurrentModifiers().isAltDown(); // if you change the modifier, also have a look into timerCallback()
 	if (!shiftDraggingActive && isShiftDown) {
 		// shift key is down
 		shiftDraggingActive = true;
@@ -114,7 +114,7 @@ bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*origi
 	return false;
 }
 
-void CameraController::mouseMove(const MouseEvent& /*m*/) {
+void CameraController::mouseMove(const MouseEvent& /*event*/) {
 	// only when shift is held down, this class is registered as a global mouse listener
 	// otherwise the events comes from the openGLComponent
 	if (shiftDraggingActive) {
@@ -122,31 +122,31 @@ void CameraController::mouseMove(const MouseEvent& /*m*/) {
 	}
 }
 
-void CameraController::mouseDown(const MouseEvent& m) {
+void CameraController::mouseDown(const MouseEvent& event) {
 	// click into openGl component
-	if (m.mods == ModifierKeys(ModifierKeys::leftButtonModifier)) {
+	if (event.mods == ModifierKeys(ModifierKeys::leftButtonModifier)) {
 		// start to control the camera with the mouse
 		//Desktop::getInstance().getMainMouseSource().enableUnboundedMouseMovement(true); // alot of lag with this
 		startMouseDragging();
 	}
 }
 
-void CameraController::mouseDrag(const MouseEvent& m) {
-	if (m.mods.isLeftButtonDown() || shiftDraggingActive) {
+void CameraController::mouseDrag(const MouseEvent& event) {
+	if (event.mods.isLeftButtonDown() || shiftDraggingActive) {
 		handleMouseDragging();
 	}
 }
 
-void CameraController::mouseUp(const MouseEvent& m) {
-	if (m.mods.isLeftButtonDown()) {
+void CameraController::mouseUp(const MouseEvent& event) {
+	if (event.mods.isLeftButtonDown()) {
 		stopMouseDragging();
 		//Desktop::getInstance().getMainMouseSource().enableUnboundedMouseMovement(false);
 	}
 }
 
-void CameraController::mouseWheelMove(const MouseEvent& m, const MouseWheelDetails& wheel) {
+void CameraController::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) {
 	// called when inside of openGLComponent or shift is down
-	if (m.mods.isCommandDown()) {
+	if (event.mods.isCommandDown()) {
 		// zoom lens
 		std::lock_guard<std::mutex> lock(cameraMutex);
 		focalLength = cameraMath.focalLengthTuning(focalLength, wheel.deltaY * (wheel.isReversed ? -1 : 1));
@@ -164,7 +164,7 @@ void CameraController::timerCallback() {
 	lastCallbackTime = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 	const float deltaTime = lastCallbackTime - oldLastCallbackTime;
 
-	const ModifierKeys modKeys = ModifierKeys::getCurrentModifiers().withoutFlags(ModifierKeys::shiftModifier);
+	const ModifierKeys modKeys = ModifierKeys::getCurrentModifiers().withoutFlags(ModifierKeys::altModifier);
 	if (modKeys.isAnyModifierKeyDown()) {
 		// do nothing when any modifiers besides shift are held down
 		return;
