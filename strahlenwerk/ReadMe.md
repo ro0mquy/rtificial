@@ -7,6 +7,10 @@
 * `EC` move up/down
 * `IJKL` look around
 * `UO` rotate
+* Hold down `[Alt]` or click into OpenGlComponent to look around with the mouse
+* `[Scroll]|=|-` change movement speed (with mouse in OpenGlComponent or `[Alt]` down)
+* `[Ctrl]+=|-` change rotation speed
+* `[Ctrl]+[Scroll]` change focal length (with mouse in OpenGlComponent or `[Alt]` down)
 
 ### Timeline
 * `[Scroll]` scroll timeline vertically
