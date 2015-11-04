@@ -195,3 +195,7 @@ void Renderer::applicationCommandInvoked(const ApplicationCommandTarget::Invocat
 
 void Renderer::applicationCommandListChanged() {
 }
+
+PostprocPipeline& Renderer::getPostproc() {
+	return *postproc;
+}

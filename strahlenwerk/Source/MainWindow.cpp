@@ -7,6 +7,7 @@
 #include <Project/Project.h>
 #include <Timeline/TimelineData.h>
 #include <AudioManager.h>
+#include <ScreenRecorder.h>
 
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()
@@ -107,6 +108,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		CameraController::decreaseMovementSpeed,
 		CameraController::increaseRotationSpeed,
 		CameraController::decreaseRotationSpeed,
+		ScreenRecorder::saveScreenshot,
 	};
 
 	commands.addArray(ids, numElementsInArray(ids));
@@ -267,6 +269,11 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 			result.addDefaultKeypress('-', ModifierKeys::commandModifier);
 			break;
 
+		case ScreenRecorder::saveScreenshot:
+			result.setInfo("Save Screenshot", "Save current view to disk as PNG", programCategory, 0);
+			result.addDefaultKeypress(KeyPress::F12Key, ModifierKeys::noModifiers);
+			break;
+
 		default:
 			break;
 
@@ -309,6 +316,8 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, Project::reloadEnvironments);
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, Project::saveTimeline);
+		menu.addSeparator();
+		menu.addCommandItem(commandManager, ScreenRecorder::saveScreenshot);
 		menu.addSeparator();
 		menu.addCommandItem(commandManager, Renderer::makeDemo);
 		menu.addSeparator();

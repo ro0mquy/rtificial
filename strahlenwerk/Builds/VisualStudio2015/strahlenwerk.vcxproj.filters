@@ -481,6 +481,9 @@
     <ClCompile Include="..\..\Source\RtificialLookAndFeel.cpp">
       <Filter>strahlenwerk\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\ScreenRecorder.cpp">
+      <Filter>strahlenwerk\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\StrahlenwerkApplication.cpp">
       <Filter>strahlenwerk\Source</Filter>
     </ClCompile>
@@ -1894,6 +1897,9 @@
       <Filter>strahlenwerk\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\RtificialLookAndFeel.h">
+      <Filter>strahlenwerk\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScreenRecorder.h">
       <Filter>strahlenwerk\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\StrahlenwerkApplication.h">

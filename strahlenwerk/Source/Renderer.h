@@ -33,6 +33,8 @@ class Renderer :
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
 		void applicationCommandListChanged() override;
 
+		PostprocPipeline& getPostproc();
+
 		enum CommandIDs {
 			makeDemo = 0x4581da00,
 			toggleHalfResolution,

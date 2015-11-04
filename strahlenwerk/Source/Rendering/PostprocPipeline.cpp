@@ -4,8 +4,34 @@
 #include "PostprocShader.h"
 #include <StrahlenwerkApplication.h>
 #include <PropertyNames.h>
+#include <MainWindow.h>
+#include <OpenGLComponent.h>
+#include <MainContentComponent.h>
 
 PostprocPipeline::~PostprocPipeline() = default;
+
+void PostprocPipeline::handleAsyncUpdate() {
+	std::lock_guard<std::mutex> lock(pixelDataMutex);
+
+	jassert(pixelDataChannels >= 3);
+	renderedImage = Image(Image::PixelFormat::RGB, pixelDataWidth, pixelDataHeight, true);
+	//Image::BitmapData imgBitmapData(rendered, Image::BitmapData::writeOnly);
+	for (int y = 0; y < pixelDataHeight; y++) {
+		for (int x = 0; x < pixelDataWidth; x++) {
+			const Colour color = Colour::fromFloatRGBA(
+				pixelData[(y * pixelDataWidth + x) * pixelDataChannels + 0],
+				pixelData[(y * pixelDataWidth + x) * pixelDataChannels + 1],
+				pixelData[(y * pixelDataWidth + x) * pixelDataChannels + 2],
+				1.0f
+			);
+			// mirror horizontally
+			//imgBitmapData.setPixelColour(x, pixelDataHeight -y, color);
+			renderedImage.setPixelAt(x, pixelDataHeight - y, color);
+		}
+	}
+
+	sendChangeMessage();
+}
 
 void PostprocPipeline::setShaders(std::vector<std::unique_ptr<PostprocShader>> _shaders) {
 	shaders = std::move(_shaders);
@@ -64,6 +90,11 @@ uint64_t PostprocPipeline::render(SceneShader& scene, int width, int height) {
 	glBeginQuery(GL_TIME_ELAPSED, queries[queryIndex++]);
 	// this works becaue the last drawn shader has only one output (with location = 0)
 	shaders[shaders.size() - 1]->draw(originalWidth, originalHeigth);
+
+	if (shouldGetImage) {
+		readPixels(originalWidth, originalHeigth);
+	}
+
 	queryNames.push_back(shaders[shaders.size() - 1]->getName());
 	glEndQuery(GL_TIME_ELAPSED);
 	glDisable(GL_FRAMEBUFFER_SRGB);
@@ -91,4 +122,24 @@ PostprocShader& PostprocPipeline::getShader(int n) const {
 
 int PostprocPipeline::getNumShaders() const {
 	return shaders.size();
+}
+
+void PostprocPipeline::readPixels(int width, int height) {
+	std::lock_guard<std::mutex> lock(pixelDataMutex);
+	pixelDataWidth = width;
+	pixelDataHeight = height;
+	pixelData = new float[pixelDataWidth * pixelDataHeight * pixelDataChannels];
+	glReadPixels(0, 0, pixelDataWidth, pixelDataHeight, GL_RGB, GL_FLOAT, pixelData);
+	shouldGetImage = false;
+	triggerAsyncUpdate();
+}
+
+void PostprocPipeline::requestRenderedImage(){
+	shouldGetImage = true;
+	StrahlenwerkApplication::getInstance()->getMainWindow().getMainContentComponent().getOpenGLComponent().triggerRepaint();
+
+}
+
+const Image& PostprocPipeline::getRenderedImage(){
+	return renderedImage;
 }

@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "OpenGLTargetComponent.h"
 #include <Project/Project.h>
+#include <ScreenRecorder.h>
 
 class OpenGLComponent :
 	public Component,
@@ -23,6 +24,7 @@ class OpenGLComponent :
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
 		void applicationCommandListChanged() override;
 		void changeListenerCallback(ChangeBroadcaster* source) override;
+		void triggerRepaint();
 		void postprocChanged() override;
 		void scenesChanged() override;
 		void doToggleGrid();
@@ -42,6 +44,7 @@ class OpenGLComponent :
 		OpenGLContext context;
 		Renderer renderer;
 		OpenGLTargetComponent fixedAspectRatioComponent;
+		ScreenRecorder screenRecorder;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OpenGLComponent)
 };

@@ -107,6 +107,7 @@ OBJECTS := \
   $(OBJDIR)/OpenGLTargetComponent_5695ea9e.o \
   $(OBJDIR)/Renderer_d34861cc.o \
   $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
+  $(OBJDIR)/ScreenRecorder_56d2f7d3.o \
   $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
   $(OBJDIR)/BinaryData_ce4232d4.o \
   $(OBJDIR)/juce_audio_basics_832d1cec.o \
@@ -427,6 +428,11 @@ $(OBJDIR)/Renderer_d34861cc.o: ../../Source/Renderer.cpp
 $(OBJDIR)/RtificialLookAndFeel_95d2050c.o: ../../Source/RtificialLookAndFeel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling RtificialLookAndFeel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ScreenRecorder_56d2f7d3.o: ../../Source/ScreenRecorder.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ScreenRecorder.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/StrahlenwerkApplication_a618e10d.o: ../../Source/StrahlenwerkApplication.cpp

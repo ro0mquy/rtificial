@@ -231,6 +231,10 @@
             file="Source/RtificialLookAndFeel.cpp"/>
       <FILE id="Wciucj" name="RtificialLookAndFeel.h" compile="0" resource="0"
             file="Source/RtificialLookAndFeel.h"/>
+      <FILE id="bY87La" name="ScreenRecorder.cpp" compile="1" resource="0"
+            file="Source/ScreenRecorder.cpp"/>
+      <FILE id="AFglRd" name="ScreenRecorder.h" compile="0" resource="0"
+            file="Source/ScreenRecorder.h"/>
       <FILE id="UVEyS3" name="StrahlenwerkApplication.cpp" compile="1" resource="0"
             file="Source/StrahlenwerkApplication.cpp"/>
       <FILE id="ucF2Fs" name="StrahlenwerkApplication.h" compile="0" resource="0"

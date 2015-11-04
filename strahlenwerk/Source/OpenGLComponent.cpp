@@ -9,7 +9,8 @@
 
 OpenGLComponent::OpenGLComponent() :
 	renderer(context),
-	fixedAspectRatioComponent(renderer)
+	fixedAspectRatioComponent(renderer),
+	screenRecorder(renderer.getPostproc())
 {
 	// TODO: remove listeners again
 	MainWindow::getApplicationCommandManager().addListener(this);
@@ -70,17 +71,21 @@ void OpenGLComponent::applicationCommandListChanged() {
 
 void OpenGLComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// time, selection or camera changed
+	triggerRepaint();
+}
+
+void OpenGLComponent::triggerRepaint(){
 	fixedAspectRatioComponent.repaint();
 	// it seems that a repaint of the target component also repaints the gl context
 	//context.triggerRepaint();
 }
 
 void OpenGLComponent::postprocChanged() {
-	fixedAspectRatioComponent.repaint();
+	triggerRepaint();
 }
 
 void OpenGLComponent::scenesChanged() {
-	fixedAspectRatioComponent.repaint();
+	triggerRepaint();
 }
 
 void OpenGLComponent::doToggleGrid() {

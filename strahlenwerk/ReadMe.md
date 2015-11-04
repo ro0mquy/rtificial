@@ -52,6 +52,7 @@
 * `G` Toggle Rule of Thirds grid
 * `[Ctrl]+D` Make demo
 * `[Ctrl]+M` Toggle audio mute
+* `F12` Save Screenshot (to `~/Dropbox/rtificial/Screenshots/<ProjectName>`, configrable via `strahlenwerk.settings` key `screenshot_dir`)
 
 (Shader is also reloaded on file change)
 
