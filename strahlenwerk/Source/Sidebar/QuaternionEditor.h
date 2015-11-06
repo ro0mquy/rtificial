@@ -14,7 +14,6 @@ class QuaternionEditor :
 
 		void setValueData(const Value& quatX_, const Value& quatY_, const Value& quatZ_, const Value& quatW_);
 
-		void resized() override;
 		void paint(Graphics& g) override;
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;

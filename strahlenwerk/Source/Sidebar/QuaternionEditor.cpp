@@ -2,6 +2,9 @@
 
 #include <Timeline/TimelineData.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+
 QuaternionEditor::QuaternionEditor(const String& transactionName_) :
 	transactionName(transactionName_)
 {
@@ -25,10 +28,6 @@ void QuaternionEditor::setValueData(const Value& quatX_, const Value& quatY_, co
 	quatW.referTo(quatW_);
 }
 
-void QuaternionEditor::resized() {
-	orientation.setViewport(getLocalBounds());
-}
-
 void QuaternionEditor::paint(Graphics& g) {
 	g.setColour(Colours::white);
 	g.drawRoundedRectangle(getLocalBounds().toFloat().reduced(.5f), 5.f, 1.f);
@@ -42,14 +41,14 @@ void QuaternionEditor::mouseDown(const MouseEvent& event) {
 void QuaternionEditor::mouseDrag(const MouseEvent& event) {
 	orientation.mouseDrag(event.position);
 
-	Draggable3DOrientation::QuaternionType& juceQuat = orientation.getQuaternion();
-	quatX = juceQuat.vector.x;
-	quatY = juceQuat.vector.y;
-	quatZ = juceQuat.vector.z;
-	quatW = juceQuat.scalar;
+	const glm::quat& orientationQuat = orientation.getQuaternion();
+	quatX = orientationQuat.x;
+	quatY = orientationQuat.y;
+	quatZ = orientationQuat.z;
+	quatW = orientationQuat.w;
 }
 
 void QuaternionEditor::valueChanged(Value& /*value*/) {
-	Draggable3DOrientation::QuaternionType& juceQuat = orientation.getQuaternion();
-	juceQuat = Draggable3DOrientation::QuaternionType(quatX.getValue(), quatY.getValue(), quatZ.getValue(), quatW.getValue());
+	glm::quat& orientationQuat = orientation.getQuaternion();
+	orientationQuat = glm::quat(quatW.getValue(), quatX.getValue(), quatY.getValue(), quatZ.getValue());
 }

@@ -2,35 +2,25 @@
 #define DRAGGABLEQUATERNION_H
 
 #include <juce>
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 class DraggableQuaternion
 {
 	public:
-		typedef Vector3D<GLfloat> VectorType;
-		typedef Quaternion<GLfloat> QuaternionType;
+		DraggableQuaternion();
+		DraggableQuaternion(const glm::quat& quaternionToUse);
 
-		DraggableQuaternion(float objectRadius = 0.5f) noexcept;
-		DraggableQuaternion(const Quaternion<GLfloat>& quaternionToUse, float objectRadius = 0.5f) noexcept;
+		void mouseDown(Point<float> mousePos);
+		void mouseDrag(Point<float> mousePos);
 
-		void reset(const VectorType& axis) noexcept;
-		void setViewport(const Rectangle<int>& newArea) noexcept;
-		void setRadius(float newRadius) noexcept;
-
-		void mouseDown(Point<float> mousePos) noexcept;
-		void mouseDrag(Point<float> mousePos) noexcept;
-
-		Matrix3D<GLfloat> getRotationMatrix() const noexcept;
-		QuaternionType& getQuaternion() noexcept;
+		glm::quat& getQuaternion();
 
 	private:
-		Rectangle<int> area;
-		float radius;
-		QuaternionType quaternion;
-		Point<float> origMouse;
-		QuaternionType origQuat;
+		glm::quat quaternion;
+		Point<float> lastMousePos;
 
-		Point<float> mousePosToProportion(const Point<float> mousePos) const noexcept;
-		QuaternionType rotationFromMove(const Point<float> orig, const Point<float> current) const noexcept;
+		static glm::quat rotationFromMove(const Point<float> last, const Point<float> current);
 };
 
 #endif // DRAGGABLEQUATERNION_H

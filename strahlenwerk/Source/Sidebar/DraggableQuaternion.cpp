@@ -1,86 +1,52 @@
 #include "DraggableQuaternion.h"
 
-using VectorType = DraggableQuaternion::VectorType;
-using QuaternionType = DraggableQuaternion::QuaternionType;
+#include <Timeline/TimelineData.h>
 
-DraggableQuaternion::DraggableQuaternion(float objectRadius) noexcept :
-	radius (jmax (0.1f, objectRadius)),
-	quaternion (VectorType::xAxis(), 0)
-{
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+
+using namespace glm;
+
+static const float rotationSpeed = .01f;
+
+DraggableQuaternion::DraggableQuaternion() {
 }
 
-DraggableQuaternion::DraggableQuaternion(const Quaternion<GLfloat>& quaternionToUse, float objectRadius) noexcept :
-	radius(jmax(0.1f, objectRadius)),
+DraggableQuaternion::DraggableQuaternion(const quat& quaternionToUse) :
 	quaternion(quaternionToUse)
 {
 }
 
-void DraggableQuaternion::reset(const VectorType& axis) noexcept {
-	quaternion = QuaternionType(axis, 0);
+void DraggableQuaternion::mouseDown(Point<float> mousePos) {
+	lastMousePos = mousePos;
 }
 
-void DraggableQuaternion::setViewport(const Rectangle<int>& newArea) noexcept {
-	area = newArea;
+void DraggableQuaternion::mouseDrag(Point<float> mousePos) {
+	quaternion *= rotationFromMove(lastMousePos, mousePos);
+	lastMousePos = mousePos;
 }
 
-void DraggableQuaternion::setRadius(float newRadius) noexcept {
-	radius = jmax(0.1f, newRadius);
-}
-
-void DraggableQuaternion::mouseDown(Point<float> mousePos) noexcept {
-	origMouse = mousePosToProportion(mousePos);
-	origQuat = quaternion.normalised();
-}
-
-void DraggableQuaternion::mouseDrag(Point<float> mousePos) noexcept {
-	const Point<float> currentMouse = mousePosToProportion(mousePos);
-
-	QuaternionType newQuat(origQuat);
-	newQuat *= rotationFromMove(origMouse, currentMouse);;
-	quaternion = newQuat;
-}
-
-Matrix3D<GLfloat> DraggableQuaternion::getRotationMatrix() const noexcept {
-	return quaternion.getRotationMatrix();
-}
-
-QuaternionType& DraggableQuaternion::getQuaternion() noexcept {
+quat& DraggableQuaternion::getQuaternion() {
 	return quaternion;
 }
 
-Point<float> DraggableQuaternion::mousePosToProportion(const Point<float> mousePos) const noexcept {
-	const int scale = jmin(area.getWidth(), area.getHeight()) / 2;
+quat DraggableQuaternion::rotationFromMove(const Point<float> last, const Point<float> current) {
+	const Point<float> delta = current - last;
+	const float rotationAngleX = -rotationSpeed * delta.x;
+	const float rotationAngleY = -rotationSpeed * delta.y;
 
-	// You must call setViewport() to give this object a valid window size before
-	// calling any of the mouse input methods!
-	jassert(scale > 0);
+	// get current camera rotation to rotate the rotation vectors
+	TimelineData& data = TimelineData::getTimelineData();
+	const ValueTree cameraRotationValue = data.getInterpolator().getCurrentUniformState(var("camera_rotation")).first;
+	const quat cameraRotationQuat = data.getQuatFromValue(cameraRotationValue);
 
-	return Point<float>((mousePos.x - area.getCentreX()) / scale,
-			(area.getCentreY() - mousePos.y) / scale);
-}
+	// rotate roation axis
+	const vec3 xAxis = rotate(cameraRotationQuat, vec3(1., 0., 0.));
+	quat quatRot = angleAxis(rotationAngleY, xAxis);
 
-QuaternionType DraggableQuaternion::rotationFromMove(const Point<float> orig, const Point<float> current) const noexcept {
-	VectorType vOld = VectorType(orig.x, orig.y, 1.);
-	VectorType vNew = VectorType(current.x, current.y, 1.);
+	const vec3 yAxis = rotate(cameraRotationQuat, vec3(0., 1., 0.));
+	quatRot *= angleAxis(rotationAngleX, yAxis);
 
-	if (vOld.lengthIsBelowEpsilon() || vNew.lengthIsBelowEpsilon()) {
-		return QuaternionType(VectorType::xAxis(), 0.f);
-	}
-
-	vOld = vOld.normalised();
-	vNew = vNew.normalised();
-
-	const VectorType axis = vOld ^ vNew;
-	const float sina = std::sqrt(axis * axis);
-	const float cosa = vOld * vNew;
-	float angle = std::atan2(sina, cosa);
-
-	// if outside of the viewport, make the angle a bit bigger
-	// with this it's possible to rotate more than 90 degrees
-	const float currentLength = current.getDistanceFromOrigin();
-	if (currentLength > 1.f) {
-		angle *= 1.f + .2f * (currentLength - 1.f);
-	}
-
-	return QuaternionType::fromAngle(angle, axis);
+	return quatRot;
 }
