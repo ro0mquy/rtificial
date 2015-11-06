@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="gxTjTP" name="strahlenwerk" projectType="guiapp" version=""
               bundleIdentifier="org.rtificial.strahlenwerk" includeBinaryInAppConfig="1"
-              jucerVersion="3.2.0" companyName="rtificial" companyWebsite="http://rtificial.org/"
+              jucerVersion="4.0.1" companyName="rtificial" companyWebsite="http://rtificial.org/"
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR&#10;GLM_FORCE_RADIANS"
               companyEmail="mail@rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
@@ -332,7 +332,7 @@
   </MODULES>
   <JUCEOPTIONS JUCE_ASIO="disabled" JUCE_WASAPI="enabled" JUCE_DIRECTSOUND="disabled"
                JUCE_ALSA="enabled" JUCE_JACK="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
-               JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_USE_FLAC="enabled"
+               JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_USE_FLAC="disabled"
                JUCE_USE_OGGVORBIS="enabled" JUCE_USE_MP3AUDIOFORMAT="disabled"
                JUCE_USE_LAME_AUDIO_FORMAT="disabled" JUCE_USE_WINDOWS_MEDIA_FORMAT="disabled"
                JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="enabled"
