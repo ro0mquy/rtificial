@@ -77,6 +77,7 @@ OBJECTS := \
   $(OBJDIR)/InterpolationPlotComponent_cc16494.o \
   $(OBJDIR)/QuaternionEditor_3c7fc27.o \
   $(OBJDIR)/SceneBackgroundComponent_3365f63f.o \
+  $(OBJDIR)/ScopesComponent_6b3b152c.o \
   $(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o \
   $(OBJDIR)/Sidebar_eccfc76a.o \
   $(OBJDIR)/ValueEditorPropertyComponent_ae881406.o \
@@ -278,6 +279,11 @@ $(OBJDIR)/QuaternionEditor_3c7fc27.o: ../../Source/Sidebar/QuaternionEditor.cpp
 $(OBJDIR)/SceneBackgroundComponent_3365f63f.o: ../../Source/Sidebar/SceneBackgroundComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling SceneBackgroundComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/ScopesComponent_6b3b152c.o: ../../Source/Sidebar/ScopesComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling ScopesComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SequenceBackgroundComponent_5b0f667c.o: ../../Source/Sidebar/SequenceBackgroundComponent.cpp

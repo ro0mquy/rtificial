@@ -122,6 +122,10 @@
               file="Source/Sidebar/SceneBackgroundComponent.cpp"/>
         <FILE id="UGn2GE" name="SceneBackgroundComponent.h" compile="0" resource="0"
               file="Source/Sidebar/SceneBackgroundComponent.h"/>
+        <FILE id="rd2XUP" name="ScopesComponent.cpp" compile="1" resource="0"
+              file="Source/Sidebar/ScopesComponent.cpp"/>
+        <FILE id="vSLiwy" name="ScopesComponent.h" compile="0" resource="0"
+              file="Source/Sidebar/ScopesComponent.h"/>
         <FILE id="pBsemE" name="SequenceBackgroundComponent.cpp" compile="1"
               resource="0" file="Source/Sidebar/SequenceBackgroundComponent.cpp"/>
         <FILE id="UpgnYw" name="SequenceBackgroundComponent.h" compile="0"
