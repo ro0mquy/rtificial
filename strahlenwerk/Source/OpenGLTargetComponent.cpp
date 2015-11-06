@@ -40,6 +40,7 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 		g.strokePath(path, PathStrokeType(thickness));
 	}
 
+	// fps counter
 	const float fontHeight = 12.;
 	g.setColour(Colours::white);
 	g.setFont(Font(Font::getDefaultMonospacedFontName(), fontHeight, 0));
@@ -57,7 +58,7 @@ void OpenGLTargetComponent::paint(Graphics& g) {
 
 	quat rotation = data.getQuatFromValue(interpolator.getCurrentUniformState("camera_rotation", defaultRotation).first);
 	// display world rotation, not camera rotation
-	rotation = conjugate(rotation);
+	rotation = conjugate(normalize(rotation));
 
 	vec3 xAxis(1.f, 0.f, 0.f);
 	vec3 yAxis(0.f, 1.f, 0.f);
