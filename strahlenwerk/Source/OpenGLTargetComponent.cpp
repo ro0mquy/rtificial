@@ -6,7 +6,6 @@
 #include "Timeline/Interpolator.h"
 #include "Timeline/TreeIdentifiers.h"
 
-#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 

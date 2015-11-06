@@ -3,7 +3,8 @@
 <JUCERPROJECT id="gxTjTP" name="strahlenwerk" projectType="guiapp" version=""
               bundleIdentifier="org.rtificial.strahlenwerk" includeBinaryInAppConfig="1"
               jucerVersion="3.2.0" companyName="rtificial" companyWebsite="http://rtificial.org/"
-              defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR" companyEmail="mail@rtificial.org">
+              defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR&#10;GLM_FORCE_RADIANS"
+              companyEmail="mail@rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
     <GROUP id="{B39F949E-3725-8F63-0202-D94AC68A5365}" name="Source">
       <GROUP id="{9C99C7A8-0996-8168-C568-0719FAFA83A9}" name="ColorPicker">
