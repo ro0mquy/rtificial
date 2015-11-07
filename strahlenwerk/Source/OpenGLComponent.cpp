@@ -10,7 +10,7 @@
 OpenGLComponent::OpenGLComponent() :
 	renderer(context),
 	fixedAspectRatioComponent(renderer),
-	screenRecorder(renderer.getPostproc())
+	screenRecorder(renderer)
 {
 	// TODO: remove listeners again
 	MainWindow::getApplicationCommandManager().addListener(this);
@@ -119,4 +119,8 @@ void OpenGLComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChan
 
 void OpenGLComponent::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
 	fixedAspectRatioComponent.repaint();
+}
+
+Renderer& OpenGLComponent::getRenderer() {
+	return renderer;
 }

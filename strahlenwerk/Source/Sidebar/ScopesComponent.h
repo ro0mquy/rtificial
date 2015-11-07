@@ -3,13 +3,14 @@
 
 #include <juce>
 
-#include <Rendering/PostprocPipeline.h>
+class Renderer;
 
 class HistogramComponent;
 
 class ScopesComponent :
 	public Component,
-	private ChangeListener
+	private ChangeListener,
+	private AsyncUpdater
 {
 	public:
 		ScopesComponent();
@@ -21,11 +22,14 @@ class ScopesComponent :
 		void resized() override;
 		void visibilityChanged() override;
 
+		void handleAsyncUpdate() override;
+
+		Renderer* renderer;
+
 		ScopedPointer<ConcertinaPanel> concertinaPanel;
 		ScopedPointer<HistogramComponent> histogramComponent;
 
-		std::unique_ptr<PostprocPipeline> postprocPipeline;
-		Image Image;
+		Image image;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopesComponent)
 };

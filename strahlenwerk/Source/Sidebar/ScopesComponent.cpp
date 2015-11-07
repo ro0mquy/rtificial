@@ -1,31 +1,40 @@
 #include "ScopesComponent.h"
 
 #include <StrahlenwerkApplication.h>
+#include <MainWindow.h>
+#include <Renderer.h>
 
-ScopesComponent::ScopesComponent() {
-	postprocPipeline = StrahlenwerkApplication::getInstance()->getProject().getPostproc();
-
+ScopesComponent::ScopesComponent() :
+	renderer(nullptr)
+{
 	histogramComponent = new HistogramComponent();
 
 	concertinaPanel = new ConcertinaPanel();
 	concertinaPanel->addPanel(0, histogramComponent, false);
 	addAndMakeVisible(concertinaPanel);
 
-	if (isVisible()) {
-		//postprocPipeline->addChangeListener(this);
-		//postprocPipeline->requestRenderedImage();
+	triggerAsyncUpdate();
+}
+
+void ScopesComponent::handleAsyncUpdate() {
+	renderer = & StrahlenwerkApplication::getInstance()->getMainWindow().getMainContentComponent().getOpenGLComponent().getRenderer();
+	if (renderer != nullptr && isVisible()) {
+		renderer->addChangeListener(this);
+		renderer->requestRenderedImage();
 	}
 }
 
 ScopesComponent::~ScopesComponent() {
-	//postprocPipeline->removeChangeListener(this);
+	if (renderer != nullptr) {
+		renderer->removeChangeListener(this);
+	}
 	histogramComponent = nullptr;
 	concertinaPanel = nullptr;
 }
 
 void ScopesComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
-	postprocPipeline->removeChangeListener(this);
-	//image = postprocPipeline->getRenderedImage();
+	renderer->removeChangeListener(this);
+	image = renderer->getRenderedImage();
 }
 
 void ScopesComponent::resized() {
@@ -33,9 +42,13 @@ void ScopesComponent::resized() {
 }
 
 void ScopesComponent::visibilityChanged() {
-	if (isVisible()) {
-	} else {
-		//postprocPipeline->removeChangeListener(this);
+	if (renderer != nullptr) {
+		if (isVisible()) {
+			renderer->addChangeListener(this);
+			renderer->requestRenderedImage();
+		} else {
+			renderer->removeChangeListener(this);
+		}
 	}
 }
 

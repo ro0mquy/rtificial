@@ -70,7 +70,7 @@ void Renderer::renderOpenGL() {
 	}
 
 	if(scenes == nullptr) {
-		lastFrameDuration = postproc->render(defaultShader, width, height);
+		lastFrameDuration = postproc->render(defaultShader, width, height, shouldGetImage);
 	} else {
 		TimelineData& data = TimelineData::getTimelineData();
 		const ValueTree currentScene = data.getCurrentScene();
@@ -86,11 +86,16 @@ void Renderer::renderOpenGL() {
 
 		const int shaderId = scenes->getObjectId(shaderSourceName.toStdString());
 		if(shaderId == -1) {
-			lastFrameDuration = defaultPostproc->render(defaultShader, width, height);
+			lastFrameDuration = defaultPostproc->render(defaultShader, width, height, shouldGetImage);
 		} else {
-			lastFrameDuration = postproc->render(scenes->getObject(shaderId), width, height);
+			lastFrameDuration = postproc->render(scenes->getObject(shaderId), width, height, shouldGetImage);
 		}
 	}
+
+	if (shouldGetImage) {
+		shouldGetImage = false;
+	}
+
 	renderMutex.unlock();
 }
 
@@ -198,4 +203,19 @@ void Renderer::applicationCommandListChanged() {
 
 PostprocPipeline& Renderer::getPostproc() {
 	return *postproc;
+}
+
+void Renderer::changeListenerCallback(ChangeBroadcaster* /*source*/) {
+	postproc->removeChangeListener(this);
+	sendChangeMessage();
+}
+
+void Renderer::requestRenderedImage() {
+	postproc->addChangeListener(this);
+	shouldGetImage = true;
+	context.triggerRepaint();
+}
+
+const Image& Renderer::getRenderedImage() {
+	return postproc->getRenderedImage();
 }

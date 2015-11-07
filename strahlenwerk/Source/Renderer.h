@@ -14,8 +14,10 @@ class AmbientLight;
 
 class Renderer :
 	public OpenGLRenderer,
+	public ChangeBroadcaster,
 	private Project::Listener,
-	private ApplicationCommandManagerListener
+	private ApplicationCommandManagerListener,
+	private ChangeListener
 {
 	public:
 		Renderer(OpenGLContext& context);
@@ -30,10 +32,16 @@ class Renderer :
 		void texturesChanged() override;
 		void setSize(int width, int height);
 		uint64_t getLastFrameDuration();
+
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
 		void applicationCommandListChanged() override;
 
+		void changeListenerCallback(ChangeBroadcaster* /*source*/) override;
+
 		PostprocPipeline& getPostproc();
+
+		void requestRenderedImage();
+		const Image& getRenderedImage();
 
 		enum CommandIDs {
 			makeDemo = 0x4581da00,
@@ -55,6 +63,7 @@ class Renderer :
 		std::vector<std::unique_ptr<Scenes<AmbientLight>>> ambientLightsDeletionQueue;
 		std::vector<Texture> texturesDeletionQueue;
 		uint64_t lastFrameDuration = 0;
+		bool shouldGetImage = false;
 
 		void performMakeDemo();
 		void performToggleHalfResolution();

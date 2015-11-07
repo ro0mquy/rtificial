@@ -3,11 +3,11 @@
 #include <MainWindow.h>
 #include <StrahlenwerkApplication.h>
 #include <Project/Project.h>
-#include <Rendering/PostprocPipeline.h>
+#include <Renderer.h>
 #include <PropertyNames.h>
 
-ScreenRecorder::ScreenRecorder(PostprocPipeline& postprocPipeline) :
-	screenshooter(postprocPipeline)
+ScreenRecorder::ScreenRecorder(Renderer& renderer) :
+	screenshooter(renderer)
 {
 	MainWindow::getApplicationCommandManager().addListener(this);
 }
@@ -28,18 +28,18 @@ void ScreenRecorder::applicationCommandListChanged() {
 }
 
 
-ScreenRecorder::Screenshot::Screenshot(PostprocPipeline& postprocPipeline_) :
-	postprocPipeline(postprocPipeline_)
+ScreenRecorder::Screenshot::Screenshot(Renderer& renderer_) :
+	renderer(renderer_)
 {
 }
 
 ScreenRecorder::Screenshot::~Screenshot() {
-	postprocPipeline.removeChangeListener(this);
+	renderer.removeChangeListener(this);
 }
 
 void ScreenRecorder::Screenshot::changeListenerCallback(ChangeBroadcaster* /*source*/) {
-	postprocPipeline.removeChangeListener(this);
-	const Image& screenshot = postprocPipeline.getRenderedImage();
+	renderer.removeChangeListener(this);
+	const Image& screenshot = renderer.getRenderedImage();
 
 	String defaultScreenshotDir =
 		File::getSpecialLocation(File::userHomeDirectory)
@@ -93,7 +93,7 @@ void ScreenRecorder::Screenshot::changeListenerCallback(ChangeBroadcaster* /*sou
 }
 
 void ScreenRecorder::Screenshot::saveScreenshot() {
-	postprocPipeline.addChangeListener(this);
-	postprocPipeline.requestRenderedImage();
+	renderer.addChangeListener(this);
+	renderer.requestRenderedImage();
 }
 

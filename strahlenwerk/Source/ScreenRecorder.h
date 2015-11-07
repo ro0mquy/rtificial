@@ -3,13 +3,13 @@
 
 #include <juce>
 
-class PostprocPipeline;
+class Renderer;
 
 class ScreenRecorder :
 	private ApplicationCommandManagerListener
 {
 	public:
-		ScreenRecorder(PostprocPipeline& postprocPipeline);
+		ScreenRecorder(Renderer& renderer);
 
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info);
 		void applicationCommandListChanged();
@@ -25,14 +25,14 @@ class ScreenRecorder :
 			private ChangeListener
 		{
 			public:
-				Screenshot(PostprocPipeline& PostprocPipeline);
+				Screenshot(Renderer& renderer_);
 				~Screenshot();
 				void changeListenerCallback(ChangeBroadcaster* /*source*/) override;
 
 				void saveScreenshot();
 
 			private:
-				PostprocPipeline& postprocPipeline;
+				Renderer& renderer;
 
 			JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Screenshot);
 		};

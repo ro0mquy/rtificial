@@ -37,7 +37,7 @@ void PostprocPipeline::setShaders(std::vector<std::unique_ptr<PostprocShader>> _
 	shaders = std::move(_shaders);
 }
 
-uint64_t PostprocPipeline::render(SceneShader& scene, int width, int height) {
+uint64_t PostprocPipeline::render(SceneShader& scene, int width, int height, bool shouldGetImage) {
 	// TODO evaluate "double buffering" of query objects
 	if(shaders.empty()) {
 		return 0;
@@ -130,16 +130,10 @@ void PostprocPipeline::readPixels(int width, int height) {
 	pixelDataHeight = height;
 	pixelData = new float[pixelDataWidth * pixelDataHeight * pixelDataChannels];
 	glReadPixels(0, 0, pixelDataWidth, pixelDataHeight, GL_RGB, GL_FLOAT, pixelData);
-	shouldGetImage = false;
 	triggerAsyncUpdate();
-}
-
-void PostprocPipeline::requestRenderedImage(){
-	shouldGetImage = true;
-	StrahlenwerkApplication::getInstance()->getMainWindow().getMainContentComponent().getOpenGLComponent().triggerRepaint();
-
 }
 
 const Image& PostprocPipeline::getRenderedImage(){
 	return renderedImage;
 }
+

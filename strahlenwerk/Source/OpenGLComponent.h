@@ -36,6 +36,8 @@ class OpenGLComponent :
 		void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 		void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
 
+		Renderer& getRenderer();
+
 		enum CommandIDs {
 			toggleGrid = 0x7f81da00,
 		};

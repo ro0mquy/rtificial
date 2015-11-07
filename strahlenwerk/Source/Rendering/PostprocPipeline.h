@@ -23,7 +23,7 @@ class PostprocPipeline :
 		void handleAsyncUpdate() override;
 
 		void setShaders(std::vector<std::unique_ptr<PostprocShader>> shaders);
-		uint64_t render(SceneShader& shader, int width, int height);
+		uint64_t render(SceneShader& shader, int width, int height, bool shouldGetImage = false);
 		PostprocShader& getShader(int n) const;
 		int getNumShaders() const;
 
