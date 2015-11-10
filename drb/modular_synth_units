@@ -1,5 +1,11 @@
 Units or effects to build for modular demo synth
 
+MODULAR UNITS INTERNAL:
+-Re-Normalisation: Build some for-loop that normalizes the output
+if it is > 0db. May be switched on through button. Is neccessary almost
+everywhere. Brick Wall Limiter pretty much (eg in Filter)
+
+
 Please Build for every unit: 
 Visual Feedback if Input is Midi or Audio-Stream
 Visual Feedback if Output is Midi or Audio-Mono or Audio-Stereo
