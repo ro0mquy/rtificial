@@ -1,6 +1,9 @@
 #include "Texture.h"
 #include "TextureUnits.h"
 
+#define GL_GLEXT_PROTOTYPES
+#include "glcorert.h"
+
 Texture::Texture(const Image& image, GLenum textureUnit_)
 	: textureUnit(textureUnit_), width(image.getWidth()), height(image.getHeight())
 {
