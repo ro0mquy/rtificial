@@ -63,12 +63,24 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 	// InspectorComponent
 	setColour(InspectorComponent::textColourId, Colours::black);
 
+
+	const Colour plotBackgroundColour(Colours::black.withAlpha(0.1f));
+	const Colour plotForegroundColour(Colours::white);
+
 	// InterpolationPlotComponent
-	setColour(InterpolationPlotComponent::backgroundColourId, Colours::black.withAlpha(0.1f));
+	setColour(InterpolationPlotComponent::backgroundColourId, plotBackgroundColour);
 	setColour(InterpolationPlotComponent::axisLineColourId, Colours::white.withAlpha(0.2f));
-	setColour(InterpolationPlotComponent::plotLineColourId, Colours::white);
+	setColour(InterpolationPlotComponent::plotLineColourId, plotForegroundColour);
 	setColour(InterpolationPlotComponent::keyPointColourId, Colours::white.withAlpha(0.5f));
 	setColour(InterpolationPlotComponent::colourStopOutlineColourId, Colours::black.withAlpha(0.5f));
+
+	// ScopesComponent
+	setColour(HistogramComponent::backgroundColourId, plotBackgroundColour);
+	setColour(HistogramComponent::lumaColourId, plotForegroundColour);
+	setColour(HistogramComponent::redColourId, Colour(0xffff0000));
+	setColour(HistogramComponent::greenColourId, Colour(0xff00ff00));
+	setColour(HistogramComponent::blueColourId, Colour(0xff0000ff));
+	setColour(HistogramComponent::rulerColourId, Colours::white.withAlpha(0.2f));
 }
 
 BlenderTheme RtificialLookAndFeel::createBlenderTheme() {
