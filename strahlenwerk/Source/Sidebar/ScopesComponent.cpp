@@ -264,7 +264,141 @@ VectorscopeComponent::VectorscopeComponent(Image& image_) :
 	setName("Vectorscope");
 	setBufferedToImage(true);
 
-	Label* label = new Label("Label", "not implemented.");
-	label->setSize(100,20);
-	addAndMakeVisible(label);
+	mode = coloredMode;
+	mode.addListener(this);
+	PropertyComponent* modeSelector = new ChoicePropertyComponent(
+		mode,
+		"Display Mode",
+		{ "Colored", "Monochrome" },
+		{ coloredMode, monochromeMode }
+	);
+
+	zoom = 1.0f;
+	zoom.addListener(this);
+	PropertyComponent* zoomSelector = new ChoicePropertyComponent(
+		zoom,
+		"Zoom Level",
+		{ "125%", "100%", "75%" },
+		{ 1.25f, 1.0f, 0.75f }
+	);
+
+	propertyPanel.addProperties({{modeSelector, zoomSelector}});
+
+	resized();
+	addAndMakeVisible(propertyPanel);
+}
+
+void VectorscopeComponent::valueChanged(Value& /*value*/) {
+	repaint();
+}
+
+void VectorscopeComponent::resized() {
+	const Rectangle<int> boundsRect = getLocalBounds().reduced(padding);
+	Rectangle<int> propertyBounds(boundsRect);
+	propertyBounds.setHeight(jmin(boundsRect.getHeight(), propertyPanel.getTotalContentHeight()));
+	propertyBounds.setWidth(jmin(boundsRect.getWidth(), 150));
+	propertyBounds.setY(jmax(padding, boundsRect.getHeight()-padding));
+	propertyPanel.setBounds(propertyBounds);
+}
+
+void VectorscopeComponent::paint(Graphics& g) {
+	const float graticuleThickness = 2.0f;
+	const int plotPadding = 10;
+	const float width = g.getClipBounds().getWidth() - 2*padding;
+	const float height = g.getClipBounds().getHeight() - 2*padding - padding - propertyPanel.getBounds().getHeight();
+	const float diameter = jmin(width, height);
+	float radius = diameter/2.0f;
+	const Point<float> center(padding + width/2.0f, padding + height/2.0f);
+	Rectangle<float> plotCanvas(padding, padding, diameter, diameter);
+	plotCanvas.setCentre(center);
+
+	if (plotCanvas.isEmpty()) {
+		return;
+	}
+
+	g.setColour(findColour(VectorscopeComponent::backgroundColourId));
+	g.fillEllipse(plotCanvas);
+/*
+	const float colorWheelThickness = 5.0f;
+	Path colorWheel;
+	colorWheel.startNewSubPath(plotCanvas.getX() + radius, plotCanvas.getY());
+	colorWheel.addCentredArc(center.getX(), center.getY(), radius, radius, 0, 0, 2*float_Pi);
+	colorWheel.lineTo(plotCanvas.getX() + radius, plotCanvas.getY() + colorWheelThickness);
+	colorWheel.addCentredArc(center.getX(), center.getY(), radius - colorWheelThickness, radius - colorWheelThickness, 0, 0, 2*float_Pi);
+	colorWheel.closeSubPath();
+*/
+
+	plotCanvas.reduce(plotPadding, plotPadding);
+	radius = (diameter - 2*plotPadding)/2.0f;
+
+	g.setColour(findColour(VectorscopeComponent::graticuleColourId));
+	g.drawEllipse(plotCanvas, graticuleThickness);
+
+	const Colour primaryColors[6] = {
+		Colour(0xffff0000), // red
+		Colour(0xffff00ff), // magenta
+		Colour(0xff0000ff), // blue
+		Colour(0xff00ffff), // cyan
+		Colour(0xff00ff00), // green
+		Colour(0xffffff00)  // yellow
+	};
+
+	const String colorNames[6] = { "R", "Mg", "B", "Cy", "G", "Yl" };
+
+//	ColourGradient colorWheelGradient(Colour(0xffff0000), 0, 0, Colour(0xffff0000), radius*2*float_Pi, 0, true);
+	const int textWidth = 20;
+	const int textHeight = 20;
+	for (int i = 0; i < 6; i++) {
+		const Colour color = primaryColors[i];
+		//g.setColour(color);
+		const float angle = calcAngle(color.getHue());
+		const float r = radius * color.getSaturation();
+		Point<float> targetPoint(r*cos(angle), r*sin(angle));
+		targetPoint += center;
+		g.drawLine(
+			center.getX(),
+			center.getY(),
+			targetPoint.getX(),
+			targetPoint.getY()
+		);
+
+		const float textR = 0.8f * r;
+		const float textAngle = angle + 1.0f/32.0f * 2*float_Pi;
+		Point<float> textPoint(textR*cos(textAngle), textR*sin(textAngle));
+		textPoint += center;
+		g.drawText(colorNames[i], textPoint.getX() - textWidth/2.0f, textPoint.getY() - textHeight/2.0f, textWidth, textHeight, Justification(Justification::left));
+//		colorWheelGradient.addColour(float(i)/6.0f, color);
+	}
+
+//	g.setGradientFill(colorWheelGradient);
+//	g.fillPath(colorWheel);
+
+	const int w = image.getWidth();
+	const int h = image.getHeight();
+	const Colour pointColor = findColour(VectorscopeComponent::pointColourId);
+	const float pointAlpha = pointColor.getFloatAlpha();
+	if (mode == monochromeMode) {
+		g.setColour(pointColor);
+	}
+	g.setColour(pointColor);
+	for (int x = 0; x < w; x++) {
+		for (int y = 0; y < h; y++) {
+			const Colour color = image.getPixelAt(x, y);
+			const float angle = calcAngle(color.getHue());
+			const float r = float(zoom.getValue()) * radius * color.getSaturation();
+			Point<float> targetPoint(r*cos(angle), r*sin(angle));
+			targetPoint += center;
+			Rectangle<float> bnds(0, 0, 1, 1);
+			bnds.setCentre(targetPoint);
+			if (mode == coloredMode) {
+				g.setColour(color.withAlpha(pointAlpha));
+			}
+			g.fillRect(bnds);
+		}
+	}
+}
+
+// calculates the angle from a [0,1]-ranged value
+float VectorscopeComponent::calcAngle(float fraction) {
+	return 2*float_Pi * fraction * -1 - 7.0f/24.0f*2*float_Pi;
 }

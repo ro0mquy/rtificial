@@ -90,15 +90,37 @@ class HistogramComponent :
 };
 
 class VectorscopeComponent :
-	public Component
+	public Component,
+	private Value::Listener
 {
 	public:
 		VectorscopeComponent(Image& image_);
 
+		void resized() override;
+		void paint(Graphics& g) override;
+
+		enum ColourIds {
+			backgroundColourId = 0x36fe2,
+			graticuleColourId,
+			pointColourId,
+		};
+
 	private:
-		//void paint(Graphics& g) override;
+		void valueChanged(Value& /*value*/) override;
+		float calcAngle(float fraction);
 
 		Image& image;
+
+		PropertyPanel propertyPanel;
+		Value mode;
+		Value zoom;
+
+		int padding = 25;
+
+		enum displayModes {
+			coloredMode,
+			monochromeMode,
+		};
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VectorscopeComponent)
 };

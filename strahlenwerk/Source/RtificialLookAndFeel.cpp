@@ -66,10 +66,11 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 
 	const Colour plotBackgroundColour(Colours::black.withAlpha(0.1f));
 	const Colour plotForegroundColour(Colours::white);
+	const Colour plotHintColour(plotForegroundColour.withAlpha(0.2f));
 
 	// InterpolationPlotComponent
 	setColour(InterpolationPlotComponent::backgroundColourId, plotBackgroundColour);
-	setColour(InterpolationPlotComponent::axisLineColourId, Colours::white.withAlpha(0.2f));
+	setColour(InterpolationPlotComponent::axisLineColourId, plotHintColour);
 	setColour(InterpolationPlotComponent::plotLineColourId, plotForegroundColour);
 	setColour(InterpolationPlotComponent::keyPointColourId, Colours::white.withAlpha(0.5f));
 	setColour(InterpolationPlotComponent::colourStopOutlineColourId, Colours::black.withAlpha(0.5f));
@@ -80,7 +81,10 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 	setColour(HistogramComponent::redColourId, Colour(0xffff0000));
 	setColour(HistogramComponent::greenColourId, Colour(0xff00ff00));
 	setColour(HistogramComponent::blueColourId, Colour(0xff0000ff));
-	setColour(HistogramComponent::rulerColourId, Colours::white.withAlpha(0.2f));
+	setColour(HistogramComponent::rulerColourId, plotHintColour);
+	setColour(VectorscopeComponent::backgroundColourId, plotBackgroundColour);
+	setColour(VectorscopeComponent::graticuleColourId, plotHintColour);
+	setColour(VectorscopeComponent::pointColourId, plotForegroundColour.withAlpha(0.1f));
 }
 
 BlenderTheme RtificialLookAndFeel::createBlenderTheme() {
