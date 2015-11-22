@@ -7,9 +7,18 @@ SectionManager::SectionManager() :
 	rootSection(sectionTreeId::section)
 {
 	reloadAllUniforms();
+	data.addListenerToTree(this);
+}
+
+SectionManager::~SectionManager() {
+	data.removeListenerFromTree(this);
 }
 
 void SectionManager::reloadAllUniforms() {
+	// clear everything
+	getSectionsArray(rootSection).removeAllChildren(nullptr);
+	getUniformsArray(rootSection).removeAllChildren(nullptr);
+
 	const int numUniforms = data.getNumUniforms();
 	for (int i = 0; i < numUniforms; i++) {
 		const var uniformName = data.getUniformName(data.getUniform(i));
@@ -28,6 +37,10 @@ int SectionManager::getNumUniforms(SectionTypes::Section& section) {
 
 SectionTypes::Uniform SectionManager::getUniform(SectionTypes::Section& section, const int nthUniform) {
 	return getUniformsArray(section).getChild(nthUniform);
+}
+
+SectionTypes::Uniform SectionManager::getUniform(SectionTypes::Section& section, const var& name) {
+	return getUniformsArray(section).getChildWithProperty(sectionTreeId::uniformName, name);
 }
 
 bool SectionManager::isUniform(const SectionTypes::Uniform& uniform) {
@@ -72,6 +85,12 @@ SectionTypes::Uniform& SectionManager::addUniformUnchecked(SectionTypes::Section
 
 void SectionManager::removeUniform(SectionTypes::Section& section, SectionTypes::Uniform& uniform) {
 	getUniformsArray(section).removeChild(uniform, nullptr);
+}
+
+void SectionManager::removeUniform(const var& uniformName) {
+	SectionTypes::Section section = getSectionForUniformName(uniformName);
+	SectionTypes::Uniform uniform = getUniform(section, uniformName);
+	return removeUniform(section, uniform);
 }
 
 var SectionManager::getUniformName(const SectionTypes::Uniform& uniform) {
@@ -172,7 +191,38 @@ SectionTypes::Section SectionManager::getSectionForUniformName(const var& unifor
 	const String sectionCandidateName = uniformName.toString().upToFirstOccurrenceOf("_", false, false);
 	ValueTree sectionCandidate = getSection(rootSection, var(sectionCandidateName));
 	if (! sectionCandidate.isValid()) {
-		sectionCandidate = addSection(rootSection, sectionCandidateName, false);
+		sectionCandidate = addSection(rootSection, sectionCandidateName);
 	}
 	return sectionCandidate;
+}
+
+// ValueTree::Listener callbacks for TimelineData
+void SectionManager::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
+}
+
+void SectionManager::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenAdded) {
+	if (data.isUniform(childWhichHasBeenAdded)) {
+		// uniform was added
+		// also add it to the manager
+		const var uniformName = data.getUniformName(childWhichHasBeenAdded);
+		addUniform(uniformName);
+	}
+}
+
+void SectionManager::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
+	if (data.isUniform(childWhichHasBeenRemoved)) {
+		const var uniformName = data.getUniformName(childWhichHasBeenRemoved);
+		removeUniform(uniformName);
+	}
+}
+
+void SectionManager::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
+}
+
+void SectionManager::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
+}
+
+void SectionManager::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
+	// always the root tree
+	reloadAllUniforms();
 }
