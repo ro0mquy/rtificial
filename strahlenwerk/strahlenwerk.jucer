@@ -172,6 +172,10 @@
               file="Source/Timeline/ScenesBarComponent.cpp"/>
         <FILE id="VHnsdr" name="ScenesBarComponent.h" compile="0" resource="0"
               file="Source/Timeline/ScenesBarComponent.h"/>
+        <FILE id="uGwu5x" name="SectionManager.cpp" compile="1" resource="0"
+              file="Source/Timeline/SectionManager.cpp"/>
+        <FILE id="dDySM9" name="SectionManager.h" compile="0" resource="0"
+              file="Source/Timeline/SectionManager.h"/>
         <FILE id="It9DHO" name="Selection.cpp" compile="1" resource="0" file="Source/Timeline/Selection.cpp"/>
         <FILE id="gXZsVl" name="Selection.h" compile="0" resource="0" file="Source/Timeline/Selection.h"/>
         <FILE id="q6A5Cf" name="SequenceComponent.cpp" compile="1" resource="0"

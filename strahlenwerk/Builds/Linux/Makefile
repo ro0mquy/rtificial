@@ -91,6 +91,7 @@ OBJECTS := \
   $(OBJDIR)/MouseCallbackClasses_88049c4b.o \
   $(OBJDIR)/SceneComponent_2e62f260.o \
   $(OBJDIR)/ScenesBarComponent_9e1694c0.o \
+  $(OBJDIR)/SectionManager_38bf0a17.o \
   $(OBJDIR)/Selection_45a84fa7.o \
   $(OBJDIR)/SequenceComponent_10a22e57.o \
   $(OBJDIR)/SequenceViewComponent_a0963d32.o \
@@ -349,6 +350,11 @@ $(OBJDIR)/SceneComponent_2e62f260.o: ../../Source/Timeline/SceneComponent.cpp
 $(OBJDIR)/ScenesBarComponent_9e1694c0.o: ../../Source/Timeline/ScenesBarComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ScenesBarComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/SectionManager_38bf0a17.o: ../../Source/Timeline/SectionManager.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SectionManager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Selection_45a84fa7.o: ../../Source/Timeline/Selection.cpp

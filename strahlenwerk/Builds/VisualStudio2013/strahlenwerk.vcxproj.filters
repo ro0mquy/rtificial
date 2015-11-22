@@ -439,6 +439,9 @@
     <ClCompile Include="..\..\Source\Timeline\ScenesBarComponent.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\SectionManager.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\Selection.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
@@ -1861,6 +1864,9 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\ScenesBarComponent.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\SectionManager.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\Selection.h">

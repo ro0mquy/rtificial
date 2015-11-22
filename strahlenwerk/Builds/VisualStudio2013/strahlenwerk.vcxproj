@@ -177,6 +177,7 @@
     <ClCompile Include="..\..\Source\Timeline\MouseCallbackClasses.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\SceneComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\ScenesBarComponent.cpp"/>
+    <ClCompile Include="..\..\Source\Timeline\SectionManager.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\Selection.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\SequenceComponent.cpp"/>
     <ClCompile Include="..\..\Source\Timeline\SequenceViewComponent.cpp"/>
@@ -1362,6 +1363,7 @@
     <ClInclude Include="..\..\Source\Timeline\MouseCallbackClasses.h"/>
     <ClInclude Include="..\..\Source\Timeline\SceneComponent.h"/>
     <ClInclude Include="..\..\Source\Timeline\ScenesBarComponent.h"/>
+    <ClInclude Include="..\..\Source\Timeline\SectionManager.h"/>
     <ClInclude Include="..\..\Source\Timeline\Selection.h"/>
     <ClInclude Include="..\..\Source\Timeline\SequenceComponent.h"/>
     <ClInclude Include="..\..\Source\Timeline\SequenceViewComponent.h"/>
