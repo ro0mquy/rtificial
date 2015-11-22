@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="gxTjTP" name="strahlenwerk" projectType="guiapp" version=""
               bundleIdentifier="org.rtificial.strahlenwerk" includeBinaryInAppConfig="1"
-              jucerVersion="4.0.1" companyName="rtificial" companyWebsite="http://rtificial.org/"
+              jucerVersion="4.0.2" companyName="rtificial" companyWebsite="http://rtificial.org/"
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR&#10;GLM_FORCE_RADIANS"
               companyEmail="mail@rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
@@ -114,6 +114,10 @@
               resource="0" file="Source/Sidebar/InterpolationPlotComponent.cpp"/>
         <FILE id="um43fW" name="InterpolationPlotComponent.h" compile="0" resource="0"
               file="Source/Sidebar/InterpolationPlotComponent.h"/>
+        <FILE id="YCjA70" name="PerformanceComponent.cpp" compile="1" resource="0"
+              file="Source/Sidebar/PerformanceComponent.cpp"/>
+        <FILE id="vPcSVg" name="PerformanceComponent.h" compile="0" resource="0"
+              file="Source/Sidebar/PerformanceComponent.h"/>
         <FILE id="ax5XL0" name="QuaternionEditor.cpp" compile="1" resource="0"
               file="Source/Sidebar/QuaternionEditor.cpp"/>
         <FILE id="KjzudO" name="QuaternionEditor.h" compile="0" resource="0"

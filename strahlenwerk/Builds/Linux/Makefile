@@ -75,6 +75,7 @@ OBJECTS := \
   $(OBJDIR)/InspectorComponent_96983e82.o \
   $(OBJDIR)/InspectorSequenceComponent_294b0841.o \
   $(OBJDIR)/InterpolationPlotComponent_cc16494.o \
+  $(OBJDIR)/PerformanceComponent_7ca1c829.o \
   $(OBJDIR)/QuaternionEditor_3c7fc27.o \
   $(OBJDIR)/SceneBackgroundComponent_3365f63f.o \
   $(OBJDIR)/ScopesComponent_6b3b152c.o \
@@ -270,6 +271,11 @@ $(OBJDIR)/InspectorSequenceComponent_294b0841.o: ../../Source/Sidebar/InspectorS
 $(OBJDIR)/InterpolationPlotComponent_cc16494.o: ../../Source/Sidebar/InterpolationPlotComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling InterpolationPlotComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/PerformanceComponent_7ca1c829.o: ../../Source/Sidebar/PerformanceComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling PerformanceComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/QuaternionEditor_3c7fc27.o: ../../Source/Sidebar/QuaternionEditor.cpp

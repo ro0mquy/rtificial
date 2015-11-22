@@ -5,6 +5,7 @@
 #include "InspectorComponent.h"
 #include "InfoLogComponent.h"
 #include "ScopesComponent.h"
+#include "PerformanceComponent.h"
 
 class Sidebar :
 	public TabbedComponent
@@ -20,6 +21,7 @@ class Sidebar :
 		InspectorComponent inspectorComponent;
 		InfoLogComponent infoLogComponent;
 		ScopesComponent scopesComponent;
+		PerformanceComponent performanceComponent;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Sidebar)
 };

@@ -161,6 +161,7 @@
     <ClCompile Include="..\..\Source\Sidebar\InspectorComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InspectorSequenceComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\InterpolationPlotComponent.cpp"/>
+    <ClCompile Include="..\..\Source\Sidebar\PerformanceComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\SceneBackgroundComponent.cpp"/>
     <ClCompile Include="..\..\Source\Sidebar\ScopesComponent.cpp"/>
@@ -1347,6 +1348,7 @@
     <ClInclude Include="..\..\Source\Sidebar\InspectorComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InspectorSequenceComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\InterpolationPlotComponent.h"/>
+    <ClInclude Include="..\..\Source\Sidebar\PerformanceComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h"/>
     <ClInclude Include="..\..\Source\Sidebar\SceneBackgroundComponent.h"/>
     <ClInclude Include="..\..\Source\Sidebar\ScopesComponent.h"/>

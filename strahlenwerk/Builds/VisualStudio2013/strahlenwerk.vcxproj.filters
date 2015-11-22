@@ -391,6 +391,9 @@
     <ClCompile Include="..\..\Source\Sidebar\InterpolationPlotComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\PerformanceComponent.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
@@ -1816,6 +1819,9 @@
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\InterpolationPlotComponent.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\PerformanceComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h">

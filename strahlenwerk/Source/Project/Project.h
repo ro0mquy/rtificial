@@ -19,6 +19,8 @@ class Shader;
 class AudioManager;
 class AmbientLight;
 
+using performance_log_t = std::vector<std::pair<std::string, uint64_t>>;
+
 class Project :
 	private efsw::FileWatchListener,
 	private ApplicationCommandManagerListener
@@ -43,6 +45,8 @@ class Project :
 		const String& getLog();
 		void addToLog(String newString);
 		void clearLog();
+		const performance_log_t& getPerformanceLog() const;
+		void setPerformanceLog(performance_log_t log);
 
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
 		void applicationCommandListChanged() override;
@@ -70,6 +74,7 @@ class Project :
 				virtual void infoLogChanged() {}
 				virtual void ambientLightsChanged() {}
 				virtual void texturesChanged() {}
+				virtual void performanceLogChanged() {}
 		};
 
 		void addListener(Listener* const listener);
@@ -84,6 +89,7 @@ class Project :
 		void postprocChanged();
 		void scenesChanged();
 		void infoLogChanged();
+		void performanceLogChanged();
 		void ambientLightsChanged();
 		void watchFiles(const std::string& dir);
 		void addUniforms(const Shader& shader);
@@ -109,6 +115,7 @@ class Project :
 		AudioManager& audioManager;
 
 		String infoLog;
+		performance_log_t performanceLog;
 };
 
 #endif

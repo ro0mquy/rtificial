@@ -535,6 +535,15 @@ void Project::clearLog() {
 	infoLogChanged();
 }
 
+const performance_log_t& Project::getPerformanceLog() const {
+	return performanceLog;
+}
+
+void Project::setPerformanceLog(performance_log_t log) {
+	performanceLog = log;
+	performanceLogChanged();
+}
+
 void Project::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
 	switch (info.commandID) {
 		case Project::openProject:
@@ -636,6 +645,10 @@ void Project::scenesChanged() {
 
 void Project::infoLogChanged() {
 	listeners.call(&Project::Listener::infoLogChanged);
+}
+
+void Project::performanceLogChanged() {
+	listeners.call(&Project::Listener::performanceLogChanged);
 }
 
 void Project::ambientLightsChanged() {
