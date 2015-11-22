@@ -6,15 +6,23 @@
 class TimelineData;
 
 namespace sectionTreeId {
+	// the whole tree is build out of sections, each section can hold uniforms and subsections
 	const Identifier section("section");
-	const Identifier sectionName("sectionName");
-	const Identifier sectionCollapsed("sectionCollapsed");
-	const Identifier sectionsArray("sectionsArray");
-	const Identifier uniformsArray("uniformsArray");
-		const Identifier uniform("uniform");
-			const Identifier uniformName("uniformName");
+		// the section name
+		const Identifier sectionName("sectionName");
+		// true if the section is collapsed
+		const Identifier sectionCollapsed("sectionCollapsed");
+		// the array for the subsections
+		const Identifier sectionsArray("sectionsArray");
+		// the array holding the uniform in this section
+		const Identifier uniformsArray("uniformsArray");
+			// an individual uniform, data is reduced to just the name
+			const Identifier uniform("uniform");
+				// the uniform name
+				const Identifier uniformName("uniformName");
 }
 
+// the different types of ValueTrees, named like their identifiers
 namespace SectionTypes {
 	using SectionTree = ValueTree;
 	using SectionsArray = ValueTree;
