@@ -279,7 +279,7 @@
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="strahlenwerk" useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="strahlenwerk" useRuntimeLibDLL="0"/>
+                       isDebug="0" optimisation="1" targetName="strahlenwerk" useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_opengl" path="juce_modules"/>
@@ -300,9 +300,9 @@
             extraLinkerFlags="/LIBPATH:&quot;..\..\Lib\lib&quot;" externalLibraries="efsw">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="3" targetName="strahlenwerk"/>
+                       isDebug="1" optimisation="1" targetName="strahlenwerk"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="strahlenwerk"/>
+                       isDebug="0" optimisation="1" targetName="strahlenwerk"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_opengl" path="juce_modules"/>
