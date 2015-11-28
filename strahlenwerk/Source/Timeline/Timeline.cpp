@@ -118,6 +118,10 @@ ZoomFactor& Timeline::getZoomFactor() {
 	return zoomFactor;
 }
 
+SectionManager& Timeline::getSectionManager() {
+	return sectionManager;
+}
+
 // gets called when one of the viewports changed
 // syncs the current position between all three viewports
 void Timeline::callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position) {

@@ -391,6 +391,9 @@
     <ClCompile Include="..\..\Source\Sidebar\InterpolationPlotComponent.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Sidebar\PerformanceComponent.cpp">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Sidebar\QuaternionEditor.cpp">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClCompile>
@@ -437,6 +440,9 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\ScenesBarComponent.cpp">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Timeline\SectionManager.cpp">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Timeline\Selection.cpp">
@@ -1815,6 +1821,9 @@
     <ClInclude Include="..\..\Source\Sidebar\InterpolationPlotComponent.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Sidebar\PerformanceComponent.h">
+      <Filter>strahlenwerk\Source\Sidebar</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Sidebar\QuaternionEditor.h">
       <Filter>strahlenwerk\Source\Sidebar</Filter>
     </ClInclude>
@@ -1861,6 +1870,9 @@
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\ScenesBarComponent.h">
+      <Filter>strahlenwerk\Source\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Timeline\SectionManager.h">
       <Filter>strahlenwerk\Source\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Timeline\Selection.h">

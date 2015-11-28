@@ -7,6 +7,7 @@
 #include <MainWindow.h>
 #include <OpenGLComponent.h>
 #include <MainContentComponent.h>
+#include <Project/Project.h>
 
 PostprocPipeline::~PostprocPipeline() = default;
 
@@ -102,14 +103,18 @@ uint64_t PostprocPipeline::render(SceneShader& scene, int width, int height, boo
 	jassert(queryIndex == (int) queries.size());
 	jassert(queryNames.size() == queries.size());
 
-	const bool TIMINGS_ENABLED = false;
+	// const bool TIMINGS_ENABLED = false;
+	const bool TIMINGS_ENABLED = true;
 	if(TIMINGS_ENABLED) {
+		performance_log_t log;
 		for(size_t i = 0; i < queries.size(); i++) {
 			GLuint64 time;
 			glGetQueryObjectui64v(queries[i], GL_QUERY_RESULT, &time);
-			std::cout << queryNames[i] << ": " << time/1000 << " µs" << std::endl;
+			log.emplace_back(queryNames[i], time);
+			//std::cout << queryNames[i] << ": " << time/1000 << " µs" << std::endl;
 		}
-		std::cout << std::endl;
+		StrahlenwerkApplication::getInstance()->getProject().setPerformanceLog(log);
+		//std::cout << std::endl;
 	}
 	GLuint64 time;
 	glGetQueryObjectui64v(queries[0], GL_QUERY_RESULT, &time);

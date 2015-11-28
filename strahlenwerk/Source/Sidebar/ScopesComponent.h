@@ -8,6 +8,7 @@ class TimelineData;
 class AudioManager;
 
 class HistogramComponent;
+class VectorscopeComponent;
 
 class ScopesComponent :
 	public Component,
@@ -41,6 +42,7 @@ class ScopesComponent :
 
 		ScopedPointer<ConcertinaPanel> concertinaPanel;
 		ScopedPointer<HistogramComponent> histogramComponent;
+		ScopedPointer<VectorscopeComponent> vectorscopeComponent;
 
 		Image image;
 
@@ -48,17 +50,79 @@ class ScopesComponent :
 };
 
 class HistogramComponent :
-	public Component
+	public Component,
+	private Value::Listener
 {
 	public:
+		void resized() override;
+		void paint(Graphics& g) override;
+
 		HistogramComponent(Image& image_);
 
+		enum ColourIds {
+			backgroundColourId = 0x35fe2,
+			lumaColourId,
+			redColourId,
+			greenColourId,
+			blueColourId,
+			rulerColourId,
+		};
+
 	private:
-		void paint(Graphics& g) override;
+		void valueChanged(Value& /*value*/) override;
 
 		Image& image;
 
+		PropertyPanel propertyPanel;
+		Value mode;
+		Value logScale;
+
+		int padding = 25;
+
+		enum displayModes {
+			LumaMode = 0x34ee2,
+			RMode,
+			GMode,
+			BMode,
+		};
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HistogramComponent)
+};
+
+class VectorscopeComponent :
+	public Component,
+	private Value::Listener
+{
+	public:
+		VectorscopeComponent(Image& image_);
+
+		void resized() override;
+		void paint(Graphics& g) override;
+
+		enum ColourIds {
+			backgroundColourId = 0x36fe2,
+			graticuleColourId,
+			pointColourId,
+		};
+
+	private:
+		void valueChanged(Value& /*value*/) override;
+		float calcAngle(float fraction);
+
+		Image& image;
+
+		PropertyPanel propertyPanel;
+		Value mode;
+		Value zoom;
+
+		int padding = 25;
+
+		enum displayModes {
+			coloredMode,
+			monochromeMode,
+		};
+
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VectorscopeComponent)
 };
 
 #endif // SCOPESCOMPONENT_H

@@ -8,6 +8,7 @@
 #include "ScenesBarComponent.h"
 #include "UniformsBarComponent.h"
 #include "ZoomFactor.h"
+#include "SectionManager.h"
 
 class Timeline : public Component
 {
@@ -20,6 +21,7 @@ class Timeline : public Component
 		void mouseUp(const MouseEvent& event) override;
 
 		ZoomFactor& getZoomFactor();
+		SectionManager& getSectionManager();
 
 		// extend Viewport with a custom callback function
 		class ViewportCallback : public Viewport {
@@ -50,6 +52,7 @@ class Timeline : public Component
 		void callbackViewportChanged(Timeline::ViewportCallback* vp, Point<int> position);
 
 		ZoomFactor zoomFactor;
+		SectionManager sectionManager;
 
 		ViewportCallback viewportSequenceView;
 		ViewportCallback viewportScenesBar;

@@ -7,4 +7,5 @@ Sidebar::Sidebar() :
 	addTab("Inspector", findColour(Sidebar::tabBackgroundColourId), &inspectorComponent, false);
 	addTab("Info Log", findColour(Sidebar::tabBackgroundColourId), &infoLogComponent, false);
 	addTab("Scopes", findColour(Sidebar::tabBackgroundColourId), &scopesComponent, false);
+	addTab("Performance", findColour(Sidebar::tabBackgroundColourId), &performanceComponent, false);
 }
