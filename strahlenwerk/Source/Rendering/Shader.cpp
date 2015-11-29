@@ -172,7 +172,7 @@ void Shader::recompile() {
   //const bool vertexOk = program.addVertexShader("#version 430\nvoid main() {\nif (gl_VertexId == 0) {\ngl_Position = vec4(-1, -1, 0, 1);\n} else if (gl_VertexId == 1) {\ngl_Position = vec4(3, -1, 0, 1);}\nelse {\ngl_Position = vec4(-1, 3, 0, 1);}\n}");
   
   //cupe
-  const bool vertexOk = program.addVertexShader("#version 430\nvoid main() { vec4 vertexPosition = vec4(gl_VertexID==1?3:-1, gl_VertexID==2?3:-1, 0.0, 1.0);\ngl_Position = vertexPosition; }");
+  const bool vertexOk = program.addVertexShader("#version 430\nvoid main() { gl_Position = vec4(gl_VertexID==1?3:-1, gl_VertexID==2?3:-1, 0.0, 1.0); }");
   
   // TODO better logging
 	if(!vertexOk) {
