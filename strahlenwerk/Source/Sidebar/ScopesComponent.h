@@ -9,6 +9,7 @@ class AudioManager;
 
 class HistogramComponent;
 class VectorscopeComponent;
+class WaveformComponent;
 
 class ScopesComponent :
 	public Component,
@@ -43,6 +44,7 @@ class ScopesComponent :
 		ScopedPointer<ConcertinaPanel> concertinaPanel;
 		ScopedPointer<HistogramComponent> histogramComponent;
 		ScopedPointer<VectorscopeComponent> vectorscopeComponent;
+		ScopedPointer<WaveformComponent> waveformComponent;
 
 		Image image;
 
@@ -123,6 +125,46 @@ class VectorscopeComponent :
 		};
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VectorscopeComponent)
+};
+
+class WaveformComponent :
+	public Component,
+	private Value::Listener
+{
+	public:
+		WaveformComponent(Image& image_);
+
+		void resized() override;
+		void paint(Graphics& g) override;
+
+		enum ColourIds {
+			backgroundColourId = 0x37fe2,
+			lumaColourId,
+			redColourId,
+			greenColourId,
+			blueColourId,
+			rulerColourId,
+		};
+
+	private:
+		void valueChanged(Value& /*value*/) override;
+
+		Image& image;
+
+		PropertyPanel propertyPanel;
+		Value mode;
+
+		int padding = 25;
+
+		enum displayModes {
+			lumaMode,
+			rMode,
+			gMode,
+			bMode,
+			RGBParadeMode,
+		};
+
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformComponent)
 };
 
 #endif // SCOPESCOMPONENT_H

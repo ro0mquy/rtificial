@@ -1,6 +1,7 @@
 #include "ScopesComponent.h"
 
 #include <algorithm>
+#include <vector>
 
 #include <StrahlenwerkApplication.h>
 #include <MainWindow.h>
@@ -16,10 +17,12 @@ ScopesComponent::ScopesComponent() :
 {
 	histogramComponent = new HistogramComponent(image);
 	vectorscopeComponent = new VectorscopeComponent(image);
+	waveformComponent = new WaveformComponent(image);
 
 	concertinaPanel = new ConcertinaPanel();
 	concertinaPanel->addPanel(0, histogramComponent, false);
 	concertinaPanel->addPanel(1, vectorscopeComponent, false);
+	concertinaPanel->addPanel(2, waveformComponent, false);
 	addAndMakeVisible(concertinaPanel);
 
 	if (isVisible()) {
@@ -401,4 +404,133 @@ void VectorscopeComponent::paint(Graphics& g) {
 // calculates the angle from a [0,1]-ranged value
 float VectorscopeComponent::calcAngle(float fraction) {
 	return 2*float_Pi * fraction * -1 - 7.0f/24.0f*2*float_Pi;
+}
+
+
+WaveformComponent::WaveformComponent(Image& image_) :
+	image(image_)
+{
+	setName("Waveform");
+	setBufferedToImage(true);
+
+	mode = lumaMode;
+	mode.addListener(this);
+	PropertyComponent* modeSelector = new ChoicePropertyComponent(
+		mode,
+		"Mode",
+		{ "Luma", "Red", "Green", "Blue"/*, "RGB Parade"*/ },
+		{ lumaMode, rMode, gMode, bMode/*, RGBParadeMode*/ }
+	);
+
+	propertyPanel.addProperties({{modeSelector}});
+
+	resized();
+	addAndMakeVisible(propertyPanel);
+}
+
+void WaveformComponent::valueChanged(Value& /*value*/) {
+	repaint();
+}
+
+void WaveformComponent::resized() {
+	const Rectangle<int> boundsRect = getLocalBounds().reduced(padding);
+	Rectangle<int> propertyBounds(boundsRect);
+	propertyBounds.setHeight(jmin(boundsRect.getHeight(), propertyPanel.getTotalContentHeight()));
+	propertyBounds.setWidth(jmin(boundsRect.getWidth(), 150));
+	propertyBounds.setY(jmax(padding, boundsRect.getHeight()));
+	propertyPanel.setBounds(propertyBounds);
+}
+
+void WaveformComponent::paint(Graphics& g) {
+	const int textWidth = 30;
+	const int textHeight = 20;
+	const int textPadding = 2;
+	const int plotPadding = textHeight / 2.0f;
+	Rectangle<int> plotCanvas(
+		padding,
+		padding,
+		g.getClipBounds().getWidth() - 2*padding,
+		g.getClipBounds().getHeight() - 2*padding - propertyPanel.getBounds().getHeight() - padding
+	);
+
+	g.setColour(findColour(WaveformComponent::backgroundColourId));
+	g.fillRect(plotCanvas);
+
+	plotCanvas.removeFromLeft(textWidth);
+	plotCanvas.removeFromTop(plotPadding);
+	plotCanvas.removeFromBottom(plotPadding);
+
+	if (plotCanvas.isEmpty()) {
+		return;
+	}
+
+	g.setColour(findColour(WaveformComponent::rulerColourId));
+	for (int i = 0; i <= 5; i++) {
+		const float fraction = i*1.0f/5.0f;
+		const float y = plotCanvas.getY() + fraction * plotCanvas.getHeight();
+		g.drawLine(plotCanvas.getX(), y, plotCanvas.getRight(), y, 2.0f);
+		g.drawText(
+			String(int(100 - 20*i)),
+			plotCanvas.getX() - textWidth + 2*textPadding,
+			y - textHeight / 2.0f,
+			textWidth - 2*textPadding,
+			textHeight,
+			Justification(Justification::left)
+		);
+	}
+
+	const int plotW = plotCanvas.getWidth();
+	const int plotH = plotCanvas.getHeight();
+	std::vector<std::vector<int>> values(plotW, std::vector<int>(plotH, 0));
+
+	const int imgW = image.getWidth();
+	const int imgH = image.getHeight();
+	for (int x = 0; x < imgW; x++) {
+		for (int y = 0; y < imgH; y++) {
+			const Colour color = image.getPixelAt(x, y);
+			float value = 0.0;
+
+			if (mode == lumaMode) {
+				value = color.getBrightness();
+			} else if (mode == rMode) {
+				value = float(color.getRed()) / float(255);
+			} else if (mode == gMode) {
+				value = float(color.getGreen()) / float(255);
+			} else if (mode == bMode) {
+				value = float(color.getBlue()) / float(255);
+			}
+
+			const int indexX = int(float(plotW)/float(imgW) * x);
+			const int indexY = int(float(plotH-1) * value);
+
+			values[indexX][indexY] += 1;
+		}
+	}
+
+	float maxValue = 0.0f;
+	for (std::vector<int> row : values) {
+		for (int value : row) {
+			if (maxValue < value) {
+				maxValue = value;
+			}
+		}
+	}
+
+	Colour drawColor(Colours::white);
+	if (mode == lumaMode) {
+		drawColor = findColour(WaveformComponent::lumaColourId);
+	} else if (mode == rMode) {
+		drawColor = findColour(WaveformComponent::redColourId);
+	} else if (mode == gMode) {
+		drawColor = findColour(WaveformComponent::greenColourId);
+	} else if (mode == bMode) {
+		drawColor = findColour(WaveformComponent::blueColourId);
+	}
+	for (int x = 0; x < plotW; x++) {
+		for (int y = 0; y < plotH; y++) {
+			const float alpha = maxValue ? sqrt(float(values[x][y])/maxValue) : 0.0f;
+			g.setColour(drawColor.withAlpha(alpha));
+			g.setPixel(plotCanvas.getX() + x, plotCanvas.getY() + plotH - y);
+		}
+	}
 }

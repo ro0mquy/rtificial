@@ -85,6 +85,12 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 	setColour(VectorscopeComponent::backgroundColourId, plotBackgroundColour);
 	setColour(VectorscopeComponent::graticuleColourId, plotHintColour);
 	setColour(VectorscopeComponent::pointColourId, plotForegroundColour.withAlpha(0.1f));
+	setColour(WaveformComponent::backgroundColourId, plotBackgroundColour);
+	setColour(WaveformComponent::lumaColourId, plotForegroundColour);
+	setColour(WaveformComponent::redColourId, Colour(0xffff0000));
+	setColour(WaveformComponent::greenColourId, Colour(0xff00ff00));
+	setColour(WaveformComponent::blueColourId, Colour(0xff0000ff));
+	setColour(WaveformComponent::rulerColourId, plotHintColour);
 }
 
 BlenderTheme RtificialLookAndFeel::createBlenderTheme() {
