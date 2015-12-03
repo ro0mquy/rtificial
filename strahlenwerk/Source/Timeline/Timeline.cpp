@@ -8,6 +8,7 @@
 Timeline::Timeline() :
 	sequenceView(zoomFactor),
 	scenesBar(zoomFactor),
+	uniformsBar(sectionManager),
 	scenesBarSequenceViewBoxLayout(scenesBarSequenceViewLayout, {{ &viewportScenesBar, &viewportSequenceView }}),
 	uniformsBarResizer(&timelineLayout, 1, true),
 	timelineBoxLayout(timelineLayout, {{ &viewportUniformsBar, &uniformsBarResizer, &scenesBarSequenceViewBoxLayout }})

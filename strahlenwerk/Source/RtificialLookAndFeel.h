@@ -13,6 +13,7 @@ class RtificialLookAndFeel : public BlenderLookAndFeel
 		RtificialLookAndFeel();
 
 		static const int strechableLayoutResizerBarWidth = 4;
+		static const int uniformRowHeight = 20;
 
 		void drawResizableFrame(Graphics& g, int w, int h, const BorderSize<int>& borderSize) override;
 

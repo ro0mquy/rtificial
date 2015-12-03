@@ -3,6 +3,7 @@
 
 #include <juce>
 #include "SelfResizingComponent.h"
+#include <Timeline/SectionManager.h>
 
 class TimelineData;
 
@@ -12,7 +13,7 @@ class UniformsBarComponent :
 	private ValueTree::Listener
 {
 	public:
-		UniformsBarComponent();
+		UniformsBarComponent(SectionManager& sectionManager_);
 		~UniformsBarComponent();
 
 		void updateSize() override;
@@ -36,6 +37,10 @@ class UniformsBarComponent :
 
 	private:
 		TimelineData& data;
+		SectionManager& sectionManager;
+
+		void drawSection(Graphics& g, SectionTypes::Section& section, Rectangle<int>& targetBounds) const;
+
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(UniformsBarComponent)
 };
 

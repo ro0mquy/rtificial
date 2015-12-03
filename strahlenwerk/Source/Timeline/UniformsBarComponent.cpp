@@ -3,9 +3,12 @@
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
 #include <Sidebar/ValueEditorPropertyComponent.h>
+#include <RtificialLookAndFeel.h>
+#include <Timeline/SectionManager.h>
 
-UniformsBarComponent::UniformsBarComponent() :
-	data(TimelineData::getTimelineData())
+UniformsBarComponent::UniformsBarComponent(SectionManager& sectionManager_) :
+	data(TimelineData::getTimelineData()),
+	sectionManager(sectionManager_)
 {
 	data.addListenerToTree(this);
 }
@@ -27,7 +30,8 @@ void UniformsBarComponent::updateSize() {
 }
 
 void UniformsBarComponent::paint(Graphics& g) {
-	const int rowHeight = 20;
+	/*
+	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
 	const int numUniforms = data.getNumUniforms();
 
 	for(int i = 0; i < numUniforms; i++) {
@@ -44,6 +48,45 @@ void UniformsBarComponent::paint(Graphics& g) {
 		const String name = data.getUniformName(uniform);
 		g.setColour(findColour(UniformsBarComponent::uniformTextColourId));
 		g.drawFittedText(name, rect.withLeft(3).getSmallestIntegerContainer(), Justification::centredLeft, 1);
+	}
+	// */
+
+	g.fillAll(Colours::white);
+	SectionTypes::Section& rootSection = sectionManager.getRootSection();
+	Rectangle<int> targetBounds = getLocalBounds();
+	drawSection(g, rootSection, targetBounds);
+}
+
+void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& section, Rectangle<int>& targetBounds) const {
+	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
+
+	// draw section header
+	const String sectionName = sectionManager.getSectionName(section);
+	const Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
+	g.setColour(Colours::black);
+	g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX() + 3, headerRect.getX() + 10);
+	g.drawFittedText(sectionName, headerRect.withTrimmedLeft(13), Justification::centredLeft, 1);
+	//g.drawHorizontalLine(headerRect.getCentreY(), 0, 0);
+
+	if (sectionManager.getSectionCollapsed(section)) {
+		// the section is collapsed
+		return;
+	}
+
+	// recursivly draw subsection
+	const int numSections = sectionManager.getNumSections(section);
+	for (int i = 0; i < numSections; i++) {
+		SectionTypes::Section subsection = sectionManager.getSection(section, i);
+		drawSection(g, subsection, targetBounds);
+	}
+
+	// draw uniforms
+	const int numUniforms = sectionManager.getNumUniforms(section);
+	for (int i = 0; i < numUniforms; i++) {
+		const SectionTypes::Uniform uniform = sectionManager.getUniform(section, i);
+		const String uniformName = sectionManager.getUniformName(uniform);
+		const Rectangle<int> uniformRect = targetBounds.removeFromTop(rowHeight);
+		g.drawFittedText(uniformName, uniformRect.withTrimmedLeft(3), Justification::centredLeft, 1);
 	}
 }
 

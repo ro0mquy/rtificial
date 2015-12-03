@@ -24,7 +24,6 @@ namespace sectionTreeId {
 
 // the different types of ValueTrees, named like their identifiers
 namespace SectionTypes {
-	using SectionTree = ValueTree;
 	using SectionsArray = ValueTree;
 	using Section = ValueTree;
 	using UniformsArray = ValueTree;
@@ -70,6 +69,7 @@ class SectionManager :
 		void setSectionCollapsed(SectionTypes::Section& section, const var& collapsed);
 		int compareSections(const SectionTypes::Section& first, const SectionTypes::Section& second);
 		SectionTypes::Section getSectionForUniformName(const var& uniformName);
+		SectionTypes::Section& getRootSection();
 
 		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
 		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;

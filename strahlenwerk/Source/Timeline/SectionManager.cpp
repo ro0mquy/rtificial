@@ -245,6 +245,11 @@ SectionTypes::Section SectionManager::getSectionForUniformName(const var& unifor
 	return sectionCandidate;
 }
 
+// returns the root section
+SectionTypes::Section& SectionManager::getRootSection() {
+	return rootSection;
+}
+
 // ValueTree::Listener callbacks for TimelineData
 void SectionManager::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
 }
