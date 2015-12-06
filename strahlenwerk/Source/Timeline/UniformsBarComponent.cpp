@@ -18,14 +18,16 @@ UniformsBarComponent::~UniformsBarComponent() {
 }
 
 void UniformsBarComponent::updateSize() {
-	const int rowHeight = 20;
-	const int numUniforms = data.getNumUniforms();
+	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
+	const int totalRows = sectionManager.getTotalHeightInRows();
 
 	const Viewport* parentViewport = findParentComponentOfClass<Viewport>();
 	const int viewportWidth = parentViewport->getMaximumVisibleWidth();
 	const int viewportHeight = parentViewport->getMaximumVisibleHeight();
 
-	const int height = jmax(numUniforms * rowHeight + 18, viewportHeight); // TODO: fix 18
+	// we add 18 to compensate the scrollbars that can show up in the sequenceView
+	// TODO: find a way to dynamically find the scrollbar height
+	const int height = jmax(totalRows * rowHeight + 18, viewportHeight);
 	setSize(viewportWidth, height);
 }
 
@@ -62,18 +64,21 @@ void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& secti
 
 	// draw section header
 	const String sectionName = sectionManager.getSectionName(section);
-	const Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
-	g.setColour(Colours::black);
-	g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX() + 3, headerRect.getX() + 10);
-	g.drawFittedText(sectionName, headerRect.withTrimmedLeft(13), Justification::centredLeft, 1);
-	//g.drawHorizontalLine(headerRect.getCentreY(), 0, 0);
+	if (sectionName.isNotEmpty()) {
+		// don't draw root section header
+		const Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
+		g.setColour(Colours::black);
+		g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX() + 3, headerRect.getX() + 10);
+		g.drawFittedText(sectionName, headerRect.withTrimmedLeft(13), Justification::centredLeft, 1);
+		//g.drawHorizontalLine(headerRect.getCentreY(), 0, 0);
+	}
 
 	if (sectionManager.getSectionCollapsed(section)) {
 		// the section is collapsed
 		return;
 	}
 
-	// recursivly draw subsection
+	// recursivly draw subsections
 	const int numSections = sectionManager.getNumSections(section);
 	for (int i = 0; i < numSections; i++) {
 		SectionTypes::Section subsection = sectionManager.getSection(section, i);

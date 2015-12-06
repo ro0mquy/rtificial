@@ -27,6 +27,27 @@ void SectionManager::reloadAllUniforms() {
 	}
 }
 
+int SectionManager::getTotalHeightInRows() {
+	return getTotalHeightInRows(rootSection) - 1; // ignore header for root section
+}
+
+int SectionManager::getTotalHeightInRows(SectionTypes::Section& section) {
+	int totalHeight = 1; // header is always visible
+	if (getSectionCollapsed(section)) {
+		return totalHeight;
+	}
+
+	totalHeight += getNumUniforms(section);
+
+	const int numSections = getNumSections(section);
+	for (int i = 0; i < numSections; i++) {
+		SectionTypes::Section subsection = getSection(section, i);
+		totalHeight += getTotalHeightInRows(subsection);
+	}
+
+	return totalHeight;
+}
+
 
 // retrieves the uniformsArray of a section
 SectionTypes::UniformsArray SectionManager::getUniformsArray(SectionTypes::Section& section) {

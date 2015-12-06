@@ -38,6 +38,8 @@ class SectionManager :
 		~SectionManager();
 
 		void reloadAllUniforms();
+		int getTotalHeightInRows();
+		int getTotalHeightInRows(SectionTypes::Section& section);
 
 		SectionTypes::UniformsArray getUniformsArray(SectionTypes::Section& section);
 		int getNumUniforms(SectionTypes::Section& section);
