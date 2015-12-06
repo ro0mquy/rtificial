@@ -52,14 +52,11 @@ SequenceComponent::~SequenceComponent() {
 }
 
 void SequenceComponent::updateBounds() {
-	const int rowHeight = 20;
 	const int start = (int) data.getAbsoluteStartForSequence(sequenceData) * zoomFactor;
 	const int newX = roundFloatToInt(start);
 	const int newWidth = (int) data.getSequenceDuration(sequenceData) * zoomFactor;
-	const int nthUniform = data.getUniformIndex(data.getSequenceParentUniform(sequenceData));
-	jassert(nthUniform >= 0);
 
-	setBounds(newX, nthUniform * rowHeight, newWidth, rowHeight);
+	setBounds(newX, getY(), newWidth, getHeight());
 }
 
 void SequenceComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds) {

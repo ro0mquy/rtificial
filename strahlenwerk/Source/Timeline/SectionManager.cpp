@@ -27,12 +27,15 @@ void SectionManager::reloadAllUniforms() {
 	}
 }
 
+// returns the total height of the whole timeline, in rows
 int SectionManager::getTotalHeightInRows() {
-	return getTotalHeightInRows(rootSection) - 1; // ignore header for root section
+	return getTotalHeightInRows(rootSection);
 }
 
-int SectionManager::getTotalHeightInRows(SectionTypes::Section& section) {
-	int totalHeight = 1; // header is always visible
+// returns the total height of one section, in rows
+int SectionManager::getTotalHeightInRows(SectionTypes::Section section) {
+	// header is always visible, except for the root section
+	int totalHeight = getSectionName(section).toString().isEmpty() ? 0 : 1;
 	if (getSectionCollapsed(section)) {
 		return totalHeight;
 	}
@@ -46,6 +49,37 @@ int SectionManager::getTotalHeightInRows(SectionTypes::Section& section) {
 	}
 
 	return totalHeight;
+}
+
+// calculates the y pos of the uniform with this name
+// returns the number of the row that belongs to the uniform, starting with 0
+int SectionManager::getUniformYPosInRows(const var& uniformName) {
+	SectionTypes::Section theSection = getSectionForUniformName(uniformName);
+	SectionTypes::Uniform theUniform = getUniform(theSection, uniformName);
+	jassert(theUniform.isValid()); // no uniform with this name
+	const int uniformIndex = getUniformIndex(theUniform);
+
+	int subsectionsHeight = 0;
+	const int numSections = getNumSections(theSection);
+	for (int i = 0; i < numSections; i++) {
+		SectionTypes::Section subsection = getSection(theSection, i);
+		subsectionsHeight += getTotalHeightInRows(subsection);
+	}
+
+	int parentsHeight = 0;
+	SectionTypes::Section parentSection = getSectionParentSection(theSection);
+	while (parentSection.isValid()) {
+		const int theSectionIndex = getSectionIndex(theSection);
+
+		for (int i = 0; i < theSectionIndex; i++) {
+			parentsHeight += getTotalHeightInRows(getSection(parentSection, i));
+		}
+
+		theSection = parentSection;
+		parentSection = getSectionParentSection(theSection);
+	}
+
+	return parentsHeight + subsectionsHeight + uniformIndex + 1; // + 1 for this sections header
 }
 
 
@@ -142,6 +176,11 @@ var SectionManager::getUniformName(const SectionTypes::Uniform& uniform) {
 // sets the name of a uniform
 void SectionManager::setUniformName(SectionTypes::Uniform& uniform, const var& name) {
 	uniform.setProperty(sectionTreeId::uniformName, name, nullptr);
+}
+
+// returns the index of the given uniform in its parents uniformsArray
+int SectionManager::getUniformIndex(SectionTypes::Uniform& uniform) {
+	return uniform.getParent().indexOf(uniform);
 }
 
 // comparator function for uniforms
@@ -245,6 +284,20 @@ void SectionManager::setSectionName(SectionTypes::Section& section, const var& n
 // sets the collapsed state of a section
 void SectionManager::setSectionCollapsed(SectionTypes::Section& section, const var& collapsed) {
 	section.setProperty(sectionTreeId::sectionCollapsed, collapsed, nullptr);
+}
+
+// returns the parent section of the given subsection
+SectionTypes::Section SectionManager::getSectionParentSection(SectionTypes::Section& subsection) {
+	return subsection.getParent().getParent();
+}
+
+// returns the index of the given section in its parents sectionsArray
+int SectionManager::getSectionIndex(SectionTypes::Section& section) {
+	ValueTree parent = section.getParent();
+	if (! parent.isValid()) {
+		return -1;
+	}
+	return parent.indexOf(section);
 }
 
 // comparator function for sections

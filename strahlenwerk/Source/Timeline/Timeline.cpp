@@ -6,7 +6,7 @@
 
 // functions of the allmighty Timeline class
 Timeline::Timeline() :
-	sequenceView(zoomFactor),
+	sequenceView(sectionManager, zoomFactor),
 	scenesBar(zoomFactor),
 	uniformsBar(sectionManager),
 	scenesBarSequenceViewBoxLayout(scenesBarSequenceViewLayout, {{ &viewportScenesBar, &viewportSequenceView }}),

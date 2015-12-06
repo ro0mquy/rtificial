@@ -39,7 +39,8 @@ class SectionManager :
 
 		void reloadAllUniforms();
 		int getTotalHeightInRows();
-		int getTotalHeightInRows(SectionTypes::Section& section);
+		int getTotalHeightInRows(SectionTypes::Section section);
+		int getUniformYPosInRows(const var& uniformName);
 
 		SectionTypes::UniformsArray getUniformsArray(SectionTypes::Section& section);
 		int getNumUniforms(SectionTypes::Section& section);
@@ -54,6 +55,7 @@ class SectionManager :
 		void removeUniform(const var& uniformName);
 		var getUniformName(const SectionTypes::Uniform& uniform);
 		void setUniformName(SectionTypes::Uniform& uniform, const var& name);
+		int getUniformIndex(SectionTypes::Uniform& uniform);
 		int compareUniforms(const SectionTypes::Uniform& first, const SectionTypes::Uniform& second);
 
 		SectionTypes::SectionsArray getSectionsArray(SectionTypes::Section& parentSection);
@@ -69,6 +71,8 @@ class SectionManager :
 		var getSectionCollapsed(const SectionTypes::Section& section);
 		void setSectionName(SectionTypes::Section& section, const var& name);
 		void setSectionCollapsed(SectionTypes::Section& section, const var& collapsed);
+		SectionTypes::Section getSectionParentSection(SectionTypes::Section& subsection);
+		int getSectionIndex(SectionTypes::Section& section);
 		int compareSections(const SectionTypes::Section& first, const SectionTypes::Section& second);
 		SectionTypes::Section getSectionForUniformName(const var& uniformName);
 		SectionTypes::Section& getRootSection();

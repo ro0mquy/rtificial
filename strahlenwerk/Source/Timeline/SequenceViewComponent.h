@@ -5,6 +5,7 @@
 #include "SelfResizingComponent.h"
 #include "MouseCallbackClasses.h"
 #include "TimeMarkerComponent.h"
+#include <Timeline/SectionManager.h>
 
 class TimelineData;
 class AudioManager;
@@ -18,12 +19,13 @@ class SequenceViewComponent :
 	private ChangeListener
 {
 	public:
-		SequenceViewComponent(ZoomFactor& zoomFactor_);
+		SequenceViewComponent(SectionManager& sectionManager_, ZoomFactor& zoomFactor_);
 		~SequenceViewComponent();
 
 		void updateSize() override;
 		void paint(Graphics& g) override;
 		void addSequenceComponent(ValueTree sequenceData);
+		void addSequenceComponent(ValueTree sequenceData, const int rowHeight);
 		void addAllSequenceComponents();
 		SequenceComponent* getSequenceComponentForData(ValueTree sequenceData);
 
@@ -49,8 +51,10 @@ class SequenceViewComponent :
 
 	private:
 		bool uniformActiveForScene(ValueTree uniform, ValueTree scene);
+		void drawSectionHeader(Graphics& g, SectionTypes::Section& section, Rectangle<int>& targetBounds) const;
 
 		TimelineData& data;
+		SectionManager& sectionManager;
 		ZoomFactor& zoomFactor;
 		TimelineTimeMarkerComponent timeMarker;
 		OwnedArray<SequenceComponent> sequenceComponentsArray;

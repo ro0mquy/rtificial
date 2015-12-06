@@ -5,10 +5,13 @@
 #include "KeyframeComponent.h"
 #include "TimelineData.h"
 #include "TreeIdentifiers.h"
+#include "SectionManager.h"
 #include "ZoomFactor.h"
+#include <RtificialLookAndFeel.h>
 
-SequenceViewComponent::SequenceViewComponent(ZoomFactor& zoomFactor_) :
+SequenceViewComponent::SequenceViewComponent(SectionManager& sectionManager_, ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
+	sectionManager(sectionManager_),
 	zoomFactor(zoomFactor_),
 	timeMarker(zoomFactor_)
 {
@@ -24,8 +27,8 @@ SequenceViewComponent::~SequenceViewComponent() {
 }
 
 void SequenceViewComponent::updateSize() {
-	const int rowHeight = 20;
-	const int numUniforms = data.getNumUniforms();
+	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
+	const int totalRows = sectionManager.getTotalHeightInRows();
 	const int paddingAfterLastScene = 300;
 	const int endTime = roundFloatToInt(data.getLastSceneEndTime() * zoomFactor);
 
@@ -34,15 +37,15 @@ void SequenceViewComponent::updateSize() {
 	const int viewportHeight = parentViewport->getMaximumVisibleHeight();
 
 	const int width = jmax(endTime + paddingAfterLastScene, viewportWidth);
-	const int height = jmax(numUniforms * rowHeight, viewportHeight);
+	const int height = jmax(totalRows * rowHeight, viewportHeight);
 	setSize(width, height);
 
 	timeMarker.updateSize();
 }
 
 void SequenceViewComponent::paint(Graphics& g){
+	/*
 	const int rowHeight = 20;
-
 	const int numUniforms = data.getNumUniforms();
 	const int numScenes = data.getNumScenes();
 	for(int i = 0; i < numUniforms; i++){
@@ -66,6 +69,41 @@ void SequenceViewComponent::paint(Graphics& g){
 			}
 		}
 	}
+	// */
+
+	g.fillAll(Colours::white);
+	SectionTypes::Section& rootSection = sectionManager.getRootSection();
+	Rectangle<int> targetBounds = getLocalBounds();
+	drawSectionHeader(g, rootSection, targetBounds);
+}
+
+void SequenceViewComponent::drawSectionHeader(Graphics& g, SectionTypes::Section& section, Rectangle<int>& targetBounds) const {
+	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
+
+	// draw section header
+	const String sectionName = sectionManager.getSectionName(section);
+	if (sectionName.isNotEmpty()) {
+		// don't draw root section header
+		const Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
+		g.setColour(Colours::black);
+		g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX(), headerRect.getRight());
+	}
+
+	if (sectionManager.getSectionCollapsed(section)) {
+		// the section is collapsed
+		return;
+	}
+
+	// recursivly draw subsections
+	const int numSections = sectionManager.getNumSections(section);
+	for (int i = 0; i < numSections; i++) {
+		SectionTypes::Section subsection = sectionManager.getSection(section, i);
+		drawSectionHeader(g, subsection, targetBounds);
+	}
+
+	// leave uniform space empty
+	const int numUniforms = sectionManager.getNumUniforms(section);
+	targetBounds.removeFromTop(numUniforms * rowHeight);
 }
 
 bool SequenceViewComponent::uniformActiveForScene(ValueTree /*uniform*/, ValueTree /*scene*/) {
@@ -80,22 +118,30 @@ bool SequenceViewComponent::uniformActiveForScene(ValueTree /*uniform*/, ValueTr
 }
 
 void SequenceViewComponent::addSequenceComponent(ValueTree sequenceData) {
-	auto sequenceComponent = new SequenceComponent(sequenceData, zoomFactor);
+	const int uniformRow = sectionManager.getUniformYPosInRows(data.getUniformName(data.getSequenceParentUniform(sequenceData)));
+	addSequenceComponent(sequenceData, uniformRow);
+}
+
+void SequenceViewComponent::addSequenceComponent(ValueTree sequenceData, const int uniformRow) {
+	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
+	SequenceComponent* sequenceComponent = new SequenceComponent(sequenceData, zoomFactor);
+	sequenceComponent->setBounds(sequenceComponent->getX(), uniformRow * rowHeight, sequenceComponent->getWidth(), rowHeight); // SequenceComponents set their x dimensions by themselves
 	addAndMakeVisible(sequenceComponent);
 	sequenceComponentsArray.add(sequenceComponent);
 }
 
 void SequenceViewComponent::addAllSequenceComponents() {
 	sequenceComponentsArray.clearQuick(true);
-	const int numUniforms = data.getNumUniforms();
 
+	const int numUniforms = data.getNumUniforms();
 	for (int i = 0; i < numUniforms; i++) {
 		ValueTree uniform = data.getUniform(i);
-		const int numSequences = data.getNumSequences(uniform);
+		const int uniformRow = sectionManager.getUniformYPosInRows(data.getUniformName(uniform));
 
+		const int numSequences = data.getNumSequences(uniform);
 		for (int j = 0; j < numSequences; j++) {
 			ValueTree sequenceData = data.getSequence(uniform, j);
-			addSequenceComponent(sequenceData);
+			addSequenceComponent(sequenceData, uniformRow);
 		}
 	}
 }
