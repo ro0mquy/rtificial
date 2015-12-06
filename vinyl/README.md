@@ -48,6 +48,8 @@ On Windows place the 4klang header into `rtificial/vinyl/Source/music/4klang.win
 On Linux place the 4klang export into `rtificial/vinyl/Source/music/4klang.linux.h` and `rtificial/vinyl/Source/music/4klang.linux.o`.
 
 #### V2
+Download `libv2.lib` from [pouet.net](http://www.pouet.net/prod.php?which=15073) and place it int `rtificial\vinyl\Lib\lib\libv2.lib`.
+
 Place the V2 export into `rtificial/vinyl/Source/music/soundtrack.v2m` and set the `BPM` in `rtificial/vinyl/Spource/music/bpm.h`.
 
 #### vorbis
