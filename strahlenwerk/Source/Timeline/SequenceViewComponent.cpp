@@ -159,18 +159,20 @@ SequenceComponent* SequenceViewComponent::getSequenceComponentForData(ValueTree 
 
 void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	const int rowHeight = 20;
-	const int numUniform = int(float(event.getMouseDownY()) / float(rowHeight));
-	ValueTree uniform = data.getUniform(numUniform);
+	const int numRow = int(float(event.getMouseDownY()) / float(rowHeight));
+	SectionTypes::Uniform uniformSectionTree = sectionManager.getUniformForYPos(numRow);
 
-	// uniform is invalid if click was in empty area
+	// uniform is invalid if click was on section header or in empty area
 	const ModifierKeys& m = event.mods;
-	if (uniform.isValid() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
+	if (uniformSectionTree.isValid() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
+		ValueTree uniformData = data.getUniform(sectionManager.getUniformName(uniformSectionTree));
+		jassert(uniformData.isValid());
 		const int absoluteStart = event.getMouseDownX() / zoomFactor;
 		const int absoluteStartGrid = zoomFactor.snapValueToGrid(absoluteStart);
 		var sequenceDuration = 0.f;
 		var sequenceInterpolation = "linear";
 		data.getUndoManager().beginNewTransaction("Create Sequence");
-		currentlyCreatedSequenceData = data.addSequence(uniform, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
+		currentlyCreatedSequenceData = data.addSequence(uniformData, absoluteStartGrid, sequenceDuration, sequenceInterpolation);
 	} else {
 		McbComponent::mouseDown(event);
 	}

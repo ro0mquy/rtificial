@@ -41,6 +41,8 @@ class SectionManager :
 		int getTotalHeightInRows();
 		int getTotalHeightInRows(SectionTypes::Section section);
 		int getUniformYPosInRows(const var& uniformName);
+		SectionTypes::Uniform getUniformForYPos(int yPos);
+		SectionTypes::Uniform getUniformForYPos(SectionTypes::Section section, int yPos);
 
 		SectionTypes::UniformsArray getUniformsArray(SectionTypes::Section& section);
 		int getNumUniforms(SectionTypes::Section& section);

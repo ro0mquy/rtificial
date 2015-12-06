@@ -82,6 +82,41 @@ int SectionManager::getUniformYPosInRows(const var& uniformName) {
 	return parentsHeight + subsectionsHeight + uniformIndex + 1; // + 1 for this sections header
 }
 
+// returns the uniform for the given pos (in rows)
+// returns an invalid tree if there is no uniform at this pos
+SectionTypes::Uniform SectionManager::getUniformForYPos(int yPos) {
+	return getUniformForYPos(rootSection, yPos);
+}
+
+// returns the uniform for the given pos (in rows) in this section
+// returns an invalid tree if there is no uniform at this pos
+SectionTypes::Uniform SectionManager::getUniformForYPos(SectionTypes::Section section, int yPos) {
+	if (getSectionName(section).toString().isNotEmpty()) {
+		// don't check this for the root section
+		if (yPos == 0) {
+			// click on header
+			return SectionTypes::Uniform();
+		}
+		yPos--;
+	}
+
+	// search in sections
+	const int numSubsections = getNumSections(section);
+	for (int i = 0; i < numSubsections; i++) {
+		SectionTypes::Section subsection = getSection(section, i);
+		const int heightSubsection = getTotalHeightInRows(subsection);
+		if (yPos < heightSubsection) {
+			// the yPos is inside of this section
+			return getUniformForYPos(subsection, yPos);
+		}
+		yPos -= heightSubsection;
+	}
+
+	// not in section, so it must be a uniform
+	// return an invalid uniform, if out of bounds
+	return getUniform(section, yPos);
+}
+
 
 // retrieves the uniformsArray of a section
 SectionTypes::UniformsArray SectionManager::getUniformsArray(SectionTypes::Section& section) {

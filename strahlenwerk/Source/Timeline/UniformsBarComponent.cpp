@@ -102,18 +102,26 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 	}
 
 	const int editorWidth = 300;
-	const int rowHeight = 20;
+	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
 
-	const int numUniform = int(event.position.y / float(rowHeight)); // floor division
-	if (numUniform < 0 || numUniform >= data.getNumUniforms()) {
-		// clicked on empty area at bottom of UniformsBar
+	const int numRow = int(event.position.y / float(rowHeight)); // floor division
+	if (numRow < 0) {
 		return;
 	}
+
+	SectionTypes::Uniform uniformSectionTree = sectionManager.getUniformForYPos(numRow);
+	if (! uniformSectionTree.isValid()) {
+		// click on section header or empty area
+		return;
+	}
+
+	const var uniformName = sectionManager.getUniformName(uniformSectionTree);
+	ValueTree uniformData = data.getUniform(uniformName);
+	jassert(uniformData.isValid());
 
 	const ModifierKeys& m = event.mods;
 	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
 		// bake uniform
-		ValueTree uniformData = data.getUniform(numUniform);
 		const int numSequences = data.getNumSequences(uniformData);
 
 		if (numSequences != 0) {
@@ -132,8 +140,6 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 
 	} else if (event.mouseWasClicked() && m.isLeftButtonDown()) {
 		// show standard value editor
-		ValueTree uniformData = data.getUniform(numUniform);
-		const String uniformName = data.getUniformName(uniformData);
 		ValueTree valueData = data.getUniformStandardValue(uniformData);
 		jassert(valueData.isValid());
 
@@ -141,7 +147,7 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 		valueEditor->setSize(editorWidth, valueEditor->getPreferredHeight());
 
 		// bounding rectangle of this uniform
-		const Rectangle<int> rect(0, numUniform * rowHeight, getWidth(), rowHeight);
+		const Rectangle<int> rect(0, numRow * rowHeight, getWidth(), rowHeight);
 		CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
 		callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
 	}
