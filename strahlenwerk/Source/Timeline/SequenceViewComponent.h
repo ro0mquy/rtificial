@@ -51,7 +51,7 @@ class SequenceViewComponent :
 
 	private:
 		bool uniformActiveForScene(ValueTree uniform, ValueTree scene);
-		void drawSectionHeader(Graphics& g, SectionTypes::Section& section, Rectangle<int>& targetBounds) const;
+		void drawSectionHeader(Graphics& g, SectionTypes::Section& section, juce::Rectangle<int>& targetBounds) const;
 
 		TimelineData& data;
 		SectionManager& sectionManager;
