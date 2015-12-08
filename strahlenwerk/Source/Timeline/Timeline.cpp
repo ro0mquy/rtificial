@@ -22,7 +22,7 @@ Timeline::Timeline() :
 	scenesBarSequenceViewLayout.setItemLayout(0, 45, 45, 45); // scenesBar
 	scenesBarSequenceViewLayout.setItemLayout(1, 170, -1., -1.); // sequenceView
 
-	timelineLayout.setItemLayout(0, 100, -1., 150); // uniformsBar
+	timelineLayout.setItemLayout(0, 100, -1., 200); // uniformsBar
 	timelineLayout.setItemLayout(1, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth); // uniformsBarResizer
 	timelineLayout.setItemLayout(2, 200, -1., 650); // scenesBar & sequenceView
 
