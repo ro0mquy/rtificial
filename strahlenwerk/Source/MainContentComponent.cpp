@@ -42,9 +42,9 @@ void MainContentComponent::setDefaultLayout() {
 	horizontalLayout.setItemLayout(1, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth);
 	horizontalLayout.setItemLayout(2, 160, -1., -glComponentWidth);
 
-	verticalLayout.setItemLayout(0, 90, -1., -glComponentHeight);
-	verticalLayout.setItemLayout(1, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth);
-	verticalLayout.setItemLayout(2, 200, -1., getHeight() * (1. - glComponentHeight) - RtificialLookAndFeel::strechableLayoutResizerBarWidth);
+	verticalLayout.setItemLayout(0, 90, -1., -glComponentHeight); // Sidebar & OpenGl
+	verticalLayout.setItemLayout(1, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth, RtificialLookAndFeel::strechableLayoutResizerBarWidth); // Resizer
+	verticalLayout.setItemLayout(2, 45 /*minScenesBar*/ + 170 /*minSeqView*/, -1., getHeight() * (1. - glComponentHeight) - RtificialLookAndFeel::strechableLayoutResizerBarWidth); // Timeline
 	verticalBoxLayout.resized();
 }
 
