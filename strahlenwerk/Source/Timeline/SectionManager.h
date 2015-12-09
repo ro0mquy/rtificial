@@ -82,6 +82,7 @@ class SectionManager :
 		SectionTypes::Section getSectionParentSection(SectionTypes::Section& subsection);
 		int getSectionIndex(SectionTypes::Section& section);
 		bool isSectionVisible(SectionTypes::Section section);
+		void collapseAllSubsections(SectionTypes::Section section);
 		int compareSections(const SectionTypes::Section& first, const SectionTypes::Section& second);
 		SectionTypes::Section getSectionForUniformName(const var& uniformName);
 		SectionTypes::Section& getRootSection();

@@ -28,11 +28,15 @@ void SectionManager::reloadAllUniforms() {
 	getSectionsArray(rootSection).removeAllChildren(nullptr);
 	getUniformsArray(rootSection).removeAllChildren(nullptr);
 
+	// add every uniform from the TimelineData tree to the manager
 	const int numUniforms = data.getNumUniforms();
 	for (int i = 0; i < numUniforms; i++) {
 		const var uniformName = data.getUniformName(data.getUniform(i));
 		addUniform(uniformName);
 	}
+
+	// and collapse every section recursivly
+	collapseAllSubsections(rootSection);
 }
 
 // returns the total height of the whole timeline, in rows
@@ -379,6 +383,16 @@ bool SectionManager::isSectionVisible(SectionTypes::Section section) {
 	}
 	const bool myVisibility = ! getSectionCollapsed(section);
 	return myVisibility && isSectionVisible(getSectionParentSection(section));
+}
+
+// collapse all child-sections
+void SectionManager::collapseAllSubsections(SectionTypes::Section section) {
+	const int numSubsections = getNumSections(section);
+	for (int i = 0; i < numSubsections; i++) {
+		SectionTypes::Section subsection = getSection(section, i);
+		setSectionCollapsed(subsection, true);
+		collapseAllSubsections(subsection);
+	}
 }
 
 // comparator function for sections
