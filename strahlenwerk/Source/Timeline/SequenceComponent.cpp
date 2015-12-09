@@ -338,9 +338,6 @@ void SequenceComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& ch
 	// TODO: react on addition of scenes
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
 		addKeyframeComponent(childWhichHasBeenAdded);
-	} else if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
-		// uniform got inserted, row number may changed
-		updateBounds();
 	}
 }
 
@@ -349,17 +346,10 @@ void SequenceComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& 
 	if (data.getKeyframesArray(sequenceData) == parentTree) {
 		KeyframeComponent* keyframeComponent = getKeyframeComponentForData(childWhichHasBeenRemoved);
 		keyframeComponentsArray.removeObject(keyframeComponent);
-	} else if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
-		// uniform got inserted, row number may changed
-		updateBounds();
 	}
 }
 
-void SequenceComponent::valueTreeChildOrderChanged(ValueTree& parentTree, int /*oldIndex*/, int /*newIndex*/) {
-	if (parentTree == data.getUniformsArray()) {
-		// uniforms order changed, row number may changed
-		updateBounds();
-	}
+void SequenceComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
 }
 
 void SequenceComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
