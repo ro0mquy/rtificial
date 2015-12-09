@@ -55,7 +55,7 @@ class SceneComponent :
 		class Positioner : public Component::Positioner {
 			public:
 				Positioner(Component& component, ValueTree sceneData_, TimelineData& data_, ZoomFactor& zoomFactor_);
-				void applyNewBounds(const juce::Rectangle<int>& newBounds) override;
+				void applyNewBounds(const Rectangle<int>& newBounds) override;
 
 			private:
 				ValueTree sceneData;

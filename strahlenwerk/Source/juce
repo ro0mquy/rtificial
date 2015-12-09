@@ -1,1 +1,4 @@
 #include "../JuceLibraryCode/JuceHeader.h"
+
+// the microsoft headers also define a Rectangle type
+#define Rectangle juce::Rectangle
