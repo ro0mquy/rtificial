@@ -37,12 +37,14 @@ class SectionManager :
 		SectionManager();
 		~SectionManager();
 
+		void addListenerToTree(ValueTree::Listener* listener);
+		void removeListenerFromTree(ValueTree::Listener* listener);
 		void reloadAllUniforms();
 		int getTotalHeightInRows();
 		int getTotalHeightInRows(SectionTypes::Section section);
 		int getUniformYPosInRows(const var& uniformName);
-		SectionTypes::Uniform getUniformForYPos(int yPos);
-		SectionTypes::Uniform getUniformForYPos(SectionTypes::Section section, int yPos);
+		ValueTree getUniformOrSectionForYPos(int yPos);
+		ValueTree getUniformOrSectionForYPos(SectionTypes::Section section, int yPos);
 
 		SectionTypes::UniformsArray getUniformsArray(SectionTypes::Section& section);
 		int getNumUniforms(SectionTypes::Section& section);
@@ -58,6 +60,9 @@ class SectionManager :
 		var getUniformName(const SectionTypes::Uniform& uniform);
 		void setUniformName(SectionTypes::Uniform& uniform, const var& name);
 		int getUniformIndex(SectionTypes::Uniform& uniform);
+		SectionTypes::Section getUniformParentSection(SectionTypes::Uniform uniform);
+		ValueTree getTimelineUniformForSectionUniform(SectionTypes::Uniform& uniform);
+		bool isUniformVisible(SectionTypes::Uniform uniform);
 		int compareUniforms(const SectionTypes::Uniform& first, const SectionTypes::Uniform& second);
 
 		SectionTypes::SectionsArray getSectionsArray(SectionTypes::Section& parentSection);
@@ -73,8 +78,10 @@ class SectionManager :
 		var getSectionCollapsed(const SectionTypes::Section& section);
 		void setSectionName(SectionTypes::Section& section, const var& name);
 		void setSectionCollapsed(SectionTypes::Section& section, const var& collapsed);
+		void toggleSectionCollapsed(SectionTypes::Section& section);
 		SectionTypes::Section getSectionParentSection(SectionTypes::Section& subsection);
 		int getSectionIndex(SectionTypes::Section& section);
+		bool isSectionVisible(SectionTypes::Section section);
 		int compareSections(const SectionTypes::Section& first, const SectionTypes::Section& second);
 		SectionTypes::Section getSectionForUniformName(const var& uniformName);
 		SectionTypes::Section& getRootSection();

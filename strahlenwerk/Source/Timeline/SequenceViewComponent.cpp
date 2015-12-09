@@ -16,6 +16,7 @@ SequenceViewComponent::SequenceViewComponent(SectionManager& sectionManager_, Zo
 	timeMarker(zoomFactor_)
 {
 	data.addListenerToTree(this);
+	sectionManager.addListenerToTree(this);
 	zoomFactor.addChangeListener(this);
 	addAllSequenceComponents();
 	addAndMakeVisible(timeMarker);
@@ -23,6 +24,7 @@ SequenceViewComponent::SequenceViewComponent(SectionManager& sectionManager_, Zo
 
 SequenceViewComponent::~SequenceViewComponent() {
 	data.removeListenerFromTree(this);
+	sectionManager.removeListenerFromTree(this);
 	zoomFactor.removeChangeListener(this);
 }
 
@@ -138,6 +140,11 @@ void SequenceViewComponent::addAllSequenceComponents() {
 		ValueTree uniform = data.getUniform(i);
 		const int uniformRow = sectionManager.getUniformYPosInRows(data.getUniformName(uniform));
 
+		if (uniformRow == -1) {
+			// uniform is not visible
+			continue;
+		}
+
 		const int numSequences = data.getNumSequences(uniform);
 		for (int j = 0; j < numSequences; j++) {
 			ValueTree sequenceData = data.getSequence(uniform, j);
@@ -160,12 +167,12 @@ SequenceComponent* SequenceViewComponent::getSequenceComponentForData(ValueTree 
 void SequenceViewComponent::mouseDown(const MouseEvent& event) {
 	const int rowHeight = 20;
 	const int numRow = int(float(event.getMouseDownY()) / float(rowHeight));
-	SectionTypes::Uniform uniformSectionTree = sectionManager.getUniformForYPos(numRow);
+	SectionTypes::Uniform uniformSectionTree = sectionManager.getUniformOrSectionForYPos(numRow);
 
 	// uniform is invalid if click was on section header or in empty area
 	const ModifierKeys& m = event.mods;
-	if (uniformSectionTree.isValid() && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
-		ValueTree uniformData = data.getUniform(sectionManager.getUniformName(uniformSectionTree));
+	if (sectionManager.isUniform(uniformSectionTree) && m == ModifierKeys(ModifierKeys::leftButtonModifier | ModifierKeys::commandModifier)) {
+		ValueTree uniformData = sectionManager.getTimelineUniformForSectionUniform(uniformSectionTree);
 		jassert(uniformData.isValid());
 		const int absoluteStart = event.getMouseDownX() / zoomFactor;
 		const int absoluteStartGrid = zoomFactor.snapValueToGrid(absoluteStart);
@@ -219,8 +226,13 @@ void SequenceViewComponent::changeListenerCallback(ChangeBroadcaster* /*source*/
 }
 
 // ValueTree::Listener callbacks
-void SequenceViewComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& /*property*/) {
+void SequenceViewComponent::valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) {
 	if (parentTree.hasType(treeId::scene)) {
+		updateSize();
+		repaint();
+	} else if (property == sectionTreeId::sectionCollapsed) {
+		// section collapsed state toggled
+		addAllSequenceComponents();
 		updateSize();
 		repaint();
 	}
@@ -232,7 +244,9 @@ void SequenceViewComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, Value
 	} else if (childWhichHasBeenAdded.hasType(treeId::scene)) {
 		updateSize();
 		repaint();
-	} else if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
+	} else if (sectionManager.isSection(childWhichHasBeenAdded) || sectionManager.isUniform(childWhichHasBeenAdded)) {
+		// section or uniform added
+		addAllSequenceComponents();
 		updateSize();
 		repaint();
 	}
@@ -240,26 +254,33 @@ void SequenceViewComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, Value
 
 void SequenceViewComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
 	if (data.isSequence(childWhichHasBeenRemoved)) {
-		auto sequenceComponent = getSequenceComponentForData(childWhichHasBeenRemoved);
+		SequenceComponent* sequenceComponent = getSequenceComponentForData(childWhichHasBeenRemoved);
 		jassert(sequenceComponent != nullptr);
 		sequenceComponentsArray.removeObject(sequenceComponent);
 	} else if (childWhichHasBeenRemoved.hasType(treeId::scene)) {
 		updateSize();
 		repaint();
-	} else if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
+	} else if (sectionManager.isSection(childWhichHasBeenRemoved) || sectionManager.isUniform(childWhichHasBeenRemoved)) {
+		// section or uniform removed
+		addAllSequenceComponents();
 		updateSize();
 		repaint();
 	}
 }
 
-void SequenceViewComponent::valueTreeChildOrderChanged(ValueTree& /*parentTree*/, int /*oldIndex*/, int /*newIndex*/) {
+void SequenceViewComponent::valueTreeChildOrderChanged(ValueTree& parentTree, int /*oldIndex*/, int /*newIndex*/) {
+	if (parentTree.hasType(sectionTreeId::sectionsArray) || parentTree.hasType(sectionTreeId::uniformsArray)) {
+		// the ordering of some sections or uniforms has changed
+		addAllSequenceComponents();
+		repaint();
+	}
 }
 
 void SequenceViewComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHasChanged*/) {
 }
 
 void SequenceViewComponent::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
-	// always the root tree
+	// always one of the root trees (TimelineData or SectionManager)
 	addAllSequenceComponents();
 	updateSize();
 	repaint();

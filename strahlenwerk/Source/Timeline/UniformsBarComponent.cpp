@@ -1,7 +1,6 @@
 #include "UniformsBarComponent.h"
 
 #include "TimelineData.h"
-#include "TreeIdentifiers.h"
 #include <Sidebar/ValueEditorPropertyComponent.h>
 #include <RtificialLookAndFeel.h>
 #include <Timeline/SectionManager.h>
@@ -10,11 +9,11 @@ UniformsBarComponent::UniformsBarComponent(SectionManager& sectionManager_) :
 	data(TimelineData::getTimelineData()),
 	sectionManager(sectionManager_)
 {
-	data.addListenerToTree(this);
+	sectionManager.addListenerToTree(this);
 }
 
 UniformsBarComponent::~UniformsBarComponent() {
-	data.removeListenerFromTree(this);
+	sectionManager.removeListenerFromTree(this);
 }
 
 void UniformsBarComponent::updateSize() {
@@ -109,69 +108,88 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 		return;
 	}
 
-	SectionTypes::Uniform uniformSectionTree = sectionManager.getUniformForYPos(numRow);
+	ValueTree uniformSectionTree = sectionManager.getUniformOrSectionForYPos(numRow);
 	if (! uniformSectionTree.isValid()) {
-		// click on section header or empty area
+		// click in empty area
 		return;
 	}
 
-	const var uniformName = sectionManager.getUniformName(uniformSectionTree);
-	ValueTree uniformData = data.getUniform(uniformName);
-	jassert(uniformData.isValid());
+	if (sectionManager.isUniform(uniformSectionTree)) {
+		// click on uniform
+		const var uniformName = sectionManager.getUniformName(uniformSectionTree);
+		ValueTree uniformData = data.getUniform(uniformName);
+		jassert(uniformData.isValid());
 
-	const ModifierKeys& m = event.mods;
-	if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
-		// bake uniform
-		const int numSequences = data.getNumSequences(uniformData);
+		const ModifierKeys& m = event.mods;
+		if (event.mouseWasClicked() && m.isMiddleButtonDown() && m.isCommandDown()) {
+			// bake uniform
+			const int numSequences = data.getNumSequences(uniformData);
 
-		if (numSequences != 0) {
-			AlertWindow cantBakeWindow("Bake Uniform failed", "There are some Sequences left for this Uniform. Don't wanna burn those! Delete them before Baking!", AlertWindow::WarningIcon);
-			cantBakeWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
-			cantBakeWindow.addButton(L"Fuck 'ëm", 1, KeyPress('f'), KeyPress(KeyPress::spaceKey));
+			if (numSequences != 0) {
+				AlertWindow cantBakeWindow("Bake Uniform failed", "There are some Sequences left for this Uniform. Don't wanna burn those! Delete them before Baking!", AlertWindow::WarningIcon);
+				cantBakeWindow.addButton("Cancel", 0, KeyPress('c'), KeyPress(KeyPress::escapeKey));
+				cantBakeWindow.addButton(L"Fuck 'ëm", 1, KeyPress('f'), KeyPress(KeyPress::spaceKey));
 
-			const int returnedChoice = cantBakeWindow.runModalLoop();
-			if (returnedChoice != 1) {
-				return;
+				const int returnedChoice = cantBakeWindow.runModalLoop();
+				if (returnedChoice != 1) {
+					return;
+				}
 			}
+
+			data.getUndoManager().beginNewTransaction("Bake Uniform");
+			data.bakeUniform(uniformData);
+
+		} else if (event.mouseWasClicked() && m.isLeftButtonDown()) {
+			// show standard value editor
+			ValueTree valueData = data.getUniformStandardValue(uniformData);
+			jassert(valueData.isValid());
+
+			PropertyComponent* valueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(uniformName, valueData);
+			valueEditor->setSize(editorWidth, valueEditor->getPreferredHeight());
+
+			// bounding rectangle of this uniform
+			const Rectangle<int> rect(0, numRow * rowHeight, getWidth(), rowHeight);
+			CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
+			callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
 		}
+	} else if (sectionManager.isSection(uniformSectionTree)) {
+		// click on section
 
-		data.getUndoManager().beginNewTransaction("Bake Uniform");
-		data.bakeUniform(uniformData);
-
-	} else if (event.mouseWasClicked() && m.isLeftButtonDown()) {
-		// show standard value editor
-		ValueTree valueData = data.getUniformStandardValue(uniformData);
-		jassert(valueData.isValid());
-
-		PropertyComponent* valueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(uniformName, valueData);
-		valueEditor->setSize(editorWidth, valueEditor->getPreferredHeight());
-
-		// bounding rectangle of this uniform
-		const Rectangle<int> rect(0, numRow * rowHeight, getWidth(), rowHeight);
-		CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
-		callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
+		const ModifierKeys& m = event.mods;
+		if (event.mouseWasClicked() && m.isLeftButtonDown()) {
+			// toggle section collapsed status
+			sectionManager.toggleSectionCollapsed(uniformSectionTree);
+		}
 	}
 }
 
-void UniformsBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& /*property*/) {
+void UniformsBarComponent::valueTreePropertyChanged(ValueTree& /*parentTree*/, const Identifier& property) {
+	if (property == sectionTreeId::sectionCollapsed) {
+		// section collapsed state changed
+		updateSize();
+		repaint();
+	}
 }
 
 void UniformsBarComponent::valueTreeChildAdded(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenAdded) {
-	if (childWhichHasBeenAdded.hasType(treeId::uniform)) {
+	if (sectionManager.isSection(childWhichHasBeenAdded) || sectionManager.isUniform(childWhichHasBeenAdded)) {
+		// section or uniform added
 		updateSize();
 		repaint();
 	}
 }
 
 void UniformsBarComponent::valueTreeChildRemoved(ValueTree& /*parentTree*/, ValueTree& childWhichHasBeenRemoved, int /*indexFromWhichChildWasRemoved*/) {
-	if (childWhichHasBeenRemoved.hasType(treeId::uniform)) {
+	if (sectionManager.isSection(childWhichHasBeenRemoved) || sectionManager.isUniform(childWhichHasBeenRemoved)) {
+		// section or uniform removed
 		updateSize();
 		repaint();
 	}
 }
 
 void UniformsBarComponent::valueTreeChildOrderChanged(ValueTree& parentTree, int /*oldIndex*/, int /*newIndex*/) {
-	if (parentTree == data.getUniformsArray()) {
+	if (parentTree.hasType(sectionTreeId::sectionsArray) || parentTree.hasType(sectionTreeId::uniformsArray)) {
+		// the ordering of some sections or uniforms has changed
 		repaint();
 	}
 }
@@ -180,7 +198,7 @@ void UniformsBarComponent::valueTreeParentChanged(ValueTree& /*treeWhoseParentHa
 }
 
 void UniformsBarComponent::valueTreeRedirected(ValueTree& /*treeWhoWasRedirected*/) {
-	// always the root tree
+	// always the root section
 	updateSize();
 	repaint();
 }

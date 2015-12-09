@@ -14,6 +14,14 @@ SectionManager::~SectionManager() {
 	data.removeListenerFromTree(this);
 }
 
+void SectionManager::addListenerToTree(ValueTree::Listener* listener) {
+	rootSection.addListener(listener);
+}
+
+void SectionManager::removeListenerFromTree(ValueTree::Listener* listener) {
+	rootSection.removeListener(listener);
+}
+
 // completly reloads the whole manager
 void SectionManager::reloadAllUniforms() {
 	// clear everything
@@ -35,7 +43,7 @@ int SectionManager::getTotalHeightInRows() {
 // returns the total height of one section, in rows
 int SectionManager::getTotalHeightInRows(SectionTypes::Section section) {
 	// header is always visible, except for the root section
-	int totalHeight = getSectionName(section).toString().isEmpty() ? 0 : 1;
+	int totalHeight = (section == rootSection) ? 0 : 1;
 	if (getSectionCollapsed(section)) {
 		return totalHeight;
 	}
@@ -53,10 +61,17 @@ int SectionManager::getTotalHeightInRows(SectionTypes::Section section) {
 
 // calculates the y pos of the uniform with this name
 // returns the number of the row that belongs to the uniform, starting with 0
+// returns -1 if uniform is not visible
 int SectionManager::getUniformYPosInRows(const var& uniformName) {
 	SectionTypes::Section theSection = getSectionForUniformName(uniformName);
 	SectionTypes::Uniform theUniform = getUniform(theSection, uniformName);
 	jassert(theUniform.isValid()); // no uniform with this name
+
+	if (! isUniformVisible(theUniform)) {
+		// one of the uniforms parents is collapsed
+		return -1;
+	}
+
 	const int uniformIndex = getUniformIndex(theUniform);
 
 	int subsectionsHeight = 0;
@@ -84,18 +99,19 @@ int SectionManager::getUniformYPosInRows(const var& uniformName) {
 
 // returns the uniform for the given pos (in rows)
 // returns an invalid tree if there is no uniform at this pos
-SectionTypes::Uniform SectionManager::getUniformForYPos(int yPos) {
-	return getUniformForYPos(rootSection, yPos);
+ValueTree SectionManager::getUniformOrSectionForYPos(int yPos) {
+	return getUniformOrSectionForYPos(rootSection, yPos);
 }
 
-// returns the uniform for the given pos (in rows) in this section
+// returns the uniform for the given pos (in rows) in this section,
+// or the section itself, if the click was on the header
 // returns an invalid tree if there is no uniform at this pos
-SectionTypes::Uniform SectionManager::getUniformForYPos(SectionTypes::Section section, int yPos) {
-	if (getSectionName(section).toString().isNotEmpty()) {
+ValueTree SectionManager::getUniformOrSectionForYPos(SectionTypes::Section section, int yPos) {
+	if (section != rootSection) {
 		// don't check this for the root section
 		if (yPos == 0) {
 			// click on header
-			return SectionTypes::Uniform();
+			return section;
 		}
 		yPos--;
 	}
@@ -107,7 +123,7 @@ SectionTypes::Uniform SectionManager::getUniformForYPos(SectionTypes::Section se
 		const int heightSubsection = getTotalHeightInRows(subsection);
 		if (yPos < heightSubsection) {
 			// the yPos is inside of this section
-			return getUniformForYPos(subsection, yPos);
+			return getUniformOrSectionForYPos(subsection, yPos);
 		}
 		yPos -= heightSubsection;
 	}
@@ -218,6 +234,21 @@ int SectionManager::getUniformIndex(SectionTypes::Uniform& uniform) {
 	return uniform.getParent().indexOf(uniform);
 }
 
+// returns the section this uniform belongs to
+SectionTypes::Section SectionManager::getUniformParentSection(SectionTypes::Uniform uniform) {
+	return uniform.getParent().getParent();
+}
+
+// returns the uniform from the TimelineData tree that the given SectionManager tree belongs to
+ValueTree SectionManager::getTimelineUniformForSectionUniform(SectionTypes::Uniform& uniform) {
+	return data.getUniform(getUniformName(uniform));
+}
+
+// checks wether this uniform is visible
+bool SectionManager::isUniformVisible(SectionTypes::Uniform uniform) {
+	return isSectionVisible(getUniformParentSection(uniform));
+}
+
 // comparator function for uniforms
 // normal comparator convention:
 // < 0: first < second; == 0: first == second; > 0: first > second
@@ -321,6 +352,11 @@ void SectionManager::setSectionCollapsed(SectionTypes::Section& section, const v
 	section.setProperty(sectionTreeId::sectionCollapsed, collapsed, nullptr);
 }
 
+// toggles the collapsed state of a section
+void SectionManager::toggleSectionCollapsed(SectionTypes::Section& section) {
+	setSectionCollapsed(section, ! bool(getSectionCollapsed(section)));
+}
+
 // returns the parent section of the given subsection
 SectionTypes::Section SectionManager::getSectionParentSection(SectionTypes::Section& subsection) {
 	return subsection.getParent().getParent();
@@ -335,11 +371,20 @@ int SectionManager::getSectionIndex(SectionTypes::Section& section) {
 	return parent.indexOf(section);
 }
 
+// checks wether this section or any of its parents are collapsed
+bool SectionManager::isSectionVisible(SectionTypes::Section section) {
+	if (section == rootSection) {
+		// rootSection is always visible
+		return true;
+	}
+	const bool myVisibility = ! getSectionCollapsed(section);
+	return myVisibility && isSectionVisible(getSectionParentSection(section));
+}
+
 // comparator function for sections
 // normal comparator convention:
 // < 0: first < second; == 0: first == second; > 0: first > second
-int SectionManager::compareSections(const SectionTypes::Section& first, const SectionTypes::Section& second) {
-		const String firstName = getSectionName(first);
+int SectionManager::compareSections(const SectionTypes::Section& first, const SectionTypes::Section& second) { const String firstName = getSectionName(first);
 		const String secondName = getSectionName(second);
 		return firstName.compareNatural(secondName);
 }
