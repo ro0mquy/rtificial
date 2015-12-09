@@ -45,7 +45,7 @@ class InspectorComponent :
 		ScopedPointer<SceneBackgroundComponent> scenePreview;
 		ScopedPointer<InterpolationPlotComponent> interpolationPlot;
 
-		ScopedPointer<ValueEditorPropertyComponent> keyframeValueEditor;
+		ValueEditorPropertyComponent* keyframeValueEditor; // not a scoped pointer because the ownership is passed to propertyEditorPanel
 		ScopedPointer<PropertyPanel> propertyEditorPanel;
 
 		void initalizeSequenceEditing();
