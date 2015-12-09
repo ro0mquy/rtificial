@@ -52,24 +52,75 @@ void UniformsBarComponent::paint(Graphics& g) {
 	}
 	// */
 
-	g.fillAll(Colours::white);
+	// draw stripes
+	const int myWidth = getWidth();
+	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
+	const int totalRows = sectionManager.getTotalHeightInRows();
+	for (int i = 0; i < totalRows; i++) {
+		g.setColour(findColour(i%2 == 0 ? UniformsBarComponent::evenRowColourId : UniformsBarComponent::oddRowColourId));
+		g.fillRect(0, i*rowHeight, myWidth, rowHeight);
+
+		g.setColour(findColour(UniformsBarComponent::uniformSeperatorColourId));
+		g.drawHorizontalLine((i + 1) * rowHeight - 1, 0, myWidth);
+	}
+
 	SectionTypes::Section& rootSection = sectionManager.getRootSection();
 	Rectangle<int> targetBounds = getLocalBounds();
 	drawSection(g, rootSection, targetBounds);
 }
 
 void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& section, Rectangle<int>& targetBounds) const {
+	// some constants
 	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
+	const int padding = 5;
+	//const int firstLineWidth = 7;
+	const int arrowEnd = 12;
 
 	// draw section header
 	const String sectionName = sectionManager.getSectionName(section);
 	if (sectionName.isNotEmpty()) {
 		// don't draw root section header
-		const Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
-		g.setColour(Colours::black);
-		g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX() + 3, headerRect.getX() + 10);
-		g.drawFittedText(sectionName, headerRect.withTrimmedLeft(13), Justification::centredLeft, 1);
-		//g.drawHorizontalLine(headerRect.getCentreY(), 0, 0);
+
+		Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
+		targetBounds.removeFromLeft(arrowEnd); // inset all subthingies
+
+		// draw arrow
+		const float arrowSize = (arrowEnd - padding) * 2.f / std::sqrt(3.f);
+		Path arrowPath;
+		arrowPath.startNewSubPath(0.0f, -0.5f * arrowSize);
+		arrowPath.lineTo(0.0f, 0.5f * arrowSize);
+		arrowPath.lineTo(std::sqrt(3.f)/2.f * arrowSize, 0.0f);
+		arrowPath.closeSubPath();
+
+		const bool isCollapsed = sectionManager.getSectionCollapsed(section);
+		AffineTransform transformation;
+		transformation = transformation.rotated(isCollapsed ? 0.f : .5f*float_Pi, .5f / std::sqrt(3.f) * arrowSize, 0.f);
+		transformation = transformation.translated(headerRect.getX() + padding, headerRect.getCentreY());
+
+		g.setColour(findColour(UniformsBarComponent::sectionHeaderSeperatorColourId));
+		g.fillPath(arrowPath, transformation);
+		headerRect.removeFromLeft(arrowEnd + padding);
+
+		/*
+		// draw first line
+		g.setColour(findColour(UniformsBarComponent::sectionHeaderSeperatorColourId));
+		g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX(), headerRect.getX() + firstLineWidth);
+		headerRect.removeFromLeft(firstLineWidth + padding);
+		// */
+
+		// fit and draw name
+		GlyphArrangement sectionNameGlyphs;
+		sectionNameGlyphs.addFittedText(g.getCurrentFont(), sectionName,
+			   headerRect.getX(), headerRect.getY(), headerRect.getWidth(), headerRect.getHeight(),
+			   Justification::centredLeft, 1);
+		g.setColour(findColour(UniformsBarComponent::sectionHeaderTextColourId));
+		sectionNameGlyphs.draw(g);
+
+		// draw second line
+		const Rectangle<float> sectionNameBounding = sectionNameGlyphs.getBoundingBox(0, -1, true);
+		headerRect.setLeft(sectionNameBounding.getRight() + padding);
+		g.setColour(findColour(UniformsBarComponent::sectionHeaderSeperatorColourId));
+		g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX(), headerRect.getRight());
 	}
 
 	if (sectionManager.getSectionCollapsed(section)) {
@@ -81,16 +132,21 @@ void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& secti
 	const int numSections = sectionManager.getNumSections(section);
 	for (int i = 0; i < numSections; i++) {
 		SectionTypes::Section subsection = sectionManager.getSection(section, i);
+
+		// draw subsections and restore left edge
+		const int originalLeft = targetBounds.getX();
 		drawSection(g, subsection, targetBounds);
+		targetBounds.setLeft(originalLeft);
 	}
 
 	// draw uniforms
+	g.setColour(findColour(UniformsBarComponent::uniformTextColourId));
 	const int numUniforms = sectionManager.getNumUniforms(section);
 	for (int i = 0; i < numUniforms; i++) {
 		const SectionTypes::Uniform uniform = sectionManager.getUniform(section, i);
 		const String uniformName = sectionManager.getUniformName(uniform);
 		const Rectangle<int> uniformRect = targetBounds.removeFromTop(rowHeight);
-		g.drawFittedText(uniformName, uniformRect.withTrimmedLeft(3), Justification::centredLeft, 1);
+		g.drawFittedText(uniformName, uniformRect.withTrimmedLeft(padding), Justification::centredLeft, 1);
 	}
 }
 

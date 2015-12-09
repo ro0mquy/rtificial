@@ -30,9 +30,11 @@ class UniformsBarComponent :
 
 		enum ColourIds{
 			evenRowColourId = 0x2300301,
-			oddRowColourId = 0x2300302,
-			uniformTextColourId = 0x2300303,
-			seperatorColourId = 0x2300304
+			oddRowColourId,
+			uniformTextColourId,
+			uniformSeperatorColourId,
+			sectionHeaderTextColourId,
+			sectionHeaderSeperatorColourId,
 		};
 
 	private:

@@ -43,10 +43,11 @@ class SequenceViewComponent :
 		void valueTreeRedirected(ValueTree& treeWhoWasRedirected) override;
 
 		enum ColourIds{
-			evenRowColourId = 0x2300301,
-			oddRowColourId = 0x2300302,
-			seperatorColourId = 0x2300304,
-			inactiveAreaColourId = 0x2300305,
+			evenRowColourId = 0x2300401,
+			oddRowColourId,
+			inactiveAreaColourId,
+			uniformSeperatorColourId,
+			sectionHeaderSeperatorColourId,
 		};
 
 	private:

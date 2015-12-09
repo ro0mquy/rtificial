@@ -28,14 +28,17 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 	setColour(SceneComponent::textColourId, Colours::white.withAlpha(0.75f));
 	setColour(SceneComponent::highlightedTextColourId, findColour(SceneComponent::textColourId).withAlpha(1.0f));
 
-	// UniformsBarComponent
+	// UniformsBarComponent & SequenceViewComponent
 	setColour(UniformsBarComponent::evenRowColourId, Colours::transparentBlack);
 	setColour(SequenceViewComponent::evenRowColourId, findColour(UniformsBarComponent::evenRowColourId));
 	setColour(UniformsBarComponent::oddRowColourId, theme.Timeline.grid);
 	setColour(SequenceViewComponent::oddRowColourId, findColour(UniformsBarComponent::oddRowColourId));
-	setColour(UniformsBarComponent::seperatorColourId, Colours::transparentBlack);
-	setColour(SequenceViewComponent::seperatorColourId, findColour(UniformsBarComponent::seperatorColourId));
+	setColour(UniformsBarComponent::uniformSeperatorColourId, Colours::transparentBlack);
+	setColour(SequenceViewComponent::uniformSeperatorColourId, findColour(UniformsBarComponent::uniformSeperatorColourId));
 	setColour(UniformsBarComponent::uniformTextColourId, findColour(ScenesBarComponent::tickColourId));
+	setColour(UniformsBarComponent::sectionHeaderTextColourId, findColour(UniformsBarComponent::uniformTextColourId));
+	setColour(UniformsBarComponent::sectionHeaderSeperatorColourId, findColour(UniformsBarComponent::sectionHeaderTextColourId));
+	setColour(SequenceViewComponent::sectionHeaderSeperatorColourId, findColour(UniformsBarComponent::sectionHeaderSeperatorColourId));
 
 	// SequenceViewComponent
 	setColour(SequenceViewComponent::inactiveAreaColourId, Colours::black.withAlpha(0.4f));

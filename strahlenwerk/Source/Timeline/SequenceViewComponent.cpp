@@ -73,7 +73,18 @@ void SequenceViewComponent::paint(Graphics& g){
 	}
 	// */
 
-	g.fillAll(Colours::white);
+	// draw stripes
+	const int myWidth = getWidth();
+	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
+	const int totalRows = sectionManager.getTotalHeightInRows();
+	for (int i = 0; i < totalRows; i++) {
+		g.setColour(findColour(i%2 == 0 ? SequenceViewComponent::evenRowColourId : SequenceViewComponent::oddRowColourId));
+		g.fillRect(0, i*rowHeight, myWidth, rowHeight);
+
+		g.setColour(findColour(SequenceViewComponent::uniformSeperatorColourId));
+		g.drawHorizontalLine((i + 1) * rowHeight - 1, 0, myWidth);
+	}
+
 	SectionTypes::Section& rootSection = sectionManager.getRootSection();
 	Rectangle<int> targetBounds = getLocalBounds();
 	drawSectionHeader(g, rootSection, targetBounds);
@@ -87,7 +98,7 @@ void SequenceViewComponent::drawSectionHeader(Graphics& g, SectionTypes::Section
 	if (sectionName.isNotEmpty()) {
 		// don't draw root section header
 		const Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
-		g.setColour(Colours::black);
+		g.setColour(findColour(SequenceViewComponent::sectionHeaderSeperatorColourId));
 		g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX(), headerRect.getRight());
 	}
 
