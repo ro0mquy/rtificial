@@ -37,6 +37,7 @@ class SectionManager :
 		SectionManager();
 		~SectionManager();
 
+		static SectionManager& getSectionManager();
 		void addListenerToTree(ValueTree::Listener* listener);
 		void removeListenerFromTree(ValueTree::Listener* listener);
 		void reloadAllUniforms();

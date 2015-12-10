@@ -7,6 +7,7 @@
 class TimelineData;
 class ZoomFactor;
 class KeyframeComponent;
+class SectionManager;
 
 class SequenceComponent :
 	public McbComponent,
@@ -15,7 +16,7 @@ class SequenceComponent :
 	private ChangeListener
 {
 	public:
-		SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_);
+		SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_, SectionManager& sectionManager);
 		~SequenceComponent();
 
 		void paint(Graphics& g) override;

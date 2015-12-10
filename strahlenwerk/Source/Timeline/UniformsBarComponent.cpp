@@ -81,6 +81,8 @@ void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& secti
 	if (sectionName.isNotEmpty()) {
 		// don't draw root section header
 
+		const Colour sectionColor = RtificialLookAndFeel::getColorFromSectionName(sectionName);
+
 		Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
 		targetBounds.removeFromLeft(arrowEnd); // inset all subthingies
 
@@ -97,7 +99,8 @@ void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& secti
 		transformation = transformation.rotated(isCollapsed ? 0.f : .5f*float_Pi, .5f / std::sqrt(3.f) * arrowSize, 0.f);
 		transformation = transformation.translated(headerRect.getX() + padding, headerRect.getCentreY());
 
-		g.setColour(findColour(UniformsBarComponent::sectionHeaderSeperatorColourId));
+		//g.setColour(findColour(UniformsBarComponent::sectionHeaderSeperatorColourId));
+		g.setColour(sectionColor);
 		g.fillPath(arrowPath, transformation);
 		headerRect.removeFromLeft(arrowEnd + padding);
 
@@ -119,8 +122,17 @@ void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& secti
 		// draw second line
 		const Rectangle<float> sectionNameBounding = sectionNameGlyphs.getBoundingBox(0, -1, true);
 		headerRect.setLeft(sectionNameBounding.getRight() + padding);
-		g.setColour(findColour(UniformsBarComponent::sectionHeaderSeperatorColourId));
-		g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX(), headerRect.getRight());
+		//g.setColour(findColour(UniformsBarComponent::sectionHeaderSeperatorColourId));
+		//g.drawLine(headerRect.getX(), headerRect.getCentreY(), headerRect.getRight(), headerRect.getCentreY(), 4.0f);
+		g.setColour(sectionColor.withAlpha(0.35f));
+		const int sectionLineHeight = 4;
+		const Rectangle<int> sectionLine(
+			headerRect.getX(),
+			headerRect.getY() + ( (headerRect.getHeight() - sectionLineHeight) / 2 ),
+			headerRect.getWidth(),
+			sectionLineHeight
+		);
+		g.fillRect(sectionLine);
 	}
 
 	if (sectionManager.getSectionCollapsed(section)) {

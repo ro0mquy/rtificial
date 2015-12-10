@@ -5,8 +5,9 @@
 #include "ZoomFactor.h"
 #include "KeyframeComponent.h"
 #include <RtificialLookAndFeel.h>
+#include <Timeline/SectionManager.h>
 
-SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_) :
+SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFactor_, SectionManager& sectionManager) :
 	sequenceData(_sequenceData),
 	data(TimelineData::getTimelineData()),
 	zoomFactor(zoomFactor_),
@@ -28,6 +29,14 @@ SequenceComponent::SequenceComponent(ValueTree _sequenceData, ZoomFactor& zoomFa
 	// don't drag over the parent's edges
 	constrainer.setMinimumOnscreenAmounts(0xffff, 0xffff, 0xffff, 0xffff);
 	constrainer.setMinimumWidth(zoomFactor.getGridWidth() * zoomFactor);
+
+	// set color of sequence in respect to its section
+	const var uniformParentName = data.getUniformName(data.getSequenceParentUniform(sequenceData));
+	const String sectionName = sectionManager.getSectionName(sectionManager.getSectionForUniformName(uniformParentName));
+	RtificialLookAndFeel* laf = dynamic_cast<RtificialLookAndFeel*>(&getLookAndFeel());
+	if (nullptr != laf) {
+		laf->setSequenceColor(*this, sectionName);
+	}
 
 	// add a border resizer that allows resizing only on the left and right
 	resizableBorder.setBorderThickness(BorderSize<int>(0, 5, 0, 5));
@@ -167,7 +176,7 @@ void SequenceComponent::paint(Graphics& g) {
 		g.setColour(findColour(SequenceComponent::textColourId));
 		g.drawFittedText(sequenceInterpolation, seqRect.getSmallestIntegerContainer(), Justification::centred, 1);
 	} else {
-		laf->drawSequence(g, seqRect, selected, sequenceInterpolation);
+		laf->drawSequence(g, *this, seqRect, selected, sequenceInterpolation);
 	}
 }
 

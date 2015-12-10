@@ -97,9 +97,21 @@ void SequenceViewComponent::drawSectionHeader(Graphics& g, SectionTypes::Section
 	const String sectionName = sectionManager.getSectionName(section);
 	if (sectionName.isNotEmpty()) {
 		// don't draw root section header
+
+		const Colour sectionColor = RtificialLookAndFeel::getColorFromSectionName(sectionName);
+
 		const Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
-		g.setColour(findColour(SequenceViewComponent::sectionHeaderSeperatorColourId));
-		g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX(), headerRect.getRight());
+		//g.setColour(findColour(SequenceViewComponent::sectionHeaderSeperatorColourId));
+		//g.drawHorizontalLine(headerRect.getCentreY(), headerRect.getX(), headerRect.getRight());
+		g.setColour(sectionColor.withAlpha(0.35f));
+		const int sectionLineHeight = 4;
+		const Rectangle<int> sectionLine(
+			headerRect.getX(),
+			headerRect.getY() + ( (headerRect.getHeight() - sectionLineHeight) / 2 ),
+			headerRect.getWidth(),
+			sectionLineHeight
+		);
+		g.drawLine(headerRect.getX(), headerRect.getCentreY(), headerRect.getRight(), headerRect.getCentreY(), 4.0f);
 	}
 
 	if (sectionManager.getSectionCollapsed(section)) {
@@ -137,7 +149,7 @@ void SequenceViewComponent::addSequenceComponent(ValueTree sequenceData) {
 
 void SequenceViewComponent::addSequenceComponent(ValueTree sequenceData, const int uniformRow) {
 	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
-	SequenceComponent* sequenceComponent = new SequenceComponent(sequenceData, zoomFactor);
+	SequenceComponent* sequenceComponent = new SequenceComponent(sequenceData, zoomFactor, sectionManager);
 	sequenceComponent->setBounds(sequenceComponent->getX(), uniformRow * rowHeight, sequenceComponent->getWidth(), rowHeight); // SequenceComponents set their x dimensions by themselves
 	addAndMakeVisible(sequenceComponent);
 	sequenceComponentsArray.add(sequenceComponent);

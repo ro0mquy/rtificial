@@ -4,8 +4,7 @@
 #include <juce>
 #include "BlenderLookAndFeel.h"
 
-#include <Timeline/SceneComponent.h>
-#include <Timeline/SequenceComponent.h>
+class SequenceComponent;
 
 class RtificialLookAndFeel : public BlenderLookAndFeel
 {
@@ -14,11 +13,14 @@ class RtificialLookAndFeel : public BlenderLookAndFeel
 
 		static const int strechableLayoutResizerBarWidth = 4;
 		static const int uniformRowHeight = 20;
+		static constexpr float highlightedBrighter = 0.2f;
 
 		void drawResizableFrame(Graphics& g, int w, int h, const BorderSize<int>& borderSize) override;
 
+		static Colour getColorFromSectionName(const String name);
 		void drawScene(Graphics& g, Rectangle<float>& area, const bool selected, const String shaderSource);
-		void drawSequence(Graphics& g, Rectangle<float>& area, const bool selected, const String sequenceInterpolation);
+		void drawSequence(Graphics& g, Component& sequence, Rectangle<float>& area, const bool selected, const String sequenceInterpolation);
+		void setSequenceColor(Component& sequence, const String name);
 
 	private:
 		const float cornerRadius = 4.0f;

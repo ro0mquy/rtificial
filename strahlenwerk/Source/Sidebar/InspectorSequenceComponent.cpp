@@ -3,6 +3,7 @@
 #include <Timeline/TimelineData.h>
 #include <Timeline/ZoomFactor.h>
 #include <Timeline/SequenceComponent.h>
+#include <Timeline/SectionManager.h>
 #include <RtificialLookAndFeel.h>
 
 InspectorSequenceComponent::InspectorSequenceComponent(ValueTree sequenceData_) :
@@ -11,6 +12,15 @@ InspectorSequenceComponent::InspectorSequenceComponent(ValueTree sequenceData_) 
 	zoomFactor(ZoomFactor::getZoomFactor())
 {
 	data.addListenerToTree(this);
+
+	SectionManager& sectionManager = SectionManager::getSectionManager();
+	const var uniformParentName = data.getUniformName(data.getSequenceParentUniform(sequenceData));
+	const String sectionName = sectionManager.getSectionName(sectionManager.getSectionForUniformName(uniformParentName));
+	RtificialLookAndFeel* laf = dynamic_cast<RtificialLookAndFeel*>(&getLookAndFeel());
+	if (nullptr != laf) {
+		laf->setSequenceColor(*this, sectionName);
+	}
+
 	addAllKeyframeComponents();
 }
 
@@ -43,7 +53,7 @@ void InspectorSequenceComponent::paint(Graphics& g) {
 		g.setColour(findColour(SequenceComponent::outlineColourId));
 		g.drawRect(seqRect, 1);
 	} else {
-		laf->drawSequence(g, seqRect, selected, String::empty);
+		laf->drawSequence(g, *this, seqRect, selected, String::empty);
 	}
 }
 

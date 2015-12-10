@@ -5,6 +5,7 @@
 #include <Timeline/ZoomFactor.h>
 #include <Timeline/ScenesBarComponent.h>
 #include <Timeline/CameraController.h>
+#include <Timeline/SceneComponent.h>
 #include <AudioManager.h>
 #include <RtificialLookAndFeel.h>
 

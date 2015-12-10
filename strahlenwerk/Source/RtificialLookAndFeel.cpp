@@ -13,8 +13,6 @@
 RtificialLookAndFeel::RtificialLookAndFeel() :
 	BlenderLookAndFeel(createBlenderTheme())
 {
-	highlightedBrighter = 0.2f;
-
 	// ScenesBarComponent
 	setColour(ScenesBarComponent::tickColourId, Colour(0xff999999));
 	setColour(ScenesBarComponent::waveformColourId, findColour(ScenesBarComponent::tickColourId));
@@ -124,6 +122,19 @@ void RtificialLookAndFeel::drawResizableFrame(Graphics& /*g*/, int /*w*/, int /*
 }
 
 
+Colour RtificialLookAndFeel::getColorFromSectionName(const String name) {
+	Colour colorList[] = {
+		Colour(0xff373a90),
+		Colour(0xff33588e),
+		Colour(0xff218988),
+		Colour(0xff20875c),
+		Colour(0xff208822),
+		Colour(0xff5c8722),
+	};
+	const int numColors = numElementsInArray(colorList);
+	return  colorList[name.hash() % numColors];
+}
+
 void RtificialLookAndFeel::drawScene(Graphics& g, Rectangle<float>& area, const bool selected, const String shaderSource) {
 	Rectangle<float> sceneRect = area;
 	sceneRect.removeFromTop(15.0f);
@@ -161,17 +172,17 @@ void RtificialLookAndFeel::drawScene(Graphics& g, Rectangle<float>& area, const 
 	}
 }
 
-void RtificialLookAndFeel::drawSequence(Graphics& g, Rectangle<float>& area, const bool selected, const String sequenceInterpolation) {
+void RtificialLookAndFeel::drawSequence(Graphics& g, Component& sequence, Rectangle<float>& area, const bool selected, const String sequenceInterpolation) {
 	Rectangle<float> seqRect = area;
 	seqRect.reduce(0.5f, 0.5f);
 
-	Colour fillColor = findColour(SequenceComponent::fillColourId);
-	Colour outlineColor = findColour(SequenceComponent::outlineColourId);
-	Colour textColor = findColour(SequenceComponent::textColourId);
+	Colour fillColor = sequence.findColour(SequenceComponent::fillColourId);
+	Colour outlineColor = sequence.findColour(SequenceComponent::outlineColourId);
+	Colour textColor = sequence.findColour(SequenceComponent::textColourId);
 
 	if (selected) {
-		fillColor = findColour(SequenceComponent::highlightedFillColourId);
-		textColor = findColour(SequenceComponent::highlightedTextColourId);
+		fillColor = sequence.findColour(SequenceComponent::highlightedFillColourId);
+		textColor = sequence.findColour(SequenceComponent::highlightedTextColourId);
 	}
 
 	g.setGradientFill(
@@ -194,4 +205,10 @@ void RtificialLookAndFeel::drawSequence(Graphics& g, Rectangle<float>& area, con
 		g.setColour(textColor);
 		g.drawFittedText(sequenceInterpolation, seqRect.getSmallestIntegerContainer(), Justification::centred, 1);
 	}
+}
+
+void RtificialLookAndFeel::setSequenceColor(Component& sequence, const String name) {
+	Colour theChosenOne(getColorFromSectionName(name));
+	sequence.setColour(SequenceComponent::fillColourId, theChosenOne);
+	sequence.setColour(SequenceComponent::highlightedFillColourId, theChosenOne.brighter(highlightedBrighter));
 }

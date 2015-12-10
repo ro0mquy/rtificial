@@ -1,6 +1,8 @@
 #include "SectionManager.h"
 
 #include <Timeline/TimelineData.h>
+#include <StrahlenwerkApplication.h>
+#include <MainWindow.h>
 
 SectionManager::SectionManager() :
 	data(TimelineData::getTimelineData()),
@@ -12,6 +14,10 @@ SectionManager::SectionManager() :
 
 SectionManager::~SectionManager() {
 	data.removeListenerFromTree(this);
+}
+
+SectionManager& SectionManager::getSectionManager() {
+	return StrahlenwerkApplication::getInstance()->getMainWindow().getMainContentComponent().getTimeline().getSectionManager();
 }
 
 void SectionManager::addListenerToTree(ValueTree::Listener* listener) {
