@@ -157,11 +157,11 @@ class WaveformComponent :
 		int padding = 25;
 
 		enum displayModes {
-			lumaMode,
-			rMode,
-			gMode,
-			bMode,
-			RGBParadeMode,
+			lumaMode = 23,
+			rMode = 1,
+			gMode = 2,
+			bMode = 3,
+			RGBParadeMode = 0,
 		};
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformComponent)
