@@ -144,6 +144,10 @@ bool SequenceViewComponent::uniformActiveForScene(ValueTree /*uniform*/, ValueTr
 
 void SequenceViewComponent::addSequenceComponent(ValueTree sequenceData) {
 	const int uniformRow = sectionManager.getUniformYPosInRows(data.getUniformName(data.getSequenceParentUniform(sequenceData)));
+	if (uniformRow == -1) {
+		// uniform not visible
+		return;
+	}
 	addSequenceComponent(sequenceData, uniformRow);
 }
 

@@ -31,8 +31,7 @@ void SectionManager::removeListenerFromTree(ValueTree::Listener* listener) {
 // completly reloads the whole manager
 void SectionManager::reloadAllUniforms() {
 	// clear everything
-	getSectionsArray(rootSection).removeAllChildren(nullptr);
-	getUniformsArray(rootSection).removeAllChildren(nullptr);
+	rootSection = ValueTree(sectionTreeId::section);
 
 	// add every uniform from the TimelineData tree to the manager
 	const int numUniforms = data.getNumUniforms();
@@ -75,9 +74,9 @@ int SectionManager::getTotalHeightInRows(SectionTypes::Section section) {
 int SectionManager::getUniformYPosInRows(const var& uniformName) {
 	SectionTypes::Section theSection = getSectionForUniformName(uniformName);
 	SectionTypes::Uniform theUniform = getUniform(theSection, uniformName);
-	jassert(theUniform.isValid()); // no uniform with this name
 
-	if (! isUniformVisible(theUniform)) {
+	if (! theUniform.isValid() || ! isUniformVisible(theUniform)) {
+		// uniform with this name wasn't added or
 		// one of the uniforms parents is collapsed
 		return -1;
 	}
