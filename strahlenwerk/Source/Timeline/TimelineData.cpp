@@ -1701,10 +1701,11 @@ glm::quat TimelineData::getQuatFromValue(ValueTree value) {
 
 
 // returns a color value as a juce::Colour
+// with gamma correction built-in, so you can just use it and draw it onto the screen
 Colour TimelineData::getJuceColourFromValue(ValueTree value) {
-	const float colorR = getValueColorR(value);
-	const float colorG = getValueColorG(value);
-	const float colorB = getValueColorB(value);
+	const float colorR = std::pow(float(getValueColorR(value)), 1.f/2.2f);
+	const float colorG = std::pow(float(getValueColorG(value)), 1.f/2.2f);
+	const float colorB = std::pow(float(getValueColorB(value)), 1.f/2.2f);
 	return Colour::fromFloatRGBA(colorR, colorG, colorB, 1.0f);
 }
 

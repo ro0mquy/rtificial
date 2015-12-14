@@ -184,6 +184,14 @@ void InspectorComponent::initalizeKeyframeEditing() {
 	addAndMakeVisible(interpolationPlot);
 }
 
+void InspectorComponent::updateKeyframeEditor() {
+	if (interpolationPlot == nullptr) {
+		return;
+	}
+
+	interpolationPlot->repaint();
+}
+
 bool InspectorComponent::isEditingKeyframe() {
 	return data.isKeyframe(singleSelectedTree);
 }
@@ -239,6 +247,21 @@ void InspectorComponent::valueTreePropertyChanged(ValueTree& parentTree, const I
 		} else if ((parentTree.hasType(treeId::keyframe) && data.getKeyframeParentSequence(parentTree) == singleSelectedTree) || (parentTree.hasType(treeId::keyframeValue) && data.getKeyframeParentSequence(parentTree.getParent()) == singleSelectedTree)) {
 			// a keyframe from the sequence has changed
 			updateSequenceEditor();
+		} else if (parentTree.hasType(treeId::uniformStandardValue) && parentTree.getParent() == data.getSequenceParentUniform(singleSelectedTree)) {
+			// the standard value of the uniform this sequence belongs to has changed
+			updateSequenceEditor();
+		}
+	} else if (isEditingKeyframe()) {
+		ValueTree parentSequence = data.getKeyframeParentSequence(singleSelectedTree);
+		if (parentTree == parentSequence) {
+			// any of the keyframes parent sequence properties changed
+			updateKeyframeEditor();
+		} else if ((parentTree.hasType(treeId::keyframe) && data.getKeyframeParentSequence(parentTree) == parentSequence) || (parentTree.hasType(treeId::keyframeValue) && data.getKeyframeParentSequence(parentTree.getParent()) == parentSequence)) {
+			// a keyframe from the parent sequence has changed
+			updateKeyframeEditor();
+		} else if (parentTree.hasType(treeId::uniformStandardValue) && parentTree.getParent() == data.getSequenceParentUniform(parentSequence)) {
+			// the standard value of the uniform this parent sequence belongs to has changed
+			updateKeyframeEditor();
 		}
 	}
 }
@@ -249,6 +272,11 @@ void InspectorComponent::valueTreeChildAdded(ValueTree& parentTree, ValueTree& /
 			// a keyframe was added
 			updateSequenceEditor();
 		}
+	} else if (isEditingKeyframe()) {
+		if (singleSelectedTree.getParent() == parentTree) {
+			// a keyframe was added to the keyframes array
+			updateKeyframeEditor();
+		}
 	}
 }
 
@@ -257,6 +285,11 @@ void InspectorComponent::valueTreeChildRemoved(ValueTree& parentTree, ValueTree&
 		if (data.getKeyframesArray(singleSelectedTree) == parentTree) {
 			// a keyframe was removed
 			updateSequenceEditor();
+		}
+	} else if (isEditingKeyframe()) {
+		if (singleSelectedTree.getParent() == parentTree) {
+			// a keyframe was removed from the keyframes array
+			updateKeyframeEditor();
 		}
 	}
 }

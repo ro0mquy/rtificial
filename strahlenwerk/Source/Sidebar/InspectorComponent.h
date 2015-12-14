@@ -53,6 +53,7 @@ class InspectorComponent :
 		bool isEditingSequence();
 
 		void initalizeKeyframeEditing();
+		void updateKeyframeEditor();
 		bool isEditingKeyframe();
 
 		void initalizeSceneEditing();
