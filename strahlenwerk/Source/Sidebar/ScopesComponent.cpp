@@ -138,13 +138,13 @@ HistogramComponent::HistogramComponent(Image& image_) :
 	setName("Histogram");
 	setBufferedToImage(true);
 
-	mode = LumaMode;
+	mode = lumaMode;
 	mode.addListener(this);
 	PropertyComponent* modeSelector = new ChoicePropertyComponent(
 		mode,
 		"Display Mode",
-		{ "Luma", "Red", "Green", "Blue" },
-		{ LumaMode, RMode, GMode, BMode }
+		{ "Luma", "Red", "Green", "Blue" , "RGB Mode" },
+		{ lumaMode, rMode, gMode, bMode, RGBMode }
 	);
 
 	logScale = false;
@@ -182,7 +182,7 @@ void HistogramComponent::paint(Graphics& g) {
 	);
 	const Rectangle<int> gradBar(
 		plotCanvas.getX(),
-		plotCanvas.getY() + plotCanvas.getHeight() + gradBarPadding,
+		plotCanvas.getBottom() + gradBarPadding,
 		plotCanvas.getWidth(),
 		gradBarHeight
 	);
@@ -191,70 +191,97 @@ void HistogramComponent::paint(Graphics& g) {
 		return;
 	}
 
-	// use floats for effective log-scale, init with 0s
-	float values[255] = {};
-
-	const int w = image.getWidth();
-	const int h = image.getHeight();
-	for (int x = 0; x < w; x++) {
-		for (int y = 0; y < h; y++) {
-			const Colour color = image.getPixelAt(x, y);
-			uint8 value;
-
-			if (mode == RMode) {
-				value = uint8(color.getRed() * 255);
-			} else if (mode == GMode) {
-				value = uint8(color.getGreen() * 255);
-			} else if (mode == BMode) {
-				value = uint8(color.getBlue() * 255);
-			} else {
-				value = uint8(color.getBrightness() * 255);
-			}
-
-			values[value] += 1;
-		}
-	}
-
-	if (logScale == true) {
-		for (int i = 0; i < 255; i++) {
-			if (values[i] > 0) {
-				values[i] = log(values[i]);
-			}
-		}
-	}
-
 	g.setColour(findColour(HistogramComponent::backgroundColourId));
 	g.fillRect(plotCanvas);
 
 	g.setColour(findColour(HistogramComponent::rulerColourId));
 	for (int i = 1; i <= 3; i++) {
 		const float x = plotCanvas.getX() + i*1.0f/4.0f * plotCanvas.getWidth();
-		g.drawLine(x, plotCanvas.getY(), x, plotCanvas.getY() + plotCanvas.getHeight(), 2.0f);
+		g.drawLine(x, plotCanvas.getY(), x, plotCanvas.getBottom(), 2.0f);
 	}
 
+	int virtualMode = mode.getValue();
+
+	do {
+		if (mode == RGBMode) {
+			virtualMode++;
+		}
+
+		// use floats for effective log-scale, init with 0s
+		float values[255] = {};
+
+		const int w = image.getWidth();
+		const int h = image.getHeight();
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y++) {
+				const Colour color = image.getPixelAt(x, y);
+				uint8 value;
+
+				if (virtualMode == rMode) {
+					value = uint8(color.getRed() * 255);
+				} else if (virtualMode == gMode) {
+					value = uint8(color.getGreen() * 255);
+				} else if (virtualMode == bMode) {
+					value = uint8(color.getBlue() * 255);
+				} else {
+					value = uint8(color.getBrightness() * 255);
+				}
+
+				values[value] += 1;
+			}
+		}
+
+		if (logScale == true) {
+			for (int i = 0; i < 255; i++) {
+				if (values[i] > 0) {
+					values[i] = log(values[i]);
+				}
+			}
+		}
+
+		Colour color;
+		if (virtualMode == rMode) {
+			color = findColour(HistogramComponent::redColourId);
+		} else if (virtualMode == gMode) {
+			color = findColour(HistogramComponent::greenColourId);
+		} else if (virtualMode == bMode) {
+			color = findColour(HistogramComponent::blueColourId);
+		} else if (virtualMode == lumaMode) {
+			color = findColour(HistogramComponent::lumaColourId);
+		}
+		g.setColour(color);
+		const float barWidth = plotCanvas.getWidth()/255.0f;
+		const float maxValue = *std::max_element(values, values+255);
+		const float scaleY = ((maxValue == 0) ? 0 : plotCanvas.getHeight()/maxValue);
+
+		Path path;
+		path.startNewSubPath(plotCanvas.getX(), plotCanvas.getBottom() - (values[0] * scaleY));
+
+		for (int i = 1; i < 255; i++) {
+			path.lineTo(
+				float(plotCanvas.getX() + (i * barWidth)),
+				float(plotCanvas.getBottom() - (values[i] * scaleY))
+			);
+		}
+		g.strokePath(path, PathStrokeType(1.0f));
+
+		path.lineTo(plotCanvas.getRight(), plotCanvas.getBottom());
+		path.lineTo(plotCanvas.getX(), plotCanvas.getBottom());
+		path.closeSubPath();
+		g.setColour(color.withAlpha(0.25f));
+		g.fillPath(path);
+	} while (mode == RGBMode && virtualMode != bMode);
+
 	Colour color;
-	if (mode == RMode) {
+	if (virtualMode == rMode) {
 		color = findColour(HistogramComponent::redColourId);
-	} else if (mode == GMode) {
+	} else if (virtualMode == gMode) {
 		color = findColour(HistogramComponent::greenColourId);
-	} else if (mode == BMode) {
+	} else if (virtualMode == bMode) {
 		color = findColour(HistogramComponent::blueColourId);
 	} else {
 		color = findColour(HistogramComponent::lumaColourId);
 	}
-	g.setColour(color);
-	const float barWidth = plotCanvas.getWidth()/255.0f;
-	const float maxValue = *std::max_element(values, values+255);
-	const float scaleY = ((maxValue == 0) ? 0 : plotCanvas.getHeight()/maxValue);
-	for (int i = 0; i < 255; i++) {
-		g.fillRect(
-			float(plotCanvas.getX() + (i * barWidth)),
-			float(plotCanvas.getY() + plotCanvas.getHeight() - (values[i] * scaleY)),
-			float(barWidth),
-			float(values[i] * scaleY)
-		);
-	}
-
 	ColourGradient gradient = ColourGradient(Colour(0xff000000), gradBar.getX(), gradBar.getY(), color, gradBar.getWidth(), gradBar.getY(), false);
 	g.setGradientFill(gradient);
 	g.fillRect(gradBar);

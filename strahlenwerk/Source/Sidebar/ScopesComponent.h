@@ -82,10 +82,11 @@ class HistogramComponent :
 		int padding = 25;
 
 		enum displayModes {
-			LumaMode = 0x34ee2,
-			RMode,
-			GMode,
-			BMode,
+			lumaMode = 1,
+			rMode = 2,
+			gMode = 3,
+			bMode = 4,
+			RGBMode = 0,
 		};
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HistogramComponent)
