@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="gxTjTP" name="strahlenwerk" projectType="guiapp" version=""
               bundleIdentifier="org.rtificial.strahlenwerk" includeBinaryInAppConfig="1"
-              jucerVersion="4.0.2" companyName="rtificial" companyWebsite="http://rtificial.org/"
+              jucerVersion="4.1.0" companyName="rtificial" companyWebsite="http://rtificial.org/"
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR&#10;GLM_FORCE_RADIANS"
               companyEmail="mail@rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
@@ -12,28 +12,10 @@
               file="Source/ColorPicker/ColorPickerComponent.cpp"/>
         <FILE id="hwxm2k" name="ColorPickerComponent.h" compile="0" resource="0"
               file="Source/ColorPicker/ColorPickerComponent.h"/>
-        <FILE id="z3X0Ic" name="ColorSpaceMarker.cpp" compile="1" resource="0"
-              file="Source/ColorPicker/ColorSpaceMarker.cpp"/>
-        <FILE id="Rs48v2" name="ColorSpaceMarker.h" compile="0" resource="0"
-              file="Source/ColorPicker/ColorSpaceMarker.h"/>
         <FILE id="VSQJwy" name="ColorTextInputComponent.cpp" compile="1" resource="0"
               file="Source/ColorPicker/ColorTextInputComponent.cpp"/>
         <FILE id="be0EpF" name="ColorTextInputComponent.h" compile="0" resource="0"
               file="Source/ColorPicker/ColorTextInputComponent.h"/>
-        <FILE id="tIv1g2" name="LabColor.cpp" compile="1" resource="0" file="Source/ColorPicker/LabColor.cpp"/>
-        <FILE id="NY5EPp" name="LabColor.h" compile="0" resource="0" file="Source/ColorPicker/LabColor.h"/>
-        <FILE id="mlOzUi" name="LabColorPicker.cpp" compile="1" resource="0"
-              file="Source/ColorPicker/LabColorPicker.cpp"/>
-        <FILE id="iwrAXB" name="LabColorPicker.h" compile="0" resource="0"
-              file="Source/ColorPicker/LabColorPicker.h"/>
-        <FILE id="vnJdlh" name="LabColorPropertyComponent.cpp" compile="1"
-              resource="0" file="Source/ColorPicker/LabColorPropertyComponent.cpp"/>
-        <FILE id="pEid38" name="LabColorPropertyComponent.h" compile="0" resource="0"
-              file="Source/ColorPicker/LabColorPropertyComponent.h"/>
-        <FILE id="sw6ylR" name="LabColorSpaceView.cpp" compile="1" resource="0"
-              file="Source/ColorPicker/LabColorSpaceView.cpp"/>
-        <FILE id="nYTv9B" name="LabColorSpaceView.h" compile="0" resource="0"
-              file="Source/ColorPicker/LabColorSpaceView.h"/>
       </GROUP>
       <GROUP id="{2F8C8947-A000-8782-DCEE-325B39EF8569}" name="Project">
         <FILE id="Cwvro6" name="FileWatchMessageThreadListener.cpp" compile="1"
@@ -222,7 +204,7 @@
             file="Source/BlenderLookAndFeel.h"/>
       <FILE id="kJjrjd" name="BlenderTheme.h" compile="0" resource="0" file="Source/BlenderTheme.h"/>
       <FILE id="oLyckP" name="BoxLayout.h" compile="0" resource="0" file="Source/BoxLayout.h"/>
-      <FILE id="t84HiX" name="juce" compile="0" resource="1" file="Source/juce"/>
+      <FILE id="t84HiX" name="juce" compile="0" resource="0" file="Source/juce"/>
       <FILE id="LokCeX" name="MainContentComponent.cpp" compile="1" resource="0"
             file="Source/MainContentComponent.cpp"/>
       <FILE id="kt9k5n" name="MainContentComponent.h" compile="0" resource="0"
@@ -260,7 +242,7 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-Wall -Wextra -I../../Source -I../../Lib/include"
-                externalLibraries="efsw" extraLinkerFlags="-L../../Lib/lib">
+                externalLibraries="efsw" extraLinkerFlags="-L../../Lib/lib" cppLanguageStandard="-std=c++11">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="" isDebug="1" optimisation="3" targetName="strahlenwerk"/>
         <CONFIGURATION name="Release" libraryPath="" isDebug="0" optimisation="3" targetName="strahlenwerk"/>

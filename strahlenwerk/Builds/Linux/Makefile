@@ -50,12 +50,7 @@ endif
 
 OBJECTS := \
   $(OBJDIR)/ColorPickerComponent_bd366953.o \
-  $(OBJDIR)/ColorSpaceMarker_454a1924.o \
   $(OBJDIR)/ColorTextInputComponent_c0aee926.o \
-  $(OBJDIR)/LabColor_145742fd.o \
-  $(OBJDIR)/LabColorPicker_2909daab.o \
-  $(OBJDIR)/LabColorPropertyComponent_eaa105f5.o \
-  $(OBJDIR)/LabColorSpaceView_bf2be298.o \
   $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o \
   $(OBJDIR)/Project_dae16ce4.o \
   $(OBJDIR)/ProjectFileLoader_546d9f73.o \
@@ -148,34 +143,9 @@ $(OBJDIR)/ColorPickerComponent_bd366953.o: ../../Source/ColorPicker/ColorPickerC
 	@echo "Compiling ColorPickerComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/ColorSpaceMarker_454a1924.o: ../../Source/ColorPicker/ColorSpaceMarker.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ColorSpaceMarker.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/ColorTextInputComponent_c0aee926.o: ../../Source/ColorPicker/ColorTextInputComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ColorTextInputComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/LabColor_145742fd.o: ../../Source/ColorPicker/LabColor.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling LabColor.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/LabColorPicker_2909daab.o: ../../Source/ColorPicker/LabColorPicker.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling LabColorPicker.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/LabColorPropertyComponent_eaa105f5.o: ../../Source/ColorPicker/LabColorPropertyComponent.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling LabColorPropertyComponent.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/LabColorSpaceView_bf2be298.o: ../../Source/ColorPicker/LabColorSpaceView.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling LabColorSpaceView.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/FileWatchMessageThreadListener_df4b3f31.o: ../../Source/Project/FileWatchMessageThreadListener.cpp
