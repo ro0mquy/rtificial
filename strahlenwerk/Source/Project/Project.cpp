@@ -54,6 +54,8 @@ void Project::reloadShaders(bool shouldReloadScenes, bool shouldReloadPostproc) 
 	if (shouldReloadScenes) {
 		reloadScenes();
 	}
+
+	reloadAmbientLights();
 }
 
 void Project::saveTimelineData() {
