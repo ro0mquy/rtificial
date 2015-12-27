@@ -1,4 +1,5 @@
 #include "ValueEditorPropertyComponent.h"
+#include <MainWindow.h>
 #include <Timeline/TimelineData.h>
 #include <Sidebar/ValueSlider.h>
 #include <Sidebar/ValueToggleButton.h>
@@ -186,6 +187,7 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent, privat
 
 			CallOutBox& callOutBox = CallOutBox::launchAsynchronously(popupPicker, localAreaToGlobal(contentBounds), nullptr);
 			callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
+			callOutBox.addKeyListener(MainWindow::getApplicationCommandManager().getKeyMappings());
 		}
 
 		void valueChanged(Value& /*value*/) override {

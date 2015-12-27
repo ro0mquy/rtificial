@@ -4,6 +4,7 @@
 #include <Sidebar/ValueEditorPropertyComponent.h>
 #include <RtificialLookAndFeel.h>
 #include <Timeline/SectionManager.h>
+#include <MainWindow.h>
 
 UniformsBarComponent::UniformsBarComponent(SectionManager& sectionManager_) :
 	data(TimelineData::getTimelineData()),
@@ -219,6 +220,7 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 			const Rectangle<int> rect(0, numRow * rowHeight, getWidth(), rowHeight);
 			CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
 			callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
+			callOutBox.addKeyListener(MainWindow::getApplicationCommandManager().getKeyMappings());
 		}
 	} else if (sectionManager.isSection(uniformSectionTree)) {
 		// click on section

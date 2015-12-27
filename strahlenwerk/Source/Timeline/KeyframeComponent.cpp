@@ -4,6 +4,7 @@
 #include "ZoomFactor.h"
 #include <Sidebar/InspectorSequenceComponent.h>
 #include <Sidebar/ValueEditorPropertyComponent.h>
+#include <MainWindow.h>
 
 KeyframeComponent::KeyframeComponent(ValueTree keyframeData_, ZoomFactor& zoomFactor_) :
 	keyframeData(keyframeData_),
@@ -173,6 +174,7 @@ void KeyframeComponent::mouseUp(const MouseEvent& event) {
 		// bounding rectangle of this uniform
 		CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, getScreenBounds(), nullptr);
 		callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
+		callOutBox.addKeyListener(MainWindow::getApplicationCommandManager().getKeyMappings());
 	} else if (event.mouseWasClicked() && m == ModifierKeys(ModifierKeys::rightButtonModifier)) {
 		// set keyframe as selection
 		data.getSelection().set(keyframeData);

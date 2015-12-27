@@ -32,9 +32,11 @@ MainWindow::MainWindow() :
 	setResizable(true, true);
 
 	// let commandManager handle commands and key presses
-	getApplicationCommandManager().registerAllCommandsForTarget(this);
-	addKeyListener(getApplicationCommandManager().getKeyMappings());
-	setApplicationCommandManagerToWatch(&getApplicationCommandManager());
+	ApplicationCommandManager& appComManager = getApplicationCommandManager();
+	appComManager.registerAllCommandsForTarget(this);
+	appComManager.setFirstCommandTarget(this);
+	addKeyListener(appComManager.getKeyMappings());
+	setApplicationCommandManagerToWatch(&appComManager);
 
 	TimelineData::getTimelineData().getUndoManager().addChangeListener(this);
 	StrahlenwerkApplication::getInstance()->getProject().addListener(this);
