@@ -206,7 +206,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -365,6 +365,95 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": -0.44999999999993173239
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_eingang_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.3759999999999763531
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_iglu_sphere_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_iglu_sphere_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.20299999999997453415
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_kamin_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2079999999999699867
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_kamin_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.75
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_kamin_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.6750000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_kamin_thick_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.18700000000001182343
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_weg_line_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.5360000000000582077
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_weg_line_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.098000000000070031092
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_weg_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1.5919999999999845386,
+        "valueVec2Y": 7.0160000000000763976
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "igl_weg_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.04000000000007730705
       },
       "sequencesArray": []
     },
