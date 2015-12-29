@@ -703,6 +703,54 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "part_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.3000000000000682121
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_mult_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.51099999999996725819
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_r_big_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.0679999999999836291
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_r_small_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_rot_big_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5.2889999999999872671
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_rot_small_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0220000000000482032
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_film_grain_frequency",
       "uniformType": "float",
       "uniformStandardValue": {
