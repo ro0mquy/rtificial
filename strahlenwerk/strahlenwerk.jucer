@@ -222,6 +222,8 @@
       <FILE id="H0wOnu" name="PropertyNames.h" compile="0" resource="0" file="Source/PropertyNames.h"/>
       <FILE id="SkmHDQ" name="Renderer.cpp" compile="1" resource="0" file="Source/Renderer.cpp"/>
       <FILE id="vkHWw8" name="Renderer.h" compile="0" resource="0" file="Source/Renderer.h"/>
+      <FILE id="CoJjRF" name="RtColor.cpp" compile="1" resource="0" file="Source/RtColor.cpp"/>
+      <FILE id="SPdQqj" name="RtColor.h" compile="0" resource="0" file="Source/RtColor.h"/>
       <FILE id="SrFBU6" name="RtificialLookAndFeel.cpp" compile="1" resource="0"
             file="Source/RtificialLookAndFeel.cpp"/>
       <FILE id="Wciucj" name="RtificialLookAndFeel.h" compile="0" resource="0"

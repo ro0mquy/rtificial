@@ -104,6 +104,7 @@ OBJECTS := \
   $(OBJDIR)/OpenGLComponent_fe08fa6f.o \
   $(OBJDIR)/OpenGLTargetComponent_5695ea9e.o \
   $(OBJDIR)/Renderer_d34861cc.o \
+  $(OBJDIR)/RtColor_f0fa1222.o \
   $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
   $(OBJDIR)/ScreenRecorder_56d2f7d3.o \
   $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
@@ -411,6 +412,11 @@ $(OBJDIR)/OpenGLTargetComponent_5695ea9e.o: ../../Source/OpenGLTargetComponent.c
 $(OBJDIR)/Renderer_d34861cc.o: ../../Source/Renderer.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Renderer.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/RtColor_f0fa1222.o: ../../Source/RtColor.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling RtColor.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/RtificialLookAndFeel_95d2050c.o: ../../Source/RtificialLookAndFeel.cpp

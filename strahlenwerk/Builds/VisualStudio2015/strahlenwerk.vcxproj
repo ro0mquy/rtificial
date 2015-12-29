@@ -190,6 +190,7 @@
     <ClCompile Include="..\..\Source\OpenGLComponent.cpp"/>
     <ClCompile Include="..\..\Source\OpenGLTargetComponent.cpp"/>
     <ClCompile Include="..\..\Source\Renderer.cpp"/>
+    <ClCompile Include="..\..\Source\RtColor.cpp"/>
     <ClCompile Include="..\..\Source\RtificialLookAndFeel.cpp"/>
     <ClCompile Include="..\..\Source\ScreenRecorder.cpp"/>
     <ClCompile Include="..\..\Source\StrahlenwerkApplication.cpp"/>
@@ -1410,6 +1411,7 @@
     <ClInclude Include="..\..\Source\OpenGLTargetComponent.h"/>
     <ClInclude Include="..\..\Source\PropertyNames.h"/>
     <ClInclude Include="..\..\Source\Renderer.h"/>
+    <ClInclude Include="..\..\Source\RtColor.h"/>
     <ClInclude Include="..\..\Source\RtificialLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\ScreenRecorder.h"/>
     <ClInclude Include="..\..\Source\StrahlenwerkApplication.h"/>
