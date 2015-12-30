@@ -106,6 +106,7 @@ OBJECTS := \
   $(OBJDIR)/Renderer_d34861cc.o \
   $(OBJDIR)/RtColor_f0fa1222.o \
   $(OBJDIR)/RtificialLookAndFeel_95d2050c.o \
+  $(OBJDIR)/RtImage_468fd01a.o \
   $(OBJDIR)/ScreenRecorder_56d2f7d3.o \
   $(OBJDIR)/StrahlenwerkApplication_a618e10d.o \
   $(OBJDIR)/BinaryData_ce4232d4.o \
@@ -422,6 +423,11 @@ $(OBJDIR)/RtColor_f0fa1222.o: ../../Source/RtColor.cpp
 $(OBJDIR)/RtificialLookAndFeel_95d2050c.o: ../../Source/RtificialLookAndFeel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling RtificialLookAndFeel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/RtImage_468fd01a.o: ../../Source/RtImage.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling RtImage.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/ScreenRecorder_56d2f7d3.o: ../../Source/ScreenRecorder.cpp

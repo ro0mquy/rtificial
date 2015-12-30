@@ -192,6 +192,7 @@
     <ClCompile Include="..\..\Source\Renderer.cpp"/>
     <ClCompile Include="..\..\Source\RtColor.cpp"/>
     <ClCompile Include="..\..\Source\RtificialLookAndFeel.cpp"/>
+    <ClCompile Include="..\..\Source\RtImage.cpp"/>
     <ClCompile Include="..\..\Source\ScreenRecorder.cpp"/>
     <ClCompile Include="..\..\Source\StrahlenwerkApplication.cpp"/>
     <ClCompile Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -1413,6 +1414,7 @@
     <ClInclude Include="..\..\Source\Renderer.h"/>
     <ClInclude Include="..\..\Source\RtColor.h"/>
     <ClInclude Include="..\..\Source\RtificialLookAndFeel.h"/>
+    <ClInclude Include="..\..\Source\RtImage.h"/>
     <ClInclude Include="..\..\Source\ScreenRecorder.h"/>
     <ClInclude Include="..\..\Source\StrahlenwerkApplication.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

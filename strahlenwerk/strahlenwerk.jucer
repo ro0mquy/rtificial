@@ -228,6 +228,8 @@
             file="Source/RtificialLookAndFeel.cpp"/>
       <FILE id="Wciucj" name="RtificialLookAndFeel.h" compile="0" resource="0"
             file="Source/RtificialLookAndFeel.h"/>
+      <FILE id="czvAIZ" name="RtImage.cpp" compile="1" resource="0" file="Source/RtImage.cpp"/>
+      <FILE id="VWzSpR" name="RtImage.h" compile="0" resource="0" file="Source/RtImage.h"/>
       <FILE id="bY87La" name="ScreenRecorder.cpp" compile="1" resource="0"
             file="Source/ScreenRecorder.cpp"/>
       <FILE id="AFglRd" name="ScreenRecorder.h" compile="0" resource="0"
