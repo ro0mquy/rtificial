@@ -322,4 +322,3 @@ float pMirrorAtPlane(inout vec3 p, vec3 planeNormal, float offset) {
 	}
 	return sgn(dist);
 }
-

@@ -214,7 +214,7 @@
       "uniformName": "debug_plane_height",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.90399999999999636202
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -421,7 +421,7 @@
       "uniformName": "ldb_content_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.82000000000005002221
+        "valueFloatX": 0.82000000000005013323
       },
       "sequencesArray": []
     },
@@ -439,7 +439,7 @@
       "uniformName": "ldb_rahmen_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068212103
+        "valueFloatX": 0.050000000000068205164
       },
       "sequencesArray": []
     },
@@ -448,6 +448,99 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 3.4660000000000001918
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_house_base_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5740000000000691216
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_house_position_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -1.7289999999999281499,
+        "valueVec2Y": -1.0910000000000081855
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_house_size_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.9320000000000163709
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_house_windows_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_post_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.5170000000000527507
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_post_house_size_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_post_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.13499999999999090505
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_post_rotation_rt_quat",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": -0.022911321371793746948,
+        "valueQuatY": -0.35859075188636779785,
+        "valueQuatZ": -0.12610825896263122559,
+        "valueQuatW": 0.9246374964714050293
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_post_translation_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -2.1839999999999690772,
+        "valueVec2Y": 0.5370000000000345608
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_rope_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.4450000000000500222
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lone_rope_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.033999999999991814548
       },
       "sequencesArray": []
     },
