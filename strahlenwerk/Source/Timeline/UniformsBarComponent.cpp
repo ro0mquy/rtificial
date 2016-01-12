@@ -39,7 +39,7 @@ void UniformsBarComponent::paint(Graphics& g) {
 	for(int i = 0; i < numUniforms; i++) {
 		ValueTree uniform = data.getUniform(i);
 
-		const Rectangle<float> rect(0, i*rowHeight, getWidth(), rowHeight);
+		const juce::Rectangle<float> rect(0, i*rowHeight, getWidth(), rowHeight);
 
 		g.setColour(findColour(i%2 == 0 ? UniformsBarComponent::evenRowColourId : UniformsBarComponent::oddRowColourId));
 		g.fillRect(rect);
@@ -66,11 +66,11 @@ void UniformsBarComponent::paint(Graphics& g) {
 	}
 
 	SectionTypes::Section& rootSection = sectionManager.getRootSection();
-	Rectangle<int> targetBounds = getLocalBounds();
+	juce::Rectangle<int> targetBounds = getLocalBounds();
 	drawSection(g, rootSection, targetBounds);
 }
 
-void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& section, Rectangle<int>& targetBounds) const {
+void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& section, juce::Rectangle<int>& targetBounds) const {
 	// some constants
 	const int rowHeight = RtificialLookAndFeel::uniformRowHeight;
 	const int padding = 5;
@@ -84,7 +84,7 @@ void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& secti
 
 		const Colour sectionColor = RtificialLookAndFeel::getColorFromSectionName(sectionName);
 
-		Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
+		juce::Rectangle<int> headerRect = targetBounds.removeFromTop(rowHeight);
 		targetBounds.removeFromLeft(arrowEnd); // inset all subthingies
 
 		// draw arrow
@@ -121,13 +121,13 @@ void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& secti
 		sectionNameGlyphs.draw(g);
 
 		// draw second line
-		const Rectangle<float> sectionNameBounding = sectionNameGlyphs.getBoundingBox(0, -1, true);
+		const juce::Rectangle<float> sectionNameBounding = sectionNameGlyphs.getBoundingBox(0, -1, true);
 		headerRect.setLeft(sectionNameBounding.getRight() + padding);
 		//g.setColour(findColour(UniformsBarComponent::sectionHeaderSeperatorColourId));
 		//g.drawLine(headerRect.getX(), headerRect.getCentreY(), headerRect.getRight(), headerRect.getCentreY(), 4.0f);
 		g.setColour(sectionColor.withAlpha(0.35f));
 		const int sectionLineHeight = 4;
-		const Rectangle<int> sectionLine(
+		const juce::Rectangle<int> sectionLine(
 			headerRect.getX(),
 			headerRect.getY() + ( (headerRect.getHeight() - sectionLineHeight) / 2 ),
 			headerRect.getWidth(),
@@ -158,7 +158,7 @@ void UniformsBarComponent::drawSection(Graphics& g, SectionTypes::Section& secti
 	for (int i = 0; i < numUniforms; i++) {
 		const SectionTypes::Uniform uniform = sectionManager.getUniform(section, i);
 		const String uniformName = sectionManager.getUniformName(uniform);
-		const Rectangle<int> uniformRect = targetBounds.removeFromTop(rowHeight);
+		const juce::Rectangle<int> uniformRect = targetBounds.removeFromTop(rowHeight);
 		g.drawFittedText(uniformName, uniformRect.withTrimmedLeft(padding), Justification::centredLeft, 1);
 	}
 }
@@ -216,8 +216,8 @@ void UniformsBarComponent::mouseUp(const MouseEvent& event) {
 			PropertyComponent* valueEditor = ValueEditorPropertyComponent::newValueEditorPropertyComponent(uniformName, valueData);
 			valueEditor->setSize(editorWidth, valueEditor->getPreferredHeight());
 
-			// bounding rectangle of this uniform
-			const Rectangle<int> rect(0, numRow * rowHeight, getWidth(), rowHeight);
+			// bounding juce::Rectangle of this uniform
+			const juce::Rectangle<int> rect(0, numRow * rowHeight, getWidth(), rowHeight);
 			CallOutBox& callOutBox = CallOutBox::launchAsynchronously(valueEditor, localAreaToGlobal(rect), nullptr);
 			callOutBox.setDismissalMouseClicksAreAlwaysConsumed(true);
 			callOutBox.addKeyListener(MainWindow::getApplicationCommandManager().getKeyMappings());

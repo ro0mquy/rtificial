@@ -45,7 +45,7 @@ void ColorTextInputComponent::resized() {
 	const int spacing = 20;
 	const int labelHeight = 25;
 
-	Rectangle<int> rect(getLocalBounds());
+	juce::Rectangle<int> rect(getLocalBounds());
 	rect.reduce(spacing, spacing);
 
 	labelHex.setBounds(rect.removeFromTop(labelHeight));

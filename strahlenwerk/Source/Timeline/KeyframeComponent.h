@@ -54,7 +54,7 @@ class KeyframeComponent :
 		class Positioner : public Component::Positioner {
 			public:
 				Positioner(KeyframeComponent& component, ValueTree keyframeData_, TimelineData& data_, ZoomFactor& zoomFactor_);
-				void applyNewBounds(const Rectangle<int>& newBounds) override;
+				void applyNewBounds(const juce::Rectangle<int>& newBounds) override;
 
 			private:
 				ValueTree keyframeData;

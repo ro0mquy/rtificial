@@ -41,7 +41,7 @@ class UniformsBarComponent :
 		TimelineData& data;
 		SectionManager& sectionManager;
 
-		void drawSection(Graphics& g, SectionTypes::Section& section, Rectangle<int>& targetBounds) const;
+		void drawSection(Graphics& g, SectionTypes::Section& section, juce::Rectangle<int>& targetBounds) const;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(UniformsBarComponent)
 };

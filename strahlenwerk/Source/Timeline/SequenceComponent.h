@@ -60,7 +60,7 @@ class SequenceComponent :
 		class Positioner : public Component::Positioner {
 			public:
 				Positioner(Component& component, ValueTree sequenceData_, TimelineData& data_, ZoomFactor& zoomFactor_);
-				void applyNewBounds(const Rectangle<int>& newBounds) override;
+				void applyNewBounds(const juce::Rectangle<int>& newBounds) override;
 
 			private:
 				ValueTree sequenceData;

@@ -18,15 +18,15 @@ class RtificialLookAndFeel : public BlenderLookAndFeel
 		void drawResizableFrame(Graphics& g, int w, int h, const BorderSize<int>& borderSize) override;
 
 		static Colour getColorFromSectionName(const String name);
-		void drawScene(Graphics& g, Rectangle<float>& area, const bool selected, const String shaderSource);
-		void drawSequence(Graphics& g, Component& sequence, Rectangle<float>& area, const bool selected, const String sequenceInterpolation);
+		void drawScene(Graphics& g, juce::Rectangle<float>& area, const bool selected, const String shaderSource);
+		void drawSequence(Graphics& g, Component& sequence, juce::Rectangle<float>& area, const bool selected, const String sequenceInterpolation);
 		void setSequenceColor(Component& sequence, const String name);
 
 	private:
 		const float cornerRadius = 4.0f;
 
 		BlenderTheme createBlenderTheme();
-		Path roundedBevelAbovePath(Rectangle<float>& rect, float cs);
+		Path roundedBevelAbovePath(juce::Rectangle<float>& rect, float cs);
 };
 
 #endif
