@@ -248,8 +248,8 @@
     <LINUX_MAKE targetFolder="Builds/Linux" extraCompilerFlags="-Wall -Wextra -I../../Source -I../../Lib/include"
                 externalLibraries="efsw" extraLinkerFlags="-L../../Lib/lib" cppLanguageStandard="-std=c++11">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" libraryPath="" isDebug="1" optimisation="3" targetName="strahlenwerk"/>
-        <CONFIGURATION name="Release" libraryPath="" isDebug="0" optimisation="3" targetName="strahlenwerk"/>
+        <CONFIGURATION name="Debug" libraryPath="" isDebug="1" optimisation="5" targetName="strahlenwerk"/>
+        <CONFIGURATION name="Release" libraryPath="" isDebug="0" optimisation="5" targetName="strahlenwerk"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="juce_modules"/>
