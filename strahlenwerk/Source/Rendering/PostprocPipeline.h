@@ -10,6 +10,8 @@
 
 #include <juce>
 
+#include <RtImage.h>
+
 class PostprocShader;
 class SceneShader;
 
@@ -28,7 +30,7 @@ class PostprocPipeline :
 		int getNumShaders() const;
 
 		void requestRenderedImage();
-		const Image& getRenderedImage();
+		const RtImage& getRenderedImage();
 
 	private:
 		std::vector<std::unique_ptr<PostprocShader>> shaders;
@@ -41,7 +43,7 @@ class PostprocPipeline :
 		const int pixelDataChannels = 3;
 		std::mutex pixelDataMutex;
 		void readPixels(int width, int height);
-		Image renderedImage;
+		RtImage renderedImage;
 };
 
 #endif

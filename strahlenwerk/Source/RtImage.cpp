@@ -1,25 +1,26 @@
 #include "RtImage.h"
 
-#include <cstring>
+RtImage::RtImage() :
+	width(0),
+	height(0),
+	numChannels(3)
+{
+}
 
 RtImage::RtImage(int width_, int height_, bool hasAlphaChannel) :
 	width(width_),
 	height(height_),
 	numChannels(hasAlphaChannel ? 4 : 3),
-	numValues(width * height * numChannels)
+	pixelData(width * height * numChannels)
 {
-	pixelData = new float[numValues];
-	clear();
 }
 
 RtImage::RtImage(Image juceImage) :
 	width(juceImage.getWidth()),
 	height(juceImage.getHeight()),
 	numChannels(juceImage.hasAlphaChannel() ? 4 : 3),
-	numValues(width * height * numChannels)
+	pixelData(width * height * numChannels)
 {
-	pixelData = new float[numValues];
-
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			setPixelAt(x, y, RtColor(juceImage.getPixelAt(x, y)));
@@ -28,29 +29,32 @@ RtImage::RtImage(Image juceImage) :
 }
 
 
-int RtImage::getWidth() {
+int RtImage::getWidth() const {
 	return width;
 }
 
-int RtImage::getHeight() {
+int RtImage::getHeight() const {
 	return height;
 }
 
-Rectangle<int> RtImage::getBounds() {
+Rectangle<int> RtImage::getBounds() const {
 	return Rectangle<int>(width, height);
 }
 
-bool RtImage::hasAlphaChannel() {
+bool RtImage::hasAlphaChannel() const {
 	return numChannels == 4;
 }
 
 
 void RtImage::clear() {
-	std::memset(pixelData, 0, numValues);
+	pixelData.clear();
 }
 
 
-RtColor RtImage::getPixelAt(int x, int y) {
+RtColor RtImage::getPixelAt(int x, int y) const {
+	jassert(isPositiveAndNotGreaterThan(x, width));
+	jassert(isPositiveAndNotGreaterThan(y, height));
+
 	const int pixelOffset = (y * width + x) * numChannels;
 
 	jassert(numChannels >= 3);
@@ -63,6 +67,9 @@ RtColor RtImage::getPixelAt(int x, int y) {
 }
 
 void RtImage::setPixelAt(int x, int y, RtColor color) {
+	jassert(isPositiveAndNotGreaterThan(x, width));
+	jassert(isPositiveAndNotGreaterThan(y, height));
+
 	const int pixelOffset = (y * width + x) * numChannels;
 
 	jassert(numChannels >= 3);
@@ -77,7 +84,7 @@ void RtImage::setPixelAt(int x, int y, RtColor color) {
 }
 
 
-Image RtImage::toJuceImage() {
+Image RtImage::toJuceImage() const {
 	Image juceImage(
 		( hasAlphaChannel() ? Image::PixelFormat::ARGB : Image::PixelFormat::RGB ),
 		width,

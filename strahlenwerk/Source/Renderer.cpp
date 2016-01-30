@@ -216,6 +216,6 @@ void Renderer::requestRenderedImage() {
 	context.triggerRepaint();
 }
 
-const Image& Renderer::getRenderedImage() {
+const RtImage& Renderer::getRenderedImage() {
 	return postproc->getRenderedImage();
 }

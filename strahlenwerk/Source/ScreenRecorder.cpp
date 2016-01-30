@@ -5,6 +5,7 @@
 #include <Project/Project.h>
 #include <Renderer.h>
 #include <PropertyNames.h>
+#include <RtImage.h>
 
 ScreenRecorder::ScreenRecorder(Renderer& renderer) :
 	screenshooter(renderer)
@@ -39,7 +40,7 @@ ScreenRecorder::Screenshot::~Screenshot() {
 
 void ScreenRecorder::Screenshot::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	renderer.removeChangeListener(this);
-	const Image& screenshot = renderer.getRenderedImage();
+	const Image& screenshot = renderer.getRenderedImage().toJuceImage();
 
 	String defaultScreenshotDir =
 		File::getSpecialLocation(File::userHomeDirectory)

@@ -8,6 +8,9 @@
 #include <OpenGLComponent.h>
 #include <MainContentComponent.h>
 #include <Project/Project.h>
+#include <RtColor.h>
+
+class RtImage;
 
 PostprocPipeline::~PostprocPipeline() = default;
 
@@ -15,19 +18,16 @@ void PostprocPipeline::handleAsyncUpdate() {
 	std::lock_guard<std::mutex> lock(pixelDataMutex);
 
 	jassert(pixelDataChannels >= 3);
-	renderedImage = Image(Image::PixelFormat::RGB, pixelDataWidth, pixelDataHeight, true);
-	//Image::BitmapData imgBitmapData(rendered, Image::BitmapData::writeOnly);
+	renderedImage = RtImage(pixelDataWidth, pixelDataHeight);
 	for (int y = 0; y < pixelDataHeight; y++) {
 		for (int x = 0; x < pixelDataWidth; x++) {
-			const Colour color = Colour::fromFloatRGBA(
+			const RtColor color(
 				pixelData[(y * pixelDataWidth + x) * pixelDataChannels + 0],
 				pixelData[(y * pixelDataWidth + x) * pixelDataChannels + 1],
-				pixelData[(y * pixelDataWidth + x) * pixelDataChannels + 2],
-				1.0f
+				pixelData[(y * pixelDataWidth + x) * pixelDataChannels + 2]
 			);
 			// mirror horizontally
-			//imgBitmapData.setPixelColour(x, pixelDataHeight -y, color);
-			renderedImage.setPixelAt(x, pixelDataHeight - y, color);
+			renderedImage.setPixelAt(x, pixelDataHeight - y - 1, color);
 		}
 	}
 
@@ -138,7 +138,7 @@ void PostprocPipeline::readPixels(int width, int height) {
 	triggerAsyncUpdate();
 }
 
-const Image& PostprocPipeline::getRenderedImage(){
+const RtImage& PostprocPipeline::getRenderedImage(){
 	return renderedImage;
 }
 

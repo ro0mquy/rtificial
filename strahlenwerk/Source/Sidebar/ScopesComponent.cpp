@@ -9,6 +9,7 @@
 #include <Timeline/TimelineData.h>
 #include <Timeline/CameraController.h>
 #include <AudioManager.h>
+#include <RtImage.h>
 
 ScopesComponent::ScopesComponent() :
 	renderer(nullptr),
@@ -132,7 +133,7 @@ void ScopesComponent::removeAsListener() {
 }
 
 
-HistogramComponent::HistogramComponent(Image& image_) :
+HistogramComponent::HistogramComponent(RtImage& image_) :
 	image(image_)
 {
 	setName("Histogram");
@@ -214,7 +215,7 @@ void HistogramComponent::paint(Graphics& g) {
 		const int h = image.getHeight();
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
-				const Colour color = image.getPixelAt(x, y);
+				const RtColor color = image.getPixelAt(x, y);
 				uint8 value;
 
 				if (virtualMode == rMode) {
@@ -224,7 +225,7 @@ void HistogramComponent::paint(Graphics& g) {
 				} else if (virtualMode == bMode) {
 					value = uint8(color.getBlue() * 255);
 				} else {
-					value = uint8(color.getBrightness() * 255);
+					value = uint8(color.getLuma() * 255);
 				}
 
 				values[value] += 1;
@@ -288,7 +289,7 @@ void HistogramComponent::paint(Graphics& g) {
 }
 
 
-VectorscopeComponent::VectorscopeComponent(Image& image_) :
+VectorscopeComponent::VectorscopeComponent(RtImage& image_) :
 	image(image_)
 {
 	setName("Vectorscope");
@@ -413,9 +414,9 @@ void VectorscopeComponent::paint(Graphics& g) {
 	g.setColour(pointColor);
 	for (int x = 0; x < w; x++) {
 		for (int y = 0; y < h; y++) {
-			const Colour color = image.getPixelAt(x, y);
+			const RtColor color = image.getPixelAt(x, y);
 			const float angle = calcAngle(color.getHue());
-			const float r = float(zoom.getValue()) * radius * color.getSaturation();
+			const float r = float(zoom.getValue()) * radius * color.getChroma();
 			Point<float> targetPoint(r*cos(angle), r*sin(angle));
 			targetPoint += center;
 			Rectangle<float> bnds(0, 0, 1, 1);
@@ -434,7 +435,7 @@ float VectorscopeComponent::calcAngle(float fraction) {
 }
 
 
-WaveformComponent::WaveformComponent(Image& image_) :
+WaveformComponent::WaveformComponent(RtImage& image_) :
 	image(image_)
 {
 	setName("Waveform");
@@ -528,11 +529,11 @@ void WaveformComponent::paint(Graphics& g) {
 		const int imgH = image.getHeight();
 		for (int x = 0; x < imgW; x++) {
 			for (int y = 0; y < imgH; y++) {
-				const Colour color = image.getPixelAt(x, y);
+				const RtColor color = image.getPixelAt(x, y);
 				float value = 0.0;
 
 				if (virtualMode == lumaMode) {
-					value = color.getBrightness();
+					value = color.getLuma();
 				} else if (virtualMode == rMode) {
 					value = float(color.getRed()) / float(255);
 				} else if (virtualMode == gMode) {

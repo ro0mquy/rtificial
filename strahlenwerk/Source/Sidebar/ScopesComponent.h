@@ -3,6 +3,8 @@
 
 #include <juce>
 
+#include <RtImage.h>
+
 class Renderer;
 class TimelineData;
 class AudioManager;
@@ -46,7 +48,7 @@ class ScopesComponent :
 		ScopedPointer<VectorscopeComponent> vectorscopeComponent;
 		ScopedPointer<WaveformComponent> waveformComponent;
 
-		Image image;
+		RtImage image;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopesComponent)
 };
@@ -59,7 +61,7 @@ class HistogramComponent :
 		void resized() override;
 		void paint(Graphics& g) override;
 
-		HistogramComponent(Image& image_);
+		HistogramComponent(RtImage& image_);
 
 		enum ColourIds {
 			backgroundColourId = 0x35fe2,
@@ -73,7 +75,7 @@ class HistogramComponent :
 	private:
 		void valueChanged(Value& /*value*/) override;
 
-		Image& image;
+		RtImage& image;
 
 		PropertyPanel propertyPanel;
 		Value mode;
@@ -97,7 +99,7 @@ class VectorscopeComponent :
 	private Value::Listener
 {
 	public:
-		VectorscopeComponent(Image& image_);
+		VectorscopeComponent(RtImage& image_);
 
 		void resized() override;
 		void paint(Graphics& g) override;
@@ -112,7 +114,7 @@ class VectorscopeComponent :
 		void valueChanged(Value& /*value*/) override;
 		float calcAngle(float fraction);
 
-		Image& image;
+		RtImage& image;
 
 		PropertyPanel propertyPanel;
 		Value mode;
@@ -133,7 +135,7 @@ class WaveformComponent :
 	private Value::Listener
 {
 	public:
-		WaveformComponent(Image& image_);
+		WaveformComponent(RtImage& image_);
 
 		void resized() override;
 		void paint(Graphics& g) override;
@@ -150,7 +152,7 @@ class WaveformComponent :
 	private:
 		void valueChanged(Value& /*value*/) override;
 
-		Image& image;
+		RtImage& image;
 
 		PropertyPanel propertyPanel;
 		Value mode;

@@ -13,30 +13,31 @@ class RtColor {
 		RtColor(uint32 rgba);
 		static RtColor fromHexRGBA(StringRef hexString);
 
-		float getRed();
-		float getGreen();
-		float getBlue();
-		float getAlpha();
+		float getRed() const;
+		float getGreen() const;
+		float getBlue() const;
+		float getAlpha() const;
 
 		static RtColor fromHCY(float hue, float chroma, float luma);
 
-		float getHue();
-		float getChroma();
-		float getLuma();
+		float getHue() const;
+		float getChroma() const;
+		float getLuma()const;
 
-		RtColor withHue(float hue);
-		RtColor withChroma(float chroma);
-		RtColor withLuma(float luma);
+		RtColor withHue(float hue) const;
+		RtColor withChroma(float chroma) const;
+		RtColor withLuma(float luma) const;
 
-		bool isOpaque();
-		bool isTransparent();
+		bool isOpaque() const;
+		bool isTransparent() const;
 
-		RtColor withAlpha(float newAlpha);
-		RtColor withMultipliedAlpha(float alphaToMultiply);
+		RtColor withAlpha(float newAlpha) const;
+		RtColor withMultipliedAlpha(float alphaToMultiply) const;
 
-		String toGLSLString(bool includeAlpha = false);
-		String toHexString(bool includeAlpha = false);
-		Colour toJuceColour();
+		String toGLSLString(bool includeAlpha = false) const;
+		String toHexString(bool includeAlpha = false) const;
+		Colour toJuceColour() const;
+		operator Colour() const { return toJuceColour(); }
 
 	private:
 		float red;
@@ -46,7 +47,7 @@ class RtColor {
 
 		static const glm::vec3 HCYWeights;
 		static glm::vec3 hueToRGB(float hue);
-		glm::vec3 toHCY();
+		glm::vec3 toHCY() const;
 };
 
 #endif // RT_COLOR_H

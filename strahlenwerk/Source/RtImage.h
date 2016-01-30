@@ -7,28 +7,30 @@
 
 class RtImage {
 	public:
+		RtImage();
 		RtImage(int width, int height, bool hasAlphaChannel = false);
 		RtImage(Image juceImage);
 
-		int getWidth();
-		int getHeight();
-		Rectangle<int> getBounds();
-		bool hasAlphaChannel();
+		int getWidth() const;
+		int getHeight() const;
+		Rectangle<int> getBounds() const;
+		bool hasAlphaChannel() const;
 
 		void clear();
 
-		RtColor getPixelAt(int x, int y);
+		RtColor getPixelAt(int x, int y) const;
 		void setPixelAt(int x, int y, RtColor color);
 
-		Image toJuceImage();
+		Image toJuceImage() const;
+		operator Image() const { return toJuceImage(); }
 
 	private:
-		const int width;
-		const int height;
-		const int numChannels;
-		const int numValues;
+		int width;
+		int height;
+		int numChannels;
 
-		ScopedPointer<float> pixelData;
+	public:
+		std::vector<float> pixelData;
 };
 
 #endif

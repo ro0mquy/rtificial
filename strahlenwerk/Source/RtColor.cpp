@@ -41,19 +41,19 @@ RtColor RtColor::fromHexRGBA(StringRef hexString) {
 }
 
 
-float RtColor::getRed() {
+float RtColor::getRed() const {
 	return red;
 }
 
-float RtColor::getGreen() {
+float RtColor::getGreen() const {
 	return green;
 }
 
-float RtColor::getBlue() {
+float RtColor::getBlue() const {
 	return blue;
 }
 
-float RtColor::getAlpha() {
+float RtColor::getAlpha() const {
 	return alpha;
 }
 
@@ -63,7 +63,8 @@ float RtColor::getAlpha() {
  * http://www.chilliant.com/rgb2hsv.html
  */
 
-const glm::vec3 RtColor::HCYWeights = glm::vec3(0.299f, 0.587f, 0.114f);
+//const glm::vec3 RtColor::HCYWeights = glm::vec3(0.299f, 0.587f, 0.114f);
+const glm::vec3 RtColor::HCYWeights = glm::vec3(0.2126f, 0.7152f, 0.0722f);
 
 RtColor RtColor::fromHCY(float hue, float chroma, float luma) {
 	jassert(hue >= 0.0f && hue <= 1.0f);
@@ -94,7 +95,7 @@ glm::vec3 RtColor::hueToRGB(float hue) {
 	return rgb;
 }
 
-glm::vec3 RtColor::toHCY() {
+glm::vec3 RtColor::toHCY() const {
 	glm::vec3 rgb(red, green, blue);
 
 	glm::vec4 p;
@@ -129,55 +130,55 @@ glm::vec3 RtColor::toHCY() {
 	return glm::vec3(hcv.x, hcv.y, y);
 }
 
-float RtColor::getHue() {
+float RtColor::getHue() const {
 	return toHCY().x;
 }
 
-float RtColor::getChroma() {
+float RtColor::getChroma() const {
 	return toHCY().y;
 }
 
-float RtColor::getLuma() {
+float RtColor::getLuma() const {
 	return toHCY().z;
 }
 
-RtColor RtColor::withHue(float hue) {
+RtColor RtColor::withHue(float hue) const {
 	const glm::vec3 hcy = toHCY();
 	return RtColor::fromHCY(hue, hcy.y, hcy.z);
 }
 
-RtColor RtColor::withChroma(float chroma) {
+RtColor RtColor::withChroma(float chroma) const {
 	const glm::vec3 hcy = toHCY();
 	return RtColor::fromHCY(hcy.x, chroma, hcy.z);
 }
 
-RtColor RtColor::withLuma(float luma) {
+RtColor RtColor::withLuma(float luma) const {
 	const glm::vec3 hcy = toHCY();
 	return RtColor::fromHCY(hcy.x, hcy.y, luma);
 }
 
 
-bool RtColor::isOpaque() {
+bool RtColor::isOpaque() const {
 	return alpha == 1.0f;
 }
 
-bool RtColor::isTransparent() {
+bool RtColor::isTransparent() const {
 	return alpha == 0.0f;
 }
 
 
-RtColor RtColor::withAlpha(float newAlpha) {
+RtColor RtColor::withAlpha(float newAlpha) const {
 	jassert(newAlpha >= 0.0f && newAlpha <= 1.0f);
 	return RtColor(red, green, blue, newAlpha);
 }
 
-RtColor RtColor::withMultipliedAlpha(float alphaMultiplier) {
+RtColor RtColor::withMultipliedAlpha(float alphaMultiplier) const {
 	jassert(alphaMultiplier >= 0);
 	return RtColor(red, green, blue, alpha * alphaMultiplier);
 }
 
 
-String RtColor::toGLSLString(bool includeAlpha) {
+String RtColor::toGLSLString(bool includeAlpha) const {
 	String str = "vec";
 	str += includeAlpha ? "4(" : "3(";
 	str += String(red) + ", " + String(green) + ", " + String(blue);
@@ -189,7 +190,7 @@ String RtColor::toGLSLString(bool includeAlpha) {
 
 }
 
-String RtColor::toHexString(bool includeAlpha) {
+String RtColor::toHexString(bool includeAlpha) const {
 	int hexColor = 0;
 	hexColor += jlimit(0, 255, int(red * 255.0f)) << 16;
 	hexColor += jlimit(0, 255, int(green * 255.0f)) << 8;
@@ -211,6 +212,6 @@ String RtColor::toHexString(bool includeAlpha) {
 	return '#' + text;
 }
 
-Colour RtColor::toJuceColour() {
+Colour RtColor::toJuceColour() const {
 	return Colour::fromFloatRGBA(red, green, blue, alpha);
 }

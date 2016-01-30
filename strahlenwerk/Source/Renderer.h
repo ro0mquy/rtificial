@@ -11,6 +11,7 @@ class PostprocPipeline;
 template<typename SceneObject>
 class Scenes;
 class AmbientLight;
+class RtImage;
 
 class Renderer :
 	public OpenGLRenderer,
@@ -41,7 +42,7 @@ class Renderer :
 		PostprocPipeline& getPostproc();
 
 		void requestRenderedImage();
-		const Image& getRenderedImage();
+		const RtImage& getRenderedImage();
 
 		enum CommandIDs {
 			makeDemo = 0x4581da00,
