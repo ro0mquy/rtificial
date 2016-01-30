@@ -42,6 +42,24 @@
               }
             }
           ]
+        },
+        {
+          "sequenceSceneId": 907,
+          "sequenceStart": 0,
+          "sequenceDuration": 14000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec3X": 0,
+                "valueVec3Y": 0,
+                "valueVec3Z": 18.748706817626953125
+              }
+            }
+          ]
         }
       ]
     },
@@ -59,6 +77,25 @@
           "sequenceSceneId": 483,
           "sequenceStart": 0,
           "sequenceDuration": 19000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": 0,
+                "valueQuatY": 0,
+                "valueQuatZ": 0,
+                "valueQuatW": 1
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 907,
+          "sequenceStart": 0,
+          "sequenceDuration": 14000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -285,6 +322,30 @@
             },
             {
               "keyframePosition": 19000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 50
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 907,
+          "sequenceStart": 0,
+          "sequenceDuration": 14000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 14000,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
@@ -694,6 +755,13 @@
       "sceneDuration": 19000,
       "sceneShaderSource": "noodles",
       "sceneEnvironmentSource": "szenchen369"
+    },
+    {
+      "sceneId": 907,
+      "sceneStart": 87000,
+      "sceneDuration": 14000,
+      "sceneShaderSource": "flames",
+      "sceneEnvironmentSource": "szenchen449"
     }
   ]
 }
