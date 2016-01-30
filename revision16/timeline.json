@@ -141,6 +141,70 @@
               }
             }
           ]
+        },
+        {
+          "sequenceSceneId": 911,
+          "sequenceStart": 1000,
+          "sequenceDuration": 13750,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 8750,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 44.610000000000127329
+              }
+            },
+            {
+              "keyframePosition": 13000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 59.090908050537109375
+              }
+            },
+            {
+              "keyframePosition": 13750,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 43.895999999999958163
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 911,
+          "sequenceStart": 14750,
+          "sequenceDuration": 8250,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 43.895999999999958163
+              }
+            },
+            {
+              "keyframePosition": 8250,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 120
+              }
+            }
+          ]
         }
       ]
     },
@@ -476,6 +540,13 @@
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
+    },
+    {
+      "sceneId": 911,
+      "sceneStart": 67000,
+      "sceneDuration": 33000,
+      "sceneShaderSource": "torus",
+      "sceneEnvironmentSource": "szenchen347"
     }
   ]
 }
