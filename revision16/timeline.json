@@ -88,7 +88,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "lay_animation_rt_float",
+      "uniformName": "lay_animation",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
@@ -121,7 +121,7 @@
         {
           "sequenceSceneId": 379,
           "sequenceStart": 0,
-          "sequenceDuration": 8250,
+          "sequenceDuration": 8000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -133,7 +133,7 @@
               }
             },
             {
-              "keyframePosition": 8250,
+              "keyframePosition": 8000,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
@@ -233,6 +233,14 @@
       ]
     },
     {
+      "uniformName": "lay_animation_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "lay_color1_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -253,11 +261,28 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "lay_frame_dim",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 8,
+        "valueVec2Y": 5
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "lay_frame_dim_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
         "valueVec2X": 8,
         "valueVec2Y": 5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lay_last_layer_index",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 20
       },
       "sequencesArray": []
     },
@@ -270,10 +295,26 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "lay_layer_dist",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "lay_layer_dist_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lay_layer_thickness",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.050000000000068212103
       },
       "sequencesArray": []
     },
