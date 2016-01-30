@@ -113,12 +113,41 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 100
+                "valueFloatX": 50
               }
             }
           ]
         }
       ]
+    },
+    {
+      "uniformName": "lay_color1_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.41514810919761657715,
+        "valueColorG": 0.71546542644500732422,
+        "valueColorB": 0.81996369361877441406
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lay_color2_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.41514810919761657715,
+        "valueColorG": 0.37867626547813415527,
+        "valueColorB": 0.37867626547813415527
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lay_frame_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 8,
+        "valueVec2Y": 5
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "lay_last_layer_index_rt_float",
@@ -141,34 +170,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.050000000000068212103
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "layers_animation_t_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "layers_color1_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0,
-        "valueColorG": 0,
-        "valueColorB": 0
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "layers_color2_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.006584956776350736618,
-        "valueColorG": 0.30212551355361938477,
-        "valueColorB": 0.41514810919761657715
       },
       "sequencesArray": []
     },

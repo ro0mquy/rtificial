@@ -4,12 +4,12 @@
 const float id_layer = 1.;
 
 float fInner(vec2 p, float t) {
-	pTrans(p, vec2(cos(t/60. * 2 * Tau), sin(t/60. * 2 * Tau)) * 3);
+	pTrans(p, vec2(cos(t/50. * 2 * Tau), sin(t/50. * 2 * Tau)) * 3);
 	return f2Box(p, 1);
 }
 
 float fLayer(vec2 p, float t) {
-	float f_frame = -f2Box(p.xy, vec2(5));
+	float f_frame = -f2Box(p.xy, lay_frame_dim_rt_vec2);
 	float f_inner = fInner(p, t);
 	float f_layer = min(f_frame, f_inner);
 	return f_layer;
@@ -47,7 +47,8 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
-	mat.roughness = 1;
-	mat.color = mix(layers_color1_rt_color, layers_color2_rt_color, fract(materialId.misc.x/20));
+	mat.roughness = .5;
+	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
+	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
 	return mat;
 }
