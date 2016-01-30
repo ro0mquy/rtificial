@@ -535,11 +535,11 @@ void WaveformComponent::paint(Graphics& g) {
 				if (virtualMode == lumaMode) {
 					value = color.getLuma();
 				} else if (virtualMode == rMode) {
-					value = float(color.getRed()) / float(255);
+					value = color.getRed();
 				} else if (virtualMode == gMode) {
-					value = float(color.getGreen()) / float(255);
+					value = color.getGreen();
 				} else if (virtualMode == bMode) {
-					value = float(color.getBlue()) / float(255);
+					value = color.getBlue();
 				}
 
 				const int indexX = int(float(plotW)/float(imgW) * x);
