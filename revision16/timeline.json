@@ -24,7 +24,26 @@
         "valueVec3Y": 0,
         "valueVec3Z": 0
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 483,
+          "sequenceStart": 0,
+          "sequenceDuration": 19000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec3X": 0,
+                "valueVec3Y": 0,
+                "valueVec3Z": 18.748706817626953125
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "camera_rotation",
@@ -35,7 +54,27 @@
         "valueQuatZ": 0,
         "valueQuatW": 1
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 483,
+          "sequenceStart": 0,
+          "sequenceDuration": 19000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": 0,
+                "valueQuatY": 0,
+                "valueQuatZ": 0,
+                "valueQuatW": 1
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "camera_sensor_width",
@@ -65,7 +104,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -82,8 +121,8 @@
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": 0,
-        "valueVec3Y": 1,
-        "valueVec3Z": 0
+        "valueVec3Y": 0,
+        "valueVec3Z": 1
       },
       "sequencesArray": []
     },
@@ -229,16 +268,32 @@
               }
             }
           ]
+        },
+        {
+          "sequenceSceneId": 483,
+          "sequenceStart": 0,
+          "sequenceDuration": 19000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 19000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 50
+              }
+            }
+          ]
         }
       ]
-    },
-    {
-      "uniformName": "lay_animation_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0
-      },
-      "sequencesArray": []
     },
     {
       "uniformName": "lay_color1_rt_color",
@@ -270,24 +325,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "lay_frame_dim_rt_vec2",
-      "uniformType": "vec2",
-      "uniformStandardValue": {
-        "valueVec2X": 8,
-        "valueVec2Y": 5
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "lay_last_layer_index",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 20
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "lay_last_layer_index_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 20
@@ -303,26 +341,10 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "lay_layer_dist_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "lay_layer_thickness",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.050000000000068212103
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "lay_layer_thickness_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068205164
       },
       "sequencesArray": []
     },
@@ -665,6 +687,13 @@
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
+    },
+    {
+      "sceneId": 483,
+      "sceneStart": 66000,
+      "sceneDuration": 19000,
+      "sceneShaderSource": "noodles",
+      "sceneEnvironmentSource": "szenchen369"
     }
   ]
 }
