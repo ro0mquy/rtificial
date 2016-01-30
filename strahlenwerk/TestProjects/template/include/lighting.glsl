@@ -14,6 +14,14 @@ struct SphereLight {
 	float power;
 };
 
+struct PointLight {
+	vec3 position;
+	vec3 direction;
+	float angle;
+	vec3 color;
+	float power;
+};
+
 vec3 getSpecularDominantDir(vec3 N, vec3 R, float NdotV, float roughness) {
 	float smoothness = saturate(1 - roughness);
 	return normalize(mix(N, R, smoothness * (sqrt(smoothness) + roughness)));
@@ -150,4 +158,26 @@ vec3 applySphereLight(vec3 origin, float marched, vec3 direction, vec3 hit, vec3
 
 	vec3 F_dielectric = fresnel(-direction, closestPoint, vec3(.04));
 	return mix(diffuse + F_dielectric * specular, specular * F_metal, material.metallic);
+}
+
+float getDistanceAttenuation(vec3 lightVector) {
+	return rcp(Pi * dot(lightVector, lightVector));
+}
+
+float getAngleAttenuation(vec3 L, PointLight light) {
+	float outer = light.angle;
+	float foo = 1 - smoothstep(0, outer, acos(-dot(light.direction, L)));
+	return square(foo);
+}
+
+vec3 applyPointLight(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material, PointLight light) {
+	vec3 lightVector = light.position - hit;
+	vec3 L = normalize(lightVector);
+	float attenuation = 1;
+	attenuation *= getDistanceAttenuation(lightVector);
+	attenuation *= getAngleAttenuation(L, light);
+	float brdfSpecular = brdfSpecularEpicSmithWithoutFresnel(-direction, L, normal, material.roughness);
+	vec3 dielectric = material.color / Pi + brdfSpecular * fresnel(-direction, L, vec3(.04));
+	vec3 metallic = brdfSpecular * fresnel(-direction, L, material.color);
+	return mix(dielectric, metallic, material.metallic) * saturate(dot(normal, L)) * attenuation * light.color * light.power;
 }
