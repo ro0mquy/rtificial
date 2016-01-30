@@ -169,7 +169,7 @@
       "uniformName": "lay_layer_thickness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068212103
+        "valueFloatX": 0.050000000000068205164
       },
       "sequencesArray": []
     },
@@ -370,9 +370,80 @@
         "valueFloatX": 0.5
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "seagull_body_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.7400000000000090949
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "seagull_body_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.4629999999999654392
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "seagull_wings_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.83199999999999363354
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "seagull_wings_outer_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0850000000000363798
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "seagull_wings_outer_rotation_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.91300000000001091394
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "seagull_wings_position_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.37099999999998090061
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "seagull_wings_rotation_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.050000000000068212103
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "seagull_wings_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.52700000000004365575
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
+    {
+      "sceneId": 322,
+      "sceneStart": 54250,
+      "sceneDuration": 10250,
+      "sceneShaderSource": "seagull",
+      "sceneEnvironmentSource": "szenchen779"
+    },
     {
       "sceneId": 379,
       "sceneStart": 0,
