@@ -95,6 +95,30 @@
       },
       "sequencesArray": [
         {
+          "sequenceSceneId": 322,
+          "sequenceStart": 1750,
+          "sequenceDuration": 7000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 7000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 50
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 379,
           "sequenceStart": 0,
           "sequenceDuration": 8250,
@@ -423,7 +447,7 @@
       "uniformName": "seagull_wings_rotation_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068212103
+        "valueFloatX": 0.050000000000068205164
       },
       "sequencesArray": []
     },

@@ -1,3 +1,4 @@
+#line 2
 const float id_layer = 101.;
 
 float fInner(vec2 p, float t);
