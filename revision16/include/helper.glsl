@@ -250,3 +250,9 @@ vec3 hsv2rgb(vec3 c) {
     vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
+
+// simple color palette
+// see http://iquilezles.org/www/articles/palettes/palettes.htm
+vec3 color_palette(vec3 a, vec3 b, vec3 c, vec3 d, float t) {
+	return a + b * cos(Tau * (c * t + d));
+}
