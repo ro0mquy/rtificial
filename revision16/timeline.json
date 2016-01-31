@@ -143,6 +143,30 @@
           ]
         },
         {
+          "sequenceSceneId": 433,
+          "sequenceStart": 1000,
+          "sequenceDuration": 8250,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 8250,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 50
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 911,
           "sequenceStart": 1000,
           "sequenceDuration": 13750,
@@ -271,6 +295,46 @@
     },
     {
       "uniformName": "main_normal_epsilon_bias",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_r_big_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_r_roundedness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_r_small_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_rot_big_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.14499999999998181011
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_rot_small_offset_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
@@ -530,7 +594,9 @@
       "sceneStart": 54250,
       "sceneDuration": 10250,
       "sceneShaderSource": "seagull",
-      "sceneEnvironmentSource": "szenchen779"
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
     },
     {
       "sceneId": 379,
@@ -542,11 +608,22 @@
       }
     },
     {
+      "sceneId": 433,
+      "sceneStart": 103000,
+      "sceneDuration": 16000,
+      "sceneShaderSource": "part",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
       "sceneId": 911,
       "sceneStart": 67000,
       "sceneDuration": 33000,
       "sceneShaderSource": "torus",
-      "sceneEnvironmentSource": "szenchen347"
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
     }
   ]
 }
