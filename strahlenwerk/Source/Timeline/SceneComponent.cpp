@@ -124,6 +124,7 @@ void SceneComponent::mouseDown(const MouseEvent& event) {
 		// copy scene
 		std::lock_guard<std::recursive_mutex> lock(data.getMutex());
 		currentlyCopiedSceneData = sceneData.createCopy();
+		data.setSceneId(currentlyCopiedSceneData, data.getNewSceneId());
 		data.getUndoManager().beginNewTransaction("Copy Scene");
 		data.addScene(currentlyCopiedSceneData);
 	} else {
