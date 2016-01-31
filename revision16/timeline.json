@@ -164,6 +164,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "flame_speed_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "lay_animation",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -405,7 +413,7 @@
       "uniformName": "lay_layer_thickness",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068212103
+        "valueFloatX": 0.050000000000068205164
       },
       "sequencesArray": []
     },
