@@ -355,18 +355,51 @@ float fOctahedron(vec3 p, float r) {
 	return f_oktaeder;
 }
 
-// spiral starting at the orgin
+// archimedean spiral starting at the orgin
 // dist is distance between tubes, r is radius of tubes
-float fSpiral(vec3 p, float dist, float r) {
-	float radius = length(p.xz);
-	float angle = atan(p.z, p.x);
+float f2SpiralArchimed(vec2 p, float dist) {
+	float radius = length(p.xy);
+	float angle = atan(p.y, p.x);
 	radius -= angle * dist / Tau;
-	vec2 q = vec2(radius, p.y);
-	pDomrep(q.x, dist);
-	float d = f2Sphere(q, r);
-	return d;
+	pDomrep(radius, dist);
+	return abs(radius);
 }
 
+// tube version of the f2SpiralArchimed, like a torus
+// r is the wurst-radius
+float fSpiralArchimed(vec3 p, float dist, float r) {
+	float f_spiral = f2SpiralArchimed(p.xz, dist);
+	vec2 q = vec2(f_spiral, p.y);
+	return f2Sphere(q, r);
+}
+
+// logarithmic spiral starting at the orgin
+// dist is the distance between the arms, breaks easily for dist > 0.5
+// scale acts like a scale()-function, mostly 1. should do the job
+// https://swiftcoder.wordpress.com/2010/06/21/logarithmic-spiral-distance-field/
+float f2SpiralLog(vec2 p, float dist, float scale) {
+	// calculate the target radius and phi
+	float r = length(p) / scale;
+	float phi = atan(p.y, p.x);
+
+	// calculate the floating point approximation for n
+	float n = (log(r) / dist - phi) / Tau;
+
+	// find the two possible radii for the closest point
+	float upper_r = exp(dist * (phi + Tau*ceil(n)));
+	float lower_r = exp(dist * (phi + Tau*floor(n)));
+
+	// return the minimum distance to the target point
+	return min(abs(upper_r - r), abs(r - lower_r)) * scale;
+}
+
+// tube version of the f2SpiralLog, like a torus
+// r is the wurst-radius
+float fSpiralLog(vec3 p, float dist, float scale, float r) {
+	float f_spiral = f2SpiralLog(p.xz, dist, scale);
+	vec2 q = vec2(f_spiral, p.y);
+	return f2Sphere(q, r);
+}
 
 // l: half distance of focus points, r: radius
 float f2Spheroid(vec2 p, float l, float r) {
