@@ -141,7 +141,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -750,7 +750,7 @@
     },
     {
       "sceneId": 911,
-      "sceneStart": 67000,
+      "sceneStart": 120500,
       "sceneDuration": 33000,
       "sceneShaderSource": "torus",
       "sceneEnvironmentSource": "sky",
