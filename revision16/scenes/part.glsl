@@ -18,8 +18,9 @@ float fInner(vec2 p, float t) {
 	pTrans(p, vec2(cos(t/100. * 2 * Tau), sin(t/50. * 2 * Tau)) * 1);
 	vec3 p_tor = vec3(p, 0.);
 	// good values for rot_big_offset: 0.145; -0.116
-	pRotY(p_tor, Tau * part_rot_big_offset_rt_float);
-	pRotX(p_tor, Tau * part_rot_big_offset_rt_float);
+	//pRotY(p_tor, Tau * part_rot_big_offset_rt_float);
+	//pRotX(p_tor, Tau * part_rot_big_offset_rt_float);
+	pQuatRotate(p_tor, part_rot_rt_quat);
 	float f_tor = myTorusTwisted(p_tor.zxy, part_r_big_rt_float, part_r_small_rt_float, t);
 	return f_tor;
 }

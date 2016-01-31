@@ -241,7 +241,7 @@
         {
           "sequenceSceneId": 433,
           "sequenceStart": 1000,
-          "sequenceDuration": 8250,
+          "sequenceDuration": 22000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -253,11 +253,11 @@
               }
             },
             {
-              "keyframePosition": 8250,
+              "keyframePosition": 22000,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 50
+                "valueFloatX": 100
               }
             }
           ]
@@ -492,6 +492,92 @@
         "valueFloatX": 0.14499999999998181011
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "part_rot_rt_quat",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": -0.4079278111457824707,
+        "valueQuatY": -0.009129175916314125061,
+        "valueQuatZ": 0.91242194175720214844,
+        "valueQuatW": 0.0291024036705493927
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 433,
+          "sequenceStart": 1000,
+          "sequenceDuration": 22000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 3000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": 0.15838006138801574707,
+                "valueQuatY": -0.009129175916314125061,
+                "valueQuatZ": 0.91242194175720214844,
+                "valueQuatW": 0.0291024036705493927
+              }
+            },
+            {
+              "keyframePosition": 6000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": 0.72281688451766967773,
+                "valueQuatY": -0.0094352560117840766907,
+                "valueQuatZ": 0.94301331043243408203,
+                "valueQuatW": 0.030078137293457984924
+              }
+            },
+            {
+              "keyframePosition": 7000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": -0.02545718848705291748,
+                "valueQuatY": -0.0096957543864846229553,
+                "valueQuatZ": 0.96904891729354858398,
+                "valueQuatW": 0.03090856596827507019
+              }
+            },
+            {
+              "keyframePosition": 11500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": -0.30544251203536987305,
+                "valueQuatY": -0.0097413798794150352478,
+                "valueQuatZ": 0.97360908985137939453,
+                "valueQuatW": 0.031054014340043067932
+              }
+            },
+            {
+              "keyframePosition": 15500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": 1.2061151266098022461,
+                "valueQuatY": -0.0095081590116024017334,
+                "valueQuatZ": 0.95029968023300170898,
+                "valueQuatW": 0.030310543254017829895
+              }
+            },
+            {
+              "keyframePosition": 18500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": 1.2362884283065795898,
+                "valueQuatY": -0.011238296516239643097,
+                "valueQuatZ": 1.123219609260559082,
+                "valueQuatW": 0.035825956612825393677
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "part_rot_small_offset_rt_float",
@@ -770,7 +856,7 @@
     {
       "sceneId": 433,
       "sceneStart": 103000,
-      "sceneDuration": 16000,
+      "sceneDuration": 24000,
       "sceneShaderSource": "part",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
@@ -794,7 +880,7 @@
     },
     {
       "sceneId": 911,
-      "sceneStart": 120500,
+      "sceneStart": 131000,
       "sceneDuration": 33000,
       "sceneShaderSource": "torus",
       "sceneEnvironmentSource": "sky",
