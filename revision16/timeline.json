@@ -434,6 +434,22 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "opening_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "opening_box_trans_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "part_r_big_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -744,6 +760,15 @@
       "sceneStart": 103000,
       "sceneDuration": 16000,
       "sceneShaderSource": "part",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
+      "sceneId": 494,
+      "sceneStart": 202000,
+      "sceneDuration": 34000,
+      "sceneShaderSource": "opening",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
