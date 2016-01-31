@@ -88,9 +88,12 @@ void ScreenRecorder::Screenshot::changeListenerCallback(ChangeBroadcaster* /*sou
 	const std::unique_ptr<FileOutputStream> pngStream(pngFile.createOutputStream());
 	pngStream->truncate();
 	PNGImageFormat png;
-	png.writeImageToStream(screenshot, *pngStream);
+	bool success = png.writeImageToStream(screenshot, *pngStream);
 	pngStream->flush();
-	std::cout << "Screenshot saved as '" << pngFile.getFullPathName() << "'\n";
+	if (success) {
+		std::cout << "Screenshot saved as '" << pngFile.getFullPathName() << "'\n";
+		Desktop::getInstance().getDefaultLookAndFeel().playAlertSound();
+	}
 }
 
 void ScreenRecorder::Screenshot::saveScreenshot() {
