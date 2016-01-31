@@ -26,27 +26,9 @@
       },
       "sequencesArray": [
         {
-          "sequenceSceneId": 483,
+          "sequenceSceneId": 379,
           "sequenceStart": 0,
-          "sequenceDuration": 19000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueVec3X": 0,
-                "valueVec3Y": 0,
-                "valueVec3Z": 18.748706817626953125
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 907,
-          "sequenceStart": 0,
-          "sequenceDuration": 14000,
+          "sequenceDuration": 196000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -74,28 +56,9 @@
       },
       "sequencesArray": [
         {
-          "sequenceSceneId": 483,
+          "sequenceSceneId": 379,
           "sequenceStart": 0,
-          "sequenceDuration": 19000,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueQuatX": 0,
-                "valueQuatY": 0,
-                "valueQuatZ": 0,
-                "valueQuatW": 1
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 907,
-          "sequenceStart": 0,
-          "sequenceDuration": 14000,
+          "sequenceDuration": 196000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -162,6 +125,55 @@
         "valueVec3Z": 1
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "flame_scale_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 907,
+          "sequenceStart": 250,
+          "sequenceDuration": 13750,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.25
+              }
+            },
+            {
+              "keyframePosition": 11000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.5
+              }
+            },
+            {
+              "keyframePosition": 12000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 2.0249999999999772626
+              }
+            },
+            {
+              "keyframePosition": 13750,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 10
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "flame_speed_rt_float",
@@ -541,7 +553,7 @@
       "uniformName": "post_bloom_amount",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 2.326999999999998181
+        "valueFloatX": 0.40800000000001546141
       },
       "sequencesArray": []
     },
@@ -772,6 +784,13 @@
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
+    },
+    {
+      "sceneId": 711,
+      "sceneStart": 156000,
+      "sceneDuration": 24000,
+      "sceneShaderSource": "umbrella",
+      "sceneEnvironmentSource": "szenchen649"
     },
     {
       "sceneId": 911,

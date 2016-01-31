@@ -16,39 +16,39 @@ float fInner(vec2 p, float t) {
 	pTrans(p, vec2(cos(t/50. * 1.5 * Tau) * 0.7, sin(t/50. * 2 * Tau)) * 0.4);
 
 	vec2 p1 = p;
-	float f1 = fFlame(p1, t, 3, 2*flame_speed_rt_float, 0.3, 0, 0.8, 1.5);
+	float f1 = fFlame(p1, t, 3*flame_scale_rt_float, 2*flame_speed_rt_float, 0.3, 0, 0.8, 1.5);
 
 	vec2 p2 = p;
 	pTrans(p2, 7, 0);
-	float f2 = fFlame(p2, t, 4, 3*flame_speed_rt_float, 0.2, 1, 0.8, 1.2);
+	float f2 = fFlame(p2, t, 4*flame_scale_rt_float, 3*flame_speed_rt_float, 0.2, 1, 0.8, 1.2);
 
 	vec2 p3 = p;
 	pTrans(p3, -6, 0);
-	float f3 = fFlame(p3, t, 3.8, 2.5*flame_speed_rt_float, 0.4, 1.5, 0.7, 1.8);
+	float f3 = fFlame(p3, t, 3.8*flame_scale_rt_float, 2.5*flame_speed_rt_float, 0.4, 1.5, 0.7, 1.8);
 
 	vec2 p4 = p;
 	pTrans(p4, -3, 0);
-	float f4 = fFlame(p4, t, 4.1, 2.8*flame_speed_rt_float, 0.42, 0.3, 0.9, 1.9);
+	float f4 = fFlame(p4, t, 4.1*flame_scale_rt_float, 2.8*flame_speed_rt_float, 0.42, 0.3, 0.9, 1.9);
 
 	vec2 p5 = p;
 	pTrans(p5, 3.5, 0);
-	float f5 = fFlame(p5, t, 2.8, 2.2*flame_speed_rt_float, 0.38, 0.28, 0.85, 1.8);
+	float f5 = fFlame(p5, t, 2.8*flame_scale_rt_float, 2.2*flame_speed_rt_float, 0.38, 0.28, 0.85, 1.8);
 
 	vec2 p6 = p;
 	pTrans(p6, 2.5, 0);
-	float f6 = fFlame(p6, t, 1, 3.2*flame_speed_rt_float, 0.2, 0.28, 0.9, 2);
+	float f6 = fFlame(p6, t, 1.2*flame_scale_rt_float, 3.2*flame_speed_rt_float, 0.2, 0.28, 0.9, 2);
 
 	vec2 p7 = p;
 	pTrans(p7, .7, 0);
-	float f7 = fFlame(p7, t, 1.5, 2.2*flame_speed_rt_float, 0.3, 0.342, 0.85, 2);
+	float f7 = fFlame(p7, t, 1.5*flame_scale_rt_float, 2.2*flame_speed_rt_float, 0.3, 0.342, 0.85, 2);
 
 	vec2 p8 = p;
 	pTrans(p8, -3.8, 0);
-	float f8 = fFlame(p8, t, 2.3, 1.6*flame_speed_rt_float, 0.4, 1.2, 0.8, 2.1);
+	float f8 = fFlame(p8, t, 2.3*flame_scale_rt_float, 1.6*flame_speed_rt_float, 0.4, 1.2, 0.8, 2.1);
 
 	vec2 p9 = p;
 	pTrans(p9, -5.2, 0);
-	float f9 = fFlame(p9, t, 1.4, 1.9*flame_speed_rt_float, 0.6, 0.8, 0.75, 2.3);
+	float f9 = fFlame(p9, t, 1.4*flame_scale_rt_float, 1.9*flame_speed_rt_float, 0.6, 0.8, 0.75, 2.3);
 
 	return max(-min(min(f6, f7), min(f8, f9)), min(min(min(f1, f2), min(f3, f4)), f5));
 }
