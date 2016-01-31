@@ -433,3 +433,50 @@ float fPyramid(vec3 p, float h, float phi) {
 	float f_oktaeder = max(plane1, plane2);
 	return f_oktaeder;
 }
+
+float _det_for_fBezier(vec2 a, vec2 b) {
+	return a.x*b.y - b.x*a.y;
+}
+
+// bezier distance function
+// a, b, c: control points
+// http://research.microsoft.com/en-us/um/people/hoppe/ravg.pdf
+float fBezier(vec3 p, vec3 a, vec3 b, vec3 c) {
+	vec3 w = normalize(cross(c-b, a-b));
+	vec3 u = normalize(c-b);
+	vec3 v = normalize(cross(w, u));
+
+	vec2 i2 = vec2(dot(a-b, u), dot(a-b, v));
+	vec2 j2 = vec2(0.);
+	vec2 k2 = vec2(dot(c-b, u), dot(c-b, v));
+	vec3 p3 = vec3(dot(p-b, u), dot(p-b, v), dot(p-b, w));
+
+	vec2 b0 = i2 - p3.xy;
+	vec2 b1 = j2 - p3.xy;
+	vec2 b2 = k2 - p3.xy;
+	//vec3 cp = getClosest(i2 - p3.xy, j2 - p3.xy, k2 - p3.xy);
+	//*
+//vec3 getClosest(vec2 b0, vec2 b1, vec2 b2) {
+    float m = _det_for_fBezier(b0, b2);
+    float n = 2. * _det_for_fBezier(b1, b0);
+    float o = 2. * _det_for_fBezier(b2, b1);
+    float f = n*o - m*m;
+    vec2 d21 = b2 - b1;
+    vec2 d10 = b1 - b0;
+    vec2 d20 = b2 - b0;
+    vec2 gf = 2. * (n*d21 + o*d10 + m*d20);
+	gf = vec2(gf.y, -gf.x);
+    vec2 pp = -f * gf / dot(gf, gf);
+    vec2 d0p = b0 - pp;
+    float ap = _det_for_fBezier(d0p, d20);
+    float bp = 2. * _det_for_fBezier(d10, d0p);
+    float t = saturate((ap + bp) / (2. * m + n + o));
+    vec3 closest = vec3(mix(mix(b0, b1, t), mix(b1, b2, t), t), t);
+	//return closest;
+//}
+	vec3 cp = closest;
+	// */
+
+	vec4 result = vec4(sqrt(dot(cp.xy, cp.xy) + p3.z*p3.z), cp.z, length(cp.xy), p3.z);
+	return result.x;
+}
