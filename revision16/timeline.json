@@ -263,6 +263,30 @@
           ]
         },
         {
+          "sequenceSceneId": 565,
+          "sequenceStart": 8000,
+          "sequenceDuration": 28000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 28000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 100
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 911,
           "sequenceStart": 1000,
           "sequenceDuration": 13750,
@@ -499,7 +523,7 @@
       "uniformStandardValue": {
         "valueQuatX": -0.4079278111457824707,
         "valueQuatY": -0.009129175916314125061,
-        "valueQuatZ": 0.91242194175720214844,
+        "valueQuatZ": 0.91242194175720203742,
         "valueQuatW": 0.0291024036705493927
       },
       "sequencesArray": [
@@ -516,7 +540,7 @@
               "keyframeValue": {
                 "valueQuatX": 0.15838006138801574707,
                 "valueQuatY": -0.009129175916314125061,
-                "valueQuatZ": 0.91242194175720214844,
+                "valueQuatZ": 0.91242194175720203742,
                 "valueQuatW": 0.0291024036705493927
               }
             },
@@ -525,7 +549,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueQuatX": 0.72281688451766967773,
+                "valueQuatX": 0.72281688451766978876,
                 "valueQuatY": -0.0094352560117840766907,
                 "valueQuatZ": 0.94301331043243408203,
                 "valueQuatW": 0.030078137293457984924
@@ -538,8 +562,8 @@
               "keyframeValue": {
                 "valueQuatX": -0.02545718848705291748,
                 "valueQuatY": -0.0096957543864846229553,
-                "valueQuatZ": 0.96904891729354858398,
-                "valueQuatW": 0.03090856596827507019
+                "valueQuatZ": 0.96904891729354869501,
+                "valueQuatW": 0.03090856596827507366
               }
             },
             {
@@ -561,7 +585,7 @@
                 "valueQuatX": 1.2061151266098022461,
                 "valueQuatY": -0.0095081590116024017334,
                 "valueQuatZ": 0.95029968023300170898,
-                "valueQuatW": 0.030310543254017829895
+                "valueQuatW": 0.030310543254017833364
               }
             },
             {
@@ -570,7 +594,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueQuatX": 1.2362884283065795898,
-                "valueQuatY": -0.011238296516239643097,
+                "valueQuatY": -0.011238296516239644832,
                 "valueQuatZ": 1.123219609260559082,
                 "valueQuatW": 0.035825956612825393677
               }
@@ -615,7 +639,7 @@
       "uniformName": "post_ao_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.5
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -685,7 +709,7 @@
       "uniformName": "post_disable_ao",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": true
+        "valueBoolState": false
       },
       "sequencesArray": []
     },
@@ -701,7 +725,7 @@
       "uniformName": "post_disable_median",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": true
+        "valueBoolState": false
       },
       "sequencesArray": []
     },
@@ -832,6 +856,38 @@
         "valueFloatX": 0.52700000000004365575
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "tree_anim_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tree_branch_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.05899999999996907718
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "tree_size_decay_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2660000000000763976
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "umbrella_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
@@ -864,7 +920,7 @@
     },
     {
       "sceneId": 494,
-      "sceneStart": 202000,
+      "sceneStart": 280000,
       "sceneDuration": 34000,
       "sceneShaderSource": "opening",
       "sceneEnvironmentSource": "sky",
@@ -872,8 +928,15 @@
       }
     },
     {
+      "sceneId": 565,
+      "sceneStart": 222000,
+      "sceneDuration": 48000,
+      "sceneShaderSource": "tree",
+      "sceneEnvironmentSource": "szenchen216"
+    },
+    {
       "sceneId": 711,
-      "sceneStart": 156000,
+      "sceneStart": 178000,
       "sceneDuration": 24000,
       "sceneShaderSource": "umbrella",
       "sceneEnvironmentSource": "szenchen649"
