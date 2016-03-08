@@ -128,7 +128,7 @@ AudioThumbnail& AudioManager::getThumbnail() {
 }
 
 int AudioManager::getBpm() {
-	return 125;
+	return 131;
 }
 
 void AudioManager::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
