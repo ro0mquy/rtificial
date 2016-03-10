@@ -1,6 +1,80 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "bridge_chain_length_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6.4379999999999881766
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_chain_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.3010000000000445652
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_chains_horizontal_space_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.9089999999999918145
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_chains_horizontal_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.047000000000025465852
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_chains_outline_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.090000000000031832315
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_pillar_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1,
+        "valueVec2Y": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_pillar_distance_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.7240000000000463842
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_pillar_top_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1.5,
+        "valueVec2Y": 0.70000000000004547474
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_platform_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "camera_exposure_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1007,6 +1081,15 @@
     }
   ],
   "scenesArray": [
+    {
+      "sceneId": 271,
+      "sceneStart": 392000,
+      "sceneDuration": 44000,
+      "sceneShaderSource": "bridge",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
     {
       "sceneId": 322,
       "sceneStart": 54250,
