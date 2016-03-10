@@ -308,11 +308,27 @@ float fConeAngle(vec3 p, float angle) {
 float fConeCapped(vec3 p, float rBig, float rSmall, float h) {
 	float a = rBig - rSmall;
 	float b = 2 * h;
-	float side = sqrt(a * a + b * b);
-	vec2 n = vec2(b/side, a/side);
+	vec2 n = normalize(vec2(b, a));
 	vec3 q = p;
 	pTrans(q.y, rSmall * n.x / n.y + h);
 	float cone = fCone(q, n);
+	float y = abs(p.y) - h;
+	return max(cone, y);
+}
+
+// n is plane normal and must be normalized
+float f2Cone(vec2 p, vec2 n) {
+	pMirror(p.x);
+	return f2Plane(p, n);
+}
+
+float f2ConeCapped(vec2 p, float rBig, float rSmall, float h) {
+	float a = rBig - rSmall;
+	float b = 2 * h;
+	vec2 n = normalize(vec2(b, a));
+	vec2 q = p;
+	pTrans(q.y, rSmall * n.x / n.y + h);
+	float cone = f2Cone(q, n);
 	float y = abs(p.y) - h;
 	return max(cone, y);
 }
