@@ -256,3 +256,12 @@ vec3 hsv2rgb(vec3 c) {
 vec3 color_palette(vec3 a, vec3 b, vec3 c, vec3 d, float t) {
 	return a + b * cos(Tau * (c * t + d));
 }
+
+// calculates the center of a circle with radius r intersecting
+// points a and b
+vec2 centerOfCircle(vec2 a, vec2 b, float r) {
+	vec2 v = b - a;
+	float q = dot(v, v);
+	v.y = -v.y;
+	return .5 * a + .5 * b + sqrt(square(r) - .25 * q) * v.yx / sqrt(q);
+}
