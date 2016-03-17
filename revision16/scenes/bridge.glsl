@@ -2,13 +2,6 @@
 #include "layer.glsl"
 #line 4
 
-vec2 centerOfCircle(vec2 a, vec2 b, float r) {
-	vec2 v = b - a;
-	float q = dot(v, v);
-	v.y = -v.y;
-	return .5 * a + .5 * b + sqrt(square(r) - .25 * q) * v.yx / sqrt(q);
-}
-
 float f2Bridge(vec2 p, float scale) {
 	vec2 p_pillar = p;
 	pMirrorTrans(p_pillar.x, bridge_pillar_distance_rt_float);

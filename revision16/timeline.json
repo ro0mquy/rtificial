@@ -36,7 +36,7 @@
       "uniformName": "bridge_chains_outline_width_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.090000000000031832315
+        "valueFloatX": 0.090000000000031846192
       },
       "sequencesArray": []
     },
@@ -100,7 +100,7 @@
       },
       "sequencesArray": [
         {
-          "sequenceSceneId": 379,
+          "sequenceSceneId": 158,
           "sequenceStart": 0,
           "sequenceDuration": 196000,
           "sequenceInterpolation": "step",
@@ -130,7 +130,7 @@
       },
       "sequencesArray": [
         {
-          "sequenceSceneId": 379,
+          "sequenceSceneId": 158,
           "sequenceStart": 0,
           "sequenceDuration": 196000,
           "sequenceInterpolation": "step",
@@ -197,6 +197,70 @@
         "valueVec3X": 0,
         "valueVec3Y": 0,
         "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_ground_cockpit_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.072999999999979081622
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_ground_cockpit_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.62400000000002364686
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_ground_cockpit_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.27499999999997726263
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_ground_cockpit_thickness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.0059999999999718056642
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_ground_engine_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.9410000000000309228
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_ground_nose_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.4440000000000736691
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_ground_nose_rotation_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.0090000000000145519152
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_ground_nose_smooth_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.77700000000004365575
       },
       "sequencesArray": []
     },
@@ -289,7 +353,7 @@
           ]
         },
         {
-          "sequenceSceneId": 379,
+          "sequenceSceneId": 158,
           "sequenceStart": 0,
           "sequenceDuration": 8000,
           "sequenceInterpolation": "linear",
@@ -769,6 +833,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "plane_wingspread_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "post_ao_avg_occlusion",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1082,6 +1154,15 @@
   ],
   "scenesArray": [
     {
+      "sceneId": 158,
+      "sceneStart": 0,
+      "sceneDuration": 48000,
+      "sceneShaderSource": "f16_beginning",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
       "sceneId": 271,
       "sceneStart": 392000,
       "sceneDuration": 44000,
@@ -1095,15 +1176,6 @@
       "sceneStart": 54250,
       "sceneDuration": 10250,
       "sceneShaderSource": "seagull",
-      "sceneEnvironmentSource": "sky",
-      "keyframeValue": {
-      }
-    },
-    {
-      "sceneId": 379,
-      "sceneStart": 0,
-      "sceneDuration": 52000,
-      "sceneShaderSource": "layers",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
