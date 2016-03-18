@@ -100,9 +100,11 @@ void WindowsFrontend::init(int width, int height, bool fullscreen) {
 	*/
 }
 
+#define SYNTH_DUAL_V2_4KLANG
+#undef SYNTH_4KLANG
+#undef SYNTH_V2
 
-
-#ifdef SYNTH_4KLANG
+#if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG)
 //#include <mmsystem.h>
 //#include <mmreg.h>
 #include "music/4klang.windows.h"
@@ -114,7 +116,7 @@ void WindowsFrontend::init(int width, int height, bool fullscreen) {
 static SAMPLE_TYPE audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 #endif
 
-#ifdef SYNTH_V2
+#if defined(SYNTH_V2) || defined(SYNTH_DUAL_V2_4KLANG)
 // use GetTickCount() instead of V2 for time
 // #define SYSTEM_TIME
 #include "v2mplayer.h"
@@ -125,6 +127,10 @@ extern "C" const sU8 soundtrack[];
 	DWORD starttime;
 #endif
 	long startPosition;
+#endif
+
+#ifdef SYNTH_DUAL_V2_4KLANG
+	sF32 v2_audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
 #endif
 
 #ifdef SYNTH_VORBIS
@@ -141,19 +147,33 @@ static SAMPLE_TYPE *audio_buffer;
 #endif
 
 void WindowsFrontend::initAudio(bool threaded) {
-#ifdef SYNTH_4KLANG
+#if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG)
+#ifdef SYNTH_DUAL_V2_4KLANG
+#define threaded false
+#endif
 	if (threaded) {
 		// thx to xTr1m/blu-flame for providing a smarter and smaller way to create the thread :)
 		CreateThread(0, 0, (LPTHREAD_START_ROUTINE) _4klang_render, audio_buffer, 0, 0);
 	} else {
 		_4klang_render(audio_buffer);
 	}
+#ifdef SYNTH_DUAL_V2_4KLANG
+#undef threaded
+#endif
 #endif
 
-#ifdef SYNTH_V2
+#if defined(SYNTH_V2) || defined(SYNTH_DUAL_V2_4KLANG)
 	player.Init();
 	player.Open(soundtrack);
+#ifdef SYNTH_V2
 	dsInit(player.RenderProxy, &player, GetForegroundWindow());
+#endif
+#ifdef SYNTH_DUAL_V2_4KLANG
+	for (int i = 0; i < MAX_SAMPLES * AUDIO_CHANNELS; i++) {
+		v2_audio_buffer[i] = sF32(audio_buffer[i]);
+	}
+	player.Render(v2_audio_buffer, MAX_SAMPLES * AUDIO_CHANNELS, sTRUE);
+#endif
 #endif
 
 #ifdef SYNTH_VORBIS
@@ -213,7 +233,37 @@ void WindowsFrontend::initAudio(bool threaded) {
 		/* bits/sample     */ sizeof(SAMPLE_TYPE) * 8,
 		/* no extensions   */ 0
 	};
+#endif
 
+#ifdef SYNTH_DUAL_V2_4KLANG
+	audio_wave_header = {
+		(LPSTR)audio_buffer,
+		MAX_SAMPLES * sizeof(sF32) * AUDIO_CHANNELS,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0
+	};
+// see Mmreg.h
+#define  WAVE_FORMAT_IEEE_FLOAT 0x0003 /*  Microsoft Corporation  */
+                                       /*  IEEE754: range (+1, -1]  */
+                                       /*  32-bit/64-bit format as defined by */
+                                       /*  MSVC++ float/double type */
+
+	WAVEFORMATEX wave_format = {
+		WAVE_FORMAT_IEEE_FLOAT,	
+		/* channels        */ AUDIO_CHANNELS,
+		/* samples/second  */ SAMPLE_RATE,
+		/* bytes/second    */ SAMPLE_RATE*sizeof(sF32) * AUDIO_CHANNELS,
+		/* block alignment */ sizeof(sF32) * AUDIO_CHANNELS,
+		/* bits/sample     */ sizeof(sF32) * 8,
+		/* no extensions   */ 0
+	};
+#endif
+
+#if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG)
 	waveOutOpen(&audio_wave_out, WAVE_MAPPER, &wave_format, NULL, 0, CALLBACK_NULL);
 	waveOutPrepareHeader(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
@@ -248,7 +298,7 @@ void WindowsFrontend::playAudio() {
 
 // returns time in milli beats
 int WindowsFrontend::getTime(){
-#if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS)
+#if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG) || defined(SYNTH_VORBIS)
 	MMTIME time;
 	time.wType = TIME_SAMPLES;
 	waveOutGetPosition(audio_wave_out, &time, sizeof(MMTIME));

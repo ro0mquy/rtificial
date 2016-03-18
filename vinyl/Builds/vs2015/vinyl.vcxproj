@@ -9,6 +9,10 @@
       <Configuration>Debug 4klang</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug dual_V2_4klang|Win32">
+      <Configuration>Debug dual_V2_4klang</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug vorbis|Win32">
       <Configuration>Debug vorbis</Configuration>
       <Platform>Win32</Platform>
@@ -19,6 +23,10 @@
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release 4klang|Win32">
       <Configuration>Release 4klang</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release dual_V2_4klang|Win32">
+      <Configuration>Release dual_V2_4klang</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release vorbis|Win32">
@@ -45,6 +53,12 @@
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug dual_V2_4klang|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -58,6 +72,12 @@
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release 4klang|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release dual_V2_4klang|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
@@ -78,6 +98,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug 4klang|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug dual_V2_4klang|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -85,6 +108,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release 4klang|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release dual_V2_4klang|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">
@@ -102,6 +128,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>bin\4klang\Debug\</OutDir>
     <IntDir>obj\4klang\Debug\</IntDir>
+    <TargetName>rt</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug dual_V2_4klang|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>bin\dual_V2_4klang\Debug\</OutDir>
+    <IntDir>obj\dual_V2_4klang\Debug\</IntDir>
     <TargetName>rt</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
@@ -123,6 +156,13 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>bin\4klang\Release\</OutDir>
     <IntDir>obj\4klang\Release\</IntDir>
+    <TargetName>rt</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release dual_V2_4klang|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>bin\dual_V2_4klang\Release\</OutDir>
+    <IntDir>obj\dual_V2_4klang\Release\</IntDir>
     <TargetName>rt</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
@@ -173,6 +213,28 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;winmm.lib;4klang.windows.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug dual_V2_4klang|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;SYNTH_DUAL_V2_4KLANG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\Lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/GS- %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;Dsound.lib;libv2.lib;winmm.lib;4klang.windows.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -247,6 +309,32 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;winmm.lib;4klang.windows.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/SAFESEH:NO /NODEFAULTLIB %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release dual_V2_4klang|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;SYNTH_DUAL_V2_4KLANG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\Lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>MinSpace</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/GS- /MT %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;Dsound.lib;libv2.lib;winmm.lib;4klang.windows.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Lib\lib;..\..\Source\music;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO /NODEFAULTLIB %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -345,8 +433,10 @@
     <ClCompile Include="..\..\Lib\include\stb_vorbis_wrapper.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug 4klang|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug dual_V2_4klang|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release 4klang|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release dual_V2_4klang|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Lib\include\v2mplayer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug 4klang|Win32'">true</ExcludedFromBuild>
@@ -382,12 +472,18 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -D_DEBUG -DSYNTH_V2</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">$(IntDir)/incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug V2|Win32'">incbin.asm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug dual_V2_4klang|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -D_DEBUG -DSYNTH_DUAL_V2_4KLANG</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug dual_V2_4klang|Win32'">$(IntDir)/incbin.lib</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug dual_V2_4klang|Win32'">incbin.asm</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -D_DEBUG -DSYNTH_VORBIS -DSTB_VORBIS_NOPUSHDATA_API -DSTB_VORBIS_NO_STDIO</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">$(IntDir)/incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug vorbis|Win32'">incbin.asm</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -DNDEBUG -DSYNTH_V2</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">$(IntDir)/incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release V2|Win32'">incbin.asm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release dual_V2_4klang|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -DNDEBUG -DSYNTH_DUAL_V2_4KLANG</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release dual_V2_4klang|Win32'">$(IntDir)/incbin.lib</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release dual_V2_4klang|Win32'">incbin.asm</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">nasm -f win32 -o $(IntDir)/incbin.lib ../../Source/incbin.asm -D_WINDOWS -DNDEBUG -DSYNTH_VORBIS -DSTB_VORBIS_NOPUSHDATA_API -DSTB_VORBIS_NO_STDIO -DSTB_VORBIS_NO_CRT</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">$(IntDir)/incbin.lib</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release vorbis|Win32'">incbin.asm</Message>

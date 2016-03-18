@@ -35,6 +35,7 @@ project "vinyl"
 	platforms {
 		"V2",
 		"4klang",
+		"dual_V2_4klang",
 		"vorbis",
 	}
 	filter { "platforms:V2", "system:windows" }
@@ -47,6 +48,8 @@ project "vinyl"
 			"STB_VORBIS_NOPUSHDATA_API",
 			"STB_VORBIS_NO_STDIO",
 		}
+	filter { "platforms:dual_V2_4klang" }
+		defines "SYNTH_DUAL_V2_4KLANG"
 	filter {} -- reset filters
 
 	files {
@@ -74,7 +77,7 @@ project "vinyl"
 		optimize "Off" -- "Debug"
 
 	-- nasm custom build commands for including binary data
-	filter { "files:Source/incbin.asm", "platforms:vorbis or V2" }
+	filter { "files:Source/incbin.asm", "platforms:vorbis or V2 or dual_V2_4klang" }
 		buildcommands 'nasm -f %{cfg.system == "linux" and "elf64" or cfg.system == "windows" and "win32"} -o %{cfg.objdir}/%{file.basename}.%{cfg.system == "linux" and "o" or cfg.system == "windows" and "lib"} %{file.abspath} %{table.implode(cfg.defines, "-D", "", " ")}'
 		buildmessage "%{file.name}"
 		buildoutputs '%{cfg.objdir}/%{file.basename}.%{cfg.system == "linux" and "o" or cfg.system == "windows" and "lib"}'
@@ -116,7 +119,7 @@ project "vinyl"
 
 	-- V2
 
-	filter { "platforms:V2", "system:windows" }
+	filter { "platforms:V2 or dual_V2_4klang", "system:windows" }
 		files {
 			"Source/music/bpm.h",
 			"Source/music/soundtrack.v2m",
@@ -133,7 +136,7 @@ project "vinyl"
 
 	-- 4klang
 
-	filter { "platforms:4klang", "system:windows" }
+	filter { "platforms:4klang or dual_V2_4klang", "system:windows" }
 		files {
 			"Source/music/4klang.windows.h",
 			"Source/music/4klang.windows.lib",
@@ -178,7 +181,7 @@ project "vinyl"
 	--
 
 	filter { "system:linux" }
-		removeplatforms { "V2" }
+		removeplatforms { "V2", "dual_V2_4klang" }
 		files {
 			"Source/LinuxFrontend.cpp",
 		}

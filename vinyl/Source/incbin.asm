@@ -5,6 +5,10 @@ section .data
 global _soundtrack
 _soundtrack incbin "../../Source/music/soundtrack.v2m"
 %endif
+%ifdef SYNTH_DUAL_V2_4KLANG
+global _soundtrack
+_soundtrack incbin "../../Source/music/soundtrack.v2m"
+%endif
 %ifdef SYNTH_VORBIS
 global _soundtrack
 _soundtrack incbin "../../Source/music/soundtrack.ogg"
