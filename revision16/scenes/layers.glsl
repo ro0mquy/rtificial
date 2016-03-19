@@ -2,7 +2,7 @@
 #include "layer.glsl"
 #line 4
 
-float fInner(vec2 p, float t) {
+float fInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p, vec2(cos(t/50. * 2 * Tau), sin(t/50. * 2 * Tau)) * 3);
 	return f2Box(p, 1);
 }

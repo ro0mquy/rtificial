@@ -11,7 +11,7 @@ float fFlame(vec2 p, float t, float r, float freq_t, float freq_y, float phase, 
 	return f2Triprism(p, r);
 }
 
-float fInner(vec2 p, float t) {
+float fInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p, 0, -lay_frame_dim.y-.5);
 	pTrans(p, vec2(cos(t/50. * 1.5 * Tau) * 0.7, sin(t/50. * 2 * Tau)) * 0.4);
 

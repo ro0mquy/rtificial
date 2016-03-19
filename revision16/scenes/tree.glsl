@@ -20,7 +20,7 @@ float pSplit(inout vec2 p, vec2 c, float angle, inout float scale) {
 	return s2;
 }
 
-float fInner(vec2 p, float t) {
+float fInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p.x, t * .5 - 3);
 	pTrans(p.y, -lay_frame_dim.y - .1);
 	p *= 1.6;

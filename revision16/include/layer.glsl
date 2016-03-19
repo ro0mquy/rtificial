@@ -7,11 +7,11 @@ uniform float lay_last_layer_index;
 uniform float lay_layer_dist;
 uniform float lay_layer_thickness;
 
-float fInner(vec2 p, float t);
+float fInner(vec2 p, inout float f_frame, float t);
 
 float fLayer(vec2 p, float t) {
 	float f_frame = -f2Box(p.xy, lay_frame_dim);
-	float f_inner = fInner(p, t);
+	float f_inner = fInner(p, f_frame, t);
 	float f_layer = min(f_frame, f_inner);
 	return f_layer;
 }

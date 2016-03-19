@@ -57,7 +57,7 @@ float fUmbrella(vec2 p, float t, float r) {
 	return min(line, max(top, -bottom)/max(stretch_x, 1));
 }
 
-float fInner(vec2 p, float t) {
+float fInner(vec2 p, inout float f_frame, float t) {
 	float rain = 1000;
 	float umbrella = fUmbrella(p, t, umbrella_r_rt_float);
 

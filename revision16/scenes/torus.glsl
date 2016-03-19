@@ -38,7 +38,7 @@ float f2TorusTorusSpheroid(vec2 p, float l, float rBig, float rMiddle, float rSm
 	return d;
 }
 
-float fInner(vec2 p, float t) {
+float fInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p, vec2(cos(t/50. * 1 * Tau), sin(t/50. * 1 * Tau)) * 3);
 	pRot(p, t * Tau * .01);
 	pMirrorGrid(p, 1.3);

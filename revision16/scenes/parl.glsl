@@ -79,7 +79,7 @@ float f2SideTop(vec2 p, float width) {
 	return f2Box(p, vec2(width, height));
 }
 
-float fInner(vec2 p, float t) {
+float fInner(vec2 p, inout float f_frame, float t) {
 	vec2 p_base = p;
 	float base_elem_width = parl_base_elem_dim_rt_vec2.x * parl_base_elem_scale_rt_float;
 	pMirrorTrans(p_base.x, middle_dim.x);

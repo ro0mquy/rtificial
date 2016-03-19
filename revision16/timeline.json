@@ -377,6 +377,30 @@
           ]
         },
         {
+          "sequenceSceneId": 429,
+          "sequenceStart": 2000,
+          "sequenceDuration": 14000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 14000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 100
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 433,
           "sequenceStart": 1000,
           "sequenceDuration": 22000,
@@ -484,30 +508,6 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueFloatX": 120
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 483,
-          "sequenceStart": 0,
-          "sequenceDuration": 19000,
-          "sequenceInterpolation": "linear",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 19000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueFloatX": 50
               }
             }
           ]
@@ -1023,6 +1023,15 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "rain_drop_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.05100000000004456524,
+        "valueVec2Y": 0.67700000000002091838
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "seagull_body_height_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1181,6 +1190,13 @@
       }
     },
     {
+      "sceneId": 429,
+      "sceneStart": 66000,
+      "sceneDuration": 20000,
+      "sceneShaderSource": "rain",
+      "sceneEnvironmentSource": "szenchen526"
+    },
+    {
       "sceneId": 433,
       "sceneStart": 103000,
       "sceneDuration": 24000,
@@ -1229,13 +1245,6 @@
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
-    },
-    {
-      "sceneId": 483,
-      "sceneStart": 66000,
-      "sceneDuration": 19000,
-      "sceneShaderSource": "noodles",
-      "sceneEnvironmentSource": "szenchen369"
     },
     {
       "sceneId": 907,

@@ -15,7 +15,7 @@ float fNoodle(vec2 p, float t, float r, vec4 top_params, vec4 bottom_params, vec
 	return fLine(vec3(p, 0), r, v);
 }
 
-float fInner(vec2 p, float t) {
+float fInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p, 0, -lay_frame_dim.y);
 	return fNoodle(p, t, 0.05, vec4(1,0,0.125,0), vec4(1,0,0.125,0), vec4(1,1,0.25,0));
 }

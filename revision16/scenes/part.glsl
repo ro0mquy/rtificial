@@ -14,7 +14,7 @@ float myTorusTwisted(vec3 p, float rBig, float rSmall, float t) {
 	return fBoxRounded(p, rSmall, part_r_roundedness_rt_float*rSmall);
 }
 
-float fInner(vec2 p, float t) {
+float fInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p, vec2(cos(t/100. * 2 * Tau), sin(t/50. * 2 * Tau)) * 1);
 	vec3 p_tor = vec3(p, 0.);
 	// good values for rot_big_offset: 0.145; -0.116

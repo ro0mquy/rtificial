@@ -39,7 +39,7 @@ float f2Bridge(vec2 p, float scale) {
 	return f;
 }
 
-float fInner(vec2 p, float t) {
+float fInner(vec2 p, inout float f_frame, float t) {
 	return f2Bridge(p, .5);
 }
 
