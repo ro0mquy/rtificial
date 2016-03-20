@@ -1,4 +1,5 @@
 float fF16Ground(vec2 p, float len) {
+	pFlip(p.x);
 	// horizontal offset
 	pTrans(p.x, .0758 * len);
 

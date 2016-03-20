@@ -157,7 +157,7 @@ vec3 applySphereLight(vec3 origin, float marched, vec3 direction, vec3 hit, vec3
 	float specular = incomingLightSpecular * NoL * brdfSpecularEpicSmithWithoutFresnel(-direction, closestPoint, normal, material.roughness);
 
 	vec3 F_dielectric = fresnel(-direction, closestPoint, vec3(.04));
-	return mix(diffuse + F_dielectric * specular, specular * F_metal, material.metallic);
+	return light.color * mix(diffuse + F_dielectric * specular, specular * F_metal, material.metallic);
 }
 
 float getDistanceAttenuation(vec3 lightVector) {

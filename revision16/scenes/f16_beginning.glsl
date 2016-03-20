@@ -3,15 +3,15 @@
 #line 4
 
 float fScene(vec3 p) {
-	float f = abs(p.z) - .5;
-	float p_stripes = p.x;
-	float c = 2. / 16;
-	pDomrep(p_stripes, c);
-	float f_stripes = abs(p_stripes) - c * .25;
-	f_stripes = max(f, f_stripes);
-	//f = max(f, fF16Ground(p.xy, 2.));
-	f_stripes = max(f_stripes, -fF16Ground(p.xy, 2.));
-	f = f_stripes;
+	float f = abs(p.z) - .02;
+	f = opIntersectRounded(f, fF16Ground(p.xy, 2.), .01);
+
+	float f_background_layer = p.z + 20;
+	float f_ground = p.y + .47;
+	f_ground = max(f_ground, -p.z - .3);
+
+	f = min(f, f_background_layer);
+	f = min(f, f_ground);
 
 	mUnion(f, newMaterialId(0., p));
 	return f;
@@ -20,7 +20,21 @@ float fScene(vec3 p) {
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
 	vec3 emission = material.emission;
 	//return applyNormalLights(origin, marched, direction, hit, normal, material) + emission;
-	return ambientColor(normal, -direction, material) + emission;
+	SphereLight light1 = SphereLight(
+		vec3(.7, 13, -3),
+		2,
+		begin_light1_color_rt_color,
+		500000
+	);
+	SphereLight light2 = SphereLight(
+		vec3(-1.2, 15, -2.5),
+		1.8,
+		begin_light2_color_rt_color,
+		2000000
+	);
+	vec3 sphereLight = applySphereLight(origin, marched, direction, hit, normal, material, light1);
+	sphereLight += begin_light_rt_float * applySphereLight(origin, marched, direction, hit, normal, material, light2);
+	return ambientColor(normal, -direction, material) + emission + sphereLight;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -29,7 +43,7 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
-	mat.roughness = .8;
-	mat.color = vec3(.5);
+	mat.roughness = 1;
+	mat.color = vec3(.0);
 	return mat;
 }
