@@ -13,7 +13,7 @@ class RtImage {
 
 		int getWidth() const;
 		int getHeight() const;
-		Rectangle<int> getBounds() const;
+		juce::Rectangle<int> getBounds() const;
 		bool hasAlphaChannel() const;
 
 		void clear();
