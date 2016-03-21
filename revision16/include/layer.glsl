@@ -24,7 +24,7 @@ MatWrap wLayerEffect(vec3 p) {
 	float t = i_layer;
 	float f = Inf;
 	t += (i_layer == 0) ? lay_animation : floor(lay_animation);
-	if (i_layer > -lay_last_layer_index) {
+	if (i_layer != -int(lay_last_layer_index)) {
 		float pz_after = p.z;
 		pTrans(pz_after, -(lay_layer_dist - 2. * lay_layer_thickness));
 		f = max(fGuard(p.xy, t - 1), pz_after);
