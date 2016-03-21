@@ -1,8 +1,32 @@
 #include "march.glsl"
 #include "layer.glsl"
-#line 4
+#include "f16.glsl"
+#line 5
 
-float f2Bridge(vec2 p, float scale) {
+float opUnionContour(float a, float b, float r) {
+	a = max(a, -(abs(b) - r));
+	return min(a, b);
+}
+
+float f2Car(vec2 p) {
+	float f_body = f2BoxRounded(p, vec2(5, 1), .3);
+	vec2 p_wheels = p;
+	pMirrorTrans(p_wheels.x, 3);
+	pTrans(p_wheels.y, -1);
+	float f_wheels = f2Sphere(p_wheels, 1);
+	vec2 p_top = p;
+	pTrans(p_top.x, 1.);
+	float f_top = f2BoxRounded(p_top, vec2(3.3, 3), 1.5);
+	float f_window = f2BoxRounded(p_top, vec2(2.8, 2.7), 1.0);
+	f_top = max(f_top, -f_window);
+	f_top = min(f_top, f2Box(p_top, vec2(.2, 3)));
+	f_top = max(f_top, -p_top.y);
+	f_body = opUnionChamfer(f_body, f_top, .2);
+	f_body = opUnionContour(f_body, f_wheels, .1);
+	return f_body;
+}
+
+float f2Bridge(vec2 p, float scale, float t) {
 	vec2 p_pillar = p;
 	pMirrorTrans(p_pillar.x, bridge_pillar_distance_rt_float);
 	vec2 pillar_dim = scale * bridge_pillar_dim_rt_vec2;
@@ -35,12 +59,31 @@ float f2Bridge(vec2 p, float scale) {
 
 	float f = min(f_pillar, f_pillar_top);
 	f = min(f, f_chains);
+	pTrans(p.y, -pillar_dim.y + platform_height + .4);
+	float car_t = saturate((t-130)/48);
+	pTrans(p.x, 8 * (1 - 2 * car_t));
+	float f_dings = f2Car(p * 5.) / 5;
+	f = min(f, f_dings);
 
 	return f;
 }
 
 float fInner(vec2 p, inout float f_frame, float t) {
-	return f2Bridge(p, .5);
+	//return f2Car(p);
+	vec2 p_f16 = p;
+	pTrans(p_f16, land_f16_offset_rt_vec2);
+	pTrans(p_f16.x, land_f16_motion_rt_float);
+	pTrans(p_f16.x, t * .3);
+	float f_f16 = fF16Ground(p_f16, 3);
+	float f_ground = p.y + lay_frame_dim.y;
+	vec2 p_bridge = p;
+	pTrans(p_bridge.y, -lay_frame_dim.y + 1.3);
+	pTrans(p_bridge.x, lay_frame_dim.x + 40);
+	float f_bridge = f2Bridge(p_bridge, .8, t);
+	float f = f_ground;
+	f = min(f, f_bridge);
+	f_frame = max(min(f_frame, f_f16), -max(f_frame, f_f16));
+	return f;
 }
 
 float fScene(vec3 p) {

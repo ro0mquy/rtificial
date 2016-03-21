@@ -5,17 +5,10 @@
 #line 5
 
 float fInner(vec2 p, inout float f_frame, float t) {
-	pTrans(p.x, 256 * .3);
 	f_frame = p.y + lay_frame_dim.y;
-	vec2 p_f16 = p;
-	pTrans(p_f16, land_f16_offset_rt_vec2);
-	pTrans(p_f16.x, land_f16_motion_rt_float);
-	pTrans(p_f16.x, t * .3);
-	float f_f16 = fF16Ground(p_f16, 3);
 
-	pTrans(p.x, 68);
+	pFlip(p.y);
 	float f = f2Parl(p);
-	f = min(f, f_f16);
 
 	return f;
 }

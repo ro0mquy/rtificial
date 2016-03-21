@@ -1,27 +1,22 @@
 #include "march.glsl"
 #include "layer.glsl"
 #include "f16.glsl"
-#include "parl.glsl"
-#line 5
+#line 4
 
 float fInner(vec2 p, inout float f_frame, float t) {
-	pTrans(p.x, 256 * .3);
-	f_frame = p.y + lay_frame_dim.y;
-	vec2 p_f16 = p;
-	pTrans(p_f16, land_f16_offset_rt_vec2);
-	pTrans(p_f16.x, land_f16_motion_rt_float);
-	pTrans(p_f16.x, t * .3);
-	float f_f16 = fF16Ground(p_f16, 3);
+	float f = fF16Ground(vec2(t * .5, p.x), 15);
+	f = -min(f_frame, f);
 
-	pTrans(p.x, 68);
-	float f = f2Parl(p);
-	f = min(f, f_f16);
-
+	f_frame = Inf;
 	return f;
 }
 
 float fScene(vec3 p) {
 	mUnion(wLayerEffect(p));
+
+	float f = p.y - lay_frame_dim.y + .2;
+	MaterialId m = MaterialId(0, p, vec4(0));
+	//mUnion(MatWrap(f, m));
 
 	return current_dist;
 }

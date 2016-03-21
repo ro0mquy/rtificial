@@ -2,8 +2,7 @@
 #include "layer.glsl"
 #line 4
 
-float cheapHash(ivec2 c)
-{
+float cheapHash(ivec2 c) {
   int x = 0x3504f333*c.x*c.x + c.y;
   int y = 0xf1bbcdcb*c.y*c.y + c.x;
   return float(x*y)*(2.0/8589934592.0)+0.5;
@@ -48,7 +47,7 @@ float fInner(vec2 p, inout float f_frame, float t) {
 	//return min(min(f1, f2), f3);
 
 	vec2 p_water = p;
-	float rain_water_height = saturate(t / 50.);
+	float rain_water_height = saturate(t / 192.);
 	if (rain_water_height < 1) {
 		rain_water_height += .02 * waterNoise(vec2(10 * p_water.x / lay_frame_dim.x, t * .3));
 	}
@@ -56,7 +55,7 @@ float fInner(vec2 p, inout float f_frame, float t) {
 	float f_water = p_water.y;
 	float f_inner = min(f1, f_water);
 
-	float rain_water_height_frame = (t - 60) / 40.;
+	float rain_water_height_frame = (t - 224) / 32.;
 	f_inner = max(f_inner, -f_frame);
 	rain_water_height_frame += .03 * waterNoise(vec2(7 * p.x / lay_frame_dim.x, t * .4));
 	pTrans(p.y, (1 - 2 * rain_water_height_frame) * lay_frame_dim.y );

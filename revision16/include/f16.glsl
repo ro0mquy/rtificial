@@ -22,15 +22,17 @@ float fF16Ground(vec2 p, float len) {
 	f_engine = max(f_engine, p_engine.x - engine_width);
 
 	vec2 p_wheel_connection = p;
+	float p_wheel_connection_top_y = p_wheel_connection.y;
 	pTrans(p_wheel_connection.x, -0.1262 * len);
 	float back_wheel = pMirrorTrans(p_wheel_connection.x, .2382 * len);
+	pRot(p_wheel_connection, -Tau / 4. * f16_ground_wheel_rotation_rt_float);
 	vec2 wheel_connection_dim = vec2(.0076, .0589) * len;
 	pTrans(p_wheel_connection.y, -(mid_dim.y + wheel_connection_dim.y));
 	float f_wheel_connection = f2Box(p_wheel_connection, wheel_connection_dim);
 	vec2 p_wheels = p_wheel_connection;
 	pRot(p_wheel_connection, radians(60));
 	float f_wheel_connection2 = abs(p_wheel_connection.x) - wheel_connection_dim.x;
-	f_wheel_connection2 = max(p_wheels.x, f_wheel_connection2);
+	f_wheel_connection2 = max(max(p_wheels.x, p_wheel_connection_top_y), f_wheel_connection2);
 	f_wheel_connection = min(f_wheel_connection, f_wheel_connection2);
 	pTrans(p_wheels, vec2(wheel_connection_dim.x, -wheel_connection_dim.y));
 	float front_wheel_radius = .0296 * len;
