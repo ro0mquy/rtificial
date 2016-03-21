@@ -23,19 +23,11 @@ MatWrap wLayerEffect(vec3 p) {
 	int i_layer = int(pDomrepInterval(p.z, lay_layer_dist, -lay_last_layer_index, 0));
 	float t = i_layer;
 	float f = Inf;
+	t += (i_layer == 0) ? lay_animation : floor(lay_animation);
 	if (i_layer > -lay_last_layer_index) {
 		float pz_after = p.z;
 		pTrans(pz_after, -(lay_layer_dist - 2. * lay_layer_thickness));
-		float f_layer_after = fGuard(p.xy, t - 1);
-		f_layer_after = max(f_layer_after, pz_after);
-
-		f = f_layer_after;
-	}
-
-	if (i_layer == 0) {
-		t += lay_animation;
-	} else {
-		t += floor(lay_animation);
+		f = max(fGuard(p.xy, t - 1), pz_after);
 	}
 
 	float pz_main = p.z;
