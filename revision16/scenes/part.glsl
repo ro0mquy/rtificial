@@ -2,6 +2,10 @@
 #include "layer.glsl"
 #line 4
 
+float fGuard(vec2 p, float t) {
+	return 0;
+}
+
 float myTorusTwisted(vec3 p, float rBig, float rSmall, float t) {
 	float r = length(p.xz);
 	float angle = atan(p.z, p.x);

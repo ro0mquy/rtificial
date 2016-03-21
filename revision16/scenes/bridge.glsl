@@ -3,6 +3,10 @@
 #include "f16.glsl"
 #line 5
 
+float fGuard(vec2 p, float t) {
+	return 0;
+}
+
 float opUnionContour(float a, float b, float r) {
 	a = max(a, -(abs(b) - r));
 	return min(a, b);

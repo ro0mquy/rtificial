@@ -2,6 +2,10 @@
 #include "layer.glsl"
 #line 4
 
+float fGuard(vec2 p, float t) {
+	return 0;
+}
+
 float f2Line(vec2 p, float r, vec2 v) {
 	float h = saturate(dot(p, v)/ dot(v, v));
 	return f2Sphere(p - v*h, r);

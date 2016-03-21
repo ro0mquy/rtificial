@@ -3,6 +3,10 @@
 #include "f16.glsl"
 #line 4
 
+float fGuard(vec2 p, float t) {
+	return 0;
+}
+
 float fInner(vec2 p, inout float f_frame, float t) {
 	float f = fF16Ground(vec2(t * .5, p.x), 15);
 	f = -min(f_frame, f);

@@ -2,7 +2,11 @@
 #include "layer.glsl"
 #include "f16.glsl"
 #include "parl.glsl"
-#line 5
+#line 6
+
+float fGuard(vec2 p, float t) {
+	return 0;
+}
 
 float fInner(vec2 p, inout float f_frame, float t) {
 	f_frame = p.y + lay_frame_dim.y;

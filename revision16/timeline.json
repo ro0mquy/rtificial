@@ -2212,7 +2212,9 @@
       "sceneStart": 370000,
       "sceneDuration": 38000,
       "sceneShaderSource": "parl_schwurbel",
-      "sceneEnvironmentSource": "szenchen267"
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
     },
     {
       "sceneId": 271,

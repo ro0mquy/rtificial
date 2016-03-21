@@ -2,6 +2,9 @@
 #include "layer.glsl"
 #line 4
 
+float fGuard(vec2 p, float t) {
+	return 0;
+}
 
 float fFlame(vec2 p, float t, float r, float freq_t, float freq_y, float phase, float amp_x, float curve) {
 	pTrans(p.y, .5*r);

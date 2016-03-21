@@ -2,6 +2,10 @@
 #include "layer.glsl"
 #line 3
 
+float fGuard(vec2 p, float t) {
+	return 0;
+}
+
 float pSplit(inout vec2 p, vec2 c, float angle, inout float scale) {
 	float s2 = sign(p.y);
 	c.y *= .9;

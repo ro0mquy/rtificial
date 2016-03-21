@@ -4,6 +4,10 @@
 #include "parl.glsl"
 #line 5
 
+float fGuard(vec2 p, float t) {
+	return 0;
+}
+
 float fInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p.x, 256 * .3);
 	f_frame = p.y + lay_frame_dim.y;

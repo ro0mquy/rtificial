@@ -2,6 +2,10 @@
 #include "layer.glsl"
 #line 4
 
+float fGuard(vec2 p, float t) {
+	return 0;
+}
+
 float cheapHash(ivec2 c) {
   int x = 0x3504f333*c.x*c.x + c.y;
   int y = 0xf1bbcdcb*c.y*c.y + c.x;

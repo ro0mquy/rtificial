@@ -2,6 +2,10 @@
 #include "layer.glsl"
 #line 4
 
+float fGuard(vec2 p, float t) {
+	return 0;
+}
+
 // I can do all the art with noodles now, which is more fun
 // wants its p centered on bottom edge of the frame
 // top-/bottom_params: vec4(freq, phase, width, offset)
