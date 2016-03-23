@@ -52,6 +52,7 @@ float f2Invite(vec2 p, float height) {
 
 float fInner(vec2 p, inout float f_frame, float t) {
 	//float f = f2Box(p, 8 * vec2(1, size.y/size.x));
+	f_frame = Inf;
 
 	float text_size = end_text_size_rt_float;
 	float line_height = text_size * end_line_height_rt_float;
