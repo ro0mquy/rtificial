@@ -71,30 +71,94 @@ float f2Lighthouse(vec2 p) {
 	return f_tower;
 }
 
+float f2LighthouseWrapper(vec2 p, float t) {
+	pTrans(p.y, -lay_frame_dim.y + 1.95);
+	pTrans(p.x, (lay_frame_dim.x + 1) * (1 - 2 * t));
+	return f2Lighthouse(p*1.3)/1.3;
+}
+
+float pSplit(inout vec2 p, vec2 c, float angle, inout float scale) {
+	float s2 = sign(p.y);
+	c.y *= .9;
+	pTrans(p.y, c.y);
+	float s = pMirrorTrans(p.y, c.y);
+	if (s > 0.) {
+		float side = pMirror(p.x);
+		pFlip(c.y);
+		pTrans(p, c);
+		pRot(p, -angle * Tau);
+		float decay = tree_size_decay_rt_float;
+		scale *= decay;
+		p *= decay;
+		pTrans(p, -c);
+	}
+	return s2;
+}
+
+float f2Tree(vec2 p, float t) {
+	float big_scale = mix(2.6, 4., t);
+	pTrans(p.x, -(2 * t - 1) * (lay_frame_dim.x + 2.2));
+	pTrans(p.y, -lay_frame_dim.y - .1);
+	p *= big_scale;
+	vec2 pTree = p;
+	vec2 c = vec2(.4, 2.);
+	float scale = 1.;
+	float angle = tree_branch_angle_rt_float + .04 * sin(t * Pi - Pi*.5);
+	float s = pSplit(pTree, c, angle, scale);
+	for (int i = 0; i < 6; i++) {
+		pSplit(pTree, c, angle, scale);
+	}
+	float fTree = f2Box(pTree, c);
+	fTree *= s;
+	fTree /= scale;
+	fTree = max(fTree, -p.y + .1);
+
+	return fTree / big_scale;
+}
+
+float f2Mountain(vec2 p, float t) {
+	vec2 p_mountain = p;
+	pTrans(p_mountain.y, -.5);
+	pTrans(p_mountain.x, (lay_frame_dim.x + 4.5) * (1 - 2 * t));
+	// mountain
+	float n = mountainFbm(p_mountain.x) * .5;
+	pRot(p_mountain, radians(5));
+	float s = pMirror(p_mountain.x);
+	pRot(p_mountain, -radians(50));
+	return p_mountain.y - n;
+}
+
 float fInner(vec2 p, inout float f_frame, float t) {
+	//float f_tree = f2Tree(p, t);
+	//f_frame = max(min(f_frame, f_tree), -max(f_frame, f_tree));
+	//return f_frame;
+	//return max(f2Tree(p, t);
 	vec2 p_f16 = p;
-	pTrans(p_f16, land_f16_offset_rt_vec2);
-	pTrans(p_f16.x, (t / 528 * 2 - 1) * land_f16_motion_rt_float);
+	pF16Landscape(p_f16, t);
 	float f_f16 = fF16Ground(p_f16, 3);
-	float f = f_f16;
-	if (t > 8 && t <= 56) {
-		vec2 p_mountain = p;
-		float mountain_t = saturate((t - 8) / 48);
-		pTrans(p_mountain.x, (lay_frame_dim.x + 4.5) * (1 - 2 * mountain_t));
-		// mountain
-		float n = mountainFbm(p_mountain.x) * .5;
-		pRot(p_mountain, radians(5));
-		float s = pMirror(p_mountain.x);
-		pRot(p_mountain, -radians(50));
-		float f_mountain = p_mountain.y - n;
+	f_frame = max(min(f_frame, f_f16), -max(f_frame, f_f16));
+	float f = Inf;
+
+	float tree_start = 8;
+	float tree_duration = 128;
+	float lighthouse_start = tree_start + tree_duration;
+	float lighthouse_duration = 96;
+	float mountain_start = lighthouse_start + lighthouse_duration;
+	float mountain_duration = 64;
+
+	if (t >= tree_start && t < tree_start + tree_duration) {
+		float f_tree = f2Tree(p, (t - tree_start) / tree_duration);
+		f = min(f, f_tree);
+	}
+	if (t > lighthouse_start && t <= lighthouse_start + lighthouse_duration) {
+		float f_lighthouse = f2LighthouseWrapper(p, (t - lighthouse_start) / lighthouse_duration);
+		f = min(f, f_lighthouse);
+	}
+	if (t > mountain_start && t <= mountain_start + mountain_duration) {
+		float f_mountain = f2Mountain(p, (t - mountain_start) / mountain_duration);
 		f = min(f, f_mountain);
 	}
-	if (t > 64 && t <= 64 + 48) {
-		float lighthouse_t = saturate((t - 64) / 48);
-		pTrans(p.y, -lay_frame_dim.y + 1.95);
-		pTrans(p.x, (lay_frame_dim.x + 1) * (1 - 2 * lighthouse_t));
-		f = min(f, f2Lighthouse(p*1.3)/1.3);
-	}
+
 	return f;
 }
 

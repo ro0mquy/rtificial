@@ -76,40 +76,40 @@ float fInner(vec2 p, inout float f_frame, float t) {
 	f = min(f, f2TwentySixteen(p_bottom, text_size));
 */
 
-	if (t >= 8) {
+	if (t >= 0) {
 		f = min(f, f2TwentySixteen(p_bottom, text_size));
-		if (t < 128) {
+		if (t < 120) {
 			f = min(f, f2Rtificial(p_top, text_size));
 		}
 	}
-	if (t >= 40 && t < 128) {
+	if (t >= 32 && t < 120) {
 		f = min(f, f2Invite(p_middle1, text_size));
 	}
-	if (t >= 72) {
+	if (t >= 64) {
 		f = min(f, f2Function(p_middle2, text_size));
 	}
 
-	if (t >= 128 && t < 144) {
+	if (t >= 120 && t < 136) {
 		float f_invite = f2Invite(p_middle1, text_size);
 		float f_september = f2September(p_middle1, text_size);
-		float t_mix = (t - 128)/(144-128);
+		float t_mix = (t - 120)/(136-120);
 		float f_box = f2Box(p_middle1, vec2(20, text_size * .5));
 		float f_mixed = mix(mix(f_invite, f_box, t_mix), mix(f_box, f_september, t_mix), t_mix);
 		f = min(f, f_mixed);
 	}
 
-	if (t >= 144 && t < 240) {
+	if (t >= 136 && t < 232) {
 		f = min(f, f2September(p_middle1, text_size));
 	}
-	if (t >= 240 && t < 256) {
+	if (t >= 232 && t < 248) {
 		float f_september = f2September(p_middle1, text_size);
 		float f_budapest = f2Budapest(p_middle1, text_size);
-		float t_mix = (t - 240)/(256-240);
+		float t_mix = (t - 232)/(248-232);
 		float f_box = f2Box(p_middle1, vec2(20, text_size * .5));
 		float f_mixed = mix(mix(f_september, f_box, t_mix), mix(f_box, f_budapest, t_mix), t_mix);
 		f = min(f, f_mixed);
 	}
-	if (t >= 256 && t < 352) {
+	if (t >= 248 && t < 344) {
 		f = min(f, f2Budapest(p_middle1, text_size));
 	}
 

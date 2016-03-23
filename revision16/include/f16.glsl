@@ -85,3 +85,24 @@ float fF16Ground(vec2 p, float len) {
 	f = min(f, f_fin);
 	return f;
 }
+
+void pF16Landscape(inout vec2 p_f16, float t) {
+	float duration = 512;
+	float speedup_duration = 32;
+	float speedup_start = duration - speedup_duration;
+	pTrans(p_f16, land_f16_offset_rt_vec2);
+	float speedup_percentage = .4;
+	pTrans(p_f16, saturate(t / (duration - speedup_duration)) * land_f16_motion_rt_vec2 * (1 - speedup_percentage));
+	float speedup_t = pow(saturate((t - (duration - speedup_duration)) / (speedup_duration)), 1.5);
+	pTrans(p_f16, speedup_t * land_f16_motion_rt_vec2 * speedup_percentage);
+	pTrans(p_f16.x, clamp(t - duration, 0, 64) * .3);
+}
+
+void pF16Bridge(inout vec2 p_f16, float t) {
+	pTrans(p_f16.x, t * .3);
+	pF16Landscape(p_f16, 576);
+}
+
+void pF16Parl(inout vec2 p_f16, float t) {
+	pF16Bridge(p_f16, t);
+}

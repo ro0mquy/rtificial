@@ -64,7 +64,7 @@ float f2Bridge(vec2 p, float scale, float t) {
 	float f = min(f_pillar, f_pillar_top);
 	f = min(f, f_chains);
 	pTrans(p.y, -pillar_dim.y + platform_height + .4);
-	float car_t = saturate((t-130)/48);
+	float car_t = saturate((t-80)/48);
 	pTrans(p.x, 8 * (1 - 2 * car_t));
 	float f_dings = f2Car(p * 5.) / 5;
 	f = min(f, f_dings);
@@ -75,9 +75,7 @@ float f2Bridge(vec2 p, float scale, float t) {
 float fInner(vec2 p, inout float f_frame, float t) {
 	//return f2Car(p);
 	vec2 p_f16 = p;
-	pTrans(p_f16, land_f16_offset_rt_vec2);
-	pTrans(p_f16.x, land_f16_motion_rt_float);
-	pTrans(p_f16.x, t * .3);
+	pF16Bridge(p_f16, t);
 	float f_f16 = fF16Ground(p_f16, 3);
 	float f_ground = p.y + lay_frame_dim.y;
 	vec2 p_bridge = p;
