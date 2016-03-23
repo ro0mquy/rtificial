@@ -133,13 +133,16 @@ float fInner(vec2 p, inout float f_frame, float t) {
 	//f_frame = max(min(f_frame, f_tree), -max(f_frame, f_tree));
 	//return f_frame;
 	//return max(f2Tree(p, t);
+	float start_width = 13 * lay_frame_dim.y / lay_frame_dim.x;;
+	float zoomout_duration = 64;
+
 	vec2 p_f16 = p;
 	pF16Landscape(p_f16, t);
-	float f_f16 = fF16Ground(p_f16, 3);
+	float f_f16 = fF16Ground(p_f16, mix(start_width, 3, saturate(t / zoomout_duration)));
 	f_frame = max(min(f_frame, f_f16), -max(f_frame, f_f16));
 	float f = Inf;
 
-	float tree_start = 8;
+	float tree_start = 8 + zoomout_duration;
 	float tree_duration = 128;
 	float lighthouse_start = tree_start + tree_duration;
 	float lighthouse_duration = 96;

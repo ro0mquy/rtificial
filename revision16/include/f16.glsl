@@ -89,10 +89,13 @@ float fF16Ground(vec2 p, float len) {
 void pF16Landscape(inout vec2 p_f16, float t) {
 	float duration = 512;
 	float speedup_duration = 32;
+	float zoomout_duration = 64;
 	float speedup_start = duration - speedup_duration;
-	pTrans(p_f16, land_f16_offset_rt_vec2);
+	float zoomout_t = smoothstep(0, 1, t / zoomout_duration);
+	pTrans(p_f16, land_f16_offset_rt_vec2 * zoomout_t);
 	float speedup_percentage = .4;
-	pTrans(p_f16, saturate(t / (duration - speedup_duration)) * land_f16_motion_rt_vec2 * (1 - speedup_percentage));
+	vec2 motion = saturate(t / (duration - speedup_duration)) * land_f16_motion_rt_vec2 * (1 - speedup_percentage);
+	pTrans(p_f16, motion * zoomout_t);
 	float speedup_t = pow(saturate((t - (duration - speedup_duration)) / (speedup_duration)), 1.5);
 	pTrans(p_f16, speedup_t * land_f16_motion_rt_vec2 * speedup_percentage);
 	pTrans(p_f16.x, clamp(t - duration, 0, 64) * .3);
