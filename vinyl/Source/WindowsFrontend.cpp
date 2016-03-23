@@ -100,10 +100,6 @@ void WindowsFrontend::init(int width, int height, bool fullscreen) {
 	*/
 }
 
-#define SYNTH_DUAL_V2_4KLANG
-#undef SYNTH_4KLANG
-#undef SYNTH_V2
-
 #if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG)
 //#include <mmsystem.h>
 //#include <mmreg.h>
@@ -129,10 +125,6 @@ extern "C" const sU8 soundtrack[];
 	long startPosition;
 #endif
 
-#ifdef SYNTH_DUAL_V2_4KLANG
-	sF32 v2_audio_buffer[MAX_SAMPLES * AUDIO_CHANNELS];
-#endif
-
 #ifdef SYNTH_VORBIS
 #include "stb_vorbis.h"
 static stb_vorbis *vorbis_decoder;
@@ -146,20 +138,48 @@ static void _vorbis_decode();
 static SAMPLE_TYPE *audio_buffer;
 #endif
 
+#ifdef SYNTH_DUAL_V2_4KLANG
+sU32 sample_position = 0;
+sU32 samples_until_last_discard = 0;
+void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
+	V2MPlayer* player = reinterpret_cast<V2MPlayer*>(a_this);
+	if (player->IsPlaying()) {
+		//sU32 position = player->GetTimeSamples() * 2;
+		sU32 position = sample_position * 2;
+		// TODO assumes floating point samples
+		for (sU32 i = 0; i < a_len; i++) {
+			a_buffer[2 * i] = audio_buffer[position + 2 * i];
+			a_buffer[2 * i + 1] = audio_buffer[position + 2 * i + 1];
+		}
+		const sU32 discard_every = 25000;
+		const sU32 discard_samples = 3;
+		sF32 discard_buffer[discard_samples * 2];
+		while (samples_until_last_discard + a_len >= discard_every) {
+			sU32 samples_before_discard = discard_every - samples_until_last_discard;
+			player->Render(a_buffer, samples_before_discard, 1);
+			a_buffer += samples_before_discard * 2;
+			a_len -= samples_before_discard;
+			sample_position += samples_before_discard;
+			player->Render(discard_buffer, discard_samples, 0);
+			samples_until_last_discard = 0;
+		}
+		player->Render(a_buffer, a_len, 1);
+		sample_position += a_len;
+		samples_until_last_discard += a_len;
+
+		// TODO compressor and limiter
+	}
+}
+#endif
+
 void WindowsFrontend::initAudio(bool threaded) {
 #if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG)
-#ifdef SYNTH_DUAL_V2_4KLANG
-#define threaded false
-#endif
 	if (threaded) {
 		// thx to xTr1m/blu-flame for providing a smarter and smaller way to create the thread :)
 		CreateThread(0, 0, (LPTHREAD_START_ROUTINE) _4klang_render, audio_buffer, 0, 0);
 	} else {
 		_4klang_render(audio_buffer);
 	}
-#ifdef SYNTH_DUAL_V2_4KLANG
-#undef threaded
-#endif
 #endif
 
 #if defined(SYNTH_V2) || defined(SYNTH_DUAL_V2_4KLANG)
@@ -169,10 +189,7 @@ void WindowsFrontend::initAudio(bool threaded) {
 	dsInit(player.RenderProxy, &player, GetForegroundWindow());
 #endif
 #ifdef SYNTH_DUAL_V2_4KLANG
-	for (int i = 0; i < MAX_SAMPLES * AUDIO_CHANNELS; i++) {
-		v2_audio_buffer[i] = sF32(audio_buffer[i]);
-	}
-	player.Render(v2_audio_buffer, MAX_SAMPLES * AUDIO_CHANNELS, sTRUE);
+	dsInit(dualV2And4KlangProxy, &player, GetForegroundWindow());
 #endif
 #endif
 
@@ -235,35 +252,7 @@ void WindowsFrontend::initAudio(bool threaded) {
 	};
 #endif
 
-#ifdef SYNTH_DUAL_V2_4KLANG
-	audio_wave_header = {
-		(LPSTR)audio_buffer,
-		MAX_SAMPLES * sizeof(sF32) * AUDIO_CHANNELS,
-		0,
-		0,
-		0,
-		0,
-		0,
-		0
-	};
-// see Mmreg.h
-#define  WAVE_FORMAT_IEEE_FLOAT 0x0003 /*  Microsoft Corporation  */
-                                       /*  IEEE754: range (+1, -1]  */
-                                       /*  32-bit/64-bit format as defined by */
-                                       /*  MSVC++ float/double type */
-
-	WAVEFORMATEX wave_format = {
-		WAVE_FORMAT_IEEE_FLOAT,	
-		/* channels        */ AUDIO_CHANNELS,
-		/* samples/second  */ SAMPLE_RATE,
-		/* bytes/second    */ SAMPLE_RATE*sizeof(sF32) * AUDIO_CHANNELS,
-		/* block alignment */ sizeof(sF32) * AUDIO_CHANNELS,
-		/* bits/sample     */ sizeof(sF32) * 8,
-		/* no extensions   */ 0
-	};
-#endif
-
-#if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG)
+#if defined(SYNTH_4KLANG)
 	waveOutOpen(&audio_wave_out, WAVE_MAPPER, &wave_format, NULL, 0, CALLBACK_NULL);
 	waveOutPrepareHeader(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
@@ -286,7 +275,7 @@ void WindowsFrontend::playAudio() {
 #if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS)
 	waveOutWrite(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
-#ifdef SYNTH_V2
+#if defined(SYNTH_V2) || defined(SYNTH_DUAL_V2_4KLANG)
 	#ifdef SYSTEM_TIME
 		starttime = GetTickCount();
 	#endif
@@ -298,13 +287,13 @@ void WindowsFrontend::playAudio() {
 
 // returns time in milli beats
 int WindowsFrontend::getTime(){
-#if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG) || defined(SYNTH_VORBIS)
+#if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS)
 	MMTIME time;
 	time.wType = TIME_SAMPLES;
 	waveOutGetPosition(audio_wave_out, &time, sizeof(MMTIME));
 	return int(.5 + (double) time.u.sample / SAMPLE_RATE * BPM / 60. * 1000.);
 #endif
-#ifdef SYNTH_V2
+#if defined(SYNTH_V2) || defined(SYNTH_DUAL_V2_4KLANG)
 	#ifdef SYSTEM_TIME
 		return int(.5 + double(GetTickCount() - starttime) * BPM / 60.);
 	#else

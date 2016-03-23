@@ -41,11 +41,11 @@ RT_MAIN {
 	const int program_start_time = frontend.getTime() * 60. / BPM;
 
 #	ifdef _DEBUG
-	glEnable(GL_DEBUG_OUTPUT);
-	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	//glEnable(GL_DEBUG_OUTPUT);
+	//glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	// enable all debug messages
-	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
-	glDebugMessageCallback((GLDEBUGPROC) &debugOutputGL, NULL);
+	//glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+	//glDebugMessageCallback((GLDEBUGPROC) &debugOutputGL, NULL);
 #endif
 
 
@@ -231,7 +231,8 @@ RT_MAIN {
 
 		if(scenes_data[scene_id].end < currentTime) {
 			if(scene_id == last_scene_id) {
-				break;
+				// TODO
+				//break;
 			} else {
 				scene_id++;
 				shader_id = scenes_data[scene_id].sceneId;

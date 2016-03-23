@@ -61,7 +61,7 @@ class WindowsFrontend {
 
 	private:
 		HDC window_handle;
-#		if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS) || defined(SYNTH_DUAL_V2_4KLANG)
+#		if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS)
 			HWAVEOUT audio_wave_out;
 			WAVEHDR audio_wave_header;
 #		endif

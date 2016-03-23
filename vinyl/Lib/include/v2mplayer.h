@@ -63,6 +63,7 @@ public:
 	*/
 
 	sU32 GetTime();
+	sU32 GetTimeSamples();
 
 	/*
 	* ---

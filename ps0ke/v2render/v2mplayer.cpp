@@ -49,7 +49,10 @@ sBool V2MPlayer::InitBase(const void *a_v2m)
 {
 	const sU8 *d=(const sU8*)a_v2m;
 	m_base.timediv=(*((sU32*)(d)));
-	m_base.timediv2=10000*m_base.timediv;
+	m_base.timediv2 = 10000 * m_base.timediv;
+	// added by rtificial
+	// just go a little bit slower v2 (fixes bpm sync)
+	m_base.timediv2 -= 1;
 	m_base.maxtime=*((sU32*)(d+4));
 	m_base.gdnum=*((sU32*)(d+8));
 	d+=12;
