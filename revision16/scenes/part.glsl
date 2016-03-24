@@ -30,6 +30,11 @@ float f2Part(vec2 p, float t) {
 }
 
 MatWrap wInner(vec2 p, inout float f_frame, float t) {
+	const float torus_stop = 492;
+	const float torus_slow = 428;
+	if (t >= torus_stop) {
+		return MatWrap(Inf, layerMaterialId(p, t));
+	}
 	vec2 p_part = p;
 	float front_plane = f2Box(p, lay_frame_dim);
 	vec2 p_spheres = p;
@@ -71,8 +76,13 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 		front_plane = f_spheres;
 	}
 	if (t >= 132) {
-		float delta_t = t - 132;
-		float f_part = mix(front_plane, f2Part(p_part, t), saturate(delta_t * .05));
+		float delta_t = min(t, torus_slow) - 132;
+		if (t >= torus_slow) {
+			float delta_slow = t - torus_slow;
+			float duration = (torus_stop - torus_slow) * .75;
+			delta_t += duration * saturate(delta_slow / duration);
+		}
+		float f_part = mix(front_plane, f2Part(p_part, delta_t), saturate(delta_t * .05));
 		front_plane = f_part;
 	}
 	return MatWrap(front_plane, layerMaterialId(p, t));

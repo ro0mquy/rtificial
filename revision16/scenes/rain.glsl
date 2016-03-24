@@ -43,27 +43,51 @@ float rainLayer(vec2 p, float t, vec2 d, vec2 spacing, float offset, float amoun
 	}
 }
 
-MatWrap wInner(vec2 p, inout float f_frame, float t) {
-	vec2 d = rain_drop_dim_rt_vec2;
-	float f1 = rainLayer(p, t, d, vec2(10, 1.5), .1, .05, 1.3);
-	//float f2 = rainLayer(p, t, d * 1.1, vec2(13, 4), 10.5, .04, 1.5);
-	//float f3 = rainLayer(p, t, d * .8, vec2(14, 9), 10.8, .06, 1.2);
-	//return min(min(f1, f2), f3);
+float water_offset = rain_water_offset_rt_float;
 
+float waterHeightUp(float t) {
+	return (2 * t - 1) * (lay_frame_dim.y + water_offset);
+}
+
+float waterHeightDown(float t) {
+	return (1 - 2 * t) * lay_frame_dim.y;
+}
+
+MatWrap wInner(vec2 p, inout float f_frame, float t) {
+	float rain_amount = smoothstep(0, 1, (t+24)/128);
+	vec2 d = rain_drop_dim_rt_vec2;
+	vec2 rain_spacing = rain_spacing_rt_vec2;
+	float f1 = rainLayer(p, t, d * rain_scale_3_rt_float, rain_spacing, rain_offset_3_rt_float, rain_amount_3_rt_float * rain_amount, rain_speed_3_rt_float);
 	vec2 p_water = p;
-	float rain_water_height = saturate(t / 192.);
-	if (rain_water_height < 1) {
-		rain_water_height += .02 * waterNoise(vec2(10 * p_water.x / lay_frame_dim.x, t * .3));
+	float water_rise_begin = 32;
+	float water_rise_end = 176;
+	float water_half_t = 144;
+	float first_half = saturate((t - water_rise_begin) / (water_half_t - water_rise_begin));
+	float second_half = saturate((t - water_half_t) / (water_rise_end - water_half_t));;
+	float rain_water_height = .5 * first_half + .5 * second_half;
+	if (rain_water_height < 1 && rain_water_height > 0) {
+		if (abs(p_water.y - waterHeightUp(rain_water_height)) <= .5) {
+			rain_water_height += .02 * waterNoise(vec2(10 * p_water.x / lay_frame_dim.x, t * .3));
+		}
 	}
-	pTrans(p_water.y, (2 * rain_water_height - 1) * lay_frame_dim.y );
+	pTrans(p_water.y, waterHeightUp(rain_water_height));
 	float f_water = p_water.y;
 	float f_inner = min(f1, f_water);
 
-	float rain_water_height_frame = (t - 224) / 32.;
+	vec2 p_top_cutout = p;
+	pTrans(p_top_cutout.y, water_offset * second_half);
+	float f_top_cutout = -f2Box(p_top_cutout, lay_frame_dim);
+	if (t < 190) {
+		f_frame = max(f_frame, f_top_cutout);
+	}
+
+	float rain_water_height_frame = (t - 192) / 24.;
 	// -.1 to fix seams due to chamfering
 	f_inner = max(f_inner, -f_frame - .1);
-	rain_water_height_frame += .03 * waterNoise(vec2(7 * p.x / lay_frame_dim.x, t * .4));
-	pTrans(p.y, (1 - 2 * rain_water_height_frame) * lay_frame_dim.y );
+	if (rain_water_height_frame > 0.) {
+		rain_water_height_frame += .03 * waterNoise(vec2(7 * p.x / lay_frame_dim.x, t * .4));
+	}
+	pTrans(p.y, waterHeightDown(rain_water_height_frame));
 	f_frame = max(p.y, f_frame);
 	return MatWrap(f_inner, layerMaterialId(p, t));
 }
