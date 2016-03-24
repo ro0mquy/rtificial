@@ -37,7 +37,7 @@ MatWrap wLayerEffect(vec3 p) {
 	float pz_main = p.z;
 	pMirrorTrans(pz_main, lay_layer_thickness);
 	MatWrap w_layer_main = wLayer(p.xy, t);
-	w_layer_main.f = opIntersectChamfer(w_layer_main.f, pz_main, lay_layer_thickness * .25);
+	w_layer_main.f = opIntersectChamfer(w_layer_main.f, pz_main, .05 * .25);
 
 	w_layer_main.f = min(f, w_layer_main.f);
 	return w_layer_main;

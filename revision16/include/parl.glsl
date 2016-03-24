@@ -1,3 +1,4 @@
+const float chamfer_fix = .025;
 float f2Arch(vec2 p, vec2 dim, float r) {
 	float f = f2Box(p, dim);
 	pTrans(p.y, dim.y);
@@ -39,6 +40,11 @@ float f2BaseElement(vec2 p) {
 
 const vec2 middle_dim = vec2(2.2, 1.) * parl_base_elem_dim_rt_vec2.y * parl_base_elem_scale_rt_float;
 
+float opUnionContour(float a, float b, float r) {
+	a = max(a, -(abs(b) - r));
+	return min(a, b);
+}
+
 float f2Middle(vec2 p) {
 	vec2 dim = middle_dim;
 	float f_middle_base = f2Box(p, dim);
@@ -59,10 +65,10 @@ float f2Middle(vec2 p) {
 	vec2 dim_middle_spires = dim.x * vec2(.186, .76);
 	pMirrorTrans(p_middle_spires.x, dim.x - dim_middle_spires.x);
 	pTrans(p_middle_spires.y, dim.y + dim_middle_spires.y);
-	float f_middle_spires = f2ConeCapped(p_middle_spires, dim_middle_spires.x, 0., dim_middle_spires.y);
+	float f_middle_spires = f2ConeCapped(p_middle_spires, dim_middle_spires.x, 0., dim_middle_spires.y + chamfer_fix);
 
 
-	float f = min(f_middle_base, f_middle_top);
+	float f = opUnionContour(f_middle_top, f_middle_base, .05);
 	f = min(f, f_middle_spires);
 	f = min(f, f_middle_top_spire);
 
@@ -72,17 +78,17 @@ float f2Middle(vec2 p) {
 float f2Tuermchen(vec2 p, float width) {
 	float f_ground = abs(p.y) - .1;
 	vec2 p_box = p;
-	float f_box = f2Box(p, width);
+	float f_box = f2Box(p, width + vec2(0, chamfer_fix));
 	vec2 p_spires = p_box;
 	vec2 spires_dim = width * vec2(.2166, .7516);
 	pTrans(p_spires.y, width + spires_dim.y);
 	pMirrorTrans(p_spires.x, width - spires_dim.x);
-	float f_spires = f2ConeCapped(p_spires, spires_dim.x, 0, spires_dim.y);
+	float f_spires = f2ConeCapped(p_spires, spires_dim.x, 0, spires_dim.y + chamfer_fix);
 	float roof_height = .2739 * width;
 	vec2 p_roof = p_box;
 	pTrans(p_roof.y, width + roof_height);
-	float f_roof = f2Box(p_roof, vec2(width - spires_dim.x, roof_height));
-	f_spires = min(f_spires, f_roof);
+	float f_roof = f2Box(p_roof, vec2(width - spires_dim.x, roof_height + chamfer_fix));
+	f_spires = min(f_spires, max(f_roof, -f_spires) + .03 * width);
 	return min(f_box, f_spires);
 }
 
@@ -101,6 +107,7 @@ float f2SideTop(vec2 p, float width) {
 
 float f2Parl(vec2 p) {
 	pTrans(p.y, parl_base_elem_dim_rt_vec2.y * parl_base_elem_scale_rt_float - lay_frame_dim.y);
+	pTrans(p.y, -chamfer_fix);
 	vec2 p_base = p;
 	float base_elem_width = parl_base_elem_dim_rt_vec2.x * parl_base_elem_scale_rt_float;
 	pMirrorTrans(p_base.x, middle_dim.x);
