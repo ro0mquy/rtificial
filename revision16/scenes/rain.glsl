@@ -60,7 +60,8 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float f_inner = min(f1, f_water);
 
 	float rain_water_height_frame = (t - 224) / 32.;
-	f_inner = max(f_inner, -f_frame);
+	// -.1 to fix seams due to chamfering
+	f_inner = max(f_inner, -f_frame - .1);
 	rain_water_height_frame += .03 * waterNoise(vec2(7 * p.x / lay_frame_dim.x, t * .4));
 	pTrans(p.y, (1 - 2 * rain_water_height_frame) * lay_frame_dim.y );
 	f_frame = max(p.y, f_frame);
