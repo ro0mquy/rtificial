@@ -1,4 +1,4 @@
-float fF16Ground(vec2 p, float len) {
+float fF16Ground(vec2 p, float len, float exhaust, float wheel_rotation) {
 	pFlip(p.x);
 	// horizontal offset
 	pTrans(p.x, .0758 * len);
@@ -19,15 +19,25 @@ float fF16Ground(vec2 p, float len) {
 	float f_engine = f2Sphere(p_engine_sphere, engine_radius);
 	pTrans(p_engine.x, engine_width);
 	float engine_fix = .05;
+	vec2 p_exhaust = p_engine;
 	pTrans(p_engine.x, -engine_fix);
 	pMirror(p_engine.x);
 	f_engine = max(f_engine, p_engine.x - (engine_width + engine_fix));
+
+	if (exhaust > 0.1) {
+		float exhaust_dist = f16_exhaust_dist_rt_float * len * .01;
+		float exhaust_width = f16_exhaust_width_rt_float * len * .01 * exhaust;
+		float exhaust_height = f16_exhaust_height_rt_float * len * .01;
+		pTrans(p_exhaust.x, engine_width + exhaust_dist + exhaust_width);
+		float f_exhaust = f2ConeCapped(p_exhaust.yx, exhaust_height, 0, exhaust_width);
+		f_engine = min(f_engine, f_exhaust);
+	}
 
 	vec2 p_wheel_connection = p;
 	float p_wheel_connection_top_y = p_wheel_connection.y;
 	pTrans(p_wheel_connection.x, -0.1262 * len);
 	float back_wheel = pMirrorTrans(p_wheel_connection.x, .2382 * len);
-	pRot(p_wheel_connection, -Tau / 4. * f16_ground_wheel_rotation_rt_float);
+	pRot(p_wheel_connection, -Tau / 4. * (f16_ground_wheel_rotation_rt_float + wheel_rotation));
 	vec2 wheel_connection_dim = vec2(.0076, .0589) * len;
 	pTrans(p_wheel_connection.y, -(mid_dim.y + wheel_connection_dim.y));
 	float f_wheel_connection = f2Box(p_wheel_connection, wheel_connection_dim);
@@ -87,6 +97,14 @@ float fF16Ground(vec2 p, float len) {
 	f = min(f, f_wheels);
 	f = min(f, f_fin);
 	return f;
+}
+
+float fF16Ground(vec2 p, float len) {
+	return fF16Ground(p, len, 0, 1);
+}
+
+float fF16Air(vec2 p, float len) {
+	return fF16Ground(p, len, 1, 1);
 }
 
 void pF16Landscape(inout vec2 p_f16, float t) {

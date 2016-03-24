@@ -14,7 +14,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	vec2 p_f16 = p;
 	pTrans(p_f16.x, -48 * .3);
 	pF16Parl(p_f16, t);
-	float f_f16 = fF16Ground(p_f16, 4);
+	float f_f16 = fF16Air(p_f16, 4);
 
 	pTrans(p.x, 68);
 	float f = f2Parl(p);
