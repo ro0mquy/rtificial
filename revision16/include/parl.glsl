@@ -69,10 +69,34 @@ float f2Middle(vec2 p) {
 	return f;
 }
 
+float f2Tuermchen(vec2 p, float width) {
+	float f_ground = abs(p.y) - .1;
+	vec2 p_box = p;
+	float f_box = f2Box(p, width);
+	vec2 p_spires = p_box;
+	vec2 spires_dim = width * vec2(.2166, .7516);
+	pTrans(p_spires.y, width + spires_dim.y);
+	pMirrorTrans(p_spires.x, width - spires_dim.x);
+	float f_spires = f2ConeCapped(p_spires, spires_dim.x, 0, spires_dim.y);
+	float roof_height = .2739 * width;
+	vec2 p_roof = p_box;
+	pTrans(p_roof.y, width + roof_height);
+	float f_roof = f2Box(p_roof, vec2(width - spires_dim.x, roof_height));
+	f_spires = min(f_spires, f_roof);
+	return min(f_box, f_spires);
+}
+
 float f2SideTop(vec2 p, float width) {
-	float height = .835 * width;
-	pTrans(p.y, height);
-	return f2Box(p, vec2(width, height));
+	float height = .44 * width;
+	//pTrans(p.y, -width);
+	float f_bottom = -p.y;
+	pTrans(p.y, - width + height);
+	float f_tuerm = f2Tuermchen(p, width);
+	f_tuerm = max(f_tuerm, f_bottom);
+	return f_tuerm;
+	//float height = .835 * width;
+	//pTrans(p.y, height);
+	//return f2Box(p, vec2(width, height));
 }
 
 float f2Parl(vec2 p) {
@@ -81,6 +105,7 @@ float f2Parl(vec2 p) {
 	float base_elem_width = parl_base_elem_dim_rt_vec2.x * parl_base_elem_scale_rt_float;
 	pMirrorTrans(p_base.x, middle_dim.x);
 	vec2 p_side_top = p_base;
+	vec2 p_side = p_base;
 	pTrans(p_base.x, base_elem_width);
 	pDomrepInterval(p_base.x, 2 * base_elem_width, 0, 13);
 	float f_base = f2BaseElement(p_base);
@@ -90,8 +115,14 @@ float f2Parl(vec2 p) {
 	float f_side_top = f2SideTop(p_side_top, 5 * base_elem_width);
 	f_base = min(f_base, f_side_top);
 
+	float side_width = parl_base_elem_dim_rt_vec2.y * parl_base_elem_scale_rt_float;
+	pTrans(p_side.x, 28 * base_elem_width + side_width);
+	float f_side = f2Tuermchen(p_side, side_width);
+
 	vec2 p_middle = p;
 	float f_middle = f2Middle(p_middle);
 
-	return min(f_base, f_middle);
+	f_base = min(f_base, f_middle);
+	f_base = min(f_base, f_side);
+	return f_base;
 }
