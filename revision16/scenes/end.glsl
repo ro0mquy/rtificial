@@ -2,12 +2,7 @@
 #include "layer.glsl"
 #line 4
 
-layout(binding = 1) uniform sampler2D tex_rtificial;
-layout(binding = 2) uniform sampler2D tex_september;
-layout(binding = 3) uniform sampler2D tex_budapest;
-layout(binding = 4) uniform sampler2D tex_function;
-layout(binding = 5) uniform sampler2D tex_2016;
-layout(binding = 6) uniform sampler2D tex_invite;
+layout(binding = 7) uniform sampler2D tex_endcard;
 
 float fGuard(vec2 p, float t) {
 	return 0;
@@ -26,28 +21,8 @@ float f2TextBox(vec2 p, sampler2D tex, float height, float orig_width) {
 	return max(f2Box(p, dim), -d);
 }
 
-float f2Rtificial(vec2 p, float height) {
-	return f2TextBox(p, tex_rtificial, height, 866);
-}
-
-float f2September(vec2 p, float height) {
-	return f2TextBox(p, tex_september, height, 2120);
-}
-
-float f2Budapest(vec2 p, float height) {
-	return f2TextBox(p, tex_budapest, height, 1213);
-}
-
-float f2Function(vec2 p, float height) {
-	return f2TextBox(p, tex_function, height, 1039);
-}
-
-float f2TwentySixteen(vec2 p, float height) {
-	return f2TextBox(p, tex_2016, height, 651);
-}
-
-float f2Invite(vec2 p, float height) {
-	return f2TextBox(p, tex_invite, height, 1751);
+float f2Endcard(vec2 p, float height) {
+	return f2TextBox(p, tex_endcard, height, 5000);
 }
 
 MatWrap wInner(vec2 p, inout float f_frame, float t) {
@@ -70,48 +45,32 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p_bottom.y, -3 * line_height);
 
 	float f = Inf;
-/*
-	float f = f2Rtificial(p_top, text_size);
-	f = min(f, f2Invite(p_middle1, text_size));
-	f = min(f, f2Function(p_middle2, text_size));
-	f = min(f, f2TwentySixteen(p_bottom, text_size));
-*/
+	float fwhole = f2Endcard(p_middle1, text_size);
+	// remove "rtificial invites you to"
+	float fbottom = max(fwhole, -f2Plane(p_middle1 - vec2(0, 8), vec2(0, -1)));
 
 	if (t >= 0) {
-		f = min(f, f2TwentySixteen(p_bottom, text_size));
 		if (t < 120) {
-			f = min(f, f2Rtificial(p_top, text_size));
+		// "rtificial"
+			f = max(fwhole, -f2Plane(p_middle1 - vec2(0, 11), vec2(0, 1)));
 		}
 	}
 	if (t >= 32 && t < 120) {
-		f = min(f, f2Invite(p_middle1, text_size));
+		// "invites you to"
+		f = max(fwhole, -f2Plane(p_middle1 - vec2(0, 8), vec2(0, 1)));
 	}
 	if (t >= 64) {
-		f = min(f, f2Function(p_middle2, text_size));
+		// "function 2016"
+		f = max(fbottom, -f2Plane(p_middle1 - vec2(0, -8), vec2(0, 1)));
 	}
 
-	if (t >= 120 && t < 136) {
-		float f_invite = f2Invite(p_middle1, text_size);
-		float f_september = f2September(p_middle1, text_size);
-		float t_mix = (t - 120)/(136-120);
-		float f_box = f2Box(p_middle1, vec2(20, text_size * .5));
-		float f_mixed = mix(mix(f_invite, f_box, t_mix), mix(f_box, f_september, t_mix), t_mix);
-		f = min(f, f_mixed);
+	if (t >= 136 && t < 200) {
+		// "september 9--11"
+		f = max(fbottom, -f2Plane(p_middle1 - vec2(0, -11.4), vec2(0, 1)));
 	}
-
-	if (t >= 136 && t < 232) {
-		f = min(f, f2September(p_middle1, text_size));
-	}
-	if (t >= 232 && t < 248) {
-		float f_september = f2September(p_middle1, text_size);
-		float f_budapest = f2Budapest(p_middle1, text_size);
-		float t_mix = (t - 232)/(248-232);
-		float f_box = f2Box(p_middle1, vec2(20, text_size * .5));
-		float f_mixed = mix(mix(f_september, f_box, t_mix), mix(f_box, f_budapest, t_mix), t_mix);
-		f = min(f, f_mixed);
-	}
-	if (t >= 248 && t < 344) {
-		f = min(f, f2Budapest(p_middle1, text_size));
+	if (t >= 200 && t < 344) {
+		// "budapest"
+		f = fbottom;
 	}
 
 	return MatWrap(f, layerMaterialId(p, t));
