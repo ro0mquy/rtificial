@@ -128,7 +128,7 @@ float f2Mountain(vec2 p, float t) {
 	return p_mountain.y - n;
 }
 
-float fInner(vec2 p, inout float f_frame, float t) {
+MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	//float f_tree = f2Tree(p, t);
 	//f_frame = max(min(f_frame, f_tree), -max(f_frame, f_tree));
 	//return f_frame;
@@ -162,7 +162,7 @@ float fInner(vec2 p, inout float f_frame, float t) {
 		f = min(f, f_mountain);
 	}
 
-	return f;
+	return MatWrap(f, layerMaterialId(p, t));
 }
 
 float fScene(vec3 p) {

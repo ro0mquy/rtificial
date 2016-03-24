@@ -29,7 +29,7 @@ float f2Part(vec2 p, float t) {
 	return f_tor;
 }
 
-float fInner(vec2 p, inout float f_frame, float t) {
+MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	vec2 p_part = p;
 	float front_plane = f2Box(p, lay_frame_dim);
 	vec2 p_spheres = p;
@@ -75,7 +75,7 @@ float fInner(vec2 p, inout float f_frame, float t) {
 		float f_part = mix(front_plane, f2Part(p_part, t), saturate(delta_t * .05));
 		front_plane = f_part;
 	}
-	return front_plane;
+	return MatWrap(front_plane, layerMaterialId(p, t));
 }
 
 float fScene(vec3 p) {

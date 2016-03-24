@@ -8,7 +8,7 @@ float fGuard(vec2 p, float t) {
 	return 0;
 }
 
-float fInner(vec2 p, inout float f_frame, float t) {
+MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p.x, 256 * .3);
 	f_frame = p.y + lay_frame_dim.y;
 	vec2 p_f16 = p;
@@ -20,7 +20,7 @@ float fInner(vec2 p, inout float f_frame, float t) {
 	float f = f2Parl(p);
 	f = min(f, f_f16);
 
-	return f;
+	return MatWrap(f, layerMaterialId(p, t));
 }
 
 float fScene(vec3 p) {

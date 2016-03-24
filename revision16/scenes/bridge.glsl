@@ -72,7 +72,7 @@ float f2Bridge(vec2 p, float scale, float t) {
 	return f;
 }
 
-float fInner(vec2 p, inout float f_frame, float t) {
+MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	//return f2Car(p);
 	vec2 p_f16 = p;
 	pF16Bridge(p_f16, t);
@@ -85,7 +85,7 @@ float fInner(vec2 p, inout float f_frame, float t) {
 	float f = f_ground;
 	f = min(f, f_bridge);
 	f_frame = max(min(f_frame, f_f16), -max(f_frame, f_f16));
-	return f;
+	return MatWrap(f, layerMaterialId(p, t));
 }
 
 float fScene(vec3 p) {

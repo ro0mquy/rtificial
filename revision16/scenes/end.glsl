@@ -50,7 +50,7 @@ float f2Invite(vec2 p, float height) {
 	return f2TextBox(p, tex_invite, height, 1751);
 }
 
-float fInner(vec2 p, inout float f_frame, float t) {
+MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	//float f = f2Box(p, 8 * vec2(1, size.y/size.x));
 	f_frame = Inf;
 
@@ -114,7 +114,7 @@ float fInner(vec2 p, inout float f_frame, float t) {
 		f = min(f, f2Budapest(p_middle1, text_size));
 	}
 
-	return f;
+	return MatWrap(f, layerMaterialId(p, t));
 }
 
 float fScene(vec3 p) {

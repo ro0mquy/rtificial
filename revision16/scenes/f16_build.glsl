@@ -7,12 +7,12 @@ float fGuard(vec2 p, float t) {
 	return 0;
 }
 
-float fInner(vec2 p, inout float f_frame, float t) {
+MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float f = fF16Ground(vec2(t * .5, p.x), 15);
 	f = -min(f_frame, f);
 
 	f_frame = Inf;
-	return f;
+	return MatWrap(f, layerMaterialId(p, t));
 }
 
 float fScene(vec3 p) {

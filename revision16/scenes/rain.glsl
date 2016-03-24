@@ -43,7 +43,7 @@ float rainLayer(vec2 p, float t, vec2 d, vec2 spacing, float offset, float amoun
 	}
 }
 
-float fInner(vec2 p, inout float f_frame, float t) {
+MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	vec2 d = rain_drop_dim_rt_vec2;
 	float f1 = rainLayer(p, t, d, vec2(10, 1.5), .1, .05, 1.3);
 	//float f2 = rainLayer(p, t, d * 1.1, vec2(13, 4), 10.5, .04, 1.5);
@@ -64,7 +64,7 @@ float fInner(vec2 p, inout float f_frame, float t) {
 	rain_water_height_frame += .03 * waterNoise(vec2(7 * p.x / lay_frame_dim.x, t * .4));
 	pTrans(p.y, (1 - 2 * rain_water_height_frame) * lay_frame_dim.y );
 	f_frame = max(p.y, f_frame);
-	return f_inner;
+	return MatWrap(f_inner, layerMaterialId(p, t));
 }
 
 float fScene(vec3 p) {

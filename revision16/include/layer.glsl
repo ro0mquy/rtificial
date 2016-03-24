@@ -8,15 +8,19 @@ uniform float lay_last_layer_index;
 uniform float lay_layer_dist;
 uniform float lay_layer_thickness;
 
-float fInner(vec2 p, inout float f_frame, float t);
+MatWrap wInner(vec2 p, inout float f_frame, float t);
 
 float fGuard(vec2 p, float t);
 
-float fLayer(vec2 p, float t) {
+MaterialId layerMaterialId(vec2 p, float t) {
+	return MaterialId(id_layer, vec3(p, 0.), vec4(t, vec3(0)));
+}
+
+MatWrap wLayer(vec2 p, float t) {
 	float f_frame = max(f2Box(p.xy, lay_frame_thickness + lay_frame_dim), -f2Box(p.xy, lay_frame_dim));
-	float f_inner = fInner(p, f_frame, t);
-	float f_layer = min(f_frame, f_inner);
-	return f_layer;
+	MatWrap w_inner = wInner(p, f_frame, t);
+	MatWrap w_frame = MatWrap(f_frame, layerMaterialId(p, t));
+	return mUnion(w_frame, w_inner);
 }
 
 MatWrap wLayerEffect(vec3 p) {
@@ -32,10 +36,9 @@ MatWrap wLayerEffect(vec3 p) {
 
 	float pz_main = p.z;
 	pMirrorTrans(pz_main, lay_layer_thickness);
-	float f_layer_main = fLayer(p.xy, t);
-	f_layer_main = max(f_layer_main, pz_main);
+	MatWrap w_layer_main = wLayer(p.xy, t);
+	w_layer_main.f = max(w_layer_main.f, pz_main);
 
-	f = min(f, f_layer_main);
-	MaterialId m = MaterialId(id_layer, p, vec4(t, vec3(0)));
-	return MatWrap(f, m);
+	w_layer_main.f = min(f, w_layer_main.f);
+	return w_layer_main;
 }
