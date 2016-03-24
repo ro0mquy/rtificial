@@ -138,7 +138,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 
 	vec2 p_f16 = p;
 	pF16Landscape(p_f16, t);
-	float f_f16 = fF16Ground(p_f16, mix(start_width, 3, saturate(t / zoomout_duration)));
+	float f_f16 = fF16Ground(p_f16, mix(start_width, 4, saturate(t / zoomout_duration)));
 	f_frame = max(min(f_frame, f_f16), -max(f_frame, f_f16));
 	float f = Inf;
 

@@ -1145,7 +1145,7 @@
       "uniformName": "f16_ground_cockpit_thickness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.0059999999999718056642
+        "valueFloatX": 0.014999999999986357579
       },
       "sequencesArray": []
     },

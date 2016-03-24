@@ -18,8 +18,10 @@ float fF16Ground(vec2 p, float len) {
 	pTrans(p_engine_sphere, centerOfCircle(b, a, engine_radius));
 	float f_engine = f2Sphere(p_engine_sphere, engine_radius);
 	pTrans(p_engine.x, engine_width);
+	float engine_fix = .05;
+	pTrans(p_engine.x, -engine_fix);
 	pMirror(p_engine.x);
-	f_engine = max(f_engine, p_engine.x - engine_width);
+	f_engine = max(f_engine, p_engine.x - (engine_width + engine_fix));
 
 	vec2 p_wheel_connection = p;
 	float p_wheel_connection_top_y = p_wheel_connection.y;
@@ -75,7 +77,8 @@ float fF16Ground(vec2 p, float len) {
 	float f_fin_right = p_fin_right.x;
 	pTrans(p_fin_right.y, .066 * len);
 	f_fin_right = min(f_fin_right, f2Plane(p_fin_right, unitVector(radians(270 + 65))));
-	f_fin = max(f_fin, abs(p_fin.y - .17 * len) - .17 * len);
+	//f_fin = max(f_fin, abs(p_fin.y - .17 * len) - .17 * len);
+	f_fin = max(f_fin, abs(p_fin.y - .17 * len) - .175 * len);
 	f_fin = max(f_fin, f_fin_right);
 
 

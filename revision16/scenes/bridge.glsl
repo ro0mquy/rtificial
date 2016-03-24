@@ -76,7 +76,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	//return f2Car(p);
 	vec2 p_f16 = p;
 	pF16Bridge(p_f16, t);
-	float f_f16 = fF16Ground(p_f16, 3);
+	float f_f16 = fF16Ground(p_f16, 4);
 	float f_ground = p.y + lay_frame_dim.y;
 	vec2 p_bridge = p;
 	pTrans(p_bridge.y, -lay_frame_dim.y + 1.3);
