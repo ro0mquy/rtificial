@@ -128,5 +128,6 @@ void pF16Bridge(inout vec2 p_f16, float t) {
 }
 
 void pF16Parl(inout vec2 p_f16, float t) {
+	pTrans(p_f16.x, 84 * .3);
 	pF16Bridge(p_f16, t);
 }

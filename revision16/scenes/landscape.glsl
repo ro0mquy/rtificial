@@ -163,6 +163,8 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 		float f_mountain = f2Mountain(p, (t - mountain_start) / mountain_duration);
 		f = min(f, f_mountain);
 	}
+	float f_ground = p.y + lay_frame_dim.y;
+	f = min(f, f_ground);
 
 	return MatWrap(f, layerMaterialId(p, t));
 }

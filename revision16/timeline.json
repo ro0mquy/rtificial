@@ -262,6 +262,23 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "bridge_ends_dim_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.65899999999999181455,
+        "valueVec2Y": 0.67100000000004911271
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_ends_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -1.0950000000000272848
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "bridge_pillar_dim_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
@@ -1538,7 +1555,7 @@
         {
           "sequenceSceneId": 271,
           "sequenceStart": 0,
-          "sequenceDuration": 26000,
+          "sequenceDuration": 36500,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -1550,19 +1567,19 @@
               }
             },
             {
-              "keyframePosition": 26000,
+              "keyframePosition": 36500,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 208
+                "valueFloatX": 292
               }
             }
           ]
         },
         {
-          "sequenceSceneId": 271,
-          "sequenceStart": 26000,
-          "sequenceDuration": 30000,
+          "sequenceSceneId": 717,
+          "sequenceStart": 0,
+          "sequenceDuration": 19500,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -1574,11 +1591,11 @@
               }
             },
             {
-              "keyframePosition": 30000,
+              "keyframePosition": 19500,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 240
+                "valueFloatX": 156
               }
             }
           ]
@@ -2841,7 +2858,7 @@
     {
       "sceneId": 271,
       "sceneStart": 307500,
-      "sceneDuration": 26000,
+      "sceneDuration": 36500,
       "sceneShaderSource": "bridge",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
@@ -2879,8 +2896,8 @@
     },
     {
       "sceneId": 717,
-      "sceneStart": 333500,
-      "sceneDuration": 30000,
+      "sceneStart": 344000,
+      "sceneDuration": 19500,
       "sceneShaderSource": "parl",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
