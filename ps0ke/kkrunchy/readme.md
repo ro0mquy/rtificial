@@ -4,7 +4,9 @@
 This is our collection of different binary versions of the exe packer [kkrunchy](http://www.farbrausch.de/~fg/kkrunchy/) and BeroExePacker (http://www.rosseaux.net/page40_BeRoEXEPacker.html). Keeping different versions is useful when one version breaks your binary by compressing it.
 
 ## `kkrunchy.bat`
-This batch script runs all our exe packer versions against `strahlenwerk_runtime`s `Debug` and `Release` configuration so that you can find the one that works and compresses best.
+This batch script runs all our exe packer versions against `vinyl`s `Debug` and `Release` executables of one build configuration so that you can find the one that works and compresses best.
+
+Usage: `kkrunchy.bat <config>` where `config` is a build configuration, which might be one of `4klang`, `V2`, `vorbis` and more. See `rtificial/vinyl/README.md` for all available configurations.
 
 ## Versions
 
