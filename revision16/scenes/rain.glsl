@@ -43,6 +43,18 @@ float rainLayer(vec2 p, float t, vec2 d, vec2 spacing, float offset, float amoun
 	}
 }
 
+float bubbleLayer(vec2 p, float t, float r, vec2 spacing, float offset, float amount, float speed) {
+	vec2 c = spacing * r * 2;
+	pTrans(p, vec2(offset * c.x, t * speed + offset * 1982.));
+	ivec2 ij = ivec2(pDomrep(p, c));
+	float n = cheapHash(ij);
+	if (n <= amount) {
+		return f2Sphere(p, 0.5 * r * n * 150);
+	} else {
+		return -f2Box(p, c);
+	}
+}
+
 float water_offset = rain_water_offset_rt_float;
 
 float waterHeightUp(float t) {
@@ -72,6 +84,17 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	}
 	pTrans(p_water.y, waterHeightUp(rain_water_height));
 	float f_water = p_water.y;
+
+float bubble_r = .2;
+vec2 bubble_spacing = vec2(1.);
+float bubble_offset = 3.7;
+float bubble_amount = 0.01
+	* smoothstep(water_rise_begin, water_rise_begin + 56, t)
+	* 1 - smoothstep(188, 200, t);
+float bubble_speed = .5;
+float f_bubble = bubbleLayer(p_water, t, bubble_r, bubble_spacing, bubble_offset, bubble_amount, bubble_speed);
+f_water = max(f_water, -f_bubble);
+
 	float f_inner = min(f1, f_water);
 
 	vec2 p_top_cutout = p;
