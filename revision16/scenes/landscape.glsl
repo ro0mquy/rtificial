@@ -99,9 +99,9 @@ float pSplit(inout vec2 p, vec2 c, float angle, inout float scale) {
 float f2Tree(vec2 p, float t) {
 	float tb = tree_bounce_rt_float;
 	// two jumps
-	//t = min(1., square(t/tb)) + min(0., (square( (t - .5*(tb+1.)) / (.5*(1.-tb)) ) - 1.) * .7);
+	t = min(1., square(t/tb)) + min(0., (square( (t - .5*(tb+1.)) / (.5*(1.-tb)) ) - 1.) * .7);
 	// one and a half jump
-	t = min(1., square(t/tb)) + min(0., (square( (t - 1.) / (1.-tb) ) - 1.) * tree_bounce_h_rt_float);
+	//t = min(1., square(t/tb)) + min(0., (square( (t - 1.) / (1.-tb) ) - 1.) * tree_bounce_h_rt_float);
 
 	float big_scale = mix(2.6, 4., t);
 	//pTrans(p.x, -(2 * t - 1) * (lay_frame_dim.x + 2.2));

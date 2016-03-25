@@ -3068,7 +3068,7 @@
       "uniformName": "tree_bounce_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.5
+        "valueFloatX": 0.39999999999997726263
       },
       "sequencesArray": []
     },

@@ -112,7 +112,7 @@ void pF16Landscape(inout vec2 p_f16, float t) {
 	float speedup_duration = 32;
 	float zoomout_duration = 64;
 	float speedup_start = duration - speedup_duration;
-	float zoomout_t = smoothstep(0, 1, t / zoomout_duration);
+	float zoomout_t = smoothstep(0, zoomout_duration, t);
 	pTrans(p_f16, land_f16_offset_rt_vec2 * zoomout_t);
 	float speedup_percentage = .4;
 	vec2 motion = saturate(t / (duration - speedup_duration)) * land_f16_motion_rt_vec2 * (1 - speedup_percentage);
@@ -120,6 +120,14 @@ void pF16Landscape(inout vec2 p_f16, float t) {
 	float speedup_t = pow(saturate((t - (duration - speedup_duration)) / (speedup_duration)), 1.5);
 	pTrans(p_f16, speedup_t * land_f16_motion_rt_vec2 * speedup_percentage);
 	pTrans(p_f16.x, clamp(t - duration, 0, 64) * .3);
+
+	// noise moving
+	float noise_t = smoothstep(zoomout_duration, speedup_start, t);
+	vec2 noise_displacement = vec2(
+			sin(cos(0.07*t) + 1.),
+			cos(0.014*t + 3.)
+			);
+	pTrans(p_f16, noise_displacement);
 }
 
 void pF16Bridge(inout vec2 p_f16, float t) {
