@@ -1,6 +1,16 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "background_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.0060405931435525417328,
+        "valueColorG": 0.0060405931435525417328,
+        "valueColorB": 0.0083731170743703842163
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "begin_light_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -205,9 +215,27 @@
       "uniformName": "begin_light1_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.39408314228057861328,
-        "valueColorG": 0.52952325344085693359,
-        "valueColorB": 0.89938449859619140625
+        "valueColorR": 0.5795466303825378418,
+        "valueColorG": 0.61868572235107421875,
+        "valueColorB": 0.80455911159515380859
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "begin_light1_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 7.3160000000000309228
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "begin_light1_position_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 6.0910000000000081855,
+        "valueVec3Y": 2.0990000000000463842,
+        "valueVec3Z": 0
       },
       "sequencesArray": []
     },
@@ -215,9 +243,27 @@
       "uniformName": "begin_light2_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.92399334907531749383,
-        "valueColorG": 0.71546542644500732422,
-        "valueColorB": 0.61868572235107421875
+        "valueColorR": 0.051122054457664489746,
+        "valueColorG": 0.00026154372608289122581,
+        "valueColorB": 0.11392093449831008911
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "begin_light2_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10.841999999999984539
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "begin_light2_position_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -0.61500000000000909495,
+        "valueVec3Y": -1.6839999999999690772,
+        "valueVec3Z": -3.4800000000000181899
       },
       "sequencesArray": []
     },
@@ -330,7 +376,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": -6
+                "valueFloatX": 0
               }
             }
           ]
@@ -346,7 +392,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": -4
+                "valueFloatX": 0
               }
             },
             {
@@ -378,7 +424,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": -5
+                "valueFloatX": 0
               }
             }
           ]
@@ -395,6 +441,22 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueFloatX": -20
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 869,
+          "sequenceStart": 0,
+          "sequenceDuration": 100000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
               }
             }
           ]
@@ -441,7 +503,7 @@
               "keyframeValue": {
                 "valueVec3X": -1.5444695949554443359,
                 "valueVec3Y": 0.056730233132839202881,
-                "valueVec3Z": 0.85881131887435913086
+                "valueVec3Z": 0.85881131887435924188
               }
             },
             {
@@ -2547,7 +2609,7 @@
       "uniformName": "post_vignette_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.5
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -2827,7 +2889,7 @@
       "sceneStart": 0,
       "sceneDuration": 58500,
       "sceneShaderSource": "f16_beginning",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "background",
       "keyframeValue": {
       }
     },
@@ -2910,7 +2972,7 @@
       "sceneId": 869,
       "sceneStart": 512000,
       "sceneDuration": 99500,
-      "sceneShaderSource": "szenchen631",
+      "sceneShaderSource": "background_test",
       "sceneEnvironmentSource": "szenchen631"
     }
   ]

@@ -20,20 +20,18 @@ float fScene(vec3 p) {
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
 	vec3 emission = material.emission;
 	//return applyNormalLights(origin, marched, direction, hit, normal, material) + emission;
-	SphereLight light1 = SphereLight(
-		vec3(.7, 0, -3),
-		2,
+	PointLight light1 = PointLight(
+		begin_light1_position_rt_vec3,
 		begin_light1_color_rt_color,
-		50000
+		exp2(begin_light1_intensity_rt_float)
 	);
-	SphereLight light2 = SphereLight(
-		vec3(-1.2, 1, -2.5),
-		1.,
+	PointLight light2 = PointLight(
+		begin_light2_position_rt_vec3,
 		begin_light2_color_rt_color,
-		2000000
+		exp2(begin_light2_intensity_rt_float)
 	);
-	vec3 sphereLight = applySphereLight(origin, marched, direction, hit, normal, material, light1);
-	sphereLight += begin_light_rt_float * applySphereLight(origin, marched, direction, hit, normal, material, light2);
+	vec3 sphereLight = applyPointLight(origin, marched, direction, hit, normal, material, light1);
+	sphereLight += begin_light_rt_float * applyPointLight(origin, marched, direction, hit, normal, material, light2);
 	return ambientColor(normal, -direction, material) + emission + sphereLight;
 }
 
@@ -44,6 +42,6 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = 1;
-	mat.color = vec3(.0);
+	mat.color = vec3(.01);
 	return mat;
 }
