@@ -2622,6 +2622,16 @@
       ]
     },
     {
+      "uniformName": "part_glow_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.48195225000381469727,
+        "valueColorG": 0.035614367574453353882,
+        "valueColorB": 0.0096963280811905860901
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "part_glow_everything_rt_bool",
       "uniformType": "bool",
       "uniformStandardValue": {
@@ -2645,6 +2655,14 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "part_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 8.7799999999999727152
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "part_r_big_rt_float",

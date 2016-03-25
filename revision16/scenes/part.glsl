@@ -61,7 +61,8 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 		return MatWrap(Inf, layerMaterialId(p, t));
 	}
 	vec2 p_part = p;
-	float front_plane = f2Box(p, lay_frame_dim);
+	float chamfer_fix = 1;
+	float front_plane = f2Box(p, lay_frame_dim + chamfer_fix);
 	vec2 p_spheres = p;
 	pRot(p_spheres, .005 * Tau * t);
 	float sphere_rotation_radius = 2 + (t - 4) * .01;
@@ -70,14 +71,14 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 		pTrans(p_spheres.x, sphere_rotation_radius);
 		float sphere1 = f2Sphere(p_spheres, 1);
 		f_spheres = min(f_spheres, sphere1);
-		front_plane = max(front_plane, -abs(sphere1) + .2);
+		front_plane = max(front_plane, -abs(sphere1 - .2) + .2);
 		pTrans(p_spheres.x, -sphere_rotation_radius);
 	}
 	if (t >= 8) {
 		pTrans(p_spheres.x, -sphere_rotation_radius);
 		float sphere2 = f2Sphere(p_spheres, 1);
 		f_spheres = min(f_spheres, sphere2);
-		front_plane = max(front_plane, -abs(sphere2) + .2);
+		front_plane = max(front_plane, -abs(sphere2 - .2) + .2);
 	}
 	if (t >= 52) {
 		vec2 p_stripes = p;
@@ -85,7 +86,6 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 		pTrans(p_stripes.x, c * .25);
 		pDomrep(p_stripes.x, c);
 		float f_stripes = abs(p_stripes.x) - c * .25;
-		f_stripes = max(f_stripes, -f_spheres);
 		front_plane = max(front_plane, -f_stripes);
 	}
 	if (t >= 84) {
@@ -94,9 +94,9 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 		pTrans(p_stripes.y, c * .25);
 		pDomrep(p_stripes.y, c);
 		float f_stripes = abs(p_stripes.y) - c * .25;
-		f_stripes = max(f_stripes, -f_spheres);
 		front_plane = max(front_plane, -f_stripes);
 	}
+	front_plane = min(front_plane, f_spheres);
 	if (t >= 116) {
 		front_plane = f_spheres;
 	}
@@ -162,23 +162,26 @@ float f2Glow(vec2 p) {
 		f_frame = max(f_frame, -f_stripes);
 	}
 	if (part_glow_everything_rt_bool) {
-		return max(0, -f_spheres);
+		f_frame = max(f_frame, -f_spheres + .05);
+		return min(0, -f_frame);
 	}
 	return f_frame;
 }
 
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
+	float glow_intensity = part_glow_intensity_rt_float;
+	vec3 glow_color = part_glow_color_rt_color;
 	if (materialId.id == id_layer) {
 		if (abs(f2Glow(materialId.coord.xy)) < .03) {
-			mat.emission = vec3(10 * part_frame_glow_rt_float);
+			mat.emission = glow_color * (glow_intensity * part_frame_glow_rt_float);
 		}
 		mat.roughness = .5;
 		float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 		mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
 	} else if (materialId.id == id_part) {
 		mat.color = vec3(.01);
-		mOutline(mat, materialId, vec3(1), 1);
+		mOutline(mat, materialId, glow_color, glow_intensity);
 	}
 	return mat;
 }
