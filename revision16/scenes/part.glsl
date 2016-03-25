@@ -1,6 +1,9 @@
 #include "march.glsl"
 #include "layer.glsl"
-#line 4
+#include "materials.glsl"
+#line 5
+
+const float id_part = 1;
 
 float fGuard(vec2 p, float t) {
 	return 0;
@@ -75,6 +78,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	if (t >= 116) {
 		front_plane = f_spheres;
 	}
+	MatWrap w_front_plane = MatWrap(front_plane, layerMaterialId(p, t));
 	if (t >= 132) {
 		float delta_t = min(t, torus_slow) - 132;
 		if (t >= torus_slow) {
@@ -83,9 +87,11 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 			delta_t += duration * saturate(delta_slow / duration);
 		}
 		float f_part = mix(front_plane, f2Part(p_part, delta_t), saturate(delta_t * .05));
-		front_plane = f_part;
+		MaterialId mat_part = MaterialId(id_part, vec3(p_part, 0), vec4(0, -f_part, vec2(0)));
+		MatWrap w_part = MatWrap(f_part, mat_part);
+		w_front_plane = w_part;
 	}
-	return MatWrap(front_plane, layerMaterialId(p, t));
+	return w_front_plane;
 }
 
 float fScene(vec3 p) {
@@ -95,7 +101,8 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	return ambientColor(normal, -direction, material) + material.emission;
+	vec3 front_light = layerLight(origin, marched, direction, hit, normal, material);
+	return ambientColor(normal, -direction, material) + material.emission + front_light;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -140,11 +147,16 @@ float f2Glow(vec2 p) {
 
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
-	if (abs(f2Glow(materialId.coord.xy)) < .03) {
-		mat.emission = vec3(1000 * part_frame_glow_rt_float);
+	if (materialId.id == id_layer) {
+		if (abs(f2Glow(materialId.coord.xy)) < .03) {
+			mat.emission = vec3(10 * part_frame_glow_rt_float);
+		}
+		mat.roughness = .5;
+		float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
+		mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+	} else if (materialId.id == id_part) {
+		mat.color = vec3(.01);
+		mOutline(mat, materialId, vec3(1), 1);
 	}
-	mat.roughness = .5;
-	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
-	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
 	return mat;
 }

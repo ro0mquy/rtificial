@@ -42,3 +42,13 @@ MatWrap wLayerEffect(vec3 p) {
 	w_layer_main.f = min(f, w_layer_main.f);
 	return w_layer_main;
 }
+
+vec3 layerLight(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material) {
+	SphereLight light1 = SphereLight(
+		lay_light_position_rt_vec3,
+		lay_light_radius_rt_float,
+		lay_light_color_rt_color,
+		exp2(lay_light_intensity_rt_float)
+	);
+	return applySphereLight(origin, marched, direction, hit, normal, material, light1);
+}

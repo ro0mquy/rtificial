@@ -446,6 +446,22 @@
           ]
         },
         {
+          "sequenceSceneId": 433,
+          "sequenceStart": 1000,
+          "sequenceDuration": 64500,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 869,
           "sequenceStart": 0,
           "sequenceDuration": 100000,
@@ -2011,6 +2027,42 @@
       ]
     },
     {
+      "uniformName": "lay_light_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 1,
+        "valueColorG": 1,
+        "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lay_light_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 11.447000000000002728
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lay_light_position_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": 67.098999999999932697
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "lay_light_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 17.274999999999977263
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "main_marching_distance",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -2023,6 +2075,22 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "materials_outline_thickness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.061000000000035470293
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "materials_outline_transition_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.17000000000007275958
       },
       "sequencesArray": []
     },
@@ -2932,7 +3000,7 @@
       "sceneStart": 58500,
       "sceneDuration": 65500,
       "sceneShaderSource": "part",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "background",
       "keyframeValue": {
       }
     },
