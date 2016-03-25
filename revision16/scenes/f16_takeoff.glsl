@@ -1,6 +1,7 @@
 #include "march.glsl"
 #include "f16.glsl"
-#line 4
+#include "lights.glsl"
+#line 5
 
 uniform vec2  lay_frame_dim;
 uniform float lay_last_layer_index;
@@ -34,7 +35,9 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	return ambientColor(normal, -direction, material);
+	// TODO
+	vec3 front_light = layerLight(origin, marched, direction, hit, normal, material);
+	return ambientColor(normal, -direction, material) + material.emission + front_light;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {

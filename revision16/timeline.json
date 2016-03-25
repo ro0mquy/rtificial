@@ -245,7 +245,7 @@
       "uniformStandardValue": {
         "valueColorR": 0.051122054457664489746,
         "valueColorG": 0.00026154372608289122581,
-        "valueColorB": 0.11392093449831008911
+        "valueColorB": 0.11392093449831007523
       },
       "sequencesArray": []
     },
@@ -362,7 +362,7 @@
       "uniformName": "camera_exposure_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": -5
+        "valueFloatX": 0
       },
       "sequencesArray": [
         {
@@ -2040,7 +2040,7 @@
       "uniformName": "lay_light_intensity_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 11.447000000000002728
+        "valueFloatX": 15.740999999999985448
       },
       "sequencesArray": []
     },
@@ -2050,7 +2050,7 @@
       "uniformStandardValue": {
         "valueVec3X": 0,
         "valueVec3Y": 0,
-        "valueVec3Z": 67.098999999999932697
+        "valueVec3Z": 247.56099999999992178
       },
       "sequencesArray": []
     },
@@ -2058,7 +2058,7 @@
       "uniformName": "lay_light_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 17.274999999999977263
+        "valueFloatX": 16.700000000000045475
       },
       "sequencesArray": []
     },
@@ -2966,7 +2966,7 @@
       "sceneStart": 188000,
       "sceneDuration": 47500,
       "sceneShaderSource": "f16_takeoff",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "background",
       "keyframeValue": {
       }
     },
@@ -2975,7 +2975,7 @@
       "sceneStart": 363500,
       "sceneDuration": 32000,
       "sceneShaderSource": "parl_schwurbel",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "background",
       "keyframeValue": {
       }
     },
@@ -2984,7 +2984,7 @@
       "sceneStart": 307500,
       "sceneDuration": 36500,
       "sceneShaderSource": "bridge",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "background",
       "keyframeValue": {
       }
     },
@@ -2993,7 +2993,9 @@
       "sceneStart": 124000,
       "sceneDuration": 32000,
       "sceneShaderSource": "rain",
-      "sceneEnvironmentSource": "szenchen526"
+      "sceneEnvironmentSource": "background",
+      "keyframeValue": {
+      }
     },
     {
       "sceneId": 433,
@@ -3009,21 +3011,25 @@
       "sceneStart": 156000,
       "sceneDuration": 32000,
       "sceneShaderSource": "f16_build",
-      "sceneEnvironmentSource": "szenchen322"
+      "sceneEnvironmentSource": "background",
+      "keyframeValue": {
+      }
     },
     {
       "sceneId": 713,
       "sceneStart": 395500,
       "sceneDuration": 62000,
       "sceneShaderSource": "end",
-      "sceneEnvironmentSource": "szenchen848"
+      "sceneEnvironmentSource": "background",
+      "keyframeValue": {
+      }
     },
     {
       "sceneId": 717,
       "sceneStart": 344000,
       "sceneDuration": 19500,
       "sceneShaderSource": "parl",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "background",
       "keyframeValue": {
       }
     },
@@ -3032,7 +3038,7 @@
       "sceneStart": 235500,
       "sceneDuration": 72000,
       "sceneShaderSource": "landscape",
-      "sceneEnvironmentSource": "sky",
+      "sceneEnvironmentSource": "background",
       "keyframeValue": {
       }
     },

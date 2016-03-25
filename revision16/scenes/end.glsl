@@ -83,7 +83,8 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	return ambientColor(normal, -direction, material);
+	vec3 front_light = layerLight(origin, marched, direction, hit, normal, material);
+	return ambientColor(normal, -direction, material) + material.emission + front_light;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
