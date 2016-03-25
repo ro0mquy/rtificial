@@ -129,5 +129,11 @@ void pF16Bridge(inout vec2 p_f16, float t) {
 
 void pF16Parl(inout vec2 p_f16, float t) {
 	pTrans(p_f16.x, 84 * .3);
+	float speedup_start = 56;
+	if (t >= speedup_start) {
+		float duration = 48;
+		float speedup = duration * pow(max(0, (t - speedup_start)/duration), 8.);
+		pTrans(p_f16.x, speedup * .1); // speedup
+	}
 	pF16Bridge(p_f16, t);
 }
