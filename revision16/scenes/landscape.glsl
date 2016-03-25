@@ -73,7 +73,8 @@ float f2Lighthouse(vec2 p) {
 
 float f2LighthouseWrapper(vec2 p, float t) {
 	pTrans(p.y, -lay_frame_dim.y + 1.95);
-	pTrans(p.x, (lay_frame_dim.x + 1) * (1 - 2 * t));
+	//pTrans(p.x, (lay_frame_dim.x + 1) * (1 - 2 * t));
+	pTrans(p.x, land_lighthouse_pos_rt_float);
 	return f2Lighthouse(p*1.3)/1.3;
 }
 
@@ -96,8 +97,16 @@ float pSplit(inout vec2 p, vec2 c, float angle, inout float scale) {
 }
 
 float f2Tree(vec2 p, float t) {
+	float tb = tree_bounce_rt_float;
+	// two jumps
+	//t = min(1., square(t/tb)) + min(0., (square( (t - .5*(tb+1.)) / (.5*(1.-tb)) ) - 1.) * .7);
+	// one and a half jump
+	t = min(1., square(t/tb)) + min(0., (square( (t - 1.) / (1.-tb) ) - 1.) * tree_bounce_h_rt_float);
+
 	float big_scale = mix(2.6, 4., t);
-	pTrans(p.x, -(2 * t - 1) * (lay_frame_dim.x + 2.2));
+	//pTrans(p.x, -(2 * t - 1) * (lay_frame_dim.x + 2.2));
+	pTrans(p.x, 2.2);
+	pTrans(p.x, land_tree_pos_rt_float);
 	pTrans(p.y, -lay_frame_dim.y - .1);
 	p *= big_scale;
 	vec2 pTree = p;
@@ -119,13 +128,73 @@ float f2Tree(vec2 p, float t) {
 float f2Mountain(vec2 p, float t) {
 	vec2 p_mountain = p;
 	pTrans(p_mountain.y, -.5);
-	pTrans(p_mountain.x, (lay_frame_dim.x + 4.5) * (1 - 2 * t));
+	//pTrans(p_mountain.x, (lay_frame_dim.x + 4.5) * (1 - 2 * t));
+	pTrans(p_mountain.x, land_mountain_pos_rt_float);
 	// mountain
 	float n = mountainFbm(p_mountain.x) * .5;
 	pRot(p_mountain, radians(5));
 	float s = pMirror(p_mountain.x);
 	pRot(p_mountain, -radians(50));
 	return p_mountain.y - n;
+}
+
+float f2RandomStuff(vec2 p, float t) {
+	vec2 p_busch = p;
+	pTrans(p_busch.y, -lay_frame_dim.y + land_busch_pos_x_rt_float);
+	pDomrepMirror(p_busch.x, land_busch_domrep_rt_float);
+	// erster busch
+	float f_busch = f2Sphere(p_busch, land_busch_r_rt_float);
+	// zweiter busch
+	pTrans(p_busch.x, 3.);
+	f_busch = min(f_busch, f2Pentaprism(p_busch.yx, 1.4*land_busch_r_rt_float));
+	pTrans(p_busch.x, -.3);
+	f_busch = opUnionRounded(f_busch, f2Pentaprism(p_busch, 2.*land_busch_r_rt_float), .1);
+
+	vec2 p_haus = p;
+	pTrans(p_haus.x, -10.);
+	float c_haus = pDomrepMirror(p_haus.x, land_haus_domrep_rt_float);
+	pTrans(p_haus.y, -lay_frame_dim.y);
+	// haus base
+	vec2 dim_haus = 1.5*vec2(.2, .4);
+	float f_haus = f2BoxEdge(p_haus, dim_haus);
+	// haus dach
+	float tri_r = dim_haus.x / cos(radians(30));
+	vec2 p_dach = p_haus;
+	pTrans(p_dach.y, dim_haus.y + .5 * tri_r);
+	float f_dach = f2Triprism(p_dach, tri_r);
+	f_haus = min(f_haus, f_dach);
+	// hütte
+	vec2 p_hutte = p_haus;
+	pTrans(p_hutte.x, land_hutte_pos_rt_float);
+	vec2 dim_hutte = 1.5*vec2(.15, .13);
+	float f_hutte = f2BoxEdge(p_hutte, dim_hutte);
+	f_haus = min(f_haus, f_hutte);
+
+	// bezier for vogel
+	float bez_t = sin(.08 * t) * .5 + .5;
+	vec2 bez1 = land_vogel_bez1_rt_vec2;
+	vec2 bez2 = land_vogel_bez2_rt_vec2;
+	vec2 bez3 = land_vogel_bez3_rt_vec2;
+	vec2 bez12 = mix(bez1, bez2, bez_t);
+	vec2 bez23 = mix(bez2, bez3, bez_t);
+	vec2 bez_vogel = mix(bez12, bez23, bez_t);
+	vec2 p_vogel = p;
+	pTrans(p_vogel.x, land_vogel_pos_offset_rt_float);
+	pTrans(p_vogel, bez_vogel);
+	float c_vogel = pDomrepInterval(p_vogel.x, land_vogel_domrep_rt_float, 1., 2.);
+	p_vogel.x *= mod(c_vogel, 2.) * 2. - 1.;
+	pMirrorTrans(p_vogel.x, .0);
+	float flugel_rot = (sin(1.*t) + 1.) / 2. * .1;
+	pRot(p_vogel, Tau * flugel_rot);
+	pTrans(p_vogel.x, .05);
+	float f_vogel = f2Sphere(p_vogel, land_vogel_r_small_rt_float);
+	pTrans(p_vogel.y, land_vogel_offset_rt_float);
+	f_vogel = max(f_vogel, -f2Sphere(p_vogel, land_vogel_r_big_rt_float));
+
+	float f_rand = f_busch;
+	f_rand = min(f_rand, f_haus);
+	f_rand = min(f_rand, f_vogel);
+	return f_rand;
 }
 
 MatWrap wInner(vec2 p, inout float f_frame, float t) {
@@ -145,28 +214,38 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float f = Inf;
 
 	float tree_start = 8 + zoomout_duration;
-	float tree_duration = 128;
+	float tree_duration = 134;
 	float lighthouse_start = tree_start + tree_duration;
 	float lighthouse_duration = 96;
 	float mountain_start = lighthouse_start + lighthouse_duration;
-	float mountain_duration = 64;
+	float mountain_duration = 76;
+
+	float total_duration = 576;
+	float t_rel = t / total_duration;
+	float x_offset = .5 * land_a_rt_float * square(t_rel) + land_v0_rt_float * t_rel;
+
+	vec2 p_offset = p;
+	pTrans(p_offset.x, -x_offset);
 
 	if (t >= tree_start && t < tree_start + tree_duration) {
-		float f_tree = f2Tree(p, (t - tree_start) / tree_duration);
+		float f_tree = f2Tree(p_offset, (t - tree_start) / tree_duration);
 		f = min(f, f_tree);
 	}
-	if (t > lighthouse_start && t <= lighthouse_start + lighthouse_duration) {
-		float f_lighthouse = f2LighthouseWrapper(p, (t - lighthouse_start) / lighthouse_duration);
+	if (t >= lighthouse_start && t < lighthouse_start + lighthouse_duration) {
+		float f_lighthouse = f2LighthouseWrapper(p_offset, (t - lighthouse_start) / lighthouse_duration);
 		f = min(f, f_lighthouse);
 	}
-	if (t > mountain_start && t <= mountain_start + mountain_duration) {
-		float f_mountain = f2Mountain(p, (t - mountain_start) / mountain_duration);
+	if (t >= mountain_start && t < mountain_start + mountain_duration) {
+		float f_mountain = f2Mountain(p_offset, (t - mountain_start) / mountain_duration);
 		f = min(f, f_mountain);
 	}
-	float f_ground = p.y + lay_frame_dim.y;
+	float f_ground = p_offset.y + lay_frame_dim.y;
 	f = min(f, f_ground);
 
-	return MatWrap(f, layerMaterialId(p, t));
+	float f_random_stuff = f2RandomStuff(p_offset, t);
+	f = min(f, f_random_stuff);
+
+	return MatWrap(f, layerMaterialId(p_offset, t));
 }
 
 float fScene(vec3 p) {
