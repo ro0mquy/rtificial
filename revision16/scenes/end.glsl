@@ -32,8 +32,8 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float text_size = end_text_size_rt_float;
 	float line_height = text_size * end_line_height_rt_float;
 
-	float t_move = smoothstep(0, 1, (t - 400) / (464 - 400));
-	pTrans(p.y, 2 * line_height * t_move);
+	float t_move = smoothstep(400, 464, t);
+	pTrans(p.y, - 20 * t_move);
 
 	vec2 p_top = p;
 	vec2 p_middle1 = p;
