@@ -8,8 +8,8 @@ float fGuard(vec2 p, float t) {
 }
 
 float cheapHash(ivec2 c) {
-	int x = 0x3504f333*c.x*c.x + c.y;
-	int y = 0xf1bbcdcb*c.y*c.y + c.x;
+	int x = int(0x3504f333)*c.x*c.x + c.y;
+	int y = int(0xf1bbcdcb)*c.y*c.y + c.x;
 	return float(x*y)*(2.0/8589934592.0)+0.5;
 }
 
