@@ -8,6 +8,7 @@ uniform float lay_frame_thickness;
 uniform float lay_last_layer_index;
 uniform float lay_layer_dist;
 uniform float lay_layer_thickness;
+uniform bool lay_rotate_layers;
 
 MatWrap wInner(vec2 p, inout float f_frame, float t);
 
@@ -18,9 +19,15 @@ MaterialId layerMaterialId(vec2 p, float t) {
 }
 
 MatWrap wLayer(vec2 p, float t) {
-	float f_frame = max(f2Box(p.xy, lay_frame_thickness + lay_frame_dim), -f2Box(p.xy, lay_frame_dim));
+	vec2 p_frame = p;
+	if (lay_rotate_layers && t < 476 && t >= 140) {
+		float rand_for_rot_ist_meine_kugel = .06 * (rand(ivec2(t+3)) * 2 - 1);
+		pRot(p_frame, rand_for_rot_ist_meine_kugel);
+	}
+	float f_frame = max(f2BoxEdge(p.xy, lay_frame_thickness + lay_frame_dim), -f2BoxEdge(p_frame, lay_frame_dim));
 	MatWrap w_inner = wInner(p, f_frame, t);
-	MatWrap w_frame = MatWrap(f_frame, layerMaterialId(p, t));
+	MatWrap w_frame = MatWrap(f_frame, layerMaterialId(p_frame, t));
+	w_frame.m.misc.y = f_frame;
 	return mUnion(w_frame, w_inner);
 }
 

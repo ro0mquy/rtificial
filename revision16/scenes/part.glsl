@@ -1,7 +1,8 @@
 #include "march.glsl"
 #include "layer.glsl"
 #include "materials.glsl"
-#line 5
+#include "noise.glsl"
+#line 6
 
 const float id_part = 1;
 
@@ -101,6 +102,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 		front_plane = f_spheres;
 	}
 	MatWrap w_front_plane = MatWrap(front_plane, layerMaterialId(p, t));
+	w_front_plane.m.misc.y = f_frame;
 	if (t >= 132) {
 		float delta_t = min(t, torus_slow) - 132;
 		if (t >= torus_slow) {
@@ -123,8 +125,12 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	vec3 front_light = layerLight(origin, marched, direction, hit, normal, material);
-	return ambientColor(normal, -direction, material) + material.emission + front_light;
+	if (materialId.id == id_layer && -materialId.misc[1] > lay_frame_border_thickness_rt_float) {
+		return background_color_rt_color;
+	} else {
+		vec3 front_light = layerLight(origin, marched, direction, hit, normal, material);
+		return ambientColor(normal, -direction, material) + material.emission + front_light;
+	}
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -176,9 +182,24 @@ Material getMaterial(MaterialId materialId) {
 		if (abs(f2Glow(materialId.coord.xy)) < .03) {
 			mat.emission = glow_color * (glow_intensity * part_frame_glow_rt_float);
 		}
-		mat.roughness = .5;
+		mat.roughness = .0;
 		float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 		mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+
+		vec2 c = materialId.coord.xy;
+		// TODO
+		float f_dirt = -materialId.misc[1] * 10;
+		f_dirt -= smoothFbm(c) * 2;
+		float dirtyness = smoothstep(-1., 5., f_dirt);
+		float border_noise = smoothFbm(c * 3) * .5 + .5;
+		border_noise *= smoothstep(-5., .5, dirtyness);
+		border_noise *= dirtyness;
+		border_noise *= .2;
+		mat.color = mix(mat.color, background_color_rt_color, border_noise);
+
+		if (int(materialId.misc.x) % 8 == 0) {
+			//mOutline(mat, materialId, lay_frame_border_color_rt_color, .2);
+		}
 	} else if (materialId.id == id_part) {
 		mat.color = vec3(.01);
 		mOutline(mat, materialId, glow_color, glow_intensity);

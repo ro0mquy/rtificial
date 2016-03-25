@@ -7,12 +7,6 @@ float fGuard(vec2 p, float t) {
 	return 0;
 }
 
-float cheapHash(ivec2 c) {
-	int x = int(0x3504f333)*c.x*c.x + c.y;
-	int y = int(0xf1bbcdcb)*c.y*c.y + c.x;
-	return float(x*y)*(2.0/8589934592.0)+0.5;
-}
-
 float saw(float p) {
 	float y = p;
 	float k = .8;
