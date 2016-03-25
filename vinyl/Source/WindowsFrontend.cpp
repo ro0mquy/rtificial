@@ -140,34 +140,113 @@ static SAMPLE_TYPE *audio_buffer;
 
 #ifdef SYNTH_DUAL_V2_4KLANG
 sU32 sample_position = 0;
-sU32 samples_until_last_discard = 0;
-void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
-	V2MPlayer* player = reinterpret_cast<V2MPlayer*>(a_this);
-	if (player->IsPlaying()) {
-		//sU32 position = player->GetTimeSamples() * 2;
-		sU32 position = sample_position * 2;
-		// TODO assumes floating point samples
-		for (sU32 i = 0; i < a_len; i++) {
-			a_buffer[2 * i] = audio_buffer[position + 2 * i];
-			a_buffer[2 * i + 1] = audio_buffer[position + 2 * i + 1];
-		}
-		const sU32 discard_every = 25000;
-		const sU32 discard_samples = 3;
-		sF32 discard_buffer[discard_samples * 2];
-		while (samples_until_last_discard + a_len >= discard_every) {
-			sU32 samples_before_discard = discard_every - samples_until_last_discard;
-			player->Render(a_buffer, samples_before_discard, 1);
-			a_buffer += samples_before_discard * 2;
-			a_len -= samples_before_discard;
-			sample_position += samples_before_discard;
-			player->Render(discard_buffer, discard_samples, 0);
-			samples_until_last_discard = 0;
-		}
-		player->Render(a_buffer, a_len, 1);
-		sample_position += a_len;
-		samples_until_last_discard += a_len;
+sF32 * temporaryV2Buffer = nullptr;
+sU32 temporaryV2BufferLength = 0u;
+sU32 tempAlreadyProcessed = 0;
+sU32 alreadyTruncated(0u);
+sU32 alreadyProcessed(0u);
+//define these
+const sU32 compensation (1174);
+const sU32 lengthOfV2(9200279);
 
-		// TODO compressor and limiter
+
+void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
+  V2MPlayer* player = reinterpret_cast<V2MPlayer*>(a_this);
+
+
+	if (player->IsPlaying()) {
+
+    //Only truncate every once in a while
+    //via: https://www.ee.columbia.edu/~dpwe/papers/HejMus91-solafs.pdf 
+    // & https://www.ee.columbia.edu/~dpwe/e4896/lectures/E4896-L09.pdf
+    if (tempAlreadyProcessed > 15 * lengthOfV2 / compensation)
+    {
+      sU32 lenFirstWindow = a_len % 2 == 0 ? a_len / 2u : (a_len - 1u) / 2u;
+      sU32 lenSecondWindow = a_len % 2 == 0 ? a_len / 2u : ((a_len - 1u) / 2u) + 1u;
+
+      //Get Number Of Samples for This truncation iteration
+      //Float (actual divion result) of samples to be cut at this exact point
+      float toBeTruncated = (float)tempAlreadyProcessed / ((float)lengthOfV2 / (float)compensation);
+      int willBeTruncated = (int)toBeTruncated;
+      //This is number of smaples that should already have been cut
+      float shouldBeTruncatedTillNow = alreadyProcessed / (lengthOfV2 / compensation);
+      //Adjust according to prediciton value
+      if (alreadyTruncated > shouldBeTruncatedTillNow) 
+      {
+        willBeTruncated -= 1;
+      }
+
+      sU32 windowOverlapp = (sU32)willBeTruncated;
+      alreadyTruncated += willBeTruncated;
+
+      //Play V2 To Buffer
+      player->Render(a_buffer, a_len, 0);
+      sU32 iter = lenFirstWindow - windowOverlapp;
+      for (int j = 0; j < windowOverlapp; j++)
+      {
+        //Fade out
+        float multiplier = 1 - (float)(j+1) / (float(windowOverlapp + 1));
+        a_buffer[2 * iter] *= multiplier;
+        a_buffer[2 * iter + 1] *= multiplier;
+        
+        //Fade in
+        multiplier = (float)(j + 1)/ (float(windowOverlapp + 1));
+        a_buffer[2 * iter] += multiplier * a_buffer[2 * (lenFirstWindow + j)];
+        a_buffer[2 * iter + 1] += multiplier * a_buffer[2 * (lenFirstWindow + j) + 1];
+
+        iter++;
+
+      }
+      //Render remainders of second window
+      for (int i = lenFirstWindow + windowOverlapp; i < a_len; i++)
+      {
+        a_buffer[2 * (i - windowOverlapp)] = a_buffer[2*i];
+        a_buffer[2 * (i - windowOverlapp) + 1] = a_buffer[2*i+1];
+      }
+
+      //Adjust a_len
+      a_len -= windowOverlapp;
+
+      //Get4Klang
+      sU32 position = sample_position * 2;
+      // TODO assumes floating point samples
+      for (sU32 i = 0; i < a_len; i++) {
+        a_buffer[2 * i] += audio_buffer[position + 2 * i];
+        a_buffer[2 * i + 1] += audio_buffer[position + 2 * i + 1];
+      }
+
+      //Write a_buffer till a_len
+      a_buffer += a_len * 2u;
+      sample_position += a_len;
+      position = sample_position * 2;
+      player->Render(a_buffer, windowOverlapp, 0);
+      for (sU32 i = 0; i < windowOverlapp; i++) {
+        a_buffer[2 * i] += audio_buffer[position + 2 * i];
+        a_buffer[2 * i + 1] += audio_buffer[position + 2 * i + 1];
+      }
+      sample_position += windowOverlapp;
+      a_buffer += 2 * windowOverlapp;
+
+      //Clean Up
+      tempAlreadyProcessed = 0;
+    }
+    else
+    {
+      //Get4Klang
+      sU32 position = sample_position * 2;
+      // TODO assumes floating point samples
+      for (sU32 i = 0; i < a_len; i++) {
+        a_buffer[2 * i] = audio_buffer[position + 2 * i];
+        a_buffer[2 * i + 1] = audio_buffer[position + 2 * i + 1];
+      }
+      player->Render(a_buffer, a_len, 1);
+      tempAlreadyProcessed += a_len;
+      //Clean Up
+      a_buffer += a_len * 2u;
+      sample_position += a_len;
+    }
+
+	// TODO compressor and limiter
 	}
 }
 #endif
