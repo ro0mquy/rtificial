@@ -57,18 +57,18 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	if (t >= 52) {
 		vec2 p_stripes = p;
 		float c = .8;
-		pTrans(p.x, c * .25);
-		pDomrep(p.x, c);
-		float f_stripes = abs(p.x) - c * .25;
+		pTrans(p_stripes.x, c * .25);
+		pDomrep(p_stripes.x, c);
+		float f_stripes = abs(p_stripes.x) - c * .25;
 		f_stripes = max(f_stripes, -f_spheres);
 		front_plane = max(front_plane, -f_stripes);
 	}
 	if (t >= 84) {
 		vec2 p_stripes = p;
 		float c = .8;
-		pTrans(p.y, c * .25);
-		pDomrep(p.y, c);
-		float f_stripes = abs(p.y) - c * .25;
+		pTrans(p_stripes.y, c * .25);
+		pDomrep(p_stripes.y, c);
+		float f_stripes = abs(p_stripes.y) - c * .25;
 		f_stripes = max(f_stripes, -f_spheres);
 		front_plane = max(front_plane, -f_stripes);
 	}
