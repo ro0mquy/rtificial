@@ -22,7 +22,29 @@ float myTorusTwisted(vec3 p, float rBig, float rSmall, float t) {
 }
 
 float f2Part(vec2 p, float t) {
-	pTrans(p, vec2(cos(t/100. * 2 * Tau), sin(t/50. * 2 * Tau)) * 1);
+	float duration = 392.;
+
+	float bez_t = t / duration;
+	vec2 bez1 = part_bez1_rt_vec2;
+	vec2 bez2 = part_bez2_rt_vec2;
+	vec2 bez3 = part_bez3_rt_vec2;
+	vec2 bez4 = part_bez4_rt_vec2;
+	vec2 bez12 = mix(bez1, bez2, bez_t);
+	vec2 bez23 = mix(bez2, bez3, bez_t);
+	vec2 bez34 = mix(bez3, bez4, bez_t);
+	vec2 bez123 = mix(bez12, bez23, bez_t);
+	vec2 bez234 = mix(bez23, bez34, bez_t);
+	vec2 bez1234 = mix(bez123, bez234, bez_t);
+	pTrans(p, bez1234);
+
+	float rot_t = smoothstep(0, duration, t);
+	float other_t = smoothstep(.4, .6, rot_t) * 2. - 1.;
+	rot_t += part_rot2D_param2_rt_float * (other_t*other_t*other_t - other_t);
+	//pRot(p, t * part_rot2D_param_rt_float);
+	pRot(p, Tau * rot_t * part_rot2D_param_rt_float);
+
+	pTrans(p, vec2(cos(t/100. * 2 * Tau), sin(t/50. * 2 * Tau)) * part_sin_amp_rt_float);
+
 	vec3 p_tor = vec3(p, 0.);
 	// good values for rot_big_offset: 0.145; -0.116
 	//pRotY(p_tor, Tau * part_rot_big_offset_rt_float);
@@ -84,7 +106,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 		if (t >= torus_slow) {
 			float delta_slow = t - torus_slow;
 			float duration = (torus_stop - torus_slow) * .75;
-			delta_t += duration * saturate(delta_slow / duration);
+			delta_t += duration * (smoothstep(-1., 1., delta_slow / duration) - .5) * 2.;
 		}
 		float f_part = mix(front_plane, f2Part(p_part, delta_t), saturate(delta_t * .05));
 		MaterialId mat_part = MaterialId(id_part, vec3(p_part, 0), vec4(0, -f_part, vec2(0)));

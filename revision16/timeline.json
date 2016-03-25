@@ -739,7 +739,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": 0.23943749070167541504,
+                "valueVec3X": 0.23943749070167544279,
                 "valueVec3Y": 0.51633322238922119141,
                 "valueVec3Z": 2.5321362018585205078
               }
@@ -1180,7 +1180,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueQuatX": 0.10209172964096069336,
+                "valueQuatX": 0.10209172964096067948,
                 "valueQuatY": 0,
                 "valueQuatZ": 0,
                 "valueQuatW": 0.9947751164436340332
@@ -1194,7 +1194,7 @@
                 "valueQuatX": 0.098840244114398956299,
                 "valueQuatY": 0,
                 "valueQuatZ": 0,
-                "valueQuatW": 0.99510341882705688477
+                "valueQuatW": 0.99510341882705699579
               }
             },
             {
@@ -1205,7 +1205,7 @@
                 "valueQuatX": 0.20809198915958404541,
                 "valueQuatY": 0,
                 "valueQuatZ": 0,
-                "valueQuatW": 0.97810888290405273438
+                "valueQuatW": 0.9781088829040528454
               }
             }
           ]
@@ -2489,6 +2489,42 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "part_bez1_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0,
+        "valueVec2Y": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_bez2_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -8.8840000000000145519,
+        "valueVec2Y": 0.66800000000000636646
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_bez3_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 6.7640000000000100044,
+        "valueVec2Y": 0.83600000000001273293
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_bez4_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0,
+        "valueVec2Y": 0
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "part_frame_glow_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -2733,6 +2769,30 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_rot2D_param_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.9759999999999990905
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_rot2D_param2_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "part_sin_amp_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.70000000000004547474
       },
       "sequencesArray": []
     },
