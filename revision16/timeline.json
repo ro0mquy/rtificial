@@ -3024,9 +3024,9 @@
       "uniformName": "post_colorgrading_lift",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.49950528144836425781,
-        "valueColorG": 0.49950528144836425781,
-        "valueColorB": 0.49950528144836425781
+        "valueColorR": 0.5,
+        "valueColorG": 0.5,
+        "valueColorB": 0.5
       },
       "sequencesArray": []
     },
@@ -3034,9 +3034,9 @@
       "uniformName": "post_colorgrading_gamma",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.5795466303825378418,
-        "valueColorG": 0.5795466303825378418,
-        "valueColorB": 0.5795466303825378418
+        "valueColorR": 0.5,
+        "valueColorG": 0.5,
+        "valueColorB": 0.5
       },
       "sequencesArray": []
     },
