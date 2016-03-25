@@ -140,8 +140,6 @@ static SAMPLE_TYPE *audio_buffer;
 
 #ifdef SYNTH_DUAL_V2_4KLANG
 sU32 sample_position = 0;
-sF32 * temporaryV2Buffer = nullptr;
-sU32 temporaryV2BufferLength = 0u;
 sU32 tempAlreadyProcessed = 0;
 sU32 alreadyTruncated(0u);
 sU32 alreadyProcessed(0u);
@@ -149,13 +147,9 @@ sU32 alreadyProcessed(0u);
 const sU32 compensation (1174);
 const sU32 lengthOfV2(9200279);
 
-
 void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
   V2MPlayer* player = reinterpret_cast<V2MPlayer*>(a_this);
-
-
 	if (player->IsPlaying()) {
-
     //Only truncate every once in a while
     //via: https://www.ee.columbia.edu/~dpwe/papers/HejMus91-solafs.pdf 
     // & https://www.ee.columbia.edu/~dpwe/e4896/lectures/E4896-L09.pdf
