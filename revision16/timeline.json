@@ -2595,7 +2595,7 @@
       "uniformType": "vec2",
       "uniformStandardValue": {
         "valueVec2X": 6.7640000000000100044,
-        "valueVec2Y": 0.83600000000001273293
+        "valueVec2Y": 0.83600000000001284395
       },
       "sequencesArray": []
     },
@@ -2878,7 +2878,7 @@
       "uniformName": "part_rot2D_param_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 2.9759999999999990905
+        "valueFloatX": 3
       },
       "sequencesArray": []
     },
