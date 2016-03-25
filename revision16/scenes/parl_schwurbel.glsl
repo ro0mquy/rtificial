@@ -25,7 +25,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	vec2 p_curtain = p;
 	pMirrorTrans(p_curtain.x, c.x);
 	pFlip(p_curtain.x);
-	pTrans(p_curtain.x, 4);
+	pTrans(p_curtain.x, 3);
 	float hide_start = 0;
 	float hide_duration = 56;
 	float curtain_hiding = 1 - smoothstep(0, 1, abs(2 * (t - hide_start) / hide_duration - 1));
