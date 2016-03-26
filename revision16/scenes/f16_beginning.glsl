@@ -20,9 +20,10 @@ float fScene(vec3 p) {
 	vec3 p_lights = p;
 	pTrans(p_lights.y, -.47);
 	pTrans(p_lights.xz, begin_lights_offset_rt_vec2);
-	pDomrepInterval(p_lights.x, 1.4, 0, 10);
+	float i_light = pDomrepInterval(p_lights.x, 1.2, 0, 7);
 	float f_lights = fCylinder(p_lights, .05, .01);
 	MatWrap w_lights = MatWrap(f_lights, newMaterialId(id_lights, p));
+	w_lights.m.misc.w = i_light;
 
 	w_scene = mUnion(w_scene, w_lights);
 
@@ -58,6 +59,9 @@ Material getMaterial(MaterialId materialId) {
 	mat.color = vec3(.01);
 	if (materialId.id == id_lights) {
 		mat.emission = vec3(.5);
+		if (int(materialId.misc.w) == int(begin_light_index_rt_float)) {
+			mat.emission += 30 * begin_light_rt_float;
+		}
 	}
 	return mat;
 }

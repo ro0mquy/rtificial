@@ -176,7 +176,7 @@ float f2Glow(vec2 p) {
 
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
-	float glow_intensity = part_glow_intensity_rt_float;
+	float glow_intensity = part_glow_intensity_rt_float * mix(1, 3, begin_light_rt_float);
 	vec3 glow_color = part_glow_color_rt_color;
 	if (materialId.id == id_layer) {
 		if (abs(f2Glow(materialId.coord.xy)) < .03) {
