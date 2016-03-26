@@ -2044,7 +2044,32 @@
       "uniformStandardValue": {
         "valueFloatX": 0
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 808,
+          "sequenceStart": 64000,
+          "sequenceDuration": 64000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.003000000000042746251
+              }
+            },
+            {
+              "keyframePosition": 44500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.0049999999999954525265
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "debug_mode",
@@ -3909,7 +3934,7 @@
       "uniformName": "part_rot2D_param_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 2.9759999999999990905
+        "valueFloatX": 3
       },
       "sequencesArray": []
     },
