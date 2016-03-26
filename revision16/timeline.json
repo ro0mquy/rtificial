@@ -236,7 +236,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 1
+                "valueFloatX": 0.65499999999997271516
               }
             },
             {
@@ -244,7 +244,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.12099999999998090061
+                "valueFloatX": 0.08400000000006002665
               }
             }
           ]
@@ -260,7 +260,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 1
+                "valueFloatX": 0.4629999999999654392
               }
             },
             {
@@ -268,7 +268,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.12099999999998090061
+                "valueFloatX": 0.18399999999996907718
               }
             }
           ]
@@ -300,7 +300,7 @@
         {
           "sequenceSceneId": 158,
           "sequenceStart": 39750,
-          "sequenceDuration": 3250,
+          "sequenceDuration": 2000,
           "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
             {
@@ -308,7 +308,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 1
+                "valueFloatX": 0.62300000000004729372
               }
             },
             {
@@ -324,7 +324,7 @@
         {
           "sequenceSceneId": 158,
           "sequenceStart": 43750,
-          "sequenceDuration": 3250,
+          "sequenceDuration": 2125,
           "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
             {
@@ -332,7 +332,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 1
+                "valueFloatX": 0.1620000000000345608
               }
             },
             {
@@ -356,7 +356,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 1
+                "valueFloatX": 0.36599999999998544808
               }
             },
             {
@@ -396,7 +396,7 @@
         {
           "sequenceSceneId": 158,
           "sequenceStart": 55750,
-          "sequenceDuration": 3250,
+          "sequenceDuration": 2750,
           "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
             {
@@ -691,7 +691,46 @@
         "valueColorG": 0.61868572235107421875,
         "valueColorB": 0.80455911159515380859
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 158,
+          "sequenceStart": 0,
+          "sequenceDuration": 49000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 15500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.073827765882015228271,
+                "valueColorG": 0.11926401406526565552,
+                "valueColorB": 0.44787085056304931641
+              }
+            },
+            {
+              "keyframePosition": 26500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.42150950431823730469,
+                "valueColorG": 0.46261644363403320313,
+                "valueColorB": 0.69309401512145996094
+              }
+            },
+            {
+              "keyframePosition": 36000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.00080465845530852675438,
+                "valueColorG": 0.011881334707140922546,
+                "valueColorB": 0.2549158632755279541
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "begin_light1_intensity_rt_float",
@@ -968,7 +1007,15 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": 3
+              }
+            },
+            {
+              "keyframePosition": 1687,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 2.3999999999999772626
               }
             },
             {
