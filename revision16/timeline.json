@@ -2613,6 +2613,46 @@
               }
             }
           ]
+        },
+        {
+          "sequenceSceneId": 808,
+          "sequenceStart": 30500,
+          "sequenceDuration": 4000,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 1500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.13700000000005729817
+              }
+            },
+            {
+              "keyframePosition": 2000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 2500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.13700000000005729817
+              }
+            },
+            {
+              "keyframePosition": 4000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
         }
       ]
     },
