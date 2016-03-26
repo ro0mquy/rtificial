@@ -9,3 +9,188 @@ rain_amount_3_rt_float 0.0049999999999954525265
 bridge_lighthouse_lamp_glow_rt_float 1
 bridge_lighthouse_lamp_intensity_rt_float 1
 land_mountain_color_rt_color vec3(0.2120443880558013916, 0.29321616888046264648, 0.81224149465560913086)
+wave_trans_rt_vec2 vec2(1, 1)
+wave_t_rt_float 1
+wave_nowave_radius_rt_float 1
+wave_beta_rt_float 1
+umbrella_r_rt_float 1
+tree_size_decay_rt_float 1.2660000000000763976
+tree_branch_angle_rt_float 0.05899999999996907718
+tree_bounce_rt_float 0.39999999999997726263
+tree_bounce_h_rt_float 0.5
+tree_anim_rt_float 1
+takeoff_num_glow_rt_float 14
+takeoff_back_color_rt_color vec3(1, 1, 1)
+seagull_wings_width_rt_float 0.52700000000004365575
+seagull_wings_rotation_rt_float 0.050000000000068205164
+seagull_wings_position_rt_float 0.37099999999998090061
+seagull_wings_outer_rotation_rt_float 0.91300000000001091394
+seagull_wings_outer_length_rt_float 1.0850000000000363798
+seagull_wings_length_rt_float 0.83199999999999363354
+seagull_body_width_rt_float 0.4629999999999654392
+seagull_body_height_rt_float 1.7400000000000090949
+schwurbel_rot_rt_float 0
+schwurbel_parl_separation_rt_float 0
+schwurbel_mirror_rt_bool false
+rain_water_offset_rt_float 1
+rain_spacing_rt_vec2 vec2(1, 1)
+rain_drop_dim_rt_vec2 vec2(0.057999999999992717103, 0.72400000000004638423)
+post_vignette_intensity 0.77999999999997282618
+post_lens_distort_kcube -0.011999999999943611328
+post_film_grain_power 4.1839999999999690772
+post_film_grain_intensity 0.41100000000005826317
+post_film_grain_frequency 3.3930000000000291038
+post_disable_median false
+post_disable_grain false
+post_disable_ao false
+post_bloom_amount 0.40800000000001546141
+post_ao_radius 2
+post_ao_n_rays 6
+post_ao_gauss_offset_rt_float 0.10000000000002273737
+post_ao_edge_blurriness_rt_float 0.94100000000003092282
+post_ao_avg_occlusion 0.13200000000006184564
+plane_wingspread_rt_float 1
+part_sin_amp_rt_float 0.70000000000004547474
+part_rot2D_param2_rt_float 0.5
+part_rot2D_param_rt_float 3
+part_rot_small_offset_rt_float 1
+part_rot_big_offset_rt_float 0.14499999999998181011
+part_r_small_rt_float 1
+part_r_roundedness_rt_float 0.10000000000002273737
+part_r_big_rt_float 2
+part_glow_color_rt_color vec3(0.48195225000381469727, 0.035614367574453353882, 0.0096963280811905860901)
+part_bez4_rt_vec2 vec2(0, 0)
+part_bez3_rt_vec2 vec2(6.7640000000000100044, 0.83600000000001284395)
+part_bez2_rt_vec2 vec2(-8.8840000000000145519, 0.66800000000000636646)
+part_bez1_rt_vec2 vec2(0, 0)
+parl_middle_width_rt_float 1
+parl_middle_top_radius_rt_float 3.7040000000000645741
+parl_glow_intensity_rt_float 6.8600000000000136424
+parl_color_rt_color vec3(0.48627451062202453613, 0.11372549086809158325, 0.65882354974746704102)
+parl_base_elem_top_arch_radius_rt_float 0.23400000000003728928
+parl_base_elem_top_arch_dim_rt_vec2 vec2(0.18899999999996452971, 0.43500000000005911716)
+parl_base_elem_spire_height_rt_float 0.65899999999999181455
+parl_base_elem_scale_rt_float 0.25099999999997635314
+parl_base_elem_dim_rt_vec2 vec2(0.69000000000005456968, 2.6359999999999672582)
+parl_base_elem_bottom_height_rt_float 0.53600000000005820766
+parl_base_elem_bottom_arch_radius_rt_float 0.49000000000000909495
+parl_base_elem_bottom_arch_dim_rt_vec2 vec2(0.72800000000006548362, 0.5940000000000509317)
+opening_box_trans_rt_float 0
+opening_angle_rt_float 0
+materials_outline_transition_rt_float 0.17000000000007275958
+main_normal_epsilon_bias 1
+main_marching_distance 200
+lay_texture_intesity_rt_float 0.85000000000002273737
+lay_light_radius_rt_float 16.700000000000045475
+lay_light_position_rt_vec3 vec3(0, 0, 247.56099999999992178)
+lay_light_intensity_rt_float 15.319000000000073669
+lay_light_color_rt_color vec3(1, 1, 1)
+lay_layer_rotation -0.72100000000000363798
+lay_frame_thickness 20
+lay_frame_dim vec2(8, 5)
+lay_frame_border_color_rt_color vec3(0.38891029357910161801, 0.16044351458549499512, 0.1247409433126449585)
+lay_color2_rt_color vec3(0.10363409668207168579, 0.1767743229866027832, 0.14198029041290283203)
+lay_color1_rt_color vec3(0.49950528144836425781, 0.85917359590530395508, 0.77422732114791870117)
+land_vogel_r_small_rt_float 0.11099999999998999556
+land_vogel_r_big_rt_float 0.125
+land_vogel_pos_offset_rt_float -8.9739999999999326974
+land_vogel_offset_rt_float -0.059999999999945430318
+land_vogel_mod_rt_float 100
+land_vogel_flugel_rt_float 0.003000000000042746251
+land_vogel_domrep_rt_float 52.527000000000043656
+land_vogel_bez3_rt_vec2 vec2(-5, -1.9919999999999618012)
+land_vogel_bez2_rt_vec2 vec2(2.4680000000000745786, 0)
+land_vogel_bez1_rt_vec2 vec2(0, -4.2239999999999326974)
+land_tree_pos_rt_float 13.54100000000005366
+land_tree_glow_intensity_rt_float 1.2530000000000427463
+land_tree_color_rt_color vec3(0.48776522278785705566, 0.11657577753067016602, 0.65922397375106811523)
+land_mountain_pos_rt_float 59.5
+land_mountain_glow_intensity_rt_float 1.3970000000000482032
+land_lighthouse_pos_rt_float 35.499000000000023647
+land_lighthouse_lamp_intensity_rt_float 1.0610000000000354703
+land_lighthouse_lamp_color_rt_color vec3(0.5604991912841796875, 0.51139783859252929688, 0.79691660404205333368)
+land_kerbe_r_rt_float 0.23000000000001818989
+land_kerbe_domrep_rt_float 0.25999999999999090505
+land_kerbe_domrep_big_rt_float 1
+land_hutte_pos_rt_float 0.61099999999998999556
+land_haus_domrep_rt_float 60.067999999999983629
+land_f16_offset_rt_vec2 vec2(-2.4449999999999363354, -0.11799999999993815436)
+land_f16_motion_rt_vec2 vec2(7.1240000000000236469, 2.0980000000000700311)
+land_f16_motion_rt_float 1
+land_busch_r_rt_float 0.25999999999999090505
+land_busch_pos_x_rt_float 0.086000000000012732926
+land_busch_domrep_rt_float 16.010999999999967258
+land_a_rt_float 250
+funk_width_rt_float 0.10199999999997544364
+funk_takeoff_offset_rt_float 0.29100000000005366019
+funk_speed_rt_float 4.0360000000000582077
+funk_rot_rt_float -1.6000000000000227374
+funk_myrahm_speed_rt_float 300
+funk_loco_rt_vec2 vec2(1.192000000000007276, 1)
+funk_glow_rt_float 8
+funk_color_rt_color vec3(0.47843137383460998535, 0.035294119268655776978, 0.0078431377187371253967)
+funk_closing_start_rt_float 0.5
+funk_closing_speed_rt_float 6.6320000000000618456
+funk_closing_pow_rt_float 4
+flame_speed_rt_float 1
+f16_outline_color_rt_color vec3(0.5604991912841796875, 0.72267246246337890625, 1)
+f16_ground_nose_smooth_rt_float 0.77700000000004365575
+f16_ground_nose_rotation_rt_float 0.0090000000000145519152
+f16_ground_nose_radius_rt_float 3.4440000000000736691
+f16_ground_engine_radius_rt_float 4.9410000000000309228
+f16_ground_cockpit_thickness_rt_float 0.014999999999986357579
+f16_ground_cockpit_radius_rt_float 0.27499999999997726263
+f16_ground_cockpit_offset_rt_float 0.62400000000002364686
+f16_ground_cockpit_height_rt_float 0.072999999999979081622
+f16_flame_intensity_rt_float 2.3000000000000682121
+f16_flame_color_rt_color vec3(0.47843137383460998535, 0.035294119268655776978, 0.0078431377187371253967)
+f16_exhaust_width_rt_float 20
+f16_exhaust_height_rt_float 3.5570000000000163709
+f16_exhaust_dist_rt_float 3.3139999999999645297
+end_smalltext_intensity_rt_float 6.7970000000000254659
+end_smalltext_color_rt_color vec3(0.10363409668207168579, 0.027755279093980789185, 0.13320851325988769531)
+end_line_height_rt_float 1.2000000000000454747
+end_bigtext_glow_intensity_rt_float 8.7799999999999727152
+debug_plane_normal vec3(0, 0, 1)
+debug_plane_height 0
+debug_mode 0
+camera_shake_freq_rt_float 3
+camera_sensor_width 0.024000000000000909495
+camera_focal_length 0.022000000000048203219
+bridge_platform_height_rt_float 0.5
+bridge_pillar_top_dim_rt_vec2 vec2(1.5, 0.70000000000004547474)
+bridge_pillar_distance_rt_float 3.7240000000000463842
+bridge_pillar_dim_rt_vec2 vec2(0.56299999999998817657, 2)
+bridge_ends_offset_rt_float -1.0950000000000272848
+bridge_ends_dim_rt_vec2 vec2(0.65899999999999181455, 0.67100000000004911271)
+bridge_chains_outline_width_rt_float 0.090000000000031846192
+bridge_chains_intensity_rt_float 1.0489999999999781721
+bridge_chains_horizontal_width_rt_float 0.047000000000025465852
+bridge_chains_horizontal_space_rt_float 3.9089999999999918145
+bridge_chains_color_rt_color vec3(0.48776522278785705566, 0.11392093449831007523, 0.65922397375106811523)
+bridge_chain_radius_rt_float 1.3010000000000445652
+bridge_chain_length_rt_float 6.4379999999999881766
+bridge_birds_offset_rt_vec2 vec2(2.2169999999999845386, -3.2529999999999290594)
+bridge_bird3_scale_rt_float 0.79899999999997828315
+bridge_bird3_offset_rt_vec2 vec2(1.1570000000000391083, 1.567000000000007276)
+bridge_bird2_scale_rt_float 0.98300000000006093615
+bridge_bird2_offset_rt_vec2 vec2(1.290000000000077307, -0.86000000000001364242)
+bridge_bird_sphere2_trans_rt_float 1.0550000000000636646
+bridge_bird_sep_rt_float 0.34600000000000363798
+bridge_bird_radius2_rt_float 1.8799999999999954525
+bridge_bird_radius1_rt_float 1.0199999999999818101
+birds_outline_intensity_rt_float 0.21500000000003183231
+birds_outline_color_rt_color vec3(0, 0, 0)
+begin_lights_offset_rt_vec2 vec2(-1.2329999999999472493, 0.73900000000003285283)
+begin_light2_position_rt_vec3 vec3(-0.61500000000000909495, -1.6839999999999690772, -3.4800000000000181899)
+begin_light2_intensity_rt_float 10.841999999999984539
+begin_light2_color_rt_color vec3(0.47617727518081665039, 0.035614367574453353882, 0.0077510266564786434174)
+begin_light1_position_rt_vec3 vec3(6.0910000000000081855, 2.0990000000000463842, 0)
+begin_light1_intensity_rt_float 7.3160000000000309228
+background_color_rt_color vec3(0.0060405931435525417328, 0.0060405931435525417328, 0.0083731170743703842163)
+background_c2_size_rt_float 14.344000000000050932
+background_c2_opacity_rt_float 0.050000000000068205164
+background_c2_center_rt_vec3 vec3(0.43700000000001182343, 0.33600000000001273293, -1)
+background_c1_size_rt_float 29.14499999999998181
+background_c1_opacity_rt_float 0.014000000000010004442
+background_c1_center_rt_vec3 vec3(-0.11199999999996636257, 0.089000000000055465299, -1)
