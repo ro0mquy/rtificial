@@ -322,6 +322,7 @@ Material getMaterial(MaterialId materialId) {
 	} else if (materialId.id == id_tree) {
 		mOutline(mat, materialId, land_tree_color_rt_color, land_tree_glow_intensity_rt_float);
 	} else if (materialId.id == id_mountain) {
+		materialId.misc.y *= .3;
 		mOutline(mat, materialId, rain_drops_color_rt_color, land_mountain_glow_intensity_rt_float);
 	}
 	return mat;

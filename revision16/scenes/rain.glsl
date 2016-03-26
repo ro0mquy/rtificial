@@ -155,10 +155,13 @@ Material getMaterial(MaterialId materialId) {
 		mat.emission = rain_drops_color_rt_color * rain_drops_glow_rt_float;
 	}
 	if (materialId.id == id_water && lay_animation < water_rise_end + 16) {
+		materialId.misc.y *= .8;
 		mOutline(mat, materialId, rain_drops_color_rt_color, rain_drops_glow_rt_float);
 	}
 	if (materialId.id == id_layer && lay_animation >= water_rise_end
-			&& abs(materialId.coord.x) >  lay_frame_dim.x + materials_outline_thickness_rt_float + 1e-2) {
+			&& (abs(materialId.coord.x) > lay_frame_dim.x + 2.*materials_outline_thickness_rt_float + 1e-2
+			     || materialId.coord.y < -lay_frame_dim.y - 2.*materials_outline_thickness_rt_float - 1e-2) ) {
+		materialId.misc.y *= .5;
 		materialId.misc.y = abs(materialId.misc.y);
 		mOutline(mat, materialId, rain_drops_color_rt_color, rain_drops_glow_rt_float);
 	}
