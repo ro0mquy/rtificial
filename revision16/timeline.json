@@ -395,6 +395,81 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "bridge_bird_radius1_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0199999999999818101
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_bird_radius2_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.8799999999999954525
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_bird_sep_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.34600000000000363798
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_bird_sphere2_trans_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0550000000000636646
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_bird2_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1.290000000000077307,
+        "valueVec2Y": -0.86000000000001364242
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_bird2_scale_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.98300000000006093615
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_bird3_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1.1570000000000391083,
+        "valueVec2Y": 1.567000000000007276
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_bird3_scale_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.79899999999997817213
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_birds_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 2.2169999999999845386,
+        "valueVec2Y": -3.2529999999999290594
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "bridge_chain_length_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {

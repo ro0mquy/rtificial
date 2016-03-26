@@ -74,7 +74,7 @@ float f2Bridge(vec2 p, float scale, float t) {
 	f = min(f, f_chains);
 	f = min(f, f_ends);
 	pTrans(p.y, -pillar_dim.y + platform_height + .4);
-	float car_t = saturate((t-132)/24);
+	float car_t = saturate((t-100)/54);
 	pTrans(p.x, 8 * (1 - 2 * car_t));
 	float f_dings = f2Car(p * 5.) / 5;
 	f = min(f, f_dings);
@@ -82,8 +82,29 @@ float f2Bridge(vec2 p, float scale, float t) {
 	return f;
 }
 
+float f2Bird(vec2 p, float t) {
+	pTrans(p.y, sin(t) * .1);
+	pMirror(p.x);
+	pRot(p, sin(t) * .15);
+	pTrans(p.x, bridge_bird_sep_rt_float);
+	float f_top = f2Sphere(p, bridge_bird_radius1_rt_float);
+	pTrans(p.y, -bridge_bird_sphere2_trans_rt_float);
+	float f_bottom = f2Sphere(p, bridge_bird_radius2_rt_float);
+	return max(f_top, -f_bottom);
+}
+
+float f2BirdGroup(vec2 p, float t) {
+	float scale = 1.5;
+	p *= scale;
+	float bird1 = f2Bird(p, t);
+	pTrans(p, bridge_bird2_offset_rt_vec2);
+	float bird2 = f2Bird(p/bridge_bird2_scale_rt_float, t + 12)*bridge_bird2_scale_rt_float;
+	pTrans(p, bridge_bird3_offset_rt_vec2);
+	float bird3 = f2Bird(p/bridge_bird3_scale_rt_float, t + 3)*bridge_bird3_scale_rt_float;
+	return min(bird1, min(bird2, bird3)) / scale;
+}
+
 MatWrap wInner(vec2 p, inout float f_frame, float t) {
-	//return f2Car(p);
 	vec2 p_f16 = p;
 	pF16Bridge(p_f16, t);
 	float f_f16 = fF16Air(p_f16, 4);
@@ -99,6 +120,12 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float f = f_ground;
 	f = min(f, f_bridge);
 	f_frame = max(min(f_frame, f_f16), -max(f_frame, f_f16));
+	vec2 p_birds = p;
+	pF16Bridge(p_birds, 228);
+	pTrans(p_birds, bridge_birds_offset_rt_vec2);
+	if (t >= 212 && t < 244) {
+		f = min(f, f2BirdGroup(p_birds, t));
+	}
 	return MatWrap(f, layerMaterialId(p, t));
 }
 
