@@ -36,15 +36,15 @@ extern AmbientLight environments[10];
 extern Texture textures[1];
 extern Framebuffer fbos[23];
 extern Scene scenes_data[10];
-extern float keyframe_data[825];
-extern Sequence sequence_data[117];
-extern int sequence_index[230];
-extern int keyframe_index[230];
-extern Uniform uniforms[229];
-extern int keyframe_time[278];
-extern int keyframe_ease_toward[278];
-extern int keyframe_ease_away[278];
-extern int keyframe_time_index[230];
+extern float keyframe_data[852];
+extern Sequence sequence_data[123];
+extern int sequence_index[232];
+extern int keyframe_index[232];
+extern Uniform uniforms[231];
+extern int keyframe_time[290];
+extern int keyframe_ease_toward[290];
+extern int keyframe_ease_away[290];
+extern int keyframe_time_index[232];
 const int time_uniform_location = 66;
 #ifndef BPM
 #define BPM 130
