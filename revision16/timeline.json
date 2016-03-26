@@ -4376,7 +4376,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueColorR": 0.44232296943664550781,
-                "valueColorG": 0.42050793766975402832,
+                "valueColorG": 0.42050793766975397281,
                 "valueColorB": 0.45345649123191833496
               }
             },
@@ -4386,7 +4386,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueColorR": 0.44232296943664550781,
-                "valueColorG": 0.42050793766975402832,
+                "valueColorG": 0.42050793766975397281,
                 "valueColorB": 0.45345649123191833496
               }
             },
@@ -4443,7 +4443,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueColorR": 0.36470589041709899902,
+                "valueColorR": 0.36470589041709905453,
                 "valueColorG": 0.30980393290519714355,
                 "valueColorB": 0.38039216399192810059
               }
@@ -4538,9 +4538,9 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueColorR": 0.88317972421646118164,
-                "valueColorG": 0.88317972421646118164,
-                "valueColorB": 0.88317972421646118164
+                "valueColorR": 0.88317972421646107062,
+                "valueColorG": 0.88317972421646107062,
+                "valueColorB": 0.88317972421646107062
               }
             },
             {
@@ -4737,7 +4737,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.98800000000005638867
+                "valueFloatX": 0.98800000000005627765
               }
             },
             {
@@ -4745,7 +4745,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.98800000000005638867
+                "valueFloatX": 0.98800000000005627765
               }
             },
             {
