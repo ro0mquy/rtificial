@@ -250,15 +250,15 @@ void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
     bool compressorOn = true;
     if (compressorOn)
     {
-		float envelope[2]{};
-		float attack_ = 10.f;
-		float release_ = 100.f;
-		float attackGain = exp(-1 / (attack_ * 44100));
-		float releaseGain = exp(-1 / (release_ * 44100));
-		float threshold_ = -15.f;
-		float ratio_ = 4;
-		float slope = 1 - (1 / ratio_);
-		for (int i = 0; i < a_len_; i++) {
+		  float envelope[2]{};
+		  float attack_ = 10.f;
+		  float release_ = 100.f;
+		  float attackGain = exp(-1 / (attack_ * 44100));
+		  float releaseGain = exp(-1 / (release_ * 44100));
+		  float threshold_ = -15.f;
+		  float ratio_ = 4;
+		  float slope = 1 - (1 / ratio_);
+		  for (int i = 0; i < a_len_; i++) {
 			for (int channel = 0; channel < 2u; channel++) {
 				sF32* channelData = a_buffer_;
 				//float input = abs(channelData[2 * i + channel]);
@@ -281,6 +281,170 @@ void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
 			}
 		}
     }
+    /*bool limiterOn = false;
+    if (limiterOn)
+    {
+      //Now, lots of code for circular buffer
+
+      class CircularBuffer
+      {
+      private:
+        float* buffer;
+        size_t numberOfSamples;
+        float* minMaxStore[4]; // min, max, absmin, absmax
+      public:
+        CircularBuffer(size_t numberOfSamples_) : buffer(nullptr), numberOfSamples(numberOfSamples_)
+        {
+          buffer = new float[numberOfSamples];
+          for (int i = 0; i < numberOfSamples; i++)
+          {
+            buffer[i] = float();
+          }
+          for (int i = 0; i < 2; i++) minMaxStore[i] = &buffer[0];
+        };
+        ~CircularBuffer(void)
+        {
+          if (this->buffer != nullptr)
+          {
+            delete[] buffer;
+            buffer = nullptr;
+          }
+        };
+        void push(float const& in)
+        {
+          for (int i = 0; i < numberOfSamples - 1u; i++)
+          {
+            buffer[i + 1u] = buffer[i];
+          }
+          buffer[0] = in;
+          for (int i = 0; i < 4; i++)
+          {
+            minMaxStore[i]++;
+            if (minMaxStore[i] > &buffer[numberOfSamples - 1u])
+            {
+              if (i == 0) this->searchMin();
+              else if (i == 1) this->searchMax();
+              else if (i == 2) this->searchAbsMin();
+              else if (i == 3) this->searchAbsMax();
+            }
+          }
+        };
+        float pushpop(float const& in)
+        {
+          float holder = buffer[numberOfSamples - 1u];
+          for (int i = 0; i < numberOfSamples - 1u; i++)
+          {
+            buffer[i + 1u] = buffer[i];
+          }
+          buffer[0] = in;
+
+          for (int i = 0; i < 4; i++)
+          {
+            minMaxStore[i]++;
+            if (minMaxStore[i] > &buffer[numberOfSamples - 1u])
+            {
+              if (i == 0) this->searchMin();
+              else if (i == 1) this->searchMax();
+              else if (i == 2) this->searchAbsMin();
+              else if (i == 3) this->searchAbsMax();
+            }
+          }
+          return holder;
+        };
+        float getMin() {
+          return *minMaxStore[0];
+        };
+        float getAbsMax() {
+          return (*minMaxStore[3] > 0.f ? *minMaxStore[3] : -1.f * (*minMaxStore[3]));
+        };
+        float getAbsMin() {
+          return (*minMaxStore[2] > 0.f ? *minMaxStore[2] : -1.f * (*minMaxStore[2]));
+        };
+        float getMax() {
+          return *minMaxStore[1];
+        };
+        void searchMin() {
+          float* minimum = &buffer[0];
+          for (int i = 1; i < numberOfSamples; i++)
+          {
+            if (buffer[i] < *minimum)
+            {
+              minimum = &buffer[i];
+            }
+          }
+          minMaxStore[0] = minimum;
+        };
+        void searchMax() {
+          float* maximum = &buffer[0];
+          for (int i = 1; i < numberOfSamples; i++)
+          {
+            if (buffer[i] > *maximum)
+            {
+              maximum = &buffer[i];
+            }
+          }
+          minMaxStore[1] = maximum;
+        };
+        void searchAbsMin() {
+          float min = buffer[0] > 0.f ? buffer[0] : -1.f * buffer[0];
+          float* ptr = &buffer[0];
+          for (int i = 1; i < numberOfSamples; i++)
+          {
+            float temp = buffer[i] > 0.f ? buffer[i] : -1.f * buffer[i];
+            if (temp < min)
+            {
+              ptr = &buffer[i];
+              min = temp;
+            }
+          }
+          minMaxStore[2] = ptr;
+        };
+        void searchAbsMax() {
+          float maximum = buffer[0] > 0.f ? buffer[0] : -1.f * buffer[0];
+          float* ptr = &buffer[0];
+          for (int i = 1; i < numberOfSamples; i++)
+          {
+            float temp = buffer[i] > 0.f ? buffer[i] : -1.f * buffer[i];
+            if (temp > maximum)
+            {
+              ptr = &buffer[i];
+              maximum = temp;
+            }
+          }
+          minMaxStore[3] = ptr;
+        };
+        float getSum() {
+          float summed;
+          for (int i = 0; i < numberOfSamples; i++) summed += buffer[i];
+          return summed;
+        };
+      };
+
+      sF32* channelData = a_buffer_;
+      float release_ = 100;
+      float igain = 1.45f;
+      float ogain = 0.45f;
+      CircularBuffer longCircularBuffer(400);
+      CircularBuffer shortCircularBuffer1(200u), shortCircularBuffer2(200u);
+      for (int i = 0; i < a_len_; i++) {
+        for (int channel = 0; channel < 2; channel++)
+        {
+          float current = longCircularBuffer.pushpop(channelData[2 * i + channel] * igain);
+          float max = longCircularBuffer.getAbsMax() > (current > 0.f ? current : -1.f * current) ? longCircularBuffer.getAbsMax() : (current > 0.f ? current : -1.f * current);
+          float gainReduction = max > 1.f ? 1.f / max : 1.f;
+          shortCircularBuffer1.push(gainReduction);
+          float sCB1_normsum = shortCircularBuffer1.getSum() / 200.f;
+          shortCircularBuffer2.push(sCB1_normsum);
+          float sCB2_normsum = shortCircularBuffer2.getSum() / 200.f;
+          if (sCB2_normsum > gainReduction * release_ / 500.f)
+          {
+            gainReduction = sCB2_normsum;
+          }
+          current *= ogain;
+          channelData[2 * i + channel] = current * gainReduction;
+        }
+      }
+    }*/
 	}
 }
 #endif
