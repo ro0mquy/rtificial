@@ -2463,7 +2463,24 @@
       "uniformStandardValue": {
         "valueFloatX": 0.061000000000035470293
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 429,
+          "sequenceStart": 0,
+          "sequenceDuration": 32000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.019999999999981810106
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "materials_outline_transition_rt_float",
@@ -2878,7 +2895,7 @@
       "uniformName": "part_rot2D_param_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 3
+        "valueFloatX": 2.9759999999999990905
       },
       "sequencesArray": []
     },
@@ -3144,6 +3161,24 @@
       "uniformStandardValue": {
         "valueVec2X": 0.057999999999992717103,
         "valueVec2Y": 0.72400000000004638423
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rain_drops_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.0083731170743703842163,
+        "valueColorG": 0.20109573006629943848,
+        "valueColorB": 0.28881600499153137207
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "rain_drops_glow_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 5.6549999999999727152
       },
       "sequencesArray": []
     },

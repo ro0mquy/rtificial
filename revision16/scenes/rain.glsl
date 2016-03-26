@@ -1,6 +1,10 @@
 #include "march.glsl"
 #include "layer.glsl"
-#line 4
+#include "materials.glsl"
+#line 5
+
+float id_drops = 1;
+float id_water = 2;
 
 float fGuard(vec2 p, float t) {
 	return 0;
@@ -43,6 +47,7 @@ float bubbleLayer(vec2 p, float t, float r, vec2 spacing, float offset, float am
 	ivec2 ij = ivec2(pDomrep(p, c));
 	float n = cheapHash(ij);
 	if (n <= amount) {
+		r *= 1 - smoothstep(176, 192, t);
 		return f2Sphere(p, 0.5 * r * n * 150);
 	} else {
 		return -f2Box(p, c);
@@ -59,15 +64,16 @@ float waterHeightDown(float t) {
 	return (1 - 2 * t) * lay_frame_dim.y;
 }
 
+const float water_rise_begin = 32;
+const float water_rise_end = 176;
+const float water_half_t = 144;
+
 MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float rain_amount = smoothstep(0, 1, (t+24)/128);
 	vec2 d = rain_drop_dim_rt_vec2;
 	vec2 rain_spacing = rain_spacing_rt_vec2;
-	float f1 = rainLayer(p, t, d * rain_scale_3_rt_float, rain_spacing, rain_offset_3_rt_float, rain_amount_3_rt_float * rain_amount, rain_speed_3_rt_float);
+	vec2 p_drops = p;
 	vec2 p_water = p;
-	float water_rise_begin = 32;
-	float water_rise_end = 176;
-	float water_half_t = 144;
 	float first_half = saturate((t - water_rise_begin) / (water_half_t - water_rise_begin));
 	float second_half = saturate((t - water_half_t) / (water_rise_end - water_half_t));;
 	float rain_water_height = .5 * first_half + .5 * second_half;
@@ -79,17 +85,17 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p_water.y, waterHeightUp(rain_water_height));
 	float f_water = p_water.y;
 
-float bubble_r = .2;
-vec2 bubble_spacing = vec2(1.);
-float bubble_offset = 3.7;
-float bubble_amount = 0.01
-	* smoothstep(water_rise_begin, water_rise_begin + 56, t)
-	* 1 - smoothstep(188, 200, t);
-float bubble_speed = .5;
-float f_bubble = bubbleLayer(p_water, t, bubble_r, bubble_spacing, bubble_offset, bubble_amount, bubble_speed);
-f_water = max(f_water, -f_bubble);
+	float bubble_r = .2;
+	vec2 bubble_spacing = vec2(1.);
+	float bubble_offset = 3.7;
+	float bubble_amount = 0.01
+		* smoothstep(water_rise_begin, water_rise_begin + 56, t)
+		* 1 - smoothstep(188, 200, t);
+	float bubble_speed = .5;
+	float f_bubble = bubbleLayer(p_water, t, bubble_r, bubble_spacing, bubble_offset, bubble_amount, bubble_speed);
+	f_water = max(f_water, -f_bubble);
 
-	float f_inner = min(f1, f_water);
+	//float f_inner = f_water;
 
 	vec2 p_top_cutout = p;
 	pTrans(p_top_cutout.y, water_offset * second_half);
@@ -100,13 +106,26 @@ f_water = max(f_water, -f_bubble);
 
 	float rain_water_height_frame = (t - 192) / 24.;
 	// -.1 to fix seams due to chamfering
-	f_inner = max(f_inner, -f_frame - .1);
+	// f_inner = max(f_inner, -f_frame - .1);
+	f_water = max(f_water, -f_frame - .1);
 	if (rain_water_height_frame > 0.) {
 		rain_water_height_frame += .03 * waterNoise(vec2(7 * p.x / lay_frame_dim.x, t * .4));
 	}
 	pTrans(p.y, waterHeightDown(rain_water_height_frame));
-	f_frame = max(p.y, f_frame);
-	return MatWrap(f_inner, layerMaterialId(p, t));
+	float f_water_down = p.y;
+	f_frame = max(f_water_down, f_frame);
+	MatWrap w_water = MatWrap(f_water, layerMaterialId(p, t));
+	w_water.m.id = id_water;
+	w_water.m.misc.y = -f_water;
+
+	if (t < water_rise_end) {
+		float f_drops = rainLayer(p_drops, t, d * rain_scale_3_rt_float, rain_spacing, rain_offset_3_rt_float, rain_amount_3_rt_float * rain_amount, rain_speed_3_rt_float);
+		MatWrap w_drops = MatWrap(f_drops, layerMaterialId(p, t));
+		w_drops.m.id = id_drops;
+		w_water = mUnion(w_water, w_drops);
+	}
+
+	return w_water;
 }
 
 float fScene(vec3 p) {
@@ -129,5 +148,15 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .5;
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+	if (materialId.id == id_drops) {
+		mat.emission = rain_drops_color_rt_color * rain_drops_glow_rt_float;
+	}
+	if (materialId.id == id_water && lay_animation < water_rise_end + 16) {
+		mOutline(mat, materialId, rain_drops_color_rt_color, rain_drops_glow_rt_float);
+	}
+	if (materialId.id == id_layer && lay_animation >= water_rise_end) {
+		materialId.misc.y = -materialId.misc.y;
+		mOutline(mat, materialId, rain_drops_color_rt_color, rain_drops_glow_rt_float);
+	}
 	return mat;
 }
