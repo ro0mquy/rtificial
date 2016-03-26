@@ -395,6 +395,15 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "begin_lights_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -2.4220000000000254659,
+        "valueVec2Y": 0.68600000000003547029
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "birds_outline_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
