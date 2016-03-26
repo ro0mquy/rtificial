@@ -1,8 +1,12 @@
 #include "march.glsl"
 #include "layer.glsl"
-#line 4
+#include "materials.glsl"
+#line 5
 
 layout(binding = 7) uniform sampler2D tex_endcard;
+
+int mat_id_bigtext = 1337;
+int mat_id_smalltext = 1338;
 
 float fGuard(vec2 p, float t) {
 	return 0;
@@ -35,45 +39,52 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float t_move = smoothstep(400, 464, t);
 	pTrans(p.y, - 20 * t_move);
 
-	vec2 p_top = p;
 	vec2 p_middle1 = p;
-	vec2 p_middle2 = p;
-	vec2 p_bottom = p;
-	pTrans(p_top.y, 3 * line_height);
 	pTrans(p_middle1.y, line_height);
-	pTrans(p_middle2.y, -line_height);
-	pTrans(p_bottom.y, -3 * line_height);
 
-	float f = Inf;
+	MaterialId mat_id_big = newMaterialId(mat_id_bigtext, vec3(1));
+	MaterialId mat_id_small = newMaterialId(mat_id_smalltext, vec3(1));
+
 	float fwhole = f2Endcard(p_middle1, text_size);
-	// remove "rtificial invites you to"
-	float fbottom = max(fwhole, -f2Plane(p_middle1 - vec2(0, 8), vec2(0, -1)));
 
-	if (t >= 0) {
-		if (t < 120) {
-		// "rtificial"
-			f = max(fwhole, -f2Plane(p_middle1 - vec2(0, 11), vec2(0, 1)));
-		}
+	float frtificial = max(fwhole, -f2Plane(p_middle1 - vec2(0, 11), vec2(0, 1)));
+	MatWrap mw_rtificial = MatWrap(frtificial, mat_id_small);
+
+	float finvites = max(fwhole, -f2Plane(p_middle1 - vec2(0, 8), vec2(0, 1)));
+	finvites = max(finvites, -f2Plane(p_middle1 - vec2(0, 11), vec2(0,-1)));
+	MatWrap mw_invites = MatWrap(finvites, mat_id_small);
+
+	float ffunction = max(fwhole, -f2Plane(p_middle1 - vec2(0, -8), vec2(0, 1)));
+	ffunction = max(ffunction, -f2Plane(p_middle1 - vec2(0, 8), vec2(0,-1)));
+	MatWrap mw_function = MatWrap(ffunction, mat_id_big);
+
+	float fdate = max(fwhole, -f2Plane(p_middle1 - vec2(0, -9), vec2(0, -1)));
+	fdate = max(fdate, -f2Plane(p_middle1 - vec2(0, -11.4), vec2(0,1)));
+	MatWrap mw_date = MatWrap(fdate, mat_id_small);
+
+	float flocation = max(fwhole, -f2Plane(p_middle1 - vec2(0, -11.4), vec2(0,-1)));
+	MatWrap mw_location = MatWrap(flocation, mat_id_small);
+
+	MatWrap mw = mw_rtificial;
+
+	if (t >= 0 && t < 120) {
+		mw = mw_rtificial;
 	}
 	if (t >= 32 && t < 120) {
-		// "invites you to"
-		f = max(fwhole, -f2Plane(p_middle1 - vec2(0, 8), vec2(0, 1)));
+		mw = mUnion(mw_rtificial, mw_invites);
 	}
 	if (t >= 64) {
-		// "function 2016"
-		f = max(fbottom, -f2Plane(p_middle1 - vec2(0, -8), vec2(0, 1)));
+		mw = mw_function;
 	}
-
 	if (t >= 136 && t < 200) {
-		// "september 9--11"
-		f = max(fbottom, -f2Plane(p_middle1 - vec2(0, -11.4), vec2(0, 1)));
+		mw = mUnion(mw, mw_date);
 	}
 	if (t >= 200 && t < 344) {
-		// "budapest"
-		f = fbottom;
+		mw = mUnion(mUnion(mw, mw_date), mw_location);
 	}
 
-	return MatWrap(f, layerMaterialId(p, t));
+	mw.m.misc[1] = -mw.f;
+	return mw;
 }
 
 float fScene(vec3 p) {
@@ -96,5 +107,12 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .5;
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+
+	float glow_intensity = part_glow_intensity_rt_float;
+	vec3 glow_color = part_glow_color_rt_color;
+	if( materialId.id == mat_id_bigtext && int(materialId.misc[2]) == 0 ) {
+		mOutline(mat, materialId, glow_color, glow_intensity);
+	}
+
 	return mat;
 }

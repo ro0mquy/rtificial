@@ -48,5 +48,6 @@ MatWrap wLayerEffect(vec3 p) {
 	w_layer_main.f = opIntersectChamfer(w_layer_main.f, pz_main, .05 * .25);
 
 	w_layer_main.f = min(f, w_layer_main.f);
+	w_layer_main.m.misc[2] = i_layer;
 	return w_layer_main;
 }
