@@ -1,6 +1,58 @@
 {
   "uniformsArray": [
     {
+      "uniformName": "background_c1_center_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -0.1119999999999663487,
+        "valueVec3Y": 0.089000000000055479177,
+        "valueVec3Z": -1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "background_c1_opacity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.014000000000010004442
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "background_c1_size_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 29.14499999999998181
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "background_c2_center_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0.43700000000001182343,
+        "valueVec3Y": 0.33600000000001273293,
+        "valueVec3Z": -1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "background_c2_opacity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.050000000000068212103
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "background_c2_size_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 14.344000000000050932
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "background_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -9,6 +61,81 @@
         "valueColorB": 0.0083731170743703842163
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "background_stripe1_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.3000000000000682121
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 717,
+          "sequenceStart": 14000,
+          "sequenceDuration": 5500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "background_stripe2_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.14999999999997726263
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 717,
+          "sequenceStart": 13000,
+          "sequenceDuration": 6500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 25
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "background_stripe3_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.14999999999997726263
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 717,
+          "sequenceStart": 12000,
+          "sequenceDuration": 7500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 6.25
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "begin_light_rt_float",

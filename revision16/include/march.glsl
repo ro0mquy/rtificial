@@ -6,7 +6,8 @@
 #include "sdf/distances.glsl"
 #include "lighting.glsl"
 #include "helper.glsl"
-#line 10
+#include "live_background.glsl"
+#line 11
 
 /// marchingloopkram.glsl
 
@@ -347,7 +348,7 @@ void main() {
 	float marched = sdfMarch(origin, direction, main_marching_distance);
 
 	if (isinf(marched)) {
-		out_color = environmentColor(origin, direction, main_marching_distance);
+		out_color = live_background(direction);//environmentColor(origin, direction, main_marching_distance);
 		out_depth = main_marching_distance;
 	} else {
 		vec3 hit = origin + marched * direction;
