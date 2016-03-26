@@ -127,6 +127,7 @@ void pF16Landscape(inout vec2 p_f16, float t) {
 			sin(cos(0.07*t) + 1.),
 			cos(0.014*t + 3.)
 			);
+	noise_displacement *= min(1., noise_t * 10.);
 	pTrans(p_f16, noise_displacement);
 }
 

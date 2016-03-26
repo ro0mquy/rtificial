@@ -2,7 +2,8 @@
 #include "layer.glsl"
 #include "f16.glsl"
 #include "materials.glsl"
-#line 6
+#include "noise.glsl"
+#line 7
 
 float id_f16 = 1;
 float id_lighthouse = 2;
@@ -173,6 +174,7 @@ float f2RandomStuff(vec2 p, float t) {
 	float f_hutte = f2BoxEdge(p_hutte, dim_hutte);
 	f_haus = min(f_haus, f_hutte);
 
+	/*
 	// bezier for vogel
 	float bez_t = sin(.08 * t) * .5 + .5;
 	vec2 bez1 = land_vogel_bez1_rt_vec2;
@@ -193,10 +195,25 @@ float f2RandomStuff(vec2 p, float t) {
 	float f_vogel = f2Sphere(p_vogel, land_vogel_r_small_rt_float);
 	pTrans(p_vogel.y, land_vogel_offset_rt_float);
 	f_vogel = max(f_vogel, -f2Sphere(p_vogel, land_vogel_r_big_rt_float));
+	// */
+
+	vec2 p_kerbe = p;
+	float f_kerbe = Inf;
+	//int c_kerbe_big = int(pDomrep(p_kerbe.x, land_kerbe_domrep_big_rt_float));
+	//if (c_kerbe_big % 2 == 0) {
+		float r_kerbe = land_kerbe_r_rt_float;
+		//r_kerbe *= -square(abs(p_kerbe.x) / land_kerbe_domrep_big_rt_float * 2.) + 1.;
+		pTrans(p_kerbe.y, -lay_frame_dim.y + r_kerbe);
+		int c_kerbe = int(pDomrep(p_kerbe.x, land_kerbe_domrep_rt_float));
+		float rand_kerbe = cheapHash(ivec2(c_kerbe, c_kerbe + 28323)) * 2. - 1.;
+		pRot(p_kerbe, Tau * (.125 + .05 * rand_kerbe));
+		f_kerbe = f2CornerEdge(p_kerbe);
+	//}
 
 	float f_rand = f_busch;
 	f_rand = min(f_rand, f_haus);
-	f_rand = min(f_rand, f_vogel);
+	//f_rand = min(f_rand, f_vogel);
+	f_rand = min(f_rand, f_kerbe);
 	return f_rand;
 }
 
@@ -257,6 +274,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	if (t >= mountain_start && t < mountain_start + mountain_duration) {
 		float f_mountain = f2Mountain(p_offset, (t - mountain_start) / mountain_duration);
 		MatWrap w_mountain = MatWrap(f_mountain, newMaterialId(id_mountain, vec3(p, 0)));
+		w_mountain.m.misc.x = t;
 		w_mountain.m.misc.y = abs(f_mountain);
 		w_layer = mUnion(w_layer, w_mountain);
 	}
