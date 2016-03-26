@@ -112,6 +112,10 @@ float f2Tree(vec2 p, float t) {
 	pTrans(p.x, 2.2);
 	pTrans(p.x, land_tree_pos_rt_float);
 	pTrans(p.y, -lay_frame_dim.y - .1);
+	float bounding = f2Box(p, vec2(3,4));
+	if (bounding > .5) {
+		return bounding;
+	}
 	p *= big_scale;
 	vec2 pTree = p;
 	vec2 c = vec2(.4, 2.);
@@ -143,6 +147,9 @@ float f2Mountain(vec2 p, float t) {
 }
 
 float f2RandomStuff(vec2 p, float t) {
+	if (p.y +3.5 > 1.) {
+		return p.y + 3.5;
+	}
 	vec2 p_busch = p;
 	pTrans(p_busch.y, -lay_frame_dim.y + land_busch_pos_x_rt_float);
 	pDomrepMirror(p_busch.x, land_busch_domrep_rt_float);
