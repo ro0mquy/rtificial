@@ -3457,6 +3457,14 @@
       ]
     },
     {
+      "uniformName": "lay_texture_intesity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.85000000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "main_marching_distance",
       "uniformType": "float",
       "uniformStandardValue": {

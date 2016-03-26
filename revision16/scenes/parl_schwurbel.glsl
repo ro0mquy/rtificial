@@ -91,6 +91,7 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .5;
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+	mat.color *= mix(lay_texture_intesity_rt_float, 1., (smoothFbm(.2 * materialId.coord.xy + materialId.misc.x * .1) * .5 + .5));
 	if (materialId.id == id_parl && materialId.misc.x >= 4 &&
 		(materialId.misc.x < 32 || int(materialId.misc.x) % 16 < 4)
 	) {
