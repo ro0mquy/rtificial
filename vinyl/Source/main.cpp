@@ -227,7 +227,7 @@ RT_MAIN {
 	int shader_id = scenes_data[scene_id].sceneId;
 	const int last_scene_id = sizeof(scenes_data) / sizeof(Scene) - 1;
 	while(frontend.checkMessageLoop()) {
-		const int currentTime = frontend.getTime() + 250;
+		const int currentTime = frontend.getTime();// +250;
 
 		if(scenes_data[scene_id].end < currentTime) {
 			if(scene_id == last_scene_id) {
