@@ -1338,7 +1338,7 @@
               "keyframeValue": {
                 "valueVec3X": 137.7642822265625,
                 "valueVec3Y": 3.3577876091003417969,
-                "valueVec3Z": -7.6040849685668945313
+                "valueVec3Z": -7.6040849685668945312
               }
             },
             {
@@ -1347,7 +1347,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 148.26141357421875,
-                "valueVec3Y": 5.1472902297973632813,
+                "valueVec3Y": 5.1472902297973632812,
                 "valueVec3Z": -49.693698883056640625
               }
             }
@@ -1385,8 +1385,8 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 0,
-                "valueVec3Y": -5.2986650466918945313,
-                "valueVec3Z": 24.879808425903320313
+                "valueVec3Y": -5.2986650466918945312,
+                "valueVec3Z": 24.879808425903320312
               }
             },
             {
@@ -1479,7 +1479,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": -2.4272201061248779297,
-                "valueVec3Y": 6.3227624893188476563,
+                "valueVec3Y": 6.3227624893188476562,
                 "valueVec3Z": 0.42398968338966369629
               }
             },
@@ -2263,14 +2263,16 @@
         "valueColorR": 0.17999999999999999334,
         "valueColorG": 0.17999999999999999334,
         "valueColorB": 0.17999999999999999334
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "f16_flame_intensity_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
-      }
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "f16_ground_cockpit_height_rt_float",
@@ -4105,7 +4107,7 @@
           "sequenceSceneId": 433,
           "sequenceStart": 17000,
           "sequenceDuration": 22000,
-          "sequenceInterpolation": "linear",
+          "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
             {
               "keyframePosition": 3000,
@@ -4149,17 +4151,6 @@
                 "valueQuatY": -0.0097413798794150352478,
                 "valueQuatZ": 0.97360908985137939453,
                 "valueQuatW": 0.031054014340043067932
-              }
-            },
-            {
-              "keyframePosition": 15375,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueQuatX": 1.1965519189834594727,
-                "valueQuatY": -0.0095081590116024017334,
-                "valueQuatZ": 0.95029968023300170898,
-                "valueQuatW": 0.030310543254017833364
               }
             },
             {
