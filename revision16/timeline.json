@@ -4,8 +4,8 @@
       "uniformName": "background_c1_center_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
-        "valueVec3X": -0.1119999999999663487,
-        "valueVec3Y": 0.089000000000055479177,
+        "valueVec3X": -0.11199999999996636257,
+        "valueVec3Y": 0.089000000000055465299,
         "valueVec3Z": -1
       },
       "sequencesArray": []
@@ -40,7 +40,7 @@
       "uniformName": "background_c2_opacity_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.050000000000068212103
+        "valueFloatX": 0.050000000000068205164
       },
       "sequencesArray": []
     },
@@ -1859,6 +1859,24 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "funk_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.47843137383460998535,
+        "valueColorG": 0.035294119268655776978,
+        "valueColorB": 0.0078431377187371253967
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "funk_glow_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 8
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "funk_loco_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
@@ -2664,6 +2682,22 @@
         "valueFloatX": 0.061000000000035470293
       },
       "sequencesArray": [
+        {
+          "sequenceSceneId": 265,
+          "sequenceStart": 0,
+          "sequenceDuration": 32000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.009999999999990905053
+              }
+            }
+          ]
+        },
         {
           "sequenceSceneId": 429,
           "sequenceStart": 0,

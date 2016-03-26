@@ -47,6 +47,7 @@ MatWrap wLayerEffect(vec3 p) {
 	float pz_main = p.z;
 	pMirrorTrans(pz_main, lay_layer_thickness);
 	MatWrap w_layer_main = wLayer(p.xy, t);
+	// only difference: use intersectChamfer instead of min
 	w_layer_main.f = opIntersectChamfer(w_layer_main.f, pz_main, .05 * .25);
 
 	w_layer_main.f = min(f, w_layer_main.f);
@@ -58,7 +59,11 @@ MatWrap wLayerEffect(vec3 p) {
 //#include "layer.glsl"
 #include "f16.glsl"
 #include "parl.glsl"
-#line 62
+#include "materials.glsl"
+#line 64
+
+const float id_fractal = 1.;
+const float id_myrahm = 2.;
 
 float fGuard(vec2 p, float t) {
 	return 0;
@@ -78,13 +83,19 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float width = funk_width_rt_float + funk_closing_speed_rt_float * pow(smoothstep(funk_closing_start_rt_float, 1., t_rel), funk_closing_pow_rt_float);
 	f_box = abs(f_box) - width;
 
+	MatWrap w_fractal = MatWrap(f_box, layerMaterialId(p, t));
+	w_fractal.m.id = id_fractal;
+	w_fractal.m.misc.y = -f_box;
+
 	// opening
-	float f_myrahm = f2Quadprism(p, funk_myrahm_speed_rt_float * t_rel);
+	float f_myrahm = -f2Quadprism(p, funk_myrahm_speed_rt_float * t_rel);
+	MatWrap w_myrahm = MatWrap(f_myrahm, layerMaterialId(p, t));
+	w_myrahm.m.id = id_myrahm;
+	w_myrahm.m.misc.y = -f_myrahm;
 
-	float f = f_box;
-	f = min(f, -f_myrahm);
+	MatWrap w_inner = mUnion(w_fractal, w_myrahm);
 
-	return MatWrap(f, layerMaterialId(p, t));
+	return w_inner;
 }
 
 float fScene(vec3 p) {
@@ -107,5 +118,8 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .5;
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+	if (materialId.id == id_fractal) {
+		mOutline(mat, materialId, funk_color_rt_color, funk_glow_rt_float);
+	}
 	return mat;
 }
