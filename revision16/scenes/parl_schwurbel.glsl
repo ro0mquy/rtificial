@@ -2,7 +2,10 @@
 #include "layer.glsl"
 #include "f16.glsl"
 #include "parl.glsl"
-#line 6
+#include "materials.glsl"
+#line 7
+
+float id_parl = 1;
 
 float fGuard(vec2 p, float t) {
 	return 0;
@@ -54,13 +57,18 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	pTrans(p.x, -c.x + schwurbel_sep * c.x * .5);
 	//pMirrorGrid(p.yx, 3);
 	pTrans(p.y, lay_frame_dim.y);
-	float f = f2Parl(p);
+	float f_outline;
+	float f = f2Parl(p, f_outline);
 	if (t < mirror_start) {
 		f = min(f, f_curtain);
+		f_outline = min(f_outline, f_curtain);
 	}
 	f_frame = p.y + lay_frame_dim.y;
 	f /= scale;
-	return MatWrap(f, layerMaterialId(p, t));
+	MatWrap w = MatWrap(f, newMaterialId(id_parl, vec3(p, 0)));
+	w.m.misc.x = t;
+	w.m.misc.y = abs(f_outline);
+	return w;
 }
 
 float fScene(vec3 p) {
@@ -83,5 +91,10 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .5;
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+	if (materialId.id == id_parl && materialId.misc.x >= 4 &&
+		(materialId.misc.x < 32 || int(materialId.misc.x) % 16 < 4)
+	) {
+		mOutline(mat, materialId, land_tree_color_rt_color, land_tree_glow_intensity_rt_float);
+	}
 	return mat;
 }

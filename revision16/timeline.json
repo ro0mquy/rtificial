@@ -2168,7 +2168,7 @@
       "uniformStandardValue": {
         "valueColorR": 0.5604991912841796875,
         "valueColorG": 0.51139783859252929688,
-        "valueColorB": 0.79691660404205322266
+        "valueColorB": 0.79691660404205333368
       },
       "sequencesArray": []
     },
@@ -2963,6 +2963,22 @@
       },
       "sequencesArray": [
         {
+          "sequenceSceneId": 253,
+          "sequenceStart": 0,
+          "sequenceDuration": 32000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.019999999999981810106
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 265,
           "sequenceStart": 0,
           "sequenceDuration": 32000,
@@ -3013,7 +3029,7 @@
         {
           "sequenceSceneId": 808,
           "sequenceStart": 500,
-          "sequenceDuration": 128000,
+          "sequenceDuration": 127500,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {

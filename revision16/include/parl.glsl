@@ -6,7 +6,7 @@ float f2Arch(vec2 p, vec2 dim, float r) {
 	return min(f, f2Sphere(p, r));
 }
 
-float f2BaseElement(vec2 p) {
+float f2BaseElement(vec2 p, out float f_outline) {
 	vec2 dim = parl_base_elem_dim_rt_vec2 * parl_base_elem_scale_rt_float;
 	float f = f2Box(p, dim);
 
@@ -30,6 +30,8 @@ float f2BaseElement(vec2 p) {
 	float spire_height = parl_base_elem_spire_height_rt_float * parl_base_elem_scale_rt_float;
 	pTrans(p_spire.y, dim.y + spire_height);
 	float f_spire = f2ConeCapped(p_spire, dim.x, 0., spire_height);
+
+	f_outline = min(f_spire, f_bottom_arch);
 
 	f = min(f, f_spire);
 	f = max(f, -f_bottom_arch);
@@ -105,7 +107,7 @@ float f2SideTop(vec2 p, float width) {
 	//return f2Box(p, vec2(width, height));
 }
 
-float f2Parl(vec2 p) {
+float f2Parl(vec2 p, out float f_outline) {
 	pTrans(p.y, parl_base_elem_dim_rt_vec2.y * parl_base_elem_scale_rt_float - lay_frame_dim.y);
 	pTrans(p.y, -chamfer_fix);
 	vec2 p_base = p;
@@ -115,12 +117,11 @@ float f2Parl(vec2 p) {
 	vec2 p_side = p_base;
 	pTrans(p_base.x, base_elem_width);
 	pDomrepInterval(p_base.x, 2 * base_elem_width, 0, 13);
-	float f_base = f2BaseElement(p_base);
+	float f_base = f2BaseElement(p_base, f_outline);
 
 	pTrans(p_side_top,
 		vec2(13 * base_elem_width, parl_base_elem_dim_rt_vec2.y * parl_base_elem_scale_rt_float));
 	float f_side_top = f2SideTop(p_side_top, 5 * base_elem_width);
-	f_base = min(f_base, f_side_top);
 
 	float side_width = parl_base_elem_dim_rt_vec2.y * parl_base_elem_scale_rt_float;
 	pTrans(p_side.x, 28 * base_elem_width + side_width);
@@ -129,7 +130,11 @@ float f2Parl(vec2 p) {
 	vec2 p_middle = p;
 	float f_middle = f2Middle(p_middle);
 
+	f_base = min(f_base, f_side_top);
 	f_base = min(f_base, f_middle);
 	f_base = min(f_base, f_side);
+	f_outline = min(f_outline, f_middle);
+	f_outline = min(f_outline, f_side);
+	f_outline = min(f_outline, f_side_top);
 	return f_base;
 }

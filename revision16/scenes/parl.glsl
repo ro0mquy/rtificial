@@ -23,7 +23,8 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	w_f16.m.misc.y = abs(f_f16);
 
 	pTrans(p.x, 68);
-	float f = f2Parl(p);
+	float f_outline;
+	float f = f2Parl(p, f_outline);
 
 	MatWrap w_layer = MatWrap(f, layerMaterialId(p, t));
 	return mUnion(w_layer, w_f16);
