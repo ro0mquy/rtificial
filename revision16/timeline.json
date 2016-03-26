@@ -2512,7 +2512,7 @@
       "uniformName": "land_busch_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.15200000000004365575
+        "valueFloatX": 0.25999999999999090505
       },
       "sequencesArray": []
     },
@@ -2570,7 +2570,7 @@
       "uniformName": "land_kerbe_domrep_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 0.25999999999999090505
       },
       "sequencesArray": []
     },
@@ -2578,7 +2578,7 @@
       "uniformName": "land_kerbe_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 0.23000000000001818989
       },
       "sequencesArray": []
     },
