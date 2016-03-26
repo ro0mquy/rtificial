@@ -5,8 +5,6 @@
 #include "materials.glsl"
 #line 7
 
-float id_f16 = 1;
-
 float fGuard(vec2 p, float t) {
 	return 0;
 }
@@ -17,10 +15,9 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	vec2 p_f16 = p;
 	pTrans(p_f16.x, -48 * .3);
 	pF16Parl(p_f16, t);
-	float f_f16 = fF16Air(p_f16, 4);
-	MatWrap w_f16 = MatWrap(f_f16, newMaterialId(id_f16, vec3(p_f16, 0)));
+	MatWrap w_f16 = wF16Air(p_f16, 4);
 	w_f16.m.misc.x = t;
-	w_f16.m.misc.y = abs(f_f16);
+	w_f16.m.misc.y = abs(w_f16.f);
 
 	pTrans(p.x, 68);
 	float f_outline;
@@ -53,6 +50,8 @@ Material getMaterial(MaterialId materialId) {
 	mat.color *= mix(lay_texture_intesity_rt_float, 1., (smoothFbm(.2 * materialId.coord.xy + materialId.misc.x * .1) * .5 + .5));
 	if (materialId.id == id_f16) {
 		mOutline(mat, materialId, f16_outline_color_rt_color, f16_outline_intensity_rt_float);
+	} else if (materialId.id == id_f16_flame) {
+		mOutline(mat, materialId, f16_flame_color_rt_color, f16_flame_intensity_rt_float);
 	}
 	return mat;
 }

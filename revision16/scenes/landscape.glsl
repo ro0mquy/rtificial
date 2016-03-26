@@ -5,7 +5,6 @@
 #include "noise.glsl"
 #line 7
 
-float id_f16 = 1;
 float id_lighthouse = 2;
 float id_lighthouse_lamp = 3;
 float id_tree = 4;
@@ -236,11 +235,10 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	pF16Landscape(p_f16, t);
 	float exhaust = saturate(t/64);
 	float wheel_rotation = mix(.056, 1., saturate(t / 40));
-	float f_f16 = fF16Ground(p_f16, mix(start_width, 4, saturate(t / zoomout_duration)), exhaust, wheel_rotation);
+	MatWrap w_f16 = wF16Ground(p_f16, mix(start_width, 4, saturate(t / zoomout_duration)), exhaust, wheel_rotation);
 	MatWrap w_frame = MatWrap(f_frame, layerMaterialId(p, t));
-	MatWrap w_f16 = MatWrap(f_f16, newMaterialId(id_f16, vec3(p_f16, 0)));
 	w_f16.m.misc.x = t;
-	w_f16.m.misc.y = abs(f_f16);
+	w_f16.m.misc.y = abs(w_f16.f);
 	f_frame = Inf;
 	w_f16 = mSubtract(mUnion(w_frame, w_f16), mIntersect(w_frame, w_f16));
 	float f = Inf;
@@ -313,6 +311,8 @@ Material getMaterial(MaterialId materialId) {
 	mat.color *= mix(lay_texture_intesity_rt_float, 1., (smoothFbm(.2 * materialId.coord.xy + materialId.misc.x * .1) * .5 + .5));
 	if (materialId.id == id_f16) {
 		mOutline(mat, materialId, f16_outline_color_rt_color, f16_outline_intensity_rt_float);
+	} else if (materialId.id == id_f16_flame) {
+		mOutline(mat, materialId, f16_flame_color_rt_color, f16_flame_intensity_rt_float);
 	} else if (materialId.id == id_lighthouse) {
 		mOutline(mat, materialId, part_glow_color_rt_color, part_glow_intensity_rt_float);
 	} else if (materialId.id == id_lighthouse_lamp) {

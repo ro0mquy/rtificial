@@ -6,7 +6,7 @@ float id_lights = 1;
 
 float fScene(vec3 p) {
 	float f = abs(p.z) - .02;
-	f = opIntersectRounded(f, fF16Ground(p.xy, 2.), .01);
+	f = opIntersectRounded(f, wF16Ground(p.xy, 2.).f, .01);
 
 	float f_background_layer = p.z + 5;
 	float f_ground = p.y + .47;

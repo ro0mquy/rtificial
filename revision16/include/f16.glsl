@@ -1,4 +1,7 @@
-float fF16Ground(vec2 p, float len, float exhaust, float wheel_rotation) {
+float id_f16 = 1;
+float id_f16_flame = 1000;
+
+MatWrap wF16Ground(vec2 p, float len, float exhaust, float wheel_rotation) {
 	pFlip(p.x);
 	// horizontal offset
 	pTrans(p.x, .0758 * len);
@@ -23,15 +26,6 @@ float fF16Ground(vec2 p, float len, float exhaust, float wheel_rotation) {
 	pTrans(p_engine.x, -engine_fix);
 	pMirror(p_engine.x);
 	f_engine = max(f_engine, p_engine.x - (engine_width + engine_fix));
-
-	if (exhaust > 0.1) {
-		float exhaust_dist = f16_exhaust_dist_rt_float * len * .01;
-		float exhaust_width = f16_exhaust_width_rt_float * len * .01 * exhaust;
-		float exhaust_height = f16_exhaust_height_rt_float * len * .01;
-		pTrans(p_exhaust.x, engine_width + exhaust_dist + exhaust_width);
-		float f_exhaust = f2ConeCapped(p_exhaust.yx, exhaust_height, 0, exhaust_width);
-		f_engine = min(f_engine, f_exhaust);
-	}
 
 	vec2 p_wheel_connection = p;
 	float p_wheel_connection_top_y = p_wheel_connection.y;
@@ -96,15 +90,29 @@ float fF16Ground(vec2 p, float len, float exhaust, float wheel_rotation) {
 	float f = min(f_mid, f_engine);
 	f = min(f, f_wheels);
 	f = min(f, f_fin);
-	return f;
+
+	MatWrap w = MatWrap(f, newMaterialId(id_f16, vec3(p, 0)));
+
+	if (exhaust > 0.1) {
+		float exhaust_dist = f16_exhaust_dist_rt_float * len * .01;
+		float exhaust_width = f16_exhaust_width_rt_float * len * .01 * exhaust;
+		float exhaust_height = f16_exhaust_height_rt_float * len * .01;
+		pTrans(p_exhaust.x, engine_width + exhaust_dist + exhaust_width);
+		float f_exhaust = f2ConeCapped(p_exhaust.yx, exhaust_height, 0, exhaust_width);
+
+		MatWrap w_flame = MatWrap(f_exhaust, newMaterialId(id_f16_flame, vec3(p, 0)));
+		w = mUnion(w, w_flame);
+	}
+
+	return w;
 }
 
-float fF16Ground(vec2 p, float len) {
-	return fF16Ground(p, len, 0, 1);
+MatWrap wF16Ground(vec2 p, float len) {
+	return wF16Ground(p, len, 0, 1);
 }
 
-float fF16Air(vec2 p, float len) {
-	return fF16Ground(p, len, 1, 1);
+MatWrap wF16Air(vec2 p, float len) {
+	return wF16Ground(p, len, 1, 1);
 }
 
 void pF16Landscape(inout vec2 p_f16, float t) {
