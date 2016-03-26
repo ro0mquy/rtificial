@@ -56,9 +56,10 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .5;
 	float rand_for_color = rand(ivec2(floor(lay_animation + materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
-	mat.color = mix(mat.color, lay_color1_rt_color, smoothstep(0.0, 0.2, takeoff_thickness_rt_float));
-	mat.color = mix(mat.color, .5 * (lay_color1_rt_color + lay_color2_rt_color), .7 * lay_reduce_flickr_rt_float);
-	mat.color *= mix(lay_texture_intesity_rt_float, 1., (smoothFbm(.2 * materialId.coord.xy + materialId.misc.x * .1) * .5 + .5));
+	//mat.color = mix(mat.color, lay_color1_rt_color, smoothstep(0.0, 0.2, takeoff_thickness_rt_float));
+	//mat.color = mix(mat.color, .5 * (lay_color1_rt_color + lay_color2_rt_color), .7 * lay_reduce_flickr_rt_float);
+	//mat.color *= mix(lay_texture_intesity_rt_float, 1., (smoothFbm(.2 * materialId.coord.xy + materialId.misc.x * .1) * .5 + .5));
+	mat.color = mix(mat.color, lay_color1_rt_color, smoothstep(0.0, 0.3, takeoff_thickness_rt_float));
 
 	if (materialId.id == id_ground) {
 		mat.color = takeoff_back_color_rt_color;

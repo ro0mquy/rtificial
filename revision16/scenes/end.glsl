@@ -111,8 +111,8 @@ Material getMaterial(MaterialId materialId) {
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
 
-	float glow_intensity = part_glow_intensity_rt_float;
-	vec3 glow_color = part_glow_color_rt_color;
+	float glow_intensity = end_bigtext_glow_intensity_rt_float;
+	vec3 glow_color = end_bigtext_glow_color_rt_color;
 	if( materialId.id == mat_id_bigtext && int(materialId.misc[2]) == 0 ) {
 		mOutline(mat, materialId, glow_color, glow_intensity);
 	}
