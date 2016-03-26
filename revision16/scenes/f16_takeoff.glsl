@@ -8,6 +8,9 @@ uniform float lay_last_layer_index;
 uniform float lay_layer_dist;
 uniform float lay_layer_thickness;
 
+const float id_layer = 1.;
+const float id_ground = 2.;
+
 float fScene(vec3 p) {
 	// align front layer
 	pTrans(p.z, funk_takeoff_offset_rt_float);
@@ -23,15 +26,16 @@ float fScene(vec3 p) {
 	pRotY(p_layer, takeoff_layer_rotation_rt_float * Tau);
 	pTrans(p_layer.xz, -vec2(-lay_frame_dim.x * .5, -frame_z));
 	float t = pDomrep(p_layer.z, lay_layer_dist);
-	pMirrorTrans(p_layer.z, lay_layer_thickness);
+	float thickness = lay_layer_thickness + takeoff_thickness_rt_float;
+	pMirrorTrans(p_layer.z, thickness);
 	float f_layers = opIntersectChamfer(p_layer.z, f_frame, .05 * .25);
 	float f = max(f_layers, -f_f16);
-	MaterialId m = MaterialId(0, p, vec4(t, vec3(0)));
+	MaterialId m = MaterialId(id_layer, p, vec4(t, vec3(0)));
 	//f = max(-f2Box(p.zx, vec2(frame_z, lay_frame_dim.x)), abs(p.y - 5) - .05);
 	mUnion(MatWrap(f, m));
 
-	float g = min(f, p.y - lay_frame_dim.y * (2 * takeoff_background_height_rt_float - 1) + .3);
-	mUnion(MatWrap(g, MaterialId(0, p, vec4(0))));
+	float g = p.y - lay_frame_dim.y * (2 * takeoff_background_height_rt_float - 1) + .3;
+	mUnion(MatWrap(g, newMaterialId(id_ground, p)));
 
 	return f;
 }
@@ -55,7 +59,7 @@ Material getMaterial(MaterialId materialId) {
 
 	float glow_intensity = part_glow_intensity_rt_float;
 	vec3 glow_color = part_glow_color_rt_color;
-	if (int(materialId.misc[0] + 1) % int(takeoff_num_glow_rt_float) == 0) {
+	if (materialId.id == id_layer && int(materialId.misc[0] + 1 + takeoff_glow_offset_rt_float) % int(takeoff_num_glow_rt_float) == 0) {
 		mat.emission = glow_color * glow_intensity;
 	}
 	return mat;
