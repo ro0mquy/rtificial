@@ -61,7 +61,7 @@ Material getMaterial(MaterialId materialId) {
 	mat.color *= mix(lay_texture_intesity_rt_float, 1., (smoothFbm(.2 * materialId.coord.xy + materialId.misc.x * .1) * .5 + .5));
 
 	if (materialId.id == id_ground) {
-		mat.color = takeoff_back_color_rt_color;
+		mat.color = takeoff_back_color_rt_color*10;
 	}
 
 	float glow_intensity = part_glow_intensity_rt_float;

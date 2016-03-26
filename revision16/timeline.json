@@ -959,7 +959,7 @@
       "uniformName": "bridge_pillar_dim_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
-        "valueVec2X": 1,
+        "valueVec2X": 0.56299999999998817657,
         "valueVec2Y": 2
       },
       "sequencesArray": []
@@ -3558,7 +3558,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 1.2000000000000454747
+                "valueFloatX": 1.4200000000000727596
               }
             },
             {
