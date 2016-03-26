@@ -4380,11 +4380,19 @@
               }
             },
             {
+              "keyframePosition": 31000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": -8.4375
+              }
+            },
+            {
               "keyframePosition": 48000,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 20
+                "valueFloatX": -8.4370000000000118234
               }
             }
           ]
