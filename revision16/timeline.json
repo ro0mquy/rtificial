@@ -705,7 +705,7 @@
               "keyframeValue": {
                 "valueColorR": 0.073827765882015228271,
                 "valueColorG": 0.11926401406526565552,
-                "valueColorB": 0.44787085056304931641
+                "valueColorB": 0.4478708505630492609
               }
             },
             {
@@ -714,7 +714,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueColorR": 0.42150950431823730469,
-                "valueColorG": 0.46261644363403320313,
+                "valueColorG": 0.46261644363403320312,
                 "valueColorB": 0.69309401512145996094
               }
             },
@@ -2244,6 +2244,22 @@
         "valueFloatX": 20
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_flame_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.17999999999999999334,
+        "valueColorG": 0.17999999999999999334,
+        "valueColorB": 0.17999999999999999334
+      }
+    },
+    {
+      "uniformName": "f16_flame_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      }
     },
     {
       "uniformName": "f16_ground_cockpit_height_rt_float",
@@ -4166,11 +4182,11 @@
               }
             },
             {
-              "keyframePosition": 15500,
+              "keyframePosition": 15375,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueQuatX": 1.2061151266098022461,
+                "valueQuatX": 1.1965519189834594727,
                 "valueQuatY": -0.0095081590116024017334,
                 "valueQuatZ": 0.95029968023300170898,
                 "valueQuatW": 0.030310543254017833364
