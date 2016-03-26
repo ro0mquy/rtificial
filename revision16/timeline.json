@@ -456,7 +456,7 @@
       "uniformName": "bridge_bird3_scale_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.79899999999997817213
+        "valueFloatX": 0.79899999999997828315
       },
       "sequencesArray": []
     },
@@ -2785,6 +2785,22 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueFloatX": 0.019999999999981806637
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 808,
+          "sequenceStart": 500,
+          "sequenceDuration": 128000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.024999999999977262632
               }
             }
           ]

@@ -1,7 +1,10 @@
 #include "march.glsl"
 #include "layer.glsl"
 #include "f16.glsl"
-#line 5
+#include "materials.glsl"
+#line 6
+
+float id_f16 = 1;
 
 float fGuard(vec2 p, float t) {
 	return 0;
@@ -204,7 +207,12 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float exhaust = saturate(t/64);
 	float wheel_rotation = mix(.056, 1., saturate(t / 40));
 	float f_f16 = fF16Ground(p_f16, mix(start_width, 4, saturate(t / zoomout_duration)), exhaust, wheel_rotation);
-	f_frame = max(min(f_frame, f_f16), -max(f_frame, f_f16));
+	MatWrap w_frame = MatWrap(f_frame, layerMaterialId(p, t));
+	MatWrap w_f16 = MatWrap(f_f16, newMaterialId(id_f16, vec3(p_f16, 0)));
+	w_f16.m.misc.x = t;
+	w_f16.m.misc.y = abs(f_f16);
+	f_frame = Inf;
+	w_f16 = mSubtract(mUnion(w_frame, w_f16), mIntersect(w_frame, w_f16));
 	float f = Inf;
 
 	float tree_start = 8 + zoomout_duration;
@@ -239,7 +247,9 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float f_random_stuff = f2RandomStuff(p_offset, t);
 	f = min(f, f_random_stuff);
 
-	return MatWrap(f, layerMaterialId(p_offset, t));
+	MatWrap w_layer = MatWrap(f, layerMaterialId(p_offset, t));
+	w_layer = mUnion(w_layer, w_f16);
+	return w_layer;
 }
 
 float fScene(vec3 p) {
@@ -262,5 +272,8 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .5;
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+	if (materialId.id == id_f16) {
+		mOutline(mat, materialId, vec3(1), 1);
+	}
 	return mat;
 }
