@@ -114,5 +114,5 @@ void main() {
 	}
 
 	// color grading
-	out_color = pow(max(vec3(0.), post_colorgrading_gain * 2. * (out_color + (2. * post_colorgrading_lift - 1.) * (1. - out_color))), 1./max(post_colorgrading_gamma * 2., 1e-6));
+	out_color = pow(max(vec3(0.), post_colorgrading_gain * 2. * (out_color + (2. * post_colorgrading_lift * post_colorgrading_lift_rt_float - 1.) * (1. - out_color))), 1./max(post_colorgrading_gamma * 2., 1e-6));
 }

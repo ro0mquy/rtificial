@@ -149,6 +149,7 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .5;
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+	mat.color *= mix(.85, 1., (smoothFbm(.2 * materialId.coord.xy + materialId.misc.x * .1) * .5 + .5));
 	if (materialId.id == id_drops) {
 		mat.emission = rain_drops_color_rt_color * rain_drops_glow_rt_float;
 	}

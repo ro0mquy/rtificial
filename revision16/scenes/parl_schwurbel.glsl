@@ -94,7 +94,7 @@ Material getMaterial(MaterialId materialId) {
 	if (materialId.id == id_parl && materialId.misc.x >= 4 &&
 		(materialId.misc.x < 32 || int(materialId.misc.x) % 16 < 4)
 	) {
-		mOutline(mat, materialId, land_tree_color_rt_color, land_tree_glow_intensity_rt_float);
+		mOutline(mat, materialId, parl_color_rt_color, parl_glow_intensity_rt_float);
 	}
 	return mat;
 }

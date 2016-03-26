@@ -28,6 +28,7 @@ MatWrap wLayer(vec2 p, float t) {
 	MatWrap w_inner = wInner(p, f_frame, t);
 	MatWrap w_frame = MatWrap(f_frame, layerMaterialId(p_frame, t));
 	w_frame.m.misc.y = f_frame;
+	w_inner.m.coord.xy = p_frame;
 	return mUnion(w_frame, w_inner);
 }
 
