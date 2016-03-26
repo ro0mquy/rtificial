@@ -4,7 +4,6 @@
 #include "materials.glsl"
 #line 6
 
-float id_f16 = 1;
 float id_birds = 2;
 float id_bridge = 3;
 float id_bridge_chains = 4;
@@ -120,11 +119,10 @@ float f2BirdGroup(vec2 p, float t) {
 MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	vec2 p_f16 = p;
 	pF16Bridge(p_f16, t);
-	float f_f16 = fF16Air(p_f16, 4);
 	MatWrap w_frame = MatWrap(f_frame, layerMaterialId(p, t));
-	MatWrap w_f16 = MatWrap(f_f16, newMaterialId(id_f16, vec3(p_f16, 0)));
+	MatWrap w_f16 = wF16Air(p_f16, 4);
 	w_f16.m.misc.x = t;
-	w_f16.m.misc.y = abs(f_f16);
+	w_f16.m.misc.y = abs(w_f16.f);
 	f_frame = Inf;
 	w_f16 = mSubtract(mUnion(w_frame, w_f16), mIntersect(w_frame, w_f16));
 	float f_ground = p.y + lay_frame_dim.y;
@@ -174,6 +172,8 @@ Material getMaterial(MaterialId materialId) {
 	mat.color *= mix(lay_texture_intesity_rt_float, 1., (smoothFbm(.2 * materialId.coord.xy + materialId.misc.x * .1) * .5 + .5));
 	if (materialId.id == id_f16) {
 		mOutline(mat, materialId, f16_outline_color_rt_color, f16_outline_intensity_rt_float);
+	} else if (materialId.id == id_f16_flame) {
+		mOutline(mat, materialId, f16_flame_color_rt_color, f16_flame_intensity_rt_float);
 	} else if (materialId.id == id_birds) {
 		mat.emission = birds_outline_color_rt_color * birds_outline_intensity_rt_float;
 	//} else if (materialId.id == id_bridge_chains && int(materialId.misc.z) % 4 == 0) {

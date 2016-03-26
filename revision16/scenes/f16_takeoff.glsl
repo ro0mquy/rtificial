@@ -20,7 +20,7 @@ float fScene(vec3 p) {
 	float frame_z = square(lay_frame_dim.x) / lay_frame_dim.y;
 	pTrans(p.z, -frame_z);
 	vec2 p_f16 = p.zx;
-	float f_f16 = fF16Ground(p_f16, 13);
+	float f_f16 = wF16Ground(p_f16, 13).f;
 	float f_frame = fBox(p, vec3(lay_frame_dim, frame_z));
 	vec3 p_layer = p;
 	pTrans(p_layer.xz, vec2(-lay_frame_dim.x * .5, -frame_z));
