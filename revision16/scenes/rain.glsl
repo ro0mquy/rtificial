@@ -94,6 +94,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float bubble_speed = .5;
 	float f_bubble = bubbleLayer(p_water, t, bubble_r, bubble_spacing, bubble_offset, bubble_amount, bubble_speed);
 	f_water = max(f_water, -f_bubble);
+	float f_water_without_side = f_water;
 
 	//float f_inner = f_water;
 
@@ -107,7 +108,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float rain_water_height_frame = (t - 192) / 24.;
 	// -.1 to fix seams due to chamfering
 	// f_inner = max(f_inner, -f_frame - .1);
-	f_water = max(f_water, -f_frame - .1);
+	f_water = max(f_water, -f_frame);
 	if (rain_water_height_frame > 0.) {
 		rain_water_height_frame += .03 * waterNoise(vec2(7 * p.x / lay_frame_dim.x, t * .4));
 	}
@@ -116,7 +117,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	f_frame = max(f_water_down, f_frame);
 	MatWrap w_water = MatWrap(f_water, layerMaterialId(p, t));
 	w_water.m.id = id_water;
-	w_water.m.misc.y = -f_water;
+	w_water.m.misc.y = -f_water_without_side;
 
 	if (t < water_rise_end) {
 		float f_drops = rainLayer(p_drops, t, d * rain_scale_3_rt_float, rain_spacing, rain_offset_3_rt_float, rain_amount_3_rt_float * rain_amount, rain_speed_3_rt_float);

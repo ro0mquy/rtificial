@@ -1835,6 +1835,79 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "funk_closing_pow_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "funk_closing_speed_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6.6320000000000618456
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "funk_closing_start_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "funk_loco_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1.192000000000007276,
+        "valueVec2Y": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "funk_myrahm_speed_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 300
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "funk_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -1.6000000000000227374
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "funk_speed_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.0360000000000582077
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "funk_takeoff_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.29100000000005366019
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "funk_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.10199999999997544364
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "land_a_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -2121,7 +2194,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": -16
+                "valueFloatX": 0
               }
             },
             {
@@ -2129,7 +2202,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 16
+                "valueFloatX": 256
               }
             }
           ]
@@ -2368,9 +2441,9 @@
           ]
         },
         {
-          "sequenceSceneId": 429,
-          "sequenceStart": 32000,
-          "sequenceDuration": 79500,
+          "sequenceSceneId": 165,
+          "sequenceStart": 0,
+          "sequenceDuration": 47500,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -2417,9 +2490,9 @@
           ]
         },
         {
-          "sequenceSceneId": 429,
-          "sequenceStart": 32000,
-          "sequenceDuration": 79500,
+          "sequenceSceneId": 165,
+          "sequenceStart": 0,
+          "sequenceDuration": 47500,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -2602,7 +2675,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.019999999999981810106
+                "valueFloatX": 0.019999999999981806637
               }
             }
           ]
@@ -3615,6 +3688,15 @@
       }
     },
     {
+      "sceneId": 265,
+      "sceneStart": 156000,
+      "sceneDuration": 32000,
+      "sceneShaderSource": "funk",
+      "sceneEnvironmentSource": "background",
+      "keyframeValue": {
+      }
+    },
+    {
       "sceneId": 271,
       "sceneStart": 307500,
       "sceneDuration": 36500,
@@ -3637,15 +3719,6 @@
       "sceneStart": 58500,
       "sceneDuration": 65500,
       "sceneShaderSource": "part",
-      "sceneEnvironmentSource": "background",
-      "keyframeValue": {
-      }
-    },
-    {
-      "sceneId": 581,
-      "sceneStart": 156000,
-      "sceneDuration": 32000,
-      "sceneShaderSource": "f16_build",
       "sceneEnvironmentSource": "background",
       "keyframeValue": {
       }

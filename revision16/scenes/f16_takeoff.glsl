@@ -9,6 +9,8 @@ uniform float lay_layer_dist;
 uniform float lay_layer_thickness;
 
 float fScene(vec3 p) {
+	// align front layer
+	pTrans(p.z, funk_takeoff_offset_rt_float);
 	// TODO does not exactly match layers
 	//float frame_z = lay_layer_dist * lay_last_layer_index * .5;
 	float frame_z = square(lay_frame_dim.x) / lay_frame_dim.y;
@@ -22,7 +24,7 @@ float fScene(vec3 p) {
 	pTrans(p_layer.xz, -vec2(-lay_frame_dim.x * .5, -frame_z));
 	float t = pDomrep(p_layer.z, lay_layer_dist);
 	pMirrorTrans(p_layer.z, lay_layer_thickness);
-	float f_layers = max(p_layer.z, f_frame);;
+	float f_layers = opIntersectChamfer(p_layer.z, f_frame, .05 * .25);
 	float f = max(f_layers, -f_f16);
 	MaterialId m = MaterialId(0, p, vec4(t, vec3(0)));
 	//f = max(-f2Box(p.zx, vec2(frame_z, lay_frame_dim.x)), abs(p.y - 5) - .05);
