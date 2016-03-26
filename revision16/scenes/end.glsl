@@ -68,21 +68,21 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	float flocation = max(fwhole, -f2Plane(p_middle1 - vec2(0, -11.4), vec2(0,-1)));
 	MatWrap mw_location = MatWrap(flocation, mat_id_small);
 
-	MatWrap mw = mw_rtificial;
+	MatWrap mw = MatWrap(Inf, mat_id_small);
 
-	if (t >= 0 && t < 120) {
+	if (t >= 4 && t < 120) {
 		mw = mw_rtificial;
 	}
-	if (t >= 32 && t < 120) {
+	if (t >= 36 && t < 120) {
 		mw = mUnion(mw_rtificial, mw_invites);
 	}
-	if (t >= 64) {
+	if (t >= 68) {
 		mw = mw_function;
 	}
-	if (t >= 136 && t < 200) {
+	if (t >= 132 && t < 196) {
 		mw = mUnion(mw, mw_date);
 	}
-	if (t >= 200 && t < 344) {
+	if (t >= 196 && t < 324) {
 		mw = mUnion(mUnion(mw, mw_date), mw_location);
 	}
 

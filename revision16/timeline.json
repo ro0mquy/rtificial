@@ -2108,7 +2108,7 @@
         {
           "sequenceSceneId": 253,
           "sequenceStart": 32000,
-          "sequenceDuration": 60000,
+          "sequenceDuration": 62000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
