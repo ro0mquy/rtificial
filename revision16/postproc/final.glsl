@@ -109,7 +109,7 @@ void main() {
 				fbm(vec2(post_film_grain_frequency * (rotMat2D(Tau*.23) * gl_FragCoord.xy + 93829. + time * 2847.) ))
 				);
 		float luma = clamp(rgb2luma(out_color), 0., 1.);
-		float intensity = post_film_grain_intensity * pow(1. - luma, post_film_grain_power);
+		float intensity = 1e-3 * post_film_grain_intensity * pow(1. - luma, post_film_grain_power);
 		out_color += intensity * grain;
 	}
 

@@ -7,6 +7,7 @@ layout(binding = 7) uniform sampler2D tex_endcard;
 
 int mat_id_bigtext = 1337;
 int mat_id_smalltext = 1338;
+int mat_id_middletext = 1339;
 
 float fGuard(vec2 p, float t) {
 	return 0;
@@ -44,15 +45,17 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 
 	MaterialId mat_id_big = newMaterialId(mat_id_bigtext, vec3(1));
 	MaterialId mat_id_small = newMaterialId(mat_id_smalltext, vec3(1));
+	mat_id_small.misc.x = t;
+	MaterialId mat_id_middle = newMaterialId(mat_id_middletext, vec3(1));
 
 	float fwhole = f2Endcard(p_middle1, text_size);
 
 	float frtificial = max(fwhole, -f2Plane(p_middle1 - vec2(0, 11), vec2(0, 1)));
-	MatWrap mw_rtificial = MatWrap(frtificial, mat_id_small);
+	MatWrap mw_rtificial = MatWrap(frtificial, mat_id_middle);
 
 	float finvites = max(fwhole, -f2Plane(p_middle1 - vec2(0, 8), vec2(0, 1)));
 	finvites = max(finvites, -f2Plane(p_middle1 - vec2(0, 11), vec2(0,-1)));
-	MatWrap mw_invites = MatWrap(finvites, mat_id_small);
+	MatWrap mw_invites = MatWrap(finvites, mat_id_middle);
 
 	float ffunction = max(fwhole, -f2Plane(p_middle1 - vec2(0, -8), vec2(0, 1)));
 	ffunction = max(ffunction, -f2Plane(p_middle1 - vec2(0, 8), vec2(0,-1)));
@@ -112,6 +115,13 @@ Material getMaterial(MaterialId materialId) {
 	vec3 glow_color = part_glow_color_rt_color;
 	if( materialId.id == mat_id_bigtext && int(materialId.misc[2]) == 0 ) {
 		mOutline(mat, materialId, glow_color, glow_intensity);
+	}
+	if(materialId.id == mat_id_smalltext && (int(materialId.misc.z) == 0 || materialId.misc.x == 343)) {
+		mat.emission = end_smalltext_color_rt_color * end_smalltext_intensity_rt_float;
+		mat.emission *= 1 - pow(saturate(materialId.misc.z / (-lay_last_layer_index)), .25);
+	}
+	if(materialId.id == mat_id_middletext && int(materialId.misc[2]) == 0) {
+		mat.emission = glow_color * glow_intensity;
 	}
 
 	return mat;
