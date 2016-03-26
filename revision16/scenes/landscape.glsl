@@ -273,7 +273,7 @@ Material getMaterial(MaterialId materialId) {
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
 	if (materialId.id == id_f16) {
-		mOutline(mat, materialId, vec3(1), 1);
+		mOutline(mat, materialId, f16_outline_color_rt_color, f16_outline_intensity_rt_float);
 	}
 	return mat;
 }

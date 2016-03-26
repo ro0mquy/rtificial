@@ -395,6 +395,24 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "birds_outline_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.0083699999377131462097,
+        "valueColorG": 0.20110000669956207275,
+        "valueColorB": 0.28881999850273132324
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "birds_outline_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.21500000000003183231
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "bridge_bird_radius1_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -486,6 +504,16 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "bridge_chains_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.051120001822710037231,
+        "valueColorG": 0.00026000000070780515671,
+        "valueColorB": 0.11392000317573547363
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "bridge_chains_horizontal_space_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -498,6 +526,14 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.047000000000025465852
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bridge_chains_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0489999999999781721
       },
       "sequencesArray": []
     },
@@ -1885,6 +1921,24 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "f16_outline_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.66611695289611816406,
+        "valueColorG": 0.78931373357772827148,
+        "valueColorB": 0.99139285087585449219
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "f16_outline_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.3010000000000445652
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "flame_scale_rt_float",
