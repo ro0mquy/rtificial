@@ -1928,7 +1928,7 @@
       "uniformStandardValue": {
         "valueColorR": 0.66611695289611816406,
         "valueColorG": 0.78931373357772827148,
-        "valueColorB": 0.99139285087585449219
+        "valueColorB": 0.99139285087585460321
       },
       "sequencesArray": []
     },
@@ -2830,8 +2830,8 @@
       "sequencesArray": [
         {
           "sequenceSceneId": 433,
-          "sequenceStart": 13500,
-          "sequenceDuration": 52000,
+          "sequenceStart": 33500,
+          "sequenceDuration": 4000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -2912,7 +2912,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.089000000000055479177
+                "valueFloatX": 0.089000000000055465299
               }
             }
           ]
@@ -3597,7 +3597,7 @@
       "uniformName": "post_film_grain_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.41100000000005820766
+        "valueFloatX": 0.41100000000005826317
       },
       "sequencesArray": []
     },

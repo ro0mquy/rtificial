@@ -20,8 +20,8 @@ MaterialId layerMaterialId(vec2 p, float t) {
 
 MatWrap wLayer(vec2 p, float t) {
 	vec2 p_frame = p;
-	if (lay_rotate_layers && t < 476 && t >= 140) {
-		float rand_for_rot_ist_meine_kugel = .06 * (rand(ivec2(t+3)) * 2 - 1);
+	if (lay_rotate_layers && t < 276) {
+		float rand_for_rot_ist_meine_kugel = .1 * (sin(t+3));
 		pRot(p_frame, rand_for_rot_ist_meine_kugel);
 	}
 	float f_frame = max(f2BoxEdge(p.xy, lay_frame_thickness + lay_frame_dim), -f2BoxEdge(p_frame, lay_frame_dim));
