@@ -22,4 +22,9 @@ float sqrt(float x);
 float sin(float x);
 float acos(float x);
 
+float log10(float x);
+double pow(double base, double exponent);
+float exp(float x);
+
+
 #endif

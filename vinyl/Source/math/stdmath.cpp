@@ -112,3 +112,89 @@ float acos(float x) {
 	return x;
 	// */
 }
+
+float log10(float x)
+{
+    __asm
+    {
+        fld1
+        fld     dword ptr [x]
+        fyl2x
+        fldl2t
+        fdiv
+        fstp    dword ptr [x]
+    }
+    return x;
+}
+
+double pow(double a, double b)
+{
+  __asm
+  {
+    fld     qword ptr [b]
+    fld     qword ptr [a]
+
+    ftst
+    fstsw   ax
+    sahf
+    jz      zero
+
+    fyl2x
+    fist    dword ptr [a]
+    sub     esp, 12
+    mov     dword ptr [esp], 0
+    mov     dword ptr [esp+4], 0x80000000
+    fisub   dword ptr [a]
+    mov     eax, dword ptr [a]
+    add     eax, 0x3fff
+    mov     [esp+8], eax
+    jle     underflow
+    cmp     eax, 0x8000
+    jge     overflow
+    f2xm1
+    fld1
+    fadd
+    fld     tbyte ptr [esp]
+    add     esp, 12
+    fmul
+    jmp     end
+
+underflow:
+    fstp    st
+    fldz
+    add     esp, 12
+    jmp     end
+
+overflow:
+    push    0x7f800000
+    fstp    st
+    fld     dword ptr [esp]
+    add     esp, 16
+    jmp     end
+
+zero:
+    fstp    st(1)
+
+end:
+  }
+}
+
+float eExp(float x)
+{
+    __asm
+    {
+        fld     dword ptr [x]
+        fldl2e
+        fmulp   st(1), st
+        fld1
+        fld     st(1)
+        fprem
+        f2xm1
+        faddp   st(1), st
+        fscale
+        fstp    st(1)
+        fstp    dword ptr [x]
+    }
+
+    return x;
+}
