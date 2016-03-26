@@ -156,169 +156,9 @@ float sdfMarch(vec3 o, vec3 d, float t_max) {
 	return marched;
 }
 
-void setDebugParameters() {
-	int mode = int(debug_mode);
-	if (mode == 0) {
-		// default
-			debug_default_pass_scene_visible = true;
-			debug_default_pass_plane_visible = false;
-			debug_isoline_pass_scene_visible = false;
-			debug_isoline_pass_plane_visible = false;
-			debug_gradient_visualization = false;
-			debug_gradient_pass_scene_visible = false;
-			debug_gradient_pass_plane_visible = false;
-	} else if(mode == 1) { // debug plane
-			debug_default_pass_scene_visible = true;
-			debug_default_pass_plane_visible = true;
-			debug_isoline_pass_scene_visible = true;
-			debug_isoline_pass_plane_visible = false;
-			debug_gradient_visualization = false;
-			debug_gradient_pass_scene_visible = false;
-			debug_gradient_pass_plane_visible = false;
-	} else if(mode == 2) { // debug plane without scene geometry
-			debug_default_pass_scene_visible = false;
-			debug_default_pass_plane_visible = true;
-			debug_isoline_pass_scene_visible = true;
-			debug_isoline_pass_plane_visible = false;
-			debug_gradient_visualization = false;
-			debug_gradient_pass_scene_visible = false;
-			debug_gradient_pass_plane_visible = false;
-	} else if(mode == 3) { // visualize gradient length
-			debug_default_pass_scene_visible = true;
-			debug_default_pass_plane_visible = false;
-			debug_isoline_pass_scene_visible = false;
-			debug_isoline_pass_plane_visible = false;
-			debug_gradient_visualization = true;
-			debug_gradient_pass_scene_visible = true;
-			debug_gradient_pass_plane_visible = false;
-	} else if(mode == 4) { // visualize gradient length with debug plane
-			debug_default_pass_scene_visible = true;
-			debug_default_pass_plane_visible = true;
-			debug_isoline_pass_scene_visible = true;
-			debug_isoline_pass_plane_visible = false;
-			debug_gradient_visualization = true;
-			debug_gradient_pass_scene_visible = true;
-			debug_gradient_pass_plane_visible = false;
-	} else if(mode == 5) { // visualize gradient length with debug plane and without geometry
-			debug_default_pass_scene_visible = false;
-			debug_default_pass_plane_visible = true;
-			debug_isoline_pass_scene_visible = true;
-			debug_isoline_pass_plane_visible = false;
-			debug_gradient_visualization = true;
-			debug_gradient_pass_scene_visible = true;
-			debug_gradient_pass_plane_visible = false;
-	} else { // same as default
-			debug_default_pass_scene_visible = true;
-			debug_default_pass_plane_visible = false;
-			debug_isoline_pass_scene_visible = false;
-			debug_isoline_pass_plane_visible = false;
-			debug_gradient_visualization = false;
-			debug_gradient_pass_scene_visible = false;
-			debug_gradient_pass_plane_visible = false;
-	}
-
-	scene_visible = debug_default_pass_scene_visible;
-	debug_plane_visible = debug_default_pass_plane_visible;
-}
-
-
 
 ////// beleuchtungskram.glsl
 
-vec3 debugIsolineTexture(float sdf_dist, vec3 camera_pos, float camera_dist) {
-	float small_lines = abs(sin(Pi * 10. * sdf_dist));
-	small_lines = 1. - (1. - smoothstep(8., 15., camera_dist)) * (1. - small_lines);
-
-	float medium_lines = abs(sin(Pi * 1. * sdf_dist));
-	medium_lines = 1. - (.8 + .2 * smoothstep(6., 10., camera_dist)) * (1. - smoothstep(60., 80., camera_dist)) * (1. - medium_lines);
-
-	float big_lines = abs(sin(Pi * 1./10. * sdf_dist));
-	big_lines = 1. - (.8 + .2 * smoothstep(30., 50., camera_dist)) * (1. - smoothstep(80., 150., camera_dist)) * (1. - big_lines);
-
-	float height = fDebugPlane(camera_pos);
-
-	vec3 lines_color = vec3(0.);
-	vec3 near_color = vec3(0.29804, 0.18824, 0.43922);
-	vec3 far_color = vec3(0.12549, 0.52941, 0.36078);
-	vec3 inner_color = vec3(0.02095, 0.19046, 0.60548);
-
-	vec3 base_color = mix(near_color, far_color, smoothstep(.1 * height, height, sdf_dist));
-	if (sdf_dist < 0.) {
-		base_color = inner_color;
-	}
-	base_color = rgb2hsv(base_color);
-	base_color.y *= 1. - smoothstep(height, 10. * height, abs(sdf_dist)); // desaturate
-	base_color = hsv2rgb(base_color);
-
-	base_color = mix(lines_color, base_color, small_lines);
-	base_color = mix(lines_color, base_color, medium_lines);
-	base_color = mix(lines_color, base_color, big_lines);
-
-	return base_color;
-}
-
-vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
-	scene_visible = debug_isoline_pass_scene_visible;
-	debug_plane_visible = debug_isoline_pass_plane_visible;
-
-	float sdf_dist = fMain(p, false);
-	vec3 sdf_normal = sdfNormal(p);
-
-	scene_visible = debug_default_pass_scene_visible;
-	debug_plane_visible = debug_default_pass_plane_visible;
-
-	vec3 pX = dFdx(p);
-	vec3 pY = dFdy(p);
-
-	/*
-	float detail = 100.;
-	int MaxSamples = 10;
-	int sx = 1 + clamp( int( detail*length(pX) ), 0, MaxSamples-1 );
-	int sy = 1 + clamp( int( detail*length(pY) ), 0, MaxSamples-1 );
-	// */
-
-	//*
-	// fuck it - just supersample everything!
-	int sx = 5;
-	int sy = 5;
-	// */
-
-	vec3 no = vec3(0);
-	for(int j = 0; j < sy; j++ ) {
-		for(int i = 0; i < sx; i++ ) {
-			vec2 st = (vec2(i, j) + .5)/vec2(sx, sy) - .5;
-			vec3 delta = st.x * pX + st.y * pY;
-			float f_dist = sdf_dist + dot(sdf_normal, delta);
-			no += debugIsolineTexture(f_dist, camera_pos, camera_dist);
-		}
-	}
-
-	return no / float(sx*sy);
-}
-
-vec3 debugColorIsolines(vec3 origin, float marched, vec3 hit) {
-	return debugIsolineTextureFiltered(hit, origin, marched);
-}
-
-vec3 debugColorGradient(vec3 p) {
-	scene_visible = debug_gradient_pass_scene_visible;
-	debug_plane_visible = debug_gradient_pass_plane_visible;
-
-	vec3 gradient = sdfGradient(p);
-	float len_grad = length(gradient);
-
-	scene_visible = debug_default_pass_scene_visible;
-	debug_plane_visible = debug_default_pass_plane_visible;
-
-	vec3 under_color = vec3(0.18014, 0.74453, 0.03288);
-	vec3 over_color = vec3(0.71547, 0.03995, 0.02537);
-
-	vec3 base_color = vec3(1.);
-	base_color = mix(base_color, under_color, 1. - smoothstep(.8, 1., len_grad));
-	base_color = mix(base_color, over_color, smoothstep(1., 1.2, len_grad));
-
-	return base_color;
-}
 
 Material getMaterial(MaterialId materialId);
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material);
@@ -326,23 +166,8 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color);
 
 uniform float main_marching_distance;
 
-// Bump Mapping Unparametrized Surfaces on the GPU [Mikkelsen2010]
-void perturbNormal(vec3 p, inout vec3 n, float height) {
-	vec3 sigma_s = dFdx(p);
-	vec3 sigma_t = dFdy(p);
-	vec3 a = cross(sigma_t, n);
-	vec3 b = cross(n, sigma_s);
-	float determinant = dot(sigma_s, a);
-	float d_beta_s = dFdx(height);
-	float d_beta_t = dFdy(height);
-	vec3 surface_gradient = (d_beta_s * a + d_beta_t * b) * sign(determinant);
-	vec3 n_perturbed = normalize(abs(determinant) * n - surface_gradient);
-	n = n_perturbed;
-}
 
 void main() {
-	setDebugParameters();
-
 	vec3 origin = camera_position;
 	vec3 direction = camGetDirection();
 	float marched = sdfMarch(origin, direction, main_marching_distance);
@@ -358,30 +183,12 @@ void main() {
 
 		vec3 normal = sdfNormalForeward(hit, direction);
 
-		if (materialId.id == debug_plane_material_id) {
-			vec3 c_isoline = debugColorIsolines(origin, marched, hit);
-			if (debug_gradient_visualization) {
-				vec3 c_gradient = debugColorGradient(hit);
-				c_isoline = mix(c_isoline, c_gradient, .5);
-			}
-			Material m_isoline = defaultMaterial(c_isoline);
-			m_isoline.roughness = 1.;
-			out_color = ambientColor(normal, -direction, m_isoline);
-		} else {
-			if (debug_gradient_visualization) {
-				vec3 c_gradient = debugColorGradient(hit);
-				Material m_gradient = defaultMaterial(c_gradient);
-				m_gradient.roughness = 0.;
-				out_color = ambientColor(normal, -direction, m_gradient);
-			} else {
 				Material material = getMaterial(materialId);
 				// TODO move this somewhere else
 				// should be done for debug materials too to avoid false differentials
 				//perturbNormal(hit, normal, material.height);
 				material.roughness = square(material.roughness);
 				out_color = applyLights(origin, marched, direction, hit, normal, materialId, material);
-			}
-		}
 		out_depth = marched;
 	}
 	out_color = applyAfterEffects(origin, marched, direction, out_color);

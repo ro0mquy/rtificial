@@ -52,25 +52,6 @@ float valueNoise(vec2 p) {
 	return mix(mix(v00, v10, d.x), mix(v01, v11, d.x), d.y) * 2. - 1.;
 }
 
-float valueNoise(vec3 p) {
-	ivec3 index = ivec3(floor(p));
-	vec3 d = fract(p);
-	float result = 0;
-	float v000 = rand(index);
-	float v010 = rand(index + ivec3(0, 1, 0));
-	float v100 = rand(index + ivec3(1, 0, 0));
-	float v110 = rand(index + ivec3(1, 1, 0));
-	float v001 = rand(index + ivec3(0, 0, 1));
-	float v011 = rand(index + ivec3(0, 1, 1));
-	float v101 = rand(index + ivec3(1, 0, 1));
-	float v111 = rand(index + ivec3(1, 1, 1));
-	return mix(
-		mix(mix(v000, v100, d.x), mix(v010, v110, d.x), d.y),
-		mix(mix(v001, v101, d.x), mix(v011, v111, d.x), d.y),
-		d.z
-	) * 2. - 1.;
-}
-
 float smoothNoise(vec2 p) {
 	float F2 = .5 * (sqrt(3.) - 1.);
 	ivec2 index = ivec2(floor(p + (p.x + p.y) * F2));
@@ -90,56 +71,7 @@ float smoothNoise(vec2 p) {
 	return 70. * result;
 }
 
-float smoothNoise(vec3 p) {
-	float F3 = 1./3.;
-	float G3 = 1./6.;
-	ivec3 index = ivec3(floor(p + (p.x + p.y + p.z) * F3));
-	p -= index - (index.x + index.y + index.z) * G3;
-	vec3 g = step(p.yzx, p);
-	ivec3 index1 = ivec3(min(g, (1. - g).zxy));
-	ivec3 index2 = ivec3(max(g, (1. - g).zxy));
-	vec3 pV[4] = vec3[4](p, p - index1 + G3, p - index2 + 2. * G3, p - 1. + 3. * G3);
-	int vertexX[4] = int[4]( index.x, index.x + index1.x, index.x + index2.x, index.x + 1);
-	int vertexY[4] = int[4](index.y, index.y + index1.y, index.y + index2.y, index.y + 1);
-	int vertexZ[4] = int[4](index.z, index.z + index1.z, index.z + index2.z, index.z + 1);
-	float result = 0;
-	for (uint i = 0; i < 4; i++) {
-		float t = max(0., .6 - pV[i].x * pV[i].x - pV[i].y * pV[i].y - pV[i].z * pV[i].z);
-		t *= t;
-		uint gradientIndex = hash(vertexX[i] + hash(vertexY[i] + hash(vertexZ[i]))) % 12u;
-		result += t * t * dot(simplexGradients[gradientIndex], pV[i]);
-	}
-	return 32. * result;
-}
-
-float valueFbm(vec2 p) {
-	float result = 0.;
-	for (int i = 0; i < 3; i++) {
-		result += exp2(-i) * valueNoise(p);
-		p *= 2.;
-	}
-	return result / 1.75;
-}
-
-float valueFbm(vec3 p) {
-	float result = 0.;
-	for (int i = 0; i < 3; i++) {
-		result += exp2(-i) * valueNoise(p);
-		p *= 2.;
-	}
-	return result / 1.75;
-}
-
 float smoothFbm(vec2 p) {
-	float result = 0.;
-	for (int i = 0; i < 3; i++) {
-		result += exp2(-i) * smoothNoise(p);
-		p *= 2.;
-	}
-	return result / 1.75;
-}
-
-float smoothFbm(vec3 p) {
 	float result = 0.;
 	for (int i = 0; i < 3; i++) {
 		result += exp2(-i) * smoothNoise(p);
