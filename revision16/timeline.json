@@ -3516,6 +3516,38 @@
           ]
         },
         {
+          "sequenceSceneId": 158,
+          "sequenceStart": 58000,
+          "sequenceDuration": 19500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.4200000000000727596
+              }
+            },
+            {
+              "keyframePosition": 15500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.4200000000000727596
+              }
+            },
+            {
+              "keyframePosition": 19500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 808,
           "sequenceStart": 59000,
           "sequenceDuration": 16500,
