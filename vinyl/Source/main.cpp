@@ -200,7 +200,7 @@ RT_MAIN {
 			glViewport(0, 0, width, height);
 			postproc[n_postproc - 1].draw(width, height, 0);
 			glDisable(GL_FRAMEBUFFER_SRGB);
-			frontend.afterFrame();
+			//frontend.afterFrame();
 
 			progress += progress_step;
 			ladebalken.bind();
