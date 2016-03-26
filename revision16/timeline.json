@@ -1338,7 +1338,7 @@
               "keyframeValue": {
                 "valueVec3X": 137.7642822265625,
                 "valueVec3Y": 3.3577876091003417969,
-                "valueVec3Z": -7.6040849685668945312
+                "valueVec3Z": -7.6040849685668945313
               }
             },
             {
@@ -1347,7 +1347,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 148.26141357421875,
-                "valueVec3Y": 5.1472902297973632812,
+                "valueVec3Y": 5.1472902297973632813,
                 "valueVec3Z": -49.693698883056640625
               }
             }
@@ -1385,8 +1385,8 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 0,
-                "valueVec3Y": -5.2986650466918945312,
-                "valueVec3Z": 24.879808425903320312
+                "valueVec3Y": -5.2986650466918945313,
+                "valueVec3Z": 24.879808425903320313
               }
             },
             {
@@ -1479,7 +1479,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": -2.4272201061248779297,
-                "valueVec3Y": 6.3227624893188476562,
+                "valueVec3Y": 6.3227624893188476563,
                 "valueVec3Z": 0.42398968338966369629
               }
             },
@@ -1489,7 +1489,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": -4.0708451271057128906,
-                "valueVec3Y": 6.3227624893188476562,
+                "valueVec3Y": 6.3227624893188476563,
                 "valueVec3Z": -10.818769454956054688
               }
             },
@@ -2253,24 +2253,6 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 20
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "f16_flame_color_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.47843137383460998535,
-        "valueColorG": 0.035294119268655776978,
-        "valueColorB": 0.0078431377187371253967
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "f16_flame_intensity_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 8.7799999999999727152
       },
       "sequencesArray": []
     },
@@ -4993,7 +4975,24 @@
       "uniformStandardValue": {
         "valueFloatX": 0
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 429,
+          "sequenceStart": 7000,
+          "sequenceDuration": 7000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 5000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.024999999999977262632
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "post_vignette_intensity",
@@ -5020,7 +5019,56 @@
         "valueColorG": 0.24279637634754180908,
         "valueColorB": 0.32038158178329467773
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 429,
+          "sequenceStart": 1000,
+          "sequenceDuration": 31000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 5000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.039947167038917541504,
+                "valueColorG": 0.24279637634754180908,
+                "valueColorB": 0.32038158178329467773
+              }
+            },
+            {
+              "keyframePosition": 15000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.039947167038917541504,
+                "valueColorG": 0.093875870108604431152,
+                "valueColorB": 0.32038158178329467773
+              }
+            },
+            {
+              "keyframePosition": 25000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.039947167038917541504,
+                "valueColorG": 0.24279637634754180908,
+                "valueColorB": 0.32038158178329467773
+              }
+            },
+            {
+              "keyframePosition": 29500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueColorR": 0.01991783827543258667,
+                "valueColorG": 0.0090214908123016357422,
+                "valueColorB": 0.56680977344512939453
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "rain_drops_glow_rt_float",
@@ -5028,7 +5076,24 @@
       "uniformStandardValue": {
         "valueFloatX": 5.6549999999999727152
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 429,
+          "sequenceStart": 9000,
+          "sequenceDuration": 8000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 4000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 19.08100000000001728
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "rain_spacing_rt_vec2",
