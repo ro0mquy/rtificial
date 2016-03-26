@@ -23,7 +23,7 @@ float myTorusTwisted(vec3 p, float rBig, float rSmall, float t) {
 }
 
 float f2Part(vec2 p, float t) {
-	float duration = 326.;
+	float duration = 344.;
 
 	float bez_t = t / duration;
 	vec2 bez1 = part_bez1_rt_vec2;
