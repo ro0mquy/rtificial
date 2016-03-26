@@ -2260,9 +2260,9 @@
       "uniformName": "f16_flame_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.17999999999999999334,
-        "valueColorG": 0.17999999999999999334,
-        "valueColorB": 0.17999999999999999334
+        "valueColorR": 0.47843137383460998535,
+        "valueColorG": 0.035294119268655776978,
+        "valueColorB": 0.0078431377187371253967
       },
       "sequencesArray": []
     },
@@ -2270,7 +2270,7 @@
       "uniformName": "f16_flame_intensity_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 2.3000000000000682121
       },
       "sequencesArray": []
     },
