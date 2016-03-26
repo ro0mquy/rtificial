@@ -4,6 +4,7 @@
 #line 5
 
 uniform vec2  lay_frame_dim;
+uniform float lay_animation;
 uniform float lay_last_layer_index;
 uniform float lay_layer_dist;
 uniform float lay_layer_thickness;
@@ -53,9 +54,10 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 	mat.roughness = .5;
-	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
+	float rand_for_color = rand(ivec2(floor(lay_animation + materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
 	mat.color = mix(mat.color, lay_color1_rt_color, smoothstep(0.0, 0.2, takeoff_thickness_rt_float));
+	mat.color = mix(mat.color, .5 * (lay_color1_rt_color + lay_color2_rt_color), .7 * lay_reduce_flickr_rt_float);
 
 	if (materialId.id == id_ground) {
 		mat.color = takeoff_back_color_rt_color;

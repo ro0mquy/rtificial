@@ -862,7 +862,7 @@
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.48776522278785705566,
-        "valueColorG": 0.11392093449831008911,
+        "valueColorG": 0.11392093449831007523,
         "valueColorB": 0.65922397375106811523
       },
       "sequencesArray": []
@@ -2854,6 +2854,30 @@
           ]
         },
         {
+          "sequenceSceneId": 165,
+          "sequenceStart": 0,
+          "sequenceDuration": 48000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 48000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 384
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 717,
           "sequenceStart": 0,
           "sequenceDuration": 19500,
@@ -3309,6 +3333,103 @@
         "valueFloatX": 16.700000000000045475
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "lay_reduce_flickr_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 429,
+          "sequenceStart": 10000,
+          "sequenceDuration": 21500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 7000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 21500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 808,
+          "sequenceStart": 59000,
+          "sequenceDuration": 16500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 6000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.2000000000000454747
+              }
+            },
+            {
+              "keyframePosition": 12500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.2000000000000454747
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 271,
+          "sequenceStart": 36000,
+          "sequenceDuration": 52000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 6000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.2000000000000454747
+              }
+            },
+            {
+              "keyframePosition": 23000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.2000000000000454747
+              }
+            },
+            {
+              "keyframePosition": 35000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.70000000000004547474
+              }
+            },
+            {
+              "keyframePosition": 52000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.70000000000004547474
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "lay_rotate_layers",
@@ -4159,7 +4280,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueColorR": 0.42050793766975402832,
+                "valueColorR": 0.42050793766975397281,
                 "valueColorG": 0.43134024739265441895,
                 "valueColorB": 0.43681275844573974609
               }
@@ -4269,7 +4390,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.98800000000005638867
+                "valueFloatX": 0.98800000000005627765
               }
             }
           ]
@@ -4285,7 +4406,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.98800000000005638867
+                "valueFloatX": 0.98800000000005627765
               }
             }
           ]
@@ -4301,7 +4422,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.98800000000005638867
+                "valueFloatX": 0.98800000000005627765
               }
             }
           ]
@@ -4417,7 +4538,7 @@
       "uniformName": "post_vignette_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.77999999999997271516
+        "valueFloatX": 0.77999999999997282618
       },
       "sequencesArray": []
     },
