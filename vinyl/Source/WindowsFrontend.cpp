@@ -104,6 +104,7 @@ void WindowsFrontend::init(int width, int height, bool fullscreen) {
 //#include <mmsystem.h>
 //#include <mmreg.h>
 #include "music/4klang.windows.h"
+#include "math/stdmath.h"
 #define AUDIO_CHANNELS 2
 #ifndef WINDOWS_OBJECT
 #	error "4klang object type does not match target architecture"
@@ -146,6 +147,9 @@ sU32 alreadyProcessed(0u);
 //define these
 const sU32 compensation (1174);
 const sU32 lengthOfV2(9200279);
+
+float envelope[2] = {};
+float envelopeLimiter[2] = {};
 
 void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
   V2MPlayer* player = reinterpret_cast<V2MPlayer*>(a_this);
@@ -246,36 +250,54 @@ void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
     bool compressorOn = true;
     if (compressorOn)
     {
-      float envelope[2]{};
-      float attack_ = 10.f;
-      float release_ = 100.f;
-      float attackGain = exp(-1 / (attack_ * 44100));
-      float releaseGain = exp(-1 / (release_ * 44100));
-      float threshold_ = -15.f;
-      float ratio_ = 4;
-      float slope = 1 - (1 / ratio_);
-      for (int i = 0; i < a_len_; i++) {
-        for (int channel = 0; channel < 2u; channel++) {
-          sF32* channelData = a_buffer_;
-          //float input = abs(channelData[2 * i + channel]);
-          float input = (channelData[2 * i + channel]) < 0.f ? -1.f * (channelData[2 * i + channel]) : (channelData[2 * i + channel]);
-          if (envelope[channel] < input) {
-            envelope[channel] = input + attackGain * (envelope[channel] - input);
-          }
-          else {
-            envelope[channel] = input + releaseGain * (envelope[channel] - input);
-          }
-        }
-        float envelopeValue = max(envelope[0], envelope[1]);
-        for (int channel = 0; channel < 2u; channel++) {
-          sF32* channelData = a_buffer_;
-          float input = channelData[i*2 +channel] < 0.f ? -1.f * channelData[i * 2 + channel] : channelData[i * 2 + channel];
-          float inputDb = 20 * log10(input);
-          float gainDb = min(0.f, slope * (threshold_ - inputDb));
-          channelData[2 * i + channel] *= pow(10.f, gainDb / 20.f);
-          channelData[2 * i + channel] *= pow(10.f, 5.5f / 10.f);
-        }
-      }
+
+		const float attack = .001;
+		const float release = .02;
+		const float releaseLimiter = .3;
+		float threshold = -13.6;
+		const float ratio = 1.94;
+		float attackGain = exp(-1 / (attack * 44100));
+		float releaseGain = exp(-1 / (release * 44100));
+		float releaseGainLimiter = exp(-1 / (releaseLimiter * 44100));
+		float slope = 1 - (1 / ratio);
+		float postGainDb = 6;
+		postGainDb += 6.9; // for limiter
+		for (int i = 0; i < a_len; i++) {
+			for (int channel = 0; channel < 2; channel++) {
+				float input = abs(a_buffer[2 * i + channel]);
+				if (envelope[channel] < input) {
+					envelope[channel] = input + attackGain * (envelope[channel] - input);
+				}
+				else {
+					envelope[channel] = input + releaseGain * (envelope[channel] - input);
+				}
+			}
+			float envelopeValue = max(envelope[0], envelope[1]);
+			for (int channel = 0; channel < 2; channel++) {
+				float input = envelopeValue;
+				float inputDb = 20 * log10(abs(input));
+				float gainDb = min(0.f, slope * (threshold - inputDb)) + postGainDb;
+				a_buffer[2 * i + 1] *= pow(10.f, gainDb / 20.f);
+			}
+
+			// limit
+			for (int channel = 0; channel < 2; channel++) {
+				float input = abs(a_buffer[2 * i + 1]);
+				if (envelopeLimiter[channel] < input) {
+					envelopeLimiter[channel] = input;
+				}
+				else {
+					envelopeLimiter[channel] = input + releaseGainLimiter * (envelopeLimiter[channel] - input);
+				}
+			}
+			envelopeValue = max(envelopeLimiter[0], envelopeLimiter[1]);
+			for (int channel = 0; channel < 2; channel++) {
+				float input = envelopeValue;
+				float inputDb = 20 * log10(abs(input));
+				float gainDb = min(0.f, -inputDb);
+				a_buffer[2 * i + 1] *= pow(10.f, gainDb / 20.f);
+			}
+		}
     }
 	}
 }

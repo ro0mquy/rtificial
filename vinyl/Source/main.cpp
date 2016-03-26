@@ -180,7 +180,7 @@ RT_MAIN {
 		frontend.afterFrame();
 	}
 
-	for (int j = 0; j < 60; j++) {
+	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < n_scenes; i++) {
 			if (environments[i].isValid()) {
 				environments[i].bind();

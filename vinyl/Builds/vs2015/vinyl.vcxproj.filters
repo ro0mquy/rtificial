@@ -116,12 +116,6 @@
     <ClInclude Include="..\..\Source\music\bpm.h">
       <Filter>Source\music</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\aman.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\aman_environment.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\shaders\ao.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
@@ -132,6 +126,9 @@
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\ao_blur_v.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\background_test.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\bloom_down_1st.h">
@@ -179,28 +176,46 @@
     <ClInclude Include="..\..\Source\shaders\bloom_up_final.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\colorseparation.h">
+    <ClInclude Include="..\..\Source\shaders\bridge.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\end.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\f16_beginning.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\f16_build.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\f16_takeoff.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\final.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\godrays.h">
+    <ClInclude Include="..\..\Source\shaders\funk.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\ladebalken.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\love.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\matrix.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\matrix_environment.h">
+    <ClInclude Include="..\..\Source\shaders\landscape.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\output.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\parl.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\parl_schwurbel.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\part.h">
+      <Filter>Source\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\shaders\rain.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\shaders\remove_fireflies.h">
@@ -209,19 +224,7 @@
     <ClInclude Include="..\..\Source\shaders\scale.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\scanlines.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\texture_1.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\texture_2.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\texture_3.h">
-      <Filter>Source\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\shaders\texture_4.h">
+    <ClInclude Include="..\..\Source\shaders\texture_7.h">
       <Filter>Source\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\stdlib.h">

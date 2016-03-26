@@ -179,7 +179,7 @@ end:
   }
 }
 
-float eExp(float x)
+float exp(float x)
 {
     __asm
     {
