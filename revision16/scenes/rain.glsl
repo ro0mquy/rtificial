@@ -117,7 +117,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	f_frame = max(f_water_down, f_frame);
 	MatWrap w_water = MatWrap(f_water, layerMaterialId(p, t));
 	w_water.m.id = id_water;
-	w_water.m.misc.y = -f_water_without_side;
+	w_water.m.misc.y = abs(f_water_without_side);
 
 	if (t < water_rise_end) {
 		float f_drops = rainLayer(p_drops, t, d * rain_scale_3_rt_float, rain_spacing, rain_offset_3_rt_float, rain_amount_3_rt_float * rain_amount, rain_speed_3_rt_float);
@@ -155,8 +155,9 @@ Material getMaterial(MaterialId materialId) {
 	if (materialId.id == id_water && lay_animation < water_rise_end + 16) {
 		mOutline(mat, materialId, rain_drops_color_rt_color, rain_drops_glow_rt_float);
 	}
-	if (materialId.id == id_layer && lay_animation >= water_rise_end) {
-		materialId.misc.y = -materialId.misc.y;
+	if (materialId.id == id_layer && lay_animation >= water_rise_end
+			&& abs(materialId.coord.x) >  lay_frame_dim.x + materials_outline_thickness_rt_float + 1e-2) {
+		materialId.misc.y = abs(materialId.misc.y);
 		mOutline(mat, materialId, rain_drops_color_rt_color, rain_drops_glow_rt_float);
 	}
 	return mat;
