@@ -49,7 +49,7 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	} else {
 		pTrans(p, vec2(c.x, -c.y));
 	}
-	float schwurbel_rot = smoothstep(0, 1, (t - mirror_start) / 24);
+	float schwurbel_rot = smoothstep(0, 1, (t - mirror_start) / 34);
 	//pRot(p, radians(22.5) * schwurbel_rot_rt_float);
 	pRot(p, radians(22.5) * schwurbel_rot);
 	float schwurbel_sep = smoothstep(0, 1, (t - mirror_start) / 64);
