@@ -231,8 +231,7 @@ RT_MAIN {
 
 		if(scenes_data[scene_id].end < currentTime) {
 			if(scene_id == last_scene_id) {
-				// TODO
-				//break;
+				break;
 			} else {
 				scene_id++;
 				shader_id = scenes_data[scene_id].sceneId;

@@ -5,19 +5,19 @@ IF %1.==. GOTO NOPARAM
 
 echo === Debug
 copy /y ..\..\vinyl\Builds\vs2015\bin\%1\Debug\rt.exe .\demo\rt.debug.exe
-.\kkrunchy\kkrunchy_021.exe         --refsize 64 --out .\demo\rt.debug.min.021.exe         .\demo\rt.debug.exe
-.\kkrunchy\kkrunchy_023a.exe        --refsize 64 --out .\demo\rt.debug.min.023a.exe        .\demo\rt.debug.exe
-.\kkrunchy\kkrunchy_023a2_k7.exe    --refsize 64 --out .\demo\rt.debug.min.023a2_k7.exe    .\demo\rt.debug.exe
-.\kkrunchy\kkrunchy_023a4_asm07.exe --refsize 64 --out .\demo\rt.debug.min.023a4_asm07.exe .\demo\rt.debug.exe
-.\kkrunchy\bep.exe .\demo\rt.debug.exe .\demo\rt.debug.bep.exe +S
+REM .\kkrunchy\kkrunchy_021.exe         --refsize 64 --out .\demo\rt.debug.min.021.exe         .\demo\rt.debug.exe
+REM .\kkrunchy\kkrunchy_023a.exe        --refsize 64 --out .\demo\rt.debug.min.023a.exe        .\demo\rt.debug.exe
+REM .\kkrunchy\kkrunchy_023a2_k7.exe    --refsize 64 --out .\demo\rt.debug.min.023a2_k7.exe    .\demo\rt.debug.exe
+REM .\kkrunchy\kkrunchy_023a4_asm07.exe --refsize 64 --out .\demo\rt.debug.min.023a4_asm07.exe .\demo\rt.debug.exe
+REM .\kkrunchy\bep.exe .\demo\rt.debug.exe .\demo\rt.debug.bep.exe +S
 
 echo === Release
 copy /y ..\..\vinyl\Builds\vs2015\bin\%1\Release\rt.exe .\demo\rt.release.exe
-.\kkrunchy\kkrunchy_021.exe         --refsize 64 --out .\demo\rt.release.min.021.exe         .\demo\rt.release.exe
-.\kkrunchy\kkrunchy_023a.exe        --refsize 64 --out .\demo\rt.release.min.023a.exe        .\demo\rt.release.exe
-.\kkrunchy\kkrunchy_023a2_k7.exe    --refsize 64 --out .\demo\rt.release.min.023a2_k7.exe    .\demo\rt.release.exe
+REM .\kkrunchy\kkrunchy_021.exe         --refsize 64 --out .\demo\rt.release.min.021.exe         .\demo\rt.release.exe
+REM .\kkrunchy\kkrunchy_023a.exe        --refsize 64 --out .\demo\rt.release.min.023a.exe        .\demo\rt.release.exe
+REM .\kkrunchy\kkrunchy_023a2_k7.exe    --refsize 64 --out .\demo\rt.release.min.023a2_k7.exe    .\demo\rt.release.exe
 .\kkrunchy\kkrunchy_023a4_asm07.exe --refsize 64 --out .\demo\rt.release.min.023a4_asm07.exe .\demo\rt.release.exe
-.\kkrunchy\bep.exe .\demo\rt.release.exe .\demo\rt.release.bep.exe +S
+REM .\kkrunchy\bep.exe .\demo\rt.release.exe .\demo\rt.release.bep.exe +S
 
 GOTO END
 
