@@ -65,7 +65,6 @@ part_bez2_rt_vec2 vec2(-8.8840000000000145519, 0.66800000000000636646)
 part_bez1_rt_vec2 vec2(0, 0)
 parl_middle_width_rt_float 1
 parl_middle_top_radius_rt_float 3.7040000000000645741
-parl_glow_intensity_rt_float 6.8600000000000136424
 parl_color_rt_color vec3(0.48627451062202453613, 0.11372549086809158325, 0.65882354974746704102)
 parl_base_elem_top_arch_radius_rt_float 0.23400000000003728928
 parl_base_elem_top_arch_dim_rt_vec2 vec2(0.18899999999996452971, 0.43500000000005911716)
