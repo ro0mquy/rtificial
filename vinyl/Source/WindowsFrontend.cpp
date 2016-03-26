@@ -150,6 +150,8 @@ const sU32 lengthOfV2(9200279);
 void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
   V2MPlayer* player = reinterpret_cast<V2MPlayer*>(a_this);
 	if (player->IsPlaying()) {
+    sF32* a_buffer_ = a_buffer; //Necessary later for comp
+    sU32 a_len_ = a_len; //Necessary later for comp
     //Only truncate every once in a while
     //via: https://www.ee.columbia.edu/~dpwe/papers/HejMus91-solafs.pdf 
     // & https://www.ee.columbia.edu/~dpwe/e4896/lectures/E4896-L09.pdf
@@ -241,6 +243,40 @@ void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
     }
 
 	// TODO compressor and limiter
+    bool compressorOn = true;
+    if (compressorOn)
+    {
+      float envelope[2]{};
+      float attack_ = 10.f;
+      float release_ = 100.f;
+      float attackGain = exp(-1 / (attack_ * 44100));
+      float releaseGain = exp(-1 / (release_ * 44100));
+      float threshold_ = -15.f;
+      float ratio_ = 4;
+      float slope = 1 - (1 / ratio_);
+      for (int i = 0; i < a_len_; i++) {
+        for (int channel = 0; channel < 2u; channel++) {
+          sF32* channelData = a_buffer_;
+          //float input = abs(channelData[2 * i + channel]);
+          float input = (channelData[2 * i + channel]) < 0.f ? -1.f * (channelData[2 * i + channel]) : (channelData[2 * i + channel]);
+          if (envelope[channel] < input) {
+            envelope[channel] = input + attackGain * (envelope[channel] - input);
+          }
+          else {
+            envelope[channel] = input + releaseGain * (envelope[channel] - input);
+          }
+        }
+        float envelopeValue = max(envelope[0], envelope[1]);
+        for (int channel = 0; channel < 2u; channel++) {
+          sF32* channelData = a_buffer_;
+          float input = channelData[i*2 +channel] < 0.f ? -1.f * channelData[i * 2 + channel] : channelData[i * 2 + channel];
+          float inputDb = 20 * log10(input);
+          float gainDb = min(0.f, slope * (threshold_ - inputDb));
+          channelData[2 * i + channel] *= pow(10.f, gainDb / 20.f);
+          channelData[2 * i + channel] *= pow(10.f, 5.5f / 10.f);
+        }
+      }
+    }
 	}
 }
 #endif
