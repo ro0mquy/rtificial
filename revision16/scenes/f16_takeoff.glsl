@@ -51,6 +51,13 @@ Material getMaterial(MaterialId materialId) {
 	mat.roughness = .5;
 	float rand_for_color = rand(ivec2(floor(materialId.misc.x)));
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
+	mat.color = mix(mat.color, lay_color1_rt_color, smoothstep(0.05, 0.3, lay_layer_thickness));
+
+	float glow_intensity = part_glow_intensity_rt_float;
+	vec3 glow_color = part_glow_color_rt_color;
+	if (int(materialId.misc[0] + 1) % int(takeoff_num_glow_rt_float) == 0) {
+		mat.emission = glow_color * glow_intensity;
+	}
 	return mat;
 }
 
