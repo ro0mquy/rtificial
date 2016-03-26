@@ -1102,8 +1102,8 @@
           ]
         },
         {
-          "sequenceSceneId": 869,
-          "sequenceStart": 0,
+          "sequenceSceneId": null,
+          "sequenceStart": 512000,
           "sequenceDuration": 100000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
@@ -4686,13 +4686,6 @@
       "sceneEnvironmentSource": "background",
       "keyframeValue": {
       }
-    },
-    {
-      "sceneId": 869,
-      "sceneStart": 512000,
-      "sceneDuration": 99500,
-      "sceneShaderSource": "background_test",
-      "sceneEnvironmentSource": "szenchen631"
     }
   ]
 }
