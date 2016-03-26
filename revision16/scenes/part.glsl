@@ -187,16 +187,6 @@ Material getMaterial(MaterialId materialId) {
 		mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
 
 		vec2 c = materialId.coord.xy;
-		// TODO
-		float f_dirt = -materialId.misc[1] * 10;
-		f_dirt -= smoothFbm(c) * 2;
-		float dirtyness = smoothstep(-1., 5., f_dirt);
-		float border_noise = smoothFbm(c * 3) * .5 + .5;
-		border_noise *= smoothstep(-5., .5, dirtyness);
-		border_noise *= dirtyness;
-		border_noise *= .2;
-		mat.color = mix(mat.color, background_color_rt_color, border_noise);
-
 		if (int(materialId.misc.x) % 8 == 0) {
 			//mOutline(mat, materialId, lay_frame_border_color_rt_color, .2);
 		}

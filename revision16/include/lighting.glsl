@@ -3,9 +3,9 @@
 #line 4
 
 layout(binding = 20) uniform sampler2D brdf;
-layout(binding = 21) uniform samplerCube environment;
-layout(binding = 22) uniform samplerCube filteredDiffuse;
-layout(binding = 23) uniform samplerCube filteredSpecular;
+//layout(binding = 21) uniform samplerCube environment;
+//layout(binding = 22) uniform samplerCube filteredDiffuse;
+//layout(binding = 23) uniform samplerCube filteredSpecular;
 
 struct SphereLight {
 	vec3 position;
@@ -35,7 +35,8 @@ vec3 approximateSpecular(vec3 n, vec3 v, vec3 color, float roughness) {
 
 	vec3 dir = getSpecularDominantDir(n, r, NoV, sqrt(roughness));
 
-	vec3 prefiltered = textureLod(filteredSpecular, dir, sqrt(roughness) * 5.).rgb;
+	//vec3 prefiltered = textureLod(filteredSpecular, dir, sqrt(roughness) * 5.).rgb;
+	vec3 prefiltered = background_color_rt_color;
 	vec2 envBRDF = textureLod(brdf, vec2(roughness, NoV), 0.).rg;
 
 	return prefiltered * (color * envBRDF.x + envBRDF.y);
@@ -47,7 +48,8 @@ vec3 approximateSpecular(vec3 n, vec3 v, vec3 color, float roughness) {
 // roughness: between 0 and 1
 // metallic: only 0 or 1
 vec3 ambientColor(vec3 n, vec3 v, Material mat) {
-	vec3 diffuse = textureLod(filteredDiffuse, n, 0.).rgb;
+	//vec3 diffuse = textureLod(filteredDiffuse, n, 0.).rgb;
+	vec3 diffuse = background_color_rt_color;
 	vec3 dielectric = mat.color * diffuse
 		+ approximateSpecular(n, v, vec3(.04), mat.roughness);
 	vec3 metal = approximateSpecular(n, v, mat.color, mat.roughness);
@@ -58,11 +60,15 @@ vec3 ambientColor(vec3 n, vec3 v, Material mat) {
 // d: camera view direction
 // r: radius of "bounding sphere"
 vec3 environmentColor(vec3 o, vec3 d, float r) {
+	// lol
+	return background_color_rt_color;
 	// hmmmmm…
+	/*
 	o.xz -= camera_position.xz;
 	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
 	float t = -dot(d, o) + sqrt(radicand);
 	return textureLod(environment, normalize(o + t * d), 0.).rgb;
+	*/
 }
 
 // handy standard applyLights() function at your hands, just copy this into yout applyLights() function
