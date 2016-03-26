@@ -194,3 +194,4 @@ background_c2_center_rt_vec3 vec3(0.43700000000001182343, 0.33600000000001273293
 background_c1_size_rt_float 29.14499999999998181
 background_c1_opacity_rt_float 0.014000000000010004442
 background_c1_center_rt_vec3 vec3(-0.11199999999996636257, 0.089000000000055465299, -1)
+post_vignette_distortion 0

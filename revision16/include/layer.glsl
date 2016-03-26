@@ -46,7 +46,11 @@ MatWrap wLayerEffect(vec3 p) {
 	float pz_main = p.z;
 	pMirrorTrans(pz_main, lay_layer_thickness);
 	MatWrap w_layer_main = wLayer(p.xy, t);
-	w_layer_main.f = opIntersectChamfer(w_layer_main.f, pz_main, .05 * .25);
+	if (lay_disable_chamfer_rt_bool) {
+		w_layer_main.f = max(w_layer_main.f, pz_main);
+	} else {
+		w_layer_main.f = opIntersectChamfer(w_layer_main.f, pz_main, .05 * .25);
+	}
 
 	w_layer_main.f = min(f, w_layer_main.f);
 	w_layer_main.m.misc[2] = i_layer;
