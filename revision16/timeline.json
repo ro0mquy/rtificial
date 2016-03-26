@@ -2163,6 +2163,73 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "land_lighthouse_lamp_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.5604991912841796875,
+        "valueColorG": 0.51139783859252929688,
+        "valueColorB": 0.79691660404205322266
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "land_lighthouse_lamp_glow_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.017000000000052750693
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 808,
+          "sequenceStart": 26500,
+          "sequenceDuration": 4000,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 1500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.13700000000005729817
+              }
+            },
+            {
+              "keyframePosition": 2000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 2500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.13700000000005729817
+              }
+            },
+            {
+              "keyframePosition": 4000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "land_lighthouse_lamp_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.0610000000000354703
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "land_lighthouse_pos_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -2171,10 +2238,36 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "land_mountain_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.3970000000000482032
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "land_mountain_pos_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 59.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "land_tree_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.598941802978515625,
+        "valueColorG": 0.81996369361877441406,
+        "valueColorB": 0.3250370025634765625
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "land_tree_glow_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2530000000000427463
       },
       "sequencesArray": []
     },

@@ -6,3 +6,6 @@ rain_offset_3_rt_float 3.7290000000000418368
 rain_offset_2_rt_float 3.4660000000000081855
 rain_amount_2_rt_float 0.00099999999997635313775
 rain_amount_3_rt_float 0.0049999999999954525265
+bridge_lighthouse_lamp_glow_rt_float 1
+bridge_lighthouse_lamp_intensity_rt_float 1
+land_mountain_color_rt_color vec3(0.2120443880558013916, 0.29321616888046264648, 0.81224149465560913086)

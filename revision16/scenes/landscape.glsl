@@ -5,6 +5,10 @@
 #line 6
 
 float id_f16 = 1;
+float id_lighthouse = 2;
+float id_lighthouse_lamp = 3;
+float id_tree = 4;
+float id_mountain = 5;
 
 float fGuard(vec2 p, float t) {
 	return 0;
@@ -36,19 +40,14 @@ float mountainFbm(float p) {
 	return result / 1.75;
 }
 
-float f2Lighthouse(vec2 p) {
+MatWrap f2Lighthouse(vec2 p) {
 	float f_tower = f2ConeCapped(p, 1, .4, 2.5);
 	vec2 p_stripes = p;
-	float c = 5. / 3;
+	float c = 5/3.;
+	pTrans(p_stripes.y, c * .25);
 	pDomrep(p_stripes.y, c);
 	float f_stripes = abs(p_stripes.y) - c * .25;
-	vec2 p_stripes2 = p;
-	pRot(p_stripes2, radians(30));
-	float c2 = .1;
-	pDomrep(p_stripes2.y, c2 * 1.5);
-	float f_stripes2 = abs(p_stripes2.y) - c2 * .25;
-	f_stripes = min(f_stripes, f_stripes2);
-	f_stripes = max(f_tower, f_stripes);
+	f_stripes = max(f_tower, -f_stripes);
 	f_tower = min(abs(f_tower) -.05, f_stripes);
 	pTrans(p.y, 2.5 + .5);
 	pTrans(p.y, .7);
@@ -65,14 +64,21 @@ float f2Lighthouse(vec2 p) {
 	float f_lamp = f2BoxRounded(p, vec2(.13, .25), .1);
 	f_top = min(f_top, f_lamp);
 	f_tower = min(f_top, f_tower);
-	return f_tower;
+	MatWrap w_tower = MatWrap(f_tower, newMaterialId(id_lighthouse, vec3(p, 0)));
+	w_tower.m.misc.y = abs(f_tower);
+	MatWrap w_lamp = MatWrap(f_lamp, newMaterialId(id_lighthouse_lamp, vec3(p, 0)));
+	w_tower = mUnion(w_tower, w_lamp);
+	return w_tower;
 }
 
-float f2LighthouseWrapper(vec2 p, float t) {
+MatWrap f2LighthouseWrapper(vec2 p, float t) {
 	pTrans(p.y, -lay_frame_dim.y + 1.95);
 	//pTrans(p.x, (lay_frame_dim.x + 1) * (1 - 2 * t));
 	pTrans(p.x, land_lighthouse_pos_rt_float);
-	return f2Lighthouse(p*1.3)/1.3;
+	MatWrap w = f2Lighthouse(p*1.3);
+	w.f /= 1.3;
+	w.m.misc.y /= 1.3;
+	return w;
 }
 
 float pSplit(inout vec2 p, vec2 c, float angle, inout float scale) {
@@ -229,25 +235,32 @@ MatWrap wInner(vec2 p, inout float f_frame, float t) {
 	vec2 p_offset = p;
 	pTrans(p_offset.x, -x_offset);
 
+	MatWrap w_layer = MatWrap(f, layerMaterialId(p_offset, t));
+
+	float f_ground = p_offset.y + lay_frame_dim.y;
+	w_layer.f = min(w_layer.f, f_ground);
+
+	float f_random_stuff = f2RandomStuff(p_offset, t);
+	w_layer.f = min(w_layer.f, f_random_stuff);
+
+	if (t >= lighthouse_start && t < lighthouse_start + lighthouse_duration) {
+		MatWrap w_lighthouse = f2LighthouseWrapper(p_offset, (t - lighthouse_start) / lighthouse_duration);
+		w_layer = mUnion(w_layer, w_lighthouse);
+	}
 	if (t >= tree_start && t < tree_start + tree_duration) {
 		float f_tree = f2Tree(p_offset, (t - tree_start) / tree_duration);
-		f = min(f, f_tree);
-	}
-	if (t >= lighthouse_start && t < lighthouse_start + lighthouse_duration) {
-		float f_lighthouse = f2LighthouseWrapper(p_offset, (t - lighthouse_start) / lighthouse_duration);
-		f = min(f, f_lighthouse);
+		w_layer.f = min(w_layer.f, f_tree);
+		MatWrap w_tree = MatWrap(f_tree, newMaterialId(id_tree, vec3(p, 0)));
+		w_tree.m.misc.y = abs(f_tree);
+		w_layer = mUnion(w_layer, w_tree);
 	}
 	if (t >= mountain_start && t < mountain_start + mountain_duration) {
 		float f_mountain = f2Mountain(p_offset, (t - mountain_start) / mountain_duration);
-		f = min(f, f_mountain);
+		MatWrap w_mountain = MatWrap(f_mountain, newMaterialId(id_mountain, vec3(p, 0)));
+		w_mountain.m.misc.y = abs(f_mountain);
+		w_layer = mUnion(w_layer, w_mountain);
 	}
-	float f_ground = p_offset.y + lay_frame_dim.y;
-	f = min(f, f_ground);
 
-	float f_random_stuff = f2RandomStuff(p_offset, t);
-	f = min(f, f_random_stuff);
-
-	MatWrap w_layer = MatWrap(f, layerMaterialId(p_offset, t));
 	w_layer = mUnion(w_layer, w_f16);
 	return w_layer;
 }
@@ -274,6 +287,16 @@ Material getMaterial(MaterialId materialId) {
 	mat.color = mix(lay_color1_rt_color, lay_color2_rt_color, rand_for_color);
 	if (materialId.id == id_f16) {
 		mOutline(mat, materialId, f16_outline_color_rt_color, f16_outline_intensity_rt_float);
+	} else if (materialId.id == id_lighthouse) {
+		mOutline(mat, materialId, part_glow_color_rt_color, part_glow_intensity_rt_float);
+	} else if (materialId.id == id_lighthouse_lamp) {
+		mat.color = land_lighthouse_lamp_color_rt_color;
+		mat.emission = vec3(land_lighthouse_lamp_intensity_rt_float * land_lighthouse_lamp_glow_rt_float * 1e3);
+		mat.emission *= mat.color;
+	} else if (materialId.id == id_tree) {
+		mOutline(mat, materialId, land_tree_color_rt_color, land_tree_glow_intensity_rt_float);
+	} else if (materialId.id == id_mountain) {
+		mOutline(mat, materialId, rain_drops_color_rt_color, land_mountain_glow_intensity_rt_float);
 	}
 	return mat;
 }
