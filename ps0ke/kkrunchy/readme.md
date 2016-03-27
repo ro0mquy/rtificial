@@ -11,35 +11,22 @@ Usage: `kkrunchy.bat <config>` where `config` is a build configuration, which mi
 ## Versions
 
 ### `bep.exe`
-#### Origin
 BeRoEXEPacker - Version 1.00.2012.04.29, downloaded from bero's website in 2015
 
-#### Track record
-
 ### `kkrnuchy_021.exe`
-#### Origin
 This is a version we got from cupe on deadline14.
-
-#### Track record
-* _electrochromacy_ @ deadline14: *broken*
 
 ### `kkrunchy_023a.exe`
-#### Origin
 Was downloaded from the website in 2014.
-
-### Track record
-* _electrochromacy_ @ deadline14: *broken*
 
 ### `kkrunchy_023a2_k7.exe`
-#### Origin
 Was downloaded from the website in 2014.
 
-### Track record
-* _electrochromacy_ @ deadline14: *broken* (in the final version. It was successful on one of the first debug builds, though)
-
 ### `kkrnuchy_023a4_asm07.exe`
-#### Origin
 This is a version we got from cupe on deadline14.
 
-#### Track record
-* _electrochromacy_ @ deadline14: *successful*
+### Conspiracy
+Conspiracy gave us two modified kkrunchy versions at revision16. The binaries reside in `conspiracy/Tools` and they even provided (probably broken) sourcecode in `conspiracy/Utils`. They supposedly throw an error message when the compressed binary tries to load a missing DLL instead of just dying silently.
+
+* `kkrunchy_023_2014_importhack.exe`
+* `rekkrunchy.exe`
