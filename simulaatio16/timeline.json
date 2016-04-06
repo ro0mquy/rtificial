@@ -207,6 +207,144 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_blur_edges_amount_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 879,
+          "sequenceStart": 0,
+          "sequenceDuration": 2500,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.93000000000006366463
+              }
+            },
+            {
+              "keyframePosition": 875,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": -0.19799999999997908162
+              }
+            },
+            {
+              "keyframePosition": 1000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 30
+              }
+            },
+            {
+              "keyframePosition": 1125,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": -0.096999999999979991117
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 879,
+          "sequenceStart": 8500,
+          "sequenceDuration": 2500,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.3469999999999799911
+              }
+            },
+            {
+              "keyframePosition": 1000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.093000000000074578566
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 879,
+          "sequenceStart": 18500,
+          "sequenceDuration": 500,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": -3.1079999999999472493
+              }
+            },
+            {
+              "keyframePosition": 125,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": -3.1079999999999472493
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "post_blur_edges_n_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 879,
+          "sequenceStart": 18500,
+          "sequenceDuration": 500,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 879,
+          "sequenceStart": 0,
+          "sequenceDuration": 2500,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "post_colorgrading_lift",
       "uniformType": "color",
       "uniformStandardValue": {
