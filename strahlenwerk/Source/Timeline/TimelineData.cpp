@@ -103,12 +103,14 @@ void TimelineData::writeTimelineDataToFile(const File& dataFile) {
 	// to avoid corrupting files
 	TemporaryFile tempFile(dataFile);
 	const std::unique_ptr<FileOutputStream> stream(tempFile.getFile().createOutputStream());
-	if (stream != nullptr) {
-		JSON::writeToStream(*stream, jsonRepresentation);
-		if (tempFile.overwriteTargetFileWithTemporary()) {
-			return;
-		}
-	}
+  if (stream != nullptr) {
+    JSON::writeToStream(*stream, jsonRepresentation);
+    stream->~FileOutputStream();
+    if (tempFile.overwriteTargetFileWithTemporary()) {
+      return;
+    }
+  }
+  throw std::runtime_error("Couldn't write timeline to file");
 	std::cerr << "Couldn't write timeline to file" << std::endl;
 }
 
