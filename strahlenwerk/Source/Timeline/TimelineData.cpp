@@ -110,8 +110,18 @@ void TimelineData::writeTimelineDataToFile(const File& dataFile) {
       return;
     }
   }
-  throw std::runtime_error("Couldn't write timeline to file");
-	std::cerr << "Couldn't write timeline to file" << std::endl;
+
+  // Warning window if file save failed
+  juce::DialogWindow::LaunchOptions warningDialogFileWriteFailed;
+  Component* content = new Component();
+  content->setSize(300, 50);
+  OptionalScopedPointer<Component> contentPtr(content, true);
+  warningDialogFileWriteFailed.dialogTitle = "Writing Timeline failed!";
+  warningDialogFileWriteFailed.content = contentPtr;
+  warningDialogFileWriteFailed.launchAsync();
+
+  //Also console output
+  DBG("Couldn't write timeline to file");
 }
 
 void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
