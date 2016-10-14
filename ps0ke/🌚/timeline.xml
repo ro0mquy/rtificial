@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<timelineTree>
+  <uniformsArray>
+    <uniform uniformName="red" uniformType="float">
+      <uniformStandardValue valueFloatX="0"/>
+      <sequencesArray/>
+    </uniform>
+    <uniform uniformName="foo" uniformType="color">
+      <uniformStandardValue valueColorR="0" valueColorG="0" valueColorB="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="" sequenceStart="15" sequenceDuration="5"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueColorR="0" valueColorG="0" valueColorB="0"/>
+            </keyframe>
+            <keyframe keyframePosition="3">
+              <keyframeValue valueColorR="0" valueColorG="0" valueColorB="0"/>
+            </keyframe>
+            <keyframe keyframePosition="5">
+              <keyframeValue valueColorR="0" valueColorG="0" valueColorB="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
+    <uniform uniformName="camera_position" uniformType="vec3">
+      <uniformStandardValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+      <sequencesArray>
+        <sequence sequenceSceneId="" sequenceStart="5" sequenceDuration="4"
+                  sequenceInterpolation="linear">
+          <keyframesArray>
+            <keyframe keyframePosition="0">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+            <keyframe keyframePosition="4">
+              <keyframeValue valueVec3X="0" valueVec3Y="0" valueVec3Z="0"/>
+            </keyframe>
+          </keyframesArray>
+        </sequence>
+      </sequencesArray>
+    </uniform>
+  </uniformsArray>
+  <scenesArray>
+    <scene sceneId="100" sceneStart="6" sceneDuration="8" sceneShaderSource="dummy100"/>
+    <scene sceneId="101" sceneStart="29" sceneDuration="16" sceneShaderSource="dummy101"/>
+  </scenesArray>
+</timelineTree>
