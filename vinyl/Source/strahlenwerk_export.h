@@ -10,6 +10,7 @@
 #include "shaders/output.h"
 #include "shaders/test.h"
 #include "shaders/test_environment.h"
+#include "shaders/texture_7.h"
 Input output_inputs[1] = {
 	{0, 0},
 };
@@ -22,7 +23,8 @@ Shader scenes[1] = {
 AmbientLight environments[1] = {
 	AmbientLight(test_environment_source),
 };
-Texture textures[0] = {
+Texture textures[1] = {
+	Texture(7, texture_7_source, 1, 1),
 };
 Output input_outputs[2] = {
 	{3, 0, 0},

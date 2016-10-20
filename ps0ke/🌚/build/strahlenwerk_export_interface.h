@@ -11,7 +11,7 @@ extern Shader postproc[1];
 extern Input output_inputs[1];
 extern Shader scenes[1];
 extern AmbientLight environments[1];
-extern Texture textures[0];
+extern Texture textures[1];
 extern Framebuffer fbos[1];
 extern Scene scenes_data[1];
 extern float keyframe_data[233];
