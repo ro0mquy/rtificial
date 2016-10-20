@@ -1,7 +1,7 @@
 #version 430
-layout(location = 64) uniform vec3 color_1_rt_color; // color
-layout(location = 65) uniform vec3 color_0_rt_color; // color
-layout(location = 66) uniform float n_rt_float;
+layout(location = 65) uniform vec3 color_1_rt_color; // color
+layout(location = 66) uniform vec3 color_0_rt_color; // color
+layout(location = 67) uniform float n_rt_float;
 
 #line 2
 
@@ -260,8 +260,8 @@ vec3 hsv2rgb(vec3 c) {
 
 // inactive uniforms lead to crashes (!)
 layout(location = 0) uniform vec2 res;
-layout(location = 67) uniform vec3 camera_position;
-layout(location = 68) uniform float time;
+layout(location = 68) uniform vec3 camera_position;
+layout(location = 64) uniform float time;
 
 out vec4 out_color;
 
