@@ -7,18 +7,13 @@
 #include "Uniform.h"
 #include "AmbientLight.h"
 #include "Texture.h"
-#include "shaders/final.h"
 #include "shaders/output.h"
 #include "shaders/test.h"
 #include "shaders/test_environment.h"
-Input final_inputs[1] = {
+Input output_inputs[1] = {
 	{0, 0},
 };
-Input output_inputs[1] = {
-	{2, 0},
-};
-Shader postproc[2] = {
-	Shader(final_source, 1, final_inputs),
+Shader postproc[1] = {
 	Shader(output_source, 1, output_inputs),
 };
 Shader scenes[1] = {
@@ -33,12 +28,8 @@ Output input_outputs[2] = {
 	{3, 0, 0},
 	{1, 1, 0},
 };
-Output final_outputs[1] = {
-	{3, 2, 0},
-};
-Framebuffer fbos[2] = {
+Framebuffer fbos[1] = {
 	Framebuffer(0, 2, input_outputs),
-	Framebuffer(0, 1, final_outputs),
 };
 Scene scenes_data[1] = {
 	{0, 63500, 0},
@@ -154,11 +145,11 @@ int keyframe_index[7] = {
 	233,
 };
 Uniform uniforms[6] = {
-	{2, 68 },
-	{4, 66 },
+	{2, 67 },
 	{4, 65 },
+	{4, 64 },
 	{4, -1 },
-	{0, 67 },
+	{0, 66 },
 	{0, -1 },
 };
 int keyframe_time[75] = {
