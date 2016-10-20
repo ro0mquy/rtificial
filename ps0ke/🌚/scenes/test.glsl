@@ -5,9 +5,8 @@
 
 // inactive uniforms lead to crashes (!)
 layout(location = 0) uniform vec2 res;
-uniform float red;
-uniform vec3 foo; // color
 uniform vec3 camera_position;
+uniform float time;
 
 out vec4 out_color;
 
