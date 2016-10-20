@@ -2,7 +2,7 @@
 #define RT_COLOR_H
 
 #include <juce>
-#define GLM_SWIZZLE
+#define GLM_FORCE_SWIZZLE
 #include <glm/glm.hpp>
 
 class RtColor {
