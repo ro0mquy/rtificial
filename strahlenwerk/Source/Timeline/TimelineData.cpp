@@ -102,26 +102,26 @@ void TimelineData::writeTimelineDataToFile(const File& dataFile) {
 	// write to a temporary file and replace the original when successful
 	// to avoid corrupting files
 	TemporaryFile tempFile(dataFile);
-	const std::unique_ptr<FileOutputStream> stream(tempFile.getFile().createOutputStream());
-  if (stream != nullptr) {
-    JSON::writeToStream(*stream, jsonRepresentation);
-    stream->~FileOutputStream();
-    if (tempFile.overwriteTargetFileWithTemporary()) {
-      return;
-    }
-  }
+	ScopedPointer<FileOutputStream> stream(tempFile.getFile().createOutputStream());
+	if (stream != nullptr) {
+		JSON::writeToStream(*stream, jsonRepresentation);
+		stream = nullptr; // close stream
+		if (tempFile.overwriteTargetFileWithTemporary()) {
+			return;
+		}
+	}
 
-  // Warning window if file save failed
-  juce::DialogWindow::LaunchOptions warningDialogFileWriteFailed;
-  Component* content = new Component();
-  content->setSize(300, 50);
-  OptionalScopedPointer<Component> contentPtr(content, true);
-  warningDialogFileWriteFailed.dialogTitle = "Writing Timeline failed!";
-  warningDialogFileWriteFailed.content = contentPtr;
-  warningDialogFileWriteFailed.launchAsync();
+	// Warning window if file save failed
+	DialogWindow::LaunchOptions warningDialogFileWriteFailed;
+	Component* content = new Component();
+	content->setSize(300, 50);
+	OptionalScopedPointer<Component> contentPtr(content, true);
+	warningDialogFileWriteFailed.dialogTitle = "Writing Timeline failed!";
+	warningDialogFileWriteFailed.content = contentPtr;
+	warningDialogFileWriteFailed.launchAsync();
 
-  //Also console output
-  DBG("Couldn't write timeline to file");
+	//Also console output
+	DBG("Couldn't write timeline to file");
 }
 
 void TimelineData::addListenerToTree(ValueTree::Listener* listener) {
