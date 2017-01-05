@@ -743,7 +743,8 @@ void Project::reloadAudio() {
 }
 
 void Project::performOpenProject() {
-	FileChooser fileChooser("Entscheide dich gef&auml;lligst!", File::nonexistent, String::empty, false);
+	// last argument (bool): use native file chooser
+	FileChooser fileChooser("Entscheide dich gef&auml;lligst!", File::nonexistent, String::empty, true);
 	if(fileChooser.browseForDirectory()) {
 		auto path = fileChooser.getResult().getFullPathName().toStdString();
 		loadDirectory(path);
