@@ -512,7 +512,7 @@
       "uniformName": "debug_mode",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.51900000000000545697
+        "valueFloatX": 0
       },
       "sequencesArray": []
     },
@@ -748,6 +748,48 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "shad_invert_factor_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 30
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shad_invert_pow_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2190000000000509317
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shad_light_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 5.8480000000000700311,
+        "valueVec3Y": 7.692000000000007276,
+        "valueVec3Z": 5.6080000000000609361
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shad_light_power_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 500
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "shad_softness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 8.0199999999999818101
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
@@ -765,6 +807,15 @@
       "sceneStart": 52750,
       "sceneDuration": 7250,
       "sceneShaderSource": "blasen",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
+      "sceneId": 687,
+      "sceneStart": 124000,
+      "sceneDuration": 52000,
+      "sceneShaderSource": "shadow",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
