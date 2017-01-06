@@ -21,6 +21,9 @@ uniform vec3 post_colorgrading_lift; // color
 uniform vec3 post_colorgrading_gamma; // color
 uniform vec3 post_colorgrading_gain; // color
 
+uniform sampler2D edge; // float
+uniform vec3 post_edge_color; // color
+
 float A = 0.15;
 float B = 0.50;
 float C = 0.10;
@@ -115,4 +118,7 @@ void main() {
 
 	// color grading
 	out_color = pow(max(vec3(0.), post_colorgrading_gain * 2. * (out_color + (2. * post_colorgrading_lift - 1.) * (1. - out_color))), 1./max(post_colorgrading_gamma * 2., 1e-6));
+
+	float edg = textureLod(edge, tc, 0.).x;
+	out_color = mix(out_color, post_edge_color, edg);
 }

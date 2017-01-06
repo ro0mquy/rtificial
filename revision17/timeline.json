@@ -535,7 +535,7 @@
                 "valueQuatX": -0.23992058634757995605,
                 "valueQuatY": 0.39564076066017150879,
                 "valueQuatZ": 0.10787538439035415649,
-                "valueQuatW": 0.87992638349533081055
+                "valueQuatW": 0.87992638349533092157
               }
             },
             {
@@ -557,7 +557,7 @@
                 "valueQuatX": -0.23992058634757995605,
                 "valueQuatY": 0.39564076066017150879,
                 "valueQuatZ": 0.10787538439035415649,
-                "valueQuatW": 0.87992638349533081055
+                "valueQuatW": 0.87992638349533092157
               }
             },
             {
@@ -579,7 +579,7 @@
                 "valueQuatX": -0.23992058634757995605,
                 "valueQuatY": 0.39564076066017150879,
                 "valueQuatZ": 0.10787538439035415649,
-                "valueQuatW": 0.87992638349533081055
+                "valueQuatW": 0.87992638349533092157
               }
             }
           ]
@@ -652,6 +652,14 @@
         "valueVec3X": 0,
         "valueVec3Y": 1,
         "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "edge",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -973,7 +981,7 @@
       "uniformName": "jazz_penta_h_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.4320000000000163709
+        "valueFloatX": 0.43200000000001642642
       },
       "sequencesArray": []
     },
@@ -1247,6 +1255,32 @@
       "uniformType": "bool",
       "uniformStandardValue": {
         "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_edge_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.014310519210994243622,
+        "valueColorG": 0.014310519210994243622,
+        "valueColorB": 0.014310519210994243622
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_edge_nonmax",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_edge_threshold_upper",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.026000000000067302608
       },
       "sequencesArray": []
     },

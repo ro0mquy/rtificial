@@ -14,6 +14,11 @@ ao_blur_v.out_ao ao_blend.ao
 ao_blend.out_color bloom_up_final.color
 ao_blend.out_color bloom_down_1st.color
 
+input.depth edge_sobel.depth
+input.color edge_sobel.color
+edge_sobel.out_gradient edge_nonmax.gradient
+edge_nonmax.out_edge final.edge
+
 bloom_down_1st.out_color bloom_down_2nd.color
 bloom_down_2nd.out_color bloom_down_3rd.color
 bloom_down_3rd.out_color bloom_down_4th.color
