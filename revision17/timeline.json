@@ -509,7 +509,7 @@
             }
           ]
         },
-		{
+        {
           "sequenceSceneId": 509,
           "sequenceStart": 0,
           "sequenceDuration": 44000,
@@ -1804,9 +1804,9 @@
       "keyframeValue": {
       }
     },
-	{
+    {
       "sceneId": 509,
-      "sceneStart": 68000,
+      "sceneStart": 78000,
       "sceneDuration": 44000,
       "sceneShaderSource": "hx",
       "sceneEnvironmentSource": "sky",
