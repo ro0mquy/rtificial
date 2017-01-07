@@ -520,9 +520,9 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": 12.06383514404296875,
-                "valueVec3Y": 13.116006851196289062,
-                "valueVec3Z": 88.12872314453125
+                "valueVec3X": -0.0038890913128852844238,
+                "valueVec3Y": 3.0807154178619384766,
+                "valueVec3Z": 13.904042243957519531
               }
             },
             {
@@ -530,9 +530,9 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": 12.06383514404296875,
-                "valueVec3Y": 13.116006851196289062,
-                "valueVec3Z": 45.415130615234375
+                "valueVec3X": -0.0038890913128852844238,
+                "valueVec3Y": 3.0807154178619384766,
+                "valueVec3Z": -78.858367919921875
               }
             }
           ]
@@ -981,6 +981,50 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "hx_hexarrow_arrow_border_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0,
+        "valueColorG": 1,
+        "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexarrow_arrow_border_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.04000000000007730705
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexarrow_arrow_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0,
+        "valueColorG": 0,
+        "valueColorB": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexarrow_arrow_margin_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.20000000000004547474
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexarrow_arrow_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.20000000000004547474
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "hx_hexarrow_color_border_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -997,6 +1041,16 @@
         "valueColorR": 0,
         "valueColorG": 1,
         "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexarrow_color_outside_border_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.17999999999999999334,
+        "valueColorG": 0.17999999999999999334,
+        "valueColorB": 0.17999999999999999334
       },
       "sequencesArray": []
     },
@@ -1037,10 +1091,150 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "hx_hexarrow_outside_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.17999999999999999334,
+        "valueColorG": 0.17999999999999999334,
+        "valueColorB": 0.17999999999999999334
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "hx_hexarrow_r_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexarrow_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_color_face_border_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0,
+        "valueColorG": 0,
+        "valueColorB": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_color_face_inner_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 1,
+        "valueColorG": 1,
+        "valueColorB": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_color_inside_border_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 1,
+        "valueColorG": 0,
+        "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_color_inside_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.21576438844203948975,
+        "valueColorG": 1,
+        "valueColorB": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_color_outside_outer_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.27157744765281677246,
+        "valueColorG": 0.31118053197860717773,
+        "valueColorB": 0.49361622333526611328
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_color_outside_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0,
+        "valueColorG": 1,
+        "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_color_outside_stripes_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0,
+        "valueColorG": 0,
+        "valueColorB": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_domrep_c_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 6,
+        "valueVec3Y": 1,
+        "valueVec3Z": 15
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_inner_border_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.39999999999997726263
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_offset_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 1,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_outer_border_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.39999999999997726263
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hx_hexrot_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "hxhexarrow_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
       },
       "sequencesArray": []
     },
@@ -1576,9 +1770,9 @@
           ]
         },
         {
-          "sequenceSceneId": 509,
-          "sequenceStart": 0,
-          "sequenceDuration": 44000,
+          "sequenceSceneId": 379,
+          "sequenceStart": 16000,
+          "sequenceDuration": 46000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -1586,7 +1780,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0
+                "valueFloatX": 0.39999999999997726263
               }
             }
           ]
@@ -1681,7 +1875,7 @@
       },
       "sequencesArray": [
         {
-          "sequenceSceneId": 379,
+          "sequenceSceneId": 100,
           "sequenceStart": 0,
           "sequenceDuration": 35000,
           "sequenceInterpolation": "step",
@@ -1895,7 +2089,7 @@
     },
     {
       "sceneId": 379,
-      "sceneStart": 62000,
+      "sceneStart": 60000,
       "sceneDuration": 16000,
       "sceneShaderSource": "mandala",
       "sceneEnvironmentSource": "sky",
