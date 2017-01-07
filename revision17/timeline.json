@@ -520,7 +520,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": -0.0038890913128852844238,
+                "valueVec3X": -0.0038890913128852848575,
                 "valueVec3Y": 3.0807154178619384766,
                 "valueVec3Z": 13.904042243957519531
               }
@@ -530,7 +530,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": -0.0038890913128852844238,
+                "valueVec3X": -0.0038890913128852848575,
                 "valueVec3Y": 3.0807154178619384766,
                 "valueVec3Z": -78.858367919921875
               }
@@ -728,7 +728,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueQuatX": -0.13799156248569488525,
-                "valueQuatY": 0.19373358786106109619,
+                "valueQuatY": 0.19373358786106112395,
                 "valueQuatZ": 0.027534540742635726929,
                 "valueQuatW": 0.97091001272201538086
               }
@@ -762,12 +762,83 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "cyc_color_2_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.027755279093980789185,
+        "valueColorG": 0.069727085530757904053,
+        "valueColorB": 0.1247409433126449585
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "cyc_color_circle_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.76674365997314453125,
+        "valueColorG": 0.31118053197860717773,
+        "valueColorB": 0.22713655233383178711
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "cyc_color_ground_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.35865390300750732422,
+        "valueColorG": 1,
+        "valueColorB": 0.81996369361877441406
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "cyc_domrep_angle_num_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 9
+        "valueFloatX": 4
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 0,
+          "sequenceDuration": 15875,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 5
+              }
+            },
+            {
+              "keyframePosition": 4500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 8
+              }
+            },
+            {
+              "keyframePosition": 7500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 4
+              }
+            },
+            {
+              "keyframePosition": 10875,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 20
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "cyc_domrep_angle_r_rt_float",
@@ -832,56 +903,7 @@
       "uniformStandardValue": {
         "valueFloatX": 0
       },
-      "sequencesArray": [
-        {
-          "sequenceSceneId": 379,
-          "sequenceStart": 0,
-          "sequenceDuration": 16000,
-          "sequenceInterpolation": "ccrSpline",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            },
-            {
-              "keyframePosition": 11500,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueFloatX": 0.13499999999999090505
-              }
-            },
-            {
-              "keyframePosition": 12500,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueFloatX": 0.23900000000003271405
-              }
-            },
-            {
-              "keyframePosition": 14500,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueFloatX": -0.019000000000005456968
-              }
-            },
-            {
-              "keyframePosition": 16000,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueFloatX": 0
-              }
-            }
-          ]
-        }
-      ]
+      "sequencesArray": []
     },
     {
       "uniformName": "cyc_trans_inner_rt_vec2",
@@ -1162,7 +1184,7 @@
       "uniformStandardValue": {
         "valueColorR": 0.27157744765281677246,
         "valueColorG": 0.31118053197860717773,
-        "valueColorB": 0.49361622333526611328
+        "valueColorB": 0.49361622333526605777
       },
       "sequencesArray": []
     },
@@ -1683,6 +1705,38 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "jibjab_grid_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jibjab_pyramid_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jibjab_pyramid_phi_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jibjab_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "main_marching_distance",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1955,6 +2009,13 @@
         "valueFloatX": 0.5
       },
       "sequencesArray": [
+        {
+          "sequenceSceneId": 379,
+          "sequenceStart": 2500,
+          "sequenceDuration": 16500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": []
+        },
         {
           "sequenceSceneId": 704,
           "sequenceStart": 0,
