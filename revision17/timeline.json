@@ -554,6 +554,24 @@
               }
             }
           ]
+        },
+        {
+          "sequenceSceneId": 978,
+          "sequenceStart": 2000,
+          "sequenceDuration": 13000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec3X": 21.584817886352539062,
+                "valueVec3Y": 15.868284225463867188,
+                "valueVec3Z": 19.574571609497070312
+              }
+            }
+          ]
         }
       ]
     },
@@ -694,6 +712,25 @@
                 "valueQuatY": 0.23077408969402313232,
                 "valueQuatZ": 0.057617373764514923096,
                 "valueQuatW": -0.94237351417541503906
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 978,
+          "sequenceStart": 2000,
+          "sequenceDuration": 13000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": -0.13799156248569488525,
+                "valueQuatY": 0.19373358786106109619,
+                "valueQuatZ": 0.027534540742635726929,
+                "valueQuatW": 0.97091001272201538086
               }
             }
           ]
@@ -1783,6 +1820,67 @@
         "valueFloatX": 8.0199999999999818101
       },
       "sequencesArray": []
+    },
+    {
+      "uniformName": "star_krist_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.84300000000007457857
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "star_loco_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 5.8680000000000518412,
+        "valueVec3Y": 6.3680000000000518412,
+        "valueVec3Z": 7.0199999999999818101
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "star_mirror_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -10.256999999999948159,
+        "valueVec3Y": 2.2939999999999827196,
+        "valueVec3Z": -16.456999999999993634
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "star_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.8200000000000500222
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 978,
+          "sequenceStart": 2000,
+          "sequenceDuration": 13000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.14300000000002910383
+              }
+            },
+            {
+              "keyframePosition": 13000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.5
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "scenesArray": [
@@ -1827,6 +1925,15 @@
       "sceneStart": 124000,
       "sceneDuration": 52000,
       "sceneShaderSource": "shadow",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
+      "sceneId": 978,
+      "sceneStart": 176000,
+      "sceneDuration": 20000,
+      "sceneShaderSource": "star",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }

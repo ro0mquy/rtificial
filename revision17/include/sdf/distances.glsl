@@ -115,6 +115,11 @@ float f2BoxEdge(vec2 p, float r) {
 	return f2BoxEdge(p, vec2(r));
 }
 
+// generic box
+// need to define func_box_1(q) first and undefine afterwards
+// p, q and r must be of the same type
+#define fBoxGeneric(p, r) func_box_1(abs(p) - r)
+
 float fPlane(vec3 p, vec3 n) {
 	// n must be normalized
 	return dot(p, n);
@@ -293,6 +298,12 @@ float fTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
 
 	return fSphere(p, rSmall);
 }
+
+// generic torus
+// need to define func_torus_1(q) and func_torus_2(q) first and undefine afterwards
+// p must be a vec3
+// q must be a vec2
+#define fTorusGeneric(p) func_torus_2(vec2(func_torus_1(p.xz), p.y))
 
 // n is plane normal and must be normalized
 float fCone(vec3 p, vec2 n) {
