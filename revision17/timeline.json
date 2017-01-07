@@ -2136,6 +2136,79 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "ext_extrude_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.0020000000000663931132
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_extrude_h_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 50
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_obj_loco_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.3390000000000554792
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_obj_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6.2839999999999918145
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.3240000000000691216
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 139,
+          "sequenceStart": 500,
+          "sequenceDuration": 22500,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 22500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "ext_torus_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.34900000000004638423
+      },
+      "sequencesArray": []
     }
   ],
   "scenesArray": [
@@ -2144,6 +2217,15 @@
       "sceneStart": 0,
       "sceneDuration": 35000,
       "sceneShaderSource": "jazz",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
+      "sceneId": 139,
+      "sceneStart": 196000,
+      "sceneDuration": 24000,
+      "sceneShaderSource": "extruder",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
