@@ -54,6 +54,10 @@ File ProjectFileLoader::getEnvelopeFile() const {
 	return projectDir.getChildFile("envelopes.out");
 }
 
+File ProjectFileLoader::getBpmFile() const {
+	return projectDir.getChildFile("bpm.bpm");
+}
+
 File ProjectFileLoader::getBakeFile() const {
 	return projectDir.getChildFile("uniforms.baked");
 }

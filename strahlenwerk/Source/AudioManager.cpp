@@ -63,12 +63,28 @@ void AudioManager::loadFile(const File& audioFile) {
 }
 
 void AudioManager::loadEnvelopes(const File& envelopeFile) {
-	if(envelopeFile.exists()) {
+	if(envelopeFile.existsAsFile()) {
 		const std::unique_ptr<FileInputStream> stream(envelopeFile.createInputStream());
 		envelopeData = std::unique_ptr<float>(new float[stream->getTotalLength() / sizeof(float)]);
 		envelopesSize = stream->getTotalLength() / sizeof(float);
 		stream->read(&(*envelopeData), stream->getTotalLength());
 	}
+}
+
+void AudioManager::loadBpm(const File& bpmFile) {
+	if(not bpmFile.existsAsFile()) {
+		DBG("BPM file (./bpm.bpm) not found");
+		return;
+	}
+
+	const String bpmAsString = bpmFile.loadFileAsString();
+	const int bpmAsInt = bpmAsString.getIntValue();
+	if (bpmAsInt < 0) {
+		DBG("BPM from file not a valid value");
+		return;
+	}
+
+	bpm = (unsigned int) bpmAsInt;
 }
 
 void AudioManager::togglePlayPause() {
@@ -127,8 +143,8 @@ AudioThumbnail& AudioManager::getThumbnail() {
 	return thumbnail;
 }
 
-int AudioManager::getBpm() {
-	return 125;
+unsigned int AudioManager::getBpm() {
+	return bpm;
 }
 
 void AudioManager::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {

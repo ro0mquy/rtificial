@@ -17,6 +17,7 @@ class ProjectFileLoader {
 		File getTimelineDataFile() const;
 		File getAudioFile() const;
 		File getEnvelopeFile() const;
+		File getBpmFile() const;
 		File getBakeFile() const;
 
 		const File& getProjectDir() const;

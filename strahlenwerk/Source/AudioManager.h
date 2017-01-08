@@ -16,6 +16,7 @@ class AudioManager :
 
 		void loadFile(const File& audioFile);
 		void loadEnvelopes(const File& envelopeFile);
+		void loadBpm(const File& bpmFile);
 		void togglePlayPause();
 		void performMute();
 		int getTime();
@@ -24,7 +25,7 @@ class AudioManager :
 		bool isPlaying();
 
 		AudioThumbnail& getThumbnail();
-		int getBpm();
+		unsigned int getBpm();
 
 		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
 		void applicationCommandListChanged() override;
@@ -58,6 +59,8 @@ class AudioManager :
 
 		std::unique_ptr<float> envelopeData;
 		int envelopesSize = 0;
+
+		unsigned int bpm = 0;
 };
 
 #endif

@@ -586,7 +586,7 @@ void Project::handleFileAction(
 	        || (changedFile == loader.getBakeFile())
 	) {
 		reloadShaders();
-	} else if (changedFile == loader.getAudioFile()) {
+	} else if (changedFile == loader.getAudioFile() || changedFile == loader.getEnvelopeFile() || changedFile == loader.getBpmFile()) {
 		reloadAudio();
 	} else if (changedFile.isAChildOf(loader.getTexturesDir())) {
 		reloadTextures();
@@ -740,6 +740,7 @@ void Project::reloadTimelineData() {
 void Project::reloadAudio() {
 	audioManager.loadFile(loader.getAudioFile());
 	audioManager.loadEnvelopes(loader.getEnvelopeFile());
+	audioManager.loadBpm(loader.getBpmFile());
 }
 
 void Project::performOpenProject() {
