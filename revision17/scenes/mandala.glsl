@@ -36,6 +36,8 @@ float fScene(vec3 p) {
 	pTrans(p_cyl.xz, mand_trans_inner_rt_vec2);
 
 	// distance function geschwurbel
+	pRotX(p_cyl, 2. * mand_rot_3D_rt_float * Tau);
+	pRotZ(p_cyl,      mand_rot_3D_rt_float * Tau);
 	float f_cyl = f2Box(p_cyl.zx, 1., 2.*Golden_Ratio);
 	float c_distfunc = pDomrepInterval(f_cyl, mand_f_domrep_rt_float, 0., 1.);
 	f_cyl = f2Box(vec2(f_cyl, p_cyl.y), mand_f_thickness_rt_float);
