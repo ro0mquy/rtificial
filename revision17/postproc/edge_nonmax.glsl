@@ -9,6 +9,7 @@
  * Performs non-maximum suppression on sobel-filtered data.
  */
 
+uniform bool post_disable_edge;
 uniform sampler2D gradient; // vec2
 
 uniform float post_edge_threshold_upper;
@@ -18,6 +19,10 @@ uniform bool post_edge_nonmax;
 out float out_edge;
 
 void main() {
+	if (post_disable_edge) {
+		out_edge = 0.;
+		return;
+	}
 	vec2 grad = textureLod(gradient, tc, 0.).xy;
 	float g = grad.x;
 	float theta = grad.y;

@@ -2926,6 +2926,31 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "post_disable_edge",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 100,
+          "sequenceStart": 0,
+          "sequenceDuration": 35000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueBoolState": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "post_disable_grain",
       "uniformType": "bool",
       "uniformStandardValue": {
@@ -2963,7 +2988,7 @@
       "uniformName": "post_edge_threshold_upper",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1000
+        "valueFloatX": 0.026000000000067302608
       },
       "sequencesArray": [
         {

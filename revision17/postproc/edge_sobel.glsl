@@ -9,6 +9,7 @@
  * Performs kernel convolution analogous to Sobel.
  */
 
+uniform bool post_disable_edge;
 uniform sampler2D color; // vec3
 uniform sampler2D depth; // float
 
@@ -22,6 +23,10 @@ const mat3 sobel_x = transpose(mat3(
 const mat3 sobel_y = transpose(sobel_x);
 
 void main() {
+	if (post_disable_edge) {
+		out_gradient = vec2(0.);
+		return;
+	}
 	vec2 dist = 1/res;
 	float lum_sum_x = 0.;
 	float lum_sum_y = 0.;
