@@ -98,6 +98,8 @@ bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*origi
 		stopTimerCallback();
 	}
 
+	/*
+	// more code for shift mouse control in mouseMove(), mouseDrag()
 	const bool isShiftDown = ModifierKeys::getCurrentModifiers().isAltDown(); // if you change the modifier, also have a look into timerCallback()
 	if (!shiftDraggingActive && isShiftDown) {
 		// shift key is down
@@ -110,6 +112,7 @@ bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*origi
 		Desktop::getInstance().removeGlobalMouseListener(this);
 		stopMouseDragging();
 	}
+	// */
 
 	return false;
 }
