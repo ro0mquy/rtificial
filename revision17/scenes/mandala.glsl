@@ -14,24 +14,41 @@ float pDomrepGridOnlyX(inout vec2 p, float c) {
 }
 
 float fScene(vec3 p) {
+	// domain geschwurbel
 	vec3 p_cyl = p;
-	float atan_cyl = atan(p_cyl.x, p_cyl.z) + Tau * cyc_rot_global_rt_float;
-	float c_circle = pDomrepAngleWithAtan(p_cyl.zx, cyc_domrep_angle_num_rt_float, cyc_domrep_angle_r_rt_float, atan_cyl);
+
+	pRotY(p_cyl, Tau * cyc_rot_global_rt_float);
+
+	// domrep angle
+	if (cyc_mix_circle_enable_rt_bool) {
+		pTrans(p_cyl.z, - cyc_domrep_angle_r_rt_float / cyc_mix_circle_rt_float);
+	}
+	float c_circle = pDomrepAngle(p_cyl.zx, cyc_domrep_angle_num_rt_float * cyc_mix_circle_rt_float, cyc_domrep_angle_r_rt_float / cyc_mix_circle_rt_float);
+
 	pTrans(p_cyl.x, 4.);
+
+	// grid domrep
+	vec3 q_grid = p_cyl;
 	float c_grid = pDomrepGridOnlyX(p_cyl.xz, 8.);
+	p_cyl = mix(q_grid, p_cyl, cyc_mix_grid_rt_float);
+
 	pRotY(p_cyl, Tau * cyc_rot_cell_rt_float);
 	pTrans(p_cyl.xz, cyc_trans_inner_rt_vec2);
 
+	// distance function geschwurbel
 	float f_cyl = f2Box(p_cyl.zx, 1., 2.*Golden_Ratio);
 	float c_distfunc = pDomrepInterval(f_cyl, cyc_f_domrep_rt_float, 0., 1.);
 	f_cyl = f2Box(vec2(f_cyl, p_cyl.y), cyc_f_thickness_rt_float);
 
+	// material
 	MatWrap w_cyl = MatWrap(f_cyl, MaterialId(mat_id_cyc, p_cyl, vec4(c_circle, c_grid, c_distfunc, 0.)));
 
+	// ground plane
 	float f_plane = p.y;
 	MatWrap w_plane = MatWrap(f_plane, newMaterialId(mat_id_plane, p));
 
 	MatWrap w = mUnion(w_cyl, w_plane);
+	w = w_cyl;
 	mUnion(w);
 	return w.f;
 }

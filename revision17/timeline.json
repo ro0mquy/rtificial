@@ -741,7 +741,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueQuatX": 0.087327495217323303223,
+                "valueQuatX": 0.087327495217323289345,
                 "valueQuatY": 0.53198546171188354492,
                 "valueQuatZ": -0.05527809634804725647,
                 "valueQuatW": 0.84042245149612426758
@@ -1371,6 +1371,30 @@
       ]
     },
     {
+      "uniformName": "cyc_mix_circle_enable_rt_bool",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "cyc_mix_circle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "cyc_mix_grid_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "cyc_rot_cell_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1573,7 +1597,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.24599999999998090061
+                "valueFloatX": 0.24599999999998087286
               }
             },
             {
@@ -1589,7 +1613,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.38307029008865356445
+                "valueFloatX": 0.38307029008865361996
               }
             },
             {
