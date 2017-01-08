@@ -1216,7 +1216,24 @@
         "valueVec3Y": 1,
         "valueVec3Z": 15
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 192,
+          "sequenceStart": 0,
+          "sequenceDuration": 26000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": -6.2099999999999795364
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "hx_hexrot_inner_border_rt_float",
@@ -1586,7 +1603,7 @@
       "uniformName": "jazz_penta_outside_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 1.0000000000000208722
       },
       "sequencesArray": [
         {
@@ -1737,6 +1754,161 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "interpol_t_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_cone_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.2990000000000208047
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_hex_grid_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.8000000000000211386
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_hex_rot_rt_quat",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": 0.15816558897495269775,
+        "valueQuatY": 0.050513342022895812988,
+        "valueQuatZ": -0.42600896954536437988,
+        "valueQuatW": -0.88930773735046386719
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 972,
+          "sequenceStart": 1000,
+          "sequenceDuration": 21500,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 3000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": -0.50729203224182128906,
+                "valueQuatY": -0.3502794802188873291,
+                "valueQuatZ": -0.28893068432807922363,
+                "valueQuatW": -0.7323880195617674671
+              }
+            },
+            {
+              "keyframePosition": 8000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": 0.5342686772346496582,
+                "valueQuatY": -0.57558172941207885742,
+                "valueQuatZ": 0.58190715312957763672,
+                "valueQuatW": -0.21109679341316223145
+              }
+            },
+            {
+              "keyframePosition": 11500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": -0.42195054888725280762,
+                "valueQuatY": -0.59286826848983764648,
+                "valueQuatZ": 0.29342049360275268555,
+                "valueQuatW": -0.61990678310394287109
+              }
+            },
+            {
+              "keyframePosition": 16500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueQuatX": -0.026765603572130203247,
+                "valueQuatY": 0.89579719305038452148,
+                "valueQuatZ": 0.13480587303638458252,
+                "valueQuatW": -0.42257326841354370117
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "jas_loco_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.8690000000000208669
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_ray_grid_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.0790000000000210534
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_ray_mirror_offset_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.76700000000002099831,
+        "valueVec2Y": 1.3310000000000208331
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_ray_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.2240000000000208491
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_repeat_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.7370000000000209717
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_roid_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.67304909229278564453,
+        "valueColorG": 0.22713655233383178711,
+        "valueColorB": 0.020951131358742710459
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_roid_l_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.7550000000000207656
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "jas_roid_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.9680000000000208438
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "main_marching_distance",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1746,6 +1918,22 @@
     },
     {
       "uniformName": "main_normal_epsilon_bias",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "obszenchen_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "obszenchen_rot_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
@@ -2249,6 +2437,15 @@
       }
     },
     {
+      "sceneId": 658,
+      "sceneStart": 232000,
+      "sceneDuration": 18000,
+      "sceneShaderSource": "obszenchen",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
       "sceneId": 704,
       "sceneStart": 38000,
       "sceneDuration": 22000,
@@ -2271,6 +2468,15 @@
       "sceneStart": 176000,
       "sceneDuration": 20000,
       "sceneShaderSource": "star",
+      "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
+      "sceneId": 972,
+      "sceneStart": 266000,
+      "sceneDuration": 24000,
+      "sceneShaderSource": "jas",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
