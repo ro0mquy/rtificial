@@ -1122,6 +1122,39 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "ext_trans_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 705,
+          "sequenceStart": 39000,
+          "sequenceDuration": 68000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 68000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "uniformName": "mand_color_2_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
