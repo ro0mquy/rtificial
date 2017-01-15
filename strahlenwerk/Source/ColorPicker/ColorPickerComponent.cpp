@@ -8,15 +8,18 @@ ColorPickerComponent::ColorPickerComponent(Value& colorR_, Value& colorG_, Value
 	colorR(colorR_),
 	colorG(colorG_),
 	colorB(colorB_),
-	hsvSelector(ColourSelector::showSliders | ColourSelector::showColourspace)
+	hsvSelector(ColourSelector::showSliders | ColourSelector::showColourspace),
+	rtSelector()
 {
 	setOutline(0);
+	addTab("HCY", findColour(ColorPickerComponent::tabBackgroundColourId), &rtSelector, false);
 	addTab("HSV & RGB", findColour(ColorPickerComponent::tabBackgroundColourId), &hsvSelector, false);
 	addTab("Text", findColour(ColorPickerComponent::tabBackgroundColourId), &textSelector, false);
 
 	updateSelectors();
 
 	hsvSelector.addChangeListener(this);
+	rtSelector.addChangeListener(this);
 	textSelector.addChangeListener(this);
 
 	colorR.addListener(this);
@@ -26,6 +29,7 @@ ColorPickerComponent::ColorPickerComponent(Value& colorR_, Value& colorG_, Value
 
 ColorPickerComponent::~ColorPickerComponent() {
 	hsvSelector.removeChangeListener(this);
+	rtSelector.removeChangeListener(this);
 	textSelector.removeChangeListener(this);
 
 	colorR.removeListener(this);
@@ -51,6 +55,8 @@ void ColorPickerComponent::valueChanged(Value& /*value*/) {
 void ColorPickerComponent::changeListenerCallback(ChangeBroadcaster* source) {
 	if (source == &hsvSelector) {
 		getHsvSelector();
+	} else if (source == &rtSelector) {
+		getRtSelector();
 	} else if (source == &textSelector) {
 		getTextSelector();
 	}
@@ -61,6 +67,8 @@ void ColorPickerComponent::updateSelectors() {
 
 	if (currentComp == &hsvSelector) {
 		setHsvSelector();
+	} else if (currentComp == &rtSelector) {
+		setRtSelector();
 	} else if (currentComp == &textSelector) {
 		setTextSelector();
 	}
@@ -84,6 +92,20 @@ void ColorPickerComponent::setHsvSelector() {
 	hsvSelector.setCurrentColour(Colour(rInt, gInt, bInt));
 }
 
+void ColorPickerComponent::setRtSelector() {
+	float r = colorR.getValue();
+	float g = colorG.getValue();
+	float b = colorB.getValue();
+
+	// perform gamma correction
+	// TODO: real srgb conversion
+	r = std::pow(r, 1.f/2.2f);
+	g = std::pow(g, 1.f/2.2f);
+	b = std::pow(b, 1.f/2.2f);
+
+	rtSelector.setCurrentColor(RtColor(r, g, b));
+}
+
 void ColorPickerComponent::setTextSelector() {
 	const float r = colorR.getValue();
 	const float g = colorG.getValue();
@@ -100,6 +122,16 @@ void ColorPickerComponent::getHsvSelector() {
 	colorR = std::pow(rgb.getFloatRed(), 2.2f);
 	colorG = std::pow(rgb.getFloatGreen(), 2.2f);
 	colorB = std::pow(rgb.getFloatBlue(), 2.2f);
+}
+
+void ColorPickerComponent::getRtSelector() {
+	const RtColor rgb = rtSelector.getCurrentColor();
+
+	// perform gamma correction
+	// TODO: real srgb conversion
+	colorR = std::pow(rgb.getRed(), 2.2f);
+	colorG = std::pow(rgb.getGreen(), 2.2f);
+	colorB = std::pow(rgb.getBlue(), 2.2f);
 }
 
 void ColorPickerComponent::getTextSelector() {

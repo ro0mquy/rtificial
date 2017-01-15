@@ -68,8 +68,11 @@ const glm::vec3 RtColor::HCYWeights = glm::vec3(0.2126f, 0.7152f, 0.0722f);
 
 RtColor RtColor::fromHCY(float hue, float chroma, float luma) {
 	jassert(hue >= 0.0f && hue <= 1.0f);
+	hue = jlimit(0.0f, 1.0f, hue);
 	jassert(chroma >= 0.0f && chroma <= 1.0f);
+	chroma = jlimit(0.0f, 1.0f, chroma);
 	jassert(luma >= 0.0f && luma <= 1.0f);
+	luma = jlimit(0.0f, 1.0f, luma);
 
 	glm::vec3 hcy(hue, chroma, luma);
 	glm::vec3 rgb = hueToRGB(hue);
@@ -214,4 +217,15 @@ String RtColor::toHexString(bool includeAlpha) const {
 
 Colour RtColor::toJuceColour() const {
 	return Colour::fromFloatRGBA(red, green, blue, alpha);
+}
+
+bool operator==(const RtColor &color1, const RtColor &color2) {
+	return color1.red   == color2.red
+		&& color1.green == color2.green
+		&& color1.blue  == color2.blue
+		&& color1.alpha == color2.alpha;
+}
+
+bool operator!=(const RtColor &color1, const RtColor &color2) {
+	return !(color1 == color2);
 }

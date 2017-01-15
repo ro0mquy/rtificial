@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="gxTjTP" name="strahlenwerk" projectType="guiapp" version=""
               bundleIdentifier="org.rtificial.strahlenwerk" includeBinaryInAppConfig="1"
-              jucerVersion="4.2.1" companyName="rtificial" companyWebsite="http://rtificial.org/"
+              jucerVersion="4.3.0" companyName="rtificial" companyWebsite="http://rtificial.org/"
               defines="JUCE_DONT_ASSERT_ON_GLSL_COMPILE_ERROR&#10;GLM_FORCE_RADIANS"
               companyEmail="mail@rtificial.org">
   <MAINGROUP id="NF53ab" name="strahlenwerk">
@@ -16,6 +16,10 @@
               file="Source/ColorPicker/ColorTextInputComponent.cpp"/>
         <FILE id="be0EpF" name="ColorTextInputComponent.h" compile="0" resource="0"
               file="Source/ColorPicker/ColorTextInputComponent.h"/>
+        <FILE id="BuymSr" name="RtColorSelector.cpp" compile="1" resource="0"
+              file="Source/ColorPicker/RtColorSelector.cpp"/>
+        <FILE id="zZGwtq" name="RtColorSelector.h" compile="0" resource="0"
+              file="Source/ColorPicker/RtColorSelector.h"/>
       </GROUP>
       <GROUP id="{2F8C8947-A000-8782-DCEE-325B39EF8569}" name="Project">
         <FILE id="Cwvro6" name="FileWatchMessageThreadListener.cpp" compile="1"

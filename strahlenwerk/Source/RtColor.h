@@ -39,6 +39,9 @@ class RtColor {
 		Colour toJuceColour() const;
 		operator Colour() const { return toJuceColour(); }
 
+		friend bool operator==(const RtColor &color1, const RtColor &color2);
+		friend bool operator!=(const RtColor &color1, const RtColor &color2);
+
 	private:
 		float red;
 		float green;

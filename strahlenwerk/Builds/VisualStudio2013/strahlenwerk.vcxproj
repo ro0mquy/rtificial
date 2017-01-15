@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\ColorPicker\ColorPickerComponent.cpp"/>
     <ClCompile Include="..\..\Source\ColorPicker\ColorTextInputComponent.cpp"/>
+    <ClCompile Include="..\..\Source\ColorPicker\RtColorSelector.cpp"/>
     <ClCompile Include="..\..\Source\Project\FileWatchMessageThreadListener.cpp"/>
     <ClCompile Include="..\..\Source\Project\Project.cpp"/>
     <ClCompile Include="..\..\Source\Project\ProjectFileLoader.cpp"/>
@@ -195,6 +196,9 @@
     <ClCompile Include="..\..\Source\RtImage.cpp"/>
     <ClCompile Include="..\..\Source\ScreenRecorder.cpp"/>
     <ClCompile Include="..\..\Source\StrahlenwerkApplication.cpp"/>
+    <ClCompile Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -285,9 +289,6 @@
     <ClCompile Include="..\..\juce_modules\juce_audio_basics\juce_audio_basics.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\juce_modules\juce_audio_devices\audio_cd\juce_AudioCDReader.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_devices\audio_io\juce_AudioDeviceManager.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -318,9 +319,6 @@
     <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_linux_ALSA.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_linux_AudioCDReader.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_linux_JackAudio.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -334,12 +332,6 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_win32_ASIO.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_win32_AudioCDBurner.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_win32_AudioCDReader.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_devices\native\juce_win32_DirectSound.cpp">
@@ -546,9 +538,6 @@
     <ClCompile Include="..\..\juce_modules\juce_audio_processors\format_types\juce_VSTPluginFormat.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\juce_modules\juce_audio_processors\processors\juce_AudioChannelSet.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_processors\processors\juce_AudioProcessor.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -582,6 +571,9 @@
     <ClCompile Include="..\..\juce_modules\juce_audio_processors\juce_audio_processors.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_utils\audio_cd\juce_AudioCDReader.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioAppComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -603,13 +595,25 @@
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\native\juce_android_BluetoothMidiDevicePairingDialogue.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_utils\native\juce_linux_AudioCDReader.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\native\juce_linux_BluetoothMidiDevicePairingDialogue.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\native\juce_win_BluetoothMidiDevicePairingDialogue.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_utils\native\juce_win32_AudioCDBurner.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_utils\native\juce_win32_AudioCDReader.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\players\juce_AudioProcessorPlayer.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_audio_utils\players\juce_SoundPlayer.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_audio_utils\juce_audio_utils.cpp">
@@ -1392,6 +1396,9 @@
     <ClCompile Include="..\..\juce_modules\juce_gui_basics\layout\juce_ConcertinaPanel.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\juce_modules\juce_gui_basics\layout\juce_FlexBox.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\juce_modules\juce_gui_basics\layout\juce_GroupComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1727,6 +1734,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\ColorPicker\ColorPickerComponent.h"/>
     <ClInclude Include="..\..\Source\ColorPicker\ColorTextInputComponent.h"/>
+    <ClInclude Include="..\..\Source\ColorPicker\RtColorSelector.h"/>
     <ClInclude Include="..\..\Source\Project\FileWatchMessageThreadListener.h"/>
     <ClInclude Include="..\..\Source\Project\Project.h"/>
     <ClInclude Include="..\..\Source\Project\ProjectFileLoader.h"/>
@@ -1798,6 +1806,7 @@
     <ClInclude Include="..\..\Source\RtImage.h"/>
     <ClInclude Include="..\..\Source\ScreenRecorder.h"/>
     <ClInclude Include="..\..\Source\StrahlenwerkApplication.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>
@@ -1835,8 +1844,6 @@
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\synthesisers\juce_Synthesiser.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\juce_audio_basics.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_basics\juce_audio_basics.h"/>
-    <ClInclude Include="..\..\juce_modules\juce_audio_devices\audio_cd\juce_AudioCDBurner.h"/>
-    <ClInclude Include="..\..\juce_modules\juce_audio_devices\audio_cd\juce_AudioCDReader.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_devices\audio_io\juce_AudioDeviceManager.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_devices\audio_io\juce_AudioIODevice.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_devices\audio_io\juce_AudioIODeviceType.h"/>
@@ -1951,14 +1958,16 @@
     <ClInclude Include="..\..\juce_modules\juce_audio_formats\juce_audio_formats.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\format\juce_AudioPluginFormat.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\format\juce_AudioPluginFormatManager.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_AU_Shared.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_AudioUnitPluginFormat.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_LADSPAPluginFormat.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_VST3Common.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_VST3Headers.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_VST3PluginFormat.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_VSTCommon.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_VSTInterface.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_VSTMidiEventList.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\format_types\juce_VSTPluginFormat.h"/>
-    <ClInclude Include="..\..\juce_modules\juce_audio_processors\processors\juce_AudioChannelSet.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\processors\juce_AudioPlayHead.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\processors\juce_AudioPluginInstance.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\processors\juce_AudioProcessor.h"/>
@@ -1979,6 +1988,8 @@
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\utilities\juce_AudioProcessorValueTreeState.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\juce_audio_processors.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_processors\juce_audio_processors.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_utils\audio_cd\juce_AudioCDBurner.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_utils\audio_cd\juce_AudioCDReader.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioAppComponent.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioDeviceSelectorComponent.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_AudioThumbnail.h"/>
@@ -1988,6 +1999,7 @@
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_BluetoothMidiDevicePairingDialogue.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\gui\juce_MidiKeyboardComponent.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\players\juce_AudioProcessorPlayer.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_audio_utils\players\juce_SoundPlayer.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\juce_audio_utils.h"/>
     <ClInclude Include="..\..\juce_modules\juce_audio_utils\juce_audio_utils.h"/>
     <ClInclude Include="..\..\juce_modules\juce_core\containers\juce_AbstractFifo.h"/>
@@ -2265,6 +2277,8 @@
     <ClInclude Include="..\..\juce_modules\juce_gui_basics\layout\juce_ComponentBuilder.h"/>
     <ClInclude Include="..\..\juce_modules\juce_gui_basics\layout\juce_ComponentMovementWatcher.h"/>
     <ClInclude Include="..\..\juce_modules\juce_gui_basics\layout\juce_ConcertinaPanel.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_gui_basics\layout\juce_FlexBox.h"/>
+    <ClInclude Include="..\..\juce_modules\juce_gui_basics\layout\juce_FlexItem.h"/>
     <ClInclude Include="..\..\juce_modules\juce_gui_basics\layout\juce_GroupComponent.h"/>
     <ClInclude Include="..\..\juce_modules\juce_gui_basics\layout\juce_MultiDocumentPanel.h"/>
     <ClInclude Include="..\..\juce_modules\juce_gui_basics\layout\juce_ResizableBorderComponent.h"/>

@@ -4,6 +4,7 @@
 #include <juce>
 
 #include <ColorPicker/ColorTextInputComponent.h>
+#include "RtColorSelector.h"
 
 class ColorPickerComponent :
 	public TabbedComponent,
@@ -30,12 +31,15 @@ class ColorPickerComponent :
 		Value colorB;
 
 		ColourSelector hsvSelector;
+		RtColorSelector rtSelector;
 		ColorTextInputComponent textSelector;
 
 		void updateSelectors();
 		void setHsvSelector();
+		void setRtSelector();
 		void setTextSelector();
 		void getHsvSelector();
+		void getRtSelector();
 		void getTextSelector();
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ColorPickerComponent)
