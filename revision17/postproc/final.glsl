@@ -1,6 +1,8 @@
 #include "post.glsl"
 #include "helper.glsl"
 #include "noise.glsl"
+#include "sdf/distances.glsl"
+#include "sdf/domain.glsl"
 #line 5
 // lens distort, vignette, tonemapping, color grading, noise
 
@@ -82,6 +84,28 @@ float fbm(vec2 c) {
 	return (classic_noise(c) + classic_noise(c * 2.) * .5 + classic_noise(c * 4.) * .25)/1.75;
 }
 
+float fFrame() {
+	vec2 p = gl_FragCoord.xy / res.x;
+	vec2 dim = res / res.x;
+
+	vec2 p_line = p;
+	pTrans(p_line, dim/2);
+
+	pMirrorLoco(p_line, frame_loco_outer_rt_vec2);
+	pMirrorLoco(p_line, frame_loco_rt_vec2);
+	pRot(p_line, frame_rot_rt_float * Tau);
+	pTrans(p_line, frame_trans_rt_vec2);
+
+	pMirrorTrans(p_line.x, frame_thickness_rt_float * .001);
+	float f_line_x = p_line.x;
+
+	pMirrorTrans(p_line.y, frame_thickness_rt_float * .001);
+	float f_line_y = p_line.y;
+
+	float f = min(f_line_x, f_line_y);
+	return 1. - smoothstep(-frame_smoothness_rt_float * .001, frame_smoothness_rt_float * .001, f);
+}
+
 void main() {
 	vec2 tc_lens = tc;
 	if (post_image_distortion != 0.) {
@@ -121,4 +145,6 @@ void main() {
 
 	float edg = textureLod(edge, tc, 0.).x;
 	out_color = mix(out_color, post_edge_color, edg);
+
+	out_color = mix(out_color, vec3(1.), fFrame());
 }

@@ -1155,6 +1155,57 @@
       ]
     },
     {
+      "uniformName": "frame_loco_outer_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.87300000000004729372,
+        "valueVec2Y": 0.26999999999998181011
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "frame_loco_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.19600000000002637535,
+        "valueVec2Y": 0.1929999999999836291
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "frame_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.00099999999997635313775
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "frame_smoothness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.46400000000005547918
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "frame_thickness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.38700000000005729817
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "frame_trans_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.19200000000000727596,
+        "valueVec2Y": -0.1929999999999836291
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "mand_color_2_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
