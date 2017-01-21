@@ -17,7 +17,8 @@ class RtColorSelector :
 		void setCurrentColor(RtColor color, NotificationType notificationType = sendNotification);
 
 		enum ColourIds {
-			backgroundColourId = 0x1007000
+			backgroundColourId = 0x1007000,
+			textColourId = 0x1007001
 		};
 
 	private:
@@ -30,9 +31,11 @@ class RtColorSelector :
 		friend class LumaSelectorComponent;
 		friend struct ContainerDeletePolicy<LumaSelectorComponent>;
 
-		float hue, chroma, luma;
 		ScopedPointer<ColorSpaceView> colorSpace;
 		ScopedPointer<LumaSelectorComponent> lumaSelector;
+		ScopedPointer<Label> helpText;
+
+		float hue, chroma, luma;
 		int edgeGap = 4;
 
 		void setLuma(float y);

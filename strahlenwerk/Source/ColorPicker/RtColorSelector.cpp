@@ -3,7 +3,15 @@
 // TODO fix problems with full white
 // TODO undo support
 // TODO fix assertions in RtColor when picking from the wheel's edge
-// TODO high-precision mode when holding shift
+
+static float precisionDelta(float delta) {
+	const float sign = (delta<0 ? -1 : 1);
+
+	const float precision = 0.01f;
+	const float exponent = 1.3f;
+
+	return sign * precision * pow(abs(delta), exponent);
+}
 
 class RtColorSelector::ColorSpaceMarker :
 	public Component
@@ -34,6 +42,7 @@ class RtColorSelector::ColorSpaceView :
 			edge(edgeSize)
 		{
 			addAndMakeVisible(marker);
+			setShiftDown();
 		}
 
 		void paint(Graphics& g) override {
@@ -104,11 +113,23 @@ class RtColorSelector::ColorSpaceView :
 		void mouseDrag(const MouseEvent& e) override {
 			const int radius = getWidth() / 2 - edge;
 
-			const int downX = e.getMouseDownX() - radius - edge;
-			const int downY = radius + edge - e.getMouseDownY();
+			int downX = e.getMouseDownX() - radius - edge;
+			int downY = radius + edge - e.getMouseDownY();
+
 			if (downX*downX + downY*downY <= radius*radius) {
-				const int x = e.x - radius - edge;
-				const int y = radius + edge - e.y;
+				int deltaX = e.getDistanceFromDragStartX();
+				int deltaY = - e.getDistanceFromDragStartY();
+
+				if (e.mods.isShiftDown()) {
+					downX = shiftDownX;
+					downY = shiftDownY;
+
+					deltaX = precisionDelta(deltaX);
+					deltaY = precisionDelta(deltaY);
+				}
+
+				const float x = downX + deltaX;
+				const float y = downY + deltaY;
 
 				const float rho = sqrt(x*x + y*y);
 				float phi = atan2(y, x);
@@ -120,6 +141,12 @@ class RtColorSelector::ColorSpaceView :
 				const float chroma = jmin(rho / float(radius), 1.0f);
 
 				owner.setHC(hue, chroma);
+			}
+		}
+
+		void modifierKeysChanged(const ModifierKeys& modifiers) override {
+			if (modifiers.isShiftDown()) {
+				setShiftDown();
 			}
 		}
 
@@ -140,10 +167,15 @@ class RtColorSelector::ColorSpaceView :
 
 	private:
 		RtColorSelector& owner;
-		float lastLuma;
 		ColorSpaceMarker marker;
+
+		float lastLuma;
+		int shiftDownX;
+		int shiftDownY;
 		const int edge;
+
 		Image wheel;
+
 
 		void updateMarker() {
 			const int radius = getWidth()/2 - edge;
@@ -160,6 +192,16 @@ class RtColorSelector::ColorSpaceView :
 				2*edge
 			);
 		}
+
+		void setShiftDown() {
+			const int radius = getWidth()/2 - edge;
+			const float phi = owner.hue * 2.0f*float_Pi;
+			const float rho = owner.chroma * radius;
+
+			shiftDownX = rho * cos(phi);
+			shiftDownY = rho * sin(phi);
+		}
+
 
 		JUCE_DECLARE_NON_COPYABLE(ColorSpaceView)
 };
@@ -206,6 +248,7 @@ class RtColorSelector::LumaSelectorComponent :
 			edge(edgeSize)
 		{
 			addAndMakeVisible(marker);
+			setShiftDown();
 		}
 
 		void paint(Graphics& g) override {
@@ -231,7 +274,23 @@ class RtColorSelector::LumaSelectorComponent :
 		}
 
 		void mouseDrag(const MouseEvent& e) override {
-			owner.setLuma((e.x - edge) / float(getWidth() - 2*edge));
+			int downX = e.getMouseDownX() - edge;
+			int deltaX = e.getDistanceFromDragStartX();
+
+			if (e.mods.isShiftDown()) {
+				downX = shiftDownX;
+				deltaX = precisionDelta(deltaX);
+			}
+
+			const float x = downX + deltaX;
+
+			owner.setLuma(x / float(getWidth() - 2*edge));
+		}
+
+		void modifierKeysChanged(const ModifierKeys& modifiers) override {
+			if (modifiers.isShiftDown()) {
+				setShiftDown();
+			}
 		}
 
 		void updateIfNeeded() {
@@ -241,7 +300,13 @@ class RtColorSelector::LumaSelectorComponent :
 	private:
 		RtColorSelector& owner;
 		LumaSelectorMarker marker;
+
 		const int edge;
+		float shiftDownX;
+
+		void setShiftDown() {
+			shiftDownX = (getWidth() - 2*edge - 1) * owner.luma;
+		}
 
 		JUCE_DECLARE_NON_COPYABLE(LumaSelectorComponent)
 };
@@ -254,6 +319,13 @@ RtColorSelector::RtColorSelector() :
 {
 	addAndMakeVisible(colorSpace = new ColorSpaceView(*this, 7));
 	addAndMakeVisible(lumaSelector = new LumaSelectorComponent(*this, 5));
+
+	helpText = new Label();
+	helpText->setText(CharPointer_UTF8 ("[Shift] dr\xc3\xbc""cken zum Luftanhalten."), NotificationType::dontSendNotification);
+	helpText->setColour(Label::textColourId, findColour(textColourId));
+	helpText->setFont(helpText->getFont().italicised());
+	helpText->setJustificationType(Justification::centred);
+	addAndMakeVisible(helpText);
 
 	update(dontSendNotification);
 }
@@ -270,6 +342,11 @@ void RtColorSelector::setCurrentColor(RtColor color, NotificationType notificati
 	float h = color.getHue();
 	float c = color.getChroma();
 	float y = color.getLuma();
+
+	// TODO temporary full-white fix
+	if (y == 1.0f) {
+		return;
+	}
 
 	if (h != hue || c != chroma || y != luma) {
 		if (y > 0) {
@@ -324,7 +401,8 @@ void RtColorSelector::paint(Graphics& g) {
 
 void RtColorSelector::resized() {
 	const int lumaHeight = jmin(30, proportionOfHeight(0.15f));
-	const int colorSpaceDim = jmin(getWidth(), getHeight() - edgeGap - lumaHeight) - 2*edgeGap;
+	const int textHeight = jmin(30, proportionOfHeight(0.15f));
+	const int colorSpaceDim = jmin(getWidth(), getHeight() - edgeGap - lumaHeight - edgeGap - textHeight) - 2*edgeGap;
 
 	colorSpace->setBounds(
 		edgeGap,
@@ -338,6 +416,13 @@ void RtColorSelector::resized() {
 		colorSpace->getBottom() + edgeGap,
 		getWidth() - 2*edgeGap,
 		lumaHeight
+	);
+
+	helpText->setBounds(
+		edgeGap,
+		lumaSelector->getBottom() + edgeGap,
+		getWidth() - 2*edgeGap,
+		textHeight
 	);
 }
 

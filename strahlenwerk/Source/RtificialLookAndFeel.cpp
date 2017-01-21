@@ -61,6 +61,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 	// ColorPicker
 	setColour(ColorPickerComponent::tabBackgroundColourId, findColour(Sidebar::tabBackgroundColourId));
 	setColour(RtColorSelector::backgroundColourId, theme.MenuBack.inner);
+	setColour(RtColorSelector::textColourId, theme.MenuBack.text);
 
 	// InspectorComponent
 	setColour(InspectorComponent::textColourId, Colours::black);
