@@ -2,7 +2,6 @@
 
 // TODO fix problems with full white
 // TODO undo support
-// TODO safe hcy channels seperately, don't reset on black
 // TODO fix assertions in RtColor when picking from the wheel's edge
 // TODO high-precision mode when holding shift
 
@@ -125,10 +124,8 @@ class RtColorSelector::ColorSpaceView :
 		}
 
 		void updateIfNeeded() {
-			float luma = owner.getCurrentColor().getLuma();
-
-			if (lastLuma != luma) {
-				lastLuma = luma;
+			if (lastLuma != owner.luma) {
+				lastLuma = owner.luma;
 				wheel = Image();
 				repaint();
 			}
@@ -150,9 +147,8 @@ class RtColorSelector::ColorSpaceView :
 
 		void updateMarker() {
 			const int radius = getWidth()/2 - edge;
-			const RtColor color = owner.getCurrentColor();
-			const float phi = color.getHue() * 2.0f*float_Pi;
-			const float rho = color.getChroma() * radius;
+			const float phi = owner.hue * 2.0f*float_Pi;
+			const float rho = owner.chroma * radius;
 
 			const int x = roundToInt(rho * cos(phi)) + radius;
 			const int y = radius - roundToInt(rho * sin(phi));
@@ -182,10 +178,10 @@ class RtColorSelector::LumaSelectorMarker :
 		void paint (Graphics& g) override {
 			const float cornerRadius = 4.0f;
 
-			g.setColour(Colours::white.withAlpha(0.75f));
+			g.setColour(Colour::greyLevel(0.9f));
 			g.fillRoundedRectangle(getLocalBounds().toFloat(), cornerRadius);
 
-			g.setColour(Colours::black.withAlpha(0.5f));
+			g.setColour(Colour::greyLevel(0.1f));
 			g.drawVerticalLine(edge-2, edge, getHeight()-edge);
 			g.drawVerticalLine(edge+2, edge, getHeight()-edge);
 
@@ -218,12 +214,8 @@ class RtColorSelector::LumaSelectorComponent :
 			grad.point1.setXY(float(edge), 0.0f);
 			grad.point2.setXY(float(getWidth() - edge), 0.0f);
 
-			const RtColor currentColor = owner.getCurrentColor();
-			const float hue = currentColor.getHue();
-			const float chroma = currentColor.getChroma();
-
 			for (float luma = 0.0f; luma <= 1.0f; luma += 0.02f) {
-				grad.addColour(luma, Colour(RtColor::fromHCY(hue, chroma, luma)));
+				grad.addColour(luma, Colour(RtColor::fromHCY(owner.hue, owner.chroma, luma)));
 			}
 
 			g.setGradientFill(grad);
@@ -231,8 +223,7 @@ class RtColorSelector::LumaSelectorComponent :
 		}
 
 		void resized() override {
-			const float luma = owner.getCurrentColor().getLuma();
-			marker.setBounds(roundToInt((getWidth() - 2*edge - 1) * luma), 0, 2*edge + 1, getHeight());
+			marker.setBounds(roundToInt((getWidth() - 2*edge - 1) * owner.luma), 0, 2*edge + 1, getHeight());
 		}
 
 		void mouseDown(const MouseEvent& e) override {
@@ -257,7 +248,9 @@ class RtColorSelector::LumaSelectorComponent :
 
 
 RtColorSelector::RtColorSelector() :
-	color(Colours::white)
+	hue(0.0f),
+	chroma(1.0f),
+	luma(1.0f)
 {
 	addAndMakeVisible(colorSpace = new ColorSpaceView(*this, 7));
 	addAndMakeVisible(lumaSelector = new LumaSelectorComponent(*this, 5));
@@ -270,31 +263,41 @@ RtColorSelector::~RtColorSelector() {
 }
 
 RtColor RtColorSelector::getCurrentColor() const {
-	return color;
+	return RtColor::fromHCY(hue, chroma, luma);
 }
 
-void RtColorSelector::setCurrentColor(RtColor c, NotificationType notification) {
-	if (c != color) {
-		color = c;
+void RtColorSelector::setCurrentColor(RtColor color, NotificationType notification) {
+	float h = color.getHue();
+	float c = color.getChroma();
+	float y = color.getLuma();
+
+	if (h != hue || c != chroma || y != luma) {
+		if (y > 0) {
+			hue = h;
+			chroma = c;
+		}
+		luma = y;
+
 		update(notification);
 	}
 }
 
-void RtColorSelector::setLuma (float newL) {
-	newL = jlimit(0.0f, 1.0f, newL);
+void RtColorSelector::setLuma(float y) {
+	y = jlimit(0.0f, 1.0f, y);
 
-	if (color.getLuma() != newL) {
-		color = color.withLuma(newL);
+	if (luma != y) {
+		luma = y;
 		update(sendNotification);
 	}
 }
 
-void RtColorSelector::setHC(float newH, float newC) {
-	newH = jlimit(0.0f, 1.0f, newH);
-	newC = jlimit(0.0f, 1.0f, newC);
+void RtColorSelector::setHC(float h, float c) {
+	h = jlimit(0.0f, 1.0f, h);
+	c = jlimit(0.0f, 1.0f, c);
 
-	if (color.getHue() != newH || color.getChroma() != newC) {
-		color = color.withHue(newH).withChroma(newC);
+	if (hue != h || chroma != c) {
+		hue = h;
+		chroma = c;
 		lumaSelector->repaint();
 		update(sendNotification);
 	}

@@ -14,7 +14,7 @@ class RtColorSelector :
 		~RtColorSelector();
 
 		RtColor getCurrentColor() const;
-		void setCurrentColor(RtColor newColor, NotificationType notificationType = sendNotification);
+		void setCurrentColor(RtColor color, NotificationType notificationType = sendNotification);
 
 		enum ColourIds {
 			backgroundColourId = 0x1007000
@@ -30,13 +30,13 @@ class RtColorSelector :
 		friend class LumaSelectorComponent;
 		friend struct ContainerDeletePolicy<LumaSelectorComponent>;
 
-		RtColor color;
+		float hue, chroma, luma;
 		ScopedPointer<ColorSpaceView> colorSpace;
 		ScopedPointer<LumaSelectorComponent> lumaSelector;
 		int edgeGap = 4;
 
-		void setLuma(float newH);
-		void setHC(float newH, float newC);
+		void setLuma(float y);
+		void setHC(float h, float c);
 
 		void update(NotificationType);
 		void paint(Graphics&) override;
