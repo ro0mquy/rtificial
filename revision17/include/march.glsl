@@ -94,15 +94,15 @@ vec3 sdfGradient(vec3 p) {
 }
 
 // ein fachmenschich kopierter marchingloop
-float sdfMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, float pixelRadius, int max_iterations, float omega, bool forceHit) {
+bool sdfMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, float pixelRadius, int max_iterations, float omega, bool forceHit, out float candidate_t) {
 	// o, d : ray origin, direction (normalized)
 	// t_min, t_max: minimum, maximum t values
 	// pixelRadius: radius of a pixel at t = 1
 	// forceHit: boolean enforcing to use the
 	//           candidate_t value as result
 	float t = t_min;
-	float candidate_error = Real_Inf;
-	float candidate_t = t_min;
+	float candidate_error = Inf;
+	candidate_t = t_min;
 	float previousRadius = 0;
 	float stepLength = 0;
 	float functionSign = sgn(fMain(o, false));
@@ -133,26 +133,21 @@ float sdfMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, float pixelRadi
 		t += stepLength;
 	}
 
-	if ((t > t_max || candidate_error > pixelRadius) && !forceHit) {
-		return Real_Inf;
-	}
-
-	return candidate_t;
+	return !((t > t_max || candidate_error > pixelRadius) && !forceHit);
 }
 
-float sdfMarch(vec3 o, vec3 d, float t_max) {
-	float marched = sdfMarchAdvanced(o, d, .001, t_max, camGetPixelSize(1), 256, 1.2, false);
+bool sdfMarch(vec3 o, vec3 d, float t_max, out float marched) {
+	bool hit = sdfMarchAdvanced(o, d, .001, t_max, camGetPixelSize(1), 256, 1.2, false, marched);
 
-	if (isinf(marched)) {
-		return marched;
+	if (!hit) {
+		return false;
+	} else {
+		// discontinuity reduction
+		for (int i = 0; i < 3; i++) {
+			marched += fMain(o + marched * d, false) - camGetPixelSize(marched);
+		}
+		return true;
 	}
-
-	// discontinuity reduction
-	for (int i = 0; i < 3; i++) {
-		marched += fMain(o + marched * d, false) - camGetPixelSize(marched);
-	}
-
-	return marched;
 }
 
 void setDebugParameters() {
@@ -344,9 +339,10 @@ void main() {
 
 	vec3 origin = camera_position;
 	vec3 direction = camGetDirection();
-	float marched = sdfMarch(origin, direction, main_marching_distance);
+	float marched;
+	bool hit = sdfMarch(origin, direction, main_marching_distance, marched);
 
-	if (isinf(marched)) {
+	if (!hit) {
 		out_color = environmentColor(origin, direction, main_marching_distance);
 		out_depth = main_marching_distance;
 	} else {
