@@ -92,6 +92,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Project::reloadTimeline,
 		Project::reloadEnvironments,
 		OpenGLComponent::toggleGrid,
+		OpenGLComponent::toggleGlOverlays,
 		Renderer::toggleHalfResolution,
 		ScenesBarComponent::toggleWaveform,
 		CameraController::playPauseWithAnimation,
@@ -171,6 +172,11 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 		case OpenGLComponent::toggleGrid:
 			result.setInfo("Toogle Grid", "Enable/Disable Rule of Thirds grid overlay", programCategory, 0);
 			result.addDefaultKeypress('g', ModifierKeys::noModifiers);
+			break;
+
+		case OpenGLComponent::toggleGlOverlays:
+			result.setInfo("Toogle Overlays", "Enable/Disable overlays for the OpenGL window", programCategory, 0);
+			result.addDefaultKeypress('g', ModifierKeys::commandModifier);
 			break;
 
 		case Renderer::toggleHalfResolution:
@@ -336,6 +342,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 		menu.addCommandItem(commandManager, TimelineData::redoAction);
 	} else if (topLevelMenuIndex == 2 /* View */) {
 		menu.addCommandItem(commandManager, OpenGLComponent::toggleGrid);
+		menu.addCommandItem(commandManager, OpenGLComponent::toggleGlOverlays);
 		menu.addCommandItem(commandManager, Renderer::toggleHalfResolution);
 		menu.addCommandItem(commandManager, ScenesBarComponent::toggleWaveform);
 		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);

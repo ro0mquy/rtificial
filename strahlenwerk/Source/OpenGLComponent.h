@@ -28,6 +28,7 @@ class OpenGLComponent :
 		void postprocChanged() override;
 		void scenesChanged() override;
 		void doToggleGrid();
+		void doToggleGlOverlays();
 
 		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
 		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
@@ -40,6 +41,7 @@ class OpenGLComponent :
 
 		enum CommandIDs {
 			toggleGrid = 0x7f81da00,
+			toggleGlOverlays = 0x7f81da01,
 		};
 
 	private:

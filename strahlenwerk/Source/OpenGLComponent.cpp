@@ -27,8 +27,10 @@ OpenGLComponent::OpenGLComponent() :
 	fixedAspectRatioComponent.setSize(16, 9);
 	addAndMakeVisible(fixedAspectRatioComponent);
 
+	const bool overlaysEnabled = StrahlenwerkApplication::getInstance()->getProperties().getBoolValue(PropertyNames::OpenGLOverlaysEnabled);
+	context.setComponentPaintingEnabled(overlaysEnabled);
+
 	context.setRenderer(&renderer);
-	//context.setComponentPaintingEnabled(false);
 	context.attachTo(fixedAspectRatioComponent);
 }
 
@@ -63,6 +65,9 @@ void OpenGLComponent::applicationCommandInvoked(const ApplicationCommandTarget::
 		case OpenGLComponent::toggleGrid:
 			doToggleGrid();
 			break;
+		case OpenGLComponent::toggleGlOverlays:
+			doToggleGlOverlays();
+			break;
 	}
 }
 
@@ -92,6 +97,17 @@ void OpenGLComponent::doToggleGrid() {
 	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
 	const bool previous = properties.getBoolValue(PropertyNames::GridEnabled);
 	properties.setValue(PropertyNames::GridEnabled, !previous);
+	fixedAspectRatioComponent.repaint();
+}
+
+void OpenGLComponent::doToggleGlOverlays() {
+	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	const bool previous = properties.getBoolValue(PropertyNames::GridEnabled);
+	const bool updated = not previous;
+	properties.setValue(PropertyNames::GridEnabled, updated);
+
+	context.setComponentPaintingEnabled(updated);
+
 	fixedAspectRatioComponent.repaint();
 }
 

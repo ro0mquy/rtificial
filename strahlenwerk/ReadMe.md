@@ -50,6 +50,7 @@
 * `[Ctrl]+O` open a project directory
 * `F` Toggle fullscreen
 * `G` Toggle Rule of Thirds grid
+* `[Ctrl]+G` Toggle OpenGL window overlays
 * `[Ctrl]+W` Toggle audio waveform preview
 * `[Ctrl]+D` Make demo
 * `[Ctrl]+M` Toggle audio mute

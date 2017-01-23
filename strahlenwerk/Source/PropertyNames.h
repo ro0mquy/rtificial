@@ -13,6 +13,7 @@ namespace PropertyNames {
 	const static String LoopEnabled = "loop_enabled";
 	const static String ScreenshotDir = "screenshot_dir";
 	const static String WaveformEnabled = "waveform_enabled";
+	const static String OpenGLOverlaysEnabled = "opengl_overlays_enabled";
 };
 
 #endif
