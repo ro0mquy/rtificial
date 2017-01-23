@@ -113,6 +113,8 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	const File& buildDir = loader.getBuildDir();
 	buildDir.deleteRecursively();
 	buildDir.createDirectory();
+	const File& shadersDir = buildDir.getChildFile("shaders");
+	shadersDir.createDirectory();
 	const File& validationDir = buildDir.getChildFile("validation");
 	validationDir.createDirectory();
 
@@ -127,23 +129,23 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	const File& interfaceHeader = buildDir.getChildFile("strahlenwerk_export_interface.h");
 	std::string shadersHeaderContent = R"source(#ifndef STRAHLENWERK_EXPORT
 #define STRAHLENWERK_EXPORT
-#include "Shader.h"
-#include "Framebuffer.h"
-#include "Scene.h"
-#include "Sequence.h"
-#include "Uniform.h"
-#include "AmbientLight.h"
-#include "Texture.h"
+#include "../Shader.h"
+#include "../Framebuffer.h"
+#include "../Scene.h"
+#include "../Sequence.h"
+#include "../Uniform.h"
+#include "../AmbientLight.h"
+#include "../Texture.h"
 )source";
 	std::string interfaceHeaderContent = R"source(#ifndef STRAHLENWERK_EXPORT_INTERFACE_H
 #define STRAHLENWERK_EXPORT_INTERFACE_H
-#include "Shader.h"
-#include "Framebuffer.h"
-#include "Scene.h"
-#include "Sequence.h"
-#include "Uniform.h"
-#include "AmbientLight.h"
-#include "Texture.h"
+#include "../Shader.h"
+#include "../Framebuffer.h"
+#include "../Scene.h"
+#include "../Sequence.h"
+#include "../Uniform.h"
+#include "../AmbientLight.h"
+#include "../Texture.h"
 )source";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";
@@ -153,7 +155,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	// export shaders
 	for(int i = 1; i < postprocShaders; i++) {
 		const PostprocShader& shader = postproc.getShader(i);
-		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("h");
+		const File& shaderFile = shadersDir.getChildFile(String(shader.getName())).withFileExtension("h");
 		const File& shaderValidationFile = validationDir.getChildFile(String(shader.getName())).withFileExtension("frag");
 		std::string shaderSource = "const char " + shader.getName() + "_source[] = {";
 		for (char c : shader.getSource()) {
@@ -190,7 +192,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 
 	for(int i = 0; i < sceneShaders; i++) {
 		const Shader& shader = scenes.getObject(i);
-		const File& shaderFile = buildDir.getChildFile(String(shader.getName())).withFileExtension("h");
+		const File& shaderFile = shadersDir.getChildFile(String(shader.getName())).withFileExtension("h");
 		const File& shaderValidationFile = validationDir.getChildFile(String(shader.getName())).withFileExtension("frag");
 		std::string shaderSource = "const char " + shader.getName() + "_source[] = {";
 		for (char c : shader.getSource()) {
@@ -205,7 +207,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 		const int shaderId = ambient.getObjectId(shader.getName());
 		if (shaderId != -1) {
 			const AmbientLight& environment = ambient.getObject(shaderId);
-			const File& environmentFile = buildDir.getChildFile(String(shader.getName() + "_environment")).withFileExtension("h");
+			const File& environmentFile = shadersDir.getChildFile(String(shader.getName() + "_environment")).withFileExtension("h");
 			std::string shaderSource = "const char " + shader.getName() + "_environment_source[] = {";
 			for (char c : environment.getSource()) {
 				shaderSource += std::to_string(c) + ", ";
@@ -237,7 +239,7 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 		textureSource += "const unsigned int " + textureName + "_height = " + std::to_string(texture.getHeight()) + ";\n";
 		shadersHeaderContent += "#include \"shaders/" + textureName + ".h\"\n";
 		texturesArrayDeclaration += "\tTexture(" + std::to_string(texture.id()) + ", " + textureName + "_source, " + std::to_string(texture.getWidth()) + ", " + std::to_string(texture.getHeight()) + "),\n";
-		const File& textureFile = buildDir.getChildFile(String(textureName)).withFileExtension("h");
+		const File& textureFile = shadersDir.getChildFile(String(textureName)).withFileExtension("h");
 		textureFile.replaceWithText(textureSource);
 	}
 	texturesArrayDeclaration += "};\n";

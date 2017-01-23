@@ -10,7 +10,7 @@ ProjectFileLoader::ProjectFileLoader(std::string projectRoot) :
 	postprocDir(projectDir.getChildFile("postproc")),
 	sceneDir(projectDir.getChildFile("scenes")),
 	includeDir(projectDir.getChildFile("include")),
-	buildDir(projectDir.getChildFile("build")),
+	buildDir(projectDir.getChildFile("export")),
 	environmentsDir(projectDir.getChildFile("environments")),
 	texturesDir(projectDir.getChildFile("textures"))
 {

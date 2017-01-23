@@ -1,7 +1,7 @@
 #include "BRDFLut.h"
 #include "BRDFIntegratorSource.h"
 #include "Shader.h"
-#include "strahlenwerk_export_interface.h"
+#include "export/strahlenwerk_export_interface.h"
 
 BRDFLut::BRDFLut() {
 	const unsigned int brdfLUTWidth = 512;
