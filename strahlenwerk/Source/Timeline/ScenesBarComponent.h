@@ -15,7 +15,8 @@ class ScenesBarComponent :
 	public McbComponent,
 	public SelfResizingComponent,
 	private ValueTree::Listener,
-	private ChangeListener
+	private ChangeListener,
+	private ApplicationCommandManagerListener
 {
 	public:
 		ScenesBarComponent(ZoomFactor& zoomFactor_);
@@ -26,12 +27,16 @@ class ScenesBarComponent :
 		void addSceneComponent(ValueTree sceneData);
 		void addAllSceneComponents();
 		SceneComponent* getSceneComponentForData(ValueTree sceneData);
+		void doToggleWaveform();
 
 		void mouseDown(const MouseEvent& event) override;
 		void mouseDrag(const MouseEvent& event) override;
 		void mouseUp(const MouseEvent& event) override;
 
 		void changeListenerCallback(ChangeBroadcaster* source) override;
+
+		void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) override;
+		void applicationCommandListChanged() override;
 
 		void valueTreePropertyChanged(ValueTree& parentTree, const Identifier& property) override;
 		void valueTreeChildAdded(ValueTree& parentTree, ValueTree& childWhichHasBeenAdded) override;
@@ -45,6 +50,10 @@ class ScenesBarComponent :
 			waveformColourId,
 			textColourId,
 			outlineColourId,
+		};
+
+		enum CommandIDs {
+			toggleWaveform = 0x4019ad00,
 		};
 
 	private:

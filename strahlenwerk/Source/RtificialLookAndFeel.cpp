@@ -15,7 +15,7 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 {
 	// ScenesBarComponent
 	setColour(ScenesBarComponent::tickColourId, Colour(0xff999999));
-	setColour(ScenesBarComponent::waveformColourId, findColour(ScenesBarComponent::tickColourId));
+	setColour(ScenesBarComponent::waveformColourId, findColour(ScenesBarComponent::tickColourId).withAlpha(0.35f));
 	setColour(ScenesBarComponent::textColourId, findColour(ScenesBarComponent::tickColourId));
 	setColour(ScenesBarComponent::outlineColourId, bevelColourTop.withAlpha(bevelAlpha));
 

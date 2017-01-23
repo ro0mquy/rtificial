@@ -5,12 +5,16 @@
 #include "SceneComponent.h"
 #include <AudioManager.h>
 #include "ZoomFactor.h"
+#include <StrahlenwerkApplication.h>
+#include <MainWindow.h>
+#include <PropertyNames.h>
 
 ScenesBarComponent::ScenesBarComponent(ZoomFactor& zoomFactor_) :
 	data(TimelineData::getTimelineData()),
 	zoomFactor(zoomFactor_),
 	timeMarker(zoomFactor_)
 {
+	MainWindow::getApplicationCommandManager().addListener(this);
 	data.addListenerToTree(this);
 	zoomFactor.addChangeListener(this);
 	addAllSceneComponents();
@@ -38,20 +42,21 @@ void ScenesBarComponent::updateSize() {
 void ScenesBarComponent::paint(Graphics& g) {
 	// höhö G-Punkt
 
-	/*
-	// draw waveform thumb nail
-	auto& audioManager = AudioManager::getAudioManager();
-	auto& audioThumb = audioManager.getThumbnail();
-	const float beatsPerSecond = audioManager.getBpm() / 60.;
-	const float timeAtRightBorder = getWidth() / zoomFactor / beatsPerSecond / 1000.;
+	if (StrahlenwerkApplication::getInstance()->getProperties().getBoolValue(PropertyNames::WaveformEnabled)) {
+		// draw waveform thumb nail
+		auto& audioManager = AudioManager::getAudioManager();
+		auto& audioThumb = audioManager.getThumbnail();
+		const float beatsPerSecond = audioManager.getBpm() / 60.;
+		const float timeAtRightBorder = getWidth() / zoomFactor / beatsPerSecond / 1000.;
 
-	Rectangle<int> halfVisibleRect = getLocalBounds();
-	halfVisibleRect.setHeight(2 * halfVisibleRect.getHeight());
+		Rectangle<int> halfVisibleRect = getLocalBounds();
+		halfVisibleRect.setHeight(2 * 2 * 0.15 * halfVisibleRect.getHeight());
+		halfVisibleRect.setCentre(halfVisibleRect.getCentreX(), 0.);
 
-	g.setColour(findColour(ScenesBarComponent::waveformColourId));
-	audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 0, 1.);
-	//audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 1, 1.);
-	// */
+		g.setColour(findColour(ScenesBarComponent::waveformColourId));
+		audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 0, 1.);
+		audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 1, 1.);
+	}
 
 	// draw ticks
 	const float gridWidth              = zoomFactor.getGridWidth();
@@ -111,6 +116,13 @@ SceneComponent* ScenesBarComponent::getSceneComponentForData(ValueTree sceneData
 	return nullptr;
 }
 
+void ScenesBarComponent::doToggleWaveform() {
+	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
+	const bool previous = properties.getBoolValue(PropertyNames::WaveformEnabled);
+	properties.setValue(PropertyNames::WaveformEnabled, not previous);
+	repaint();
+}
+
 void ScenesBarComponent::mouseDown(const MouseEvent& event) {
 	const ModifierKeys& m = event.mods;
 	if (m.isLeftButtonDown() && m.isCommandDown()) {
@@ -161,6 +173,17 @@ void ScenesBarComponent::changeListenerCallback(ChangeBroadcaster* /*source*/) {
 	// zoomFactor changed
 	updateSize();
 	repaint();
+}
+
+void ScenesBarComponent::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo& info) {
+	switch (info.commandID) {
+		case ScenesBarComponent::toggleWaveform:
+			doToggleWaveform();
+			break;
+	}
+}
+
+void ScenesBarComponent::applicationCommandListChanged() {
 }
 
 // ValueTree::Listener callbacks

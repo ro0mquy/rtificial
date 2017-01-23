@@ -12,6 +12,7 @@ namespace PropertyNames {
 	const static String AudioMuted = "audio_muted";
 	const static String LoopEnabled = "loop_enabled";
 	const static String ScreenshotDir = "screenshot_dir";
+	const static String WaveformEnabled = "waveform_enabled";
 };
 
 #endif

@@ -8,6 +8,7 @@
 #include <Timeline/TimelineData.h>
 #include <AudioManager.h>
 #include <ScreenRecorder.h>
+#include <Timeline/ScenesBarComponent.h>
 
 // global ApplicationCommandManager, stores all commands and provides shortcuts
 // access via MainWindow::getApplicationCommandManager()
@@ -92,6 +93,7 @@ void MainWindow::getAllCommands(Array<CommandID>& commands) {
 		Project::reloadEnvironments,
 		OpenGLComponent::toggleGrid,
 		Renderer::toggleHalfResolution,
+		ScenesBarComponent::toggleWaveform,
 		CameraController::playPauseWithAnimation,
 		CameraController::playPauseWithoutAnimation,
 		CameraController::setKeyframe,
@@ -174,6 +176,11 @@ void MainWindow::getCommandInfo(CommandID commandID, ApplicationCommandInfo& res
 		case Renderer::toggleHalfResolution:
 			result.setInfo("Toogle Half Resolution", "Enable/Disable rendering at half resolution", programCategory, 0);
 			result.addDefaultKeypress('h', ModifierKeys::commandModifier);
+			break;
+
+		case ScenesBarComponent::toggleWaveform:
+			result.setInfo("Toogle Waveform", "Enable/Disable audio waveform display in the scenes bar", programCategory, 0);
+			result.addDefaultKeypress('w', ModifierKeys::commandModifier);
 			break;
 
 		case CameraController::setKeyframe:
@@ -330,6 +337,7 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String& /*men
 	} else if (topLevelMenuIndex == 2 /* View */) {
 		menu.addCommandItem(commandManager, OpenGLComponent::toggleGrid);
 		menu.addCommandItem(commandManager, Renderer::toggleHalfResolution);
+		menu.addCommandItem(commandManager, ScenesBarComponent::toggleWaveform);
 		menu.addCommandItem(commandManager, MainWindow::toggleFullscreen);
 	} else if (topLevelMenuIndex == 3 /* Timeline */) {
 		menu.addCommandItem(commandManager, CameraController::setKeyframe);
