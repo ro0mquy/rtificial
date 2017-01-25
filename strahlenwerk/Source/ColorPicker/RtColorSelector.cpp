@@ -67,17 +67,13 @@ class RtColorSelector::ColorSpaceView :
 							const float hue = abs(phi) / (2.0f*float_Pi);
 							const float chroma = rho / float(radius);
 
-							if (x+radius >= dim || radius-y >= dim)
-							std::cout << "dim\t" << dim << "\n"
-								<< "x+r\t" << x + radius << "\n"
-								<< "r-y\t" << radius - y << "\n";
+							const RtColor currentColor = RtColor::fromHCY(hue, chroma, luma);
+
 							pixels.setPixelColour(
 								x + radius,
 								radius - y,
-								Colour(RtColor::fromHCY(hue, chroma, luma))
+								currentColor
 							);
-							if (x+radius >= dim || radius-y >= dim)
-							std::cout << "\n";
 						}
 					}
 				}
@@ -227,7 +223,7 @@ class RtColorSelector::LumaSelectorMarker :
 			g.drawVerticalLine(edge-2, edge, getHeight()-edge);
 			g.drawVerticalLine(edge+2, edge, getHeight()-edge);
 
-			g.setColour(Colour(colorSelector.getCurrentColor()));
+			g.setColour(colorSelector.getCurrentColor());
 			g.fillRect(int(edge)-1, int(edge), 3, getHeight()-int(2*edge));
 		}
 
@@ -258,7 +254,8 @@ class RtColorSelector::LumaSelectorComponent :
 			grad.point2.setXY(float(getWidth() - edge), 0.0f);
 
 			for (float luma = 0.0f; luma <= 1.0f; luma += 0.02f) {
-				grad.addColour(luma, Colour(RtColor::fromHCY(owner.hue, owner.chroma, luma)));
+				const RtColor currentColor = RtColor::fromHCY(owner.hue, owner.chroma, luma);
+				grad.addColour(luma, currentColor);
 			}
 
 			g.setGradientFill(grad);
@@ -321,7 +318,7 @@ RtColorSelector::RtColorSelector() :
 	addAndMakeVisible(lumaSelector = new LumaSelectorComponent(*this, 5));
 
 	helpText = new Label();
-	helpText->setText(CharPointer_UTF8 ("[Shift] dr\xc3\xbc""cken zum Luftanhalten."), NotificationType::dontSendNotification);
+	helpText->setText(CharPointer_UTF8(u8"[Shift] drücken zum Luftanhalten."), NotificationType::dontSendNotification);
 	helpText->setColour(Label::textColourId, findColour(textColourId));
 	helpText->setFont(helpText->getFont().italicised());
 	helpText->setJustificationType(Justification::centred);

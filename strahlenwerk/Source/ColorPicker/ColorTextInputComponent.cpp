@@ -22,23 +22,13 @@ ColorTextInputComponent::~ColorTextInputComponent() {
 	labelFloat.removeListener(this);
 }
 
-void ColorTextInputComponent::setRGB(const float R_, const float G_, const float B_) {
-	R = R_;
-	G = G_;
-	B = B_;
+void ColorTextInputComponent::setCurrentColor(const RtColor& color_) {
+	color = color_;
 	updateLabels();
 }
 
-float ColorTextInputComponent::getFloatR() {
-	return R;
-}
-
-float ColorTextInputComponent::getFloatG() {
-	return G;
-}
-
-float ColorTextInputComponent::getFloatB() {
-	return B;
+RtColor ColorTextInputComponent::getCurrentColor() const {
+	return color;
 }
 
 void ColorTextInputComponent::resized() {
@@ -82,9 +72,9 @@ void ColorTextInputComponent::updateLabels() {
 
 void ColorTextInputComponent::setLabelHex() {
 	int hexColor = 0;
-	hexColor += jlimit(0, 255, int(R * 255.f)) << 16;
-	hexColor += jlimit(0, 255, int(G * 255.f)) << 8;
-	hexColor += jlimit(0, 255, int(B * 255.f));
+	hexColor += roundFloatToInt(color.getRed() * 255.f) << 16;
+	hexColor += roundFloatToInt(color.getGreen() * 255.f) << 8;
+	hexColor += roundFloatToInt(color.getBlue() * 255.f);
 
 	String text(String::toHexString(hexColor));
 	text = text.toUpperCase();
@@ -95,27 +85,40 @@ void ColorTextInputComponent::setLabelHex() {
 }
 
 void ColorTextInputComponent::setLabelInt() {
-	const int intR = roundFloatToInt(R * 255.f);
-	const int intG = roundFloatToInt(G * 255.f);
-	const int intB = roundFloatToInt(B * 255.f);
+	const int intR = roundFloatToInt(color.getRed() * 255.f);
+	const int intG = roundFloatToInt(color.getGreen() * 255.f);
+	const int intB = roundFloatToInt(color.getBlue() * 255.f);
 
 	String text = String(intR) + ", " + String(intG) + ", " + String(intB);
 	labelInt.setText(text, NotificationType::dontSendNotification);
 }
 
 void ColorTextInputComponent::setLabelFloat() {
-	String text = String(R, 5) + ", " + String(G, 5) + ", " + String(B, 5);
+	String text =
+		String(color.getRed(), 5) + ", " +
+		String(color.getGreen(), 5) + ", " +
+		String(color.getBlue(), 5);
 	labelFloat.setText(text, NotificationType::dontSendNotification);
 }
 
 void ColorTextInputComponent::getLabelHex() {
 	String hexText = labelHex.getText();
 	hexText = hexText.trimCharactersAtStart("#");
+
+	const int inputLength = hexText.length();
+	if (inputLength == 1) {
+		hexText = String::repeatedString(hexText, 6);
+	} else if (inputLength == 2) {
+		hexText = String::repeatedString(hexText, 3);
+	} else if (inputLength == 3) {
+		hexText = String::repeatedString(String::charToString(hexText[0]), 2) + String::repeatedString(String::charToString(hexText[1]), 2) + String::repeatedString(String::charToString(hexText[2]), 2);
+	}
+
 	int hexValue = hexText.getHexValue32();
 
-	R = (hexValue >> 16 & 0xFF) / 255.f;
-	G = (hexValue >> 8 & 0xFF) / 255.f;
-	B = (hexValue & 0xFF) / 255.f;
+	color.setRed((hexValue >> 16 & 0xFF) / 255.f);
+	color.setGreen((hexValue >> 8 & 0xFF) / 255.f);
+	color.setBlue((hexValue & 0xFF) / 255.f);
 }
 
 void ColorTextInputComponent::getLabelInt() {
@@ -123,9 +126,14 @@ void ColorTextInputComponent::getLabelInt() {
 	StringArray intNumbers(StringArray::fromTokens(intText, " ,;", String::empty));
 	intNumbers.removeEmptyStrings();
 
-	R = float(intNumbers[0].getIntValue()) / 255.f;
-	G = float(intNumbers[1].getIntValue()) / 255.f;
-	B = float(intNumbers[2].getIntValue()) / 255.f;
+	if (intNumbers.size() == 1) {
+		intNumbers.add(intNumbers[0]);
+		intNumbers.add(intNumbers[0]);
+	}
+
+	color.setRed(float(intNumbers[0].getIntValue()) / 255.f);
+	color.setGreen(float(intNumbers[1].getIntValue()) / 255.f);
+	color.setBlue(float(intNumbers[2].getIntValue()) / 255.f);
 }
 
 void ColorTextInputComponent::getLabelFloat() {
@@ -133,7 +141,12 @@ void ColorTextInputComponent::getLabelFloat() {
 	StringArray floatNumbers(StringArray::fromTokens(floatText, " ,;", String::empty));
 	floatNumbers.removeEmptyStrings();
 
-	R = floatNumbers[0].getFloatValue();
-	G = floatNumbers[1].getFloatValue();
-	B = floatNumbers[2].getFloatValue();
+	if (floatNumbers.size() == 1) {
+		floatNumbers.add(floatNumbers[0]);
+		floatNumbers.add(floatNumbers[0]);
+	}
+
+	color.setRed(floatNumbers[0].getFloatValue());
+	color.setGreen(floatNumbers[1].getFloatValue());
+	color.setBlue(floatNumbers[2].getFloatValue());
 }

@@ -164,12 +164,11 @@ class ColorEditorPropertyComponent : public ValueEditorPropertyComponent, privat
 		void paint(Graphics& g) override {
 			ValueEditorPropertyComponent::paint(g);
 
-			// TODO: real srgb conversion
-			const uint8 R = std::pow(float(colorR.getValue()), 1.f/2.2f) * 255.f;
-			const uint8 G = std::pow(float(colorG.getValue()), 1.f/2.2f) * 255.f;
-			const uint8 B = std::pow(float(colorB.getValue()), 1.f/2.2f) * 255.f;
+			// perform gamma correction
+			const RtColor linear(colorR.getValue(), colorG.getValue(), colorB.getValue());
+			const RtColor srgb = linear.toSrgb();
 
-			g.setColour(Colour(R, G, B));
+			g.setColour(srgb);
 			g.fillRect(getLookAndFeel().getPropertyComponentContentPosition(*this));
 		}
 

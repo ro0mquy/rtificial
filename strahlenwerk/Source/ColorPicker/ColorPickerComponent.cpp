@@ -75,67 +75,46 @@ void ColorPickerComponent::updateSelectors() {
 }
 
 void ColorPickerComponent::setHsvSelector() {
-	float r = colorR.getValue();
-	float g = colorG.getValue();
-	float b = colorB.getValue();
-
-	// perform gamma correction
-	// TODO: real srgb conversion
-	r = std::pow(r, 1.f/2.2f);
-	g = std::pow(g, 1.f/2.2f);
-	b = std::pow(b, 1.f/2.2f);
-
-	// update hsvSelector
-	const uint8 rInt = roundFloatToInt(r * 255.f);
-	const uint8 gInt = roundFloatToInt(g * 255.f);
-	const uint8 bInt = roundFloatToInt(b * 255.f);
-	hsvSelector.setCurrentColour(Colour(rInt, gInt, bInt));
+	const RtColor linear(colorR.getValue(), colorG.getValue(), colorB.getValue());
+	const RtColor srgb = linear.toSrgb();
+	hsvSelector.setCurrentColour(srgb);
 }
 
 void ColorPickerComponent::setRtSelector() {
-	float r = colorR.getValue();
-	float g = colorG.getValue();
-	float b = colorB.getValue();
-
-	// perform gamma correction
-	// TODO: real srgb conversion
-	r = std::pow(r, 1.f/2.2f);
-	g = std::pow(g, 1.f/2.2f);
-	b = std::pow(b, 1.f/2.2f);
-
-	rtSelector.setCurrentColor(RtColor(r, g, b));
+	const RtColor linear(colorR.getValue(), colorG.getValue(), colorB.getValue());
+	const RtColor srgb = linear.toSrgb();
+	rtSelector.setCurrentColor(srgb);
 }
 
 void ColorPickerComponent::setTextSelector() {
-	const float r = colorR.getValue();
-	const float g = colorG.getValue();
-	const float b = colorB.getValue();
-
-	// update textSelector
-	textSelector.setRGB(r, g, b);
+	const RtColor linear(colorR.getValue(), colorG.getValue(), colorB.getValue());
+	const RtColor srgb = linear.toSrgb();
+	textSelector.setCurrentColor(srgb);
 }
 
 void ColorPickerComponent::getHsvSelector() {
-	const Colour rgb = hsvSelector.getCurrentColour();
-	// perform gamma correction
-	// TODO: real srgb conversion
-	colorR = std::pow(rgb.getFloatRed(), 2.2f);
-	colorG = std::pow(rgb.getFloatGreen(), 2.2f);
-	colorB = std::pow(rgb.getFloatBlue(), 2.2f);
+	const RtColor srgb = hsvSelector.getCurrentColour();
+	const RtColor linear = srgb.toLinear();
+
+	colorR = linear.getRed();
+	colorG = linear.getGreen();
+	colorB = linear.getBlue();
 }
 
 void ColorPickerComponent::getRtSelector() {
-	const RtColor rgb = rtSelector.getCurrentColor();
+	const RtColor srgb = rtSelector.getCurrentColor();
+	const RtColor linear = srgb.toLinear();
 
-	// perform gamma correction
-	// TODO: real srgb conversion
-	colorR = std::pow(rgb.getRed(), 2.2f);
-	colorG = std::pow(rgb.getGreen(), 2.2f);
-	colorB = std::pow(rgb.getBlue(), 2.2f);
+	colorR = linear.getRed();
+	colorG = linear.getGreen();
+	colorB = linear.getBlue();
 }
 
 void ColorPickerComponent::getTextSelector() {
-	colorR = textSelector.getFloatR();
-	colorG = textSelector.getFloatG();
-	colorB = textSelector.getFloatB();
+	const RtColor srgb = textSelector.getCurrentColor();
+	const RtColor linear = srgb.toLinear();
+
+	colorR = linear.getRed();
+	colorG = linear.getGreen();
+	colorB = linear.getBlue();
 }

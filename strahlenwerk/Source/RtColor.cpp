@@ -36,6 +36,16 @@ RtColor::RtColor(uint32 rgba) :
 {
 }
 
+RtColor::RtColor(const glm::vec3 rgb) :
+	RtColor(rgb.r, rgb.g, rgb.b)
+{
+}
+
+RtColor::RtColor(const glm::vec4 rgba) :
+	RtColor(rgba.r, rgba.g, rgba.b, rgba.a)
+{
+}
+
 RtColor RtColor::fromHexRGBA(StringRef hexString) {
 	return RtColor(uint32(CharacterFunctions::HexParser<int>::parse(hexString.text)));
 }
@@ -56,6 +66,23 @@ float RtColor::getBlue() const {
 float RtColor::getAlpha() const {
 	return alpha;
 }
+
+void RtColor::setRed(const float r_) {
+	red = r_;
+}
+
+void RtColor::setGreen(const float g_) {
+	green = g_;
+}
+
+void RtColor::setBlue(const float b_) {
+	blue = b_;
+}
+
+void RtColor::setAlpha(const float a_) {
+	alpha = a_;
+}
+
 
 /*
  * HCY hue/chroma/luminance color space
@@ -181,6 +208,23 @@ RtColor RtColor::withMultipliedAlpha(float alphaMultiplier) const {
 }
 
 
+RtColor RtColor::toLinear() const {
+	return RtColor(srgbToLinear(toVec3()));
+}
+
+RtColor RtColor::toSrgb() const {
+	return RtColor(linearToSrgb(toVec3()));
+}
+
+
+glm::vec3 RtColor::toVec3() const {
+	return glm::vec3(red, green, blue);
+}
+
+glm::vec4 RtColor::toVec4() const {
+	return glm::vec4(red, green, blue, alpha);
+}
+
 String RtColor::toGLSLString(bool includeAlpha) const {
 	String str = "vec";
 	str += includeAlpha ? "4(" : "3(";
@@ -195,9 +239,9 @@ String RtColor::toGLSLString(bool includeAlpha) const {
 
 String RtColor::toHexString(bool includeAlpha) const {
 	int hexColor = 0;
-	hexColor += jlimit(0, 255, int(red * 255.0f)) << 16;
-	hexColor += jlimit(0, 255, int(green * 255.0f)) << 8;
-	hexColor += jlimit(0, 255, int(blue * 255.0f));
+	hexColor += roundFloatToInt(red * 255.0f) << 16;
+	hexColor += roundFloatToInt(green * 255.0f) << 8;
+	hexColor += roundFloatToInt(blue * 255.0f);
 
 	String text(String::toHexString(hexColor));
 	text = text.toUpperCase();
@@ -228,4 +272,37 @@ bool operator==(const RtColor &color1, const RtColor &color2) {
 
 bool operator!=(const RtColor &color1, const RtColor &color2) {
 	return !(color1 == color2);
+}
+
+
+// Linear to sRGB conversions from:
+// http://entropymine.com/imageworsener/srgbformula/
+float RtColor::linearToSrgb(const float linear) {
+	jassert(isPositiveAndNotGreaterThan(linear, 1.f));
+
+	if (linear <= 0.00313066844250063f) {
+		return linear * 12.92f;
+	}
+
+	return 1.055f * glm::pow(linear, 1.f / 2.4f) - 0.055f;
+}
+
+glm::vec3 RtColor::linearToSrgb(const glm::vec3 linear) {
+	return glm::vec3(linearToSrgb(linear.r), linearToSrgb(linear.g), linearToSrgb(linear.b));
+}
+
+// sRGB to Linear conversions from:
+// http://entropymine.com/imageworsener/srgbformula/
+float RtColor::srgbToLinear(const float srgb) {
+	jassert(isPositiveAndNotGreaterThan(srgb, 1.f));
+
+	if (srgb <= 0.0404482362771082f) {
+		return srgb / 12.92f;
+	}
+
+	return glm::pow( (srgb + 0.055f) / 1.055f, 2.4f);
+}
+
+glm::vec3 RtColor::srgbToLinear(const glm::vec3 srgb) {
+	return glm::vec3(srgbToLinear(srgb.r), srgbToLinear(srgb.g), srgbToLinear(srgb.b));
 }

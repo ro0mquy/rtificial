@@ -2,6 +2,7 @@
 #define COLORTEXTINPUTCOMPONENT_H
 
 #include <juce>
+#include <RtColor.h>
 
 class ColorTextInputComponent :
 	public Component,
@@ -12,18 +13,14 @@ class ColorTextInputComponent :
 		ColorTextInputComponent();
 		~ColorTextInputComponent();
 
-		void setRGB(const float R_, const float G_, const float B_);
-		float getFloatR();
-		float getFloatG();
-		float getFloatB();
+		void setCurrentColor(const RtColor& color_);
+		RtColor getCurrentColor() const;
 
 		void resized() override;
 		void labelTextChanged(Label* labelThatHasChanged) override;
 
 	private:
-		float R;
-		float G;
-		float B;
+		RtColor color;
 
 		Label labelHex;
 		Label labelInt;
