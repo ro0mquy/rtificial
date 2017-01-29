@@ -8,7 +8,7 @@ using namespace glm;
 static const float focalLengthFactor = .9;
 
 static const float speedAdjustmentFactor = .75;
-static const float rotationMouseFactor = .025;
+static const float rotationMouseFactor = .20;
 
 vec3 CameraMath::positionForward(vec3 position, quat rotation, float dtime) {
 	// only move in xz-plane
