@@ -50,8 +50,12 @@ void ScenesBarComponent::paint(Graphics& g) {
 		const float timeAtRightBorder = getWidth() / zoomFactor / beatsPerSecond / 1000.;
 
 		Rectangle<int> halfVisibleRect = getLocalBounds();
-		halfVisibleRect.setHeight(2 * 2 * 0.15 * halfVisibleRect.getHeight());
-		halfVisibleRect.setCentre(halfVisibleRect.getCentreX(), 0.);
+		halfVisibleRect.setHeight(15);
+		//halfVisibleRect.setCentre(halfVisibleRect.getCentreX(), 0.);
+
+		Graphics::ScopedSaveState saveState(g);
+		g.reduceClipRegion(halfVisibleRect);
+		halfVisibleRect.setHeight(2 * halfVisibleRect.getHeight());
 
 		g.setColour(findColour(ScenesBarComponent::waveformColourId));
 		audioThumb.drawChannel(g, halfVisibleRect, 0., timeAtRightBorder, 0, 1.);

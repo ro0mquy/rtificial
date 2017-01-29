@@ -44,8 +44,9 @@ void SceneComponent::updateBounds() {
 	const int start = (int) data.getSceneStart(sceneData) * zoomFactor;
 	const int duration = (int) data.getSceneDuration(sceneData) * zoomFactor;
 
+	const int topOffset = 15;
 	const int padding = 0;
-	setBounds(start, padding, duration, getParentHeight() - 2*padding);
+	setBounds(start, topOffset + padding, duration, getParentHeight() - topOffset - 2*padding);
 }
 
 void SceneComponent::Positioner::applyNewBounds(const Rectangle<int>& newBounds) {

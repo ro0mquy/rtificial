@@ -139,7 +139,6 @@ Colour RtificialLookAndFeel::getColorFromSectionName(const String name) {
 
 void RtificialLookAndFeel::drawScene(Graphics& g, Rectangle<float>& area, const bool selected, const String shaderSource) {
 	Rectangle<float> sceneRect = area;
-	sceneRect.removeFromTop(15.0f);
 	sceneRect.reduce(0.5f, 0.5f);
 
 	Colour fillColor = findColour(SceneComponent::fillColourId);
