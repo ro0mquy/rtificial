@@ -1122,6 +1122,89 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "ext_2_box_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_3_long_l_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.97500000000002273737
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_3_long_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 8.0160000000000763976
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_3_long_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.1480000000000245564
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_3_long_trans_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 6.7280000000000654836
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_2_mirror_loco_rot_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.0919999999999845386
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_2_mirror_loco_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.041000000000053667126
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_2_mirror_loco_trans_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 4.3799999999999954525
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_2_mirror_plane_dir_rt_quat",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": -0.55136656761169433594,
+        "valueQuatY": -0.089418292045593261719,
+        "valueQuatZ": 0.089056611061096191406,
+        "valueQuatW": 0.82463133335113525391
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_2_mirror_plane_dist_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.1839999999999690772
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "ext_trans_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1158,7 +1241,7 @@
       "uniformName": "frame_loco_outer_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
-        "valueVec2X": 0.87300000000004729372,
+        "valueVec2X": 0.87300000000004740475,
         "valueVec2Y": 0.26999999999998181011
       },
       "sequencesArray": []
@@ -1167,7 +1250,7 @@
       "uniformName": "frame_loco_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
-        "valueVec2X": 0.19600000000002637535,
+        "valueVec2X": 0.1960000000000264031,
         "valueVec2Y": 0.1929999999999836291
       },
       "sequencesArray": []
@@ -1184,7 +1267,7 @@
       "uniformName": "frame_smoothness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.46400000000005547918
+        "valueFloatX": 0.46400000000005553469
       },
       "sequencesArray": []
     },
@@ -4302,8 +4385,8 @@
     {
       "sceneId": 139,
       "sceneStart": 92375,
-      "sceneDuration": 69625,
-      "sceneShaderSource": "extruder",
+      "sceneDuration": 67625,
+      "sceneShaderSource": "extruder3",
       "sceneEnvironmentSource": "sky",
       "keyframeValue": {
       }
