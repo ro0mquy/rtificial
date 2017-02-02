@@ -1,11 +1,13 @@
 #include "march.glsl"
-#line 3
+#include "shadow.glsl"
+#line 4
 
-const float mat_id_bounding = 0.;
+const float mat_id_ground = 0.;
 const float mat_id_ext = 1.;
 
 float fScene(vec3 p) {
 	vec3 p_ext = p;
+	pTrans(p_ext.y, 10.);
 
 	// extruder geschwurbel
 	pTrans(p_ext.x, -ext_extrude_h_rt_float);
@@ -33,17 +35,44 @@ float fScene(vec3 p) {
 	// material stuff
 	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_ext, vec4(0.)));
 
-	MatWrap w_bound = MatWrap(-fSphere(p, 100.), newMaterialId(mat_id_bounding, p));
-	MatWrap w = mUnion(w_ext, w_bound);
+	// ground plane
+	float f_ground = p.y;
+	MatWrap w_ground = MatWrap(f_ground, newMaterialId(mat_id_ground, p));
+
+	MatWrap w = mUnion(w_ext, w_ground);
 
 	mUnion(w);
 	return w.f;
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
+	vec3 result = vec3(0.);
+
 	vec3 emission = material.emission;
-	//return applyNormalLights(origin, marched, direction, hit, normal, material) + emission;
-	return ambientColor(normal, -direction, material) + emission;
+	result += emission;
+
+	vec3 ambient_lighting = ambientColor(normal, -direction, material);
+	//result += ambient_lighting;
+
+	SphereLight light = SphereLight(ext_light_pos_rt_vec3, ext_light_radius_rt_float, ext_light_color_rt_color, ext_light_power_rt_float*1000.);
+	vec3 sphere_lighting = applySphereLight(origin, marched, direction, hit, normal, material, light) * light.color;
+
+	vec3 dir_to_light = normalize(ext_light_pos_rt_vec3 - hit);
+	float length_to_light = distance(ext_light_pos_rt_vec3, hit);
+	float shadowing_value = shadowMarch(hit, dir_to_light, length_to_light);
+	sphere_lighting *= shadowing_value;
+	result += sphere_lighting;
+
+	SphereLight light2 = SphereLight(ext_light2_pos_rt_vec3, ext_light2_radius_rt_float, ext_light2_color_rt_color, ext_light2_power_rt_float*1000.);
+	vec3 sphere_lighting2 = applySphereLight(origin, marched, direction, hit, normal, material, light2) * light2.color;
+
+	vec3 dir_to_light2 = normalize(ext_light2_pos_rt_vec3 - hit);
+	float length_to_light2 = distance(ext_light2_pos_rt_vec3, hit);
+	float shadowing_value2 = shadowMarch(hit, dir_to_light2, length_to_light2);
+	sphere_lighting2 *= shadowing_value2;
+	result += sphere_lighting2;
+
+	return result;
 }
 
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
@@ -53,21 +82,23 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 
-	if (materialId.id == mat_id_bounding) {
-		mat.color = ext_color_background_rt_color;
-	} else if (materialId.id == mat_id_ext) {
-		vec3 loco_index = (materialId.misc.xyz + 1.) / 2.; // {0, 1}
-		float px_before = (materialId.misc.w/ext_extrude_h_rt_float + 1.) / 2.; // {0,1}
+	if (materialId.id == mat_id_ext) {
+		vec3 p_ext = materialId.coord;
+		//float px_before = (materialId.misc.w/ext_extrude_h_rt_float + 1.) / 2.; // {0,1}
 
-		mat.color = ext_color_torus_rt_color;
+		if (abs(p_ext.y) < .1) {
+			mat.color = ext_3_color_highlight_rt_color;
+			mat.metallic = 1.;
+			mat.roughness = ext_3_color_highlight_roughness_rt_float;
+		} else {
+			mat.color = ext_3_color_spheroid_rt_color;
+			mat.metallic = 1.;
+			mat.roughness = ext_3_color_roughness_rt_float;
+		}
 
-		if (loco_index.x > 0) {
-			mat.color = ext_color_torus_hightlight_rt_color;
-		}
-		if (loco_index.y > 0) {
-			mat.color += 0.5;
-		}
-		mat.color = mix(ext_color_fade_rt_color,mat.color, pow(px_before, ext_fade_pow_rt_float));
+	} else if (materialId.id == mat_id_ground) {
+		mat.color = vec3(1.);
+		mat.roughness = 1.;
 	}
 
 	return mat;
