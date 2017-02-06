@@ -1,7 +1,8 @@
 #include "RtColorSelector.h"
+#include <Timeline/TimelineData.h>
 
 // TODO fix problems with full white
-// TODO undo support
+// TODO redraw on undo
 // TODO fix assertions in RtColor when picking from the wheel's edge
 
 static float precisionDelta(float delta) {
@@ -107,6 +108,10 @@ class RtColorSelector::ColorSpaceView :
 				setShiftDown();
 			}
 			mouseDrag(e);
+		}
+
+		void mouseUp(const MouseEvent& /*e*/) override {
+			TimelineData::getTimelineData().getUndoManager().beginNewTransaction("Pick Hue/Chroma");
 		}
 
 		void mouseDrag(const MouseEvent& e) override {
@@ -271,6 +276,10 @@ class RtColorSelector::LumaSelectorComponent :
 
 		void mouseDown(const MouseEvent& e) override {
 			mouseDrag(e);
+		}
+
+		void mouseUp(const MouseEvent& /*e*/) override {
+			TimelineData::getTimelineData().getUndoManager().beginNewTransaction("Pick Luma");
 		}
 
 		void mouseDrag(const MouseEvent& e) override {
