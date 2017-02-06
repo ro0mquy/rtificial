@@ -103,6 +103,9 @@ class RtColorSelector::ColorSpaceView :
 		}
 
 		void mouseDown(const MouseEvent& e) override {
+			if (e.mods.isShiftDown()) {
+				setShiftDown();
+			}
 			mouseDrag(e);
 		}
 
