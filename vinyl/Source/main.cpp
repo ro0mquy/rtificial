@@ -180,11 +180,18 @@ RT_MAIN {
 		frontend.afterFrame();
 	}
 
+#	ifdef _DEBUG
+	RT_DEBUG("textures done\n");
+#	endif
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < n_scenes; i++) {
 			if (environments[i].isValid()) {
 				environments[i].bind();
 			}
+
+#	ifdef _DEBUG
+			RT_DEBUG("environment gewurschtel done\n");
+#	endif
 
 			fbos[0].bind();
 			scenes[i].draw(fbos[0].width, fbos[0].height, -1);
@@ -195,6 +202,10 @@ RT_MAIN {
 				fbos[i + 1].unbind();
 			}
 
+#	ifdef _DEBUG
+			RT_DEBUG("fbo binding donee\n");
+#	endif
+
 			glEnable(GL_FRAMEBUFFER_SRGB);
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glViewport(0, 0, width, height);
@@ -202,11 +213,19 @@ RT_MAIN {
 			glDisable(GL_FRAMEBUFFER_SRGB);
 			//frontend.afterFrame();
 
+#	ifdef _DEBUG
+			RT_DEBUG("progess update done\n");
+#	endif
+/*
 			progress += progress_step;
 			ladebalken.bind();
 			glUniform1f(74, progress);
 			ladebalken.draw(width, height, -1);
 			frontend.afterFrame();
+*/
+#	ifdef _DEBUG
+			RT_DEBUG("textures done\n");
+#	endif
 		}
 	}
 
@@ -216,12 +235,17 @@ RT_MAIN {
 	if (precalc_waiting_time > 0) {
 		frontend.sleep(precalc_waiting_time);
 	}
+	/*
 	ladebalken.bind();
 	glUniform1f(74, progress);
 	ladebalken.draw(width, height, -1);
 	frontend.afterFrame();
-
+	*/
 	frontend.playAudio();
+
+#	ifdef _DEBUG
+	RT_DEBUG("after frontend.playAudio()\n");
+#	endif
 
 	int scene_id = 0;
 	int shader_id = scenes_data[scene_id].sceneId;
@@ -238,6 +262,10 @@ RT_MAIN {
 			}
 		}
 
+#	ifdef _DEBUG
+		RT_DEBUG("scene update done\n");
+#	endif
+
 		if (environments[shader_id].isValid()) {
 			environments[shader_id].bind();
 		}
@@ -250,12 +278,20 @@ RT_MAIN {
 			fbos[i + 1].unbind();
 		}
 
+#	ifdef _DEBUG
+		RT_DEBUG("postproc update done\n");
+#	endif
+
 		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
 		postproc[n_postproc - 1].draw(width, height, currentTime);
 		glDisable(GL_FRAMEBUFFER_SRGB);
 		frontend.afterFrame();
+
+#	ifdef _DEBUG
+		RT_DEBUG("framebuffer foo done\n");
+#	endif
 
 #		ifdef _DEBUG
 			// RT_DEBUG((std::to_string(frontend.getTime()) + "\n").c_str());
