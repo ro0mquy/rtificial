@@ -52,7 +52,9 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 	result += emission;
 
 	vec3 ambient_lighting = ambientColor(normal, -direction, material);
-	//result += ambient_lighting;
+	if (materialId.id == mat_id_ground) {
+		result += ambient_lighting;
+	}
 
 	SphereLight light = SphereLight(ext_light_pos_rt_vec3, ext_light_radius_rt_float, ext_light_color_rt_color, ext_light_power_rt_float*1000.);
 	vec3 sphere_lighting = applySphereLight(origin, marched, direction, hit, normal, material, light) * light.color;
@@ -86,7 +88,7 @@ Material getMaterial(MaterialId materialId) {
 		vec3 p_ext = materialId.coord;
 		//float px_before = (materialId.misc.w/ext_extrude_h_rt_float + 1.) / 2.; // {0,1}
 
-		if (abs(p_ext.y) < .1) {
+		if (abs(p_ext.y) < .2) {
 			mat.color = ext_3_color_highlight_rt_color;
 			mat.metallic = 1.;
 			mat.roughness = ext_3_color_highlight_roughness_rt_float;

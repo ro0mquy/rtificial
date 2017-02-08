@@ -146,5 +146,5 @@ void main() {
 	float edg = textureLod(edge, tc, 0.).x;
 	out_color = mix(out_color, post_edge_color, edg);
 
-	out_color = mix(out_color, vec3(1.), fFrame());
+	//out_color = mix(out_color, vec3(1.), fFrame());
 }
