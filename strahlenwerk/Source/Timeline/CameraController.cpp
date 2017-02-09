@@ -174,45 +174,45 @@ void CameraController::timerCallback() {
 	}
 
 	if (KeyPress::isKeyCurrentlyDown('w')) {
-		position = cameraMath.positionForward(position, rotation, deltaTime);
+		position = cameraMath.positionForward(position, rotation, deltaTime, focalLength);
 	}
 	if (KeyPress::isKeyCurrentlyDown('s')) {
-		position = cameraMath.positionBackward(position, rotation, deltaTime);
+		position = cameraMath.positionBackward(position, rotation, deltaTime, focalLength);
 	}
 
 	if (KeyPress::isKeyCurrentlyDown('a')) {
-		position = cameraMath.positionLeft(position, rotation, deltaTime);
+		position = cameraMath.positionLeft(position, rotation, deltaTime, focalLength);
 	}
 	if (KeyPress::isKeyCurrentlyDown('d')) {
-		position = cameraMath.positionRight(position, rotation, deltaTime);
+		position = cameraMath.positionRight(position, rotation, deltaTime, focalLength);
 	}
 
 	if (KeyPress::isKeyCurrentlyDown('e')) {
-		position = cameraMath.positionUp(position, rotation, deltaTime);
+		position = cameraMath.positionUp(position, rotation, deltaTime, focalLength);
 	}
 	if (KeyPress::isKeyCurrentlyDown('c')) {
-		position = cameraMath.positionDown(position, rotation, deltaTime);
+		position = cameraMath.positionDown(position, rotation, deltaTime, focalLength);
 	}
 
 	if (KeyPress::isKeyCurrentlyDown('i')) {
-		rotation = cameraMath.rotationUp(position, rotation, deltaTime);
+		rotation = cameraMath.rotationUp(position, rotation, deltaTime, focalLength);
 	}
 	if (KeyPress::isKeyCurrentlyDown('k')) {
-		rotation = cameraMath.rotationDown(position, rotation, deltaTime);
+		rotation = cameraMath.rotationDown(position, rotation, deltaTime, focalLength);
 	}
 
 	if (KeyPress::isKeyCurrentlyDown('j')) {
-		rotation = cameraMath.rotationLeft(position, rotation, deltaTime);
+		rotation = cameraMath.rotationLeft(position, rotation, deltaTime, focalLength);
 	}
 	if (KeyPress::isKeyCurrentlyDown('l')) {
-		rotation = cameraMath.rotationRight(position, rotation, deltaTime);
+		rotation = cameraMath.rotationRight(position, rotation, deltaTime, focalLength);
 	}
 
 	if (KeyPress::isKeyCurrentlyDown('u')) {
-		rotation = cameraMath.rotationCounterclockwise(position, rotation, deltaTime);
+		rotation = cameraMath.rotationCounterclockwise(position, rotation, deltaTime, focalLength);
 	}
 	if (KeyPress::isKeyCurrentlyDown('o')) {
-		rotation = cameraMath.rotationClockwise(position, rotation, deltaTime);
+		rotation = cameraMath.rotationClockwise(position, rotation, deltaTime, focalLength);
 	}
 
 	sendChangeMessage();
@@ -405,7 +405,7 @@ void CameraController::handleMouseDragging() {
 	const float deltaTime = lastMouseMoveTime - oldLastMouseMoveTime;
 
 	cameraMutex.lock();
-	rotation = cameraMath.mouseMove(position, rotation, deltaTime, glm::vec2(deltaMousePos.x, -deltaMousePos.y)); // origin in bottom left corner
+	rotation = cameraMath.mouseMove(position, rotation, deltaTime, focalLength, glm::vec2(deltaMousePos.x, -deltaMousePos.y)); // origin in bottom left corner
 	cameraMutex.unlock();
 
 	sendChangeMessage();
