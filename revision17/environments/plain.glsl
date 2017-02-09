@@ -1,5 +1,5 @@
 #version 430
-#include "sky.glsl"
+#include "helper.glsl"
 #line 4
 
 layout(location = 0) uniform vec2 res;
@@ -14,5 +14,10 @@ void main() {
 	vec3 d = mat3(camera_right, camera_up, -camera_direction) * direction;
 	vec3 o = vec3(0., 5., 0.);
 
-	out_color = (d + 1.) / 2.;
+	vec3 color_bottom = srgb2lin(vec3(0.90780, 0.55563, 0.51623));
+	vec3 color_top = srgb2lin(vec3(0.72667, 0.57653, 0.64615));
+	out_color = mix(color_bottom, color_top, smoothstep(0., .1, d.y));
+	//out_color = mix(pow(vec3(0.51287, 0.88513, 0.67453), vec3(2.2)), vec3(.3), 1.-iqCubicPulse(-.4, .5, d.y));
+
+	out_color = mix(out_color, (d + 1.) / 2., .03);
 }

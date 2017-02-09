@@ -1120,9 +1120,17 @@
       "uniformName": "ext_3_color_highlight_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.95044898986816395148,
-        "valueColorG": 0.73536765575408924445,
-        "valueColorB": 0.011855645105242727452
+        "valueColorR": 0.67355442047119140625,
+        "valueColorG": 0.31660416722297668457,
+        "valueColorB": 0.0095553789287805557251
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_3_color_highlight_size_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.080000000000040927262
       },
       "sequencesArray": []
     },
@@ -1130,7 +1138,7 @@
       "uniformName": "ext_3_color_roughness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.79600000000004911271
+        "valueFloatX": 0.70000000000004547474
       },
       "sequencesArray": []
     },
@@ -1141,6 +1149,16 @@
         "valueColorR": 1,
         "valueColorG": 1,
         "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_3_ground_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.80293458700180053711,
+        "valueColorG": 0.26919606328010559082,
+        "valueColorB": 0.22937335073947906494
       },
       "sequencesArray": []
     },
@@ -1251,7 +1269,7 @@
       "uniformName": "ext_light_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.47199999999997999112
+        "valueFloatX": 10
       },
       "sequencesArray": []
     },
@@ -1259,9 +1277,9 @@
       "uniformName": "ext_light2_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.11905683577060699463,
-        "valueColorG": 0.39541149139404296875,
-        "valueColorB": 0.48548588156700134277
+        "valueColorR": 0.024915874004364013672,
+        "valueColorG": 0.29463529586791992188,
+        "valueColorB": 0.65869337320327758789
       },
       "sequencesArray": []
     },
@@ -1288,6 +1306,42 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_light3_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.31849721074104309082,
+        "valueColorG": 0.69584786891937255859,
+        "valueColorB": 0.37679439783096313477
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_light3_pos_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 10,
+        "valueVec3Z": 30
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_light3_power_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 200
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext_light3_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.12000000000000454747
       },
       "sequencesArray": []
     },

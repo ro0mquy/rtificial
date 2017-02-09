@@ -4,6 +4,7 @@
 
 const float mat_id_ground = 0.;
 const float mat_id_ext = 1.;
+const float mat_id_highl = 2.;
 
 float fScene(vec3 p) {
 	vec3 p_ext = p;
@@ -31,15 +32,21 @@ float fScene(vec3 p) {
 	float f_long = fSpheroid(p_long, ext_3_long_l_rt_float * ext_3_long_r_rt_float, ext_3_long_r_rt_float);
 
 	float f_ext = f_long;
-
-	// material stuff
 	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_ext, vec4(0.)));
+
+	// golden highlight
+	vec2 q_highl = vec2(f_long, p_long.y);
+	float f_highl = f2Sphere(q_highl, ext_3_color_highlight_size_rt_float);
+	MatWrap w_highl = MatWrap(f_highl, newMaterialId(mat_id_highl, p_ext));
 
 	// ground plane
 	float f_ground = p.y;
 	MatWrap w_ground = MatWrap(f_ground, newMaterialId(mat_id_ground, p));
 
-	MatWrap w = mUnion(w_ext, w_ground);
+	// combine everything
+	MatWrap w = w_ext;
+	w = mUnion(w, w_highl);
+	w = mUnion(w, w_ground);
 
 	mUnion(w);
 	return w.f;
@@ -52,9 +59,9 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 	result += emission;
 
 	vec3 ambient_lighting = ambientColor(normal, -direction, material);
-	if (materialId.id == mat_id_ground) {
+	//if (materialId.id == mat_id_ground) {
 		result += ambient_lighting;
-	}
+	//}
 
 	SphereLight light = SphereLight(ext_light_pos_rt_vec3, ext_light_radius_rt_float, ext_light_color_rt_color, ext_light_power_rt_float*1000.);
 	vec3 sphere_lighting = applySphereLight(origin, marched, direction, hit, normal, material, light) * light.color;
@@ -74,6 +81,15 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 	sphere_lighting2 *= shadowing_value2;
 	result += sphere_lighting2;
 
+	SphereLight light3 = SphereLight(ext_light3_pos_rt_vec3, ext_light3_radius_rt_float, ext_light3_color_rt_color, ext_light3_power_rt_float*1000.);
+	vec3 sphere_lighting3 = applySphereLight(origin, marched, direction, hit, normal, material, light3) * light3.color;
+
+	vec3 dir_to_light3 = normalize(ext_light3_pos_rt_vec3 - hit);
+	float length_to_light3 = distance(ext_light3_pos_rt_vec3, hit);
+	float shadowing_value3 = shadowMarch(hit, dir_to_light3, length_to_light3, 4.* shad_softness_rt_float);
+	sphere_lighting3 *= shadowing_value3;
+	result += sphere_lighting3;
+
 	return result;
 }
 
@@ -88,19 +104,19 @@ Material getMaterial(MaterialId materialId) {
 		vec3 p_ext = materialId.coord;
 		//float px_before = (materialId.misc.w/ext_extrude_h_rt_float + 1.) / 2.; // {0,1}
 
-		if (abs(p_ext.y) < .2) {
-			mat.color = ext_3_color_highlight_rt_color;
-			mat.metallic = 1.;
-			mat.roughness = ext_3_color_highlight_roughness_rt_float;
-		} else {
-			mat.color = ext_3_color_spheroid_rt_color;
-			mat.metallic = 1.;
-			mat.roughness = ext_3_color_roughness_rt_float;
-		}
+		mat.color = ext_3_color_spheroid_rt_color;
+		mat.metallic = 1.;
+		mat.roughness = ext_3_color_roughness_rt_float;
+
+	} else if (materialId.id == mat_id_highl) {
+		mat.color = ext_3_color_highlight_rt_color;
+		mat.metallic = 1.;
+		mat.roughness = ext_3_color_highlight_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_ground) {
-		mat.color = vec3(1.);
-		mat.roughness = 1.;
+		mat.emission = 1* ext_3_ground_color_rt_color;
+		mat.color = vec3(.3);
+		mat.roughness = 0.;
 	}
 
 	return mat;
