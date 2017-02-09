@@ -5,7 +5,7 @@ float shadowMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, int max_iter
 	// forceHit: boolean enforcing to use the
 	//           candidate_t value as result
 	float t = t_min;
-	float candidate_error = 1.;
+	float candidate_error = Inf;
 	float previousRadius = 0;
 	float stepLength = 0;
 	float functionSign = sgn(fMain(o + t_min*d, false));
@@ -22,7 +22,7 @@ float shadowMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, int max_iter
 			stepLength = signedRadius * omega;
 
 			float error = radius / t;
-			candidate_error = min(candidate_error, shad_softness_rt_float * error);
+			candidate_error = min(candidate_error, error);
 
 			if (error < 0.0001) {
 				return 0.;
@@ -40,8 +40,8 @@ float shadowMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, int max_iter
 	return candidate_error;
 }
 
-float shadowMarch(vec3 o, vec3 d, float t_max) {
+float shadowMarch(vec3 o, vec3 d, float t_max, float softness) {
 	float shadowing_value = shadowMarchAdvanced(o, d, .01, t_max, 256, 1.2);
 
-	return shadowing_value;
+	return min(1., softness * shadowing_value);
 }

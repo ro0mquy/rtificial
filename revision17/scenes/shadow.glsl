@@ -22,7 +22,7 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 
 	vec3 dir_to_light = normalize(shad_light_pos_rt_vec3 - hit);
 	float length_to_light = distance(shad_light_pos_rt_vec3, hit);
-	float shadowing_value = shadowMarch(hit, dir_to_light, length_to_light);
+	float shadowing_value = shadowMarch(hit, dir_to_light, length_to_light, shad_softness_rt_float);
 
 	return emission + ambient_lighting + shadowing_value * sphere_lighting;
 	//return normal_light + shadowing_value * sphere_lighting;

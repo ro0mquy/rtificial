@@ -61,7 +61,7 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 
 	vec3 dir_to_light = normalize(ext_light_pos_rt_vec3 - hit);
 	float length_to_light = distance(ext_light_pos_rt_vec3, hit);
-	float shadowing_value = shadowMarch(hit, dir_to_light, length_to_light);
+	float shadowing_value = shadowMarch(hit, dir_to_light, length_to_light, shad_softness_rt_float);
 	sphere_lighting *= shadowing_value;
 	result += sphere_lighting;
 
@@ -70,7 +70,7 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 
 	vec3 dir_to_light2 = normalize(ext_light2_pos_rt_vec3 - hit);
 	float length_to_light2 = distance(ext_light2_pos_rt_vec3, hit);
-	float shadowing_value2 = shadowMarch(hit, dir_to_light2, length_to_light2);
+	float shadowing_value2 = shadowMarch(hit, dir_to_light2, length_to_light2, shad_softness_rt_float);
 	sphere_lighting2 *= shadowing_value2;
 	result += sphere_lighting2;
 
