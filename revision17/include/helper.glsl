@@ -250,3 +250,19 @@ vec3 hsv2rgb(vec3 c) {
     vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
+
+vec3 lin2srgb(vec3 c) {
+	vec3 vec_if = step(0.00313066844250063, c);
+	vec3 vec_smaller = c * 12.92;
+	vec3 vec_greater = 1.055 * pow(c, vec3(1./2.4)) - 0.055;
+	vec3 vec_result = mix(vec_smaller, vec_greater, vec_if);
+	return vec_result;
+}
+
+vec3 srgb2lin(vec3 c) {
+	vec3 vec_if = step(0.0404482362771082f, c);
+	vec3 vec_smaller = c / 12.92;
+	vec3 vec_greater = pow( (c + 0.055) / 1.055, vec3(2.4));
+	vec3 vec_result = mix(vec_smaller, vec_greater, vec_if);
+	return vec_result;
+}
