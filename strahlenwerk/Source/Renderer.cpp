@@ -134,6 +134,13 @@ uint64_t Renderer::getLastFrameDuration() {
 }
 
 void Renderer::performMakeDemo() {
+	if (ambientLights == nullptr) {
+		MainWindow::getApplicationCommandManager().invokeDirectly(Project::reloadEnvironments, false);
+		if (ambientLights == nullptr) {
+			DBG("Can't export without environments.");
+			return;
+		}
+	}
 	std::lock_guard<std::mutex> lock(renderMutex);
 	StrahlenwerkApplication::getInstance()->getProject().makeDemo(*scenes, *postproc, *ambientLights, textures);
 }
