@@ -7,6 +7,9 @@ layout(binding = 21) uniform samplerCube environment;
 layout(binding = 22) uniform samplerCube filteredDiffuse;
 layout(binding = 23) uniform samplerCube filteredSpecular;
 
+uniform vec3 background_filter; // color
+uniform vec3 background_color; // color
+
 struct SphereLight {
 	vec3 position;
 	float radius;
@@ -53,7 +56,11 @@ vec3 ambientColor(vec3 n, vec3 v, Material mat) {
 	vec3 dielectric = mat.color * diffuse
 		+ approximateSpecular(n, v, vec3(.04), mat.roughness);
 	vec3 metal = approximateSpecular(n, v, mat.color, mat.roughness);
-	return mix(dielectric, metal, mat.metallic);
+	vec3 color = mix(dielectric, metal, mat.metallic);
+
+	color = background_color * dot(color, background_filter);
+
+	return color;
 }
 
 // o: camera origin
@@ -64,7 +71,11 @@ vec3 environmentColor(vec3 o, vec3 d, float r) {
 	o.xz -= camera_position.xz;
 	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
 	float t = -dot(d, o) + sqrt(radicand);
-	return textureLod(environment, normalize(o + t * d), 0.).rgb;
+	vec3 color = textureLod(environment, normalize(o + t * d), 0.).rgb;
+
+	color = background_color * dot(color, background_filter);
+
+	return color;
 }
 
 // handy standard applyLights() function at your hands, just copy this into yout applyLights() function
