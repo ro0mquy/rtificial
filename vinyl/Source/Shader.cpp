@@ -2,7 +2,7 @@
 #include "DataInterpolator.h"
 #include "Frontend.h" // for RT_DEBUG
 #include "Constants.h"
-#include "export/strahlenwerk_export_interface.h"
+#include "strahlenwerk_export_interface.h"
 
 Shader::Shader(const char* _source, int _inputsNumber, const Input* _inputs) :
 	source(_source),

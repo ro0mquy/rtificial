@@ -129,23 +129,23 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	const File& interfaceHeader = buildDir.getChildFile("strahlenwerk_export_interface.h");
 	std::string shadersHeaderContent = R"source(#ifndef STRAHLENWERK_EXPORT
 #define STRAHLENWERK_EXPORT
-#include "../Shader.h"
-#include "../Framebuffer.h"
-#include "../Scene.h"
-#include "../Sequence.h"
-#include "../Uniform.h"
-#include "../AmbientLight.h"
-#include "../Texture.h"
+#include "Shader.h"
+#include "Framebuffer.h"
+#include "Scene.h"
+#include "Sequence.h"
+#include "Uniform.h"
+#include "AmbientLight.h"
+#include "Texture.h"
 )source";
 	std::string interfaceHeaderContent = R"source(#ifndef STRAHLENWERK_EXPORT_INTERFACE_H
 #define STRAHLENWERK_EXPORT_INTERFACE_H
-#include "../Shader.h"
-#include "../Framebuffer.h"
-#include "../Scene.h"
-#include "../Sequence.h"
-#include "../Uniform.h"
-#include "../AmbientLight.h"
-#include "../Texture.h"
+#include "Shader.h"
+#include "Framebuffer.h"
+#include "Scene.h"
+#include "Sequence.h"
+#include "Uniform.h"
+#include "AmbientLight.h"
+#include "Texture.h"
 )source";
 
 	std::string postprocArrayDeclaration = "Shader postproc[" + std::to_string(postprocShaders - 1) + "] = {\n";

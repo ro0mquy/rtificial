@@ -3,15 +3,15 @@ section .data
 
 %ifdef SYNTH_V2
 global _soundtrack
-_soundtrack incbin "../../Source/music/soundtrack.v2m"
+_soundtrack incbin "../../soundtrack.v2m"
 %endif
 %ifdef SYNTH_DUAL_V2_4KLANG
 global _soundtrack
-_soundtrack incbin "../../Source/music/soundtrack.v2m"
+_soundtrack incbin "../../soundtrack.v2m"
 %endif
 %ifdef SYNTH_VORBIS
 global _soundtrack
-_soundtrack incbin "../../Source/music/soundtrack.ogg"
+_soundtrack incbin "../../../music.ogg"
 _soundtrack_end:
 global _soundtrack_size
 _soundtrack_size dd _soundtrack_end - _soundtrack

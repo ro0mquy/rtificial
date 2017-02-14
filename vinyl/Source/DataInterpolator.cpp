@@ -1,6 +1,6 @@
 #include "DataInterpolator.h"
 
-#include "export/strahlenwerk_export.h"
+#include "strahlenwerk_export.h"
 #include "Uniform.h"
 #include "Sequence.h"
 

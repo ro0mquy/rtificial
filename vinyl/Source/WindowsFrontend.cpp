@@ -7,6 +7,7 @@ extern "C" {
 
 #include "Frontend.h"
 #include "glcorearb.h"
+#include "strahlenwerk_export_interface.h"
 
 PFNGLACTIVETEXTUREPROC            glActiveTexture;
 PFNGLGENBUFFERSPROC               glGenFramebuffers;
@@ -103,7 +104,7 @@ void WindowsFrontend::init(int width, int height, bool fullscreen) {
 #if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG)
 //#include <mmsystem.h>
 //#include <mmreg.h>
-#include "music/4klang.windows.h"
+#include "soundtrack.4klang.h"
 #include "math/stdmath.h"
 #define AUDIO_CHANNELS 2
 #ifndef WINDOWS_OBJECT

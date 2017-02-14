@@ -5,8 +5,19 @@
 -- * generalize nasm define pass through http://stackoverflow.com/questions/32531784/get-list-of-defines-as-token-or-string-in-premake-5
 --
 
+newoption {
+	trigger = "project",
+	value = "PATH",
+	description = "Path to the project directory of the strahlenwerk project to be build.",
+	default = "Builds",
+}
+
+
 workspace "Demo"
-	location ("Builds/".._ACTION)
+	local workspace_dir = _OPTIONS["project"].."/export/build/".._ACTION
+	location (workspace_dir)
+	os.mkdir(workspace_dir)
+	os.copyfile(_MAIN_SCRIPT_DIR.."/".._ACTION..".gitignore", workspace_dir.."/.gitignore")
 
 	configurations {
 		"Debug",
@@ -17,12 +28,11 @@ workspace "Demo"
 		defines "__linux"
 	filter { "system:windows" }
 		defines "_WINDOWS"
+		os.copyfile(_MAIN_SCRIPT_DIR.."/Bin/nasm.exe", workspace_dir.."/nasm.exe")
 
 	filter { "configurations:Debug" }
 		defines "_DEBUG"
-		flags {
-			"Symbols" -- Generate debugging information.
-		}
+		symbols = "On" -- Generate debugging information.
 	filter { "configurations:Release" }
 		defines "NDEBUG"
 
@@ -53,22 +63,25 @@ project "vinyl"
 	filter {} -- reset filters
 
 	files {
-		"Source/**.cpp",
-		"Source/**.h",
+		"Source/*.cpp",
+		"Source/*.h",
+		"Source/math/*.cpp",
+		"Source/math/*.h",
+		_OPTIONS["project"].."/export/strahlenwerk_export*.h",
+		_OPTIONS["project"].."/export/shaders/*.h",
 	}
 	removefiles {
-		"Source/music/*",
 		"Source/*Frontend.cpp",
 		"Source/incbin.asm",
 	}
 
 	libdirs {
 		"Lib/lib",
-		"Source/music",
 	}
 
 	includedirs {
 		"Lib/include",
+		_OPTIONS["project"].."/export/",
 	}
 
 	filter { "configurations:Release" }
@@ -91,10 +104,14 @@ project "vinyl"
 		files {
 			"Source/WindowsFrontend.cpp",
 		}
+
 		flags {
 			"MultiProcessorCompile",
 			"WinMain", -- Use `WinMain()` as entry point for Windows applications, rather than the default `main()`.
 		}
+		toolset "msc-140"
+		characterset ("MBCS")
+
 		buildoptions {
 			"/GS-", -- Disable Security checks
 		}
@@ -121,8 +138,7 @@ project "vinyl"
 
 	filter { "platforms:V2 or dual_V2_4klang", "system:windows" }
 		files {
-			"Source/music/bpm.h",
-			"Source/music/soundtrack.v2m",
+			_OPTIONS["project"].."/export/soundtrack.v2m",
 			"Source/incbin.asm",
 			"Lib/include/libv2.h",
 			"Lib/include/v2mplayer.cpp",
@@ -138,20 +154,22 @@ project "vinyl"
 
 	filter { "platforms:4klang or dual_V2_4klang", "system:windows" }
 		files {
-			"Source/music/4klang.windows.h",
-			"Source/music/4klang.windows.lib",
+			_OPTIONS["project"].."/export/soundtrack.4klang.h",
+			_OPTIONS["project"].."/export/soundtrack.4klang.lib",
+		}
+		libdirs {
+			_OPTIONS["project"].."/export/",
 		}
 		links {
 			"winmm",
-			"4klang.windows",
+			"soundtrack.4klang",
 		}
 
 	-- vorbis
 
 	filter { "platforms:vorbis", "system:windows" }
 		files {
-			"Source/music/bpm.h",
-			"Source/music/soundtrack.ogg",
+			_OPTIONS["project"].."/music.ogg",
 			"Source/incbin.asm",
 			"Lib/include/stb_vorbis_wrapper.c",
 			"Lib/include/stb_vorbis.h",
@@ -205,6 +223,7 @@ project "vinyl"
 			}
 
 	-- 4klang
+	-- TODO migrate to new export file structure
 
 	filter { "platforms:4klang", "system:linux" }
 		files {
@@ -224,6 +243,7 @@ project "vinyl"
 		}
 
 	-- vorbis
+	-- TODO migrate to new export file structure
 
 	filter { "platforms:vorbis", "system:linux" }
 		files {
@@ -242,3 +262,4 @@ project "vinyl"
 				"STB_VORBIS_NO_CRT",
 			}
 		--]]
+

@@ -8,13 +8,6 @@ using int16_t = short;
 #include <windows.h>
 #include "stdlib.h"
 
-#if defined(SYNTH_V2) || defined(SYNTH_VORBIS)
-#include "music/bpm.h"
-#endif
-#ifdef SYNTH_4KLANG
-#include "music/4klang.windows.h" // for BPM define
-#endif
-
 // las said this was good
 #define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN

@@ -1,6 +1,6 @@
 #include "Framebuffer.h"
 #include "Constants.h"
-#include "export/strahlenwerk_export_interface.h"
+#include "strahlenwerk_export_interface.h"
 
 Framebuffer::Framebuffer(int _outputLod, int _outputsNumber, const Output* _outputs) :
 	outputLod(_outputLod),

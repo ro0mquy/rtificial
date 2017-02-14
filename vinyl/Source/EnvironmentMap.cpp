@@ -1,5 +1,5 @@
 #include "EnvironmentMap.h"
-#include "export/strahlenwerk_export_interface.h"
+#include "strahlenwerk_export_interface.h"
 
 EnvironmentMap::EnvironmentMap(GLenum textureUnit_) : textureUnit(textureUnit_) {}
 

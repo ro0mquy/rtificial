@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "Framebuffer.h"
 #include "Scene.h"
-#include "export/strahlenwerk_export_interface.h"
+#include "strahlenwerk_export_interface.h"
 #include "glcorearb.h"
 #include "gl_identifiers.h"
 #include "ladebalken.h"
