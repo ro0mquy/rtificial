@@ -81,18 +81,18 @@ RtificialLookAndFeel::RtificialLookAndFeel() :
 	// ScopesComponent
 	setColour(HistogramComponent::backgroundColourId, plotBackgroundColour);
 	setColour(HistogramComponent::lumaColourId, plotForegroundColour);
-	setColour(HistogramComponent::redColourId, Colour(0xffff0000));
-	setColour(HistogramComponent::greenColourId, Colour(0xff00ff00));
-	setColour(HistogramComponent::blueColourId, Colour(0xff0000ff));
+	setColour(HistogramComponent::redColourId, Colour(0xffE5351C));
+	setColour(HistogramComponent::greenColourId, Colour(0xff4EB02B));
+	setColour(HistogramComponent::blueColourId, Colour(0xff0078FE));
 	setColour(HistogramComponent::rulerColourId, plotHintColour);
 	setColour(VectorscopeComponent::backgroundColourId, plotBackgroundColour);
 	setColour(VectorscopeComponent::graticuleColourId, plotHintColour);
 	setColour(VectorscopeComponent::pointColourId, plotForegroundColour.withAlpha(0.1f));
 	setColour(WaveformComponent::backgroundColourId, plotBackgroundColour);
 	setColour(WaveformComponent::lumaColourId, plotForegroundColour);
-	setColour(WaveformComponent::redColourId, Colour(0xffff0000));
-	setColour(WaveformComponent::greenColourId, Colour(0xff00ff00));
-	setColour(WaveformComponent::blueColourId, Colour(0xff0000ff));
+	setColour(WaveformComponent::redColourId, Colour(0xffE5351C));
+	setColour(WaveformComponent::greenColourId, Colour(0xff4EB02B));
+	setColour(WaveformComponent::blueColourId, Colour(0xff0078FE));
 	setColour(WaveformComponent::rulerColourId, plotHintColour);
 }
 
