@@ -114,7 +114,7 @@ Material getMaterial(MaterialId materialId) {
 		mat.roughness = ext_3_color_highlight_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_ground) {
-		mat.emission = 1* ext_3_ground_color_rt_color;
+		//mat.emission = ext_3_ground_color_rt_color;
 		mat.color = vec3(.3);
 		mat.roughness = 0.;
 	}
