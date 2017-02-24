@@ -33,5 +33,7 @@ void main() {
 
 	out_color = srgb2lin(out_color);
 
+	out_color = vec3(0.266, 0.775, 0.472) * dot(out_color, vec3(0.032, 0.815, 0.003));
+
 	out_color *= .001;
 }

@@ -1,26 +1,6 @@
 {
   "uniformsArray": [
     {
-      "uniformName": "background_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.26611116528511047363,
-        "valueColorG": 0.77520120143890380859,
-        "valueColorB": 0.47239604592323303223
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "background_filter",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.032358795404434204102,
-        "valueColorG": 0.81558203697204589844,
-        "valueColorB": 0.0030169775709509849548
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "blasen_blase1_p_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
