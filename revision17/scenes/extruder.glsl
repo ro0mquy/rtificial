@@ -35,12 +35,12 @@ float fScene(vec3 p) {
 	pRotY(p_torus,      (px_param + ext_rot_rt_float) * Tau);
 	pRotZ(p_torus, 4. * (px_param + ext_rot_rt_float) * Tau);
 
-	vec2 loco_torus = vec2(ext_1_obj_loco_rt_float * sin(4. * (px_param + ext_rot_rt_float) * Tau));
+	vec2 loco_torus = vec2(ext1_obj_loco_rt_float * sin(4. * (px_param + ext_rot_rt_float) * Tau));
 
 	vec3 loco_index = pMirrorLoco(p_torus.xy, loco_torus);
-	pRotY(p_torus, ext_1_obj_rot_rt_float * Tau);
+	pRotY(p_torus, ext1_obj_rot_rt_float * Tau);
 
-	float f_torus = myTorusPartial(p_torus.yxz, 3., 1., ext_1_torus_angle_rt_float * Tau);
+	float f_torus = myTorusPartial(p_torus.yxz, 3., 1., ext1_torus_angle_rt_float * Tau);
 
 	float f_ext = f_torus;
 	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_torus, vec4(loco_index, px_before)));
@@ -73,9 +73,9 @@ Material getMaterial(MaterialId materialId) {
 		vec3 loco_index = (materialId.misc.xyz + 1.) / 2.; // {0, 1}
 		float px_before = (materialId.misc.w/ext_extrude_h_rt_float + 1.) / 2.; // {0,1}
 
-		mat.color = ext_1_obj_color_rt_color;
+		mat.color = ext1_obj_color_rt_color;
 		mat.metallic = 1.;
-		mat.roughness = ext_1_obj_roughness_rt_float;
+		mat.roughness = ext1_obj_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_ground) {
 		mat.color = vec3(.3);

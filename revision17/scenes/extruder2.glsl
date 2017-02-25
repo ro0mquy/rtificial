@@ -22,19 +22,19 @@ float fScene(vec3 p) {
 	pRotY(p_ext,      (px_param + ext_rot_rt_float) * Tau);
 	pRotZ(p_ext, 4. * (px_param + ext_rot_rt_float) * Tau);
 
-	float ext_2_mirror_plane_dist_rt_float = sin(3. * (px_param + ext_rot_rt_float) * Tau) + ext_2_mirror_plane_dist_rt_float;
-	float ext_2_mirror_loco_rot_rt_float = 2. * (px_param + ext_rot_rt_float) + ext_2_mirror_loco_rot_rt_float;
+	float ext2_mirror_plane_dist_rt_float = sin(3. * (px_param + ext_rot_rt_float) * Tau) + ext2_mirror_plane_dist_rt_float;
+	float ext2_mirror_loco_rot_rt_float = 2. * (px_param + ext_rot_rt_float) + ext2_mirror_loco_rot_rt_float;
 
 	// assemble object
-	pMirrorLoco(p_ext.xz, vec2(ext_2_mirror_loco_rt_float));
-	pTrans(p_ext.x, ext_2_mirror_loco_trans_rt_float);
-	pRotY(p_ext, ext_2_mirror_loco_rot_rt_float * Tau);
+	pMirrorLoco(p_ext.xz, vec2(ext2_mirror_loco_rt_float));
+	pTrans(p_ext.x, ext2_mirror_loco_trans_rt_float);
+	pRotY(p_ext, ext2_mirror_loco_rot_rt_float * Tau);
 
 	vec3 mirror_normal = vec3(0., 0., -1.);
-	pQuatRotate(mirror_normal, ext_2_mirror_plane_dir_rt_quat);
-	pMirrorAtPlane(p_ext, mirror_normal, ext_2_mirror_plane_dist_rt_float);
+	pQuatRotate(mirror_normal, ext2_mirror_plane_dir_rt_quat);
+	pMirrorAtPlane(p_ext, mirror_normal, ext2_mirror_plane_dist_rt_float);
 
-	float f_ext = fBox(p_ext, ext_2_box_r_rt_float * vec3(Golden_Ratio, 1., 1.));
+	float f_ext = fBox(p_ext, ext2_box_r_rt_float * vec3(Golden_Ratio, 1., 1.));
 	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_ext, vec4(0.)));
 
 	// ground plane
@@ -65,9 +65,9 @@ Material getMaterial(MaterialId materialId) {
 		vec3 p_ext = materialId.coord;
 		//float px_before = (materialId.misc.w/ext_extrude_h_rt_float + 1.) / 2.; // {0,1}
 
-		mat.color = ext_2_obj_color_rt_color;
+		mat.color = ext2_obj_color_rt_color;
 		mat.metallic = 1.;
-		mat.roughness = ext_2_obj_roughness_rt_float;
+		mat.roughness = ext2_obj_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_ground) {
 		mat.color = vec3(.3);

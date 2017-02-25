@@ -23,20 +23,20 @@ float fScene(vec3 p) {
 	pRotY(p_ext,      (px_param + ext_rot_rt_float) * Tau);
 	pRotZ(p_ext, 4. * (px_param + ext_rot_rt_float) * Tau);
 
-	float long_rot = .5 * (px_param + ext_rot_rt_float) + ext_3_long_rot_rt_float;
+	float long_rot = .5 * (px_param + ext_rot_rt_float) + ext3_long_rot_rt_float;
 
 	// assemble object
 	vec3 p_long = p_ext;
 	pRotZ(p_long, long_rot * Tau);
-	pTrans(p_long.x, ext_3_long_trans_rt_float);
-	float f_long = fSpheroid(p_long, ext_3_long_l_rt_float * ext_3_long_r_rt_float, ext_3_long_r_rt_float);
+	pTrans(p_long.x, ext3_long_trans_rt_float);
+	float f_long = fSpheroid(p_long, ext3_long_l_rt_float * ext3_long_r_rt_float, ext3_long_r_rt_float);
 
 	float f_ext = f_long;
 	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_ext, vec4(0.)));
 
 	// golden highlight
 	vec2 q_highl = vec2(f_long, p_long.y);
-	float f_highl = f2Sphere(q_highl, ext_3_color_highlight_size_rt_float);
+	float f_highl = f2Sphere(q_highl, ext3_color_highlight_size_rt_float);
 	MatWrap w_highl = MatWrap(f_highl, newMaterialId(mat_id_highl, p_ext));
 
 	// ground plane
@@ -68,14 +68,14 @@ Material getMaterial(MaterialId materialId) {
 		vec3 p_ext = materialId.coord;
 		//float px_before = (materialId.misc.w/ext_extrude_h_rt_float + 1.) / 2.; // {0,1}
 
-		mat.color = ext_3_color_spheroid_rt_color;
+		mat.color = ext3_color_spheroid_rt_color;
 		mat.metallic = 1.;
-		mat.roughness = ext_3_color_roughness_rt_float;
+		mat.roughness = ext3_color_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_highl) {
-		mat.color = ext_3_color_highlight_rt_color;
+		mat.color = ext3_color_highlight_rt_color;
 		mat.metallic = 1.;
-		mat.roughness = ext_3_color_highlight_roughness_rt_float;
+		mat.roughness = ext3_color_highlight_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_ground) {
 		mat.color = vec3(.3);
