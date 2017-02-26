@@ -409,6 +409,48 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "camera_crane_active",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_crane_base",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 5,
+        "valueVec3Z": 30
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_crane_length",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_crane_phi",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_crane_theta",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.1820000000000163709
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "camera_exposure_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -1847,6 +1889,32 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_tracking_active",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_tracking_roll",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_tracking_target",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": -2.605999999999994543,
+        "valueVec3Y": 0,
+        "valueVec3Z": 0
       },
       "sequencesArray": []
     },

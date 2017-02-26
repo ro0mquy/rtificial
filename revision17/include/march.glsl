@@ -337,7 +337,7 @@ void perturbNormal(vec3 p, inout vec3 n, float height) {
 void main() {
 	setDebugParameters();
 
-	vec3 origin = camera_position;
+	vec3 origin = camGetPosition();
 	vec3 direction = camGetDirection();
 	float marched;
 	bool hit = sdfMarch(origin, direction, main_marching_distance, marched);

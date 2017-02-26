@@ -1723,6 +1723,12 @@ Colour TimelineData::getJuceColourFromValue(ValueTree value) {
 
 
 
+// sets the contents of a bool value to the a given state
+void TimelineData::setBoolToValue(ValueTree value, bool state, bool useUndoManager) {
+	jassert(isValueFloat(value) || getNumValueProperties(value) == 0);
+	setValueBoolState(value, state, useUndoManager);
+}
+
 // sets the contents of a float value to the numbers from a float
 void TimelineData::setFloatToValue(ValueTree value, float scalar, bool useUndoManager) {
 	jassert(isValueFloat(value) || getNumValueProperties(value) == 0);

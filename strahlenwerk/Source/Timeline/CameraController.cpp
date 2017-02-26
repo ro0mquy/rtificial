@@ -8,6 +8,8 @@
 #include "Interpolator.h"
 #include "TreeIdentifiers.h"
 
+#include <glm/gtx/quaternion.hpp>
+
 CameraController* CameraController::globalCameraController = nullptr;
 
 CameraController::CameraController(TimelineData& data_, Interpolator& interpolator_) :
@@ -15,7 +17,9 @@ CameraController::CameraController(TimelineData& data_, Interpolator& interpolat
 	interpolator(interpolator_),
 	cameraFocalLengthName("camera_focal_length"),
 	cameraPositionName("camera_position"),
-	cameraRotationName("camera_rotation")
+	cameraRotationName("camera_rotation"),
+	cameraCraneActiveName("camera_crane_active"),
+	cameraTrackingActiveName("camera_tracking_active")
 {
 	globalCameraController = this;
 
@@ -44,7 +48,9 @@ bool CameraController::wantControlUniform(String& uniformName) {
 	if (hasControl) {
 		return uniformName == cameraFocalLengthName ||
 			uniformName == cameraPositionName ||
-			uniformName == cameraRotationName;
+			uniformName == cameraRotationName ||
+			uniformName == cameraCraneActiveName ||
+			uniformName == cameraTrackingActiveName;
 	}
 	return false;
 }
@@ -66,6 +72,10 @@ Interpolator::UniformState CameraController::getUniformState(String& uniformName
 		const glm::quat tmpRotation = rotation;
 		cameraMutex.unlock();
 		data.setQuatToValue(tree, tmpRotation, false);
+	} else if (uniformName == cameraCraneActiveName) {
+		data.setBoolToValue(tree, false, false);
+	} else if (uniformName == cameraTrackingActiveName) {
+		data.setBoolToValue(tree, false, false);
 	}
 	return Interpolator::UniformState(tree, false);
 }
@@ -325,18 +335,83 @@ void CameraController::setKeyframeAtCurrentPosition() {
 }
 
 void CameraController::getCameraFromCurrentPosition() {
+	using namespace glm;
+
+	ValueTree craneActiveUniform = data.getUniform(var(cameraCraneActiveName));
+	ValueTree craneActiveValue = interpolator.getUniformStateFromTimelineData(craneActiveUniform).first;
+	const bool craneActive = data.getBoolFromValue(craneActiveValue);
+
+	vec3 tmpPosition;
+	if (craneActive) {
+		ValueTree craneBaseUniform = data.getUniform(var("camera_crane_base"));
+		ValueTree craneBaseValue = interpolator.getUniformStateFromTimelineData(craneBaseUniform).first;
+		const vec3 craneBase = data.getVec3FromValue(craneBaseValue);
+
+		ValueTree craneLengthUniform = data.getUniform(var("camera_crane_length"));
+		ValueTree craneLengthValue = interpolator.getUniformStateFromTimelineData(craneLengthUniform).first;
+		const float craneLength = data.getFloatFromValue(craneLengthValue);
+
+		ValueTree cranePhiUniform = data.getUniform(var("camera_crane_phi"));
+		ValueTree cranePhiValue = interpolator.getUniformStateFromTimelineData(cranePhiUniform).first;
+		const float cranePhi = data.getFloatFromValue(cranePhiValue);
+
+		ValueTree craneThetaUniform = data.getUniform(var("camera_crane_theta"));
+		ValueTree craneThetaValue = interpolator.getUniformStateFromTimelineData(craneThetaUniform).first;
+		const float craneTheta = data.getFloatFromValue(craneThetaValue);
+
+		const vec3 craneHeadRelative = craneLength * vec3(sin(craneTheta) * cos(cranePhi), cos(craneTheta), sin(craneTheta) * sin(cranePhi));
+		const vec3 craneHeadAbsolute = craneBase + craneHeadRelative;
+		tmpPosition = craneHeadAbsolute;
+
+	} else {
+		ValueTree positionUniform = data.getUniform(var(cameraPositionName));
+		ValueTree positionValue = interpolator.getUniformStateFromTimelineData(positionUniform).first;
+		tmpPosition = data.getVec3FromValue(positionValue);
+	}
+
+	ValueTree trackingActiveUniform = data.getUniform(var(cameraTrackingActiveName));
+	ValueTree trackingActiveValue = interpolator.getUniformStateFromTimelineData(trackingActiveUniform).first;
+	const bool trackingActive = data.getBoolFromValue(trackingActiveValue);
+
+	quat tmpRotation;
+	if (trackingActive) {
+		ValueTree trackingTargetUniform = data.getUniform(var("camera_tracking_target"));
+		ValueTree trackingTargetValue = interpolator.getUniformStateFromTimelineData(trackingTargetUniform).first;
+		const vec3 trackingTarget = data.getVec3FromValue(trackingTargetValue);
+
+		ValueTree trackingRollUniform = data.getUniform(var("camera_tracking_roll"));
+		ValueTree trackingRollValue = interpolator.getUniformStateFromTimelineData(trackingRollUniform).first;
+		const float trackingRoll = data.getFloatFromValue(trackingRollValue);
+
+		// construct the camera coordinate system in a way that it is only dutch angled if wanted
+		vec3 view_direction = normalize(trackingTarget - tmpPosition);
+		vec3 view_right = -cross(view_direction, vec3(0., 1., 0.));
+
+		if (view_right == vec3(0.)) {
+			// view_direction parallel to y-axis
+			view_right = vec3(1., 0., 0.);
+		} else {
+			view_right = normalize(view_right);
+		}
+
+		// rotate view_right around view_direction
+		// from https://en.wikipedia.org/wiki/Rodrigues'_rotation_formula
+		// simplified, because view_right and view_direction are perpendicular
+		view_right = cos(trackingRoll * 2.f*pi<float>()) * view_right + sin(trackingRoll * 2.f*pi<float>()) * cross(view_direction, view_right);
+
+		vec3 view_up = normalize(cross(view_direction, view_right));
+		mat3 rotation_matrix = mat3(-view_right, view_up, -view_direction);
+		tmpRotation = toQuat(rotation_matrix);
+
+	} else {
+		ValueTree rotationUniform = data.getUniform(var(cameraRotationName));
+		ValueTree rotationValue = interpolator.getUniformStateFromTimelineData(rotationUniform).first;
+		tmpRotation = data.getQuatFromValue(rotationValue);
+	}
+
 	ValueTree focalLengthUniform = data.getUniform(var(cameraFocalLengthName));
 	ValueTree focalLengthValue = interpolator.getUniformStateFromTimelineData(focalLengthUniform).first;
-
-	ValueTree positionUniform = data.getUniform(var(cameraPositionName));
-	ValueTree positionValue = interpolator.getUniformStateFromTimelineData(positionUniform).first;
-
-	ValueTree rotationUniform = data.getUniform(var(cameraRotationName));
-	ValueTree rotationValue = interpolator.getUniformStateFromTimelineData(rotationUniform).first;
-
 	const float tmpFocalLength = data.getFloatFromValue(focalLengthValue);
-	const glm::vec3 tmpPosition = data.getVec3FromValue(positionValue);
-	const glm::quat tmpRotation = data.getQuatFromValue(rotationValue);
 
 	cameraMutex.lock();
 	focalLength = tmpFocalLength;

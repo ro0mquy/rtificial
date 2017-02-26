@@ -79,6 +79,8 @@ class CameraController :
 		const String cameraFocalLengthName;
 		const String cameraPositionName;
 		const String cameraRotationName;
+		const String cameraCraneActiveName;
+		const String cameraTrackingActiveName;
 
 		void startTimerCallback();
 		void stopTimerCallback();
