@@ -561,7 +561,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": true,
               "keyframeValue": {
-                "valueFloatX": 0.23300000000006093615
+                "valueFloatX": 0.2330000000000609639
               }
             },
             {
@@ -569,7 +569,7 @@
               "keyframeEaseToward": true,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.077666655182838439941
+                "valueFloatX": 0.077666655182838426064
               }
             },
             {
@@ -634,7 +634,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.24700000000007094059
+                "valueFloatX": 0.24700000000007096834
               }
             }
           ]
@@ -2116,6 +2116,14 @@
       ]
     },
     {
+      "uniformName": "debug_camera_visualization",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "ext1_obj_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -2256,7 +2264,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.86400000000003274181
+                "valueFloatX": 0.86400000000003285283
               }
             },
             {
@@ -2264,7 +2272,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.86400000000003274181
+                "valueFloatX": 0.86400000000003285283
               }
             },
             {

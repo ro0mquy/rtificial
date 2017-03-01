@@ -15,24 +15,75 @@ uniform float main_normal_epsilon_bias;
 uniform float debug_mode;
 uniform vec3 debug_plane_normal;
 uniform float debug_plane_height;
+uniform bool debug_camera_visualization;
 
 const float debug_plane_material_id = 423.;
+const float debug_camera_id = 424.;
+const float debug_crane_base_id = 425.;
+const float debug_crane_arm_id = 426.;
+const float debug_tracking_target_id = 427.;
 
 bool debug_default_pass_scene_visible = true;
 bool debug_default_pass_plane_visible = false;
+bool debug_default_pass_camera_visible = false;
 bool debug_isoline_pass_scene_visible = false;
 bool debug_isoline_pass_plane_visible = false;
+bool debug_isoline_pass_camera_visible = false;
 bool debug_gradient_visualization = false;
 bool debug_gradient_pass_scene_visible = false;
 bool debug_gradient_pass_plane_visible = false;
+bool debug_gradient_pass_camera_visible = false;
 
 bool scene_visible = debug_default_pass_scene_visible;
 bool debug_plane_visible = debug_default_pass_plane_visible;
+bool debug_camera_visible = debug_default_pass_camera_visible;
 
 float fScene(vec3 p);
 
 float fDebugPlane(vec3 p) {
 	return abs(fPlane(p, normalize(debug_plane_normal)) - debug_plane_height);
+}
+
+MatWrap wDebugCameraVisualization(vec3 p) {
+	// camera
+	vec3 p_camera = p;
+	pTrans(p_camera, camGetPositionTimeline());
+	pRotateLikeCamera(p_camera);
+	float f_camera = fConeBoxCapped(p_camera.xzy, .3, .5, res.y/res.x);
+	//float f_camera = Inf;
+	MatWrap w_camera = MatWrap(f_camera, newMaterialId(debug_camera_id, p_camera));
+
+	if (camera_crane_active) {
+		// crane
+		vec3 p_crane = p;
+		pTrans(p_crane, camera_crane_base);
+		vec3 relative_head = camera_crane_length * unitVector(camera_crane_phi * Tau, camera_crane_theta * Tau);
+
+		float f_crane_base = fSphere(p_crane, .5);
+		MatWrap w_crane_base = MatWrap(f_crane_base, newMaterialId(debug_crane_base_id, p_crane));
+		w_camera = mUnion(w_camera, w_crane_base);
+
+		float f_crane_arm = fLine(p_crane, .05, relative_head);
+		MatWrap w_crane_arm = MatWrap(f_crane_arm, newMaterialId(debug_crane_arm_id, p_crane));
+		w_camera = mUnion(w_camera, w_crane_arm);
+	}
+
+	if (camera_tracking_active) {
+		// target tracking
+		vec3 p_target = p;
+		pTrans(p_target, camera_tracking_target);
+		float f_target = fSphere(p_target, .2);
+		MatWrap w_target = MatWrap(f_target, newMaterialId(debug_tracking_target_id, p_target));
+		w_camera = mUnion(w_camera, w_target);
+	}
+
+	// remove all geometry in sphere around spectator camera
+	vec3 p_eyes_free = p;
+	pTrans(p_eyes_free, camGetPosition());
+	float f_eyes_free = fSphere(p_eyes_free, 1.);
+	w_camera.f = max(w_camera.f, -f_eyes_free);
+
+	return w_camera;
 }
 
 float fMain(vec3 p, bool calc_m) {
@@ -41,6 +92,10 @@ float fMain(vec3 p, bool calc_m) {
 
 	if (debug_plane_visible) {
 		mUnion(fDebugPlane(p), newMaterialId(debug_plane_material_id, p));
+	}
+
+	if (debug_camera_visible) {
+		mUnion(wDebugCameraVisualization(p));
 	}
 
 	if (scene_visible) {
@@ -211,8 +266,13 @@ void setDebugParameters() {
 			debug_gradient_pass_plane_visible = false;
 	}
 
+	debug_default_pass_camera_visible = debug_camera_visualization && spectatormode_active;
+	debug_isoline_pass_camera_visible = false;
+	debug_gradient_pass_camera_visible = false;
+
 	scene_visible = debug_default_pass_scene_visible;
 	debug_plane_visible = debug_default_pass_plane_visible;
+	debug_camera_visible = debug_default_pass_camera_visible;
 }
 
 
@@ -254,12 +314,14 @@ vec3 debugIsolineTexture(float sdf_dist, vec3 camera_pos, float camera_dist) {
 vec3 debugIsolineTextureFiltered(vec3 p, vec3 camera_pos, float camera_dist) {
 	scene_visible = debug_isoline_pass_scene_visible;
 	debug_plane_visible = debug_isoline_pass_plane_visible;
+	debug_camera_visible = debug_isoline_pass_camera_visible;
 
 	float sdf_dist = fMain(p, false);
 	vec3 sdf_normal = sdfNormal(p);
 
 	scene_visible = debug_default_pass_scene_visible;
 	debug_plane_visible = debug_default_pass_plane_visible;
+	debug_camera_visible = debug_default_pass_camera_visible;
 
 	vec3 pX = dFdx(p);
 	vec3 pY = dFdy(p);
@@ -297,12 +359,14 @@ vec3 debugColorIsolines(vec3 origin, float marched, vec3 hit) {
 vec3 debugColorGradient(vec3 p) {
 	scene_visible = debug_gradient_pass_scene_visible;
 	debug_plane_visible = debug_gradient_pass_plane_visible;
+	debug_camera_visible = debug_gradient_pass_camera_visible;
 
 	vec3 gradient = sdfGradient(p);
 	float len_grad = length(gradient);
 
 	scene_visible = debug_default_pass_scene_visible;
 	debug_plane_visible = debug_default_pass_plane_visible;
+	debug_camera_visible = debug_default_pass_camera_visible;
 
 	vec3 under_color = vec3(0.18014, 0.74453, 0.03288);
 	vec3 over_color = vec3(0.71547, 0.03995, 0.02537);
@@ -312,6 +376,38 @@ vec3 debugColorGradient(vec3 p) {
 	base_color = mix(base_color, over_color, smoothstep(1., 1.2, len_grad));
 
 	return base_color;
+}
+
+vec3 applyLightsDebugCamera(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId) {
+	Material mat = defaultMaterial(vec3(0.));
+	mat.metallic = 1.;
+	mat.roughness = 0.076;
+
+	vec3 color_camera = vec3(0.076, 0.434, 0.024);
+	vec3 color_crane = vec3(0.015, 0.065, 0.045);
+	vec3 color_target = vec3(0.783, 0.035, 0.011);
+
+	if (materialId.id == debug_camera_id) {
+		mat.color = color_camera;
+		mat.emission = color_camera;
+	} else if (materialId.id == debug_crane_base_id) {
+		mat.color = color_crane;
+		mat.emission = color_crane;
+	} else if (materialId.id == debug_crane_arm_id) {
+		mat.color = color_crane;
+		mat.emission = color_crane;
+	} else if (materialId.id == debug_tracking_target_id) {
+		mat.color = color_target;
+		mat.emission = color_target;
+	}
+
+	vec3 result = vec3(0.);
+	result += ambientColor(normal, -direction, mat);
+	result += mat.emission;
+
+	result *= 0.200;
+	result /= exp2(camera_exposure_rt_float);
+	return result;
 }
 
 Material getMaterial(MaterialId materialId);
@@ -362,6 +458,8 @@ void main() {
 			Material m_isoline = defaultMaterial(c_isoline);
 			m_isoline.roughness = 1.;
 			out_color = ambientColor(normal, -direction, m_isoline);
+		} else if (materialId.id >= debug_camera_id && materialId.id <= debug_tracking_target_id) {
+			out_color = applyLightsDebugCamera(origin, marched, direction, hit, normal, materialId);
 		} else {
 			if (debug_gradient_visualization) {
 				vec3 c_gradient = debugColorGradient(hit);

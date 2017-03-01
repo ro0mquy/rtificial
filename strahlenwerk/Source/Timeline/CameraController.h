@@ -25,6 +25,7 @@ class CameraController :
 
 		static CameraController* globalCameraController;
 
+		bool shouldAddUniformToTimlineData(String& uniformName) override;
 		bool wantControlUniform(String& uniformName) override;
 		std::pair<ValueTree, bool> getUniformState(String& uniformName) override;
 
@@ -81,6 +82,11 @@ class CameraController :
 		const String cameraRotationName;
 		const String cameraCraneActiveName;
 		const String cameraTrackingActiveName;
+
+		const String spectatormodeActiveName;
+		const String spectatormodePositionName;
+		const String spectatormodeRotationName;
+		const String spectatormodeFocalLengthName;
 
 		void startTimerCallback();
 		void stopTimerCallback();
