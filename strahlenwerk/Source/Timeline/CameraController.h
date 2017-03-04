@@ -45,7 +45,11 @@ class CameraController :
 		void applicationCommandListChanged() override;
 
 		void setKeyframeAtCurrentPosition();
-		void getCameraFromCurrentPosition();
+		void useCameraFromTimeline();
+		glm::vec3 getCameraPositionFromTimeline();
+		glm::quat getCameraRotationFromTimeline();
+		glm::quat getCameraRotationFromController();
+		float getCameraFocalLengthFromTimeline();
 
 		bool getHasControl();
 		void setHasControl(const bool shouldHaveControl);
@@ -77,11 +81,9 @@ class CameraController :
 		bool hasControl = false;
 		bool shiftDraggingActive = false;
 
-		const String cameraFocalLengthName;
 		const String cameraPositionName;
 		const String cameraRotationName;
-		const String cameraCraneActiveName;
-		const String cameraTrackingActiveName;
+		const String cameraFocalLengthName;
 
 		const String spectatormodeActiveName;
 		const String spectatormodePositionName;
