@@ -393,9 +393,16 @@ glm::quat CameraController::getCameraRotationFromTimeline() {
 	const bool trackingActive = data.getBoolFromValue(trackingActiveValue);
 
 	if (trackingActive) {
+		// also hard coded in camera.glsl
+		const float camera_sensor_width = 0.024f;
+
 		ValueTree trackingTargetUniform = data.getUniform(var("camera_tracking_target"));
 		ValueTree trackingTargetValue = interpolator.getUniformStateFromTimelineData(trackingTargetUniform).first;
 		const vec3 trackingTarget = data.getVec3FromValue(trackingTargetValue);
+
+		ValueTree trackingScreenPosUniform = data.getUniform(var("camera_tracking_screen_pos"));
+		ValueTree trackingScreenPosValue = interpolator.getUniformStateFromTimelineData(trackingScreenPosUniform).first;
+		const vec2 trackingScreenPos = data.getVec2FromValue(trackingScreenPosValue);
 
 		ValueTree trackingRollUniform = data.getUniform(var("camera_tracking_roll"));
 		ValueTree trackingRollValue = interpolator.getUniformStateFromTimelineData(trackingRollUniform).first;
@@ -419,6 +426,33 @@ glm::quat CameraController::getCameraRotationFromTimeline() {
 
 		vec3 view_up = normalize(cross(view_direction, view_right));
 		mat3 rotation_matrix = mat3(-view_right, view_up, -view_direction);
+
+
+		// rotate in such a way that target is at camera_tracking_screen_pos
+		vec2 screen_pos_normalized = (trackingScreenPos - .5f) * vec2(1.f, 9.f/16.f);
+		vec2 screen_pos_tangens = screen_pos_normalized / (getCameraFocalLengthFromTimeline() / camera_sensor_width);
+
+		vec2 c_arg = 1.f / sqrt(1.f + square(screen_pos_tangens)); // cos(arctan(arg));
+		vec2 s_arg = screen_pos_tangens * c_arg; // sin(arctan(arg));
+
+		// rotation around x axis with arg.y as angle
+		mat3 rot_x_axis = mat3(
+				1., 0., 0.,
+				0., c_arg.y, -s_arg.y,
+				0., s_arg.y, c_arg.y
+				);
+
+		// rotation around y axis with arg.x as angle
+		// transpose to get the left-handed rotation
+		mat3 rot_y_axis = transpose(mat3(
+					c_arg.x, 0., s_arg.x,
+					0., 1., 0.,
+					-s_arg.x, 0., c_arg.x
+					));
+
+		// do x axis rotation in camera space and y axis rotation in world space
+		rotation_matrix = rot_y_axis * rotation_matrix * rot_x_axis;
+
 
 		return toQuat(rotation_matrix);
 

@@ -66,7 +66,7 @@
 * Theta is angle between up-axis (y-axis) and head.
 * Phi is angle in ground plane (xz-plane).
 * Target tracking can be toggled by `camera_tracking_active`.
-* Camera will be always looking at the given target coordinates.
+* Camera will almost always ensure that the target is at `camera_tracking_screen_pos` (range 0-1, origin at bottom left)
 * Roll gives rotation angle of the camera around the viewing axis in units of Tau.
 
 ## Building and Installing

@@ -6,7 +6,6 @@
 uniform vec3 camera_position;
 uniform vec4 camera_rotation; // quat
 uniform float camera_focal_length;
-uniform float camera_sensor_width;
 
 uniform bool camera_crane_active;
 uniform vec3 camera_crane_base;
@@ -16,6 +15,7 @@ uniform float camera_crane_theta;
 
 uniform bool camera_tracking_active;
 uniform vec3 camera_tracking_target;
+uniform vec2 camera_tracking_screen_pos;
 uniform float camera_tracking_roll;
 
 uniform bool spectatormode_active;
@@ -24,6 +24,7 @@ uniform vec4 spectatormode_rotation; // quat
 uniform float spectatormode_focal_length;
 
 // gets set with camGetDirection
+const float camera_sensor_width = 0.024; // also hardcoded in CameraController.cpp
 float screen_distance = camera_focal_length / camera_sensor_width;
 
 float camGetFocalLength() {
@@ -68,6 +69,32 @@ mat3 camGetTrackingRotationMat() {
 
 	vec3 view_up = normalize(cross(view_direction, view_right));
 	mat3 rotation_matrix = mat3(-view_right, view_up, -view_direction);
+
+
+	// rotate in such a way that target is at camera_tracking_screen_pos
+	vec2 screen_pos_normalized = (camera_tracking_screen_pos - .5) * res / res.x;
+	vec2 screen_pos_tangens = screen_pos_normalized / (camGetFocalLength() / camera_sensor_width);
+
+	vec2 c_arg = 1. / sqrt(1. + square(screen_pos_tangens)); // cos(arctan(arg));
+	vec2 s_arg = screen_pos_tangens * c_arg; // sin(arctan(arg));
+
+	// rotation around x axis with arg.y as angle
+	mat3 rot_x_axis = mat3(
+			1., 0., 0.,
+			0., c_arg.y, -s_arg.y,
+			0., s_arg.y, c_arg.y
+			);
+
+	// rotation around y axis with arg.x as angle
+	// transpose to get the left-handed rotation
+	mat3 rot_y_axis = transpose(mat3(
+				c_arg.x, 0., s_arg.x,
+				0., 1., 0.,
+				-s_arg.x, 0., c_arg.x
+				));
+
+	// do x axis rotation in camera space and y axis rotation in world space
+	rotation_matrix = rot_y_axis * rotation_matrix * rot_x_axis;
 	return rotation_matrix;
 }
 

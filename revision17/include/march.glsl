@@ -266,7 +266,7 @@ void setDebugParameters() {
 			debug_gradient_pass_plane_visible = false;
 	}
 
-	debug_default_pass_camera_visible = debug_camera_visualization && spectatormode_active;
+	debug_default_pass_camera_visible = debug_camera_visualization;
 	debug_isoline_pass_camera_visible = false;
 	debug_gradient_pass_camera_visible = false;
 

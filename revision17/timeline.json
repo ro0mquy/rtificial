@@ -2030,14 +2030,6 @@
       ]
     },
     {
-      "uniformName": "camera_sensor_width",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 0.024000000000000909495
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "camera_shake_freq_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -2083,6 +2075,15 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_tracking_screen_pos",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 0.5,
+        "valueVec2Y": 0.5
       },
       "sequencesArray": []
     },
