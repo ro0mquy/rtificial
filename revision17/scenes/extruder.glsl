@@ -22,6 +22,7 @@ float myTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
 float fScene(vec3 p) {
 	vec3 p_torus = p;
 	pTrans(p_torus.y, 10.);
+	pTrans(p_torus.x, ext1_translation_rt_float);
 
 	pTrans(p_torus.x, -ext_extrude_h_rt_float);
 	float px_before = p_torus.x;
@@ -31,7 +32,7 @@ float fScene(vec3 p) {
 	float px_param = px_clamped * ext_extrude_freq_rt_float;
 
 	pRotX(p_torus, 2. * (px_param + ext_rot_rt_float) * Tau);
-	pTrans(p_torus.z, 10 * sin((5. * px_param + ext_trans_rt_float) * Tau));
+	pTrans(p_torus.z, 3 * sin((5. * px_param + ext_trans_rt_float) * Tau));
 	pRotY(p_torus,      (px_param + ext_rot_rt_float) * Tau);
 	pRotZ(p_torus, 4. * (px_param + ext_rot_rt_float) * Tau);
 
