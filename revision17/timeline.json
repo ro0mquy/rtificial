@@ -257,6 +257,22 @@
           ]
         },
         {
+          "sequenceSceneId": 572,
+          "sequenceStart": 0,
+          "sequenceDuration": 97500,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 4.5070000000000618456
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 826,
           "sequenceStart": 0,
           "sequenceDuration": 48000,
@@ -2484,6 +2500,137 @@
       ]
     },
     {
+      "uniformName": "extlogo_lt_angle_global_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.19400000000007366907
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.031999999999925421434
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_cutout_left_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -1.5249999999999772626
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_cutout_right_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.394000000000005457
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_down_bend_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.038000000000010913936
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_down_bend_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.13200000000006184564
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_down_bend_scale_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 7.7400000000000090949
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_down_cut_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.54000000000007730705
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_down_cut_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -6.1569999999999254214,
+        "valueVec2Y": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_down_thickness_factor_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.79899999999997817213
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_origin_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 7.1760000000000445652,
+        "valueVec2Y": 0.58400000000006002665
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_up_cut_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.4690000000000509317
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_lt_up_cut_pos_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -5.8099999999999454303,
+        "valueVec2Y": 10.475999999999999091
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_thickness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.54300000000000636646
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_V_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.052000000000020918378
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extlogo_V_height_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "mand_color_2_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
@@ -4402,8 +4549,8 @@
       "uniformName": "debug_plane_normal",
       "uniformType": "vec3",
       "uniformStandardValue": {
-        "valueVec3X": 0,
-        "valueVec3Y": 1,
+        "valueVec3X": 1,
+        "valueVec3Y": 0,
         "valueVec3Z": 0
       },
       "sequencesArray": []
@@ -5410,6 +5557,46 @@
               }
             }
           ]
+        },
+        {
+          "sequenceSceneId": 572,
+          "sequenceStart": 0,
+          "sequenceDuration": 56000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0
+              }
+            },
+            {
+              "keyframePosition": 13000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1
+              }
+            },
+            {
+              "keyframePosition": 37000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.7280000000000654836
+              }
+            },
+            {
+              "keyframePosition": 56000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 3.2999999523162841797
+              }
+            }
+          ]
         }
       ]
     },
@@ -5491,6 +5678,15 @@
       "sceneDuration": 62000,
       "sceneShaderSource": "mandala",
       "sceneEnvironmentSource": "sky",
+      "keyframeValue": {
+      }
+    },
+    {
+      "sceneId": 572,
+      "sceneStart": 768000,
+      "sceneDuration": 56000,
+      "sceneShaderSource": "extruder_logo",
+      "sceneEnvironmentSource": "plain",
       "keyframeValue": {
       }
     },
