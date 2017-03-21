@@ -11,6 +11,7 @@ using int16_t = short;
 
 #include <windows.h>
 #include <mmsystem.h>
+#include <mmreg.h>
 #include "stdlib.h"
 
 #ifdef _DEBUG
