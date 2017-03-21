@@ -10,6 +10,7 @@ using int16_t = short;
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+#include <mmsystem.h>
 #include "stdlib.h"
 
 #ifdef _DEBUG
