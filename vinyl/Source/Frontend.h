@@ -5,12 +5,12 @@ using int16_t = short;
 
 #ifdef _WINDOWS
 
-#include <windows.h>
-#include "stdlib.h"
-
 // las said this was good
 #define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN
+
+#include <windows.h>
+#include "stdlib.h"
 
 #ifdef _DEBUG
 #	include <string>
