@@ -63,7 +63,7 @@ vec3 ambientColor(vec3 n, vec3 v, Material mat) {
 // r: radius of "bounding sphere"
 vec3 environmentColor(vec3 o, vec3 d, float r) {
 	// hmmmmm…
-	o.xz -= camera_position.xz;
+	o.xz -= camGetPosition().xz;
 	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
 	float t = -dot(d, o) + sqrt(radicand);
 	vec3 color = textureLod(environment, normalize(o + t * d), 0.).rgb;
