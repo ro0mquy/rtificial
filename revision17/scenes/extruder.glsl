@@ -4,6 +4,7 @@
 
 const float mat_id_ground = 0.;
 const float mat_id_ext = 1.;
+const float mat_id_bg = 2.;
 
 float myTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
 	float r = length(p.xz);
@@ -50,9 +51,19 @@ float fScene(vec3 p) {
 	float f_ground = p.y;
 	MatWrap w_ground = MatWrap(f_ground, newMaterialId(mat_id_ground, p));
 
+	// background objects
+	vec3 p_bg = p;
+	pTrans(p_bg, extbg_offset_rt_vec3);
+	vec2 i_bg = pDomrep(p_bg.xz, extbg_domrep_rt_vec2);
+	pRotY(p_bg, 9781 * i_bg.y + 31 + extbg_rot_anim_rt_float);
+	pRotX(p_bg, 4514 * i_bg.x + 89 + extbg_rot_anim_rt_float);
+	float f_bg = fTetrahedron(p_bg, extbg_tetra_r_rt_float);
+	MatWrap w_bg = MatWrap(f_bg, newMaterialId(mat_id_bg, p_bg));
+
 	// combine everything
 	MatWrap w = w_ext;
 	w = mUnion(w, w_ground);
+	w = mUnion(w, w_bg);
 
 	mUnion(w);
 	return w.f;
@@ -70,7 +81,7 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 
-	if (materialId.id == mat_id_ext) {
+	if (materialId.id == mat_id_ext || materialId.id == mat_id_bg) {
 		vec3 loco_index = (materialId.misc.xyz + 1.) / 2.; // {0, 1}
 		float px_before = (materialId.misc.w/ext_extrude_h_rt_float + 1.) / 2.; // {0,1}
 
@@ -80,7 +91,7 @@ Material getMaterial(MaterialId materialId) {
 
 	} else if (materialId.id == mat_id_ground) {
 		mat.color = vec3(.3);
-		mat.roughness = 0.;
+		mat.roughness = 1.;
 	}
 
 	return mat;

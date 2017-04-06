@@ -15,12 +15,20 @@ float minV(vec3 v) {
 	return min(min(v.x, v.y), v.z);
 }
 
+float minV(vec4 v) {
+	return min(min(min(v.x, v.y), v.z), v.w);
+}
+
 float maxV(vec2 v) {
 	return max(v.x, v.y);
 }
 
 float maxV(vec3 v) {
 	return max(max(v.x, v.y), v.z);
+}
+
+float maxV(vec4 v) {
+	return max(max(max(v.x, v.y), v.z), v.w);
 }
 
 float min3(float a, float b, float c) {
@@ -229,6 +237,14 @@ float iqPowerCurve(float a, float b, float x) {
 // see http://www.iquilezles.org/www/articles/functions/functions.htm
 float iqPowerCurveUnnormalized(float a, float b, float x) {
     return pow(x, a) * pow(1. - x, b);
+}
+
+vec3 iqCosinePalette(vec3 t, vec3 base, vec3 amplitude, vec3 frequency, vec3 phase) {
+	return base + amplitude * cos(Tau * (frequency * t + phase));
+}
+
+vec3 iqCosinePalette(float t, vec3 base, vec3 amplitude, vec3 frequency, vec3 phase) {
+	return base + amplitude * cos(Tau * (frequency * t + phase));
 }
 
 float rgb2luma(vec3 rgb) {

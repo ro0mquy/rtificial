@@ -426,3 +426,14 @@ float fPyramid(vec3 p, float h, float phi) {
 	float f_oktaeder = max(plane1, plane2);
 	return f_oktaeder;
 }
+
+float fTetrahedron(vec3 p, float r) {
+	pTrans(p.y, r);
+	vec4 q = p * mat4x3(
+		vec3(0., -1., 0.),
+		vec3(0., .333, .943),
+		vec3(.816, .333, -.471),
+		vec3(-.816, .333, -.471)
+	);
+	return maxV(q) - r;
+}

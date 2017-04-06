@@ -79,7 +79,7 @@ Material getMaterial(MaterialId materialId) {
 
 	} else if (materialId.id == mat_id_ground) {
 		mat.color = vec3(.3);
-		mat.roughness = 0.;
+		mat.roughness = 1.;
 	}
 
 	return mat;
