@@ -53,11 +53,7 @@ float fScene(vec3 p) {
 
 	// background objects
 	vec3 p_bg = p;
-	pTrans(p_bg, extbg_offset_rt_vec3);
-	vec2 i_bg = pDomrep(p_bg.xz, extbg_domrep_rt_vec2);
-	pRotY(p_bg, 9781 * i_bg.y + 31 + extbg_rot_anim_rt_float);
-	pRotX(p_bg, 4514 * i_bg.x + 89 + extbg_rot_anim_rt_float);
-	float f_bg = fTetrahedron(p_bg, extbg_tetra_r_rt_float);
+	float f_bg = f_ext_background(p_bg);
 	MatWrap w_bg = MatWrap(f_bg, newMaterialId(mat_id_bg, p_bg));
 
 	// combine everything

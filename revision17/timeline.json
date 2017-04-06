@@ -351,7 +351,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 4.5070000000000618456
+                "valueFloatX": 8.1710000000000491127
               }
             },
             {
@@ -367,7 +367,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 4.5070000000000618456
+                "valueFloatX": 8.1710000000000491127
               }
             }
           ]
@@ -383,7 +383,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 4.5070000000000618456
+                "valueFloatX": 8.1710000000000491127
               }
             },
             {
@@ -407,7 +407,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": -5
+                "valueFloatX": 2.5919999999999845386
               }
             },
             {
@@ -415,7 +415,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": true,
               "keyframeValue": {
-                "valueFloatX": -5
+                "valueFloatX": 2.5240000000000009095
               }
             },
             {
@@ -423,7 +423,7 @@
               "keyframeEaseToward": true,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 5
+                "valueFloatX": 8.1710000000000491127
               }
             },
             {
@@ -431,7 +431,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 5
+                "valueFloatX": 8.1710000000000491127
               }
             }
           ]
@@ -1922,9 +1922,9 @@
       "uniformName": "ext2_obj_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 1,
-        "valueColorG": 1,
-        "valueColorB": 1
+        "valueColorR": 0.63220769166946411133,
+        "valueColorG": 0.54220652580261230469,
+        "valueColorB": 0.60145723819732666016
       },
       "sequencesArray": []
     },
@@ -1932,7 +1932,7 @@
       "uniformName": "ext2_obj_roughness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.76900000000000545697
+        "valueFloatX": 0.62999999999999545253
       },
       "sequencesArray": []
     },
@@ -1940,7 +1940,7 @@
       "uniformName": "ext3_color_highlight_roughness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.54000000000007730705
+        "valueFloatX": 0.34000000000003183231
       },
       "sequencesArray": []
     },
@@ -1948,9 +1948,9 @@
       "uniformName": "ext3_color_highlight_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.92399168014526367188,
-        "valueColorG": 0.55665040016174316406,
-        "valueColorB": 0.11158737540245056152
+        "valueColorR": 0.85737234354019165039,
+        "valueColorG": 0.58390188217163085938,
+        "valueColorB": 0.071106582880020141602
       },
       "sequencesArray": []
     },
@@ -1966,7 +1966,7 @@
       "uniformName": "ext3_color_roughness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.75900000000001455192
+        "valueFloatX": 0.62999999999999545253
       },
       "sequencesArray": []
     },
@@ -1974,9 +1974,9 @@
       "uniformName": "ext3_color_spheroid_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 1,
-        "valueColorG": 1,
-        "valueColorB": 1
+        "valueColorR": 0.63220769166946411133,
+        "valueColorG": 0.54220652580261230469,
+        "valueColorB": 0.60145723819732666016
       },
       "sequencesArray": []
     },
@@ -2240,7 +2240,7 @@
       ]
     },
     {
-      "uniformName": "ext_light_color_rt_color",
+      "uniformName": "ext_light1_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.57913744449615478516,
@@ -2250,7 +2250,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light_pos_rt_vec3",
+      "uniformName": "ext_light1_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": -20,
@@ -2260,7 +2260,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light_power_rt_float",
+      "uniformName": "ext_light1_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 2
@@ -2268,7 +2268,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light_radius_rt_float",
+      "uniformName": "ext_light1_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 100
@@ -4702,7 +4702,7 @@
       "uniformStandardValue": {
         "valueColorR": 0.34519094228744506836,
         "valueColorG": 0.011908117681741714478,
-        "valueColorB": 0.0047649382613599300385
+        "valueColorB": 0.0047649382613599291711
       },
       "sequencesArray": []
     },
@@ -4732,7 +4732,7 @@
       "uniformStandardValue": {
         "valueVec3X": -0.64999999999997726263,
         "valueVec3Y": -0.16399999999998726707,
-        "valueVec3Z": 0.37400000000002364686
+        "valueVec3Z": 0.37400000000002370237
       },
       "sequencesArray": []
     },
