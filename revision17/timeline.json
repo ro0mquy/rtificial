@@ -2026,6 +2026,114 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "ext3_bez_p1_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 10,
+        "valueVec2Y": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "ext3_bez_p2_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 10,
+        "valueVec2Y": 30
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 496,
+          "sequenceStart": 24500,
+          "sequenceDuration": 60000,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 10000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": -10,
+                "valueVec2Y": -10
+              }
+            },
+            {
+              "keyframePosition": 32000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 0,
+                "valueVec2Y": 5
+              }
+            },
+            {
+              "keyframePosition": 46000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 10,
+                "valueVec2Y": -10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "ext3_bez_p3_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": -5,
+        "valueVec2Y": -10
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 496,
+          "sequenceStart": 24500,
+          "sequenceDuration": 60000,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 12000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 0,
+                "valueVec2Y": 20
+              }
+            },
+            {
+              "keyframePosition": 28000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 20,
+                "valueVec2Y": -20
+              }
+            },
+            {
+              "keyframePosition": 42000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": -5,
+                "valueVec2Y": 30
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "ext3_bez_p4_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 10,
+        "valueVec2Y": 15
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "ext3_color_highlight_roughness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {

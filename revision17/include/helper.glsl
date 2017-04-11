@@ -298,3 +298,16 @@ vec3 srgb2lin(vec3 c) {
 	vec3 vec_result = mix(vec_smaller, vec_greater, vec_if);
 	return vec_result;
 }
+
+vec2 bezier(vec2 p1, vec2 p2, vec2 p3, vec2 p4, float t) {
+	vec2 p12 = mix(p1, p2, t);
+	vec2 p23 = mix(p2, p3, t);
+	vec2 p34 = mix(p3, p4, t);
+
+	vec2 p123 = mix(p12, p23, t);
+	vec2 p234 = mix(p23, p34, t);
+
+	vec2 p1234 = mix(p123, p234, t);
+
+	return p1234;
+}

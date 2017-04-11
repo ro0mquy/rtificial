@@ -19,12 +19,16 @@ float fScene(vec3 p) {
 
 	float px_param = px_clamped * ext_extrude_freq_rt_float;
 
+	float bez_t = (px_clamped / ext_extrude_h_rt_float + 1.) / 2.;
+	pTrans(p_ext.zy, bezier(ext3_bez_p1_rt_vec2, ext3_bez_p2_rt_vec2, ext3_bez_p3_rt_vec2, ext3_bez_p4_rt_vec2, bez_t));
+
 	pRotX(p_ext, 2. * (px_param + ext_rot_rt_float) * Tau);
-	pTrans(p_ext.z, 10 * sin((5. * px_param + ext_trans_rt_float) * Tau));
+	//pTrans(p_ext.z, 10 * sin((5. * px_param + ext_trans_rt_float) * Tau));
 	pRotY(p_ext,      (px_param + ext_rot_rt_float) * Tau);
 	pRotZ(p_ext, 4. * (px_param + ext_rot_rt_float) * Tau);
 
-	float long_rot = .5 * (px_param + ext_rot_rt_float) + ext3_long_rot_rt_float;
+	//float long_rot = .5 * (px_param + ext_rot_rt_float) + ext3_long_rot_rt_float;
+	float long_rot = 0.;
 
 	// assemble object
 	vec3 p_long = p_ext;
