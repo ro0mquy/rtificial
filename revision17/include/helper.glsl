@@ -111,6 +111,14 @@ float linstep(float edge0, float edge1, float x) {
 	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
 }
 
+vec3 linstep(vec3 edge0, vec3 edge1, vec3 x) {
+	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
+}
+
+vec3 linstep(float edge0, float edge1, vec3 x) {
+	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
+}
+
 float smootherstep(float edge0, float edge1, float x) {
 	// directly from master Ken
 	float t = clamp((x - edge0) / (edge1 - edge0), 0., 1.);

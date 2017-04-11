@@ -39,7 +39,8 @@ float fScene(vec3 p) {
 	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_ext, vec4(0.)));
 
 	// ground plane
-	float f_ground = p.y;
+	vec3 p_ground = p;
+	float f_ground = opUnionRounded(p_ground.x - extbg_ground_offset_rt_float, p_ground.y, extbg_ground_round_r_rt_float);
 	MatWrap w_ground = MatWrap(f_ground, newMaterialId(mat_id_ground, p));
 
 	// background objects
@@ -50,7 +51,7 @@ float fScene(vec3 p) {
 	// combine everything
 	MatWrap w = w_ext;
 	w = mUnion(w, w_ground);
-	w = mUnion(w, w_bg);
+	//w = mUnion(w, w_bg);
 
 	mUnion(w);
 	return w.f;
@@ -77,8 +78,9 @@ Material getMaterial(MaterialId materialId) {
 		mat.roughness = ext2_obj_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_ground) {
-		mat.color = vec3(.3);
-		mat.roughness = 0.;
+		mat.color = extbg_ground_color_rt_color;
+		mat.metallic = 0.;
+		mat.roughness = extbg_ground_roughness_rt_float;
 	}
 
 	return mat;

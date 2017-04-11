@@ -114,8 +114,9 @@ Material getMaterial(MaterialId materialId) {
 		mat.metallic = 1.;
 		mat.roughness = mand_lighting_obj_roughness_rt_float;
 	} else if (materialId.id == mat_id_ground) {
-		mat.color = mand_color_ground_rt_color;
-		mat.roughness = 1.;
+		mat.color = extbg_ground_color_rt_color;
+		mat.metallic = 0.;
+		mat.roughness = extbg_ground_roughness_rt_float;
 	}
 
 	return mat;
