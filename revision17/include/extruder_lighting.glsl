@@ -54,7 +54,7 @@ vec3 applyExtruderLights(vec3 origin, float marched, vec3 direction, vec3 hit, v
 	result += sphere_lighting2;
 
 	SphereLight light3 = SphereLight(ext_light3_pos_rt_vec3, ext_light3_radius_rt_float, ext_light3_color_rt_color, ext_light3_power_rt_float*1000.);
-	vec3 sphere_lighting3 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light2, ext_shadow_softness_rt_float);
+	vec3 sphere_lighting3 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light3, ext_shadow_softness_rt_float);
 	result += sphere_lighting3;
 
 	return result;

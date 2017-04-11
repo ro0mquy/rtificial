@@ -1856,42 +1856,6 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light_color_rt_color",
-      "uniformType": "color",
-      "uniformStandardValue": {
-        "valueColorR": 0.17999999999999999334,
-        "valueColorG": 0.17999999999999999334,
-        "valueColorB": 0.17999999999999999334
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "ext_light_pos_rt_vec3",
-      "uniformType": "vec3",
-      "uniformStandardValue": {
-        "valueVec3X": 1,
-        "valueVec3Y": 1,
-        "valueVec3Z": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "ext_light_power_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "ext_light_radius_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
       "uniformName": "ext_shadow_softness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -2128,8 +2092,8 @@
       "uniformName": "ext3_bez_p4_rt_vec2",
       "uniformType": "vec2",
       "uniformStandardValue": {
-        "valueVec2X": 10,
-        "valueVec2Y": 15
+        "valueVec2X": 0,
+        "valueVec2Y": 0
       },
       "sequencesArray": []
     },
@@ -2440,9 +2404,9 @@
       "uniformName": "ext_light1_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.57913744449615478516,
-        "valueColorG": 0.17871949076652526855,
-        "valueColorB": 0.31655794382095336914
+        "valueColorR": 0.31850007176399230957,
+        "valueColorG": 0.69583940505981445312,
+        "valueColorB": 0.37679132819175720215
       },
       "sequencesArray": []
     },
@@ -2460,7 +2424,7 @@
       "uniformName": "ext_light1_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 2
+        "valueFloatX": 3
       },
       "sequencesArray": []
     },
@@ -2487,7 +2451,7 @@
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": -20,
-        "valueVec3Y": 20,
+        "valueVec3Y": 35,
         "valueVec3Z": -120
       },
       "sequencesArray": []
@@ -2504,7 +2468,7 @@
       "uniformName": "ext_light2_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 100
+        "valueFloatX": 30
       },
       "sequencesArray": []
     },
@@ -2512,9 +2476,9 @@
       "uniformName": "ext_light3_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.31849721074104309082,
-        "valueColorG": 0.69584786891937255859,
-        "valueColorB": 0.37679439783096313477
+        "valueColorR": 0.57914459705352783203,
+        "valueColorG": 0.17871749401092529297,
+        "valueColorB": 0.31655460596084594727
       },
       "sequencesArray": []
     },
@@ -2532,7 +2496,7 @@
       "uniformName": "ext_light3_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.97100000000000363798
+        "valueFloatX": 5
       },
       "sequencesArray": []
     },
@@ -2767,6 +2731,40 @@
       "uniformStandardValue": {
         "valueVec2X": 70,
         "valueVec2Y": 70
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extbg_ground_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.34061607718467712402,
+        "valueColorG": 0.51306295394897460938,
+        "valueColorB": 0.29976055026054382324
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extbg_ground_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -150
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extbg_ground_roughness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extbg_ground_round_r_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 30
       },
       "sequencesArray": []
     },
@@ -4939,7 +4937,7 @@
       "uniformName": "main_marching_distance",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 200
+        "valueFloatX": 300
       },
       "sequencesArray": []
     },
@@ -6082,7 +6080,7 @@
   "scenesArray": [
     {
       "sceneId": 139,
-      "sceneStart": 309500,
+      "sceneStart": 192000,
       "sceneDuration": 97500,
       "sceneShaderSource": "extruder",
       "sceneEnvironmentSource": "plain",
@@ -6109,7 +6107,7 @@
     },
     {
       "sceneId": 456,
-      "sceneStart": 407000,
+      "sceneStart": 304000,
       "sceneDuration": 165000,
       "sceneShaderSource": "extruder2",
       "sceneEnvironmentSource": "plain",
@@ -6118,7 +6116,7 @@
     },
     {
       "sceneId": 496,
-      "sceneStart": 181500,
+      "sceneStart": 536000,
       "sceneDuration": 128000,
       "sceneShaderSource": "extruder3",
       "sceneEnvironmentSource": "plain",
@@ -6127,7 +6125,7 @@
     },
     {
       "sceneId": 556,
-      "sceneStart": 572000,
+      "sceneStart": 472000,
       "sceneDuration": 62000,
       "sceneShaderSource": "mandala",
       "sceneEnvironmentSource": "sky",

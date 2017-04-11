@@ -87,8 +87,9 @@ Material getMaterial(MaterialId materialId) {
 		mat.roughness = ext1_obj_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_ground) {
-		mat.color = vec3(.3);
-		mat.roughness = 1.;
+		mat.color = extbg_ground_color_rt_color;
+		mat.metallic = 0.;
+		mat.roughness = extbg_ground_roughness_rt_float;
 	}
 
 	return mat;
