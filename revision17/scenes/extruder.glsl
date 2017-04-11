@@ -21,34 +21,35 @@ float myTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
 }
 
 float fScene(vec3 p) {
-	vec3 p_torus = p;
-	pTrans(p_torus.y, 10.);
-	pTrans(p_torus.x, ext1_translation_rt_float);
+	vec3 p_ext = p;
+	pTrans(p_ext.y, 10.);
+	pTrans(p_ext.x, ext1_translation_rt_float);
 
-	pTrans(p_torus.x, -ext_extrude_h_rt_float);
-	float px_before = p_torus.x;
-	float px_clamped = clamp(p_torus.x, -ext_extrude_h_rt_float, ext_extrude_h_rt_float);
-	p_torus.x -= px_clamped;
+	pTrans(p_ext.x, -ext_extrude_h_rt_float);
+	float px_before = p_ext.x;
+	float px_clamped = clamp(p_ext.x, -ext_extrude_h_rt_float, ext_extrude_h_rt_float);
+	p_ext.x -= px_clamped;
 
 	float px_param = px_clamped * ext_extrude_freq_rt_float;
 
-	pRotX(p_torus, 2. * (px_param + ext_rot_rt_float) * Tau);
-	pTrans(p_torus.z, 3 * sin((5. * px_param + ext_trans_rt_float) * Tau));
-	pRotY(p_torus,      (px_param + ext_rot_rt_float) * Tau);
-	pRotZ(p_torus, 4. * (px_param + ext_rot_rt_float) * Tau);
+	pRotX(p_ext, 2. * (px_param + ext_rot_rt_float) * Tau);
+	pTrans(p_ext.z, 3 * sin((5. * px_param + ext_trans_rt_float) * Tau));
+	pRotY(p_ext,      (px_param + ext_rot_rt_float) * Tau);
+	pRotZ(p_ext, 4. * (px_param + ext_rot_rt_float) * Tau);
 
 	vec2 loco_torus = vec2(ext1_obj_loco_rt_float * sin(4. * (px_param + ext_rot_rt_float) * Tau));
 
-	vec3 loco_index = pMirrorLoco(p_torus.xy, loco_torus);
-	pRotY(p_torus, ext1_obj_rot_rt_float * Tau);
+	vec3 loco_index = pMirrorLoco(p_ext.xy, loco_torus);
+	pRotY(p_ext, ext1_obj_rot_rt_float * Tau);
 
-	float f_torus = myTorusPartial(p_torus.yxz, 3., 1., ext1_torus_angle_rt_float * Tau);
+	float f_torus = myTorusPartial(p_ext.yxz, 3., 1., ext1_torus_angle_rt_float * Tau);
 
 	float f_ext = f_torus;
-	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_torus, vec4(loco_index, px_before)));
+	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_ext, vec4(loco_index, px_before)));
 
 	// ground plane
-	float f_ground = p.y;
+	vec3 p_ground = p;
+	float f_ground = opUnionRounded(p_ground.x - extbg_ground_offset_rt_float, p_ground.y, extbg_ground_round_r_rt_float);
 	MatWrap w_ground = MatWrap(f_ground, newMaterialId(mat_id_ground, p));
 
 	// background objects
@@ -59,7 +60,7 @@ float fScene(vec3 p) {
 	// combine everything
 	MatWrap w = w_ext;
 	w = mUnion(w, w_ground);
-	w = mUnion(w, w_bg);
+	//w = mUnion(w, w_bg);
 
 	mUnion(w);
 	return w.f;
