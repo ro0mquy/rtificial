@@ -59,7 +59,7 @@ float fScene(vec3 p) {
 
 	float px_param = px_clamped * ext_extrude_freq_rt_float;
 
-	pRotX(p_ext, 2. * (px_param + ext_rot_rt_float) * Tau);
+	pRotX(p_ext, .5 * (px_param + ext_rot_rt_float) * Tau);
 	/*
 	pTrans(p_ext.z, 10 * sin((5. * px_param + ext_trans_rt_float) * Tau));
 	pRotY(p_ext,      (px_param + ext_rot_rt_float) * Tau);
@@ -86,7 +86,47 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	vec3 result = applyExtruderLights(origin, marched, direction, hit, normal, materialId, material);
+	vec3 result = vec3(0.);
+
+	vec3 emission = material.emission;
+	result += emission;
+
+	vec3 ambient_lighting = ambientColor(normal, -direction, material);
+	//if (materialId.id == mat_id_ground) {
+		result += ambient_lighting;
+	//}
+
+
+	PointLight light1 = PointLight(
+			mand_lighting_light1_pos_rt_vec3,
+			normalize(mand_lighting_light1_target_rt_vec3 - mand_lighting_light1_pos_rt_vec3),
+			Tau * mand_lighting_light1_angle_rt_float,
+			mand_lighting_light1_color_rt_color,
+			mand_lighting_light1_power_rt_float*1000.
+	);
+	vec3 sphere_lighting1 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light1, ext_shadow_softness_rt_float);
+	result += sphere_lighting1;
+
+	PointLight light2 = PointLight(
+			mand_lighting_light2_pos_rt_vec3,
+			normalize(mand_lighting_light2_target_rt_vec3 - mand_lighting_light2_pos_rt_vec3),
+			Tau * mand_lighting_light2_angle_rt_float,
+			mand_lighting_light2_color_rt_color,
+			mand_lighting_light2_power_rt_float*1000.
+	);
+	vec3 sphere_lighting2 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light2, ext_shadow_softness_rt_float);
+	result += sphere_lighting2;
+
+	PointLight light3 = PointLight(
+			mand_lighting_light3_pos_rt_vec3,
+			normalize(mand_lighting_light3_target_rt_vec3 - mand_lighting_light3_pos_rt_vec3),
+			Tau * mand_lighting_light3_angle_rt_float,
+			mand_lighting_light3_color_rt_color,
+			mand_lighting_light3_power_rt_float*1000.
+	);
+	vec3 sphere_lighting3 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light3, ext_shadow_softness_rt_float);
+	result += sphere_lighting3;
+
 	return result;
 }
 

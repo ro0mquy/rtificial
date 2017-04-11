@@ -67,8 +67,6 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 	//}
 
 
-	//SphereLight light1 = SphereLight(mand_lighting_light1_pos_rt_vec3, mand_lighting_light1_radius_rt_float, mand_lighting_light1_color_rt_color, mand_lighting_light1_power_rt_float*1000.);
-	//vec3 sphere_lighting1 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light1, ext_shadow_softness_rt_float);
 	PointLight light1 = PointLight(
 			mand_lighting_light1_pos_rt_vec3,
 			normalize(mand_lighting_light1_target_rt_vec3 - mand_lighting_light1_pos_rt_vec3),
@@ -79,8 +77,6 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 	vec3 sphere_lighting1 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light1, ext_shadow_softness_rt_float);
 	result += sphere_lighting1;
 
-	//SphereLight light2 = SphereLight(mand_lighting_light2_pos_rt_vec3, mand_lighting_light2_radius_rt_float, mand_lighting_light2_color_rt_color, mand_lighting_light2_power_rt_float*1000.);
-	//vec3 sphere_lighting2 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light2, ext_shadow_softness_rt_float);
 	PointLight light2 = PointLight(
 			mand_lighting_light2_pos_rt_vec3,
 			normalize(mand_lighting_light2_target_rt_vec3 - mand_lighting_light2_pos_rt_vec3),
@@ -91,8 +87,6 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 	vec3 sphere_lighting2 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light2, ext_shadow_softness_rt_float);
 	result += sphere_lighting2;
 
-	//SphereLight light3 = SphereLight(mand_lighting_light3_pos_rt_vec3, mand_lighting_light3_radius_rt_float, mand_lighting_light3_color_rt_color, mand_lighting_light3_power_rt_float*1000.);
-	//vec3 sphere_lighting3 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light3, ext_shadow_softness_rt_float);
 	PointLight light3 = PointLight(
 			mand_lighting_light3_pos_rt_vec3,
 			normalize(mand_lighting_light3_target_rt_vec3 - mand_lighting_light3_pos_rt_vec3),

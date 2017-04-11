@@ -87,9 +87,12 @@ float fbm(vec2 c) {
 }
 
 void main() {
+	/*
 	out_color = iqCosinePalette(tc.x, pal_base_rt_color, pal_amplitude_rt_color, pal_frequency_rt_vec3, pal_phase_rt_vec3);
 	out_color = mix(bg_color1_rt_color, bg_color2_rt_color, lin2srgb(tc.x));
-	//return;
+	out_color = lin2srgb(out_color);
+	return;
+	// */
 
 	vec2 tc_lens = tc;
 	if (post_image_distortion != 0.) {

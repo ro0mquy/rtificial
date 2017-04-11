@@ -2,53 +2,24 @@
 #line 3
 
 vec3 applyPointLightWithShadow(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material, PointLight light, float shadow_softness) {
-	// point light
-	vec3 lightVector = light.position - hit;
-	float lightDistance = length(lightVector);
-	vec3 L = normalize(lightVector);
-	float attenuation = 1;
-	attenuation *= getDistanceAttenuation(lightVector);
-	attenuation *= getAngleAttenuation(L, light);
-	float brdfSpecular = brdfSpecularEpicSmithWithoutFresnel(-direction, L, normal, material.roughness);
-	vec3 dielectric = material.color / Pi + brdfSpecular * fresnel(-direction, L, vec3(.04));
-	vec3 metallic = brdfSpecular * fresnel(-direction, L, material.color);
-	vec3 light_result = mix(dielectric, metallic, material.metallic) * saturate(dot(normal, L)) * attenuation * light.color * light.power;
+	vec3 light_result = applyPointLight(origin, marched, direction, hit, normal, material, light);
 
 	// shadows
-	float shadowing_value = shadowMarch(hit, L, lightDistance, shadow_softness);
+	vec3 lightVector = normalize(light.position - hit);
+	float lightDistance = distance(light.position, hit);
+	float shadowing_value = shadowMarch(hit, lightVector, lightDistance, shadow_softness);
 	light_result *= shadowing_value;
 
 	return light_result;
 }
 
 vec3 applySphereLightWithShadow(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material, SphereLight light, float shadow_softness) {
-	vec3 L = light.position - hit;
-	float lightDistance2 = dot(L, L);
-	float lightDistance = sqrt(lightDistance2);
-	L /= lightDistance;
-	float NoL = pdot(L, normal);
-
-	// diffuse part
-	float incomingLight = light.power / (4 * square(Pi) * square(light.radius));
-	incomingLight *= diffuseSphereLight(hit, normal, light);
-	vec3 diffuse = material.color * (max(0, NoL * incomingLight) / Pi);
-
-	// specular part
-	vec3 closestPoint = specularSphereLightClosestPoint(hit, normal, -direction, material.roughness, light);
-	float roughnessAlpha = saturate(material.roughness + light.radius / (2 * sqrt(lightDistance2)));
-	float closestPointDistance2 = dot(closestPoint, closestPoint);
-	closestPoint /= sqrt(closestPointDistance2);
-	float normalization = square(material.roughness / roughnessAlpha);
-	float incomingLightSpecular = light.power * normalization / (4 * Pi * closestPointDistance2);
-	vec3 F_metal = fresnel(-direction, closestPoint, material.color);
-	float specular = incomingLightSpecular * NoL * brdfSpecularEpicSmithWithoutFresnel(-direction, closestPoint, normal, material.roughness);
-
-	vec3 F_dielectric = fresnel(-direction, closestPoint, vec3(.04));
-	vec3 light_result = mix(diffuse + F_dielectric * specular, specular * F_metal, material.metallic);
-	light_result *= light.color;
+	vec3 light_result = applySphereLight(origin, marched, direction, hit, normal, material, light);
 
 	// shadows
-	float shadowing_value = shadowMarch(hit, L, lightDistance, shadow_softness);
+	vec3 lightVector = normalize(light.position - hit);
+	float lightDistance = distance(light.position, hit);
+	float shadowing_value = shadowMarch(hit, lightVector, lightDistance, shadow_softness);
 	light_result *= shadowing_value;
 
 	return light_result;
