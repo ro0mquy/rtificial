@@ -84,7 +84,7 @@ uint64_t PostprocPipeline::render(SceneShader& scene, int width, int height, boo
 		shaders[i]->unbindFBO();
 	}
 
-	glEnable(GL_FRAMEBUFFER_SRGB);
+	//glEnable(GL_FRAMEBUFFER_SRGB);
 	// bind default framebuffer again
 	OpenGLContext::getCurrentContext()->extensions.glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, originalWidth, originalHeigth);
@@ -98,7 +98,7 @@ uint64_t PostprocPipeline::render(SceneShader& scene, int width, int height, boo
 
 	queryNames.push_back(shaders[shaders.size() - 1]->getName());
 	glEndQuery(GL_TIME_ELAPSED);
-	glDisable(GL_FRAMEBUFFER_SRGB);
+	//glDisable(GL_FRAMEBUFFER_SRGB);
 
 	jassert(queryIndex == (int) queries.size());
 	jassert(queryNames.size() == queries.size());

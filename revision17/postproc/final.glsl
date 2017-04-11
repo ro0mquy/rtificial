@@ -108,6 +108,8 @@ void main() {
 
 	out_color = tonemap(out_color * 2)/tonemap(vec3(W));
 
+	out_color = lin2srgb(out_color);
+
 	if (!post_disable_grain) {
 		// TODO richtiger grain
 		vec3 grain = vec3(// so schön weerboß
