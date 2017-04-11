@@ -1,6 +1,26 @@
 #include "shadow.glsl"
 #line 3
 
+vec3 applyPointLightWithShadow(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material, PointLight light, float shadow_softness) {
+	// point light
+	vec3 lightVector = light.position - hit;
+	float lightDistance = length(lightVector);
+	vec3 L = normalize(lightVector);
+	float attenuation = 1;
+	attenuation *= getDistanceAttenuation(lightVector);
+	attenuation *= getAngleAttenuation(L, light);
+	float brdfSpecular = brdfSpecularEpicSmithWithoutFresnel(-direction, L, normal, material.roughness);
+	vec3 dielectric = material.color / Pi + brdfSpecular * fresnel(-direction, L, vec3(.04));
+	vec3 metallic = brdfSpecular * fresnel(-direction, L, material.color);
+	vec3 light_result = mix(dielectric, metallic, material.metallic) * saturate(dot(normal, L)) * attenuation * light.color * light.power;
+
+	// shadows
+	float shadowing_value = shadowMarch(hit, L, lightDistance, shadow_softness);
+	light_result *= shadowing_value;
+
+	return light_result;
+}
+
 vec3 applySphereLightWithShadow(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, Material material, SphereLight light, float shadow_softness) {
 	vec3 L = light.position - hit;
 	float lightDistance2 = dot(L, L);

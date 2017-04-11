@@ -2954,9 +2954,9 @@
       "uniformName": "mand_color_2_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.027755279093980789185,
-        "valueColorG": 0.069727085530757904053,
-        "valueColorB": 0.1247409433126449585
+        "valueColorR": 0.027755295857787132263,
+        "valueColorG": 0.069727092981338500977,
+        "valueColorB": 0.12474098056554794312
       },
       "sequencesArray": []
     },
@@ -2964,9 +2964,9 @@
       "uniformName": "mand_color_circle_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.76674365997314453125,
-        "valueColorG": 0.31118053197860717773,
-        "valueColorB": 0.22713655233383178711
+        "valueColorR": 0.59007602930068969727,
+        "valueColorG": 0.33222082257270812988,
+        "valueColorB": 0.34709301590919494629
       },
       "sequencesArray": []
     },
@@ -3554,12 +3554,20 @@
       ]
     },
     {
+      "uniformName": "mand_lighting_light1_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.19200000000000727596
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "mand_lighting_light1_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.57914459705352783203,
-        "valueColorG": 0.17871749401092529297,
-        "valueColorB": 0.31655460596084594727
+        "valueColorR": 0.31850016117095947266,
+        "valueColorG": 0.69583952426910400391,
+        "valueColorB": 0.37679123878479003906
       },
       "sequencesArray": []
     },
@@ -3567,9 +3575,9 @@
       "uniformName": "mand_lighting_light1_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
-        "valueVec3X": 20,
-        "valueVec3Y": 15,
-        "valueVec3Z": 1
+        "valueVec3X": 10,
+        "valueVec3Y": -25,
+        "valueVec3Z": 50
       },
       "sequencesArray": []
     },
@@ -3577,7 +3585,7 @@
       "uniformName": "mand_lighting_light1_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.3000000000000682121
+        "valueFloatX": 0.42300000000000181899
       },
       "sequencesArray": []
     },
@@ -3585,7 +3593,25 @@
       "uniformName": "mand_lighting_light1_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 4
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mand_lighting_light1_target_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mand_lighting_light2_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.13900000000001000444
       },
       "sequencesArray": []
     },
@@ -3603,9 +3629,9 @@
       "uniformName": "mand_lighting_light2_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
-        "valueVec3X": 1,
-        "valueVec3Y": 30,
-        "valueVec3Z": 30
+        "valueVec3X": 10,
+        "valueVec3Y": 0,
+        "valueVec3Z": -60
       },
       "sequencesArray": []
     },
@@ -3613,7 +3639,7 @@
       "uniformName": "mand_lighting_light2_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.3000000000000682121
+        "valueFloatX": 0.44799999999997908162
       },
       "sequencesArray": []
     },
@@ -3621,7 +3647,25 @@
       "uniformName": "mand_lighting_light2_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 4
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mand_lighting_light2_target_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 1,
+        "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "mand_lighting_light3_angle_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.16700000000003001333
       },
       "sequencesArray": []
     },
@@ -3629,9 +3673,9 @@
       "uniformName": "mand_lighting_light3_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.31850016117095947266,
-        "valueColorG": 0.69583952426910400391,
-        "valueColorB": 0.37679123878479009457
+        "valueColorR": 0.76680505275726318359,
+        "valueColorG": 0.16256026923656463623,
+        "valueColorB": 0.20377261936664581299
       },
       "sequencesArray": []
     },
@@ -3639,9 +3683,9 @@
       "uniformName": "mand_lighting_light3_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
-        "valueVec3X": -30,
-        "valueVec3Y": 30,
-        "valueVec3Z": -30
+        "valueVec3X": 10,
+        "valueVec3Y": 45,
+        "valueVec3Z": 40
       },
       "sequencesArray": []
     },
@@ -3649,7 +3693,7 @@
       "uniformName": "mand_lighting_light3_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.20000000000004547474
+        "valueFloatX": 1.125
       },
       "sequencesArray": []
     },
@@ -3662,10 +3706,20 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "mand_lighting_light3_target_rt_vec3",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 0,
+        "valueVec3Y": 0,
+        "valueVec3Z": 0
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "mand_lighting_obj_roughness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.72599999999999909051
+        "valueFloatX": 0.62999999999999545253
       },
       "sequencesArray": []
     },
@@ -3673,7 +3727,7 @@
       "uniformName": "mand_lighting_shadow_softness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 4
+        "valueFloatX": 8
       },
       "sequencesArray": []
     },
@@ -3904,6 +3958,38 @@
         {
           "sequenceSceneId": 404,
           "sequenceStart": 0,
+          "sequenceDuration": 65000,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 7500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.932999999999992724
+              }
+            },
+            {
+              "keyframePosition": 24500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.67100000000004911271
+              }
+            },
+            {
+              "keyframePosition": 45000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.5229859352111816406
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 139,
+          "sequenceStart": 44000,
           "sequenceDuration": 65000,
           "sequenceInterpolation": "ccrSpline",
           "keyframesArray": [
@@ -4469,6 +4555,77 @@
           ]
         },
         {
+          "sequenceSceneId": 139,
+          "sequenceStart": 28000,
+          "sequenceDuration": 65000,
+          "sequenceInterpolation": "ccrSpline",
+          "keyframesArray": [
+            {
+              "keyframePosition": 1500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 0.21500000000003183231,
+                "valueVec2Y": 0
+              }
+            },
+            {
+              "keyframePosition": 8500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 1.8250000000000454747,
+                "valueVec2Y": 0.83900000000005547918
+              }
+            },
+            {
+              "keyframePosition": 13500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 0.39600000000007185008,
+                "valueVec2Y": -2.5689999999999599822
+              }
+            },
+            {
+              "keyframePosition": 22000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": -2.471000000000003638,
+                "valueVec2Y": 10
+              }
+            },
+            {
+              "keyframePosition": 32500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 0,
+                "valueVec2Y": 10
+              }
+            },
+            {
+              "keyframePosition": 47500,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 4,
+                "valueVec2Y": -10
+              }
+            },
+            {
+              "keyframePosition": 57000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": -3.7740000000000009095,
+                "valueVec2Y": -1.9279999999999972715
+              }
+            }
+          ]
+        },
+        {
           "sequenceSceneId": 826,
           "sequenceStart": 0,
           "sequenceDuration": 48000,
@@ -4937,7 +5094,7 @@
       "uniformName": "main_marching_distance",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 300
+        "valueFloatX": 500
       },
       "sequencesArray": []
     },
@@ -6375,7 +6532,7 @@
       "sceneId": 139,
       "sceneStart": 192000,
       "sceneDuration": 97500,
-      "sceneShaderSource": "extruder3",
+      "sceneShaderSource": "extruder",
       "sceneEnvironmentSource": "plain",
       "keyframeValue": {
       }

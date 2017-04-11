@@ -16,7 +16,7 @@ float pDomrepGridOnlyX(inout vec2 p, float c) {
 
 float fScene(vec3 p) {
 	// domain geschwurbel
-	vec3 p_cyl = p;
+	vec3 p_cyl = p.yxz;
 
 	pRotY(p_cyl, Tau * mand_rot_global_rt_float);
 
@@ -47,7 +47,7 @@ float fScene(vec3 p) {
 	MatWrap w_cyl = MatWrap(f_cyl, MaterialId(mat_id_cyl, p_cyl, vec4(c_circle, c_grid, c_distfunc, 0.)));
 
 	// ground plane
-	float f_plane = p.y;
+	float f_plane = p.x;
 	MatWrap w_plane = MatWrap(f_plane, newMaterialId(mat_id_plane, p));
 
 	MatWrap w = mUnion(w_cyl, w_plane);
@@ -66,31 +66,41 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 		result += ambient_lighting;
 	//}
 
-	SphereLight light1 = SphereLight(mand_lighting_light1_pos_rt_vec3, mand_lighting_light1_radius_rt_float, mand_lighting_light1_color_rt_color, mand_lighting_light1_power_rt_float*1000.);
-	vec3 sphere_lighting1 = applySphereLight(origin, marched, direction, hit, normal, material, light1) * light1.color;
 
-	vec3 dir_to_light1 = normalize(mand_lighting_light1_pos_rt_vec3 - hit);
-	float length_to_light1 = distance(mand_lighting_light1_pos_rt_vec3, hit);
-	float shadowing_value1 = shadowMarch(hit, dir_to_light1, length_to_light1, mand_lighting_shadow_softness_rt_float);
-	sphere_lighting1 *= shadowing_value1;
+	//SphereLight light1 = SphereLight(mand_lighting_light1_pos_rt_vec3, mand_lighting_light1_radius_rt_float, mand_lighting_light1_color_rt_color, mand_lighting_light1_power_rt_float*1000.);
+	//vec3 sphere_lighting1 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light1, ext_shadow_softness_rt_float);
+	PointLight light1 = PointLight(
+			mand_lighting_light1_pos_rt_vec3,
+			normalize(mand_lighting_light1_target_rt_vec3 - mand_lighting_light1_pos_rt_vec3),
+			Tau * mand_lighting_light1_angle_rt_float,
+			mand_lighting_light1_color_rt_color,
+			mand_lighting_light1_power_rt_float*1000.
+	);
+	vec3 sphere_lighting1 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light1, ext_shadow_softness_rt_float);
 	result += sphere_lighting1;
 
-	SphereLight light2 = SphereLight(mand_lighting_light2_pos_rt_vec3, mand_lighting_light2_radius_rt_float, mand_lighting_light2_color_rt_color, mand_lighting_light2_power_rt_float*1000.);
-	vec3 sphere_lighting2 = applySphereLight(origin, marched, direction, hit, normal, material, light2) * light2.color;
-
-	vec3 dir_to_light2 = normalize(mand_lighting_light2_pos_rt_vec3 - hit);
-	float length_to_light2 = distance(mand_lighting_light2_pos_rt_vec3, hit);
-	float shadowing_value2 = shadowMarch(hit, dir_to_light2, length_to_light2, mand_lighting_shadow_softness_rt_float);
-	sphere_lighting2 *= shadowing_value2;
+	//SphereLight light2 = SphereLight(mand_lighting_light2_pos_rt_vec3, mand_lighting_light2_radius_rt_float, mand_lighting_light2_color_rt_color, mand_lighting_light2_power_rt_float*1000.);
+	//vec3 sphere_lighting2 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light2, ext_shadow_softness_rt_float);
+	PointLight light2 = PointLight(
+			mand_lighting_light2_pos_rt_vec3,
+			normalize(mand_lighting_light2_target_rt_vec3 - mand_lighting_light2_pos_rt_vec3),
+			Tau * mand_lighting_light2_angle_rt_float,
+			mand_lighting_light2_color_rt_color,
+			mand_lighting_light2_power_rt_float*1000.
+	);
+	vec3 sphere_lighting2 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light2, ext_shadow_softness_rt_float);
 	result += sphere_lighting2;
 
-	SphereLight light3 = SphereLight(mand_lighting_light3_pos_rt_vec3, mand_lighting_light3_radius_rt_float, mand_lighting_light3_color_rt_color, mand_lighting_light3_power_rt_float*1000.);
-	vec3 sphere_lighting3 = applySphereLight(origin, marched, direction, hit, normal, material, light3) * light3.color;
-
-	vec3 dir_to_light3 = normalize(mand_lighting_light3_pos_rt_vec3 - hit);
-	float length_to_light3 = distance(mand_lighting_light3_pos_rt_vec3, hit);
-	float shadowing_value3 = shadowMarch(hit, dir_to_light3, length_to_light3, 4.* mand_lighting_shadow_softness_rt_float);
-	sphere_lighting3 *= shadowing_value3;
+	//SphereLight light3 = SphereLight(mand_lighting_light3_pos_rt_vec3, mand_lighting_light3_radius_rt_float, mand_lighting_light3_color_rt_color, mand_lighting_light3_power_rt_float*1000.);
+	//vec3 sphere_lighting3 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light3, ext_shadow_softness_rt_float);
+	PointLight light3 = PointLight(
+			mand_lighting_light3_pos_rt_vec3,
+			normalize(mand_lighting_light3_target_rt_vec3 - mand_lighting_light3_pos_rt_vec3),
+			Tau * mand_lighting_light3_angle_rt_float,
+			mand_lighting_light3_color_rt_color,
+			mand_lighting_light3_power_rt_float*1000.
+	);
+	vec3 sphere_lighting3 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light3, ext_shadow_softness_rt_float);
 	result += sphere_lighting3;
 
 	return result;
