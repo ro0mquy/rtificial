@@ -15,16 +15,16 @@
 #endif
 
 
-float abs(float x);
+float abs(float x) noexcept;
 
-float sqrt(float x);
+float sqrt(float x) noexcept;
 
-float sin(float x);
-float acos(float x);
+float sin(float x) noexcept;
+float acos(float x) noexcept;
 
-float log10(float x);
+float log10(float x) noexcept;
 double pow(double base, double exponent);
-float exp(float x);
+float exp(float x) noexcept;
 
 
 #endif

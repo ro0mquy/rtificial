@@ -1,6 +1,6 @@
 #include "stdmath.h"
 
-float abs(float x) {
+float abs(float x) noexcept {
 #ifdef _MSC_VER
 	__asm {
 		fld x
@@ -21,7 +21,7 @@ float abs(float x) {
 	// */
 }
 
-float sqrt(float x) {
+float sqrt(float x) noexcept {
 #ifdef _MSC_VER
 	__asm {
 		fld x
@@ -43,7 +43,7 @@ float sqrt(float x) {
 }
 
 
-float sin(float x) {
+float sin(float x) noexcept {
 #ifdef _MSC_VER
 	__asm {
 		fld x
@@ -64,7 +64,7 @@ float sin(float x) {
 	// */
 }
 
-float acos(float x) {
+float acos(float x) noexcept {
 	//*
 #ifdef _MSC_VER
 	__asm {
@@ -113,7 +113,7 @@ float acos(float x) {
 	// */
 }
 
-float log10(float x)
+float log10(float x) noexcept
 {
     __asm
     {
@@ -179,7 +179,7 @@ end:
   }
 }
 
-float exp(float x)
+float exp(float x) noexcept
 {
     __asm
     {

@@ -32,7 +32,8 @@ workspace "Demo"
 
 	filter { "configurations:Debug" }
 		defines "_DEBUG"
-		symbols = "On" -- Generate debugging information.
+		symbols "On" -- Generate debugging information.
+		runtime "Debug"
 	filter { "configurations:Release" }
 		defines "NDEBUG"
 
@@ -133,6 +134,8 @@ project "vinyl"
 			linkoptions {
 				"/NODEFAULTLIB", -- Ignore All Default Libraries
 			}
+		filter { "configurations:Debug", "system:windows" }
+
 
 	-- V2
 
@@ -149,6 +152,9 @@ project "vinyl"
 			"winmm",
 			"libv2",
 		}
+
+		filter { "platforms:V2 or dual_V2_4klang", "system:windows", "configurations:Debug" }
+			ignoredefaultlibraries { "libcmt.lib" }
 
 	-- 4klang
 
