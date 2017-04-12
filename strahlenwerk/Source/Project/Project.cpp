@@ -110,6 +110,8 @@ int Project::compareElements(const ValueTree& first, const ValueTree& second) {
 }
 
 void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, Scenes<AmbientLight>& ambient, const std::vector<Texture>& textures) {
+	TimelineData& data = TimelineData::getTimelineData();
+
 	const File& buildDir = loader.getBuildDir();
 	buildDir.deleteRecursively();
 	buildDir.createDirectory();
@@ -204,7 +206,20 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 		shadersHeaderContent += "#include \"shaders/" + shader.getName() + ".h\"\n";
 		scenesArrayDeclaration += "\tShader(" + shader.getName() + "_source, 0, nullptr),\n";
 
-		const int shaderId = ambient.getObjectId(shader.getName());
+		// find environmentName for shader
+		const std::string& shaderName = shader.getName();
+		std::string environmentName;
+		const int numScenes = data.getNumScenes();
+		for (int j = 0; j < numScenes; j++) {
+			ValueTree scene = data.getScene(j);
+			const std::string sceneShaderSourceName = data.getSceneShaderSource(scene).toString().toStdString();
+			if (sceneShaderSourceName == shaderName) {
+				environmentName = data.getSceneEnvironmentSource(scene).toString().toStdString();
+				break;
+			}
+		}
+
+		const int shaderId = ambient.getObjectId(environmentName);
 		if (shaderId != -1) {
 			const AmbientLight& environment = ambient.getObject(shaderId);
 			const File& environmentFile = shadersDir.getChildFile(String(shader.getName() + "_environment")).withFileExtension("h");
@@ -272,8 +287,6 @@ void Project::makeDemo(Scenes<SceneShader>& scenes, PostprocPipeline& postproc, 
 	fboDeclaration += "};\n";
 
 	shadersHeaderContent += fboDeclaration;
-
-	TimelineData& data = TimelineData::getTimelineData();
 
 	std::string scenesArray = "Scene scenes_data[" + std::to_string(data.getNumScenes()) + "] = {\n";
 	interfaceHeaderContent += "extern Scene scenes_data[" + std::to_string(data.getNumScenes()) + "];\n";
