@@ -77,7 +77,7 @@ RT_MAIN {
 
 	for (int i = 0; i < n_scenes; i++) {
 #		ifdef _DEBUG
-		RT_DEBUG(("Compiling scene " + std::to_string(i) + "...\n").c_str());
+		RT_DEBUG(("Compiling scene " + std::to_string(i) + "... ").c_str());
 #		endif
 		scenes[i].compile();
 #		ifdef _DEBUG
@@ -98,7 +98,7 @@ RT_MAIN {
 	}
 	for (int i = 0; i < n_postproc; i++) {
 #		ifdef _DEBUG
-		RT_DEBUG(("Compiling postproc " + std::to_string(i) + "...\n").c_str());
+		RT_DEBUG(("Compiling postproc " + std::to_string(i) + "... ").c_str());
 #		endif
 		postproc[i].compile();
 #		ifdef _DEBUG
@@ -145,7 +145,7 @@ RT_MAIN {
 	for (int i = 0; i < n_scenes; i++) {
 		if (environments[i].isValid()) {
 #		ifdef _DEBUG
-			RT_DEBUG(("Creating environment " + std::to_string(i) + "...\n").c_str());
+			RT_DEBUG(("  Creating environment " + std::to_string(i) + "... ").c_str());
 #		endif
 			environments[i].create(diffuseFilterShader, specularFilterShader);
 #		ifdef _DEBUG
@@ -171,26 +171,48 @@ RT_MAIN {
 	RT_DEBUG("End environments\n");
 #		endif
 
+//	frontend.afterFrame();
+//	frontend.afterFrame();
+
 	for (int i = 0; i < n_textures; i++) {
+#		ifdef _DEBUG
+		RT_DEBUG(("loading texture " + std::to_string(i) + "... ").c_str());
+#		endif
 		textures[i].load();
+#		ifdef _DEBUG
+		RT_DEBUG("loaded\n");
+#		endif
 		progress += progress_step;
 		ladebalken.bind();
 		glUniform1f(74, progress);
 		ladebalken.draw(width, height, -1);
+#		ifdef _DEBUG
+		RT_DEBUG("ladebalken.draw() finished.\n");
+#		endif
 		frontend.afterFrame();
+#		ifdef _DEBUG
+		RT_DEBUG("frontend.afterFrame() finished.\n");
+#		endif
 	}
 
 #	ifdef _DEBUG
 	RT_DEBUG("textures done\n");
+	RT_DEBUG("shader auf betriebstemperatur bringen...\n");
 #	endif
 	for (int j = 0; j < 5; j++) {
+#		ifdef _DEBUG
+		RT_DEBUG(("  warming up round " + std::to_string(j) + "/4...\n").c_str());
+#		endif
 		for (int i = 0; i < n_scenes; i++) {
+#		ifdef _DEBUG
+			RT_DEBUG(("    sub round " + std::to_string(i) + "/4...\n").c_str());
+#		endif
 			if (environments[i].isValid()) {
 				environments[i].bind();
 			}
 
 #	ifdef _DEBUG
-			RT_DEBUG("environment gewurschtel done\n");
+			RT_DEBUG("      environment gewurschtel done\n");
 #	endif
 
 			fbos[0].bind();
@@ -203,7 +225,7 @@ RT_MAIN {
 			}
 
 #	ifdef _DEBUG
-			RT_DEBUG("fbo binding donee\n");
+			RT_DEBUG("      fbo binding donee\n");
 #	endif
 
 			glEnable(GL_FRAMEBUFFER_SRGB);
@@ -214,7 +236,7 @@ RT_MAIN {
 			//frontend.afterFrame();
 
 #	ifdef _DEBUG
-			RT_DEBUG("progess update done\n");
+			RT_DEBUG("      progess update done\n");
 #	endif
 /*
 			progress += progress_step;
@@ -224,10 +246,13 @@ RT_MAIN {
 			frontend.afterFrame();
 */
 #	ifdef _DEBUG
-			RT_DEBUG("textures done\n");
+			RT_DEBUG("      textures done\n");
 #	endif
 		}
 	}
+#	ifdef _DEBUG
+	RT_DEBUG("aufwaermen done\n");
+#	endif
 
 	const int precalc_end_time = frontend.getTime() * 60. / BPM;
 	const int precalc_duration_time = precalc_end_time - program_start_time;
@@ -242,6 +267,8 @@ RT_MAIN {
 	frontend.afterFrame();
 	*/
 	frontend.playAudio();
+
+	frontend.afterFrame();
 
 #	ifdef _DEBUG
 	RT_DEBUG("after frontend.playAudio()\n");

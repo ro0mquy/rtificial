@@ -48,7 +48,7 @@ vec3 PrefilterEnvMap(float Roughness , vec3 R) {
 	vec3 N = R;
 	vec3 V = R;
 	vec3 PrefilteredColor = vec3(0);
-	const uint NumSamples = 2048;
+	const uint NumSamples = 512;
 	float TotalWeight = 0.;
 	for(uint i = 0; i < NumSamples; i++ ) {
 		vec2 Xi = Hammersley( i, NumSamples );

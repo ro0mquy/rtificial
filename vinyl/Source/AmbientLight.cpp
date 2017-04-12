@@ -8,7 +8,7 @@ AmbientLight::AmbientLight(const char* source_) :
 {}
 
 void AmbientLight::create(Shader& diffuseShader, Shader& specularShader) {
-	const int env_size = 1024;
+	const int env_size = 512;
 	const int diffuse_size = env_size / 4;
 	const int specular_size = env_size;
 
