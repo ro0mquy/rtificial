@@ -104,7 +104,7 @@ void WindowsFrontend::init(int width, int height, bool fullscreen) {
 #if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG)
 //#include <mmsystem.h>
 //#include <mmreg.h>
-#include "soundtrack.4klang.h"
+#include "../music/soundtrack.4klang.h"
 #include "math/stdmath.h"
 #define AUDIO_CHANNELS 2
 #ifndef WINDOWS_OBJECT
@@ -504,6 +504,10 @@ void WindowsFrontend::initAudio(bool threaded) {
 #endif
 
 #if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS)
+	// This should've been defined somewhere. No clue why it wasn't.
+	// http://www.onicos.com/staff/iz/formats/wav.html
+	#define WAVE_FORMAT_IEEE_FLOAT		0x0003 /* IEEE Float */
+
 	audio_wave_header = {
 		(LPSTR)audio_buffer,
 		MAX_SAMPLES * sizeof(SAMPLE_TYPE) * AUDIO_CHANNELS,

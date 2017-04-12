@@ -45,14 +45,14 @@ for whatever Visual Studio version you are using; you may also use forward slash
 
 ### Audio Sources
 #### 4klang
-On Windows place the 4klang header into `rtificial/PATH/TO/PROJECT/export/soundtrack.4klang.h` and the `.obj` in `rtificial/PATH/TO/PROJECT/soundtrack.4klang.lib`.
+On Windows place the 4klang header into `rtificial/PATH/TO/PROJECT/export/music/soundtrack.4klang.h` and the `.obj` in `rtificial/PATH/TO/PROJECT/export/music/soundtrack.4klang.lib`.
 
 On Linux place the 4klang export into `rtificial/vinyl/Source/music/4klang.linux.h` and `rtificial/vinyl/Source/music/4klang.linux.o`.
 
 #### V2
 Download `libv2.lib` from [pouet.net](http://www.pouet.net/prod.php?which=15073) and place it int `rtificial\vinyl\Lib\lib\libv2.lib`.
 
-Place the V2 export into `rtificial/PATH/TO/PROJECT/export/soundtrack.v2m`.
+Place the V2 export into `rtificial/PATH/TO/PROJECT/export/music/soundtrack.v2m`.
 
 #### vorbis
 vinyl uses the music file in `rtificial/PATH/TO/PROJECT/music.ogg` that is also used by Strahlenwerk. Note that at the current state it is not possible to decode the file in a thread parallel to compiling shaders on windows, this might lengthen the loading time a bit.

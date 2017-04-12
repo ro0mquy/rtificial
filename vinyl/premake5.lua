@@ -67,8 +67,8 @@ project "vinyl"
 		"Source/*.h",
 		"Source/math/*.cpp",
 		"Source/math/*.h",
-		_OPTIONS["project"].."/export/strahlenwerk_export*.h",
-		_OPTIONS["project"].."/export/shaders/*.h",
+		_OPTIONS["project"].."/export/strahlenwerk/strahlenwerk_export*.h",
+		_OPTIONS["project"].."/export/strahlenwerk/shaders/*.h",
 	}
 	removefiles {
 		"Source/*Frontend.cpp",
@@ -81,7 +81,7 @@ project "vinyl"
 
 	includedirs {
 		"Lib/include",
-		_OPTIONS["project"].."/export/",
+		_OPTIONS["project"].."/export/strahlenwerk/",
 	}
 
 	filter { "configurations:Release" }
@@ -138,7 +138,7 @@ project "vinyl"
 
 	filter { "platforms:V2 or dual_V2_4klang", "system:windows" }
 		files {
-			_OPTIONS["project"].."/export/soundtrack.v2m",
+			_OPTIONS["project"].."/export/music/soundtrack.v2m",
 			"Source/incbin.asm",
 			"Lib/include/libv2.h",
 			"Lib/include/v2mplayer.cpp",
@@ -154,11 +154,11 @@ project "vinyl"
 
 	filter { "platforms:4klang or dual_V2_4klang", "system:windows" }
 		files {
-			_OPTIONS["project"].."/export/soundtrack.4klang.h",
-			_OPTIONS["project"].."/export/soundtrack.4klang.lib",
+			_OPTIONS["project"].."/export/music/soundtrack.4klang.h",
+			_OPTIONS["project"].."/export/music/soundtrack.4klang.lib",
 		}
 		libdirs {
-			_OPTIONS["project"].."/export/",
+			_OPTIONS["project"].."/export/music/",
 		}
 		links {
 			"winmm",
