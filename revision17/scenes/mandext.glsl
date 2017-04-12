@@ -47,7 +47,7 @@ MatWrap wMandala(vec3 p) {
 
 float fScene(vec3 p) {
 	vec3 p_ext = p;
-	pTrans(p_ext.y, 10.);
+	//pTrans(p_ext.y, 10.);
 
 	// extruder geschwurbel
 	pTrans(p_ext.x, -ext_extrude_h_rt_float);
