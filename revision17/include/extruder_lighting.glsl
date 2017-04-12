@@ -36,16 +36,16 @@ vec3 applyExtruderLights(vec3 origin, float marched, vec3 direction, vec3 hit, v
 		result += ambient_lighting;
 	//}
 
-	SphereLight light1 = SphereLight(ext_light1_pos_rt_vec3, ext_light1_radius_rt_float, ext_light1_color_rt_color, ext_light1_power_rt_float*1000.);
-	vec3 sphere_lighting1 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light1, ext_shadow_softness_rt_float);
+	SphereLight light1 = SphereLight(extlight_1_pos_rt_vec3, extlight_1_radius_rt_float, extlight_1_color_rt_color, extlight_1_power_rt_float*1000.);
+	vec3 sphere_lighting1 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light1, extlight_shadow_softness_rt_float);
 	result += sphere_lighting1;
 
-	SphereLight light2 = SphereLight(ext_light2_pos_rt_vec3, ext_light2_radius_rt_float, ext_light2_color_rt_color, ext_light2_power_rt_float*1000.);
-	vec3 sphere_lighting2 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light2, ext_shadow_softness_rt_float);
+	SphereLight light2 = SphereLight(extlight_2_pos_rt_vec3, extlight_2_radius_rt_float, extlight_2_color_rt_color, extlight_2_power_rt_float*1000.);
+	vec3 sphere_lighting2 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light2, extlight_shadow_softness_rt_float);
 	result += sphere_lighting2;
 
-	SphereLight light3 = SphereLight(ext_light3_pos_rt_vec3, ext_light3_radius_rt_float, ext_light3_color_rt_color, ext_light3_power_rt_float*1000.);
-	vec3 sphere_lighting3 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light3, ext_shadow_softness_rt_float);
+	SphereLight light3 = SphereLight(extlight_3_pos_rt_vec3, extlight_3_radius_rt_float, extlight_3_color_rt_color, extlight_3_power_rt_float*1000.);
+	vec3 sphere_lighting3 = applySphereLightWithShadow(origin, marched, direction, hit, normal, material, light3, extlight_shadow_softness_rt_float);
 	result += sphere_lighting3;
 
 	return result;

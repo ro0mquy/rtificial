@@ -21,17 +21,12 @@ float fScene(vec3 p) {
 	pRotY(p_cyl, Tau * mand_rot_global_rt_float);
 
 	// domrep angle
-	if (mand_mix_circle_enable_rt_bool) {
-		pTrans(p_cyl.z, - mand_domrep_angle_r_rt_float / mand_mix_circle_rt_float);
-	}
-	float c_circle = pDomrepAngle(p_cyl.zx, mand_domrep_angle_num_rt_float * mand_mix_circle_rt_float, mand_domrep_angle_r_rt_float / mand_mix_circle_rt_float);
+	float c_circle = pDomrepAngle(p_cyl.zx, mand_domrep_angle_num_rt_float, mand_domrep_angle_r_rt_float);
 
 	pTrans(p_cyl.x, 4.);
 
 	// grid domrep
-	vec3 q_grid = p_cyl;
 	float c_grid = pDomrepGridOnlyX(p_cyl.xz, 8.);
-	p_cyl = mix(q_grid, p_cyl, mand_mix_grid_rt_float);
 
 	pRotY(p_cyl, Tau * mand_rot_cell_rt_float);
 	pTrans(p_cyl.xz, mand_trans_inner_rt_vec2);
@@ -68,33 +63,33 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 
 
 	PointLight light1 = PointLight(
-			mand_lighting_light1_pos_rt_vec3,
-			normalize(mand_lighting_light1_target_rt_vec3 - mand_lighting_light1_pos_rt_vec3),
-			Tau * mand_lighting_light1_angle_rt_float,
-			mand_lighting_light1_color_rt_color,
-			mand_lighting_light1_power_rt_float*1000.
+			mandlight_light1_pos_rt_vec3,
+			normalize(mandlight_light1_target_rt_vec3 - mandlight_light1_pos_rt_vec3),
+			Tau * mandlight_light1_angle_rt_float,
+			mandlight_light1_color_rt_color,
+			mandlight_light1_power_rt_float*1000.
 	);
-	vec3 sphere_lighting1 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light1, ext_shadow_softness_rt_float);
+	vec3 sphere_lighting1 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light1, mandlight_shadow_softness_rt_float);
 	result += sphere_lighting1;
 
 	PointLight light2 = PointLight(
-			mand_lighting_light2_pos_rt_vec3,
-			normalize(mand_lighting_light2_target_rt_vec3 - mand_lighting_light2_pos_rt_vec3),
-			Tau * mand_lighting_light2_angle_rt_float,
-			mand_lighting_light2_color_rt_color,
-			mand_lighting_light2_power_rt_float*1000.
+			mandlight_light2_pos_rt_vec3,
+			normalize(mandlight_light2_target_rt_vec3 - mandlight_light2_pos_rt_vec3),
+			Tau * mandlight_light2_angle_rt_float,
+			mandlight_light2_color_rt_color,
+			mandlight_light2_power_rt_float*1000.
 	);
-	vec3 sphere_lighting2 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light2, ext_shadow_softness_rt_float);
+	vec3 sphere_lighting2 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light2, mandlight_shadow_softness_rt_float);
 	result += sphere_lighting2;
 
 	PointLight light3 = PointLight(
-			mand_lighting_light3_pos_rt_vec3,
-			normalize(mand_lighting_light3_target_rt_vec3 - mand_lighting_light3_pos_rt_vec3),
-			Tau * mand_lighting_light3_angle_rt_float,
-			mand_lighting_light3_color_rt_color,
-			mand_lighting_light3_power_rt_float*1000.
+			mandlight_light3_pos_rt_vec3,
+			normalize(mandlight_light3_target_rt_vec3 - mandlight_light3_pos_rt_vec3),
+			Tau * mandlight_light3_angle_rt_float,
+			mandlight_light3_color_rt_color,
+			mandlight_light3_power_rt_float*1000.
 	);
-	vec3 sphere_lighting3 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light3, ext_shadow_softness_rt_float);
+	vec3 sphere_lighting3 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light3, mandlight_shadow_softness_rt_float);
 	result += sphere_lighting3;
 
 	return result;
@@ -126,7 +121,7 @@ Material getMaterial(MaterialId materialId) {
 		}
 
 		mat.metallic = 1.;
-		mat.roughness = mand_lighting_obj_roughness_rt_float;
+		mat.roughness = mandlight_obj_roughness_rt_float;
 	}
 
 	return mat;

@@ -1657,7 +1657,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_shadow_softness_rt_float",
+      "uniformName": "extlight_shadow_softness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 8
@@ -2202,7 +2202,7 @@
       ]
     },
     {
-      "uniformName": "ext_light1_color_rt_color",
+      "uniformName": "extlight_1_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.31850007176399230957,
@@ -2212,7 +2212,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light1_pos_rt_vec3",
+      "uniformName": "extlight_1_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": -20,
@@ -2222,7 +2222,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light1_power_rt_float",
+      "uniformName": "extlight_1_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 2
@@ -2230,7 +2230,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light1_radius_rt_float",
+      "uniformName": "extlight_1_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 100
@@ -2238,7 +2238,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light2_color_rt_color",
+      "uniformName": "extlight_2_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.024915874004364017141,
@@ -2248,7 +2248,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light2_pos_rt_vec3",
+      "uniformName": "extlight_2_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": -20,
@@ -2258,7 +2258,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light2_power_rt_float",
+      "uniformName": "extlight_2_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 5
@@ -2266,7 +2266,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light2_radius_rt_float",
+      "uniformName": "extlight_2_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 30
@@ -2274,7 +2274,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light3_color_rt_color",
+      "uniformName": "extlight_3_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.44429492950439458676,
@@ -2284,7 +2284,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light3_pos_rt_vec3",
+      "uniformName": "extlight_3_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": 50,
@@ -2294,7 +2294,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light3_power_rt_float",
+      "uniformName": "extlight_3_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 3
@@ -2302,7 +2302,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "ext_light3_radius_rt_float",
+      "uniformName": "extlight_3_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 30
@@ -3600,7 +3600,7 @@
       ]
     },
     {
-      "uniformName": "mand_lighting_light1_angle_rt_float",
+      "uniformName": "mandlight_light1_angle_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.19200000000000727596
@@ -3608,7 +3608,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light1_color_rt_color",
+      "uniformName": "mandlight_light1_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.31850016117095947266,
@@ -3618,7 +3618,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light1_pos_rt_vec3",
+      "uniformName": "mandlight_light1_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": 10,
@@ -3628,7 +3628,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light1_power_rt_float",
+      "uniformName": "mandlight_light1_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.42300000000000181899
@@ -3636,7 +3636,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light1_radius_rt_float",
+      "uniformName": "mandlight_light1_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 4
@@ -3644,7 +3644,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light1_target_rt_vec3",
+      "uniformName": "mandlight_light1_target_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": 0,
@@ -3654,7 +3654,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light2_angle_rt_float",
+      "uniformName": "mandlight_light2_angle_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.13900000000001000444
@@ -3662,7 +3662,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light2_color_rt_color",
+      "uniformName": "mandlight_light2_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.024917002767324447632,
@@ -3672,7 +3672,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light2_pos_rt_vec3",
+      "uniformName": "mandlight_light2_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": 10,
@@ -3682,7 +3682,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light2_power_rt_float",
+      "uniformName": "mandlight_light2_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.44799999999997902611
@@ -3690,7 +3690,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light2_radius_rt_float",
+      "uniformName": "mandlight_light2_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 4
@@ -3698,7 +3698,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light2_target_rt_vec3",
+      "uniformName": "mandlight_light2_target_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": 1,
@@ -3708,7 +3708,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light3_angle_rt_float",
+      "uniformName": "mandlight_light3_angle_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.16700000000003001333
@@ -3716,7 +3716,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light3_color_rt_color",
+      "uniformName": "mandlight_light3_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.76680505275726318359,
@@ -3726,7 +3726,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light3_pos_rt_vec3",
+      "uniformName": "mandlight_light3_pos_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": 10,
@@ -3736,7 +3736,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light3_power_rt_float",
+      "uniformName": "mandlight_light3_power_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1.125
@@ -3744,7 +3744,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light3_radius_rt_float",
+      "uniformName": "mandlight_light3_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1
@@ -3752,7 +3752,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_light3_target_rt_vec3",
+      "uniformName": "mandlight_light3_target_rt_vec3",
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": 0,
@@ -3762,7 +3762,7 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_obj_roughness_rt_float",
+      "uniformName": "mandlight_obj_roughness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 0.62999999999999545253
@@ -3770,34 +3770,10 @@
       "sequencesArray": []
     },
     {
-      "uniformName": "mand_lighting_shadow_softness_rt_float",
+      "uniformName": "mandlight_shadow_softness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 8
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mand_mix_circle_enable_rt_bool",
-      "uniformType": "bool",
-      "uniformStandardValue": {
-        "valueBoolState": false
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mand_mix_circle_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
-      },
-      "sequencesArray": []
-    },
-    {
-      "uniformName": "mand_mix_grid_rt_float",
-      "uniformType": "float",
-      "uniformStandardValue": {
-        "valueFloatX": 1
       },
       "sequencesArray": []
     },
