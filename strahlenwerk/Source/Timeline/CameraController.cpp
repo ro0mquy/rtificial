@@ -8,14 +8,20 @@
 #include "Interpolator.h"
 #include "TreeIdentifiers.h"
 
+#include <glm/gtx/quaternion.hpp>
+
 CameraController* CameraController::globalCameraController = nullptr;
 
 CameraController::CameraController(TimelineData& data_, Interpolator& interpolator_) :
 	SpecialUniformController(data_),
 	interpolator(interpolator_),
-	cameraFocalLengthName("camera_focal_length"),
 	cameraPositionName("camera_position"),
-	cameraRotationName("camera_rotation")
+	cameraRotationName("camera_rotation"),
+	cameraFocalLengthName("camera_focal_length"),
+	spectatormodeActiveName("spectatormode_active"),
+	spectatormodePositionName("spectatormode_position"),
+	spectatormodeRotationName("spectatormode_rotation"),
+	spectatormodeFocalLengthName("spectatormode_focal_length")
 {
 	globalCameraController = this;
 
@@ -39,33 +45,39 @@ CameraController::~CameraController() {
 	globalCameraController = nullptr;
 }
 
+bool CameraController::shouldAddUniformToTimlineData(String& uniformName) {
+	return not (uniformName == spectatormodeActiveName ||
+			uniformName == spectatormodePositionName ||
+			uniformName == spectatormodeRotationName ||
+			uniformName == spectatormodeFocalLengthName);
+}
+
 bool CameraController::wantControlUniform(String& uniformName) {
-	std::lock_guard<std::mutex> lock(cameraMutex);
-	if (hasControl) {
-		return uniformName == cameraFocalLengthName ||
-			uniformName == cameraPositionName ||
-			uniformName == cameraRotationName;
-	}
-	return false;
+	return (uniformName == spectatormodeActiveName ||
+			uniformName == spectatormodePositionName ||
+			uniformName == spectatormodeRotationName ||
+			uniformName == spectatormodeFocalLengthName);
 }
 
 Interpolator::UniformState CameraController::getUniformState(String& uniformName) {
 	ValueTree tree(treeId::controlledValue);
-	if (uniformName == cameraFocalLengthName) {
-		cameraMutex.lock();
-		const float tmpFocalLength = focalLength;
-		cameraMutex.unlock();
-		data.setFloatToValue(tree, tmpFocalLength, false);
-	} else if (uniformName == cameraPositionName) {
+	if (uniformName == spectatormodeActiveName) {
+		data.setBoolToValue(tree, getHasControl(), false);
+	} else if (uniformName == spectatormodePositionName) {
 		cameraMutex.lock();
 		const glm::vec3 tmpPosition = position;
 		cameraMutex.unlock();
 		data.setVec3ToValue(tree, tmpPosition, false);
-	} else if (uniformName == cameraRotationName) {
+	} else if (uniformName == spectatormodeRotationName) {
 		cameraMutex.lock();
 		const glm::quat tmpRotation = rotation;
 		cameraMutex.unlock();
 		data.setQuatToValue(tree, tmpRotation, false);
+	} else if (uniformName == spectatormodeFocalLengthName) {
+		cameraMutex.lock();
+		const float tmpFocalLength = focalLength;
+		cameraMutex.unlock();
+		data.setFloatToValue(tree, tmpFocalLength, false);
 	}
 	return Interpolator::UniformState(tree, false);
 }
@@ -98,7 +110,7 @@ bool CameraController::keyStateChanged(bool /*isKeyPressed*/, Component* /*origi
 		stopTimerCallback();
 	}
 
-	/*
+	//* reenable this comment for disabling of [alt] mouse dragging
 	// more code for shift mouse control in mouseMove(), mouseDrag()
 	const bool isShiftDown = ModifierKeys::getCurrentModifiers().isAltDown(); // if you change the modifier, also have a look into timerCallback()
 	if (!shiftDraggingActive && isShiftDown) {
@@ -263,7 +275,7 @@ void CameraController::applicationCommandListChanged() {
 
 void CameraController::setKeyframeAtCurrentPosition() {
 	if (!getHasControl()) {
-		getCameraFromCurrentPosition();
+		useCameraFromTimeline();
 	}
 
 	data.getUndoManager().beginNewTransaction("Set Camera");
@@ -324,25 +336,146 @@ void CameraController::setKeyframeAtCurrentPosition() {
 	releaseControl();
 }
 
-void CameraController::getCameraFromCurrentPosition() {
-	ValueTree focalLengthUniform = data.getUniform(var(cameraFocalLengthName));
-	ValueTree focalLengthValue = interpolator.getUniformStateFromTimelineData(focalLengthUniform).first;
-
-	ValueTree positionUniform = data.getUniform(var(cameraPositionName));
-	ValueTree positionValue = interpolator.getUniformStateFromTimelineData(positionUniform).first;
-
-	ValueTree rotationUniform = data.getUniform(var(cameraRotationName));
-	ValueTree rotationValue = interpolator.getUniformStateFromTimelineData(rotationUniform).first;
-
-	const float tmpFocalLength = data.getFloatFromValue(focalLengthValue);
-	const glm::vec3 tmpPosition = data.getVec3FromValue(positionValue);
-	const glm::quat tmpRotation = data.getQuatFromValue(rotationValue);
+void CameraController::useCameraFromTimeline() {
+	const glm::vec3 tmpPosition = getCameraPositionFromTimeline();
+	const glm::quat tmpRotation = getCameraRotationFromTimeline();
+	const float tmpFocalLength = getCameraFocalLengthFromTimeline();
 
 	cameraMutex.lock();
 	focalLength = tmpFocalLength;
 	position = tmpPosition;
 	rotation = tmpRotation;
 	cameraMutex.unlock();
+}
+
+glm::vec3 CameraController::getCameraPositionFromTimeline() {
+	using namespace glm;
+
+	ValueTree craneActiveUniform = data.getUniform(var("camera_crane_active"));
+	ValueTree craneActiveValue = interpolator.getUniformStateFromTimelineData(craneActiveUniform).first;
+	const bool craneActive = data.getBoolFromValue(craneActiveValue);
+
+	if (craneActive) {
+		ValueTree craneBaseUniform = data.getUniform(var("camera_crane_base"));
+		ValueTree craneBaseValue = interpolator.getUniformStateFromTimelineData(craneBaseUniform).first;
+		const vec3 craneBase = data.getVec3FromValue(craneBaseValue);
+
+		ValueTree craneLengthUniform = data.getUniform(var("camera_crane_length"));
+		ValueTree craneLengthValue = interpolator.getUniformStateFromTimelineData(craneLengthUniform).first;
+		const float craneLength = data.getFloatFromValue(craneLengthValue);
+
+		ValueTree cranePhiUniform = data.getUniform(var("camera_crane_phi"));
+		ValueTree cranePhiValue = interpolator.getUniformStateFromTimelineData(cranePhiUniform).first;
+		const float cranePhi = 2 * pi<float>() * data.getFloatFromValue(cranePhiValue);
+
+		ValueTree craneThetaUniform = data.getUniform(var("camera_crane_theta"));
+		ValueTree craneThetaValue = interpolator.getUniformStateFromTimelineData(craneThetaUniform).first;
+		const float craneTheta = 2 * pi<float>() * data.getFloatFromValue(craneThetaValue);
+
+		const vec3 craneHeadRelative = craneLength * vec3(sin(craneTheta) * cos(cranePhi), cos(craneTheta), sin(craneTheta) * sin(cranePhi));
+		const vec3 craneHeadAbsolute = craneBase + craneHeadRelative;
+
+		return craneHeadAbsolute;
+
+	} else {
+		ValueTree positionUniform = data.getUniform(var(cameraPositionName));
+		ValueTree positionValue = interpolator.getUniformStateFromTimelineData(positionUniform).first;
+
+		return data.getVec3FromValue(positionValue);
+	}
+}
+
+glm::quat CameraController::getCameraRotationFromTimeline() {
+	using namespace glm;
+
+	ValueTree trackingActiveUniform = data.getUniform(var("camera_tracking_active"));
+	ValueTree trackingActiveValue = interpolator.getUniformStateFromTimelineData(trackingActiveUniform).first;
+	const bool trackingActive = data.getBoolFromValue(trackingActiveValue);
+
+	if (trackingActive) {
+		// also hard coded in camera.glsl
+		const float camera_sensor_width = 0.024f;
+
+		ValueTree trackingTargetUniform = data.getUniform(var("camera_tracking_target"));
+		ValueTree trackingTargetValue = interpolator.getUniformStateFromTimelineData(trackingTargetUniform).first;
+		const vec3 trackingTarget = data.getVec3FromValue(trackingTargetValue);
+
+		ValueTree trackingScreenPosUniform = data.getUniform(var("camera_tracking_screen_pos"));
+		ValueTree trackingScreenPosValue = interpolator.getUniformStateFromTimelineData(trackingScreenPosUniform).first;
+		const vec2 trackingScreenPos = data.getVec2FromValue(trackingScreenPosValue);
+
+		ValueTree trackingRollUniform = data.getUniform(var("camera_tracking_roll"));
+		ValueTree trackingRollValue = interpolator.getUniformStateFromTimelineData(trackingRollUniform).first;
+		const float trackingRoll = 2 * pi<float>() * data.getFloatFromValue(trackingRollValue);
+
+		// construct the camera coordinate system in a way that it is only dutch angled if wanted
+		vec3 view_direction = normalize(trackingTarget - getCameraPositionFromTimeline());
+		vec3 view_right = -cross(view_direction, vec3(0., 1., 0.));
+
+		if (view_right == vec3(0.)) {
+			// view_direction parallel to y-axis
+			view_right = vec3(1., 0., 0.);
+		} else {
+			view_right = normalize(view_right);
+		}
+
+		// rotate view_right around view_direction
+		// from https://en.wikipedia.org/wiki/Rodrigues'_rotation_formula
+		// simplified, because view_right and view_direction are perpendicular
+		view_right = cos(trackingRoll) * view_right + sin(trackingRoll) * cross(view_direction, view_right);
+
+		vec3 view_up = normalize(cross(view_direction, view_right));
+		mat3 rotation_matrix = mat3(-view_right, view_up, -view_direction);
+
+
+		// rotate in such a way that target is at camera_tracking_screen_pos
+		vec2 screen_pos_normalized = (trackingScreenPos - .5f) * vec2(1.f, 9.f/16.f);
+		vec2 screen_pos_tangens = screen_pos_normalized / (getCameraFocalLengthFromTimeline() / camera_sensor_width);
+
+		vec2 c_arg = 1.f / sqrt(1.f + square(screen_pos_tangens)); // cos(arctan(arg));
+		vec2 s_arg = screen_pos_tangens * c_arg; // sin(arctan(arg));
+
+		// rotation around x axis with arg.y as angle
+		mat3 rot_x_axis = mat3(
+				1., 0., 0.,
+				0., c_arg.y, -s_arg.y,
+				0., s_arg.y, c_arg.y
+				);
+
+		// rotation around y axis with arg.x as angle
+		// transpose to get the left-handed rotation
+		mat3 rot_y_axis = transpose(mat3(
+					c_arg.x, 0., s_arg.x,
+					0., 1., 0.,
+					-s_arg.x, 0., c_arg.x
+					));
+
+		// do x axis rotation in camera space and y axis rotation in world space
+		rotation_matrix = rot_y_axis * rotation_matrix * rot_x_axis;
+
+
+		return toQuat(rotation_matrix);
+
+	} else {
+		ValueTree rotationUniform = data.getUniform(var(cameraRotationName));
+		ValueTree rotationValue = interpolator.getUniformStateFromTimelineData(rotationUniform).first;
+
+		return data.getQuatFromValue(rotationValue);
+	}
+}
+
+glm::quat CameraController::getCameraRotationFromController() {
+	if (getHasControl()) {
+		return rotation;
+	} else {
+		return getCameraRotationFromTimeline();
+	}
+}
+
+float CameraController::getCameraFocalLengthFromTimeline() {
+	ValueTree focalLengthUniform = data.getUniform(var(cameraFocalLengthName));
+	ValueTree focalLengthValue = interpolator.getUniformStateFromTimelineData(focalLengthUniform).first;
+	return data.getFloatFromValue(focalLengthValue);
 }
 
 bool CameraController::getHasControl() {
@@ -357,7 +490,7 @@ void CameraController::setHasControl(const bool shouldHaveControl) {
 
 void CameraController::takeOverControl() {
 	if (!getHasControl()) {
-		getCameraFromCurrentPosition();
+		useCameraFromTimeline();
 		setHasControl(true);
 		sendChangeMessage();
 	}

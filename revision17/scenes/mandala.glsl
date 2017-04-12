@@ -20,17 +20,12 @@ float fScene(vec3 p) {
 	pRotY(p_cyl, Tau * mand_rot_global_rt_float);
 
 	// domrep angle
-	if (mand_mix_circle_enable_rt_bool) {
-		pTrans(p_cyl.z, - mand_domrep_angle_r_rt_float / mand_mix_circle_rt_float);
-	}
-	float c_circle = pDomrepAngle(p_cyl.zx, mand_domrep_angle_num_rt_float * mand_mix_circle_rt_float, mand_domrep_angle_r_rt_float / mand_mix_circle_rt_float);
+	float c_circle = pDomrepAngle(p_cyl.zx, mand_domrep_angle_num_rt_float, mand_domrep_angle_r_rt_float);
 
 	pTrans(p_cyl.x, 4.);
 
 	// grid domrep
-	vec3 q_grid = p_cyl;
 	float c_grid = pDomrepGridOnlyX(p_cyl.xz, 8.);
-	p_cyl = mix(q_grid, p_cyl, mand_mix_grid_rt_float);
 
 	pRotY(p_cyl, Tau * mand_rot_cell_rt_float);
 	pTrans(p_cyl.xz, mand_trans_inner_rt_vec2);

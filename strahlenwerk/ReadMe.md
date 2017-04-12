@@ -58,6 +58,17 @@
 
 (Shader is also reloaded on file change)
 
+### Camera
+* By default `camera_position` and `camera_rotation` uniforms are used.
+* Crane camera control can be toggled by `camera_crane_active`.
+* Crane head position is given in spherical coordinates relative to base.
+* All angles are measured in units of Tau.
+* Theta is angle between up-axis (y-axis) and head.
+* Phi is angle in ground plane (xz-plane).
+* Target tracking can be toggled by `camera_tracking_active`.
+* Camera will almost always ensure that the target is at `camera_tracking_screen_pos` (range 0-1, origin at bottom left)
+* Roll gives rotation angle of the camera around the viewing axis in units of Tau.
+
 ## Building and Installing
 ### Linux
 #### Install Juce

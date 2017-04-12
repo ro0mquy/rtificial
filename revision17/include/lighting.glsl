@@ -7,9 +7,6 @@ layout(binding = 21) uniform samplerCube environment;
 layout(binding = 22) uniform samplerCube filteredDiffuse;
 layout(binding = 23) uniform samplerCube filteredSpecular;
 
-uniform vec3 background_filter; // color
-uniform vec3 background_color; // color
-
 struct SphereLight {
 	vec3 position;
 	float radius;
@@ -58,8 +55,6 @@ vec3 ambientColor(vec3 n, vec3 v, Material mat) {
 	vec3 metal = approximateSpecular(n, v, mat.color, mat.roughness);
 	vec3 color = mix(dielectric, metal, mat.metallic);
 
-	color = background_color * dot(color, background_filter);
-
 	return color;
 }
 
@@ -68,12 +63,10 @@ vec3 ambientColor(vec3 n, vec3 v, Material mat) {
 // r: radius of "bounding sphere"
 vec3 environmentColor(vec3 o, vec3 d, float r) {
 	// hmmmmm…
-	o.xz -= camera_position.xz;
+	o.xz -= camGetPosition().xz;
 	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
 	float t = -dot(d, o) + sqrt(radicand);
 	vec3 color = textureLod(environment, normalize(o + t * d), 0.).rgb;
-
-	color = background_color * dot(color, background_filter);
 
 	return color;
 }
@@ -168,7 +161,9 @@ vec3 applySphereLight(vec3 origin, float marched, vec3 direction, vec3 hit, vec3
 	float specular = incomingLightSpecular * NoL * brdfSpecularEpicSmithWithoutFresnel(-direction, closestPoint, normal, material.roughness);
 
 	vec3 F_dielectric = fresnel(-direction, closestPoint, vec3(.04));
-	return mix(diffuse + F_dielectric * specular, specular * F_metal, material.metallic);
+	vec3 light_result = mix(diffuse + F_dielectric * specular, specular * F_metal, material.metallic);
+	light_result *= light.color;
+	return light_result;
 }
 
 float getDistanceAttenuation(vec3 lightVector) {

@@ -15,12 +15,20 @@ float minV(vec3 v) {
 	return min(min(v.x, v.y), v.z);
 }
 
+float minV(vec4 v) {
+	return min(min(min(v.x, v.y), v.z), v.w);
+}
+
 float maxV(vec2 v) {
 	return max(v.x, v.y);
 }
 
 float maxV(vec3 v) {
 	return max(max(v.x, v.y), v.z);
+}
+
+float maxV(vec4 v) {
+	return max(max(max(v.x, v.y), v.z), v.w);
 }
 
 float min3(float a, float b, float c) {
@@ -100,6 +108,14 @@ vec3 saturate(vec3 v) {
 }
 
 float linstep(float edge0, float edge1, float x) {
+	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
+}
+
+vec3 linstep(vec3 edge0, vec3 edge1, vec3 x) {
+	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
+}
+
+vec3 linstep(float edge0, float edge1, vec3 x) {
 	return clamp((x - edge0) / (edge1 - edge0), 0., 1.);
 }
 
@@ -231,6 +247,14 @@ float iqPowerCurveUnnormalized(float a, float b, float x) {
     return pow(x, a) * pow(1. - x, b);
 }
 
+vec3 iqCosinePalette(vec3 t, vec3 base, vec3 amplitude, vec3 frequency, vec3 phase) {
+	return base + amplitude * cos(Tau * (frequency * t + phase));
+}
+
+vec3 iqCosinePalette(float t, vec3 base, vec3 amplitude, vec3 frequency, vec3 phase) {
+	return base + amplitude * cos(Tau * (frequency * t + phase));
+}
+
 float rgb2luma(vec3 rgb) {
 	return dot(rgb, vec3(.2126, .7152, .0722)); // magic luminance formular
 }
@@ -281,4 +305,17 @@ vec3 srgb2lin(vec3 c) {
 	vec3 vec_greater = pow( (c + 0.055) / 1.055, vec3(2.4));
 	vec3 vec_result = mix(vec_smaller, vec_greater, vec_if);
 	return vec_result;
+}
+
+vec2 bezier(vec2 p1, vec2 p2, vec2 p3, vec2 p4, float t) {
+	vec2 p12 = mix(p1, p2, t);
+	vec2 p23 = mix(p2, p3, t);
+	vec2 p34 = mix(p3, p4, t);
+
+	vec2 p123 = mix(p12, p23, t);
+	vec2 p234 = mix(p23, p34, t);
+
+	vec2 p1234 = mix(p123, p234, t);
+
+	return p1234;
 }

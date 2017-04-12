@@ -25,6 +25,7 @@ class CameraController :
 
 		static CameraController* globalCameraController;
 
+		bool shouldAddUniformToTimlineData(String& uniformName) override;
 		bool wantControlUniform(String& uniformName) override;
 		std::pair<ValueTree, bool> getUniformState(String& uniformName) override;
 
@@ -44,7 +45,11 @@ class CameraController :
 		void applicationCommandListChanged() override;
 
 		void setKeyframeAtCurrentPosition();
-		void getCameraFromCurrentPosition();
+		void useCameraFromTimeline();
+		glm::vec3 getCameraPositionFromTimeline();
+		glm::quat getCameraRotationFromTimeline();
+		glm::quat getCameraRotationFromController();
+		float getCameraFocalLengthFromTimeline();
 
 		bool getHasControl();
 		void setHasControl(const bool shouldHaveControl);
@@ -76,9 +81,14 @@ class CameraController :
 		bool hasControl = false;
 		bool shiftDraggingActive = false;
 
-		const String cameraFocalLengthName;
 		const String cameraPositionName;
 		const String cameraRotationName;
+		const String cameraFocalLengthName;
+
+		const String spectatormodeActiveName;
+		const String spectatormodePositionName;
+		const String spectatormodeRotationName;
+		const String spectatormodeFocalLengthName;
 
 		void startTimerCallback();
 		void stopTimerCallback();

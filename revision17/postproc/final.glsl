@@ -1,8 +1,6 @@
 #include "post.glsl"
 #include "helper.glsl"
 #include "noise.glsl"
-#include "sdf/distances.glsl"
-#include "sdf/domain.glsl"
 #line 5
 // lens distort, vignette, tonemapping, color grading, noise
 
@@ -18,6 +16,10 @@ uniform float post_film_grain_intensity;
 uniform float post_film_grain_frequency;
 uniform float post_film_grain_power;
 uniform bool post_disable_grain;
+
+uniform vec3 post_colorgrading_slope; // color
+uniform vec3 post_colorgrading_power; // color
+uniform vec3 post_colorgrading_offset; // color
 
 uniform vec3 post_colorgrading_lift; // color
 uniform vec3 post_colorgrading_gamma; // color
@@ -84,29 +86,14 @@ float fbm(vec2 c) {
 	return (classic_noise(c) + classic_noise(c * 2.) * .5 + classic_noise(c * 4.) * .25)/1.75;
 }
 
-float fFrame() {
-	vec2 p = gl_FragCoord.xy / res.x;
-	vec2 dim = res / res.x;
-
-	vec2 p_line = p;
-	pTrans(p_line, dim/2);
-
-	pMirrorLoco(p_line, frame_loco_outer_rt_vec2);
-	pMirrorLoco(p_line, frame_loco_rt_vec2);
-	pRot(p_line, frame_rot_rt_float * Tau);
-	pTrans(p_line, frame_trans_rt_vec2);
-
-	pMirrorTrans(p_line.x, frame_thickness_rt_float * .001);
-	float f_line_x = p_line.x;
-
-	pMirrorTrans(p_line.y, frame_thickness_rt_float * .001);
-	float f_line_y = p_line.y;
-
-	float f = min(f_line_x, f_line_y);
-	return 1. - smoothstep(-frame_smoothness_rt_float * .001, frame_smoothness_rt_float * .001, f);
-}
-
 void main() {
+	/*
+	out_color = iqCosinePalette(tc.x, pal_base_rt_color, pal_amplitude_rt_color, pal_frequency_rt_vec3, pal_phase_rt_vec3);
+	out_color = mix(bg_color1_rt_color, bg_color2_rt_color, lin2srgb(tc.x));
+	out_color = lin2srgb(out_color);
+	return;
+	// */
+
 	vec2 tc_lens = tc;
 	if (post_image_distortion != 0.) {
 		tc_lens += smoothNoise(vec2(time * 10, gl_FragCoord.y)).x * post_image_distortion;
@@ -126,7 +113,19 @@ void main() {
 	}
 	out_color *= vignette(post_vignette_intensity, tc_vignette);
 
+	// slope, power, offset grading
+	vec3 slope = 2. * post_colorgrading_slope;
+	vec3 power = 2. * post_colorgrading_power;
+	vec3 offset = (2. * post_colorgrading_offset - 1.);
+	out_color = pow(max(vec3(0.), slope * out_color + offset), power);
+
 	out_color = tonemap(out_color * 2)/tonemap(vec3(W));
+
+	out_color = lin2srgb(out_color);
+
+	out_color = linstep(post_remap_rgb_bottom_rt_vec3, post_remap_rgb_top_rt_vec3, out_color);
+	out_color = linstep(post_remap_value_bottom_rt_float, post_remap_value_top_rt_float, out_color);
+	out_color = post_remap_value_skew_rt_float * square(out_color) + (1. - post_remap_value_skew_rt_float) * out_color;
 
 	if (!post_disable_grain) {
 		// TODO richtiger grain
@@ -140,11 +139,12 @@ void main() {
 		out_color += intensity * grain;
 	}
 
-	// color grading
-	out_color = pow(max(vec3(0.), post_colorgrading_gain * 2. * (out_color + (2. * post_colorgrading_lift - 1.) * (1. - out_color))), 1./max(post_colorgrading_gamma * 2., 1e-6));
+	// lift, gamma, gain grading
+	vec3 lift = 2. * post_colorgrading_lift - 1.;
+	vec3 gamma = 2. * post_colorgrading_gamma;
+	vec3 gain = 2. * post_colorgrading_gain;
+	out_color = pow(max(vec3(0.), gain * (out_color + lift * (1. - out_color))), 1./max(gamma, 1e-6));
 
 	float edg = textureLod(edge, tc, 0.).x;
 	out_color = mix(out_color, post_edge_color, edg);
-
-	//out_color = mix(out_color, vec3(1.), fFrame());
 }

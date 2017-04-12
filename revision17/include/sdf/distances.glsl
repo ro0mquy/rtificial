@@ -328,6 +328,21 @@ float fConeCapped(vec3 p, float rBig, float rSmall, float h) {
 	return max(cone, y);
 }
 
+// capped cone with box as cross-section (a pyramid)
+// h is height of capping
+// r is x radius of box at capping
+// r * ratio is y radius at capping
+float fConeBoxCapped(vec3 p, float r, float h, float ratio) {
+	vec2 n1 = normalize(vec2(h, r));
+	vec2 n2 = normalize(vec2(h, r * ratio));
+	pMirror(p.xz);
+	float cone_plane1 = f2Plane(p.xy, n1);
+	float cone_plane2 = f2Plane(p.zy, n2);
+	float cone = max(cone_plane1, cone_plane2);
+	float cut = p.y + h;
+	return max(cone, -cut);
+}
+
 // line from origin to v, inflated by r
 float fLine(vec3 p, float r, vec3 v) {
 	float h = saturate(dot(p, v)/ dot(v, v));
@@ -410,4 +425,15 @@ float fPyramid(vec3 p, float h, float phi) {
 	float plane2 = f2PlaneAngle(q.zy, phi);
 	float f_oktaeder = max(plane1, plane2);
 	return f_oktaeder;
+}
+
+float fTetrahedron(vec3 p, float r) {
+	pTrans(p.y, r);
+	vec4 q = p * mat4x3(
+		vec3(0., -1., 0.),
+		vec3(0., .333, .943),
+		vec3(.816, .333, -.471),
+		vec3(-.816, .333, -.471)
+	);
+	return maxV(q) - r;
 }

@@ -242,6 +242,7 @@ class TimelineData :
 		// JUCE's own color type
 		Colour getJuceColourFromValue(ValueTree value);
 
+		void setBoolToValue(ValueTree value, bool state, bool useUndoManager = true);
 		void setFloatToValue(ValueTree value, float scalar, bool useUndoManager = true);
 		void setVec2ToValue(ValueTree value, glm::vec2 vector, bool useUndoManager = true);
 		void setVec3ToValue(ValueTree value, glm::vec3 vector, bool useUndoManager = true);
