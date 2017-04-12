@@ -30,14 +30,15 @@ void AmbientLight::load(std::unique_ptr<Shader> shader_) {
 }
 
 void AmbientLight::bind() {
-	const unsigned int brdfLUTWidth = 512;
-	const unsigned int brdfLUTHeight = 512;
+	const unsigned int tex_size = 265;
+	const unsigned int brdfLUTWidth = tex_size;//512;
+	const unsigned int brdfLUTHeight = tex_size;//512;
 
 	// well… TODO
 	if (!created) {
-		environment.create(512, 512, 1);
-		filteredDiffuse.create(256, 256, 1);
-		filteredSpecular.create(512, 512, 6);
+		environment.create(tex_size/*512*/, tex_size/*512*/, 1);
+		filteredDiffuse.create(tex_size/2/*256*/, tex_size/2/*256*/, 1);
+		filteredSpecular.create(tex_size/*512*/, tex_size/*512*/, 6);
 
 		// create BRDF LUT
 		glGenTextures(1, &brdfLUT);

@@ -46,7 +46,7 @@ CameraController::~CameraController() {
 }
 
 bool CameraController::shouldAddUniformToTimlineData(String& uniformName) {
-	return not (uniformName == spectatormodeActiveName ||
+	return ! (uniformName == spectatormodeActiveName ||
 			uniformName == spectatormodePositionName ||
 			uniformName == spectatormodeRotationName ||
 			uniformName == spectatormodeFocalLengthName);

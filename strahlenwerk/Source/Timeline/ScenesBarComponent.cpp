@@ -123,7 +123,7 @@ SceneComponent* ScenesBarComponent::getSceneComponentForData(ValueTree sceneData
 void ScenesBarComponent::doToggleWaveform() {
 	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
 	const bool previous = properties.getBoolValue(PropertyNames::WaveformEnabled);
-	properties.setValue(PropertyNames::WaveformEnabled, not previous);
+	properties.setValue(PropertyNames::WaveformEnabled, ! previous);
 	repaint();
 }
 

@@ -72,7 +72,7 @@ void AudioManager::loadEnvelopes(const File& envelopeFile) {
 }
 
 void AudioManager::loadBpm(const File& bpmFile) {
-	if(not bpmFile.existsAsFile()) {
+	if(! bpmFile.existsAsFile()) {
 		DBG("BPM file (./bpm.bpm) not found");
 		return;
 	}

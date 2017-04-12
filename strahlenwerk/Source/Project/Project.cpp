@@ -89,7 +89,7 @@ TimelineData& Project::getTimelineData() {
 void Project::loadDirectory(const std::string& dir) {
 	loader = ProjectFileLoader(dir);
 	watchFiles(dir);
-	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::ProjectDir, var(dir));
+	StrahlenwerkApplication::getInstance()->getProperties().setValue(PropertyNames::ProjectDir, var(String(dir)));
 	projectChanged();
 	reloadTimelineData();
 	reloadShaders();
@@ -674,7 +674,7 @@ void Project::addUniforms(const Shader& shader) {
 		}
 
 		// TODO handle same uniform with different type
-		if(timelineData.getUniform(var(uniform->name)).isValid()) {
+		if(timelineData.getUniform(var(String(uniform->name))).isValid()) {
 			// uniform already exists
 			continue;
 		}
@@ -704,7 +704,7 @@ void Project::addUniforms(const Shader& shader) {
 				type = "quat";
 				break;
 		}
-		timelineData.addUniform(var(uniform->name), type);
+		timelineData.addUniform(var(String(uniform->name)), type);
 	}
 }
 

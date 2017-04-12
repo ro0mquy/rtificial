@@ -10,6 +10,7 @@ cmake -G 'Unix Makefiles' -DSTATIC_LIB=ON
 make
 
 # these should be already checked into git
-#cd ..
-#mkdir include
-#ln -s ../efsw/include/efsw include/efsw
+# no they shouldn't -- because: windows
+cd ..
+mkdir include
+ln -s ../efsw/include/efsw include/efsw

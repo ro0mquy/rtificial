@@ -103,7 +103,7 @@ void OpenGLComponent::doToggleGrid() {
 void OpenGLComponent::doToggleGlOverlays() {
 	auto& properties = StrahlenwerkApplication::getInstance()->getProperties();
 	const bool previous = properties.getBoolValue(PropertyNames::GridEnabled);
-	const bool updated = not previous;
+	const bool updated = ! previous;
 	properties.setValue(PropertyNames::GridEnabled, updated);
 
 	context.setComponentPaintingEnabled(updated);
