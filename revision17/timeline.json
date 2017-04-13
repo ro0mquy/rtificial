@@ -368,6 +368,14 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "camera_f_stop",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "camera_focal_length",
       "uniformType": "float",
       "uniformStandardValue": {
@@ -503,8 +511,8 @@
           ]
         },
         {
-          "sequenceSceneId": 277,
-          "sequenceStart": 32000,
+          "sequenceSceneId": 623,
+          "sequenceStart": 0,
           "sequenceDuration": 24000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -569,7 +577,7 @@
         {
           "sequenceSceneId": 328,
           "sequenceStart": 32000,
-          "sequenceDuration": 40000,
+          "sequenceDuration": 28000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -631,6 +639,14 @@
           ]
         }
       ]
+    },
+    {
+      "uniformName": "camera_focus_dist",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "camera_position",
@@ -808,8 +824,8 @@
           ]
         },
         {
-          "sequenceSceneId": 277,
-          "sequenceStart": 32000,
+          "sequenceSceneId": 623,
+          "sequenceStart": 0,
           "sequenceDuration": 24000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
@@ -864,7 +880,7 @@
         {
           "sequenceSceneId": 328,
           "sequenceStart": 32000,
-          "sequenceDuration": 40000,
+          "sequenceDuration": 28000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -1983,8 +1999,8 @@
           ]
         },
         {
-          "sequenceSceneId": 277,
-          "sequenceStart": 32000,
+          "sequenceSceneId": 623,
+          "sequenceStart": 0,
           "sequenceDuration": 24000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
@@ -2033,7 +2049,7 @@
         {
           "sequenceSceneId": 328,
           "sequenceStart": 32000,
-          "sequenceDuration": 40000,
+          "sequenceDuration": 28000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -2287,7 +2303,7 @@
         {
           "sequenceSceneId": 328,
           "sequenceStart": 32000,
-          "sequenceDuration": 40000,
+          "sequenceDuration": 28000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -2301,7 +2317,7 @@
               }
             },
             {
-              "keyframePosition": 40000,
+              "keyframePosition": 28000,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
@@ -2406,7 +2422,7 @@
           "sequenceSceneId": 141,
           "sequenceStart": 0,
           "sequenceDuration": 32000,
-          "sequenceInterpolation": "step",
+          "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
               "keyframePosition": 0,
@@ -2442,7 +2458,7 @@
           "sequenceSceneId": 141,
           "sequenceStart": 0,
           "sequenceDuration": 32000,
-          "sequenceInterpolation": "step",
+          "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
               "keyframePosition": 0,
@@ -2478,7 +2494,7 @@
           "sequenceSceneId": 141,
           "sequenceStart": 0,
           "sequenceDuration": 32000,
-          "sequenceInterpolation": "step",
+          "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
               "keyframePosition": 0,
@@ -2514,7 +2530,7 @@
           "sequenceSceneId": 141,
           "sequenceStart": 0,
           "sequenceDuration": 32000,
-          "sequenceInterpolation": "step",
+          "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
               "keyframePosition": 0,
@@ -3311,8 +3327,8 @@
           ]
         },
         {
-          "sequenceSceneId": 623,
-          "sequenceStart": 24000,
+          "sequenceSceneId": 843,
+          "sequenceStart": 0,
           "sequenceDuration": 30000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -3503,8 +3519,8 @@
           ]
         },
         {
-          "sequenceSceneId": 843,
-          "sequenceStart": 30000,
+          "sequenceSceneId": 900,
+          "sequenceStart": 0,
           "sequenceDuration": 33000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -4223,9 +4239,9 @@
           ]
         },
         {
-          "sequenceSceneId": 328,
-          "sequenceStart": 40000,
-          "sequenceDuration": 32000,
+          "sequenceSceneId": 952,
+          "sequenceStart": 8000,
+          "sequenceDuration": 20000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -4859,8 +4875,8 @@
           ]
         },
         {
-          "sequenceSceneId": 277,
-          "sequenceStart": 32000,
+          "sequenceSceneId": 623,
+          "sequenceStart": 0,
           "sequenceDuration": 24000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -5451,9 +5467,9 @@
           ]
         },
         {
-          "sequenceSceneId": 328,
-          "sequenceStart": 40000,
-          "sequenceDuration": 32000,
+          "sequenceSceneId": 952,
+          "sequenceStart": 8000,
+          "sequenceDuration": 20000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -5465,7 +5481,7 @@
               }
             },
             {
-              "keyframePosition": 32000,
+              "keyframePosition": 20000,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
@@ -5548,8 +5564,8 @@
       },
       "sequencesArray": [
         {
-          "sequenceSceneId": 277,
-          "sequenceStart": 32000,
+          "sequenceSceneId": 623,
+          "sequenceStart": 0,
           "sequenceDuration": 24000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -6758,9 +6774,9 @@
           ]
         },
         {
-          "sequenceSceneId": 328,
-          "sequenceStart": 40000,
-          "sequenceDuration": 32000,
+          "sequenceSceneId": 952,
+          "sequenceStart": 8000,
+          "sequenceDuration": 20000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
             {
@@ -6773,7 +6789,7 @@
               }
             },
             {
-              "keyframePosition": 32000,
+              "keyframePosition": 20000,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
@@ -7082,6 +7098,14 @@
     },
     {
       "uniformName": "post_disable_ao",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": true
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_disable_dof",
       "uniformType": "bool",
       "uniformStandardValue": {
         "valueBoolState": true
@@ -8460,8 +8484,8 @@
           ]
         },
         {
-          "sequenceSceneId": 623,
-          "sequenceStart": 24000,
+          "sequenceSceneId": 843,
+          "sequenceStart": 0,
           "sequenceDuration": 30000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -8732,8 +8756,8 @@
           ]
         },
         {
-          "sequenceSceneId": 843,
-          "sequenceStart": 30000,
+          "sequenceSceneId": 900,
+          "sequenceStart": 0,
           "sequenceDuration": 33000,
           "sequenceInterpolation": "linear",
           "keyframesArray": [
@@ -8795,7 +8819,7 @@
     },
     {
       "sceneId": 141,
-      "sceneStart": 219000,
+      "sceneStart": 207000,
       "sceneDuration": 32000,
       "sceneShaderSource": "extruder1",
       "sceneEnvironmentSource": "plain",
@@ -8804,7 +8828,7 @@
     },
     {
       "sceneId": 277,
-      "sceneStart": 72000,
+      "sceneStart": 60000,
       "sceneDuration": 32000,
       "sceneShaderSource": "mandala_metall",
       "sceneEnvironmentSource": "plain",
@@ -8813,7 +8837,7 @@
     },
     {
       "sceneId": 289,
-      "sceneStart": 191000,
+      "sceneStart": 179000,
       "sceneDuration": 28000,
       "sceneShaderSource": "mandala_metall",
       "sceneEnvironmentSource": "plain",
@@ -8840,7 +8864,7 @@
     },
     {
       "sceneId": 452,
-      "sceneStart": 328000,
+      "sceneStart": 316000,
       "sceneDuration": 28000,
       "sceneShaderSource": "mandext",
       "sceneEnvironmentSource": "plain",
@@ -8867,7 +8891,7 @@
     },
     {
       "sceneId": 553,
-      "sceneStart": 356000,
+      "sceneStart": 344000,
       "sceneDuration": 38000,
       "sceneShaderSource": "mandext",
       "sceneEnvironmentSource": "plain",
@@ -8885,7 +8909,7 @@
     },
     {
       "sceneId": 571,
-      "sceneStart": 292000,
+      "sceneStart": 280000,
       "sceneDuration": 16000,
       "sceneShaderSource": "mandext",
       "sceneEnvironmentSource": "plain",
@@ -8903,7 +8927,7 @@
     },
     {
       "sceneId": 623,
-      "sceneStart": 104000,
+      "sceneStart": 92000,
       "sceneDuration": 24000,
       "sceneShaderSource": "mandala_metall",
       "sceneEnvironmentSource": "plain",
@@ -8937,7 +8961,7 @@
     },
     {
       "sceneId": 843,
-      "sceneStart": 128000,
+      "sceneStart": 116000,
       "sceneDuration": 30000,
       "sceneShaderSource": "extruder3",
       "sceneEnvironmentSource": "plain",
@@ -8946,7 +8970,7 @@
     },
     {
       "sceneId": 900,
-      "sceneStart": 158000,
+      "sceneStart": 146000,
       "sceneDuration": 33000,
       "sceneShaderSource": "extruder3",
       "sceneEnvironmentSource": "plain",
@@ -8955,7 +8979,7 @@
     },
     {
       "sceneId": 908,
-      "sceneStart": 308000,
+      "sceneStart": 296000,
       "sceneDuration": 20000,
       "sceneShaderSource": "mandext",
       "sceneEnvironmentSource": "plain",
@@ -8965,7 +8989,7 @@
     {
       "sceneId": 952,
       "sceneStart": 32000,
-      "sceneDuration": 40000,
+      "sceneDuration": 28000,
       "sceneShaderSource": "mandala_metall",
       "sceneEnvironmentSource": "plain",
       "keyframeValue": {
@@ -8973,9 +8997,9 @@
     },
     {
       "sceneId": 986,
-      "sceneStart": 256000,
+      "sceneStart": 244000,
       "sceneDuration": 36000,
-      "sceneShaderSource": "extruder2",
+      "sceneShaderSource": "extruder1",
       "sceneEnvironmentSource": "plain",
       "keyframeValue": {
       }
