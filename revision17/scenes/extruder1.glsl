@@ -36,11 +36,11 @@ float fScene(vec3 p) {
 	pTrans(p_ext.zy, bezier(ext1_bez_p1_rt_vec2, ext1_bez_p2_rt_vec2, ext1_bez_p3_rt_vec2, ext1_bez_p4_rt_vec2, bez_t));
 
 	pRotX(p_ext, 2. * (px_param + ext_rot_rt_float) * Tau);
-	pTrans(p_ext.z, 3 * sin((5. * px_param + ext_trans_rt_float) * Tau));
+	pTrans(p_ext.z, ext1_trans_amp_rt_float * sin((5. * px_param + ext_trans_rt_float) * Tau));
 	pRotY(p_ext,      (2. * px_param + ext_rot_rt_float) * Tau);
 	pRotZ(p_ext, 4. * (px_param + ext_rot_rt_float) * Tau);
 
-	vec2 loco_torus = vec2(ext1_obj_loco_rt_float + 2.3 * sin(4. * (px_param + ext_rot_rt_float) * Tau));
+	vec2 loco_torus = vec2(ext1_obj_loco_rt_float + ext1_obj_loco_amp_rt_float * sin(4. * (px_param + ext_rot_rt_float) * Tau));
 
 	vec3 loco_index = pMirrorLoco(p_ext.xy, loco_torus);
 	pRotY(p_ext, ext1_obj_rot_rt_float * Tau);
