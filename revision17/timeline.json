@@ -773,7 +773,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 350,
-                "valueVec3Y": 0,
+                "valueVec3Y": 0.00099999999997635313775,
                 "valueVec3Z": 0
               }
             }
@@ -791,7 +791,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 120,
-                "valueVec3Y": 10,
+                "valueVec3Y": 10.000999999999976353,
                 "valueVec3Z": 0
               }
             }
@@ -809,7 +809,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 350,
-                "valueVec3Y": 0,
+                "valueVec3Y": 0.00099999999997635313775,
                 "valueVec3Z": 0
               }
             }
@@ -827,7 +827,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 350,
-                "valueVec3Y": 0,
+                "valueVec3Y": 0.00099999999997635313775,
                 "valueVec3Z": 0
               }
             }
@@ -845,7 +845,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 350,
-                "valueVec3Y": 0,
+                "valueVec3Y": 0.00099999999997635313775,
                 "valueVec3Z": 0
               }
             }
@@ -863,7 +863,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 350,
-                "valueVec3Y": 0,
+                "valueVec3Y": 0.00099999999997635313775,
                 "valueVec3Z": 0
               }
             }
@@ -899,7 +899,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 120,
-                "valueVec3Y": 10,
+                "valueVec3Y": 10.000999999999976353,
                 "valueVec3Z": 0
               }
             }
