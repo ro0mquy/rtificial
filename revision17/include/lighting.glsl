@@ -1,6 +1,7 @@
 #include "helper.glsl"
 #include "material.glsl"
-#line 4
+#include "envmap.glsl"
+#line 5
 
 layout(binding = 20) uniform sampler2D brdf;
 layout(binding = 21) uniform samplerCube environment;
@@ -66,7 +67,8 @@ vec3 environmentColor(vec3 o, vec3 d, float r) {
 	o.xz -= camGetPosition().xz;
 	float radicand = square(dot(d, o)) - dot(o, o) + r * r;
 	float t = -dot(d, o) + sqrt(radicand);
-	vec3 color = textureLod(environment, normalize(o + t * d), 0.).rgb;
+	//vec3 color = textureLod(environment, normalize(o + t * d), 0.).rgb;
+	vec3 color = envmap(normalize(o + t * d));
 
 	return color;
 }
