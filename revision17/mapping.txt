@@ -1,23 +1,26 @@
 input.color scale.color
 input.depth scale.depth
-scale.out_depth ao.depth
 
 scale.out_color remove_fireflies.color
-remove_fireflies.out_color ao_blend.color
 
-ao.out_ao ao_blur_h.ao
-scale.out_depth ao_blur_h.depth
-scale.out_depth ao_blur_v.depth
-ao_blur_h.out_ao ao_blur_v.ao
-ao_blur_v.out_ao ao_blend.ao
+remove_fireflies.out_color coc_map.color
+scale.out_depth coc_map.depth
 
-ao_blend.out_color bloom_up_final.color
-ao_blend.out_color bloom_down_1st.color
+coc_map.out_color_and_coc dof_horizontal.color_and_coc
+scale.out_depth dof_horizontal.depth
+dof_horizontal.out_color_and_coc dof_vertical.color_and_coc
+scale.out_depth dof_vertical.depth
+dof_vertical.out_color_and_coc dof_final.color1
 
-input.depth edge_sobel.depth
-input.color edge_sobel.color
-edge_sobel.out_gradient edge_nonmax.gradient
-edge_nonmax.out_edge final.edge
+coc_map.out_color_and_coc dof_diagonal.color_and_coc
+scale.out_depth dof_diagonal.depth
+dof_diagonal.out_color_and_coc dof_diagonal2.color_and_coc
+scale.out_depth dof_diagonal2.depth
+dof_diagonal2.out_color_and_coc dof_final.color2
+
+remove_fireflies.out_color dof_final.color
+dof_final.out_color bloom_up_final.color
+dof_final.out_color bloom_down_1st.color
 
 bloom_down_1st.out_color bloom_down_2nd.color
 bloom_down_2nd.out_color bloom_down_3rd.color
