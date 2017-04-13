@@ -9,7 +9,7 @@ const float mat_id_highl = 3.;
 
 float fScene(vec3 p) {
 	vec3 p_ext = p;
-	pTrans(p_ext.y, 10.);
+	pTrans(p_ext.y, 15.);
 
 	// extruder geschwurbel
 	pTrans(p_ext.x, -ext_extrude_h_rt_float);
@@ -19,7 +19,7 @@ float fScene(vec3 p) {
 
 	float px_param = px_clamped * ext_extrude_freq_rt_float;
 
-	float bez_t = (px_clamped / ext_extrude_h_rt_float + 1.) / 2.;
+	float bez_t = (-px_clamped / ext_extrude_h_rt_float + 1.) / 2.;
 	pTrans(p_ext.zy, bezier(ext3_bez_p1_rt_vec2, ext3_bez_p2_rt_vec2, ext3_bez_p3_rt_vec2, ext3_bez_p4_rt_vec2, bez_t));
 
 	pRotX(p_ext, 2. * (px_param + ext_rot_rt_float) * Tau);
