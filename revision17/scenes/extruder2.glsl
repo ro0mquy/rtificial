@@ -5,6 +5,7 @@
 const float mat_id_ground = 0.;
 const float mat_id_ext = 1.;
 const float mat_id_bg = 2.;
+const float mat_id_highl = 3.;
 
 float fScene(vec3 p) {
 	vec3 p_ext = p;
@@ -38,6 +39,11 @@ float fScene(vec3 p) {
 	float f_ext = fBox(p_ext, ext2_box_r_rt_float * vec3(Golden_Ratio, 1., 1.));
 	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_ext, vec4(0.)));
 
+	// golden highlight
+	vec2 q_highl = vec2(f_ext, p_ext.x);
+	float f_highl = f2Sphere(q_highl, ext3_color_highlight_size_rt_float);
+	MatWrap w_highl = MatWrap(f_highl, newMaterialId(mat_id_highl, p_ext));
+
 	// ground plane
 	vec3 p_ground = p;
 	float f_ground = opUnionRounded(p_ground.x - extbg_ground_offset_rt_float, p_ground.y, extbg_ground_round_r_rt_float);
@@ -50,6 +56,7 @@ float fScene(vec3 p) {
 
 	// combine everything
 	MatWrap w = w_ext;
+	w = mUnion(w, w_highl);
 	w = mUnion(w, w_ground);
 	//w = mUnion(w, w_bg);
 
@@ -76,6 +83,11 @@ Material getMaterial(MaterialId materialId) {
 		mat.color = ext2_obj_color_rt_color;
 		mat.metallic = 1.;
 		mat.roughness = ext2_obj_roughness_rt_float;
+
+	} else if (materialId.id == mat_id_highl) {
+		mat.color = ext3_color_highlight_rt_color;
+		mat.metallic = 1.;
+		mat.roughness = ext3_color_highlight_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_ground) {
 		mat.color = extbg_ground_color_rt_color;

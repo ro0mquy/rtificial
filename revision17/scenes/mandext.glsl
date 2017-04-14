@@ -47,7 +47,7 @@ MatWrap wMandala(vec3 p) {
 
 float fScene(vec3 p) {
 	vec3 p_ext = p;
-	pTrans(p_ext.y, 10.);
+	//pTrans(p_ext.y, 10.);
 
 	// extruder geschwurbel
 	pTrans(p_ext.x, -ext_extrude_h_rt_float);
@@ -84,47 +84,7 @@ float fScene(vec3 p) {
 }
 
 vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 normal, MaterialId materialId, Material material) {
-	vec3 result = vec3(0.);
-
-	vec3 emission = material.emission;
-	result += emission;
-
-	vec3 ambient_lighting = ambientColor(normal, -direction, material);
-	//if (materialId.id == mat_id_ground) {
-		result += ambient_lighting;
-	//}
-
-
-	PointLight light1 = PointLight(
-			mandlight_light1_pos_rt_vec3,
-			normalize(mandlight_light1_target_rt_vec3 - mandlight_light1_pos_rt_vec3),
-			Tau * mandlight_light1_angle_rt_float,
-			mandlight_light1_color_rt_color,
-			mandlight_light1_power_rt_float*1000.
-	);
-	vec3 sphere_lighting1 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light1, mandlight_shadow_softness_rt_float);
-	result += sphere_lighting1;
-
-	PointLight light2 = PointLight(
-			mandlight_light2_pos_rt_vec3,
-			normalize(mandlight_light2_target_rt_vec3 - mandlight_light2_pos_rt_vec3),
-			Tau * mandlight_light2_angle_rt_float,
-			mandlight_light2_color_rt_color,
-			mandlight_light2_power_rt_float*1000.
-	);
-	vec3 sphere_lighting2 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light2, mandlight_shadow_softness_rt_float);
-	result += sphere_lighting2;
-
-	PointLight light3 = PointLight(
-			mandlight_light3_pos_rt_vec3,
-			normalize(mandlight_light3_target_rt_vec3 - mandlight_light3_pos_rt_vec3),
-			Tau * mandlight_light3_angle_rt_float,
-			mandlight_light3_color_rt_color,
-			mandlight_light3_power_rt_float*1000.
-	);
-	vec3 sphere_lighting3 = applyPointLightWithShadow(origin, marched, direction, hit, normal, material, light3, mandlight_shadow_softness_rt_float);
-	result += sphere_lighting3;
-
+	vec3 result = applyExtruderLights(origin, marched, direction, hit, normal, materialId, material);
 	return result;
 }
 

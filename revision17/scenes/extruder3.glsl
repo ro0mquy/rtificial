@@ -9,7 +9,7 @@ const float mat_id_highl = 3.;
 
 float fScene(vec3 p) {
 	vec3 p_ext = p;
-	pTrans(p_ext.y, 10.);
+	pTrans(p_ext.y, 15.);
 
 	// extruder geschwurbel
 	pTrans(p_ext.x, -ext_extrude_h_rt_float);
@@ -19,7 +19,7 @@ float fScene(vec3 p) {
 
 	float px_param = px_clamped * ext_extrude_freq_rt_float;
 
-	float bez_t = (px_clamped / ext_extrude_h_rt_float + 1.) / 2.;
+	float bez_t = (-px_clamped / ext_extrude_h_rt_float + 1.) / 2.;
 	pTrans(p_ext.zy, bezier(ext3_bez_p1_rt_vec2, ext3_bez_p2_rt_vec2, ext3_bez_p3_rt_vec2, ext3_bez_p4_rt_vec2, bez_t));
 
 	pRotX(p_ext, 2. * (px_param + ext_rot_rt_float) * Tau);
@@ -93,6 +93,16 @@ Material getMaterial(MaterialId materialId) {
 		mat.color = extbg_ground_color_rt_color;
 		mat.metallic = 0.;
 		mat.roughness = extbg_ground_roughness_rt_float;
+
+		vec3 pos = materialId.coord;
+		pTrans(pos.y, extbg_stripes_offset_rt_float);
+		float i_mirror = pMirrorTrans(pos.z, extbg_stripes_apart_rt_vec2.x);
+		pos.y *= i_mirror;
+		pTrans(pos.y, extbg_stripes_apart_rt_vec2.y);
+		pMirrorTrans(pos.y, extbg_stripes_width_rt_float);
+		float stripe = step(pos.y, 0.) * step(-pos.z, 0.);
+
+		mat.color = mix(mat.color, extbg_stripes_color_rt_color, srgb2lin(extbg_stripes_indensity_rt_float) * stripe);
 	}
 
 	return mat;

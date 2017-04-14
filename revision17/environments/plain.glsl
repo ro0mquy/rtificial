@@ -1,7 +1,6 @@
 #version 430
-#include "helper.glsl"
-#include "noise.glsl"
-#line 5
+#include "envmap.glsl"
+#line 4
 
 layout(location = 0) uniform vec2 res;
 layout(location = 35) uniform vec3 camera_direction;
@@ -13,39 +12,6 @@ void main() {
 	vec3 direction = normalize(vec3(c, -.5));
 	vec3 camera_right = cross(camera_direction, camera_up);
 	vec3 d = mat3(camera_right, camera_up, -camera_direction) * direction;
-	vec3 o = vec3(0., 5., 0.);
-	float angle = atan(d.z, d.x);
 
-	/*
-	vec3 color_bottom = srgb2lin(vec3(0.90780, 0.55563, 0.51623));
-	vec3 color_top = srgb2lin(vec3(0.72667, 0.57653, 0.64615));
-	out_color = mix(color_bottom, color_top, smoothstep(0., .1, d.y));
-	//out_color = mix(pow(vec3(0.51287, 0.88513, 0.67453), vec3(2.2)), vec3(.3), 1.-iqCubicPulse(-.4, .5, d.y));
-
-	out_color = mix(out_color, (d + 1.) / 2., .03);
-	// */
-
-
-	/*
-	out_color.r = smoothNoise(d * 10.) / 2 + .5;
-	out_color.g = smoothFbm(d * 3.) / 2 + .5;
-	out_color.b = smoothNoise(d * 1.) / 2 + .5;
-
-	out_color *= smoothstep(-.1, .1, d.y);
-
-	out_color = srgb2lin(out_color);
-
-	out_color = vec3(0.266, 0.775, 0.472) * dot(out_color, vec3(0.032, 0.815, 0.003));
-	// */
-
-	out_color = iqCosinePalette((d.y * d.x * d.z), pal_base_rt_color, pal_amplitude_rt_color, pal_frequency_rt_vec3, pal_phase_rt_vec3);
-	out_color *= pow(abs(1. - smoothstep(0., .03 + 0.01 * sin(angle * 16. + .25*Tau), d.y)), bg_fade_pow_rt_float);
-
-	vec3 color_pal_2 = mix(bg_color1_rt_color, bg_color2_rt_color, lin2srgb(square(sin(4. * angle))));
-	color_pal_2 *= pow(smoothstep(-.01, .0, d.y), bg_fade_pow_rt_float);
-	color_pal_2 *= 0.5;
-
-	out_color += color_pal_2;
-
-	out_color *= .01;
+	out_color = envmap(d);
 }

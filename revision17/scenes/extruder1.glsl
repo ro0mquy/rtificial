@@ -5,6 +5,7 @@
 const float mat_id_ground = 0.;
 const float mat_id_ext = 1.;
 const float mat_id_bg = 2.;
+const float mat_id_highl = 3.;
 
 float myTorusPartial(vec3 p, float rBig, float rSmall, float halfAngle) {
 	float r = length(p.xz);
@@ -32,12 +33,15 @@ float fScene(vec3 p) {
 
 	float px_param = px_clamped * ext_extrude_freq_rt_float;
 
+	float bez_t = (-px_clamped / ext_extrude_h_rt_float + 1.) / 2.;
+	pTrans(p_ext.zy, bezier(ext1_bez_p1_rt_vec2, ext1_bez_p2_rt_vec2, ext1_bez_p3_rt_vec2, ext1_bez_p4_rt_vec2, bez_t));
+
 	pRotX(p_ext, 2. * (px_param + ext_rot_rt_float) * Tau);
-	pTrans(p_ext.z, 3 * sin((5. * px_param + ext_trans_rt_float) * Tau));
-	pRotY(p_ext,      (px_param + ext_rot_rt_float) * Tau);
+	pTrans(p_ext.z, ext1_trans_amp_rt_float * sin((5. * px_param + ext_trans_rt_float) * Tau));
+	pRotY(p_ext,      (2. * px_param + ext_rot_rt_float) * Tau);
 	pRotZ(p_ext, 4. * (px_param + ext_rot_rt_float) * Tau);
 
-	vec2 loco_torus = vec2(ext1_obj_loco_rt_float * sin(4. * (px_param + ext_rot_rt_float) * Tau));
+	vec2 loco_torus = vec2(ext1_obj_loco_rt_float + ext1_obj_loco_amp_rt_float * sin(4. * (px_param + ext_rot_rt_float) * Tau));
 
 	vec3 loco_index = pMirrorLoco(p_ext.xy, loco_torus);
 	pRotY(p_ext, ext1_obj_rot_rt_float * Tau);
@@ -46,6 +50,11 @@ float fScene(vec3 p) {
 
 	float f_ext = f_torus;
 	MatWrap w_ext = MatWrap(f_ext, MaterialId(mat_id_ext, p_ext, vec4(loco_index, px_before)));
+
+	// golden highlight
+	vec2 q_highl = vec2(f_ext, p_ext.x);
+	float f_highl = f2Sphere(q_highl, ext3_color_highlight_size_rt_float);
+	MatWrap w_highl = MatWrap(f_highl, newMaterialId(mat_id_highl, p_ext));
 
 	// ground plane
 	vec3 p_ground = p;
@@ -59,6 +68,7 @@ float fScene(vec3 p) {
 
 	// combine everything
 	MatWrap w = w_ext;
+	w = mUnion(w, w_highl);
 	w = mUnion(w, w_ground);
 	//w = mUnion(w, w_bg);
 
@@ -85,6 +95,11 @@ Material getMaterial(MaterialId materialId) {
 		mat.color = ext1_obj_color_rt_color;
 		mat.metallic = 1.;
 		mat.roughness = ext1_obj_roughness_rt_float;
+
+	} else if (materialId.id == mat_id_highl) {
+		mat.color = ext3_color_highlight_rt_color;
+		mat.metallic = 1.;
+		mat.roughness = ext3_color_highlight_roughness_rt_float;
 
 	} else if (materialId.id == mat_id_ground) {
 		mat.color = extbg_ground_color_rt_color;

@@ -25,9 +25,6 @@ uniform vec3 post_colorgrading_lift; // color
 uniform vec3 post_colorgrading_gamma; // color
 uniform vec3 post_colorgrading_gain; // color
 
-uniform sampler2D edge; // float
-uniform vec3 post_edge_color; // color
-
 float A = 0.15;
 float B = 0.50;
 float C = 0.10;
@@ -84,6 +81,13 @@ float classic_noise(vec2 co) {
 
 float fbm(vec2 c) {
 	return (classic_noise(c) + classic_noise(c * 2.) * .5 + classic_noise(c * 4.) * .25)/1.75;
+}
+
+// https://en.wikipedia.org/wiki/Blend_modes#Overlay
+vec3 blend_overlay(vec3 base, vec3 top) {
+	vec3 dark = 2*base*top;
+	vec3 light = 1 - 2 * (1-base) * (1-top);
+	return mix(dark, light, step(0.5, base));
 }
 
 void main() {
@@ -145,6 +149,13 @@ void main() {
 	vec3 gain = 2. * post_colorgrading_gain;
 	out_color = pow(max(vec3(0.), gain * (out_color + lift * (1. - out_color))), 1./max(gamma, 1e-6));
 
-	float edg = textureLod(edge, tc, 0.).x;
-	out_color = mix(out_color, post_edge_color, edg);
+	// border
+	if ( (abs(0.5 - tc.y) > 0.5 - post_border_y_rt_float/res.y )
+		|| (abs(0.5 - tc.x) > 0.5 - post_border_x_rt_float/res.x) ){
+		if (post_border_blend_overlay_rt_bool) {
+			out_color = blend_overlay(out_color, post_border_color_rt_color);
+		} else {
+			out_color = post_border_color_rt_color;
+		}
+	}
 }

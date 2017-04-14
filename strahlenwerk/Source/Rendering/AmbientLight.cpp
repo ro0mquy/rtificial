@@ -30,7 +30,7 @@ void AmbientLight::load(std::unique_ptr<Shader> shader_) {
 }
 
 void AmbientLight::bind() {
-	const unsigned int tex_size = 265;
+	const unsigned int tex_size = 256;
 	const unsigned int brdfLUTWidth = tex_size;//512;
 	const unsigned int brdfLUTHeight = tex_size;//512;
 
