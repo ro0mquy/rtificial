@@ -42,7 +42,7 @@ float fScene(vec3 p) {
 	MatWrap w_cyl = MatWrap(f_cyl, MaterialId(mat_id_cyl, p_cyl, vec4(c_circle, c_grid, c_distfunc, 0.)));
 
 	// ground plane
-	float f_plane = p.x;
+	float f_plane = p.x - mand_ground_height_rt_float;
 	MatWrap w_plane = MatWrap(f_plane, newMaterialId(mat_id_plane, p));
 
 	MatWrap w = mUnion(w_cyl, w_plane);
