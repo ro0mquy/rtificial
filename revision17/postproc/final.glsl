@@ -141,4 +141,10 @@ void main() {
 	vec3 gamma = 2. * post_colorgrading_gamma;
 	vec3 gain = 2. * post_colorgrading_gain;
 	out_color = pow(max(vec3(0.), gain * (out_color + lift * (1. - out_color))), 1./max(gamma, 1e-6));
+
+	// border
+	if ( (abs(0.5 - tc.y) > 0.5 - post_border_y_rt_float/res.y )
+		|| (abs(0.5 - tc.x) > 0.5 - post_border_x_rt_float/res.x) ){
+		out_color = post_border_color_rt_color;
+	}
 }

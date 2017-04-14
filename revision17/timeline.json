@@ -5228,7 +5228,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.49900000000002364686
+                "valueFloatX": 0.49900000000002370237
               }
             }
           ]
@@ -5244,7 +5244,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.49900000000002364686
+                "valueFloatX": 0.49900000000002370237
               }
             }
           ]
@@ -7684,6 +7684,32 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 1.2090000000000600267
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_border_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 1,
+        "valueColorG": 1,
+        "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_border_x_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_border_y_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 10
       },
       "sequencesArray": []
     },
