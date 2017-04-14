@@ -48,6 +48,7 @@ project "vinyl"
 		"4klang",
 		"dual_V2_4klang",
 		"vorbis",
+		"blankenhain",
 	}
 	filter { "platforms:V2", "system:windows" }
 		defines "SYNTH_V2"
@@ -61,6 +62,8 @@ project "vinyl"
 		}
 	filter { "platforms:dual_V2_4klang" }
 		defines "SYNTH_DUAL_V2_4KLANG"
+	filter { "platforms:blankenhain", "system:windows" }
+		defines "SYNTH_BLANKENHAIN"
 	filter {} -- reset filters
 
 	files {
@@ -197,7 +200,27 @@ project "vinyl"
 			}
 			optimize "Off"
 
+	-- blankenhain
 
+	filter { "platforms:blankenhain", "system:windows" }
+		files {
+			"Lib/include/blankenhain.h",
+			_OPTIONS["project"].."/export/music/soundtrack.blankenhain.lib",
+			_OPTIONS["project"].."/export/music/libblankenhain.lib",
+			_OPTIONS["project"].."/export/music/blankenhain_player.lib",
+		}
+		libdirs {
+			_OPTIONS["project"].."/export/music/",
+		}
+		links {
+			"winmm",
+			"libblankenhain",
+			"blankenhain_player",
+			"soundtrack.blankenhain",
+		}
+		linkoptions {
+			"/STACK:0x100000,0x100000", -- increase stack size
+		}
 
 
 	--

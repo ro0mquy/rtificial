@@ -9,6 +9,7 @@ void* __cdecl operator new(unsigned int bytes, void* here);
 
 void __cdecl operator delete(void* ptr);
 void __cdecl operator delete[](void* ptr);
+void __cdecl operator delete(void* ptr, unsigned int);
 
 
 typedef void(__cdecl *ePVFV)();

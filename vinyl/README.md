@@ -57,6 +57,11 @@ Place the V2 export into `rtificial/PATH/TO/PROJECT/export/music/soundtrack.v2m`
 #### vorbis
 vinyl uses the music file in `rtificial/PATH/TO/PROJECT/music.ogg` that is also used by Strahlenwerk. Note that at the current state it is not possible to decode the file in a thread parallel to compiling shaders on windows, this might lengthen the loading time a bit.
 
+#### blankenhain
+Place the base library `libblankenhain.lib` into `rtificial/PATH/TO/PROJECT/export/music/libblankenhain.lib`.
+Also place the player `blankenhain_player.lib` into `rtificial/PATH/TO/PROJECT/export/music/blankenhain_player.lib`.
+Finally the track export `blankenhain_soundtrack.lib` into `rtificial/PATH/TO/PROJECT/export/music/soundtrack.blankenhain.lib`.
+
 
 ### Debugging
 
@@ -65,5 +70,3 @@ To make use of platform independent debugging functions, define the preprocessor
 	#ifdef _DEBUG
 		RT_DEBUG((std::to_string(myvar)``).c_str());
 	#endif
-
-A newline character `\n` is automatically appended to the string.

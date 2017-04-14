@@ -6,7 +6,7 @@ This is our collection of different binary versions of the exe packer [kkrunchy]
 ## `kkrunchy.bat`
 This batch script runs all our exe packer versions against `vinyl`s `Debug` and `Release` executables of one build configuration so that you can find the one that works and compresses best.
 
-Usage: `kkrunchy.bat <config>` where `config` is a build configuration, which might be one of `4klang`, `V2`, `vorbis` and more. See `rtificial/vinyl/README.md` for all available configurations.
+Usage: `kkrunchy.bat <project> <config>` where `project` is the project directory of the demo and `config` is a build configuration, which might be one of `4klang`, `V2`, `vorbis`, `blankenhain` and more. See `rtificial/vinyl/README.md` for all available configurations.
 
 ## Versions
 

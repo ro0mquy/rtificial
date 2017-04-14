@@ -24,6 +24,10 @@ void __cdecl operator delete [](void* ptr) {
 	operator delete(ptr);
 }
 
+void __cdecl operator delete(void* ptr, unsigned int) {
+	if (ptr) HeapFree(GetProcessHeap(), 0, ptr);
+}
+
 
 #pragma data_seg(".CRT$XCA")
 ePVFV __xc_a[] = { nullptr };

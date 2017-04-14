@@ -450,6 +450,22 @@ void __stdcall dualV2And4KlangProxy(void *a_this, sF32 *a_buffer, sU32 a_len) {
 }
 #endif
 
+#if defined(SYNTH_BLANKENHAIN)
+#include "blankenhain.h"
+#define VC_EXTRALEAN
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <mmsystem.h>
+#include <mmreg.h>
+
+#define FLOAT_32BIT
+#define SAMPLE_TYPE float
+#define AUDIO_CHANNELS 2
+#define SAMPLE_RATE 44100
+static int MAX_SAMPLES = 0;
+static SAMPLE_TYPE* audio_buffer;
+#endif
+
 void WindowsFrontend::initAudio(bool threaded) {
 #if defined(SYNTH_4KLANG) || defined(SYNTH_DUAL_V2_4KLANG)
 	if (threaded) {
@@ -503,7 +519,20 @@ void WindowsFrontend::initAudio(bool threaded) {
 //	}
 #endif
 
-#if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS)
+#if defined(SYNTH_BLANKENHAIN)
+	MAX_SAMPLES = blankenhain::lengthInSamples();
+	audio_buffer = new SAMPLE_TYPE[MAX_SAMPLES * AUDIO_CHANNELS];
+
+	if (threaded) {
+		CreateThread(0, 0, (LPTHREAD_START_ROUTINE)blankenhain::render, audio_buffer, 0, 0);
+		// wait one second
+		sleep(1000);
+	} else {
+		blankenhain::render(audio_buffer);
+	}
+#endif
+
+#if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS) || defined(SYNTH_BLANKENHAIN)
 	// This should've been defined somewhere. No clue why it wasn't.
 	// http://www.onicos.com/staff/iz/formats/wav.html
 	#define WAVE_FORMAT_IEEE_FLOAT		0x0003 /* IEEE Float */
@@ -534,7 +563,7 @@ void WindowsFrontend::initAudio(bool threaded) {
 	};
 #endif
 
-#if defined(SYNTH_4KLANG)
+#if defined(SYNTH_4KLANG) || defined(SYNTH_BLANKENHAIN)
 	waveOutOpen(&audio_wave_out, WAVE_MAPPER, &wave_format, NULL, 0, CALLBACK_NULL);
 	waveOutPrepareHeader(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
@@ -554,7 +583,7 @@ static void _vorbis_decode(){
 
 
 void WindowsFrontend::playAudio() {
-#if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS)
+#if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS) || defined(SYNTH_BLANKENHAIN)
 	waveOutWrite(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
 #if defined(SYNTH_V2) || defined(SYNTH_DUAL_V2_4KLANG)
@@ -569,7 +598,7 @@ void WindowsFrontend::playAudio() {
 
 // returns time in milli beats
 int WindowsFrontend::getTime(){
-#if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS)
+#if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS) || defined(SYNTH_BLANKENHAIN)
 	MMTIME time;
 	time.wType = TIME_SAMPLES;
 	waveOutGetPosition(audio_wave_out, &time, sizeof(MMTIME));
@@ -613,6 +642,9 @@ void WindowsFrontend::cleanup() {
 #ifdef SYNTH_V2
 	dsClose();
 	player.Close();
+#endif
+#ifdef SYNTH_BLANKENHAIN
+	delete audio_buffer;
 #endif
 }
 
