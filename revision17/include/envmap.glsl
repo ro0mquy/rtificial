@@ -1,6 +1,12 @@
 #include "helper.glsl"
 #line 3
 
+mat2 rM2D(float phi) {
+	float c = cos(phi);
+	float s = sin(phi);
+	return mat2(c, -s, s, c);
+}
+
 vec3 envmap(vec3 d) {
 	float angle = atan(d.z, d.x);
 
@@ -13,7 +19,12 @@ vec3 envmap(vec3 d) {
 
 	vec3 color = color_pal_1 + color_pal_2;
 
-	color *= .01;
 
+	float y = d.y / sqrt(1. - square(d.y)); // tan(arcsin(d.y))
+	float pattern_angle = angle + bg_pattern_tilt_rt_float * y + bg_pattern_offset_rt_float;
+	float pattern_domrepped = mod(pattern_angle, bg_pattern_domrep_rt_float) / bg_pattern_domrep_rt_float;
+	color += step(1. - bg_pattern_width_rt_float, pattern_domrepped) * 0.005;
+
+	color *= .01;
 	return color;
 }

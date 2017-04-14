@@ -29,6 +29,81 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "bg_pattern_domrep_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.50599999999997180566
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_pattern_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.86700000000007548806
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_pattern_tilt_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.28399999999999181455
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "bg_pattern_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.24800000000004729372
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extbg_stripes_apart_rt_vec2",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 22.01999999999998181,
+        "valueVec2Y": -10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extbg_stripes_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 1,
+        "valueColorG": 1,
+        "valueColorB": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extbg_stripes_indensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.625
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extbg_stripes_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 19.711999999999989086
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "extbg_stripes_width_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 3.2359999999999899956
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "camera_crane_active",
       "uniformType": "bool",
       "uniformStandardValue": {
@@ -6110,6 +6185,14 @@
               "keyframeValue": {
                 "valueFloatX": 1.0503209829330444336
               }
+            },
+            {
+              "keyframePosition": 32000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 1.1384471654891967773
+              }
             }
           ]
         }
@@ -6874,6 +6957,15 @@
               "keyframeValue": {
                 "valueVec2X": 0.39600000000007185008,
                 "valueVec2Y": -2.5689999999999599822
+              }
+            },
+            {
+              "keyframePosition": 38000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": -1.5699590444564819336,
+                "valueVec2Y": 0.86985707283020019531
               }
             }
           ]
@@ -9498,6 +9590,14 @@
             },
             {
               "keyframePosition": 32000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 2.5520000000000209184
+              }
+            },
+            {
+              "keyframePosition": 38000,
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
