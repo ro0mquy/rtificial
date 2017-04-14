@@ -83,6 +83,13 @@ float fbm(vec2 c) {
 	return (classic_noise(c) + classic_noise(c * 2.) * .5 + classic_noise(c * 4.) * .25)/1.75;
 }
 
+// https://en.wikipedia.org/wiki/Blend_modes#Overlay
+vec3 blend_overlay(vec3 base, vec3 top) {
+	vec3 dark = 2*base*top;
+	vec3 light = 1 - 2 * (1-base) * (1-top);
+	return mix(dark, light, step(0.5, base));
+}
+
 void main() {
 	/*
 	out_color = iqCosinePalette(tc.x, pal_base_rt_color, pal_amplitude_rt_color, pal_frequency_rt_vec3, pal_phase_rt_vec3);
@@ -145,6 +152,10 @@ void main() {
 	// border
 	if ( (abs(0.5 - tc.y) > 0.5 - post_border_y_rt_float/res.y )
 		|| (abs(0.5 - tc.x) > 0.5 - post_border_x_rt_float/res.x) ){
-		out_color = post_border_color_rt_color;
+		if (post_border_blend_overlay_rt_bool) {
+			out_color = blend_overlay(out_color, post_border_color_rt_color);
+		} else {
+			out_color = post_border_color_rt_color;
+		}
 	}
 }
