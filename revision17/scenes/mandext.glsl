@@ -88,7 +88,72 @@ vec3 applyLights(vec3 origin, float marched, vec3 direction, vec3 hit, vec3 norm
 	return result;
 }
 
+float fGeo(vec2 p) {
+	float rot_angle = (-mand_rot_global_rt_float + .5 * (ext_extrude_h_rt_float + ext_rot_rt_float) + geo_rotation_offset_rt_float) * Tau;
+	pRot(p, rot_angle);
+
+	float radius = geo_radius_rt_float * mand_domrep_angle_r_rt_float;
+	float f;
+
+	int mode = int(geo_mode_rt_float) % 7;
+
+	if (mode != 5) {
+		if (mode == 0) {
+			f = f2Triprism(p, radius);
+		} else if (mode == 1) {
+			f = f2Pentaprism(p, radius);
+		} else if (mode == 2) {
+			f = f2Quadprism(p, radius);
+		} else if (mode == 3) {
+			f = f2Hexprism(p, radius);
+		} else if (mode == 4) {
+			vec2 p_domrep = p;
+			pDomrepAngle(p_domrep, 8, radius);
+			pMirror(p_domrep.y);
+			f = f2PlaneAngle(p_domrep, 3./16. * Tau);
+		} else if (mode == 6) {
+			vec2 p_tri = p;
+			float f1 = f2Triprism(p_tri, radius);
+			p_tri.y = -p_tri.y;
+			float f2 = f2Triprism(p_tri, radius * geo_tri_scale_rt_float);
+			f = max(f1, f2);
+		}
+
+		pMirrorTrans(f, geo_thickness_rt_float);
+
+	} else {
+		float box_offset = geo_box_offset_rt_float * mand_domrep_angle_r_rt_float * .01;
+		float f1 = f2Quadprism(p - vec2(box_offset, 0.), radius - box_offset);
+		float f2 = f2Quadprism(p + vec2(box_offset, 0.), radius - box_offset);
+		float f_line = f2LineX(p, 0., radius - 2. * box_offset);
+
+		pMirrorTrans(f1, geo_thickness_rt_float * .01);
+		pMirrorTrans(f2, geo_thickness_rt_float * .01);
+		pMirrorTrans(f_line, geo_thickness_rt_float * .01);
+
+		f = min(f1, f2);
+		//f = min(f, f_line);
+	}
+
+	f = smoothstep(-geo_thickness_rt_float * .01, 0., -f);
+
+	return f;
+}
+
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
+	if (geo_enabled_rt_bool) {
+		for (int i = 0; i < geo_plane_num_rt_float; i++) {
+			float intersection_dist = ((geo_plane_xpos_rt_float + i * geo_plane_distance_rt_float) - origin.x) / direction.x;
+			if (intersection_dist > 0.) {
+				vec2 p = (origin + intersection_dist * direction).zy;
+				float hipster_shit = fGeo(p);
+
+				float brightness = geo_brightness_rt_float * .001 * square(float(i+1)/geo_plane_num_rt_float);
+				color += hipster_shit * brightness * geo_color_rt_color;
+			}
+		}
+	}
+
 	return color;
 }
 

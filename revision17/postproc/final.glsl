@@ -92,62 +92,6 @@ vec3 blend_overlay(vec3 base, vec3 top) {
 	return mix(dark, light, step(0.5, base));
 }
 
-float fGeo() {
-	vec2 p = gl_FragCoord.xy / res.x;
-	vec2 dim = res / res.x;
-	pTrans(p, dim/2);
-
-	float rot_angle = (-mand_rot_global_rt_float + .5 * (ext_extrude_h_rt_float + ext_rot_rt_float) + geo_rotation_offset_rt_float) * Tau;
-	pRot(p, rot_angle);
-
-	float radius = geo_radius_rt_float * mand_domrep_angle_r_rt_float * .01;
-	float f;
-
-	int mode = int(geo_mode_rt_float) % 7;
-
-	if (mode != 5) {
-		if (mode == 0) {
-			f = f2Triprism(p, radius);
-		} else if (mode == 1) {
-			f = f2Pentaprism(p, radius);
-		} else if (mode == 2) {
-			f = f2Quadprism(p, radius);
-		} else if (mode == 3) {
-			f = f2Hexprism(p, radius);
-		} else if (mode == 4) {
-			vec2 p_domrep = p;
-			pDomrepAngle(p_domrep, 8, radius);
-			pMirror(p_domrep.y);
-			f = f2PlaneAngle(p_domrep, 3./16. * Tau);
-		} else if (mode == 6) {
-			vec2 p_tri = p;
-			float f1 = f2Triprism(p_tri, radius);
-			p_tri.y = -p_tri.y;
-			float f2 = f2Triprism(p_tri, radius * geo_tri_scale_rt_float);
-			f = max(f1, f2);
-		}
-
-		pMirrorTrans(f, geo_thickness_rt_float * .01);
-
-	} else {
-		float box_offset = geo_box_offset_rt_float * mand_domrep_angle_r_rt_float * .01;
-		float f1 = f2Quadprism(p - vec2(box_offset, 0.), radius - box_offset);
-		float f2 = f2Quadprism(p + vec2(box_offset, 0.), radius - box_offset);
-		float f_line = f2LineX(p, 0., radius - 2. * box_offset);
-
-		pMirrorTrans(f1, geo_thickness_rt_float * .01);
-		pMirrorTrans(f2, geo_thickness_rt_float * .01);
-		pMirrorTrans(f_line, geo_thickness_rt_float * .01);
-
-		f = min(f1, f2);
-		//f = min(f, f_line);
-	}
-
-	f = step(0., -f);
-
-	return f;
-}
-
 float f2Logo(vec2 p) {
 	// standing V
 	vec2 p_V = p;
@@ -266,11 +210,6 @@ void main() {
 		} else {
 			out_color = post_border_color_rt_color;
 		}
-	}
-
-	if (geo_enabled_rt_bool) {
-		vec3 overlay_color = blend_overlay(out_color, geo_color_rt_color);
-		out_color = mix(out_color, overlay_color, fGeo());
 	}
 
 	// credits

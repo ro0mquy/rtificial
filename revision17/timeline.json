@@ -4666,12 +4666,20 @@
       "sequencesArray": []
     },
     {
+      "uniformName": "geo_brightness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.9759999999999990905
+      },
+      "sequencesArray": []
+    },
+    {
       "uniformName": "geo_color_rt_color",
       "uniformType": "color",
       "uniformStandardValue": {
-        "valueColorR": 0.90466135740280151367,
+        "valueColorR": 0.90466135740280140265,
         "valueColorG": 1,
-        "valueColorB": 0.95597350597381591797
+        "valueColorB": 0.95597350597381602899
       },
       "sequencesArray": []
     },
@@ -4686,6 +4694,22 @@
           "sequenceSceneId": 571,
           "sequenceStart": 0,
           "sequenceDuration": 16000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueBoolState": true
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 571,
+          "sequenceStart": 16000,
+          "sequenceDuration": 20000,
           "sequenceInterpolation": "step",
           "keyframesArray": [
             {
@@ -4722,16 +4746,90 @@
               }
             }
           ]
+        },
+        {
+          "sequenceSceneId": 571,
+          "sequenceStart": 16000,
+          "sequenceDuration": 20000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 20000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 80
+              }
+            }
+          ]
         }
       ]
+    },
+    {
+      "uniformName": "geo_plane_distance_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 21.307999999999992724
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "geo_plane_num_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 571,
+          "sequenceStart": 16000,
+          "sequenceDuration": 20000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "geo_plane_xpos_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
     },
     {
       "uniformName": "geo_radius_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1.4239999999999781721
+        "valueFloatX": 1.0760000000000218279
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 571,
+          "sequenceStart": 16000,
+          "sequenceDuration": 20000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 0.5439999999999827196
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "geo_rotation_offset_rt_float",
@@ -4745,7 +4843,7 @@
       "uniformName": "geo_thickness_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.39600000000007185008
+        "valueFloatX": 0.52800000000002000888
       },
       "sequencesArray": []
     },
