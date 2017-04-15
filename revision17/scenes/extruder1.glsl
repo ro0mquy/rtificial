@@ -2,7 +2,6 @@
 #include "extruder_lighting.glsl"
 #line 4
 
-const float mat_id_ground = 0.;
 const float mat_id_ext = 1.;
 const float mat_id_bg = 2.;
 const float mat_id_highl = 3.;
@@ -69,7 +68,6 @@ float fScene(vec3 p) {
 	// combine everything
 	MatWrap w = w_ext;
 	w = mUnion(w, w_highl);
-	w = mUnion(w, w_ground);
 	//w = mUnion(w, w_bg);
 
 	mUnion(w);

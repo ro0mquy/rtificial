@@ -43,5 +43,5 @@ float shadowMarchAdvanced(vec3 o, vec3 d, float t_min, float t_max, int max_iter
 float shadowMarch(vec3 o, vec3 d, float t_max, float softness) {
 	float shadowing_value = shadowMarchAdvanced(o, d, .01, t_max, 256, 1.2);
 
-	return min(1., softness * shadowing_value);
+	return min(0.244, softness * shadowing_value);
 }

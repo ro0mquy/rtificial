@@ -6,7 +6,8 @@
 #include "sdf/distances.glsl"
 #include "lighting.glsl"
 #include "helper.glsl"
-#line 10
+#include "plane.glsl"
+#line 11
 
 /// marchingloopkram.glsl
 
@@ -438,16 +439,38 @@ void main() {
 	float marched;
 	bool hit = sdfMarch(origin, direction, main_marching_distance, marched);
 
+	float trace_marched;
+	vec3 trace_normal;
+	bool trace_hit = false;
+
+	if (extbg_enabled_rt_bool) {
+		trace_hit = traceScenePlane(origin, direction, main_marching_distance, trace_marched, trace_normal);
+
+		if (trace_hit) {
+			if (!hit) {
+				hit = true;
+				marched = trace_marched;
+			} else {
+				if (trace_marched < marched) {
+					marched = trace_marched;
+				} else {
+					trace_hit = false;
+				}
+			}
+		}
+	}
+
 	if (!hit) {
 		out_color = environmentColor(origin, direction, main_marching_distance);
 		out_depth = main_marching_distance;
 	} else {
 		vec3 hit = origin + marched * direction;
 
-		float marching_error = fMain(hit, true);
-		MaterialId materialId = current_material;
+		// next line is needed for calculating materials
+		float marching_error = trace_hit ? 0. : fMain(hit, true);
+		MaterialId materialId = trace_hit ? newMaterialId(mat_id_ground, hit) : current_material;
 
-		vec3 normal = sdfNormalForeward(hit, direction);
+		vec3 normal = trace_hit ? trace_normal : sdfNormalForeward(hit, direction);
 
 		if (materialId.id == debug_plane_material_id) {
 			vec3 c_isoline = debugColorIsolines(origin, marched, hit);

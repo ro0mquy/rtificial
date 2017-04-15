@@ -2,7 +2,6 @@
 #include "extruder_lighting.glsl"
 #line 4
 
-const float mat_id_ground = 0.;
 const float mat_id_ext = 1.;
 const float mat_id_bg = 2.;
 const float mat_id_highl = 3.;
@@ -44,11 +43,6 @@ float fScene(vec3 p) {
 	float f_highl = f2Sphere(q_highl, ext3_color_highlight_size_rt_float);
 	MatWrap w_highl = MatWrap(f_highl, newMaterialId(mat_id_highl, p_ext));
 
-	// ground plane
-	vec3 p_ground = p;
-	float f_ground = opUnionRounded(p_ground.x - extbg_ground_offset_rt_float, p_ground.y, extbg_ground_round_r_rt_float);
-	MatWrap w_ground = MatWrap(f_ground, newMaterialId(mat_id_ground, p));
-
 	// background objects
 	vec3 p_bg = p;
 	float f_bg = f_ext_background(p_bg);
@@ -57,7 +51,6 @@ float fScene(vec3 p) {
 	// combine everything
 	MatWrap w = w_ext;
 	w = mUnion(w, w_highl);
-	w = mUnion(w, w_ground);
 	//w = mUnion(w, w_bg);
 
 	mUnion(w);
