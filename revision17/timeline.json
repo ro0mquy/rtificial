@@ -4320,7 +4320,7 @@
       "uniformType": "vec3",
       "uniformStandardValue": {
         "valueVec3X": -20,
-        "valueVec3Y": 60,
+        "valueVec3Y": 69.112000000000080036,
         "valueVec3Z": 110
       },
       "sequencesArray": []
