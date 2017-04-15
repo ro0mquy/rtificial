@@ -122,17 +122,14 @@ float fGeo(vec2 p) {
 		pMirrorTrans(f, geo_thickness_rt_float);
 
 	} else {
-		float box_offset = geo_box_offset_rt_float * mand_domrep_angle_r_rt_float * .01;
+		float box_offset = geo_box_offset_rt_float * mand_domrep_angle_r_rt_float;
 		float f1 = f2Quadprism(p - vec2(box_offset, 0.), radius - box_offset);
 		float f2 = f2Quadprism(p + vec2(box_offset, 0.), radius - box_offset);
-		float f_line = f2LineX(p, 0., radius - 2. * box_offset);
 
-		pMirrorTrans(f1, geo_thickness_rt_float * .01);
-		pMirrorTrans(f2, geo_thickness_rt_float * .01);
-		pMirrorTrans(f_line, geo_thickness_rt_float * .01);
+		pMirrorTrans(f1, geo_thickness_rt_float);
+		pMirrorTrans(f2, geo_thickness_rt_float);
 
 		f = min(f1, f2);
-		//f = min(f, f_line);
 	}
 
 	f = smoothstep(-geo_thickness_rt_float * .01, 0., -f);

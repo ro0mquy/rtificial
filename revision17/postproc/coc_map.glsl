@@ -1,14 +1,16 @@
 #include "post.glsl"
 #include "helper.glsl"
-#line 4
+#include "camera.glsl"
+#line 5
 
 uniform sampler2D color; // vec3
 uniform sampler2D depth; // float
 
-uniform float camera_focus_dist;
-uniform float camera_focal_length;
-uniform float camera_f_stop;
+uniform vec3 camera_focus_target;
+uniform float camera_focus_stop;
 uniform bool post_disable_dof;
+
+float focus_dist = distance(camGetPosition(), camera_focus_target);
 
 out vec4 out_color_and_coc;
 
@@ -18,8 +20,8 @@ void main() {
 	}
 	float depthValue = textureLod(depth, tc, 0).x;
 
-	float c = (abs(depthValue - camera_focus_dist) / depthValue)
-		* (square(camera_focal_length) / (camera_f_stop * (camera_focus_dist - camera_focal_length)));
+	float c = (abs(depthValue - focus_dist) / depthValue)
+		* (square(camera_focal_length) / (camera_focus_stop * (focus_dist - camera_focal_length)));
 	float percentOfSensor = c / .024; // sensor height
 	float maxCoC = .05;
 	float blurFactor = clamp(percentOfSensor, 0., maxCoC);
