@@ -143,6 +143,7 @@ float fGeo(vec2 p) {
 vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 	if (geo_enabled_rt_bool) {
 		for (int i = 0; i < geo_plane_num_rt_float; i++) {
+			// http://geomalgorithms.com/a05-_intersect-1.html
 			float intersection_dist = ((geo_plane_xpos_rt_float + i * geo_plane_distance_rt_float) - origin.x) / direction.x;
 			if (intersection_dist > 0.) {
 				vec2 p = (origin + intersection_dist * direction).zy;
