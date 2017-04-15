@@ -215,11 +215,11 @@ void main() {
 	// credits
 	if (post_credits_visible_rt_bool) {
 		vec3 c_penta_1 = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float);
-		float t_penta_1 = smoothstep(-post_credits_aa_rt_float * .1, post_credits_aa_rt_float * .1, -f_penta_1);
+		float t_penta_1 = step(0., -f_penta_1);
 		out_color = mix(out_color, c_penta_1, t_penta_1);
 
 		vec3 c_penta_2 = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float);
-		float t_penta_2 = smoothstep(-post_credits_aa_rt_float * .1, post_credits_aa_rt_float * .1, -f_penta_2);
+		float t_penta_2 = step(0., -f_penta_2);
 		out_color = mix(out_color, c_penta_2, t_penta_2);
 
 		vec2 p2_logo = p2;
