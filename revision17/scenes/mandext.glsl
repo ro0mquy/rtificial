@@ -2,7 +2,7 @@
 #include "extruder_lighting.glsl"
 #line 4
 
-const float mat_id_ground = 0.;
+const float mat_id_plane = 0.;
 const float mat_id_ext = 1.;
 
 float pDomrepGridOnlyX(inout vec2 p, float c) {
@@ -73,7 +73,7 @@ float fScene(vec3 p) {
 
 	// ground plane
 	float f_ground = p.x - mandext_plane_offset_rt_float;
-	MatWrap w_ground = MatWrap(f_ground, newMaterialId(mat_id_ground, p));
+	MatWrap w_ground = MatWrap(f_ground, newMaterialId(mat_id_plane, p));
 
 	// combine everything
 	MatWrap w = w_ext;
@@ -177,7 +177,7 @@ Material getMaterial(MaterialId materialId) {
 
 		mat.metallic = 1.;
 		mat.roughness = mandlight_obj_roughness_rt_float;
-	} else if (materialId.id == mat_id_ground) {
+	} else if (materialId.id == mat_id_plane) {
 		mat.color = extbg_ground_color_rt_color;
 		mat.metallic = 0.;
 		mat.roughness = extbg_ground_roughness_rt_float;
