@@ -215,10 +215,10 @@ void main() {
 	// credits
 	if (post_credits_visible_rt_bool) {
 		if (f_penta_1 < 0) {
-			out_color = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float * post_credits_alpha_rt_float);
+			out_color = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float);
 		}
 		if (f_penta_2 < 0) {
-			out_color = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float * post_credits_alpha_rt_float);
+			out_color = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float);
 		}
 
 		vec2 p2_logo = p2;
