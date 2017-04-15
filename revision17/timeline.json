@@ -7771,7 +7771,7 @@
       "uniformName": "post_remap_value_bottom_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.12000000000002079836
+        "valueFloatX": 0.12999999999999545253
       },
       "sequencesArray": []
     },
@@ -7787,7 +7787,7 @@
       "uniformName": "post_remap_value_top_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 1
+        "valueFloatX": 0.78300000000001546141
       },
       "sequencesArray": []
     },
