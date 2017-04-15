@@ -943,7 +943,7 @@
               "keyframeValue": {
                 "valueVec3X": 57.402103424072265625,
                 "valueVec3Y": -1.692626953125,
-                "valueVec3Z": 6.4384546279907226563
+                "valueVec3Z": 6.4384546279907226562
               }
             }
           ]
@@ -1423,7 +1423,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": 16.291986465454101563,
+                "valueVec3X": 16.291986465454101562,
                 "valueVec3Y": 18.144489288330078125,
                 "valueVec3Z": -1.9986274242401123047
               }
@@ -1480,7 +1480,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 26.01831817626953125,
-                "valueVec3Y": 11.538286209106445313,
+                "valueVec3Y": 11.538286209106445312,
                 "valueVec3Z": 23.70636749267578125
               }
             },
@@ -1607,7 +1607,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": -11.672693252563476563,
+                "valueVec3X": -11.672693252563476562,
                 "valueVec3Y": 59.83164215087890625,
                 "valueVec3Z": 43.7919921875
               }
@@ -1628,7 +1628,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 43.36130523681640625,
-                "valueVec3Y": 24.324640274047851563,
+                "valueVec3Y": 24.324640274047851562,
                 "valueVec3Z": 7.9747533798217773438
               }
             },
@@ -1678,8 +1678,8 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueVec3X": 69.57469940185546875,
-                "valueVec3Y": 1.5377321243286132813,
-                "valueVec3Z": 20.372095108032226563
+                "valueVec3Y": 1.5377321243286132812,
+                "valueVec3Z": 20.372095108032226562
               }
             }
           ]
@@ -1989,7 +1989,7 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueQuatX": 0.027993647381663318979,
-                "valueQuatY": 0.79675149917602539063,
+                "valueQuatY": 0.79675149917602539062,
                 "valueQuatZ": -0.037771560251712799072,
                 "valueQuatW": 0.60247606039047241211
               }
@@ -2223,7 +2223,7 @@
                 "valueQuatX": 0.13770881295204162598,
                 "valueQuatY": 0.6111462712287902832,
                 "valueQuatZ": -0.10904683172702787919,
-                "valueQuatW": 0.77178049087524414063
+                "valueQuatW": 0.77178049087524414062
               }
             },
             {
@@ -3685,7 +3685,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueQuatX": -0.38524866104125976563,
+                "valueQuatX": -0.38524866104125976562,
                 "valueQuatY": -0.62009632587432861328,
                 "valueQuatZ": 0.66888886690139770508,
                 "valueQuatW": 0.13990804553031921387
@@ -3763,7 +3763,7 @@
       "uniformType": "color",
       "uniformStandardValue": {
         "valueColorR": 0.31850007176399230957,
-        "valueColorG": 0.69583940505981445313,
+        "valueColorG": 0.69583940505981445312,
         "valueColorB": 0.37679132819175720215
       },
       "sequencesArray": []
@@ -4417,6 +4417,106 @@
       "uniformType": "float",
       "uniformStandardValue": {
         "valueFloatX": 10
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "geo_box_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.33299999999996998667
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "geo_color_rt_color",
+      "uniformType": "color",
+      "uniformStandardValue": {
+        "valueColorR": 0.90466135740280151367,
+        "valueColorG": 1,
+        "valueColorB": 0.95597350597381591797
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "geo_enabled_rt_bool",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 571,
+          "sequenceStart": 0,
+          "sequenceDuration": 16000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueBoolState": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "geo_mode_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0
+      },
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 571,
+          "sequenceStart": 0,
+          "sequenceDuration": 16000,
+          "sequenceInterpolation": "linear",
+          "keyframesArray": [
+            {
+              "keyframePosition": 16000,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 64
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniformName": "geo_radius_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1.4239999999999781721
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "geo_rotation_offset_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": -0.024999999999977262632
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "geo_thickness_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.39600000000007185008
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "geo_tri_scale_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.72000000000002728484
       },
       "sequencesArray": []
     },
@@ -6065,7 +6165,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": -0.24599999999998090061
+                "valueFloatX": -0.24599999999998087286
               }
             },
             {
@@ -7007,8 +7107,8 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec2X": -3.8182077407836914063,
-                "valueVec2Y": 4.9435434341430664063
+                "valueVec2X": -3.8182077407836914062,
+                "valueVec2Y": 4.9435434341430664062
               }
             },
             {
@@ -8449,7 +8549,7 @@
       "uniformName": "post_ao_gauss_offset_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.11700000000007548806
+        "valueFloatX": 0.11700000000007547418
       },
       "sequencesArray": []
     },
@@ -8855,7 +8955,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueFloatX": 0.041000000000053660187
+                "valueFloatX": 0.041000000000053667126
               }
             },
             {

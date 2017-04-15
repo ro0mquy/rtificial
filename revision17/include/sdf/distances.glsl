@@ -349,7 +349,13 @@ float fLine(vec3 p, float r, vec3 v) {
 	return fSphere(p - v*h, r);
 }
 
-// line along x-axis, form -h to h
+// line along x-axis, from -h to h
+float f2LineX(vec2 p, float r, float h) {
+	p.x -= clamp(p.x, -h, h);
+	return f2Sphere(p, r);
+}
+
+// line along x-axis, from -h to h
 float fLineX(vec3 p, float r, float h) {
 	p.x -= clamp(p.x, -h, h);
 	return fSphere(p, r);
