@@ -214,19 +214,22 @@ void main() {
 
 	// credits
 	if (post_credits_visible_rt_bool) {
-		if (f_penta_1 < 0) {
-			out_color = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float);
-		}
-		if (f_penta_2 < 0) {
-			out_color = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float);
-		}
+		vec3 c_penta_1 = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float);
+		float t_penta_1 = smoothstep(-post_credits_aa_rt_float * .1, post_credits_aa_rt_float * .1, -f_penta_1);
+		out_color = mix(out_color, c_penta_1, t_penta_1);
+
+		vec3 c_penta_2 = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float);
+		float t_penta_2 = smoothstep(-post_credits_aa_rt_float * .1, post_credits_aa_rt_float * .1, -f_penta_2);
+		out_color = mix(out_color, c_penta_2, t_penta_2);
 
 		vec2 p2_logo = p2;
 		pTrans(p2_logo, post_credits_logo_pos_rt_vec2);
 		p2_logo.x = -p2_logo.x;
-		if (f2Logo(p2_logo*post_credits_logo_scale_rt_float*10) < 0) {
-			out_color = mix(out_color, post_credits_logo_color_rt_color, post_credits_alpha_rt_float);
-		}
+		p2_logo *= post_credits_logo_scale_rt_float * 10.;
+		float f_logo = f2Logo(p2_logo);
+		vec3 c_logo = mix(out_color, post_credits_logo_color_rt_color, post_credits_alpha_rt_float);
+		float t_logo = smoothstep(-post_credits_aa_rt_float, post_credits_aa_rt_float, -f_logo);
+		out_color = mix(out_color, c_logo, t_logo);
 	}
 
 }

@@ -523,7 +523,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": 0.98300000000002085709,
+                "valueVec3X": 0.98300000000002074607,
                 "valueVec3Y": 2.0816681711721685133e-14,
                 "valueVec3Z": 2.0816681711721685133e-14
               }
@@ -533,7 +533,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": 0.98300000000002085709,
+                "valueVec3X": 0.98300000000002074607,
                 "valueVec3Y": 2.0816681711721685133e-14,
                 "valueVec3Z": 2.0816681711721685133e-14
               }
@@ -571,7 +571,7 @@
               "keyframeEaseToward": false,
               "keyframeEaseAway": false,
               "keyframeValue": {
-                "valueVec3X": -0.18899999999997918465,
+                "valueVec3X": -0.18899999999997921241,
                 "valueVec3Y": 2.0816681711721685133e-14,
                 "valueVec3Z": 2.0816681711721685133e-14
               }
@@ -7219,6 +7219,14 @@
         "valueColorR": 0.5,
         "valueColorG": 0.5,
         "valueColorB": 0.5
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "post_credits_aa_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.46000000000003637979
       },
       "sequencesArray": []
     },
