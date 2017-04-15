@@ -7636,7 +7636,7 @@
       "uniformName": "post_disable_grain",
       "uniformType": "bool",
       "uniformStandardValue": {
-        "valueBoolState": true
+        "valueBoolState": false
       },
       "sequencesArray": []
     },
@@ -7686,7 +7686,7 @@
       "uniformName": "post_film_grain_intensity",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.0049999999999954525265
+        "valueFloatX": 0.0020000000000663931132
       },
       "sequencesArray": []
     },
