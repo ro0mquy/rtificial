@@ -50,13 +50,3 @@ vec3 applyExtruderLights(vec3 origin, float marched, vec3 direction, vec3 hit, v
 
 	return result;
 }
-
-float f_ext_background(vec3 p) {
-	vec3 p_bg = p;
-	pTrans(p_bg, extbg_offset_rt_vec3);
-	vec2 i_bg = pDomrep(p_bg.xz, extbg_domrep_rt_vec2);
-	pRotY(p_bg, 9781 * i_bg.y + 31 + extbg_rot_anim_rt_float);
-	pRotX(p_bg, 4514 * i_bg.x + 89 + extbg_rot_anim_rt_float);
-	float f_bg = fTetrahedron(p_bg, extbg_tetra_r_rt_float);
-	return f_bg;
-}

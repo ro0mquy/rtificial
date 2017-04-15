@@ -183,69 +183,6 @@ vec3 unitVector(vec2 phitheta) {
 	return vec3(st * cp, ct, st * sp);
 }
 
-// m: anything above stays unchanged
-// n: value at x = 0
-// x: x
-// see http://www.iquilezles.org/www/articles/functions/functions.htm
-float iqAlmostIdentity(float m, float n, float x) {
-	if(x > m) return x;
-
-	float a = 2. * n - m;
-	float b = 2. * m - 3. * n;
-	float t = x / m;
-
-	return (a * t + b) * t * t + n;
-}
-
-// k: width of impulse, maximum happens at 1/k
-// x: x
-// see http://www.iquilezles.org/www/articles/functions/functions.htm
-float iqImpulse(float k, float x) {
-	float h = k * x;
-	return h * exp(1. - h);
-}
-
-// c: x value of maximum
-// w: half pulse width
-// x: x
-// see http://www.iquilezles.org/www/articles/functions/functions.htm
-float iqCubicPulse(float c, float w, float x) {
-	x = abs(x - c);
-	x /= w;
-	return 1. - smoothstep(0., 1., x);
-}
-
-// k: kind of inverse when the step occurs
-// n: how stepish the function is
-// x: x
-// see http://www.iquilezles.org/www/articles/functions/functions.htm
-float iqExpStep(float k, float n, float x) {
-	return exp(-k * pow(x, n));
-}
-
-// k: how thin the function is
-// x: x
-// see http://www.iquilezles.org/www/articles/functions/functions.htm
-float iqParabola(float k, float x) {
-	return pow(4. * x * (1. - x), k);
-}
-
-// a, b: how much to bend in left and right direction
-// x: x
-// reaches 1 at maximum
-// see http://www.iquilezles.org/www/articles/functions/functions.htm
-float iqPowerCurve(float a, float b, float x) {
-    float k = pow(a + b, a + b) / (pow(a, a) * pow(b, b));
-    return k * pow(x, a) * pow(1. - x, b);
-}
-
-// a, b: how much to bend in left and right direction
-// x: x
-// not normalized version
-// see http://www.iquilezles.org/www/articles/functions/functions.htm
-float iqPowerCurveUnnormalized(float a, float b, float x) {
-    return pow(x, a) * pow(1. - x, b);
-}
 
 vec3 iqCosinePalette(vec3 t, vec3 base, vec3 amplitude, vec3 frequency, vec3 phase) {
 	return base + amplitude * cos(Tau * (frequency * t + phase));

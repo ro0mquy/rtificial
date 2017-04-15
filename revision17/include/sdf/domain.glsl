@@ -72,18 +72,6 @@ vec3 pDomrep(inout vec3 p, float cx, float cy, float cz) {
 	return pDomrep(p, vec3(cx, cy, cz));
 }
 
-void pMirrorDomrepped(inout float p, float i) {
-	p *= mod(i, 2.) * 2. - 1.;
-}
-
-void pMirrorDomrepped(inout vec2 p, vec2 i) {
-	p *= mod(i, 2.) * 2. - 1.;
-}
-
-void pMirrorDomrepped(inout vec3 p, vec3 i) {
-	p *= mod(i, 2.) * 2. - 1.;
-}
-
 float pDomrepMirror(inout float p, float c) {
 	float i = pDomrep(p, c);
 	p *= mod(i, 2.) * 2. - 1.;
@@ -284,18 +272,6 @@ float pDomrepAngle(inout vec2 p, float repetitions, float radius) {
 	return pDomrepAngleWithAtan(p, repetitions, radius, atan(p.y, p.x));
 }
 
-float pDomrepRadiusWithAtan(inout vec2 p, float c, float preCalcAtan) {
-	float r = length(p);
-	float i = floor(r / c);
-	r = mod(r, c);
-	p = r * unitVector(preCalcAtan);
-	return i;
-}
-
-float pDomrepRadius(inout vec2 p, float c) {
-	return pDomrepRadiusWithAtan(p, c, atan(p.y, p.x));
-}
-
 float pMirror(inout float p) {
 	float s = sgn(p);
 	p = abs(p);
@@ -368,68 +344,4 @@ vec3 pMirrorLoco(inout vec3 p, vec3 c) {
 	}
 	p = p.zyx;
 	return s;
-}
-
-// see pMirrorGrid(vec3, float)
-vec2 pMirrorGrid(inout vec2 p, float c) {
-	vec2 q = p;
-	pMirror(q);
-	vec2 s = vec2(0);
-	if (q.y > q.x) {
-		p = p.yx;
-		s.x = 1;
-	}
-	s.y = pMirrorTrans(p.x, c);
-	p.y *= s.y;
-	return s;
-}
-
-// s.x: axis (0: x, 1: y, 2: z)
-// s.y: mirroring (-1 or 1)
-vec2 pMirrorGrid(inout vec3 p, float c) {
-	vec3 q = p;
-	pMirror(q);
-	vec2 s = vec2(0);
-	if (q.z > q.x || q.y > q.x) {
-		if (q.y > q.z) {
-			p = p.yxz;
-			s.x = 1;
-		} else {
-			p = p.zyx;
-			s.x = 2;
-		}
-	}
-	s.y = pMirrorTrans(p.x, c);
-	p.y *= s.y;
-	return s;
-}
-
-float pMirrorAtPlane(inout vec3 p, vec3 planeNormal, float offset) {
-	float dist = dot(p, planeNormal) + offset;
-	if (dist < 0.) {
-		p -= 2. * dist * planeNormal;
-	}
-	return sgn(dist);
-}
-
-// cut through a plane at point a with normal normalize(v) and translate positive
-// halfspace by v, filling the gap with the extruded cut plane
-float pCutAndExtrude(inout vec3 p, vec3 a, vec3 v) {
-	pTrans(p, a);
-	float h = saturate(dot(p, v)/ dot(v, v));
-	p -= v * h;
-	pTrans(p, -a);
-	return h;
-}
-
-void pFlip(inout float p) {
-	p = -p;
-}
-
-void pFlip(inout vec2 p) {
-	p = -p;
-}
-
-void pFlip(inout vec3 p) {
-	p = -p;
 }

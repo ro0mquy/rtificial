@@ -111,39 +111,3 @@ float smoothNoise(vec3 p) {
 	}
 	return 32. * result;
 }
-
-float valueFbm(vec2 p) {
-	float result = 0.;
-	for (int i = 0; i < 3; i++) {
-		result += exp2(-i) * valueNoise(p);
-		p *= 2.;
-	}
-	return result / 1.75;
-}
-
-float valueFbm(vec3 p) {
-	float result = 0.;
-	for (int i = 0; i < 3; i++) {
-		result += exp2(-i) * valueNoise(p);
-		p *= 2.;
-	}
-	return result / 1.75;
-}
-
-float smoothFbm(vec2 p) {
-	float result = 0.;
-	for (int i = 0; i < 3; i++) {
-		result += exp2(-i) * smoothNoise(p);
-		p *= 2.;
-	}
-	return result / 1.75;
-}
-
-float smoothFbm(vec3 p) {
-	float result = 0.;
-	for (int i = 0; i < 3; i++) {
-		result += exp2(-i) * smoothNoise(p);
-		p *= 2.;
-	}
-	return result / 1.75;
-}

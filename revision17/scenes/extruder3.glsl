@@ -3,7 +3,6 @@
 #line 4
 
 const float mat_id_ext = 1.;
-const float mat_id_bg = 2.;
 const float mat_id_highl = 3.;
 
 float fScene(vec3 p) {
@@ -43,11 +42,6 @@ float fScene(vec3 p) {
 	float f_highl = f2Sphere(q_highl, ext3_color_highlight_size_rt_float);
 	MatWrap w_highl = MatWrap(f_highl, newMaterialId(mat_id_highl, p_ext));
 
-	// background objects
-	vec3 p_bg = p;
-	float f_bg = f_ext_background(p_bg);
-	MatWrap w_bg = MatWrap(f_bg, newMaterialId(mat_id_bg, p_bg));
-
 	// combine everything
 	MatWrap w = w_ext;
 	w = mUnion(w, w_highl);
@@ -69,7 +63,7 @@ vec3 applyAfterEffects(vec3 origin, float marched, vec3 direction, vec3 color) {
 Material getMaterial(MaterialId materialId) {
 	Material mat = defaultMaterial(vec3(1));
 
-	if (materialId.id == mat_id_ext || materialId.id == mat_id_bg) {
+	if (materialId.id == mat_id_ext) {
 		vec3 p_ext = materialId.coord;
 		//float px_before = (materialId.misc.w/ext_extrude_h_rt_float + 1.) / 2.; // {0,1}
 
