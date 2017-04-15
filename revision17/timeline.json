@@ -67,7 +67,93 @@
         "valueVec2X": 22.01999999999998181,
         "valueVec2Y": -10
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 141,
+          "sequenceStart": 0,
+          "sequenceDuration": 19000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 20.103000000000065484,
+                "valueVec2Y": -5.8039999999999736247
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 141,
+          "sequenceStart": 19000,
+          "sequenceDuration": 16000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 21.223000000000070031,
+                "valueVec2Y": -12.595000000000027285
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 414,
+          "sequenceStart": 16000,
+          "sequenceDuration": 38000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 25.423999999999978172,
+                "valueVec2Y": -9.4990000000000236469
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 553,
+          "sequenceStart": 38000,
+          "sequenceDuration": 26000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 18.937000000000011823,
+                "valueVec2Y": -8.2440000000000281943
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 623,
+          "sequenceStart": 24000,
+          "sequenceDuration": 63000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 22.01999999999998181,
+                "valueVec2Y": -10
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "extbg_stripes_color_rt_color",
@@ -83,17 +169,87 @@
       "uniformName": "extbg_stripes_indensity_rt_float",
       "uniformType": "float",
       "uniformStandardValue": {
-        "valueFloatX": 0.625
+        "valueFloatX": 0.48400000000003728928
       },
       "sequencesArray": []
     },
     {
-      "uniformName": "extbg_stripes_offset_rt_float",
-      "uniformType": "float",
+      "uniformName": "extbg_stripes_offset_rt_vec2",
+      "uniformType": "vec2",
       "uniformStandardValue": {
-        "valueFloatX": 19.711999999999989086
+        "valueVec2X": 0,
+        "valueVec2Y": 19.711999999999989086
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 141,
+          "sequenceStart": 0,
+          "sequenceDuration": 35000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 0,
+                "valueVec2Y": 11.248000000000047294
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 414,
+          "sequenceStart": 16000,
+          "sequenceDuration": 38000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": -15.149000000000000909,
+                "valueVec2Y": 15.800000000000068212
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 553,
+          "sequenceStart": 38000,
+          "sequenceDuration": 26000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 0,
+                "valueVec2Y": 13.537000000000034561
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 623,
+          "sequenceStart": 24000,
+          "sequenceDuration": 63000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueVec2X": 0,
+                "valueVec2Y": 15.418000000000006366
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "extbg_stripes_width_rt_float",
@@ -101,7 +257,56 @@
       "uniformStandardValue": {
         "valueFloatX": 3.2359999999999899956
       },
-      "sequencesArray": []
+      "sequencesArray": [
+        {
+          "sequenceSceneId": 141,
+          "sequenceStart": 0,
+          "sequenceDuration": 73000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 2.4750000000000227374
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 623,
+          "sequenceStart": 24000,
+          "sequenceDuration": 63000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 3.2359999999999899956
+              }
+            }
+          ]
+        },
+        {
+          "sequenceSceneId": 553,
+          "sequenceStart": 38000,
+          "sequenceDuration": 26000,
+          "sequenceInterpolation": "step",
+          "keyframesArray": [
+            {
+              "keyframePosition": 0,
+              "keyframeEaseToward": false,
+              "keyframeEaseAway": false,
+              "keyframeValue": {
+                "valueFloatX": 2.3440000000000509317
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "uniformName": "camera_crane_active",
@@ -9348,30 +9553,6 @@
               "keyframeEaseAway": false,
               "keyframeValue": {
                 "valueBoolState": true
-              }
-            }
-          ]
-        },
-        {
-          "sequenceSceneId": 553,
-          "sequenceStart": 38000,
-          "sequenceDuration": 26500,
-          "sequenceInterpolation": "step",
-          "keyframesArray": [
-            {
-              "keyframePosition": 0,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueBoolState": false
-              }
-            },
-            {
-              "keyframePosition": 26500,
-              "keyframeEaseToward": false,
-              "keyframeEaseAway": false,
-              "keyframeValue": {
-                "valueBoolState": false
               }
             }
           ]

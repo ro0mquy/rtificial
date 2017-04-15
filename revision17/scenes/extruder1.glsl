@@ -105,6 +105,16 @@ Material getMaterial(MaterialId materialId) {
 		mat.color = extbg_ground_color_rt_color;
 		mat.metallic = 0.;
 		mat.roughness = extbg_ground_roughness_rt_float;
+
+		vec3 pos = materialId.coord;
+		pTrans(pos.zy, extbg_stripes_offset_rt_vec2);
+		float i_mirror = pMirrorTrans(pos.z, extbg_stripes_apart_rt_vec2.x);
+		pos.y *= i_mirror;
+		pTrans(pos.y, extbg_stripes_apart_rt_vec2.y);
+		pMirrorTrans(pos.y, extbg_stripes_width_rt_float);
+		float stripe = step(pos.y, 0.) * step(-pos.z, 0.);
+
+		mat.color = mix(mat.color, extbg_stripes_color_rt_color, srgb2lin(extbg_stripes_indensity_rt_float) * stripe);
 	}
 
 	return mat;

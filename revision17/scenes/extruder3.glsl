@@ -95,7 +95,7 @@ Material getMaterial(MaterialId materialId) {
 		mat.roughness = extbg_ground_roughness_rt_float;
 
 		vec3 pos = materialId.coord;
-		pTrans(pos.y, extbg_stripes_offset_rt_float);
+		pTrans(pos.zy, extbg_stripes_offset_rt_vec2);
 		float i_mirror = pMirrorTrans(pos.z, extbg_stripes_apart_rt_vec2.x);
 		pos.y *= i_mirror;
 		pTrans(pos.y, extbg_stripes_apart_rt_vec2.y);
