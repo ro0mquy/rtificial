@@ -148,6 +148,42 @@ float fGeo() {
 	return f;
 }
 
+float f2Logo(vec2 p) {
+	// standing V
+	vec2 p_V = p;
+	pMirror(p_V.x);
+	float f_V = f2PlaneAngle(p_V, extlogo_V_angle_rt_float * Tau);
+	pMirrorTrans(f_V, extlogo_thickness_rt_float);
+	f_V = max(f_V, p_V.y - extlogo_V_height_rt_float);
+
+	// lying V
+	vec2 p_lt = p;
+	pTrans(p_lt, extlogo_lt_origin_rt_vec2);
+	pRot(p_lt, extlogo_lt_angle_global_rt_float * Tau);
+	float i_lt_updown = pMirror(p_lt.x);
+
+	float lt_thickness = extlogo_thickness_rt_float;
+	if (i_lt_updown < 0.) {
+		pRot(p_lt, saturate((p_lt.x - extlogo_lt_down_bend_offset_rt_float) / extlogo_lt_down_bend_scale_rt_float) * extlogo_lt_down_bend_angle_rt_float * Tau);
+		lt_thickness *= extlogo_lt_down_thickness_factor_rt_float;
+	}
+
+	float f_lt = f2PlaneAngle(p_lt, extlogo_lt_angle_rt_float * Tau);
+	pMirrorTrans(f_lt, lt_thickness);
+
+	if (i_lt_updown > 0.) {
+		float f_lt_cutout = p.x;
+		f_lt_cutout = min(-f_lt_cutout - extlogo_lt_cutout_left_rt_float, f_lt_cutout + extlogo_lt_cutout_right_rt_float);
+		f_lt = max(f_lt, f_lt_cutout);
+
+		f_lt = max(f_lt, f2PlaneAngle(p - extlogo_lt_up_cut_pos_rt_vec2, extlogo_lt_up_cut_angle_rt_float * Tau));
+	} else {
+		f_lt = max(f_lt, f2PlaneAngle(p - extlogo_lt_down_cut_pos_rt_vec2, extlogo_lt_down_cut_angle_rt_float * Tau));
+	}
+
+	return min(f_V, f_lt);
+}
+
 void main() {
 	/*
 	out_color = iqCosinePalette(tc.x, pal_base_rt_color, pal_amplitude_rt_color, pal_frequency_rt_vec3, pal_phase_rt_vec3);
@@ -156,8 +192,23 @@ void main() {
 	return;
 	// */
 
+		vec2 p2;
+		float f_penta_1, f_penta_2;
+	if (post_credits_visible_rt_bool) {
+		p2 = gl_FragCoord.xy / res.x;
+		vec2 dim = res / res.x;
+		pTrans(p2, dim/2);
+
+		vec2 p2_penta = p2;
+		pTrans(p2_penta, post_credits_penta_pos_rt_vec2);
+		p2_penta.y = -p2_penta.y;
+
+		f_penta_1 = f2Pentaprism(p2_penta, post_credits_penta_r_rt_float);
+		f_penta_2 = f2Pentaprism(p2_penta, post_credits_penta_r_rt_float - post_credits_penta_dr_rt_float);
+	}
+
 	vec2 tc_lens = tc;
-	if (post_image_distortion != 0.) {
+	if (post_image_distortion != 0. && (!post_credits_visible_rt_bool || f_penta_1 < 0)) {
 		tc_lens += smoothNoise(vec2(time * 10, gl_FragCoord.y)).x * post_image_distortion;
 	}
 	float k = post_lens_distort_k;
@@ -221,4 +272,22 @@ void main() {
 		vec3 overlay_color = blend_overlay(out_color, geo_color_rt_color);
 		out_color = mix(out_color, overlay_color, fGeo());
 	}
+
+	// credits
+	if (post_credits_visible_rt_bool) {
+		if (f_penta_1 < 0) {
+			out_color = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float * post_credits_alpha_rt_float);
+		}
+		if (f_penta_2 < 0) {
+			out_color = mix(out_color, post_credits_penta_color_rt_color, post_credits_penta_alpha_rt_float * post_credits_alpha_rt_float);
+		}
+
+		vec2 p2_logo = p2;
+		pTrans(p2_logo, post_credits_logo_pos_rt_vec2);
+		p2_logo.x = -p2_logo.x;
+		if (f2Logo(p2_logo*post_credits_logo_scale_rt_float*10) < 0) {
+			out_color = mix(out_color, post_credits_logo_color_rt_color, post_credits_alpha_rt_float);
+		}
+	}
+
 }
