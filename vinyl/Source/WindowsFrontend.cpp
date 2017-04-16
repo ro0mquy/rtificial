@@ -563,20 +563,20 @@ void WindowsFrontend::initAudio(bool threaded) {
 	};
 #endif
 
-#if defined(SYNTH_4KLANG) || defined(SYNTH_BLANKENHAIN)
+#if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS) || defined(SYNTH_BLANKENHAIN)
 	waveOutOpen(&audio_wave_out, WAVE_MAPPER, &wave_format, NULL, 0, CALLBACK_NULL);
 	waveOutPrepareHeader(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
 }
 
 #ifdef SYNTH_VORBIS
-static void _vorbis_decode(){
+static void _vorbis_decode() {
 	/* use the global audio_buffer here, the param is just for matching the 4klang call */
 	MAX_SAMPLES = stb_vorbis_decode_memory(soundtrack, soundtrack_size, &AUDIO_CHANNELS, &SAMPLE_RATE, &audio_buffer);
-	#ifdef _DEBUG
-		RT_DEBUG(("number of samples decoded: " + std::to_string(MAX_SAMPLES)).c_str());
-		RT_DEBUG(("channels:                  " + std::to_string(AUDIO_CHANNELS)).c_str());
-		RT_DEBUG(("sample_rate:               " + std::to_string(SAMPLE_RATE)).c_str());
+#ifdef _DEBUG
+	RT_DEBUG(("number of samples decoded: " + std::to_string(MAX_SAMPLES) + "\n").c_str());
+	RT_DEBUG(("channels:                  " + std::to_string(AUDIO_CHANNELS) + "\n").c_str());
+	RT_DEBUG(("sample_rate:               " + std::to_string(SAMPLE_RATE) + "\n").c_str());
 	#endif
 }
 #endif
@@ -584,6 +584,7 @@ static void _vorbis_decode(){
 
 void WindowsFrontend::playAudio() {
 #if defined(SYNTH_4KLANG) || defined(SYNTH_VORBIS) || defined(SYNTH_BLANKENHAIN)
+
 	waveOutWrite(audio_wave_out, &audio_wave_header, sizeof(audio_wave_header));
 #endif
 #if defined(SYNTH_V2) || defined(SYNTH_DUAL_V2_4KLANG)
