@@ -34,6 +34,5 @@ void main() {
 	}
 
 
-	//out_color.rgb = col;
-	out_color.rgb = pow(col, vec3(2.2));
+	out_color.rgb = col;
 }

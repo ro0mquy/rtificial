@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{61705900-4DFC-870B-B6AA-880BA255880B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{CC6E590B-3883-81BC-0105-251C6DD87DED}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..">
+      <UniqueIdentifier>{57597B35-4326-D640-6C3F-C4E8586B0BCF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\vinyl">
+      <UniqueIdentifier>{58F719C4-44C5-0DCA-2D59-7EF019C6E92E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\vinyl\Lib">
+      <UniqueIdentifier>{5EFA90A4-4ADE-51FA-B33E-4C4D9F413C7C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\vinyl\Lib\include">
+      <UniqueIdentifier>{D19F297B-BDAF-D54B-2669-3A6A1298C4E4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\vinyl\Source">
+      <UniqueIdentifier>{5852A7B4-C4BE-62AF-8DB2-FA0CF9DD8417}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\vinyl\Source\math">
+      <UniqueIdentifier>{517AE0CC-3D8A-8C9D-A643-F1BB92727B36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="music">
+      <UniqueIdentifier>{868EF50F-F2A2-1DC1-BB24-C12027F819F2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="strahlenwerk">
+      <UniqueIdentifier>{3FF4C51B-2B57-55C0-D4DC-8D76C01E2143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="strahlenwerk\shaders">
+      <UniqueIdentifier>{38804545-240F-CF0E-CD2D-E309B99BDFB4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\vinyl\Lib\include\blankenhain.h">
+      <Filter>..\..\..\vinyl\Lib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Lib\include\libv2.h">
+      <Filter>..\..\..\vinyl\Lib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Lib\include\stb_vorbis.h">
+      <Filter>..\..\..\vinyl\Lib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Lib\include\v2mplayer.h">
+      <Filter>..\..\..\vinyl\Lib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\AmbientLight.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\BRDFIntegratorSource.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\BRDFLut.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\Constants.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\DataInterpolator.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\DiffuseFilterSource.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\EnvironmentMap.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\Framebuffer.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\Frontend.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\Scene.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\Sequence.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\Shader.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\SpecularFilterSource.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\Texture.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\Uniform.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\gl_identifiers.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\glcorearb.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\ladebalken.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\math\quat.h">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\math\scalar.h">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\math\stdmath.h">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\math\vec2.h">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\math\vec3.h">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\math\vec4.h">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\vinyl\Source\stdlib.h">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\music\soundtrack.4klang.h">
+      <Filter>music</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\strahlenwerk\shaders\output.h">
+      <Filter>strahlenwerk\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\strahlenwerk\shaders\test.h">
+      <Filter>strahlenwerk\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\strahlenwerk\shaders\texture_7.h">
+      <Filter>strahlenwerk\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\strahlenwerk\strahlenwerk_export.h">
+      <Filter>strahlenwerk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\strahlenwerk\strahlenwerk_export_interface.h">
+      <Filter>strahlenwerk</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\vinyl\Lib\include\stb_vorbis_wrapper.c">
+      <Filter>..\..\..\vinyl\Lib\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Lib\include\v2mplayer.cpp">
+      <Filter>..\..\..\vinyl\Lib\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\AmbientLight.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\BRDFLut.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\DataInterpolator.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\EnvironmentMap.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\Framebuffer.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\Shader.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\Texture.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\WindowsFrontend.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\main.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\math\quat.cpp">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\math\scalar.cpp">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\math\stdmath.cpp">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\math\vec2.cpp">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\math\vec3.cpp">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\math\vec4.cpp">
+      <Filter>..\..\..\vinyl\Source\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\vinyl\Source\stdlib.cpp">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\music.ogg">
+      <Filter>..</Filter>
+    </None>
+    <None Include="..\..\music\blankenhain_player.lib">
+      <Filter>music</Filter>
+    </None>
+    <None Include="..\..\music\libblankenhain.lib">
+      <Filter>music</Filter>
+    </None>
+    <None Include="..\..\music\soundtrack.4klang.lib">
+      <Filter>music</Filter>
+    </None>
+    <None Include="..\..\music\soundtrack.blankenhain.lib">
+      <Filter>music</Filter>
+    </None>
+    <None Include="..\..\music\soundtrack.v2m">
+      <Filter>music</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\..\..\vinyl\Source\incbin.asm">
+      <Filter>..\..\..\vinyl\Source</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
