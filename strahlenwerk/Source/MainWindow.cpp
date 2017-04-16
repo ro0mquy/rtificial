@@ -387,7 +387,7 @@ void MainWindow::setWindowTitle() {
 		+ " - "
 		+ strahlenwerkApp->getApplicationName()
 		+ " ("
-		+ "Elbphilharmonie" //StrahlenwerkApplication::getInstance()->getApplicationVersion()
+		+ "Kalkar" //StrahlenwerkApplication::getInstance()->getApplicationVersion()
 		+ " Edition)"
 	);
 }
