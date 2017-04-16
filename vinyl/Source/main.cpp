@@ -205,7 +205,7 @@ RT_MAIN {
 #		endif
 		for (int i = 0; i < n_scenes; i++) {
 #		ifdef _DEBUG
-			RT_DEBUG(("    sub round " + std::to_string(i) + "/4...\n").c_str());
+			RT_DEBUG(("    sub round " + std::to_string(i) + "/" + std::to_string(n_scenes) + "...\n").c_str());
 #		endif
 			if (environments[i].isValid()) {
 				environments[i].bind();
@@ -228,11 +228,11 @@ RT_MAIN {
 			RT_DEBUG("      fbo binding donee\n");
 #	endif
 
-			glEnable(GL_FRAMEBUFFER_SRGB);
+			//glEnable(GL_FRAMEBUFFER_SRGB);
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glViewport(0, 0, width, height);
 			postproc[n_postproc - 1].draw(width, height, 0);
-			glDisable(GL_FRAMEBUFFER_SRGB);
+			//glDisable(GL_FRAMEBUFFER_SRGB);
 			//frontend.afterFrame();
 
 #	ifdef _DEBUG
@@ -309,11 +309,11 @@ RT_MAIN {
 		RT_DEBUG("postproc update done\n");
 #	endif
 
-		glEnable(GL_FRAMEBUFFER_SRGB);
+		//glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
 		postproc[n_postproc - 1].draw(width, height, currentTime);
-		glDisable(GL_FRAMEBUFFER_SRGB);
+		//glDisable(GL_FRAMEBUFFER_SRGB);
 		frontend.afterFrame();
 
 #	ifdef _DEBUG
