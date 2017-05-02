@@ -169,7 +169,8 @@ AmbientLight environments[4] = {
 	AmbientLight(mandala_metall_environment_source),
 	AmbientLight(mandext_environment_source),
 };
-Texture textures[0] = {
+Texture textures[1] = {
+	Texture(0, (const unsigned char* const) "s", 3 , 4)
 };
 Output input_outputs[2] = {
 	{3, 0, 0},

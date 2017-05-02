@@ -32,7 +32,7 @@ Follow the installation manual for Visual Studio in the [Strahlenwerk ReadMe.md]
 
 Download the latest Premake 5.0 development [alpha builds](https://premake.github.io/download.html#v5), extract and put it somewhere in your `%PATH%`. I recommend creating `%HOMEPATH%\bin`, putting `premake5.exe` there and [adding](http://www.computerhope.com/issues/ch000549.htm) it to your `%PATH`.
 
-It may be the case that you need a `nasm.exe` executable. It is used for include binary resources in vinyl. Download a standalone version (not the installer) from [nasm.us](http://nasm.us/) and extract it. Now copy the executable `nasm/nasm.exe` to `rtificial/vinyl/Bin/nasm.exe`.
+It may be the case that you need a `nasm.exe` executable. It is used for including binary resources in vinyl. Download a standalone version (not the installer) from [nasm.us](http://nasm.us/) and extract it. Now copy the executable `nasm/nasm.exe` to `rtificial/vinyl/Bin/nasm.exe`.
 
 Now use a shell to run
 

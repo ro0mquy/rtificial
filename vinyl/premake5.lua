@@ -138,6 +138,15 @@ project "vinyl"
 				"/NODEFAULTLIB", -- Ignore All Default Libraries
 			}
 		filter { "configurations:Debug", "system:windows" }
+			flags {
+				"OmitDefaultLibrary", -- Omit the specification of a runtime library in object files.
+			}
+			buildoptions {
+				"/MT", -- Runtime Library Multi-threaded
+			}
+			linkoptions {
+				"/NODEFAULTLIB", -- Ignore All Default Libraries
+			}
 
 
 	-- V2
@@ -205,18 +214,25 @@ project "vinyl"
 	filter { "platforms:blankenhain", "system:windows" }
 		files {
 			"Lib/include/blankenhain.h",
-			_OPTIONS["project"].."/export/music/soundtrack.blankenhain.lib",
+			_OPTIONS["project"].."/export/music/blankenhain_soundtrack.lib",
 			_OPTIONS["project"].."/export/music/libblankenhain.lib",
 			_OPTIONS["project"].."/export/music/blankenhain_player.lib",
 		}
 		libdirs {
 			_OPTIONS["project"].."/export/music/",
 		}
+		buildoptions {
+			-- trade __dtoui3 missing against __ftol2 missing
+			-- this option is undocumented!
+			-- http://stackoverflow.com/questions/19556103/how-to-get-vs2013-to-stop-generating-calls-to-dtol3-dtoui3-and-other-funct
+			-- "/d2noftol3",
+			"/QIfist", -- see rtificial/ps0ke/hg_tipps/a_wild_tee_appears__msvc__flt_foo.txt
+		}
 		links {
 			"winmm",
 			"libblankenhain",
 			"blankenhain_player",
-			"soundtrack.blankenhain",
+			"blankenhain_soundtrack",
 		}
 		linkoptions {
 			"/STACK:0x100000,0x100000", -- increase stack size

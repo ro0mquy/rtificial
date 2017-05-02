@@ -35,7 +35,7 @@ extern Input final_inputs[1];
 extern Input output_inputs[1];
 extern Shader scenes[4];
 extern AmbientLight environments[4];
-extern Texture textures[0];
+extern Texture textures[1];
 extern Framebuffer fbos[25];
 extern Scene scenes_data[16];
 extern float keyframe_data[1283];
