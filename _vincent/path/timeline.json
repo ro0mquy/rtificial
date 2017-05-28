@@ -1,0 +1,135 @@
+{
+  "uniformsArray": [
+    {
+      "uniformName": "camera_crane_active",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_crane_base",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 1,
+        "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_crane_length",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_crane_phi",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_crane_theta",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_focal_length",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 0.034000000000020819124
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_position",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 2.0816681711721685133e-14,
+        "valueVec3Y": 2.0816681711721685133e-14,
+        "valueVec3Z": 2.0816681711721685133e-14
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_rotation",
+      "uniformType": "quat",
+      "uniformStandardValue": {
+        "valueQuatX": 0,
+        "valueQuatY": 0,
+        "valueQuatZ": 0,
+        "valueQuatW": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_shake_freq_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.0816681711721685133e-14
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_shake_intensity_rt_float",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 2.0816681711721685133e-14
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_tracking_active",
+      "uniformType": "bool",
+      "uniformStandardValue": {
+        "valueBoolState": false
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_tracking_roll",
+      "uniformType": "float",
+      "uniformStandardValue": {
+        "valueFloatX": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_tracking_screen_pos",
+      "uniformType": "vec2",
+      "uniformStandardValue": {
+        "valueVec2X": 1,
+        "valueVec2Y": 1
+      },
+      "sequencesArray": []
+    },
+    {
+      "uniformName": "camera_tracking_target",
+      "uniformType": "vec3",
+      "uniformStandardValue": {
+        "valueVec3X": 1,
+        "valueVec3Y": 1,
+        "valueVec3Z": 1
+      },
+      "sequencesArray": []
+    }
+  ],
+  "scenesArray": [
+    {
+      "sceneId": 453,
+      "sceneStart": 0,
+      "sceneDuration": 130000,
+      "sceneShaderSource": "path",
+      "sceneEnvironmentSource": "szenchen220"
+    }
+  ]
+}

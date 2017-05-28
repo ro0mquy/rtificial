@@ -1,0 +1,4 @@
+input.color scale.color
+input.depth scale.depth
+
+scale.out_color output.color
