@@ -4,15 +4,6 @@ layout(location = 1) uniform float frame_count;
 
 out vec3 color;
 
-//vec3 xyz_to_srgb_lin(vec3 xyz)
-//{
-//	return mat3(
-//		3.2404542, -0.969266, 0.0556434,
-//		-1.5371385, 1.8760108, -0.2040259,
-//		-0.4985314, 0.041556, 1.0572252
-//	) * xyz;
-//}
-
 void pR(inout vec2 p, float a) {
 	p = cos(a)*p + sin(a)*vec2(p.y, -p.x);
 }
@@ -27,13 +18,27 @@ vec3 srgb_lin_to_srgb(vec3 srgb_lin)
 	return mix(12.92 * srgb_lin, pow(srgb_lin * 1.055, vec3(1./2.4)) - 0.055, greaterThan(srgb_lin, vec3(.0031308)));
 }
 
-float f(vec2 p)
+float f(vec3 p)
 {
-	return length(p) - .5;
+	p.y += 2.;
+	p.x += 2. * sin(frame_count * 0.05);
+	return max(abs(p.x) -0.3, abs(p.y) - 0.3);
+	//return length(p) - 1.;
+}
+
+float march(vec3 start, vec3 dir)
+{
+	float t = .001;
+	for(int i = 0; i < 64; i++)
+	{
+		float d = f(start + t * dir);
+		t += d;
+		if (abs(d) < .001) return t;
+	}
+	return 1e6;
 }
 
 void main() {
-	// TODO tonemap
 	//vec3 color_lin = xyz_to_srgb_lin(color_xyz) * 1280./(64.*64.) / frame_count;
 	vec2 res = vec2(1280., 720.);
 	vec2 uv = gl_FragCoord.xy / res;
@@ -41,37 +46,26 @@ void main() {
 	p.x *= res.x / res.y;
 	uv.x *= res.x/res.y;
 
-/*
-	vec2 uv1 = uv;
-	vec2 uv2 = uv1;
-	pR45(uv2);
+	float half_eye_dist = .1;//mix(0., .1, sin(frame_count * .01) * .5 + .5);
 
-	vec2 grid1 = vec2(ivec2(uv1 * 100.) % 2);
-	vec2 grid2 = vec2(ivec2(uv2 * 100.) % 2);
-	vec3 color_lin;
-	if (int(frame_count / 10) % 2 == 0)
-	{
-		color_lin = vec3(grid1.x, grid2.x, grid2.x);
-	}
-	else
-	{
-		color_lin = vec3(grid2.x, grid1.x, grid1.x);
-	}
-*/
+vec3 position = vec3(0, 0, 5);
 
-	float half_eye_dist = mix(0., .1, sin(frame_count * .01) * .5 + .5);
-
-	vec2 p_l = p;
+	vec3 p_l = position;
 	p_l.x -= half_eye_dist;
-	vec2 p_r = p;
+	vec3 p_r = position;
 	p_r.x += half_eye_dist;
 
-	float d_l = f(p_l);
-	float d_r = f(p_r);
+	vec3 dir_l = normalize(vec3(p, 0) - vec3(-half_eye_dist * 0.1, 0, 0.5));
+	vec3 dir_r = normalize(vec3(p, 0) - vec3(half_eye_dist * 0.1, 0, 0.5));
 
-	vec3 color_lin = vec3(step(d_l, 0.), step(d_r, 0.), step(d_r, 0.));
+	float hit_l = abs(march(p_l, dir_l)) < 1e6 ? 1.0 : 0.0;
+	float hit_r = abs(march(p_r, dir_r)) < 1e6 ? 1.0 : 0.0;
+
+	//vec3 color_lin = vec3(step(d_l, 0.), step(d_r, 0.), step(d_r, 0.));
+	vec3 color_lin = vec3(hit_l, hit_r, hit_r);
 
 	color_lin = clamp(color_lin, 0., 1.);
+	// TODO tonemap
 	color = srgb_lin_to_srgb(color_lin);
 
 }
