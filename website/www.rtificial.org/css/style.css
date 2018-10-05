@@ -1,15 +1,16 @@
 /*
  * TODO
  * party mode
- * font
  */
+
+@import "../fonts/cambay/cambay.css";
 
 body, html{
 	margin: 0;
 	padding: 0;
 	background: #111;
 	color: #eee;
-	font-family: 'Helvetica Neue', sans-serif;
+	font-family: 'Cambay', 'Helvetica Neue', sans-serif;
 }
 a:active{
 	outline: none;
@@ -28,13 +29,26 @@ header{
 }
 .logo{
 	margin: 0 auto;
-	display: block;
+	display: inline-block;
+	width: 1.0em;
+	height: 1.0em;
+	vertical-align: -0.4ex;
+	vertical-align: -24px;
+	vertical-align: middle;
+	margin-right: 0.3em;
+}
+#logo-path {
+	fill: #eee;
+	filter: url(#shadow);
 }
 header h1{
 	text-align: center;
 	font-size: 50pt;
 	text-shadow: 0 0 15px #000;
-	margin-bottom: 10px;
+	margin-bottom: 1ex;
+	height: 1.2em;
+	font-style: italic;
+	font-weight: normal;
 }
 .follow-us{
 	text-align: center;
@@ -116,8 +130,9 @@ img.mail-icon{
 	color: inherit;
 }
 .nick, .profession{
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 0.5ex;
+	margin-bottom: 0.5ex;
+	height: 1.1em;
 	padding: 0px;
 	opacity: 0.5;
     transition: opacity 0.25s ease-in-out;
@@ -141,6 +156,7 @@ img.mail-icon{
 	font-weight: 100;
 	font-size: 2em;
 	margin: 0;
+	height: 1.5em;
 }
 .demo .title a,
 .demo .title a:active,
@@ -149,7 +165,7 @@ img.mail-icon{
 	text-decoration: none;
 }
 .demo .title a:hover:before{
-	margin-left: -1.15em;
+	margin-left: -0.95em;
 	content: "# ";
 }
 .demo .title .year{
@@ -209,7 +225,9 @@ img.mail-icon{
 	vertical-align: middle;
 	margin-right: 3px;
 	border-top: 1px solid rgba(255,255,255,0.5);
-	color: rgba(0,0,0,0.5)
+	color: rgba(0,0,0,0.5);
+	line-height: 10px;
+	vertical-align: baseline;
 }
 .medal-1st:before{
 	content: '1';
@@ -235,6 +253,7 @@ footer{
 	clear: both;
 }
 footer p{
+	height: 1.5em;
 	margin: 5px;
 	padding: 0px;	
 }
@@ -295,6 +314,17 @@ footer a:hover{
 	}
 }
 @media screen and (max-width: 499px){
+	.logo{
+		display:block;
+		margin: 0 auto;
+		width: 2em;
+		height: 2em;
+	}
+	header h1{
+		display:block;
+		height: 3.4em;
+		font-weight: bold;
+	}
 	.screenshot, .demo:hover .screenshot{
 		height: 200px;
 	}

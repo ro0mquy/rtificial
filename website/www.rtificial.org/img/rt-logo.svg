@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/css" href="../css/style.css" ?><svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 14.003168 14.003169"
+   height="52.925362"
+   width="52.925362"
+   sodipodi:docname="rt-logo (copy).svg"
+   inkscape:version="0.92.1 r">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1600"
+     inkscape:window-height="836"
+     id="namedview12"
+     showgrid="false"
+     inkscape:zoom="4.4591098"
+     inkscape:cx="-23.795724"
+     inkscape:cy="9.0503423"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="logo-group" />
+  <defs
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="shadow">
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="shadowFeFlood" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="shadowFeComposite1" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="2.5"
+         result="blur"
+         id="shadowFeGaussianBlur" />
+      <feComposite
+         in="SourceGraphic"
+         in2="blur"
+         operator="over"
+         result="composite2"
+         id="shadowFeComposite2" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-98.245831,-29.285892)"
+     id="logo-group">
+    <path
+       d="M 14.912109 3.9707031 L 23.246094 28.353516 L 0 45.734375 C 9.345688 44.056241 18.647136 42.234945 27.791016 41.644531 L 30.289062 48.955078 L 32.666016 41.443359 C 39.07401 41.371171 45.393503 42.042546 51.582031 43.949219 L 52.589844 40.132812 C 47.273233 38.54576 41.173099 37.56431 33.902344 37.541016 L 38.970703 21.529297 L 38.998047 21.566406 L 52.925781 11.175781 L 51.582031 7.1894531 L 41.011719 15.074219 L 44.527344 3.9707031 L 40.328125 3.9707031 L 30.140625 36.162109 L 19.142578 3.9707031 L 14.912109 3.9707031 z M 24.605469 32.328125 L 26.486328 37.830078 C 23.014291 38.102783 19.305079 38.571924 15.318359 39.271484 L 24.605469 32.328125 z "
+       transform="matrix(0.26458333,0,0,0.26458333,98.245831,29.285892)"
+       id="logo-path" />
+  </g>
+</svg>
