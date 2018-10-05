@@ -185,3 +185,4 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 nasm.exe
+*.inl
